@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- JNLP File for launching Violet UML Editor via Java Web Start -->
+<jnlp
+  spec="1.0+"
+  codebase="@codebase@"
+  href="@jnlphref@">
+  <information>
+    <title>Violet UML Editor</title>
+    <vendor>Alexandre de Pellegrin / Cay S. Horstmann</vendor>
+    <description>Violet UML Editor</description>
+    <icon href="@logohref@"/>
+    <offline-allowed/>
+  </information>  
+  <security>
+    <all-permissions/>
+  </security>
+  <resources>
+    <j2se version="1.4+"/>
+    <jar href="@jarhref@"/>
+    <property name="apple.laf.useScreenMenuBar" value="true"/>
+    <property name="startedWithWebStart" value="true"/>
+  </resources>
+  <application-desc/>
+</jnlp>
