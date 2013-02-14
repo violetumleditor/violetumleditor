@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title></title>
+  </head>
+
+  <body>
+    <h1>Architectural Notes for the Diagram Framework</h1>
+
+    <p>A Violet graph consists of an unordered collection of nodes and an
+    unordered collection of directed edges. Each node and edge can be
+    customized by setting JavaBeans properties. In addition, each node has a
+    <tt>Point2D</tt> location and an ordered collection of child nodes. There
+    is no other persistent information. </p>
+
+    <p>A graph is saved using an <tt>XMLEncoder</tt>, by writing statements
+    that add nodes, add children, connect nodes with edges, and set node and
+    edge properties. An <tt>XMLDecoder</tt> reconstructs the graph by
+    executing these statements. </p>
+
+    <p>After a graph is read in, and after each editing mutation, the graph is
+    laid out. The layout may modify the positions, bounds, and z-order of
+    nodes, but it should not make structural modifications. In particular,
+    layout should not change node or edge properties, and it should not add or
+    remove child nodes. </p>
+
+    <p>The <tt>Graph</tt> class simply calls <tt>layout</tt> on each top-level
+    node. Parents are responsible for laying out their children. </p>
+
+    <p>After layout is complete, the graph is drawn. Nodes are opaque, so
+    there is a need for controlling the order in which they are drawn. The
+    <tt>Graph</tt> class calls <tt>draw</tt> on all nodes in increasing
+    z-order, first drawing the nodes with z = 0, then with z = 1, etc., and
+    then calls <tt>draw</tt> on all edges. </p>
+
+    <p>A graph can be mutated by the following <i>editing operations</i>: </p>
+
+    <ul>
+      <li>A node can be added at a suggested <tt>Point2D</tt> location. The
+      add request is offered to all nodes whose bounds contain the given
+      location, in decreasing z-order, until one node accepts the request.
+      That node can then carry out arbitrary processing. (Nodes that do not
+      accept the request should not carry out any processing.) If no node
+      accepts the add request, the new node is added as a top-level node. (A
+      <tt>Graph</tt> subclass can refine this.) </li>
+
+      <li>An edge can be added at a suggested <tt>Point2D</tt> start and end
+      location. The <tt>Graph</tt> class looks up the points with the highest
+      z-order containing the end points and sets them as the end points to the
+      edge. Then it notifies the start node of the add request. The start node
+      can carry out arbitrary processing at this point. If the start node
+      accepts the request, the edge is added. </li>
+
+      <li>A node or edge can be deleted. All nodes are notified and can carry
+      out arbitrary actions, in particular, delete other nodes or edges. After
+      all node actions have completed, all children of deleted nodes are
+      unlinked from their parents (but not deleted), all <tt>Node</tt>-valued
+      node properties that point to deleted nodes are set to <tt>null</tt>,
+      and all edges that are incident with deleted nodes are deleted. </li>
+
+      <li>A node position can be moved. </li>
+
+      <li>A set of nodes can be offered to a node for pasting. Typically, the
+      node would incorporate them as children. </li>
+    </ul>
+
+    <p>Note that edges are always innocent bystanders. They do not participate
+    in the decision making, and they cannot be moved. </p>
+
+    <p>The graph mutations will give rise to a sequence of <i>atomic
+    operations</i>:</p>
+
+    <ul>
+      <li>adding or removind a node or edge</li>
+
+      <li>adding or removing a child node at a given position</li>
+
+      <li>moving a node position</li>
+
+      <li>changing a node or edge property</li>
+    </ul>
+
+    <p>The UI controller should call the editing operations, not the atomic
+    operations. The atomic operations are intended for system-level tasks such
+    as undo, load, and network synchronization. </p>
+
+    <p>When any atomic operations occurs, the graph fires events to registered
+    <tt>GraphModificationListener</tt> instances. The undo mechanism is one
+    such listener. It simply reverses the atomic operations, each of which is
+    trivially reversible. </p>
+
+    <p>Implementors of graph and node subclasses need to be mindful of the
+    event firing. The <tt>Graph</tt> and <tt>AbstractNode</tt> class fire the
+    correct events when adding or removing nodes or children, and when moving
+    nodes through <tt>setBounds</tt> or <tt>translate</tt>. However, when
+    setting graph properties, the events need to be generated manually. </p>
+  </body>
+</html>

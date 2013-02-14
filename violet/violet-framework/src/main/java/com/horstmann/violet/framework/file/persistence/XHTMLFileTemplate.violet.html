@@ -1,0 +1,24 @@
+<HTML>
+<HEAD>
+<META name="description"
+	content="Violet UML Editor cross format document">
+<META name="keywords" content="Violet, UML">
+<META charset="UTF-8">
+<SCRIPT type="text/javascript">
+	function switchVisibility() {
+		var obj = document.getElementById("content");
+		obj.style.display = (obj.style.display == "block") ? "none" : "block";
+	}
+</SCRIPT>
+</HEAD>
+<BODY>
+	This file was generated with Violet UML Editor ${version}.
+	&nbsp;&nbsp;<A href=# onclick="switchVisibility()">(View Source)</A>
+	<BR />
+	<BR />
+	<SCRIPT id="content" type="text/xml"><![CDATA[${content}]]></SCRIPT>
+	<BR />
+	<BR />
+	<IMG alt="embedded diagram image" src="${image}" />
+</BODY>
+</HTML>

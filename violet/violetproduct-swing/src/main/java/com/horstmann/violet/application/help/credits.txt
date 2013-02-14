@@ -1,0 +1,126 @@
+
+
+
+
+
+By Cay S. Horstmann (http://www.horstmann.com)
+and Alexandre de Pellegrin (http://alexdp.free.fr)
+
+
+
+
+
+
+
+
+
+
+
+
+
+This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions.
+
+
+
+
+
+
+
+
+
+
+
+
+Thanks to :
+Avi Bercovich
+Andrew Brandt
+Lars Arne Brekken
+Chandler Burgess
+Jørgen Cederberg
+Robert Colburn
+Piyush Devnani
+Jeremy Driver
+Jay Dunning
+Morten Elling
+Cris Fuhrman
+Igor Garcia
+Mark George
+Mike Godfrey
+Daniel Guerrero
+Stefan Gründel
+Wee Jin Goh
+Laurent Hayoun
+Graham King
+Peter Kehl
+Sebastian Kurt
+Raymund J. Lin
+Kevin McConnell
+Matijs Moest
+Tri Nguyen
+Evelyn Obaid
+Norbert Oertel
+Johannes Päivinen
+Bill Pine
+Bruce Raggett
+Zack Rubinstein
+Grant Talarico
+Jordan Thompson
+Simon Tokumine
+Jesper Trägårdh
+Trygve Utstumo
+Glenn Vanmarcke
+Sam Watkins
+Martin Wehner
+Raphael Wimmer
+Ed Zaron
+Marc Godin
+Karine Lignon
+Victor Freches
+Alexandre Debril
+[Your name must be here] <- contribute!
+
+
+
+
+
+
+
+
+
+
+
+
+Special thanks from Alexandre de Pellegrin : to my wife for her patience and her encouragements.
+
+
+
+
+
+
+
+
+
+
+
+
+
+If you like this software, don't hesitate to talk about it around you. Any suggestions? Send feedback and contribute!
+
+
+
+
+
+
+
+
+
+
+
+
+
+By Cay S. Horstmann (http://www.horstmann.com)
+and Alexandre de Pellegrin (http://alexdp.free.fr)
+
+
+
+
