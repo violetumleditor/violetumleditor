@@ -15,9 +15,10 @@
 	    <module>violetplugin-objectdiagram</module>
 	    <module>violetplugin-sequencediagram</module>
 	    <module>violetplugin-statediagram</module>
-	    <module>violetplugin-usecaseiagram</module>
+	    <module>violetplugin-usecasediagram</module>
 	    <module>violetproduct-swing</module>
-  	</modules>
+	    <module>violetproduct-rpmpackager</module>
+	</modules>
 	<properties>
     	<applicationVersion>2.0.0-SNAPSHOT</applicationVersion>
   	</properties>
