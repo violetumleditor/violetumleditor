@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.horstmann.violet</groupId>
 	<artifactId>violet-framework</artifactId>
-	<name>Violet UML Editor Framework</name>
+	<name>Violet UML Editor Core Framework</name>
 	<version>${applicationVersion}</version>
 	<packaging>jar</packaging>
 	<parent>

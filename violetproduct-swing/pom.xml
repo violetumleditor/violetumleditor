@@ -4,8 +4,7 @@
          http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>violetproduct-swing</artifactId>
-	<name>Violet UML Editor</name>
-	<description>Violet UML Editor Swing application</description>
+	<name>Violet UML Editor Swing Application</name>
     <version>${applicationVersion}</version>
     <packaging>jar</packaging>
     <parent>
