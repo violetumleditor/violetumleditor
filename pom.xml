@@ -17,7 +17,7 @@
 	    <module>violetplugin-statediagram</module>
 	    <module>violetplugin-usecasediagram</module>
 	    <module>violetproduct-swing</module>
-	    <module>violetproduct-rpmpackager</module>
+	    <module>violetdistrib-rpm</module>
 	</modules>
 	<properties>
     	<applicationVersion>2.0.0-SNAPSHOT</applicationVersion>

@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>violetproduct-swing</artifactId>
 	<name>Violet UML Editor</name>
-	<description>The java Swing based version of Violet</description>
+	<description>Violet UML Editor Swing application</description>
     <version>${applicationVersion}</version>
     <packaging>jar</packaging>
     <parent>

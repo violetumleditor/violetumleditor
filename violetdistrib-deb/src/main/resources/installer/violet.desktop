@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+GenericName=UML diagrams editor
+Name=Violet UML Editor
+Exec=/usr/local/violet/violet.sh
+Icon=/usr/local/violet/violet.png
+Terminal=false
+Type=Application
+Categories=Applications;
