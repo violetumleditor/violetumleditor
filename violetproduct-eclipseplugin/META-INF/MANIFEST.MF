@@ -1,0 +1,32 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Violet UML Editor Eclipse Plugin
+Bundle-SymbolicName: violetproduct-eclipseplugin;singleton:=true
+Bundle-Version: 2.0.0.SNAPSHOT
+Bundle-Activator: com.horstmann.violet.eclipseplugin.VioletPlugin
+Bundle-Vendor: Alexandre de Pellegrin / Cay S. Horstmann
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.ui.ide,
+ org.eclipse.ui
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: com.horstmann.violet.eclipseplugin;uses:="org.eclipse.jface.resource,org.eclipse.ui.plugin,org.osgi.framework"
+Bundle-ClassPath: .,
+ violet-framework-2.0.0-SNAPSHOT.jar,
+ antlr-2.7.5.jar,
+ jaxmejs-0.5.jar,
+ javaws-1.6.0.jar,
+ pgslookandfeel-1.1.1.jar,
+ l2fprod-common-tasks-7.3.jar,
+ commons-vfs-1.0.jar,
+ commons-logging-1.0.4.jar,
+ xstream-1.4.2.jar,
+ xmlpull-1.1.3.1.jar,
+ xpp3_min-1.1.4c.jar,
+ violetplugin-activitydiagram-2.0.0-SNAPSHOT.jar,
+ violetplugin-classdiagram-2.0.0-SNAPSHOT.jar,
+ violetplugin-objectdiagram-2.0.0-SNAPSHOT.jar,
+ violetplugin-sequencediagram-2.0.0-SNAPSHOT.jar,
+ violetplugin-statediagram-2.0.0-SNAPSHOT.jar,
+ violetplugin-usecasediagram-2.0.0-SNAPSHOT.jar

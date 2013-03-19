@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="com.horstmann.violet.eclipseplugin.editors.VioletUMLEditor"
+            extensions="violet"
+            icon="META-INF/eclipse_plugin_icon.png"
+            id="com.horstmann.violet.eclipseplugin.editors.VioletUMLEditor"
+            name="Violet UML Editor">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="com.horstmann.violet.eclipseplugin"
+            name="Violet UML Editor"/>
+      <wizard
+            category="com.horstmann.violet.eclipseplugin"
+            class="com.horstmann.violet.eclipseplugin.wizards.NewUseCaseDiagramWizard"
+            icon="META-INF/eclipse_plugin_icon.png"
+            id="com.horstmann.violet.eclipseplugin.wizards.NewUseCaseDiagramWizard"
+            name="Use Case Diagram"/>
+      <wizard
+            category="com.horstmann.violet.eclipseplugin"
+            class="com.horstmann.violet.eclipseplugin.wizards.NewClassDiagramWizard"
+            icon="META-INF/eclipse_plugin_icon.png"
+            id="com.horstmann.violet.eclipseplugin.wizards.NewClassDiagramWizard"
+            name="Class Diagram"/>
+      <wizard
+            category="com.horstmann.violet.eclipseplugin"
+            class="com.horstmann.violet.eclipseplugin.wizards.NewObjectDiagramWizard"
+            icon="META-INF/eclipse_plugin_icon.png"
+            id="com.horstmann.violet.eclipseplugin.wizards.NewObjectDiagramWizard"
+            name="Object Diagram"/>
+      <wizard
+            category="com.horstmann.violet.eclipseplugin"
+            class="com.horstmann.violet.eclipseplugin.wizards.NewStateDiagramWizard"
+            icon="META-INF/eclipse_plugin_icon.png"
+            id="com.horstmann.violet.eclipseplugin.wizards.NewStateDiagramWizard"
+            name="State Diagram"/>
+      <wizard
+            category="com.horstmann.violet.eclipseplugin"
+            class="com.horstmann.violet.eclipseplugin.wizards.NewActivityDiagramWizard"
+            icon="META-INF/eclipse_plugin_icon.png"
+            id="com.horstmann.violet.eclipseplugin.wizards.NewActivityDiagramWizard"
+            name="Activity Diagram"/>
+      <wizard
+            category="com.horstmann.violet.eclipseplugin"
+            class="com.horstmann.violet.eclipseplugin.wizards.NewSequenceDiagramWizard"
+            icon="META-INF/eclipse_plugin_icon.png"
+            id="com.horstmann.violet.eclipseplugin.wizards.NewSequenceDiagramWizard"
+            name="Sequence Diagram"/>                                                
+   </extension>
+
+</plugin>
