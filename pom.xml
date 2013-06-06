@@ -18,6 +18,7 @@
 	    <module>violetplugin-usecasediagram</module>
 	    <module>violetproduct-swing</module>
 	    <module>violetdistrib-rpm</module>
+	    <module>violetdistrib-deb</module>
 	</modules>
 	<properties>
     	<applicationVersion>2.0.0-SNAPSHOT</applicationVersion>

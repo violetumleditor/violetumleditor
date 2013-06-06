@@ -1,0 +1,14 @@
+Package: violet
+Version: [[version]]
+Section: misc
+Priority: optional
+Architecture: all
+Depends: default-jre | java6-runtime
+Maintainer: Alexandre de Pellegrin / Cay S. Horstmann
+Distribution: production
+Description: Violet UML Editor
+ Violet is a UML editor with these benefits :
+ Very easy to learn and use. Draws nice-looking diagrams.
+ Completely free. Cross-platform. Violet is intended for
+ developers, students, teachers, and authors who need to
+ produce simple UML diagrams quickly.

@@ -1,0 +1,3 @@
+#!/bin/sh
+chmod 777 /usr/share/violet/violet.sh
+update-menus
