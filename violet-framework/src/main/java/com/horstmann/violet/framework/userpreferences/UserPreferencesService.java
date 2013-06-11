@@ -73,9 +73,15 @@ public class UserPreferencesService
             recentFileList.add(new PreferredFile(file));
         }
         recentFileList.add(newPreferredFile);
-        while (recentFileList.size() > DEFAULT_MAX_RECENT_FILES) {
-            recentFileList.remove(0);
-        }
+        Iterator<PreferredFile> iter = recentFileList.iterator();
+        while (iter.hasNext())
+        {
+	    PreferredFile pfile = iter.next();
+            if (recentFileList.size() > DEFAULT_MAX_RECENT_FILES)
+	    {
+		        iter.remove();
+	    }
+	}
         updateRecentFileList(recentFileList);
     }
     
