@@ -2,6 +2,7 @@ package com.horstmann.violet.framework.userpreferences;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import com.horstmann.violet.framework.file.IFile;
