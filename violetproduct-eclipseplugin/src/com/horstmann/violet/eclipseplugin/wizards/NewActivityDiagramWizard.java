@@ -37,9 +37,9 @@ public class NewActivityDiagramWizard extends NewWizard
 
     public void init(IWorkbench workbench, IStructuredSelection selection)
     {
+        super.init(workbench, selection);
         this.setPageTitle("New UML Activity Diagram");
         this.setUMLGraph(new ActivityDiagramGraph());
-        super.init(workbench, selection);
     }
 
     /*
@@ -49,7 +49,7 @@ public class NewActivityDiagramWizard extends NewWizard
      */
     public String getFileExtension()
     {
-        return ".activity.violet";
+        return ".activity.violet.html";
     }
 
 }

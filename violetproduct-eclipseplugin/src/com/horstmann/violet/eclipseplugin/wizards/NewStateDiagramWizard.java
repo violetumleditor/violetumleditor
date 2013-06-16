@@ -37,9 +37,9 @@ public class NewStateDiagramWizard extends NewWizard
 
     public void init(IWorkbench workbench, IStructuredSelection selection)
     {
+        super.init(workbench, selection);
         this.setPageTitle("New UML State Diagram");
         this.setUMLGraph(new StateDiagramGraph());
-        super.init(workbench, selection);
     }
 
     /*
@@ -49,7 +49,7 @@ public class NewStateDiagramWizard extends NewWizard
      */
     public String getFileExtension()
     {
-        return ".state.violet";
+        return ".state.violet.html";
     }
 
 }

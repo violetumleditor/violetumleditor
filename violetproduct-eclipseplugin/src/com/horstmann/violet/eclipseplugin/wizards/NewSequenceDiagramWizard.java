@@ -37,9 +37,9 @@ public class NewSequenceDiagramWizard extends NewWizard
 
     public void init(IWorkbench workbench, IStructuredSelection selection)
     {
+        super.init(workbench, selection);
         this.setPageTitle("New UML Sequence Diagram");
         this.setUMLGraph(new SequenceDiagramGraph());
-        super.init(workbench, selection);
     }
 
     /*
@@ -49,7 +49,7 @@ public class NewSequenceDiagramWizard extends NewWizard
      */
     public String getFileExtension()
     {
-        return ".seq.violet";
+        return ".seq.violet.html";
     }
 
 }
