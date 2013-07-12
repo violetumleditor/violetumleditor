@@ -126,17 +126,17 @@ public class DiagramComposite extends Composite
      */
     private void fixLayoutProblem(IWorkspace diagramPanel)
     {
-//        final Component sideBar = diagramPanel.getSideBar().getAWTComponent();
-//        WorkspacePanel workspacePanel = (WorkspacePanel) diagramPanel.getAWTComponent();
-//        final JScrollPane scrollPane = workspacePanel.getScrollableEditorPart();
-//        sideBar.addComponentListener(new ComponentAdapter()
-//        {
-//            public void componentResized(ComponentEvent e)
-//            {
-//                sideBar.validate();
-//                scrollPane.validate();
-//            }
-//        });
+        final Component sideBar = diagramPanel.getSideBar().getAWTComponent();
+        WorkspacePanel workspacePanel = (WorkspacePanel) diagramPanel.getAWTComponent();
+        final JScrollPane scrollPane = workspacePanel.getScrollableEditorPart();
+        sideBar.addComponentListener(new ComponentAdapter()
+        {
+            public void componentResized(ComponentEvent e)
+            {
+                sideBar.validate();
+                scrollPane.validate();
+            }
+        });
     }
 
     /**

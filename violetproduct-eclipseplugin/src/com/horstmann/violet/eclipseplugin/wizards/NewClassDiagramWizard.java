@@ -38,9 +38,9 @@ public class NewClassDiagramWizard extends NewWizard
 
     public void init(IWorkbench workbench, IStructuredSelection selection)
     {
+        super.init(workbench, selection);
         this.setPageTitle("New UML Class Diagram");
         this.setUMLGraph(new ClassDiagramGraph());
-        super.init(workbench, selection);
     }
 
     /*
@@ -50,7 +50,7 @@ public class NewClassDiagramWizard extends NewWizard
      */
     public String getFileExtension()
     {
-        return ".class.violet";
+        return ".class.violet.html";
     }
 
 }

@@ -6,7 +6,7 @@
          point="org.eclipse.ui.editors">
       <editor
             class="com.horstmann.violet.eclipseplugin.editors.VioletUMLEditor"
-            extensions="violet"
+            extensions="html"
             icon="META-INF/eclipse_plugin_icon.png"
             id="com.horstmann.violet.eclipseplugin.editors.VioletUMLEditor"
             name="Violet UML Editor">

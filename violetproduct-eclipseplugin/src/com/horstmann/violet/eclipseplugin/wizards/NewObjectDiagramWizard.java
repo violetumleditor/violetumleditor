@@ -37,9 +37,9 @@ public class NewObjectDiagramWizard extends NewWizard
 
     public void init(IWorkbench workbench, IStructuredSelection selection)
     {
+        super.init(workbench, selection);
         this.setPageTitle("New UML Object Diagram");
         this.setUMLGraph(new ObjectDiagramGraph());
-        super.init(workbench, selection);
     }
 
     /*
@@ -49,7 +49,7 @@ public class NewObjectDiagramWizard extends NewWizard
      */
     public String getFileExtension()
     {
-        return ".object.violet";
+        return ".object.violet.html";
     }
 
 }

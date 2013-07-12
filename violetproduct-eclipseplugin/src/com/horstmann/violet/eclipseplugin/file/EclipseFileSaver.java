@@ -56,7 +56,7 @@ public class EclipseFileSaver implements IFileWriter {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream() {
 			@Override
 			public void close() throws IOException {
-				super.close();
+			    super.close();
 				byte[] byteArray = toByteArray();
 				ByteArrayInputStream bis = new ByteArrayInputStream(byteArray);
 				try {

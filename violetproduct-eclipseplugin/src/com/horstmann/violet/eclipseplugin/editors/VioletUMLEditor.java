@@ -94,6 +94,11 @@ public class VioletUMLEditor extends EditorPart
         BeanInjector.getInjector().inject(this);
         setInput(input);
         setSite(site);
+        // Theme is initialized from wizard when creating a new diagram file
+        // and from EditorPart when opening an existing diagram file
+        EclipseColorPicker eclipseColorPicker = new EclipseColorPicker(site.getWorkbenchWindow().getWorkbench().getDisplay());
+        ITheme eclipseTheme = new EclipseTheme(eclipseColorPicker);
+        ThemeManager.getInstance().switchToTheme(eclipseTheme);
         // Retreive file input
         if (input instanceof IFileEditorInput)
         {
@@ -146,12 +151,7 @@ public class VioletUMLEditor extends EditorPart
         gridLayout.numColumns = 1;
         parent.setLayout(gridLayout);
 
-        EclipseColorPicker eclipseColorPicker = new EclipseColorPicker(getSite().getShell().getDisplay());
-        ITheme eclipseTheme = new EclipseTheme(eclipseColorPicker);
-		ThemeManager.getInstance().switchToTheme(eclipseTheme);
-
         IWorkspace workspacePanel = this.getUMLDiagramPanel();
-        Component awtComponent = workspacePanel.getAWTComponent();
 		new DiagramComposite(parent, workspacePanel);
 
         int operations = DND.DROP_MOVE | DND.DROP_COPY | DND.DROP_LINK;

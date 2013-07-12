@@ -97,6 +97,9 @@ public abstract class AbstractEdge implements IEdge
     @Override
     public Point2D[] getTransitionPoints()
     {
+        if (this.transitionPoints == null) {
+            return new Point2D[] {};
+        }
         return this.transitionPoints;
     }
     

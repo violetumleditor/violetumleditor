@@ -37,9 +37,9 @@ public class NewUseCaseDiagramWizard extends NewWizard
 
     public void init(IWorkbench workbench, IStructuredSelection selection)
     {
+        super.init(workbench, selection);
         this.setPageTitle("New UML Use Case Diagram");
         this.setUMLGraph(new UseCaseDiagramGraph());
-        super.init(workbench, selection);
     }
 
     /*
@@ -49,7 +49,7 @@ public class NewUseCaseDiagramWizard extends NewWizard
      */
     public String getFileExtension()
     {
-        return ".ucase.violet";
+        return ".ucase.violet.html";
     }
 
 }

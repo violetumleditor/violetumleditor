@@ -21,9 +21,9 @@
 
 package com.horstmann.violet.eclipseplugin.wizards;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.resources.IFile;
@@ -41,9 +41,13 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 import org.eclipse.ui.ide.IDE;
 
+import com.horstmann.violet.eclipseplugin.editors.EclipseColorPicker;
+import com.horstmann.violet.eclipseplugin.editors.EclipseTheme;
 import com.horstmann.violet.framework.file.persistence.IFilePersistenceService;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
+import com.horstmann.violet.framework.theme.ITheme;
+import com.horstmann.violet.framework.theme.ThemeManager;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.classes.ClassDiagramGraph;
 
@@ -78,7 +82,6 @@ public abstract class NewWizard extends Wizard implements INewWizard
         if (creationPage.getErrorMessage() != null) return false;
 
         final IFile file = creationPage.createNewFile();
-
         IRunnableWithProgress op = new IRunnableWithProgress()
         {
             public void run(IProgressMonitor monitor) throws InvocationTargetException
@@ -123,6 +126,12 @@ public abstract class NewWizard extends Wizard implements INewWizard
     {
         this.selection = selection;
         BeanInjector.getInjector().inject(this);
+
+        // Theme is initialized from wizard when creating a new diagram file
+        // and from EditorPart when opening an existing diagram file
+        EclipseColorPicker eclipseColorPicker = new EclipseColorPicker(workbench.getDisplay());
+        ITheme eclipseTheme = new EclipseTheme(eclipseColorPicker);
+        ThemeManager.getInstance().switchToTheme(eclipseTheme);
     }
 
     /**
@@ -194,17 +203,29 @@ public abstract class NewWizard extends Wizard implements INewWizard
      */
     private void doFinish(final IFile file, IProgressMonitor monitor) throws CoreException
     {
+        ByteArrayOutputStream bos = null;
+        ByteArrayInputStream bis = null;
         try
         {
             IGraph graph = this.getUMLGraph();
-            PipedOutputStream pos = new PipedOutputStream();
-            PipedInputStream pis = new PipedInputStream(pos);
-            this.filePersistenceService.write(graph, pos);
-            file.setContents(pis, true, true, monitor);
+            bos = new ByteArrayOutputStream();
+            this.filePersistenceService.write(graph, bos);
+            byte[] content = bos.toByteArray();
+            bis = new ByteArrayInputStream(content);
+            file.setContents(bis, true, true, monitor);
         }
-        catch (IOException e)
+        finally
         {
-            e.printStackTrace();
+            try {
+                if (bos != null) {
+                    bos.close();
+                }
+                if (bis != null) {
+                    bis.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         monitor.worked(1);
         monitor.setTaskName("Opening file for editing...");
@@ -215,6 +236,7 @@ public abstract class NewWizard extends Wizard implements INewWizard
                 IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
                 try
                 {
+                    IDE.setDefaultEditor(file, "com.horstmann.violet.eclipseplugin.editors.VioletUMLEditor");
                     IDE.openEditor(page, file, "com.horstmann.violet.eclipseplugin.editors.VioletUMLEditor", true);
                 }
                 catch (PartInitException e)
