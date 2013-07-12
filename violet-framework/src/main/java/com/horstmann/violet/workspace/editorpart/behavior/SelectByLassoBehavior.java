@@ -56,6 +56,7 @@ public class SelectByLassoBehavior extends AbstractEditorPartBehavior
         {
             return;
         }
+        
         double zoom = editorPart.getZoomFactor();
         Point2D mousePoint = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
         lastMousePoint = mousePoint;
@@ -65,10 +66,10 @@ public class SelectByLassoBehavior extends AbstractEditorPartBehavior
         double x2 = mousePoint.getX();
         double y2 = mousePoint.getY();
         Rectangle2D.Double lasso = new Rectangle2D.Double(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x1 - x2), Math.abs(y1 - y2));
-        Iterator<INode> iter = graph.getAllNodes().iterator();
-        while (iter.hasNext())
+        Iterator<INode> iterOnNodes = graph.getAllNodes().iterator();
+        while (iterOnNodes.hasNext())
         {
-            INode n = (INode) iter.next();
+            INode n = (INode) iterOnNodes.next();
             Rectangle2D bounds = n.getBounds();
             if (!isCtrl && !lasso.contains(bounds))
             {
@@ -77,6 +78,20 @@ public class SelectByLassoBehavior extends AbstractEditorPartBehavior
             else if (lasso.contains(bounds))
             {
                 selectionHandler.addSelectedElement(n);
+            }
+        }
+        Iterator<IEdge> iterOnEdges = graph.getAllEdges().iterator();
+        while (iterOnEdges.hasNext())
+        {
+            IEdge e = (IEdge) iterOnEdges.next();
+            Rectangle2D bounds = e.getBounds();
+            if (!isCtrl && !lasso.contains(bounds))
+            {
+                selectionHandler.removeElementFromSelection(e);
+            }
+            else if (lasso.contains(bounds))
+            {
+                selectionHandler.addSelectedElement(e);
             }
         }
     }

@@ -28,8 +28,8 @@ import javax.swing.undo.UndoableEdit;
 import com.horstmann.violet.framework.file.GraphFile;
 import com.horstmann.violet.framework.file.IGraphFile;
 import com.horstmann.violet.framework.file.persistence.IFilePersistenceService;
+import com.horstmann.violet.framework.file.persistence.XStreamBasedPersistenceService;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
-import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.Id;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
@@ -49,8 +49,8 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
     /**
      * Used to convert graph to XML and to get graph back from XML
      */
-    @InjectedBean
-    private IFilePersistenceService persistenceService;
+    
+    private IFilePersistenceService persistenceService = new XStreamBasedPersistenceService();
 
     /**
      * Keep mouse location to paste on just above the current mouse location
@@ -136,6 +136,7 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
         byteArrayOutputStream.toString();
         String xmlContent = byteArrayOutputStream.toString();
         pushContentToSystemClipboard(xmlContent);
+        
     }
 
     /**
