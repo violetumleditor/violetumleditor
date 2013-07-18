@@ -52,7 +52,6 @@ public class SequenceDiagramGraph extends AbstractGraph
         return super.addNode(newNode, p);
     }
 
-
     
     public List<INode> getNodePrototypes()
     {
