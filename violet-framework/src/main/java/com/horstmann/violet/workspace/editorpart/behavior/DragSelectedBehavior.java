@@ -100,6 +100,7 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior
             }
         }
         
+        
         // Drag transition points on edges
         Iterator<IEdge> iterOnEdges = graph.getAllEdges().iterator();
         while (iterOnEdges.hasNext())
