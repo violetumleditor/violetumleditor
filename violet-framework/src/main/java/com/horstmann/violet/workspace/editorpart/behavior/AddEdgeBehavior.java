@@ -15,6 +15,7 @@ import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
+import com.horstmann.violet.workspace.editorpart.IGrid;
 import com.horstmann.violet.workspace.sidebar.graphtools.GraphTool;
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBar;
 
@@ -25,6 +26,7 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior
     {
         this.editorPart = editorPart;
         this.graph = editorPart.getGraph();
+        this.grid = editorPart.getGrid();
         this.selectionHandler = editorPart.getSelectionHandler();
         this.behaviorManager = editorPart.getBehaviorManager();
         this.graphToolsBar = graphToolsBar;
@@ -94,7 +96,7 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior
     {
         double zoom = this.editorPart.getZoomFactor();
         Point2D mousePoint = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
-        lastMousePoint = mousePoint;
+        lastMousePoint = grid.snap(mousePoint);
         this.editorPart.getSwingComponent().doLayout();
         this.editorPart.getSwingComponent().repaint();
     }
@@ -145,8 +147,8 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior
         final Point2D mousePoint = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
         INode targetNode = graph.findNode(mousePoint);
         this.isLinkingInProgress = (targetNode != null);
-        this.firstMousePoint = mousePoint;
-        this.lastMousePoint = mousePoint;
+        this.firstMousePoint = grid.snap(mousePoint);
+        this.lastMousePoint = grid.snap(mousePoint);
         GraphTool selectedTool = this.selectionHandler.getSelectedTool();
         IEdge prototype = (IEdge) selectedTool.getNodeOrEdge();
         this.newEdge = (IEdge) prototype.clone();
@@ -260,6 +262,8 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior
     private IEditorPart editorPart;
 
     private IGraph graph;
+    
+    private IGrid grid;
 
     private IEditorPartSelectionHandler selectionHandler;
 
