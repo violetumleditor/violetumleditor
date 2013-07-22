@@ -3,9 +3,11 @@ package com.horstmann.violet.workspace.editorpart.behavior;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Iterator;
 import java.util.List;
 
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
@@ -97,8 +99,29 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior
                 isAtLeastOneNodeMoved = true;
             }
         }
+        
+        // Drag transition points on edges
+        Iterator<IEdge> iterOnEdges = graph.getAllEdges().iterator();
+        while (iterOnEdges.hasNext())
+        {
+            IEdge e = (IEdge) iterOnEdges.next();
+            INode startingNode = e.getStart();
+            INode endinNode = e.getEnd();
+            if (selectedNodes.contains(startingNode) && selectedNodes.contains(endinNode)) {
+            	Point2D[] transitionPoints = e.getTransitionPoints();
+            	for (Point2D aTransitionPoint : transitionPoints) {
+            		double newTransitionPointLocationX = aTransitionPoint.getX() + dx;
+					double newTransitionPointLocationY = aTransitionPoint.getY() + dy;
+					aTransitionPoint.setLocation(newTransitionPointLocationX, newTransitionPointLocationY);
+					aTransitionPoint = grid.snap(aTransitionPoint);
+            	}
+            	e.setTransitionPoints(transitionPoints);
+            }
+        }
+
+        // Save mouse location for next dragging sequence
         if (isAtLeastOneNodeMoved) {
-            lastMousePoint = grid.snap(mousePoint);
+        	lastMousePoint = grid.snap(mousePoint);
         }
     }
 
