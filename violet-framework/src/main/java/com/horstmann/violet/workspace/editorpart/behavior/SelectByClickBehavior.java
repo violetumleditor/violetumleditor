@@ -203,10 +203,10 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
             {
                 Point2D nodeLocationOnGraph = n.getLocationOnGraph();
                 Rectangle2D nodeBounds = n.getBounds();
-                GrabberUtils.drawGrabber(g2, nodeLocationOnGraph.getX(), nodeLocationOnGraph.getY());
-                GrabberUtils.drawGrabber(g2, nodeLocationOnGraph.getX(), nodeLocationOnGraph.getY() + nodeBounds.getHeight());
-                GrabberUtils.drawGrabber(g2, nodeLocationOnGraph.getX() + nodeBounds.getWidth(), nodeLocationOnGraph.getY());
-                GrabberUtils.drawGrabber(g2, nodeLocationOnGraph.getX() + nodeBounds.getWidth(), nodeLocationOnGraph.getY() + nodeBounds.getHeight());
+                GrabberUtils.drawPurpleGrabber(g2, nodeLocationOnGraph.getX(), nodeLocationOnGraph.getY());
+                GrabberUtils.drawPurpleGrabber(g2, nodeLocationOnGraph.getX(), nodeLocationOnGraph.getY() + nodeBounds.getHeight());
+                GrabberUtils.drawPurpleGrabber(g2, nodeLocationOnGraph.getX() + nodeBounds.getWidth(), nodeLocationOnGraph.getY());
+                GrabberUtils.drawPurpleGrabber(g2, nodeLocationOnGraph.getX() + nodeBounds.getWidth(), nodeLocationOnGraph.getY() + nodeBounds.getHeight());
             }
         }
         List<IEdge> edges = selectionHandler.getSelectedEdges();
@@ -215,12 +215,14 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
             if (graph.getAllEdges().contains(e))
             {
                 Line2D line = e.getConnectionPoints();
-                GrabberUtils.drawGrabber(g2, line.getX1(), line.getY1());
-                GrabberUtils.drawGrabber(g2, line.getX2(), line.getY2());
+                GrabberUtils.drawPurpleGrabber(g2, line.getX1(), line.getY1());
+                GrabberUtils.drawPurpleGrabber(g2, line.getX2(), line.getY2());
+                for (Point2D aTransitionPoint : e.getTransitionPoints()) {
+                    GrabberUtils.drawGrayGrabber(g2, aTransitionPoint.getX(), aTransitionPoint.getY());
+                }
             }
         }
     }
-
 
     private IEditorPart editorPart;
 

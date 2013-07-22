@@ -43,6 +43,7 @@ import com.horstmann.violet.workspace.editorpart.behavior.ChangeToolByWeelBehavi
 import com.horstmann.violet.workspace.editorpart.behavior.CutCopyPasteBehavior;
 import com.horstmann.violet.workspace.editorpart.behavior.DragGraphBehavior;
 import com.horstmann.violet.workspace.editorpart.behavior.DragSelectedBehavior;
+import com.horstmann.violet.workspace.editorpart.behavior.DragTransitionPointBehavior;
 import com.horstmann.violet.workspace.editorpart.behavior.EditSelectedBehavior;
 import com.horstmann.violet.workspace.editorpart.behavior.FileCouldBeSavedBehavior;
 import com.horstmann.violet.workspace.editorpart.behavior.ResizeNodeBehavior;
@@ -153,6 +154,7 @@ public class Workspace implements IWorkspace
             behaviorManager.addBehavior(new AddNodeBehavior(this.graphEditor, this.getSideBar().getGraphToolsBar()));
             behaviorManager.addBehavior(new AddEdgeBehavior(this.graphEditor, this.getSideBar().getGraphToolsBar()));
             behaviorManager.addBehavior(new DragSelectedBehavior(this.graphEditor, this.getSideBar().getGraphToolsBar()));
+            behaviorManager.addBehavior(new DragTransitionPointBehavior(this.graphEditor, this.getSideBar().getGraphToolsBar()));
             behaviorManager.addBehavior(new DragGraphBehavior(this));
             behaviorManager.addBehavior(new SwingRepaintingBehavior(this.graphEditor));
             behaviorManager.addBehavior(new EditSelectedBehavior(this.graphEditor));

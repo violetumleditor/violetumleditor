@@ -171,10 +171,10 @@ public class GraphTool
             public void paintIcon(Component c, Graphics g, int x, int y)
             {
                 Graphics2D g2 = (Graphics2D) g;
-                GrabberUtils.drawGrabber(g2, x + OFFSET, y + OFFSET);
-                GrabberUtils.drawGrabber(g2, x + OFFSET, y + ICON_SIZE - OFFSET);
-                GrabberUtils.drawGrabber(g2, x + ICON_SIZE - OFFSET, y + OFFSET);
-                GrabberUtils.drawGrabber(g2, x + ICON_SIZE - OFFSET, y + ICON_SIZE - OFFSET);
+                GrabberUtils.drawPurpleGrabber(g2, x + OFFSET, y + OFFSET);
+                GrabberUtils.drawPurpleGrabber(g2, x + OFFSET, y + ICON_SIZE - OFFSET);
+                GrabberUtils.drawPurpleGrabber(g2, x + ICON_SIZE - OFFSET, y + OFFSET);
+                GrabberUtils.drawPurpleGrabber(g2, x + ICON_SIZE - OFFSET, y + ICON_SIZE - OFFSET);
             }
         };
         ResourceBundle rs = ResourceBundle.getBundle(ResourceBundleConstant.OTHER_STRINGS, Locale.getDefault());

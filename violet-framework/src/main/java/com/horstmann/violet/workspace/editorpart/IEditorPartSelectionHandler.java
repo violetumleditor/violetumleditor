@@ -11,7 +11,7 @@ public interface IEditorPartSelectionHandler {
 	public abstract void setSelectedElement(INode node);
 
 	public abstract void setSelectedElement(IEdge edge);
-
+	
 	public abstract void addSelectedElement(INode node);
 
 	public abstract void addSelectedElement(IEdge edge);
