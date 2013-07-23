@@ -30,9 +30,13 @@ public class DragTransitionPointBehavior extends AbstractEditorPartBehavior
         if (event.getButton() != MouseEvent.BUTTON1) {
             return;
         }
-        if (!GraphTool.SELECTION_TOOL.equals(this.graphToolsBar.getSelectedTool()))
+        if (!isPrerequisitesOK()) 
         {
-            return;
+        	return;
+        }
+        if (!isSelectedToolOK()) 
+        {
+        	return;
         }
         double zoom = editorPart.getZoomFactor();
         final Point2D mousePoint = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
@@ -79,10 +83,31 @@ public class DragTransitionPointBehavior extends AbstractEditorPartBehavior
         editorPart.getSwingComponent().repaint();
     }
 
-    private Point2D getEdgeTransitionPointToDrag(MouseEvent event) {
-        if (this.selectionHandler.getSelectedEdges().size() != 1) {
-            return null;
+    private boolean isPrerequisitesOK() {
+    	if (this.selectionHandler.getSelectedEdges().size() == 1) {
+    		IEdge selectedEdge = this.selectionHandler.getSelectedEdges().get(0);
+    		if (selectedEdge.isTransitionPointsSupported()) {
+    			return true;
+    		}
         }
+        return false;
+    }
+    
+    private boolean isSelectedToolOK() {
+    	GraphTool selectedTool = this.graphToolsBar.getSelectedTool();
+ 		if (GraphTool.SELECTION_TOOL.equals(selectedTool))
+        {
+            return true;
+        }
+ 		IEdge selectedEdge = this.selectionHandler.getSelectedEdges().get(0);
+ 		if (selectedTool.getNodeOrEdge().getClass().isInstance(selectedEdge))
+ 		{
+ 			return true;
+ 		}
+    	return false;
+    }
+    
+    private Point2D getEdgeTransitionPointToDrag(MouseEvent event) {
         IEdge selectedEdge = this.selectionHandler.getSelectedEdges().get(0);
         if (!selectedEdge.isTransitionPointsSupported()) {
             return null;
