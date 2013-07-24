@@ -22,7 +22,7 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
         this.selectionHandler = editorPart.getSelectionHandler();
         this.graphToolsBar = graphToolsBar;
     }
-
+    
     @Override
     public void onMousePressed(MouseEvent event)
     {
@@ -45,9 +45,32 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
         {
         	return;
         }
-        addNewTransitionPoint(event);
+        this.isReadyToAddTransitionPoint = true;
+        double zoom = editorPart.getZoomFactor();
+        final Point2D mousePoint = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
+        this.firstMousePoint = mousePoint;
     }
 
+    @Override
+    public void onMouseDragged(MouseEvent event)
+    {
+        if (this.isReadyToAddTransitionPoint && !this.isTransitionPointAdded)
+        {
+            // We add transition point only if a dragging action is detected.
+            // If we added it on mouse pressed, it will produce a conflict with
+            // other click-based actions such as EditSeletedBehavior
+            addNewTransitionPoint();
+            this.isTransitionPointAdded = true;
+        }
+    }
+    
+    @Override
+    public void onMouseReleased(MouseEvent event)
+    {
+        this.firstMousePoint = null;
+        this.isReadyToAddTransitionPoint = false;
+        this.isTransitionPointAdded = false;
+    }
     
 
     private boolean isPrerequisitesOK() {
@@ -88,9 +111,7 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
         return false;
     }
     
-    private void addNewTransitionPoint(MouseEvent event) {
-    	double zoom = editorPart.getZoomFactor();
-        final Point2D mousePoint = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
+    private void addNewTransitionPoint() {
         IEdge selectedEdge = this.selectionHandler.getSelectedEdges().get(0);
         Point2D[] transitionPoints = selectedEdge.getTransitionPoints();
         List<Point2D> pointsToTest = new ArrayList<Point2D>();
@@ -104,10 +125,10 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
         {
             Point2D lineToTestEndingPoint = pointsToTest.get(i);
             Line2D lineToTest = new Line2D.Double(lineToTestStartingPoint, lineToTestEndingPoint);
-            if (lineToTest.ptLineDist(mousePoint) <= MAX_DIST) {
+            if (lineToTest.ptLineDist(this.firstMousePoint) <= MAX_DIST) {
             	List<Point2D> newTransitionPointList = new ArrayList<Point2D>();
             	newTransitionPointList.addAll(Arrays.asList(transitionPoints));
-            	newTransitionPointList.add(i - 1, mousePoint);
+            	newTransitionPointList.add(i - 1, this.firstMousePoint);
             	selectedEdge.setTransitionPoints(newTransitionPointList.toArray(new Point2D[newTransitionPointList.size()]));
             	return;
             }
@@ -121,5 +142,12 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
     private IEditorPart editorPart;
 
     private IGraphToolsBar graphToolsBar;
+    
+    private boolean isReadyToAddTransitionPoint = false;
+    
+    private boolean isTransitionPointAdded = false;
+    
+    private Point2D firstMousePoint = null;
+
 
 }

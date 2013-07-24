@@ -40,17 +40,28 @@ public class DragTransitionPointBehavior extends AbstractEditorPartBehavior
         }
         double zoom = editorPart.getZoomFactor();
         final Point2D mousePoint = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
-        this.edgeTransitionPointToDrag = getEdgeTransitionPointToDrag(event);
-        if (this.edgeTransitionPointToDrag != null) {
-            isReadyForDragging = true;
-            lastMousePoint = mousePoint;
-        }
+        isReadyForDragging = true;
+        // As transition points are added on dragging action but with the mouse
+        // location saved on onMousePressed, we look for transition points from
+        // this first mouse location
+        firstMousePoint = mousePoint;
+        lastMousePoint = mousePoint;
     }
 
     @Override
     public void onMouseDragged(MouseEvent event)
     {
         if (!isReadyForDragging)
+        {
+            return;
+        }
+        if (this.edgeTransitionPointToDrag == null) 
+        {
+            // As transition points are added on dragging action, we look for transition points from
+            // on dragging event too
+            this.edgeTransitionPointToDrag = getEdgeTransitionPointToDrag();
+        }
+        if (this.edgeTransitionPointToDrag == null) 
         {
             return;
         }
@@ -76,6 +87,7 @@ public class DragTransitionPointBehavior extends AbstractEditorPartBehavior
     @Override
     public void onMouseReleased(MouseEvent event)
     {
+        firstMousePoint = null;
         lastMousePoint = null;
         isReadyForDragging = false;
         edgeTransitionPointToDrag = null;
@@ -107,21 +119,21 @@ public class DragTransitionPointBehavior extends AbstractEditorPartBehavior
     	return false;
     }
     
-    private Point2D getEdgeTransitionPointToDrag(MouseEvent event) {
+    private Point2D getEdgeTransitionPointToDrag() {
         IEdge selectedEdge = this.selectionHandler.getSelectedEdges().get(0);
         if (!selectedEdge.isTransitionPointsSupported()) {
             return null;
         }
-        double zoom = editorPart.getZoomFactor();
-        final Point2D mousePoint = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
         final double MAX_DIST = 5;
         for (Point2D aTransitionPoint : selectedEdge.getTransitionPoints()) {
-            if (aTransitionPoint.distance(mousePoint) <= MAX_DIST) {
+            if (aTransitionPoint.distance(this.firstMousePoint) <= MAX_DIST) {
                 return aTransitionPoint;
             }
         }
         return null;
     }
+    
+    private Point2D firstMousePoint = null;
     
     private Point2D lastMousePoint = null;
 
