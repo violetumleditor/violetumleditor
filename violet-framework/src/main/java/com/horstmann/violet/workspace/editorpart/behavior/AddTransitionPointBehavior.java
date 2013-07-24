@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
+import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
 import com.horstmann.violet.workspace.sidebar.graphtools.GraphTool;
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBar;
@@ -21,8 +22,9 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
         this.editorPart = editorPart;
         this.selectionHandler = editorPart.getSelectionHandler();
         this.graphToolsBar = graphToolsBar;
+        this.behaviorManager = editorPart.getBehaviorManager();
     }
-    
+
     @Override
     public void onMousePressed(MouseEvent event)
     {
@@ -30,25 +32,27 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
         {
             return;
         }
-        if (event.getButton() != MouseEvent.BUTTON1) {
+        if (event.getButton() != MouseEvent.BUTTON1)
+        {
             return;
         }
-        if (!isPrerequisitesOK()) 
+        if (!isPrerequisitesOK())
         {
-        	return;
+            return;
         }
-        if (!isSelectedToolOK()) 
+        if (!isSelectedToolOK())
         {
-        	return;
+            return;
         }
-        if (isMouseOnTransitionPoint(event)) 
+        if (isMouseOnTransitionPoint(event))
         {
-        	return;
+            return;
         }
         this.isReadyToAddTransitionPoint = true;
         double zoom = editorPart.getZoomFactor();
         final Point2D mousePoint = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
         this.firstMousePoint = mousePoint;
+        this.selectedEdge = this.selectionHandler.getSelectedEdges().get(0);
     }
 
     @Override
@@ -60,62 +64,91 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
             // If we added it on mouse pressed, it will produce a conflict with
             // other click-based actions such as EditSeletedBehavior
             addNewTransitionPoint();
+            System.out.println("yo");
             this.isTransitionPointAdded = true;
         }
     }
-    
+
     @Override
     public void onMouseReleased(MouseEvent event)
     {
         this.firstMousePoint = null;
         this.isReadyToAddTransitionPoint = false;
         this.isTransitionPointAdded = false;
+        this.selectedEdge = null;
     }
-    
 
-    private boolean isPrerequisitesOK() {
-    	if (this.selectionHandler.getSelectedEdges().size() == 1) {
-    		IEdge selectedEdge = this.selectionHandler.getSelectedEdges().get(0);
-    		if (selectedEdge.isTransitionPointsSupported()) {
-    			return true;
-    		}
+    private IEdge getSelectedEdge()
+    {
+        if (this.selectedEdge == null)
+        {
+            if (this.selectionHandler.getSelectedEdges().size() == 1)
+            {
+                this.selectedEdge = this.selectionHandler.getSelectedEdges().get(0);
+            }
         }
-        return false;
+        return this.selectedEdge;
     }
-    
-    private boolean isSelectedToolOK() {
-    	GraphTool selectedTool = this.graphToolsBar.getSelectedTool();
- 		if (GraphTool.SELECTION_TOOL.equals(selectedTool))
+
+    private boolean isPrerequisitesOK()
+    {
+        if (getSelectedEdge() == null)
+        {
+            return false;
+        }
+        if (getSelectedEdge().isTransitionPointsSupported())
         {
             return true;
         }
- 		IEdge selectedEdge = this.selectionHandler.getSelectedEdges().get(0);
- 		if (selectedTool.getNodeOrEdge().getClass().isInstance(selectedEdge))
- 		{
- 			return true;
- 		}
-    	return false;
+        return false;
     }
 
+    private boolean isSelectedToolOK()
+    {
+        if (getSelectedEdge() == null)
+        {
+            return false;
+        }
+        GraphTool selectedTool = this.graphToolsBar.getSelectedTool();
+        if (GraphTool.SELECTION_TOOL.equals(selectedTool))
+        {
+            return true;
+        }
+        if (selectedTool.getNodeOrEdge().getClass().isInstance(getSelectedEdge()))
+        {
+            return true;
+        }
+        return false;
+    }
 
-    private boolean isMouseOnTransitionPoint(MouseEvent event) {
-    	IEdge selectedEdge = this.selectionHandler.getSelectedEdges().get(0);
-        double zoom = editorPart.getZoomFactor();
+    private boolean isMouseOnTransitionPoint(MouseEvent event)
+    {
+        if (getSelectedEdge() == null)
+        {
+            return false;
+        }
+        double zoom = this.editorPart.getZoomFactor();
         final Point2D mousePoint = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
         final double MAX_DIST = 5;
-        for (Point2D aTransitionPoint : selectedEdge.getTransitionPoints()) {
-            if (aTransitionPoint.distance(mousePoint) <= MAX_DIST) {
+        for (Point2D aTransitionPoint : getSelectedEdge().getTransitionPoints())
+        {
+            if (aTransitionPoint.distance(mousePoint) <= MAX_DIST)
+            {
                 return true;
             }
         }
         return false;
     }
-    
-    private void addNewTransitionPoint() {
-        IEdge selectedEdge = this.selectionHandler.getSelectedEdges().get(0);
-        Point2D[] transitionPoints = selectedEdge.getTransitionPoints();
+
+    private void addNewTransitionPoint()
+    {
+        if (getSelectedEdge() == null)
+        {
+            return;
+        }
+        Point2D[] transitionPoints = getSelectedEdge().getTransitionPoints();
         List<Point2D> pointsToTest = new ArrayList<Point2D>();
-        Line2D connectionPoints = selectedEdge.getConnectionPoints();
+        Line2D connectionPoints = getSelectedEdge().getConnectionPoints();
         pointsToTest.add(connectionPoints.getP1());
         pointsToTest.addAll(Arrays.asList(transitionPoints));
         pointsToTest.add(connectionPoints.getP2());
@@ -125,29 +158,50 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
         {
             Point2D lineToTestEndingPoint = pointsToTest.get(i);
             Line2D lineToTest = new Line2D.Double(lineToTestStartingPoint, lineToTestEndingPoint);
-            if (lineToTest.ptLineDist(this.firstMousePoint) <= MAX_DIST) {
-            	List<Point2D> newTransitionPointList = new ArrayList<Point2D>();
-            	newTransitionPointList.addAll(Arrays.asList(transitionPoints));
-            	newTransitionPointList.add(i - 1, this.firstMousePoint);
-            	selectedEdge.setTransitionPoints(newTransitionPointList.toArray(new Point2D[newTransitionPointList.size()]));
-            	return;
+            if (lineToTest.ptLineDist(this.firstMousePoint) <= MAX_DIST)
+            {
+                List<Point2D> newTransitionPointList = new ArrayList<Point2D>();
+                newTransitionPointList.addAll(Arrays.asList(transitionPoints));
+                newTransitionPointList.add(i - 1, this.firstMousePoint);
+                getSelectedEdge().setTransitionPoints(newTransitionPointList.toArray(new Point2D[newTransitionPointList.size()]));
+                return;
             }
             lineToTestStartingPoint = lineToTestEndingPoint;
         }
     }
-    
-    
+
+    private void startUndoRedoCapture()
+    {
+        if (getSelectedEdge() == null)
+        {
+            return;
+        }
+        this.behaviorManager.fireBeforeChangingTransitionPointsOnEdge(getSelectedEdge());
+    }
+
+    private void stopUndoRedoCapture()
+    {
+        if (getSelectedEdge() == null)
+        {
+            return;
+        }
+        this.behaviorManager.fireAfterChangingTransitionPointsOnEdge(getSelectedEdge());
+    }
+
+    private IEditorPartBehaviorManager behaviorManager;
+
     private IEditorPartSelectionHandler selectionHandler;
 
     private IEditorPart editorPart;
 
     private IGraphToolsBar graphToolsBar;
-    
+
     private boolean isReadyToAddTransitionPoint = false;
-    
+
     private boolean isTransitionPointAdded = false;
-    
+
     private Point2D firstMousePoint = null;
 
+    private IEdge selectedEdge = null;
 
 }

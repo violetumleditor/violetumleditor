@@ -54,6 +54,7 @@ public class UndoRedoCompoundBehavior extends AbstractEditorPartBehavior
         behaviors.add(new UndoRedoOnDragBehavior(editorPart, this));
         behaviors.add(new UndoRedoOnEditBehavior(this));
         behaviors.add(new UndoRedoOnRemoveBehavior(editorPart, this));
+        behaviors.add(new UndoRedoOnTransitionPointChangeBehavior(this));
     }
 
     
@@ -133,6 +134,23 @@ public class UndoRedoCompoundBehavior extends AbstractEditorPartBehavior
             aBehavior.afterAddingEdgeAtPoints(edge, startPoint, endPoint);
         }
     }
+    
+    @Override
+    public void beforeChangingTransitionPointsOnEdge(IEdge edge)
+    {
+        for (IEditorPartBehavior aBehavior : this.behaviors) {
+            aBehavior.beforeChangingTransitionPointsOnEdge(edge);
+        }
+    }
+    
+    @Override
+    public void afterChangingTransitionPointsOnEdge(IEdge edge)
+    {
+        for (IEditorPartBehavior aBehavior : this.behaviors) {
+            aBehavior.afterChangingTransitionPointsOnEdge(edge);
+        }
+    }
+    
 
     @Override
     public void beforeEditingNode(INode node)

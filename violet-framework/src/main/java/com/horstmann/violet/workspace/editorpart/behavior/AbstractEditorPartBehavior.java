@@ -161,6 +161,20 @@ public abstract class AbstractEditorPartBehavior implements IEditorPartBehavior
     }
     
     @Override
+    public void beforeChangingTransitionPointsOnEdge(IEdge edge)
+    {
+        // TODO Auto-generated method stub
+        
+    }
+    
+    @Override
+    public void afterChangingTransitionPointsOnEdge(IEdge edge)
+    {
+        // TODO Auto-generated method stub
+        
+    }
+    
+    @Override
     public void onPaint(Graphics2D g2)
     {
         // TODO Auto-generated method stub

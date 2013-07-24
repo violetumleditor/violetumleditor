@@ -55,6 +55,10 @@ public interface IEditorPartBehavior
     
     public void afterAddingEdgeAtPoints(IEdge edge, Point2D startPoint, Point2D endPoint);
     
+    public void beforeChangingTransitionPointsOnEdge(IEdge edge);
+
+    public void afterChangingTransitionPointsOnEdge(IEdge edge);
+    
     public void onPaint(Graphics2D g2);
     
 }

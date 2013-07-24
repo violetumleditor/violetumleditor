@@ -59,4 +59,8 @@ public interface IEditorPartBehaviorManager
     
     public abstract void fireOnEdgeSelected(IEdge edge);
 
+    public abstract void fireBeforeChangingTransitionPointsOnEdge(IEdge edge);
+
+    public abstract void fireAfterChangingTransitionPointsOnEdge(IEdge edge);
+
 }

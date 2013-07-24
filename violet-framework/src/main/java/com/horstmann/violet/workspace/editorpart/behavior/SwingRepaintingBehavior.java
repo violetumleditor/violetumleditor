@@ -168,6 +168,19 @@ public class SwingRepaintingBehavior implements IEditorPartBehavior
         this.editorPart.getSwingComponent().doLayout();
         this.editorPart.getSwingComponent().repaint();
     }
+    
+    @Override
+    public void beforeChangingTransitionPointsOnEdge(IEdge edge)
+    {
+        // Nothing to do
+    }
+    
+    @Override
+    public void afterChangingTransitionPointsOnEdge(IEdge edge)
+    {
+        // Nothing to do
+        
+    }
 
    
 }
