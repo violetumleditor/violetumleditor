@@ -66,7 +66,6 @@ public class DragTransitionPointBehavior extends AbstractEditorPartBehavior
             if (this.edgeTransitionPointToDrag != null)
             {
                 startUndoRedoCapture();
-                System.out.println("ok");
             }
         }
         if (this.edgeTransitionPointToDrag == null)

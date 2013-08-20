@@ -66,8 +66,9 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
             // We add transition point only if a dragging action is detected.
             // If we added it on mouse pressed, it will produce a conflict with
             // other click-based actions such as EditSeletedBehavior
+        	startUndoRedoCapture();
             addNewTransitionPoint();
-            System.out.println("yo");
+            stopUndoRedoCapture();
             this.isTransitionPointAdded = true;
         }
     }
@@ -161,7 +162,7 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
         {
             Point2D lineToTestEndingPoint = pointsToTest.get(i);
             Line2D lineToTest = new Line2D.Double(lineToTestStartingPoint, lineToTestEndingPoint);
-            if (lineToTest.ptLineDist(this.newTransitionPointLocation) <= MAX_DIST)
+            if (lineToTest.ptSegDist(this.newTransitionPointLocation) <= MAX_DIST)
             {
                 List<Point2D> newTransitionPointList = new ArrayList<Point2D>();
                 newTransitionPointList.addAll(Arrays.asList(transitionPoints));
