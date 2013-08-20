@@ -59,6 +59,7 @@ public class EditorPart extends JPanel implements IEditorPart
         this.graph = aGraph;
         this.zoom = 1;
         this.grid = new PlainGrid(this);
+        this.graph.setGridSticker(grid.getGridSticker());
         addMouseListener(new MouseAdapter()
         {
 

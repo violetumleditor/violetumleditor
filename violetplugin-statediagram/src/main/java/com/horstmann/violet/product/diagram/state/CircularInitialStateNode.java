@@ -44,7 +44,7 @@ public class CircularInitialStateNode extends EllipticalNode
         double w = DEFAULT_DIAMETER;
         double h = DEFAULT_DIAMETER;
         Rectangle2D currentBounds = new Rectangle2D.Double(x, y, w, h);
-        Rectangle2D snappedBounds = getGraph().getGrid().snap(currentBounds);
+        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(currentBounds);
         return snappedBounds;
     }
 

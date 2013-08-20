@@ -32,6 +32,7 @@ import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.framework.theme.ThemeManager;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
 
 /**
  * A grid to which points and rectangles can be "snapped". The snapping operation moves a point to the nearest grid point.
@@ -123,12 +124,31 @@ public class PlainGrid implements IGrid
         g2.setStroke(oldStroke);
         g2.setColor(oldColor);
     }
+    
+    
 
-    /* (non-Javadoc)
-     * @see com.horstmann.violet.product.diagram.abstracts.IGrid#snap(java.awt.geom.Point2D)
-     */
     @Override
-    public Point2D snap(Point2D p)
+    public IGridSticker getGridSticker()
+    {
+        return new IGridSticker()
+        {
+            
+            @Override
+            public Rectangle2D snap(Rectangle2D r)
+            {
+                return PlainGrid.this.snap(r);
+            }
+            
+            @Override
+            public Point2D snap(Point2D p)
+            {
+                return PlainGrid.this.snap(p);
+            }
+        };
+    }
+
+
+    private Point2D snap(Point2D p)
     {
         double x;
         if (snappingWidth == 0) x = p.getX();
@@ -140,11 +160,7 @@ public class PlainGrid implements IGrid
         return p;
     }
 
-    /* (non-Javadoc)
-     * @see com.horstmann.violet.product.diagram.abstracts.IGrid#snap(java.awt.geom.Rectangle2D)
-     */
-    @Override
-    public Rectangle2D snap(Rectangle2D r)
+    private Rectangle2D snap(Rectangle2D r)
     {
         double x;
         double w;

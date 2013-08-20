@@ -7,11 +7,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
-import com.horstmann.violet.workspace.editorpart.IGrid;
 import com.horstmann.violet.workspace.sidebar.graphtools.GraphTool;
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBar;
 
@@ -87,13 +87,13 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior
         dy = Math.max(dy, -bounds.getY());
 
         boolean isAtLeastOneNodeMoved = false;
-        IGrid grid = editorPart.getGrid();
+        IGridSticker gridSticker = graph.getGridSticker();
         for (INode n : selectedNodes)
         {
             if (selectedNodes.contains(n.getParent())) continue; // parents are responsible for translating their children
             Point2D currentNodeLocation = n.getLocation();
             Point2D futureNodeLocation = new Point2D.Double(currentNodeLocation.getX() + dx, currentNodeLocation.getY() + dy);
-            Point2D fixedFutureNodeLocation = grid.snap(futureNodeLocation);
+            Point2D fixedFutureNodeLocation = gridSticker.snap(futureNodeLocation);
             if (!currentNodeLocation.equals(fixedFutureNodeLocation)) {
                 n.setLocation(fixedFutureNodeLocation);
                 isAtLeastOneNodeMoved = true;
@@ -114,7 +114,7 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior
             		double newTransitionPointLocationX = aTransitionPoint.getX() + dx;
 					double newTransitionPointLocationY = aTransitionPoint.getY() + dy;
 					aTransitionPoint.setLocation(newTransitionPointLocationX, newTransitionPointLocationY);
-					aTransitionPoint = grid.snap(aTransitionPoint);
+					aTransitionPoint = gridSticker.snap(aTransitionPoint);
             	}
             	e.setTransitionPoints(transitionPoints);
             }
@@ -122,7 +122,7 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior
 
         // Save mouse location for next dragging sequence
         if (isAtLeastOneNodeMoved) {
-        	lastMousePoint = grid.snap(mousePoint);
+        	lastMousePoint = gridSticker.snap(mousePoint);
         }
     }
 

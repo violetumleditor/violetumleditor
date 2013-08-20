@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
@@ -51,10 +52,10 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
         }
         this.isReadyToAddTransitionPoint = true;
         double zoom = editorPart.getZoomFactor();
-        IGrid grid = editorPart.getGrid();
+        IGridSticker gridSticker = editorPart.getGraph().getGridSticker();
         final Point2D mousePoint = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
         this.newTransitionPointLocation = mousePoint;
-        this.newTransitionPointLocation = grid.snap(this.newTransitionPointLocation);
+        this.newTransitionPointLocation = gridSticker.snap(this.newTransitionPointLocation);
         this.selectedEdge = this.selectionHandler.getSelectedEdges().get(0);
     }
 

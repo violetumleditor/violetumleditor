@@ -54,7 +54,7 @@ public class FieldNode extends RectangularNode
     public Point2D getLocation()
     {
         Point2D location = new Point2D.Double(this.horizontalLocation, this.verticalLocation);
-        Point2D snappedLocation = getGraph().getGrid().snap(location);
+        Point2D snappedLocation = getGraph().getGridSticker().snap(location);
         return snappedLocation;
     }
 
@@ -218,7 +218,7 @@ public class FieldNode extends RectangularNode
         double w = nameBounds.getWidth();
         double h = nameBounds.getHeight();
         nameBounds = new Rectangle2D.Double(x, y, w, h);
-        Rectangle2D snappedBounds = getGraph().getGrid().snap(nameBounds);
+        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(nameBounds);
         return snappedBounds;
     }
 
@@ -231,7 +231,7 @@ public class FieldNode extends RectangularNode
         double w = equalsSeparatorBounds.getWidth();
         double h = equalsSeparatorBounds.getHeight();
         equalsSeparatorBounds = new Rectangle2D.Double(x, y, w, h);
-        Rectangle2D snappedBounds = getGraph().getGrid().snap(equalsSeparatorBounds);
+        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(equalsSeparatorBounds);
         return snappedBounds;
     }
 
@@ -244,7 +244,7 @@ public class FieldNode extends RectangularNode
         double w = valueBounds.getWidth();
         double h = valueBounds.getHeight();
         valueBounds = new Rectangle2D.Double(x, y, w, h);
-        Rectangle2D snappedBounds = getGraph().getGrid().snap(valueBounds);
+        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(valueBounds);
         return snappedBounds;
     }
 
@@ -261,7 +261,7 @@ public class FieldNode extends RectangularNode
         double w = Math.max(nameBounds.getWidth(), DEFAULT_WIDTH);
         double h = Math.max(nameBounds.getHeight(), DEFAULT_HEIGHT);
         Rectangle2D globalBounds = new Rectangle2D.Double(x, y, w, h);
-        Rectangle2D snappedBounds = getGraph().getGrid().snap(globalBounds);
+        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(globalBounds);
         return snappedBounds;
     }
 

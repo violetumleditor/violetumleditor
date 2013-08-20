@@ -144,9 +144,16 @@ public interface IGraph
     
     
     /**
-     * Return the grid used to snap elements on the graph
+     * Returns the corrector used to stick points on the grid
      */
-    public IGrid getGrid();
+    public IGridSticker getGridSticker();
 
+    /**
+     * Sets the corrector used to stick points on the grid
+     * 
+     * @param newGrid
+     */
+    public void setGridSticker(IGridSticker newCorrector);
+    
 
 }

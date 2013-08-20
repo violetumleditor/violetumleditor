@@ -27,12 +27,8 @@ import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
-import java.util.List;
 
-import com.horstmann.violet.product.diagram.abstracts.Direction;
-import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
-import com.horstmann.violet.product.diagram.abstracts.property.BentStyle;
 import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
 
 /**
@@ -82,7 +78,7 @@ public class ActivityNode extends RectangularNode
         double w = Math.max(nameBounds.getWidth(), DEFAULT_WIDTH);
         double h = Math.max(nameBounds.getHeight(), DEFAULT_HEIGHT);
         Rectangle2D.Double globalBounds = new Rectangle2D.Double(x, y, w, h);
-        Rectangle2D snappedBounds = getGraph().getGrid().snap(globalBounds);
+        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(globalBounds);
         return snappedBounds;
     }
 

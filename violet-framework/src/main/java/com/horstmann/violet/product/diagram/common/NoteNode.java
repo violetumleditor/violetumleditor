@@ -81,7 +81,7 @@ public class NoteNode extends RectangularNode
         double w = Math.max(b.getWidth(), DEFAULT_WIDTH);
         double h = Math.max(b.getHeight(), DEFAULT_HEIGHT);
         Rectangle2D currentBounds = new Rectangle2D.Double(x, y, w, h);
-        Rectangle2D snapperBounds = getGraph().getGrid().snap(currentBounds);
+        Rectangle2D snapperBounds = getGraph().getGridSticker().snap(currentBounds);
         return snapperBounds;
     }
 

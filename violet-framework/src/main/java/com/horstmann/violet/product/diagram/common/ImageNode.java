@@ -83,7 +83,7 @@ public class ImageNode extends RectangularNode
         double w = Math.max(b.getWidth(), this.imageIcon.getIconWidth());
         double h = b.getHeight() + this.imageIcon.getIconHeight();
         Rectangle2D currentBounds = new Rectangle2D.Double(x, y, w, h);
-        Rectangle2D snapperBounds = getGraph().getGrid().snap(currentBounds);
+        Rectangle2D snapperBounds = getGraph().getGridSticker().snap(currentBounds);
         return snapperBounds;
     }
 

@@ -58,7 +58,7 @@ public class DiagramLinkNode extends RectangularNode
         double w = Math.max(top.getWidth(), bot.getWidth());
         double h = top.getHeight() + bot.getHeight();
         Rectangle2D currentBounds = new Rectangle2D.Double(x, y, w, h);
-        Rectangle2D snapperBounds = getGraph().getGrid().snap(currentBounds);
+        Rectangle2D snapperBounds = getGraph().getGridSticker().snap(currentBounds);
         return snapperBounds;
     }
 

@@ -45,7 +45,7 @@ public class InterfaceNode extends RectangularNode
         double w = globalBounds.getWidth();
         double h = globalBounds.getHeight();
         globalBounds.setFrame(x, y, w, h);
-        Rectangle2D snappedBounds = getGraph().getGrid().snap(globalBounds);
+        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(globalBounds);
         return snappedBounds;
     }
 
@@ -64,7 +64,7 @@ public class InterfaceNode extends RectangularNode
         double w = globalBounds.getWidth();
         double h = globalBounds.getHeight();
         globalBounds.setFrame(x, y, w, h);
-        Rectangle2D snappedBounds = getGraph().getGrid().snap(globalBounds);
+        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(globalBounds);
         return snappedBounds;
     }
 
@@ -74,7 +74,7 @@ public class InterfaceNode extends RectangularNode
         Rectangle2D top = getTopRectangleBounds();
         Rectangle2D bot = getBottomRectangleBounds();
         top.add(bot);
-        Rectangle2D snappedBounds = getGraph().getGrid().snap(top);
+        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(top);
         return snappedBounds;
     }
 

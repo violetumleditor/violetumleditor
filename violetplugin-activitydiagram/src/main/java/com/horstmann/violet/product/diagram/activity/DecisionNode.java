@@ -102,7 +102,7 @@ public class DecisionNode extends RectangularNode
         double w = (w1 + w2) * 2;
         double h = (h1 + h2) * 2;
         Rectangle2D globalBounds = new Rectangle2D.Double(x, y, w, h);
-        Rectangle2D snappedBounds = getGraph().getGrid().snap(globalBounds);
+        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(globalBounds);
         return snappedBounds;
     }
 

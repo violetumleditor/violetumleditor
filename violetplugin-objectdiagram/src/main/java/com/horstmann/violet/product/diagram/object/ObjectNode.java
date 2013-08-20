@@ -32,7 +32,6 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
-import com.horstmann.violet.product.diagram.common.PointNode;
 
 /**
  * An object node in an object diagram.
@@ -98,7 +97,7 @@ public class ObjectNode extends RectangularNode
         double w = Math.max(b.getWidth(), DEFAULT_WIDTH);
         double h = Math.max(b.getHeight(), DEFAULT_HEIGHT);
         Rectangle2D topBounds = new Rectangle2D.Double(x, y, w, h);
-        topBounds = getGraph().getGrid().snap(topBounds);
+        topBounds = getGraph().getGridSticker().snap(topBounds);
         return topBounds;
     }
 
@@ -117,7 +116,7 @@ public class ObjectNode extends RectangularNode
         double w = bottomBounds.getWidth();
         double h = bottomBounds.getHeight();
         bottomBounds.setFrame(x, y, w, h);
-        bottomBounds = getGraph().getGrid().snap(bottomBounds);
+        bottomBounds = getGraph().getGridSticker().snap(bottomBounds);
         return bottomBounds;
     }
 
@@ -127,7 +126,7 @@ public class ObjectNode extends RectangularNode
         Rectangle2D topBounds = getTopRectangle();
         Rectangle2D bottomBounds = getBottomRectangle();
         topBounds.add(bottomBounds);
-        topBounds = getGraph().getGrid().snap(topBounds);
+        topBounds = getGraph().getGridSticker().snap(topBounds);
         return topBounds;
     }
 

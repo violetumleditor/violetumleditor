@@ -4,6 +4,8 @@ import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
+
 
 public class EmptyGrid implements IGrid
 {
@@ -47,15 +49,24 @@ public class EmptyGrid implements IGrid
     }
 
     @Override
-    public Point2D snap(Point2D p)
+    public IGridSticker getGridSticker()
     {
-        return p;
+        // TODO Auto-generated method stub
+        return new IGridSticker()
+        {
+            
+            @Override
+            public Rectangle2D snap(Rectangle2D r)
+            {
+                return r;
+            }
+            
+            @Override
+            public Point2D snap(Point2D p)
+            {
+                return p;
+            }
+        };
     }
-
-    @Override
-    public Rectangle2D snap(Rectangle2D r)
-    {
-        return r;
-    }
-
+    
 }

@@ -213,7 +213,7 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
     {
         newNode.setId(new Id());
         newNode.setGraph(this);
-    	// Case 1 : Note node always attached to the graph
+        // Case 1 : Note node always attached to the graph
         if (newNode instanceof NoteNode)
         {
             newNode.setLocation(p);
@@ -281,11 +281,13 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
     {
         // Step 1 : find if nodes exist
         Collection<INode> allNodes = getAllNodes();
-        if (start != null && !allNodes.contains(start)) {
-        	addNode(start, start.getLocation());
+        if (start != null && !allNodes.contains(start))
+        {
+            addNode(start, start.getLocation());
         }
-        if (end != null && !allNodes.contains(end)) {
-        	addNode(end, end.getLocation());
+        if (end != null && !allNodes.contains(end))
+        {
+            addNode(end, end.getLocation());
         }
         e.setStart(start);
         e.setStartLocation(startLocation);
@@ -295,7 +297,7 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
         if (start.addConnection(e))
         {
             e.setId(new Id());
-        	edges.add(e);
+            edges.add(e);
             return true;
         }
         return false;
@@ -315,16 +317,36 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
     }
 
     @Override
-    public IGrid getGrid()
+    public IGridSticker getGridSticker()
     {
-        if (this.grid == null) {
-        	this.grid = new EmptyGrid();
+        if (this.gridSticker == null)
+        {
+            return new IGridSticker()
+            {
+                @Override
+                public Rectangle2D snap(Rectangle2D r)
+                {
+                    return r;
+                }
+
+                @Override
+                public Point2D snap(Point2D p)
+                {
+                    return p;
+                }
+            };
         }
-    	return grid;
+        return this.gridSticker;
+    }
+
+    @Override
+    public void setGridSticker(IGridSticker positionCorrector)
+    {
+        this.gridSticker = positionCorrector;
     }
 
     private ArrayList<INode> nodes;
     private ArrayList<IEdge> edges;
     private transient Rectangle2D minBounds;
-    private transient IGrid grid;
+    private transient IGridSticker gridSticker;
 }

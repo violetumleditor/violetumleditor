@@ -26,9 +26,10 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.product.diagram.abstracts.Direction;
+import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
 import com.horstmann.violet.product.diagram.abstracts.Id;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 /**
  * A class that supplies convenience implementations for a number of methods in the Edge interface
@@ -160,6 +161,10 @@ public abstract class AbstractEdge implements IEdge
         Point2D relativeEndingConnectionPoint = endingNode.getConnectionPoint(this);
         Point2D absoluteStartingConnectionPoint = new Point2D.Double(startingNodeLocationOnGraph.getX() - startingNodeLocation.getX() + relativeStartingConnectionPoint.getX(), startingNodeLocationOnGraph.getY() - startingNodeLocation.getY() + relativeStartingConnectionPoint.getY());
         Point2D absoluteEndingConnectionPoint = new Point2D.Double(endingNodeLocationOnGraph.getX() - endingNodeLocation.getX() + relativeEndingConnectionPoint.getX(), endingNodeLocationOnGraph.getY() - endingNodeLocation.getY() + relativeEndingConnectionPoint.getY());
+        IGraph graph = startingNode.getGraph();
+        IGridSticker positionCorrector = graph.getGridSticker();
+        absoluteStartingConnectionPoint = positionCorrector.snap(absoluteStartingConnectionPoint);
+        absoluteEndingConnectionPoint = positionCorrector.snap(absoluteEndingConnectionPoint);
         return new Line2D.Double(absoluteStartingConnectionPoint, absoluteEndingConnectionPoint);
     }
 

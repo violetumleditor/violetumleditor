@@ -3,11 +3,11 @@ package com.horstmann.violet.workspace.editorpart.behavior;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 
+import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
-import com.horstmann.violet.workspace.editorpart.IGrid;
 import com.horstmann.violet.workspace.sidebar.graphtools.GraphTool;
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBar;
 
@@ -76,7 +76,7 @@ public class DragTransitionPointBehavior extends AbstractEditorPartBehavior
         Point2D mousePoint = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
         double dx = mousePoint.getX() - lastMousePoint.getX();
         double dy = mousePoint.getY() - lastMousePoint.getY();
-        IGrid grid = editorPart.getGrid();
+        IGridSticker gridSticker = editorPart.getGraph().getGridSticker();
 
         // Drag specific transition point on selected edge
         if (this.edgeTransitionPointToDrag != null)
@@ -84,10 +84,10 @@ public class DragTransitionPointBehavior extends AbstractEditorPartBehavior
             double newTransitionPointLocationX = this.edgeTransitionPointToDrag.getX() + dx;
             double newTransitionPointLocationY = this.edgeTransitionPointToDrag.getY() + dy;
             Point2D newTransitionPoint = new Point2D.Double(newTransitionPointLocationX, newTransitionPointLocationY);
-            newTransitionPoint = grid.snap(newTransitionPoint);
+            newTransitionPoint = gridSticker.snap(newTransitionPoint);
             this.edgeTransitionPointToDrag.setLocation(newTransitionPoint.getX(), newTransitionPoint.getY());
             // Save mouse location for next dragging sequence
-            lastMousePoint = grid.snap(mousePoint);
+            lastMousePoint = gridSticker.snap(mousePoint);
             return;
         }
     }

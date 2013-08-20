@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
 import com.horstmann.violet.product.diagram.abstracts.Id;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
-import com.horstmann.violet.workspace.editorpart.IGrid;
 import com.horstmann.violet.workspace.sidebar.graphtools.GraphTool;
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBar;
 
@@ -26,7 +26,7 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior
     {
         this.editorPart = editorPart;
         this.graph = editorPart.getGraph();
-        this.grid = editorPart.getGrid();
+        this.grid = editorPart.getGraph().getGridSticker();
         this.selectionHandler = editorPart.getSelectionHandler();
         this.behaviorManager = editorPart.getBehaviorManager();
         this.graphToolsBar = graphToolsBar;
@@ -263,7 +263,7 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior
 
     private IGraph graph;
     
-    private IGrid grid;
+    private IGridSticker grid;
 
     private IEditorPartSelectionHandler selectionHandler;
 

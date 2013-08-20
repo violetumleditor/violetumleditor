@@ -4,12 +4,12 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
 import com.horstmann.violet.product.diagram.abstracts.Id;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
-import com.horstmann.violet.workspace.editorpart.IGrid;
 import com.horstmann.violet.workspace.sidebar.graphtools.GraphTool;
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBar;
 
@@ -46,8 +46,8 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior
         }
         double zoom = editorPart.getZoomFactor();
         final Point2D mousePoint = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
-        IGrid grid = editorPart.getGrid();
-        Point2D newNodeLocation = grid.snap(mousePoint);
+        IGridSticker gridSticker = graph.getGridSticker();
+        Point2D newNodeLocation = gridSticker.snap(mousePoint);
         INode prototype = (INode) selectedTool.getNodeOrEdge();
         INode newNode = (INode) prototype.clone();
         newNode.setId(new Id());

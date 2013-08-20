@@ -56,7 +56,7 @@ public class ActorNode extends RectangularNode
         double w = Math.max(top.getWidth(), bot.getWidth());
         double h = top.getHeight() + bot.getHeight();
         Rectangle2D currentBounds = new Rectangle2D.Double(x, y, w, h);
-        Rectangle2D snappedBounds = getGraph().getGrid().snap(currentBounds);
+        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(currentBounds);
         return snappedBounds;
     }
 

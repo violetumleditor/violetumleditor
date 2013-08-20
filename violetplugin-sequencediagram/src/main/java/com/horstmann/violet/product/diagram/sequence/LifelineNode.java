@@ -189,7 +189,7 @@ public class LifelineNode extends RectangularNode
         double topWidth = getTopRectangleWidth();
         double topHeight = getTopRectangleHeight();
         Rectangle2D topRectangle = new Rectangle2D.Double(0, 0, topWidth, topHeight);
-        Rectangle2D snappedRectangle = getGraph().getGrid().snap(topRectangle);
+        Rectangle2D snappedRectangle = getGraph().getGridSticker().snap(topRectangle);
         return snappedRectangle;
     }
 
@@ -215,7 +215,7 @@ public class LifelineNode extends RectangularNode
         Point2D nodeLocation = getLocation();
         Rectangle2D bounds = new Rectangle2D.Double(nodeLocation.getX(), nodeLocation.getY(), topRectWidth, height);
         Rectangle2D scaledBounds = getScaledBounds(bounds);
-        Rectangle2D snappedBounds = getGraph().getGrid().snap(scaledBounds);
+        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(scaledBounds);
         return snappedBounds;
     }
 

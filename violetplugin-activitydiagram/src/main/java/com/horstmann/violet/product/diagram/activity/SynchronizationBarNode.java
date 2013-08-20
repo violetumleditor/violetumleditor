@@ -112,7 +112,7 @@ public class SynchronizationBarNode extends RectangularNode
         double w = DEFAULT_WIDTH;
         double h = DEFAULT_HEIGHT;
         Rectangle2D currentBounds = new Rectangle2D.Double(x, y, w, h);
-        Rectangle2D snappedBounds = getGraph().getGrid().snap(currentBounds);
+        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(currentBounds);
         return snappedBounds;
     }
 

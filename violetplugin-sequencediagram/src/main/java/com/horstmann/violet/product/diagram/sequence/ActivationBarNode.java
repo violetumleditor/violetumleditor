@@ -339,7 +339,7 @@ public class ActivationBarNode extends RectangularNode
         double height = getHeight();
         // TODO : manage openbottom
         Rectangle2D currentBounds = new Rectangle2D.Double(nodeLocation.getX(), nodeLocation.getY(), DEFAULT_WIDTH, height);
-        Rectangle2D snappedBounds = getGraph().getGrid().snap(currentBounds);
+        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(currentBounds);
         return snappedBounds;
     }
 

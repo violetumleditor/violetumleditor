@@ -31,8 +31,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import javax.swing.UIManager;
-
 import com.horstmann.violet.framework.theme.ThemeManager;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.IColorable;
@@ -134,7 +132,8 @@ public abstract class RectangularNode extends AbstractNode implements IColorable
             x = b.getMaxX();
             y = b.getMaxY() - (b.getHeight() / (size + 1)) * (position + 1);
         }
-        return new Point2D.Double(x, y);
+        Point2D rawPoint = new Point2D.Double(x, y);
+        return rawPoint;
     }
     
     
