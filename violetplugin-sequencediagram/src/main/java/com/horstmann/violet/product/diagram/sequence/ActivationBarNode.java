@@ -125,13 +125,17 @@ public class ActivationBarNode extends RectangularNode
                         {
                             double x = startingNodeLocation.getX();
                             double y = endingNodeLocation.getY();
-                            return new Point2D.Double(x, y);
+                            Point2D p = new Point2D.Double(x, y);
+                            p = getGraph().getGridSticker().snap(p);
+                            return p;
                         }
                         else
                         {
                             double x = startingNodeLocation.getX() + DEFAULT_WIDTH;
                             double y = endingNodeLocation.getY();
-                            return new Point2D.Double(x, y);
+                            Point2D p = new Point2D.Double(x, y);
+                            p = getGraph().getGridSticker().snap(p);
+                            return p;
                         }
                     }
                     if (isEndingNode)
@@ -142,13 +146,17 @@ public class ActivationBarNode extends RectangularNode
                         {
                             double x = endingNodeLocation.getX();
                             double y = endingNodeLocation.getY();
-                            return new Point2D.Double(x, y);
+                            Point2D p = new Point2D.Double(x, y);
+                            p = getGraph().getGridSticker().snap(p);
+                            return p;
                         }
                         else
                         {
                             double x = endingNodeLocation.getX() + DEFAULT_WIDTH;
                             double y = endingNodeLocation.getY();
-                            return new Point2D.Double(x, y);
+                            Point2D p = new Point2D.Double(x, y);
+                            p = getGraph().getGridSticker().snap(p);
+                            return p;
                         }
                     }
                 }
@@ -164,14 +172,18 @@ public class ActivationBarNode extends RectangularNode
                         Point2D endingNodeLocation = e.getEnd().getLocation();
                         double x = startingNodeLocation.getX() + DEFAULT_WIDTH;
                         double y = startingNodeLocation.getY() + endingNodeLocation.getY() - CALL_YGAP / 2;
-                        return new Point2D.Double(x, y);
+                        Point2D p = new Point2D.Double(x, y);
+                        p = getGraph().getGridSticker().snap(p);
+                        return p;
                     }
                     if (isEndingNode)
                     {
                         Point2D endingNodeLocation = getLocationOnGraph();
                         double x = endingNodeLocation.getX() + DEFAULT_WIDTH;
                         double y = endingNodeLocation.getY();
-                        return new Point2D.Double(x, y);
+                        Point2D p = new Point2D.Double(x, y);
+                        p = getGraph().getGridSticker().snap(p);
+                        return p;
                     }
                 }
             }
@@ -183,13 +195,17 @@ public class ActivationBarNode extends RectangularNode
                 {
                     double x = startingNodeLocation.getX();
                     double y = startingNodeLocation.getY() + CALL_YGAP / 2;
-                    return new Point2D.Double(x, y);
+                    Point2D p = new Point2D.Double(x, y);
+                    p = getGraph().getGridSticker().snap(p);
+                    return p;
                 }
                 else
                 {
                     double x = startingNodeLocation.getX() + DEFAULT_WIDTH;
                     double y = startingNodeLocation.getY() + CALL_YGAP / 2;
-                    return new Point2D.Double(x, y);
+                    Point2D p = new Point2D.Double(x, y);
+                    p = getGraph().getGridSticker().snap(p);
+                    return p;
                 }
             }
         }
@@ -218,13 +234,17 @@ public class ActivationBarNode extends RectangularNode
                         {
                             double x = startingNodeLocation.getX();
                             double y = startingNodeLocation.getY() + startingNodeBounds.getHeight();
-                            return new Point2D.Double(x, y);
+                            Point2D p = new Point2D.Double(x, y);
+                            p = getGraph().getGridSticker().snap(p);
+                            return p;
                         }
                         else
                         {
                             double x = startingNodeLocation.getX() + DEFAULT_WIDTH;
                             double y = startingNodeLocation.getY() + startingNodeBounds.getHeight();
-                            return new Point2D.Double(x, y);
+                            Point2D p = new Point2D.Double(x, y);
+                            p = getGraph().getGridSticker().snap(p);
+                            return p;
                         }
                     }
                     if (isEndingNode)
@@ -237,13 +257,17 @@ public class ActivationBarNode extends RectangularNode
                         {
                             double x = endingNodeLocation.getX();
                             double y = startingNodeLocation.getY() + startingNodeBounds.getHeight();
-                            return new Point2D.Double(x, y);
+                            Point2D p = new Point2D.Double(x, y);
+                            p = getGraph().getGridSticker().snap(p);
+                            return p;
                         }
                         else
                         {
                             double x = endingNodeLocation.getX() + DEFAULT_WIDTH;
                             double y = startingNodeLocation.getY() + startingNodeBounds.getHeight();
-                            return new Point2D.Double(x, y);
+                            Point2D p = new Point2D.Double(x, y);
+                            p = getGraph().getGridSticker().snap(p);
+                            return p;
                         }
                     }
                 }
@@ -255,13 +279,17 @@ public class ActivationBarNode extends RectangularNode
         {
             double y = getBounds().getMinY();
             double x = getBounds().getMaxX();
-            return new Point2D.Double(x, y);
+            Point2D p = new Point2D.Double(x, y);
+            p = getGraph().getGridSticker().snap(p);
+            return p;
         }
         else
         {
             double y = getBounds().getMinY();
             double x = getBounds().getX();
-            return new Point2D.Double(x, y);
+            Point2D p = new Point2D.Double(x, y);
+            p = getGraph().getGridSticker().snap(p);
+            return p;
         }
 
     }
@@ -446,6 +474,7 @@ public class ActivationBarNode extends RectangularNode
             double horizontalLocation = getHorizontalLocation();
             double verticalLocation = rawLocation.getY();
             Point2D adjustedLocation = new Point2D.Double(horizontalLocation, verticalLocation);
+            adjustedLocation = getGraph().getGridSticker().snap(adjustedLocation);
             super.setLocation(adjustedLocation);
             return adjustedLocation;
         }
@@ -456,6 +485,7 @@ public class ActivationBarNode extends RectangularNode
             double verticalLocation = rawLocation.getY();
             verticalLocation = Math.max(verticalLocation, CALL_YGAP);
             Point2D adjustedLocation = new Point2D.Double(horizontalLocation, verticalLocation);
+            adjustedLocation = getGraph().getGridSticker().snap(adjustedLocation);
             super.setLocation(adjustedLocation);
             return adjustedLocation;
         }
@@ -477,6 +507,7 @@ public class ActivationBarNode extends RectangularNode
                         double horizontalLocation = getHorizontalLocation();
                         double minY = startingNodeLocationOnGraph.getY() - endingNodeParentLocationOnGraph.getY() + CALL_YGAP / 2;
                         Point2D adjustedLocation = new Point2D.Double(horizontalLocation, minY);
+                        adjustedLocation = getGraph().getGridSticker().snap(adjustedLocation);
                         super.setLocation(adjustedLocation);
                         return adjustedLocation;
                     }
@@ -489,6 +520,7 @@ public class ActivationBarNode extends RectangularNode
         double horizontalLocation = getHorizontalLocation();
         double verticalLocation = rawLocation.getY();
         Point2D adjustedLocation = new Point2D.Double(horizontalLocation, verticalLocation);
+        adjustedLocation = getGraph().getGridSticker().snap(adjustedLocation);
         super.setLocation(adjustedLocation);
         return adjustedLocation;
     }
