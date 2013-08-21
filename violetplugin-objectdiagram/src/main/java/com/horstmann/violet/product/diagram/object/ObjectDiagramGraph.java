@@ -21,6 +21,7 @@
 
 package com.horstmann.violet.product.diagram.object;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -38,6 +39,17 @@ import com.horstmann.violet.product.diagram.common.NoteNode;
  */
 public class ObjectDiagramGraph extends AbstractGraph
 {
+    
+    @Override
+    public boolean addNode(INode newNode, Point2D p)
+    {
+        INode foundNode = findNode(p);
+        if (foundNode == null && newNode.getClass().isAssignableFrom(FieldNode.class)) {
+            return false;
+        }
+        return super.addNode(newNode, p);
+    }
+    
     public List<INode> getNodePrototypes()
     {
         return NODE_PROTOTYPES;

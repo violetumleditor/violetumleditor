@@ -26,6 +26,7 @@ import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.ShapeEdge;
@@ -88,13 +89,13 @@ public class ObjectReferenceEdge extends ShapeEdge
     public Direction getDirection(INode node) {
         // Case 1 : start node
         if (node.equals(getStart())) {
-            return Direction.EAST;
+            return Direction.WEST;
         }
         // Case 2 : end node
         if (isSShaped()) {
-            return Direction.WEST;
+            return Direction.EAST;
         }
-        return Direction.EAST;
+        return Direction.WEST;
     }
 
     /**
@@ -104,11 +105,10 @@ public class ObjectReferenceEdge extends ShapeEdge
      */
     private boolean isSShaped()
     {
-        // FIXME
-        return false;
-//        Rectangle2D b = getEnd().getBounds();
-//        Point2D p = getStart().getConnectionPoint(Direction.EAST);
-//        return b.getX() >= p.getX() + 2 * ENDSIZE;
+        Rectangle2D b = getEnd().getBounds();
+        Point2D startLocationOnGraph = getStart().getLocationOnGraph();
+        Point2D startRelativeConnectionPoint = getStart().getConnectionPoint(this);
+        return b.getX() >= startLocationOnGraph.getX() + startRelativeConnectionPoint.getX() + 2 * ENDSIZE;
     }
 
     private static final int ENDSIZE = 10;

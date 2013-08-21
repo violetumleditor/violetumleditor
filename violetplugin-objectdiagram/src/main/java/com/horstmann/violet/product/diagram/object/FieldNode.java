@@ -195,18 +195,7 @@ public class FieldNode extends RectangularNode
     public Point2D getConnectionPoint(IEdge edge)
     {
         Rectangle2D b = getBounds();
-        double parentX = 0;
-        double parentY = 0;
-        // This node has a location relative to its parent
-        // So, we need to take the parent's location in the connection point we return
-        INode parentNode = getParent();
-        if (parentNode != null)
-        {
-            Point2D parentLocation = parentNode.getLocation();
-            parentX = parentLocation.getX();
-            parentY = parentLocation.getY();
-        }
-        return new Point2D.Double(parentX + (b.getMaxX() + b.getX() + getAxisX()) / 2, parentY + b.getCenterY());
+        return new Point2D.Double((b.getMaxX() + b.getX() + getAxisX()) / 2, b.getCenterY());
     }
 
     private Rectangle2D getNameBounds()
