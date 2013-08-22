@@ -417,9 +417,9 @@ public class FileMenu extends JMenu
                     userPreferencesService.addOpenedFile(graphFile);
                     userPreferencesService.addRecentFile(graphFile);
                 }
-                catch (IOException e)
+                catch (Exception e)
                 {
-                    dialogFactory.showWarningDialog(e.getMessage());
+                    dialogFactory.showErrorDialog(dialogOpenFileErrorMessage  + " : " + e.getMessage());
                 }
             }
         });
@@ -534,9 +534,9 @@ public class FileMenu extends JMenu
                         IWorkspace workspace = new Workspace(graphFile);
                         mainFrame.addTabbedPane(workspace);
                     }
-                    catch (IOException e)
+                    catch (Exception e)
                     {
-                        dialogFactory.showErrorDialog(e.getMessage());
+                        dialogFactory.showErrorDialog(dialogOpenFileErrorMessage  + " : " + e.getMessage());
                     }
                 }
             });
@@ -616,5 +616,9 @@ public class FileMenu extends JMenu
 
     @ResourceBundleBean(key = "dialog.close.icon")
     private ImageIcon dialogCloseIcon;
+    
+    @ResourceBundleBean(key = "dialog.open_file_failed.text")
+    private String dialogOpenFileErrorMessage;
+    
 
 }
