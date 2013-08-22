@@ -461,9 +461,13 @@ public class ActivationBarNode extends RectangularNode
     @Override
     public Point2D getLocation()
     {
-        INode parentNode = getParent();
+        if (this.locationCache != null) {
+        	return this.locationCache;
+        }
+    	INode parentNode = getParent();
         if (parentNode == null) {
-            return super.getLocation();
+        	this.locationCache = super.getLocation();
+            return this.locationCache;
         }
         List<IEdge> connectedEdges = getConnectedEdges();
         boolean isChildOfActivationBarNode = (parentNode.getClass().isAssignableFrom(ActivationBarNode.class));
@@ -476,6 +480,7 @@ public class ActivationBarNode extends RectangularNode
             Point2D adjustedLocation = new Point2D.Double(horizontalLocation, verticalLocation);
             adjustedLocation = getGraph().getGridSticker().snap(adjustedLocation);
             super.setLocation(adjustedLocation);
+            this.locationCache = adjustedLocation;
             return adjustedLocation;
         }
         // Case 2 : is child of another activation bar
@@ -487,6 +492,7 @@ public class ActivationBarNode extends RectangularNode
             Point2D adjustedLocation = new Point2D.Double(horizontalLocation, verticalLocation);
             adjustedLocation = getGraph().getGridSticker().snap(adjustedLocation);
             super.setLocation(adjustedLocation);
+            this.locationCache = adjustedLocation;
             return adjustedLocation;
         }
         // Case 3 : is connected
@@ -509,6 +515,7 @@ public class ActivationBarNode extends RectangularNode
                         Point2D adjustedLocation = new Point2D.Double(horizontalLocation, minY);
                         adjustedLocation = getGraph().getGridSticker().snap(adjustedLocation);
                         super.setLocation(adjustedLocation);
+                        this.locationCache = adjustedLocation;
                         return adjustedLocation;
                     }
                     break;
@@ -522,13 +529,16 @@ public class ActivationBarNode extends RectangularNode
         Point2D adjustedLocation = new Point2D.Double(horizontalLocation, verticalLocation);
         adjustedLocation = getGraph().getGridSticker().snap(adjustedLocation);
         super.setLocation(adjustedLocation);
+        this.locationCache = adjustedLocation;
         return adjustedLocation;
     }
 
     @Override
     public void draw(Graphics2D g2)
     {
-        // Backup current color;
+        // Reset location cache;
+    	this.locationCache = null;
+    	// Backup current color;
         Color oldColor = g2.getColor();
         // Translate g2 if node has parent
         Point2D nodeLocationOnGraph = getLocationOnGraph();
@@ -737,6 +747,8 @@ public class ActivationBarNode extends RectangularNode
 
     /** The lifeline that embeds this activation bar in the sequence diagram */
     private transient LifelineNode lifeline;
+    
+    private transient Point2D locationCache;
     
     /** Default with */
     private static int DEFAULT_WIDTH = 16;

@@ -36,6 +36,11 @@ import com.horstmann.violet.product.diagram.abstracts.property.LineStyle;
 public class ReturnEdge extends SegmentedLineEdge
 {
 
+	@Override
+	public boolean isTransitionPointsSupported() {
+		return false;
+	}
+	
     @Override
     public ArrowHead getEndArrowHead()
     {

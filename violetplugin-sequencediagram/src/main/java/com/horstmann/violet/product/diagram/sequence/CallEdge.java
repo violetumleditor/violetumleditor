@@ -35,7 +35,13 @@ import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
  */
 public class CallEdge extends SegmentedLineEdge
 {
-    /**
+
+	@Override
+	public boolean isTransitionPointsSupported() {
+		return false;
+	}
+	
+	/**
      * Default constructor
      */
     public CallEdge()
