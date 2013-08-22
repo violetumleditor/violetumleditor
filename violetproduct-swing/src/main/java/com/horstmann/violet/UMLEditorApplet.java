@@ -42,7 +42,7 @@ import com.horstmann.violet.framework.plugin.PluginLoader;
 import com.horstmann.violet.framework.theme.ClassicMetalTheme;
 import com.horstmann.violet.framework.theme.ITheme;
 import com.horstmann.violet.framework.theme.ThemeManager;
-import com.horstmann.violet.framework.theme.VistaBlueTheme;
+import com.horstmann.violet.framework.theme.BlueAmbianceTheme;
 import com.horstmann.violet.framework.userpreferences.AppletUserPreferencesDao;
 import com.horstmann.violet.framework.userpreferences.IUserPreferencesDao;
 
@@ -70,7 +70,7 @@ public class UMLEditorApplet extends JApplet
         
         ThemeManager themeManager = new ThemeManager();
         ITheme theme1 = new ClassicMetalTheme();
-        ITheme theme2 = new VistaBlueTheme();
+        ITheme theme2 = new BlueAmbianceTheme();
         List<ITheme> themeList = new ArrayList<ITheme>();
         themeList.add(theme1);
         themeList.add(theme2);

@@ -38,7 +38,6 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -283,6 +282,7 @@ public class FileMenu extends JMenu
                 {
                     IGraphFile graphFile = workspace.getGraphFile();
                     graphFile.saveToNewLocation();
+                    userPreferencesService.addRecentFile(graphFile);
                 }
             }
         });
@@ -301,7 +301,9 @@ public class FileMenu extends JMenu
                 IWorkspace workspace = mainFrame.getActiveWorkspace();
                 if (workspace != null)
                 {
-                    workspace.getGraphFile().save();
+                    IGraphFile graphFile = workspace.getGraphFile();
+					graphFile.save();
+                    userPreferencesService.addRecentFile(graphFile);
                 }
             }
         });
@@ -363,6 +365,7 @@ public class FileMenu extends JMenu
                             if (filename == null)
                             {
                                 graphFile.saveToNewLocation();
+                                userPreferencesService.addRecentFile(graphFile);
                             }
                             if (filename != null)
                             {

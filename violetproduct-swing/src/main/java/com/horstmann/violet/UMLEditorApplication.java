@@ -52,7 +52,7 @@ import com.horstmann.violet.framework.theme.ClassicMetalTheme;
 import com.horstmann.violet.framework.theme.DarkAmbianceTheme;
 import com.horstmann.violet.framework.theme.ITheme;
 import com.horstmann.violet.framework.theme.ThemeManager;
-import com.horstmann.violet.framework.theme.VistaBlueTheme;
+import com.horstmann.violet.framework.theme.BlueAmbianceTheme;
 import com.horstmann.violet.framework.userpreferences.DefaultUserPreferencesDao;
 import com.horstmann.violet.framework.userpreferences.IUserPreferencesDao;
 import com.horstmann.violet.framework.userpreferences.UserPreferencesService;
@@ -117,7 +117,7 @@ public class UMLEditorApplication
 
         ThemeManager themeManager = new ThemeManager();
         ITheme theme1 = new ClassicMetalTheme();
-        ITheme theme2 = new VistaBlueTheme();
+        ITheme theme2 = new BlueAmbianceTheme();
         ITheme theme3 = new DarkAmbianceTheme();
         List<ITheme> themeList = new ArrayList<ITheme>();
         themeList.add(theme1);

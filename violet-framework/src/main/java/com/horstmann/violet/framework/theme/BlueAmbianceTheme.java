@@ -36,13 +36,13 @@ import com.pagosoft.plaf.themes.VistaTheme;
  * @author Alexandre de Pellegrin
  * 
  */
-public class VistaBlueTheme extends AbstractTheme
+public class BlueAmbianceTheme extends AbstractTheme
 {
 
 
 	@Override
 	public ThemeInfo getThemeInfo() {
-		return new ThemeInfo("Vista Blue", VistaBlueTheme.class, PgsLookAndFeel.class);
+		return new ThemeInfo("Blue Ambiance", BlueAmbianceTheme.class, PgsLookAndFeel.class);
 	}
 	
 	
@@ -78,7 +78,7 @@ public class VistaBlueTheme extends AbstractTheme
 
     public Color getGridColor()
     {
-        return new Color(240, 240, 240);
+        return new Color(245, 245, 245);
     }
 
     public Color getBackgroundColor()
