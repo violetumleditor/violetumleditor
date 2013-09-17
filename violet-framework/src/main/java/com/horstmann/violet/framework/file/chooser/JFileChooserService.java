@@ -117,6 +117,7 @@ public class JFileChooserService implements IFileChooserService
         for (int i = 0; i < filters.length; i++)
         {
             fileChooser.addChoosableFileFilter(filters[i]);
+            fileChooser.setFileFilter(filters[i]); // Set current filter to the last one  
         }
         int response = fileChooser.showOpenDialog(null);
         File selectedFile = null;
