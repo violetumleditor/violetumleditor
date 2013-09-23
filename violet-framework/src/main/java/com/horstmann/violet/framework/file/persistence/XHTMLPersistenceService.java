@@ -55,12 +55,18 @@ public class XHTMLPersistenceService implements IFilePersistenceService
             xstreamService.write(graph, graphOutputStream);
             String graphString = graphOutputStream.toString();
             ByteArrayOutputStream imageOutputStream = new ByteArrayOutputStream();
-            ImageIO.write(FileExportService.getImage(graph), IMAGE_TYPE, new Base64OutputStream(imageOutputStream));
+            Base64OutputStream base64ImageOutputStream = new Base64OutputStream(imageOutputStream);
+            ImageIO.write(FileExportService.getImage(graph), IMAGE_TYPE, base64ImageOutputStream);
             String imageString = HTML_INLINE_IMAGE_PREFIX + imageOutputStream.toString();
             template = template.replace(TEMPLATE_VERSION_KEY, this.versionChecker.getAppVersionNumber());
             template = template.replace(TEMPLATE_XMLCONTENT_KEY, graphString);
             template = template.replace(TEMPLATE_IMAGE_KEY, imageString);
             out.write(template.getBytes());
+            templateAsStream.close();
+            graphOutputStream.close();
+            imageOutputStream.close();
+            base64ImageOutputStream.close();
+            out.close();
         }
         catch (IOException e)
         {
@@ -79,7 +85,12 @@ public class XHTMLPersistenceService implements IFilePersistenceService
         parser.parse(reader, callback, true);
         String xmlContent = writer.toString();
         ByteArrayInputStream xmlContentStream = new ByteArrayInputStream(xmlContent.getBytes());
-        return this.xstreamService.read(xmlContentStream);
+        IGraph graph = this.xstreamService.read(xmlContentStream);
+        in.close();
+        xmlContentStream.close();
+        reader.close();
+        writer.close();
+        return graph;
     }
 
     private String getInputStreamContent(InputStream in) throws IOException
@@ -93,7 +104,11 @@ public class XHTMLPersistenceService implements IFilePersistenceService
             buf.write(b);
             result = bis.read();
         }
-        return buf.toString();
+        String content = buf.toString();
+        bis.close();
+        buf.close();
+        in.close();
+        return content;
     }
 
     private class XHTMLPersistenceServiceParserGetter extends HTMLEditorKit

@@ -60,7 +60,7 @@ public class DiagramComposite extends Composite
         super(parent, SWT.EMBEDDED | SWT.BORDER);
 
         this.workspacePanel = workspacePanel;
-        this.fixLayoutProblem(this.workspacePanel);
+        //this.fixLayoutProblem(this.workspacePanel);
         this.initializePanel(this.workspacePanel, parent);
         this.frame = SWT_AWT.new_Frame(this);
 

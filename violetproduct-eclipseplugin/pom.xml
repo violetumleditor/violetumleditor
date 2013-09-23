@@ -37,7 +37,7 @@
 								<artifactItem>
 									<groupId>com.horstmann.violet</groupId>
 									<artifactId>violetproduct-swing</artifactId>
-									<version>${applicationVersion}</version>
+									<version>${project.version}</version>
 									<type>jar</type>
 									<outputDirectory>${basedir}/lib</outputDirectory>
 									<destFileName>violetproduct-swing.jar</destFileName>

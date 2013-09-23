@@ -21,19 +21,22 @@
 
 package com.horstmann.violet.eclipseplugin.editors;
 
-import java.awt.Component;
 import java.io.File;
 import java.net.URI;
 import java.net.URL;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTarget;
 import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
@@ -152,8 +155,7 @@ public class VioletUMLEditor extends EditorPart
         parent.setLayout(gridLayout);
 
         IWorkspace workspacePanel = this.getUMLDiagramPanel();
-		new DiagramComposite(parent, workspacePanel);
-
+		final DiagramComposite diagramComposite = new DiagramComposite(parent, workspacePanel);
         int operations = DND.DROP_MOVE | DND.DROP_COPY | DND.DROP_LINK;
         Transfer[] types = new Transfer[]
         {
