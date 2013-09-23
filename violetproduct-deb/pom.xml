@@ -6,7 +6,7 @@
 		<artifactId>parent</artifactId>
 		<version>1.0.0</version>
 	</parent>
-	<artifactId>violetdistrib-deb</artifactId>
+	<artifactId>violetproduct-deb</artifactId>
 	<packaging>pom</packaging>
 	<name>Violet UML Editor Debian packaging</name>
 	<version>${applicationVersion}</version>
@@ -30,6 +30,8 @@
 									<artifactId>violetproduct-swing</artifactId>
 									<version>${project.version}</version>
 									<type>jar</type>
+									<overWrite>true</overWrite>
+									<destFileName>violet-${project.version}.jar</destFileName>
 								</artifactItem>
 							</artifactItems>
 						</configuration>
@@ -42,15 +44,16 @@
 				<version>1.0</version>
 				<executions>
 					<execution>
-						<phase>install</phase>
+						<phase>package</phase>
 						<goals>
 							<goal>jdeb</goal>
 						</goals>
 						<configuration>
+							<deb>${project.build.directory}/violet-${version}.deb</deb>
 							<controlDir>${basedir}/src/main/resources/control</controlDir>
 							<dataSet>
 								<data>
-									<src>${project.build.directory}/dependency/violetproduct-swing-${project.version}.jar</src>
+									<src>${project.build.directory}/dependency/violet-${project.version}.jar</src>
 									<dst>/usr/share/violet/com.horstmann.violet.jar</dst>
 									<type>file</type>
 								</data>

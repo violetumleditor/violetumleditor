@@ -4,7 +4,7 @@
          http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>violetproduct-swing</artifactId>
-	<name>Violet UML Editor Swing Application</name>
+	<name>Violet UML Editor Pure Java packaging</name>
     <version>${applicationVersion}</version>
     <packaging>jar</packaging>
     <parent>
@@ -50,6 +50,7 @@
         </dependency>
 	</dependencies>
 	<build>
+		<finalName>violet-${project.version}</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/java</directory>

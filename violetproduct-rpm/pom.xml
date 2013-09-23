@@ -6,7 +6,7 @@
 		<artifactId>parent</artifactId>
 		<version>1.0.0</version>
 	</parent>
-	<artifactId>violetdistrib-rpm</artifactId>
+	<artifactId>violetproduct-rpm</artifactId>
 	<packaging>pom</packaging>
 	<name>Violet UML Editor RPM packaging</name>
 	<version>${applicationVersion}</version>

@@ -17,11 +17,12 @@
 	    <module>violetplugin-statediagram</module>
 	    <module>violetplugin-usecasediagram</module>
 	    <module>violetproduct-swing</module>
-	    <!-- module>violetdistrib-rpm</module -->
-	    <!-- module>violetdistrib-deb</module -->
+	    <module>violetproduct-exe</module >
+	    <!-- module>violetproduct-rpm</module -->
+	    <module>violetproduct-deb</module>
 	</modules>
 	<properties>
-    	<applicationVersion>2.0.0-SNAPSHOT</applicationVersion>
+    	<applicationVersion>2.0.0</applicationVersion>
   	</properties>
 	<build>
 		<resources>
