@@ -31,7 +31,7 @@
 									<version>${project.version}</version>
 									<type>jar</type>
 									<overWrite>true</overWrite>
-									<destFileName>violet-${project.version}.jar</destFileName>
+									<destFileName>violetumleditor-${project.version}.jar</destFileName>
 								</artifactItem>
 							</artifactItems>
 						</configuration>
@@ -51,8 +51,8 @@
 						</goals>
 						<configuration>
 							<headerType>gui</headerType>
-							<jar>${project.build.directory}/dependency/violet-${project.version}.jar</jar>
-							<outfile>${project.build.directory}/violet-${project.version}.exe</outfile>
+							<jar>${project.build.directory}/dependency/violetumleditor-${project.version}.jar</jar>
+							<outfile>${project.build.directory}/violetumleditor-${project.version}.exe</outfile>
 							<downloadUrl>http://java.com/download</downloadUrl>
 							<icon>src/main/resources/icon/violet.ico</icon>
 							<jre>
@@ -69,7 +69,7 @@
 								<productName>Violet UML Editor</productName>
 								<companyName>Cay S. Horstman and Alexandre de Pellegrin</companyName>
 								<internalName>Violet UML Editor</internalName>
-								<originalFilename>violet-${project.version}.exe</originalFilename>
+								<originalFilename>violetumleditor-${project.version}.exe</originalFilename>
 							</versionInfo>
 						</configuration>
 					</execution>

@@ -50,7 +50,7 @@
         </dependency>
 	</dependencies>
 	<build>
-		<finalName>violet-${project.version}</finalName>
+		<finalName>violetumleditor-${project.version}</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/java</directory>
