@@ -63,6 +63,7 @@ import com.horstmann.violet.framework.userpreferences.UserPreferencesService;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
+import com.thoughtworks.xstream.io.StreamException;
 
 /**
  * Represents the file menu on the editor frame
@@ -402,6 +403,7 @@ public class FileMenu extends JMenu
         {
             public void actionPerformed(ActionEvent event)
             {
+                IFile selectedFile = null;
                 try
                 {
                     IFileReader fileOpener = fileChooserService.chooseAndGetFileReader();
@@ -410,12 +412,15 @@ public class FileMenu extends JMenu
                         // Action cancelled by user
                         return;
                     }
-                    IFile selectedFile = fileOpener.getFileDefinition();
+                    selectedFile = fileOpener.getFileDefinition();
                     IGraphFile graphFile = new GraphFile(selectedFile);
                     IWorkspace workspace = new Workspace(graphFile);
                     mainFrame.addTabbedPane(workspace);
                     userPreferencesService.addOpenedFile(graphFile);
                     userPreferencesService.addRecentFile(graphFile);
+                }
+                catch (StreamException se) {
+                    dialogFactory.showErrorDialog(dialogOpenFileIncompatibilityMessage);
                 }
                 catch (Exception e)
                 {
@@ -620,5 +625,7 @@ public class FileMenu extends JMenu
     @ResourceBundleBean(key = "dialog.open_file_failed.text")
     private String dialogOpenFileErrorMessage;
     
+    @ResourceBundleBean(key = "dialog.open_file_content_incompatibility.text")
+    private String dialogOpenFileIncompatibilityMessage;
 
 }
