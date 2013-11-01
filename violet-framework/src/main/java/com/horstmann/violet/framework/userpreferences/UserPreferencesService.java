@@ -49,7 +49,10 @@ public class UserPreferencesService
             try
             {
                 PreferredFile aRecentFile  = new PreferredFile(anEntry);
-                recentFiles.add(aRecentFile);
+                if(!aRecentFile.getDirectory().equals("null"))
+                {
+                    recentFiles.add(aRecentFile);
+                }
             }
             catch (IOException e)
             {
