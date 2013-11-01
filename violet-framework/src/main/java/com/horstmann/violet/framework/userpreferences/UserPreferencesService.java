@@ -67,7 +67,7 @@ public class UserPreferencesService
     /**
      * add recently opened file into user preferences
      * 
-     * @param opened file
+     * @param aFile file
      */
     public void addRecentFile(IFile aFile)
     {
@@ -91,7 +91,7 @@ public class UserPreferencesService
     
     /**
      * Update user preferences
-     * @param recentFiles
+     * @param recentFiles - set of recentFiles to be saved
      */
     private void updateRecentFileList(Set<PreferredFile> recentFiles) {
         StringBuilder result = new StringBuilder("");
@@ -128,7 +128,7 @@ public class UserPreferencesService
     /**
      * Saves newly opened file path into user preferences
      * 
-     * @param path file path (should be relative or absolute)
+     * @param aFile file path (should be relative or absolute)
      */
     public void addOpenedFile(IFile aFile)
     {
@@ -145,7 +145,7 @@ public class UserPreferencesService
     /**
      * Removes newly closed file from user preferences
      * 
-     * @param path file path (could be relative or absolute)
+     * @param aFile file path (could be relative or absolute)
      */
     public void removeOpenedFile(IFile aFile)
     {
@@ -161,7 +161,7 @@ public class UserPreferencesService
     
     /**
      * Update user preferences
-     * @param recentFiles
+     * @param openedFiles set of Opened Files to be saved
      */
     private void updateOpenedFileList(Set<PreferredFile> openedFiles) {
         StringBuilder result = new StringBuilder("");
@@ -180,7 +180,7 @@ public class UserPreferencesService
     /**
      * Indicates which diagram is currently focused on workspace and saves it into user preferences
      * 
-     * @param path file path (could be relative or absolute)
+     * @param aFile file path (could be relative or absolute)
      */
     public void setActiveDiagramFile(IFile aFile)
     {
@@ -227,5 +227,5 @@ public class UserPreferencesService
     /**
      * Recent opened files list capacity
      */
-    private static final int DEFAULT_MAX_RECENT_FILES = 5;
+    private static final int DEFAULT_MAX_RECENT_FILES = 2;
 }
