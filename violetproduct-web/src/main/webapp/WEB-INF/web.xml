@@ -6,16 +6,15 @@
 
 
 	<servlet>
-		<servlet-name>VioletVaadin</servlet-name>
-		<servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
-		<init-param>
-			<param-name>UI</param-name>
-			<param-value>com.horstmann.violet.UMLEditorUI</param-value>
-		</init-param>
+		<servlet-name>VioletJWT</servlet-name>
+		<display-name>JWt Hello World example</display-name>
+		<description>JWt Hello World example</description>
+		<servlet-class>com.horstmann.violet.UMLEditorWebServlet</servlet-class>
 	</servlet>
 
+
 	<servlet-mapping>
-		<servlet-name>VioletVaadin</servlet-name>
+		<servlet-name>VioletJWT</servlet-name>
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
 
