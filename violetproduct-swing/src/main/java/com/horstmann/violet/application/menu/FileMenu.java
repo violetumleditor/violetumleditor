@@ -28,7 +28,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Comparator;
 import java.util.List;
@@ -246,17 +245,20 @@ public class FileMenu extends JMenu
                 {
                     try
                     {
-                        ExtensionFilter exportFilter = fileNamingService.getImageExtensionFilter();
-                        IFileWriter fileSaver = fileChooserService.chooseAndGetFileWriter(exportFilter);
+                        ExtensionFilter[] exportFilters = fileNamingService.getImageExtensionFilters();
+                        IFileWriter fileSaver = fileChooserService.chooseAndGetFileWriter(exportFilters);
                         OutputStream out = fileSaver.getOutputStream();
                         if (out != null)
                         {
                             String filename = fileSaver.getFileDefinition().getFilename();
-                            String extension = exportFilter.getExtension();
-                            if (filename.toLowerCase().endsWith(extension.toLowerCase()))
-                            {
-                                String format = extension.replace(".", "");
-                                workspace.getGraphFile().exportImage(out, format);
+                            for (ExtensionFilter exportFilter : exportFilters) {
+                                String extension = exportFilter.getExtension();
+                                if (filename.toLowerCase().endsWith(extension.toLowerCase()))
+                                {
+                                    String format = extension.replace(".", "");
+                                    workspace.getGraphFile().exportImage(out, format);
+                                    break;
+                                }
                             }
                         }
                     }

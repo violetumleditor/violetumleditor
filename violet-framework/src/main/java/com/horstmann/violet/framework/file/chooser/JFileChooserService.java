@@ -24,6 +24,7 @@ package com.horstmann.violet.framework.file.chooser;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Set;
 
 import javax.swing.ImageIcon;
@@ -109,7 +110,7 @@ public class JFileChooserService implements IFileChooserService
     }
 
     @Override
-    public IFileReader chooseAndGetFileReader() throws FileNotFoundException
+    public IFileReader chooseAndGetFileReader() throws FileNotFoundException, UnsupportedEncodingException
     {
     	JFileChooser fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(this.currentDirectory);
@@ -154,7 +155,7 @@ public class JFileChooserService implements IFileChooserService
     }
 
     @Override
-    public IFileWriter chooseAndGetFileWriter(ExtensionFilter... filters) throws FileNotFoundException
+    public IFileWriter chooseAndGetFileWriter(ExtensionFilter... filters) throws FileNotFoundException, UnsupportedEncodingException
     {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(this.currentDirectory);

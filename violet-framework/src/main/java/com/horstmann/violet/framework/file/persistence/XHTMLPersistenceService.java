@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 
@@ -49,7 +50,8 @@ public class XHTMLPersistenceService implements IFilePersistenceService
     {
         try
         {
-            InputStream templateAsStream = this.getClass().getResourceAsStream(TEMPLATE_FILE);
+            OutputStreamWriter writer = new OutputStreamWriter(out, "UTF-8");
+        	InputStream templateAsStream = this.getClass().getResourceAsStream(TEMPLATE_FILE);
             String template = getInputStreamContent(templateAsStream);
             ByteArrayOutputStream graphOutputStream = new ByteArrayOutputStream();
             xstreamService.write(graph, graphOutputStream);
@@ -61,12 +63,11 @@ public class XHTMLPersistenceService implements IFilePersistenceService
             template = template.replace(TEMPLATE_VERSION_KEY, this.versionChecker.getAppVersionNumber());
             template = template.replace(TEMPLATE_XMLCONTENT_KEY, graphString);
             template = template.replace(TEMPLATE_IMAGE_KEY, imageString);
-            out.write(template.getBytes());
+            writer.write(new String(template.getBytes()));
             templateAsStream.close();
-            graphOutputStream.close();
             imageOutputStream.close();
             base64ImageOutputStream.close();
-            out.close();
+            writer.close();
         }
         catch (IOException e)
         {
@@ -77,16 +78,16 @@ public class XHTMLPersistenceService implements IFilePersistenceService
     @Override
     public IGraph read(InputStream in) throws IOException
     {
-        XHTMLPersistenceServiceParserGetter kit = new XHTMLPersistenceServiceParserGetter();
+        InputStreamReader reader = new InputStreamReader(in, "UTF-8");
+    	XHTMLPersistenceServiceParserGetter kit = new XHTMLPersistenceServiceParserGetter();
         HTMLEditorKit.Parser parser = kit.getParser();
         StringWriter writer = new StringWriter();
         HTMLEditorKit.ParserCallback callback = new XHTMLPersistenceServiceParserCallback(writer);
-        InputStreamReader reader = new InputStreamReader(in);
         parser.parse(reader, callback, true);
         String xmlContent = writer.toString();
-        ByteArrayInputStream xmlContentStream = new ByteArrayInputStream(xmlContent.getBytes());
+        InputStream xmlContentStream = new ByteArrayInputStream(xmlContent.getBytes());
         IGraph graph = this.xstreamService.read(xmlContentStream);
-        in.close();
+        reader.close();
         xmlContentStream.close();
         reader.close();
         writer.close();

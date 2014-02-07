@@ -634,13 +634,31 @@ public class ActivationBarNode extends RectangularNode
         Point2D endingNodePoint = edge.getEndLocation();
         Class<?> startingNodeClass = (startingNode != null ? startingNode.getClass() : NullType.class);
         Class<?> endingNodeClass = (endingNode != null ? endingNode.getClass() : NullType.class);
-        // Case 1 : classic connection between activation bars
+        // Case 1 : check is call edge doesn't connect already connected nodes
+        for (IEdge anEdge : getGraph().getAllEdges()) {
+        	if (!anEdge.getClass().isAssignableFrom(CallEdge.class)) {
+        		continue;
+        	}
+        	List<INode> startingNodeFamily = new ArrayList<INode>();
+        	startingNodeFamily.add(startingNode);
+        	startingNodeFamily.addAll(startingNode.getChildren());
+        	List<INode> endingNodeFamily = new ArrayList<INode>();
+        	endingNodeFamily.add(endingNode);
+        	endingNodeFamily.addAll(endingNode.getChildren());
+        	if (startingNodeFamily.contains(anEdge.getStart()) && endingNodeFamily.contains(anEdge.getEnd())) {
+        		return false;
+        	}
+        	if (startingNodeFamily.contains(anEdge.getEnd()) && endingNodeFamily.contains(anEdge.getStart())) {
+        		return false;
+        	}
+        }
+        // Case 2 : classic connection between activation bars
         if (startingNodeClass.isAssignableFrom(ActivationBarNode.class)
                 && endingNodeClass.isAssignableFrom(ActivationBarNode.class))
         {
             return true;
         }
-        // Case 2 : an activation bar creates a new class instance
+        // Case 3 : an activation bar creates a new class instance
         if (startingNodeClass.isAssignableFrom(ActivationBarNode.class) && endingNodeClass.isAssignableFrom(LifelineNode.class))
         {
             ActivationBarNode startingActivationBarNode = (ActivationBarNode) startingNode;
@@ -652,7 +670,7 @@ public class ActivationBarNode extends RectangularNode
                 return true;
             }
         }
-        // Case 3 : classic connection between activation bars but the ending
+        // Case 4 : classic connection between activation bars but the ending
         // bar doesn't exist and need to be automatically created
         if (startingNodeClass.isAssignableFrom(ActivationBarNode.class) && endingNodeClass.isAssignableFrom(LifelineNode.class))
         {
@@ -672,7 +690,7 @@ public class ActivationBarNode extends RectangularNode
                 return true;
             }
         }
-        // Case 4 : self call on an activation bar
+        // Case 5 : self call on an activation bar
         if (startingNodeClass.isAssignableFrom(ActivationBarNode.class) && endingNodeClass.isAssignableFrom(LifelineNode.class))
         {
             ActivationBarNode startingActivationBarNode = (ActivationBarNode) startingNode;
@@ -691,7 +709,7 @@ public class ActivationBarNode extends RectangularNode
                 return true;
             }
         }
-        // Case 5 : self call on an activation bar but its child which is called
+        // Case 6 : self call on an activation bar but its child which is called
         // doesn"t exist and need to be created automatically
         if (startingNodeClass.isAssignableFrom(ActivationBarNode.class) && endingNodeClass.isAssignableFrom(NullType.class))
         {

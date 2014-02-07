@@ -135,24 +135,39 @@ public class FileNamingService
     /**
      * @return the extension filter for image export
      */
-    public ExtensionFilter getImageExtensionFilter()
+    public ExtensionFilter[] getImageExtensionFilters()
     {
-        return new ExtensionFilter(this.imageFileFilterName, this.imageFileExtension);
+        ExtensionFilter[] filters = new ExtensionFilter[2];
+        filters[0] = new ExtensionFilter(this.imageFileType1FilterName, this.imageFileType1Extension);
+        filters[1] = new ExtensionFilter(this.imageFileType2FilterName, this.imageFileType2Extension);
+        return filters;
     }
 
 
-    @ResourceBundleBean(key="files.image.name")
-    private String imageFileFilterName;
+    @ResourceBundleBean(key="files.image.type1.name")
+    private String imageFileType1FilterName;
     
-    @ResourceBundleBean(key="files.image.extension")
-    private String imageFileExtension;
+    @ResourceBundleBean(key="files.image.type1.extension")
+    private String imageFileType1Extension;
     
+    @ResourceBundleBean(key="files.image.type2.name")
+    private String imageFileType2FilterName;
+    
+    @ResourceBundleBean(key="files.image.type2.extension")
+    private String imageFileType2Extension;
+
     @ResourceBundleBean(key="files.global.name")
     private String defaultFileFilterName;
     
+    @ResourceBundleBean(key="files.violet016.extension")
+    private String oldFileExtension;
+    
+    @ResourceBundleBean(key="files.violet016.name")
+    private String oldFileFilterName;
+    
     @ResourceBundleBean(key="files.global.extension")
     private String defaultFileExtension;
-    
+
     @InjectedBean
     private PluginRegistry pluginRegistry;
 

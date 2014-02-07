@@ -3,7 +3,9 @@ package com.horstmann.violet.framework.file.persistence;
 import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.Collection;
 import java.util.List;
 
@@ -29,22 +31,30 @@ public class XStreamBasedPersistenceService implements IFilePersistenceService {
 
 	@Override
 	public IGraph read(InputStream in) throws IOException {
+		InputStreamReader reader = new InputStreamReader(in, "UTF-8");
 		XStream xStream = new XStream();
 		xStream = getConfiguredXStream(xStream);
-		Object fromXML = xStream.fromXML(in);
+		Object fromXML = xStream.fromXML(reader);
 		IGraph graph = (IGraph) fromXML;
 		Collection<INode> allNodes = graph.getAllNodes();
 		for (INode aNode : allNodes) {
 			aNode.setGraph(graph);
 		}
+		reader.close();
 		return graph;
 	}
 
 	@Override
 	public void write(IGraph graph, OutputStream out) {
-		XStream xStream = new XStream();
-		xStream = getConfiguredXStream(xStream);
-		xStream.toXML(graph, out);
+		try {
+			OutputStreamWriter writer = new OutputStreamWriter(out, "UTF-8");
+			XStream xStream = new XStream();
+			xStream = getConfiguredXStream(xStream);
+			xStream.toXML(graph, writer);
+			writer.close();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 	
 	private XStream getConfiguredXStream(XStream xStream) {
