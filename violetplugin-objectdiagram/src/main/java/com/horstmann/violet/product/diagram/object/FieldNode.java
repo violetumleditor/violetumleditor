@@ -67,18 +67,22 @@ public class FieldNode extends RectangularNode
             return;
         }
         List<INode> children = parent.getChildren();
-        ObjectNode parentNode = (ObjectNode) parent;
-        Rectangle2D topRectangle = parentNode.getTopRectangle();
-        this.verticalLocation = topRectangle.getHeight();
+        INode lastNode = null;
         for (INode node : children)
         {
             if (node == this)
             {
-                return;
+                if (lastNode == null) {
+                	ObjectNode parentNode = (ObjectNode) parent;
+                	Rectangle2D topRectangle = parentNode.getTopRectangle();
+                	this.verticalLocation = topRectangle.getHeight();
+                }
+                if (lastNode != null) {
+                	this.verticalLocation = lastNode.getLocation().getY() + lastNode.getBounds().getHeight(); 
+                }
+            	return;
             }
-            Rectangle2D bounds = node.getBounds();
-            double nodeHeight = bounds.getHeight();
-            this.verticalLocation = this.verticalLocation + nodeHeight + YGAP;
+            lastNode = node;
         }
     }
 

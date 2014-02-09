@@ -104,18 +104,15 @@ public class ObjectNode extends RectangularNode
     private Rectangle2D getBottomRectangle()
     {
         Rectangle2D topBounds = getTopRectangle();
-        double topHeight = topBounds.getHeight();
-        Rectangle2D bottomBounds = new Rectangle2D.Double(0, topHeight, 0, 0);
+        double globalHeight = 0;
+        double globalWidth = 0;
         for (INode node : getChildren())
         {
             Rectangle2D nodeBounds = node.getBounds();
-            bottomBounds.add(nodeBounds);
+            globalHeight = globalHeight + nodeBounds.getHeight();
+            globalWidth = Math.max(globalWidth, nodeBounds.getWidth());
         }
-        double x = topBounds.getX();
-        double y = topBounds.getMaxY();
-        double w = bottomBounds.getWidth();
-        double h = bottomBounds.getHeight();
-        bottomBounds.setFrame(x, y, w, h);
+        Rectangle2D bottomBounds = new Rectangle2D.Double(topBounds.getX(), topBounds.getMaxY(), globalWidth, globalHeight);
         bottomBounds = getGraph().getGridSticker().snap(bottomBounds);
         return bottomBounds;
     }
