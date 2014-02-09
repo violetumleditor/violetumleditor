@@ -22,7 +22,7 @@
 	    <module>violetproduct-deb</module>
 	</modules>
 	<properties>
-    	<applicationVersion>2.0.0</applicationVersion>
+    	<applicationVersion>2.0.1</applicationVersion>
   	</properties>
 	<build>
 		<resources>
