@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
-<web-app>
+<web-app id="WebApp_ID" version="3.0"
+	xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+      http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 
 	<display-name>Violet UML Editor</display-name>
 
@@ -9,14 +11,39 @@
 		<servlet-name>VioletJWT</servlet-name>
 		<display-name>JWt Hello World example</display-name>
 		<description>JWt Hello World example</description>
-		<servlet-class>com.horstmann.violet.UMLEditorWebServlet</servlet-class>
+		<servlet-class>com.horstmann.violet.UMLEditorWebServlet
+		</servlet-class>
 	</servlet>
-
-
 	<servlet-mapping>
 		<servlet-name>VioletJWT</servlet-name>
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
+
+
+	<servlet>
+		<servlet-name>VioletWithVaadin</servlet-name>
+		<servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
+		<init-param>
+			<param-name>UI</param-name>
+			<param-value>com.horstmann.violet.vaadin.UMLEditorApplicationUI
+			</param-value>
+		</init-param>
+		<!-- Enable server push -->
+		<init-param>
+			<param-name>pushmode</param-name>
+			<param-value>automatic</param-value>
+		</init-param>
+		<async-supported>true</async-supported>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>VioletWithVaadin</servlet-name>
+		<url-pattern>/violet/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>VioletWithVaadin</servlet-name>
+		<url-pattern>/VAADIN/*</url-pattern>
+	</servlet-mapping>
+
 
 </web-app>
 

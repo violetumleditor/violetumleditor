@@ -12,11 +12,8 @@
 		<artifactId>parent</artifactId>
 		<version>1.0.0</version>
 	</parent>
-	<properties>
-		<vaadin.version>7.1.10</vaadin.version>
-		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
-	</properties>
 	<dependencies>
+		<!-- VIOLET (start) -->
 		<dependency>
 			<groupId>com.horstmann.violet</groupId>
 			<artifactId>violet-framework</artifactId>
@@ -24,45 +21,57 @@
 		</dependency>
 		<dependency>
 			<groupId>com.horstmann.violet</groupId>
-			<artifactId>violetplugin-activitydiagram</artifactId>
-			<version>${applicationVersion}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.horstmann.violet</groupId>
 			<artifactId>violetplugin-classdiagram</artifactId>
 			<version>${applicationVersion}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.horstmann.violet</groupId>
-			<artifactId>violetplugin-objectdiagram</artifactId>
-			<version>${applicationVersion}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.horstmann.violet</groupId>
-			<artifactId>violetplugin-sequencediagram</artifactId>
-			<version>${applicationVersion}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.horstmann.violet</groupId>
-			<artifactId>violetplugin-statediagram</artifactId>
-			<version>${applicationVersion}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.horstmann.violet</groupId>
-			<artifactId>violetplugin-usecasediagram</artifactId>
-			<version>${applicationVersion}</version>
-		</dependency>
+		<!-- VIOLET (end) -->
+		<!-- JWT (deprecated) (start)  -->
 		<dependency>
 			<groupId>eu.webtoolkit</groupId>
 			<artifactId>jwt</artifactId>
 			<version>3.1.11</version>
 		</dependency>
+		<!-- JWT (deprecated) (end)  -->
+		<!-- VAADIN (start) -->
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-server</artifactId>
+			<version>7.1.12</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-client-compiled</artifactId>
+			<version>7.1.12</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-client</artifactId>
+			<version>7.1.12</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-client-compiler</artifactId>
+			<version>7.1.12</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-themes</artifactId>
+			<version>7.1.12</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-push</artifactId>
+			<version>7.1.12</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- VAADIN (end) -->		
 	</dependencies>
 	<build>
 		<finalName>violetumleditor-${project.version}</finalName>
