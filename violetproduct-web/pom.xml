@@ -71,7 +71,12 @@
 			<version>3.0.1</version>
 			<scope>provided</scope>
 		</dependency>
-		<!-- VAADIN (end) -->		
+		<!-- VAADIN (end) -->
+		<dependency>
+			<groupId>com.l2fprod.common</groupId>
+			<artifactId>l2fprod-common-tasks</artifactId>
+			<version>7.3</version>
+		</dependency>	
 	</dependencies>
 	<build>
 		<finalName>violetumleditor-${project.version}</finalName>

@@ -15,12 +15,12 @@ import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 
-public class WorkspacePanel extends Panel {
+public class WorkspaceLayout extends Panel {
 
 	private IGraph graph;
 	private IWorkspace workspace;
 
-	public WorkspacePanel() {
+	public WorkspaceLayout() {
 		super();
 		try {
 			URL resource = UMLEditorWebServlet.class.getResource("test.class.violet.html");

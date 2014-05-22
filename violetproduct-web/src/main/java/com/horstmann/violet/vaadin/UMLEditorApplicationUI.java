@@ -66,7 +66,7 @@ public class UMLEditorApplicationUI extends UI {
 	}
 
 	private void createDefaultWorkspace() {
-		WorkspacePanel workspacePanel = new WorkspacePanel();
+		WorkspaceLayout workspacePanel = new WorkspaceLayout();
 		setContent(workspacePanel);
 	}
 

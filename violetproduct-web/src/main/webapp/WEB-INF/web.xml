@@ -20,30 +20,6 @@
 	</servlet-mapping>
 
 
-	<servlet>
-		<servlet-name>VioletWithVaadin</servlet-name>
-		<servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
-		<init-param>
-			<param-name>UI</param-name>
-			<param-value>com.horstmann.violet.vaadin.UMLEditorApplicationUI
-			</param-value>
-		</init-param>
-		<!-- Enable server push -->
-		<init-param>
-			<param-name>pushmode</param-name>
-			<param-value>automatic</param-value>
-		</init-param>
-		<async-supported>true</async-supported>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>VioletWithVaadin</servlet-name>
-		<url-pattern>/violet/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>VioletWithVaadin</servlet-name>
-		<url-pattern>/VAADIN/*</url-pattern>
-	</servlet-mapping>
-
 
 </web-app>
 

@@ -4,7 +4,6 @@ import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
-import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -15,6 +14,8 @@ import com.horstmann.violet.framework.file.LocalFile;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
+import com.horstmann.violet.workspace.WorkspacePanel;
+import com.horstmann.violet.workspace.editorpart.EditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 
@@ -38,6 +39,8 @@ public class WorkspaceWidget extends WPaintedWidget {
 		IFile aFile = new LocalFile(new File(resource.getFile()));
         GraphFile graphFile = new GraphFile(aFile);
 		this.workspace = new Workspace(graphFile);
+		workspace.getAWTComponent().setSize(800, 600);
+		workspace.getAWTComponent().prepareLayout();
 		final IEditorPart editorPart = workspace.getEditorPart();
 		final IEditorPartBehaviorManager behaviorManager = editorPart.getBehaviorManager();
 		this.graph = editorPart.getGraph();
@@ -144,14 +147,21 @@ public class WorkspaceWidget extends WPaintedWidget {
 		painter.setClipping(true);
 		paintDevice.init();
 		Graphics2D graphics = new CustomWebGraphics2D(painter);
-		graph.draw(graphics);
+		((EditorPart) this.workspace.getEditorPart()).paintComponent(graphics);
 		paintDevice.done();
 	}
 
+	
+	@Override
+	protected void layoutSizeChanged(int width, int height) {
+		super.layoutSizeChanged(width, height);
+		this.workspace.getAWTComponent().setSize(width, height);
+	}
+	
 	@Override
 	public void resize(WLength width, WLength height) {
 		super.resize(width, height);
-		graph.setBounds(new Rectangle2D.Double(0, 0, width.getValue(), height.getValue()));
+		this.workspace.getAWTComponent().setSize((int) width.toPixels() , (int) height.toPixels());
 	}
 
 }
