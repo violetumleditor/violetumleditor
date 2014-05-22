@@ -329,6 +329,12 @@ public class Workspace implements IWorkspace
         }
         return this.workspacePanel;
     }
+    
+    @Override
+    public void setAWTComponent(WorkspacePanel workspacePanel) {
+    	
+    	this.workspacePanel = workspacePanel;
+    }
 
     public WorkspacePanel workspacePanel;
     private IGraphFile graphFile;

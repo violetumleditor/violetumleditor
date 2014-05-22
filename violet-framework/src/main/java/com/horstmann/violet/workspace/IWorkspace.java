@@ -1,7 +1,5 @@
 package com.horstmann.violet.workspace;
 
-import java.awt.Component;
-
 import com.horstmann.violet.framework.file.IGraphFile;
 import com.horstmann.violet.product.diagram.abstracts.Id;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
@@ -60,6 +58,13 @@ public interface IWorkspace
     /**
      * @return the awt component representing this workspace
      */
-    public Component getAWTComponent();
+    public WorkspacePanel getAWTComponent();
+    
+    /**
+     * Force a specific awt component to representing graphically this workspace
+     * 
+     * @param panel
+     */
+    public void setAWTComponent(WorkspacePanel panel);
 
 }
