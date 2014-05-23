@@ -4,20 +4,12 @@ import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
-import com.horstmann.violet.framework.file.GraphFile;
-import com.horstmann.violet.framework.file.IFile;
-import com.horstmann.violet.framework.file.LocalFile;
-import com.horstmann.violet.product.diagram.abstracts.IGraph;
-import com.horstmann.violet.workspace.IWorkspace;
-import com.horstmann.violet.workspace.Workspace;
-import com.horstmann.violet.workspace.WorkspacePanel;
 import com.horstmann.violet.workspace.editorpart.EditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
+import com.horstmann.violet.workspace.editorpart.IGrid;
 
 import eu.webtoolkit.jwt.KeyboardModifier;
 import eu.webtoolkit.jwt.Signal1;
@@ -28,26 +20,19 @@ import eu.webtoolkit.jwt.WPaintDevice;
 import eu.webtoolkit.jwt.WPaintedWidget;
 import eu.webtoolkit.jwt.WPainter;
 
-public class WorkspaceWidget extends WPaintedWidget {
+public class EditorPartWidget extends WPaintedWidget {
 
-	private IGraph graph;
-	private IWorkspace workspace;
-	
+	private IEditorPart editorPart;
 
-	public WorkspaceWidget() throws IOException {
-	    URL resource = getClass().getResource("test.class.violet.html");
-		IFile aFile = new LocalFile(new File(resource.getFile()));
-        GraphFile graphFile = new GraphFile(aFile);
-		this.workspace = new Workspace(graphFile);
-		workspace.getAWTComponent().setSize(800, 600);
-		workspace.getAWTComponent().prepareLayout();
-		final IEditorPart editorPart = workspace.getEditorPart();
+	public EditorPartWidget(IEditorPart editorPart) throws IOException {
+	    this.editorPart = editorPart;
+		IGrid grid = editorPart.getGrid();
+		grid.setVisible(false);
 		final IEditorPartBehaviorManager behaviorManager = editorPart.getBehaviorManager();
-		this.graph = editorPart.getGraph();
 		mouseMoved().addListener(this, new Signal1.Listener<WMouseEvent>() {
 			@Override
 			public void trigger(WMouseEvent event) {
-				MouseEvent mouseEvent = convertMouseEvent(event, MouseEvent.MOUSE_MOVED, editorPart.getSwingComponent());
+				MouseEvent mouseEvent = convertMouseEvent(event, MouseEvent.MOUSE_MOVED, EditorPartWidget.this.editorPart.getSwingComponent());
 				behaviorManager.fireOnMouseMoved(mouseEvent);
 			}
 		});
@@ -55,7 +40,7 @@ public class WorkspaceWidget extends WPaintedWidget {
 			@Override
 			public void trigger(WMouseEvent event) {
 				update();
-				MouseEvent mouseEvent = convertMouseEvent(event, MouseEvent.MOUSE_DRAGGED, editorPart.getSwingComponent());
+				MouseEvent mouseEvent = convertMouseEvent(event, MouseEvent.MOUSE_DRAGGED, EditorPartWidget.this.editorPart.getSwingComponent());
 				behaviorManager.fireOnMouseDragged(mouseEvent);
 				update();
 			}
@@ -63,7 +48,7 @@ public class WorkspaceWidget extends WPaintedWidget {
 		mouseWentDown().addListener(this, new Signal1.Listener<WMouseEvent>() {
 			@Override
 			public void trigger(WMouseEvent event) {
-				MouseEvent mouseEvent = convertMouseEvent(event, MouseEvent.MOUSE_PRESSED, editorPart.getSwingComponent());
+				MouseEvent mouseEvent = convertMouseEvent(event, MouseEvent.MOUSE_PRESSED, EditorPartWidget.this.editorPart.getSwingComponent());
 				behaviorManager.fireOnMousePressed(mouseEvent);
 				update();
 			}
@@ -71,7 +56,7 @@ public class WorkspaceWidget extends WPaintedWidget {
 		mouseWentUp().addListener(this, new Signal1.Listener<WMouseEvent>() {
 			@Override
 			public void trigger(WMouseEvent event) {
-				MouseEvent mouseEvent = convertMouseEvent(event, MouseEvent.MOUSE_RELEASED, editorPart.getSwingComponent());
+				MouseEvent mouseEvent = convertMouseEvent(event, MouseEvent.MOUSE_RELEASED, EditorPartWidget.this.editorPart.getSwingComponent());
 				behaviorManager.fireOnMouseReleased(mouseEvent);
 				update();
 			}
@@ -79,19 +64,19 @@ public class WorkspaceWidget extends WPaintedWidget {
 		clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
 			@Override
 			public void trigger(WMouseEvent event) {
-				MouseEvent mouseEvent = convertMouseEvent(event, MouseEvent.MOUSE_CLICKED, editorPart.getSwingComponent());
+				MouseEvent mouseEvent = convertMouseEvent(event, MouseEvent.MOUSE_CLICKED, EditorPartWidget.this.editorPart.getSwingComponent());
 				behaviorManager.fireOnMouseClicked(mouseEvent);
 				update();
 			}
 		});
-		mouseWheel().addListener(this, new Signal1.Listener<WMouseEvent>() {
-			@Override
-			public void trigger(WMouseEvent event) {
-				MouseWheelEvent mouseWheelEvent = convertMouseWheelEvent(event, MouseEvent.MOUSE_WHEEL, editorPart.getSwingComponent());
-				behaviorManager.fireOnMouseWheelMoved(mouseWheelEvent);
-				update();
-			}
-		});
+//		mouseWheel().addListener(this, new Signal1.Listener<WMouseEvent>() {
+//			@Override
+//			public void trigger(WMouseEvent event) {
+//				MouseWheelEvent mouseWheelEvent = convertMouseWheelEvent(event, MouseEvent.MOUSE_WHEEL, editorPart.getSwingComponent());
+//				behaviorManager.fireOnMouseWheelMoved(mouseWheelEvent);
+//				update();
+//			}
+//		});
 		
 	}
 
@@ -147,7 +132,7 @@ public class WorkspaceWidget extends WPaintedWidget {
 		painter.setClipping(true);
 		paintDevice.init();
 		Graphics2D graphics = new CustomWebGraphics2D(painter);
-		((EditorPart) this.workspace.getEditorPart()).paintComponent(graphics);
+		this.editorPart.getSwingComponent().paint(graphics);
 		paintDevice.done();
 	}
 
@@ -155,13 +140,13 @@ public class WorkspaceWidget extends WPaintedWidget {
 	@Override
 	protected void layoutSizeChanged(int width, int height) {
 		super.layoutSizeChanged(width, height);
-		this.workspace.getAWTComponent().setSize(width, height);
+		this.editorPart.getSwingComponent().setSize(width, height);
 	}
 	
 	@Override
 	public void resize(WLength width, WLength height) {
 		super.resize(width, height);
-		this.workspace.getAWTComponent().setSize((int) width.toPixels() , (int) height.toPixels());
+		this.editorPart.getSwingComponent().setSize((int) width.toPixels() , (int) height.toPixels());
 	}
 
 }

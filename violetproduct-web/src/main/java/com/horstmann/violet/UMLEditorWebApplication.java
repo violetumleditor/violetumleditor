@@ -20,12 +20,17 @@
 
 package com.horstmann.violet;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.dialog.DialogFactoryMode;
+import com.horstmann.violet.framework.file.GraphFile;
+import com.horstmann.violet.framework.file.IFile;
+import com.horstmann.violet.framework.file.LocalFile;
 import com.horstmann.violet.framework.file.chooser.IFileChooserService;
 import com.horstmann.violet.framework.file.chooser.JFileChooserService;
 import com.horstmann.violet.framework.file.persistence.IFilePersistenceService;
@@ -39,6 +44,8 @@ import com.horstmann.violet.framework.theme.ITheme;
 import com.horstmann.violet.framework.theme.ThemeManager;
 import com.horstmann.violet.framework.userpreferences.DefaultUserPreferencesDao;
 import com.horstmann.violet.framework.userpreferences.IUserPreferencesDao;
+import com.horstmann.violet.workspace.IWorkspace;
+import com.horstmann.violet.workspace.Workspace;
 
 import eu.webtoolkit.jwt.WApplication;
 import eu.webtoolkit.jwt.WContainerWidget;
@@ -97,8 +104,16 @@ public class UMLEditorWebApplication extends WApplication
 
     private void createDefaultWorkspace() throws IOException
     {
+    	URL resource = getClass().getResource("test.class.violet.html");
+		IFile aFile = new LocalFile(new File(resource.getFile()));
+        GraphFile graphFile = new GraphFile(aFile);
+		IWorkspace workspace = new Workspace(graphFile);
+		workspace.getAWTComponent().setSize(800, 600);
+		workspace.getAWTComponent().prepareLayout();
+    	
+    	
         WVBoxLayout layout = new WVBoxLayout();
-        WorkspaceWidget widget = new WorkspaceWidget();
+        EditorPartWidget widget = new EditorPartWidget(workspace.getEditorPart());
         widget.resize(1024, 768);
         layout.addWidget(widget);
         WContainerWidget containerWidget = new WContainerWidget();
