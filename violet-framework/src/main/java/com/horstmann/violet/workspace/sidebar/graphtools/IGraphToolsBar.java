@@ -21,6 +21,8 @@
 
 package com.horstmann.violet.workspace.sidebar.graphtools;
 
+import java.util.List;
+
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.sidebar.ISideBarElement;
 
@@ -79,5 +81,22 @@ public interface IGraphToolsBar extends ISideBarElement
      * @return currently selected tool
      */
     public GraphTool getSelectedTool();
+    
+    /**
+     * Sets selected tool
+     * 
+     * @param tool
+     */
+    public void setSelectedTool(GraphTool t);
+    
+    /**
+     * @return current graph node tools
+     */
+    public List<GraphTool> getNodeTools();
+    
+    /**
+     * @return  current graph edge tools
+     */
+    public List<GraphTool> getEdgeTools();
 
 }

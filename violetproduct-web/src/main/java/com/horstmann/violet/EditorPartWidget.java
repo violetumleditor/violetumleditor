@@ -23,12 +23,18 @@ import eu.webtoolkit.jwt.WPainter;
 public class EditorPartWidget extends WPaintedWidget {
 
 	private IEditorPart editorPart;
+	
+	private int mouseDragGapX = 0;
+	private int mouseDragGapY = 0;
 
 	public EditorPartWidget(IEditorPart editorPart) throws IOException {
 	    this.editorPart = editorPart;
-		IGrid grid = editorPart.getGrid();
+		final IGrid grid = editorPart.getGrid();
 		grid.setVisible(false);
+		this.editorPart.getGraph().setGridSticker(grid.getGridSticker());
 		final IEditorPartBehaviorManager behaviorManager = editorPart.getBehaviorManager();
+		
+		
 		mouseMoved().addListener(this, new Signal1.Listener<WMouseEvent>() {
 			@Override
 			public void trigger(WMouseEvent event) {
@@ -39,10 +45,15 @@ public class EditorPartWidget extends WPaintedWidget {
 		mouseDragged().addListener(this, new Signal1.Listener<WMouseEvent>() {
 			@Override
 			public void trigger(WMouseEvent event) {
-				update();
 				MouseEvent mouseEvent = convertMouseEvent(event, MouseEvent.MOUSE_DRAGGED, EditorPartWidget.this.editorPart.getSwingComponent());
 				behaviorManager.fireOnMouseDragged(mouseEvent);
-				update();
+				int deltaX = Math.abs(event.getDragDelta().x);
+				int deltaY = Math.abs(event.getDragDelta().y);
+				if (Math.abs(deltaX - mouseDragGapX) >= grid.getSnappingWidth() || Math.abs(deltaY - mouseDragGapY) >= grid.getSnappingHeight()) {
+					update();
+					mouseDragGapX = deltaX;
+					mouseDragGapY = deltaY;
+				}
 			}
 		});
 		mouseWentDown().addListener(this, new Signal1.Listener<WMouseEvent>() {

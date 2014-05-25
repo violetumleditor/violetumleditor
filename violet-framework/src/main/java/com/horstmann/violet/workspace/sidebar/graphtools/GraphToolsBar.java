@@ -118,17 +118,13 @@ public class GraphToolsBar implements IGraphToolsBar, ISideBarElement
         return this.panel;
     }
 
-    /**
-     * @return current graph node tools
-     */
-    protected List<GraphTool> getNodeTools() {
+    @Override
+    public List<GraphTool> getNodeTools() {
         return this.nodeTools;
     }
     
-    /**
-     * @return current graph edge tools
-     */
-    protected List<GraphTool> getEdgeTools() {
+    @Override
+    public List<GraphTool> getEdgeTools() {
         return this.edgeTools;
     }
 
@@ -208,7 +204,8 @@ public class GraphToolsBar implements IGraphToolsBar, ISideBarElement
     }
 
 
-    protected void setSelectedTool(GraphTool t) {
+    @Override
+    public void setSelectedTool(GraphTool t) {
         boolean isNewSelection = !t.equals(this.selectedTool);
         this.selectedTool = t;
         if (isNewSelection) {

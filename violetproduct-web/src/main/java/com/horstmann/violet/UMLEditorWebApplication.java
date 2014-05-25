@@ -50,6 +50,7 @@ import com.horstmann.violet.workspace.Workspace;
 import eu.webtoolkit.jwt.WApplication;
 import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WEnvironment;
+import eu.webtoolkit.jwt.WHBoxLayout;
 import eu.webtoolkit.jwt.WVBoxLayout;
 
 /**
@@ -111,14 +112,16 @@ public class UMLEditorWebApplication extends WApplication
 		workspace.getAWTComponent().setSize(800, 600);
 		workspace.getAWTComponent().prepareLayout();
     	
+		WContainerWidget containerWidget = new WContainerWidget();
+		WHBoxLayout layout = new WHBoxLayout();
+		containerWidget.setLayout(layout);
+		getRoot().addWidget(containerWidget);
     	
-        WVBoxLayout layout = new WVBoxLayout();
-        EditorPartWidget widget = new EditorPartWidget(workspace.getEditorPart());
-        widget.resize(1024, 768);
-        layout.addWidget(widget);
-        WContainerWidget containerWidget = new WContainerWidget();
-        containerWidget.setLayout(layout);
-        getRoot().addWidget(containerWidget);
+        EditorPartWidget editorPartWidget = new EditorPartWidget(workspace.getEditorPart());
+        GraphToolsBarWidget graphToolsBarWidget = new GraphToolsBarWidget(workspace.getSideBar().getGraphToolsBar(), containerWidget);
+        editorPartWidget.resize(1024, 768);
+        layout.addWidget(graphToolsBarWidget);
+        layout.addWidget(editorPartWidget);
     }
 
     /**
