@@ -101,22 +101,19 @@ public class UMLEditorWebApplication extends WApplication
 
         DialogFactory dialogFactory = new DialogFactory(DialogFactoryMode.DELEGATED);
         BeanFactory.getFactory().register(DialogFactory.class, dialogFactory);
-        dialogFactory.setListener(new DialogFactoryListener() {
-			
-			@Override
-			public void mustDisplayPanel(JOptionPane optionPane, String title, boolean isModal) {
-				WDialog dialogBox = new WDialog(title);
-				dialogBox.setModal(isModal);
-				dialogBox.setWidth(new WLength(400));
-				dialogBox.setHeight(new WLength(400));
-				OptionPaneWidget optionPaneWidget = new OptionPaneWidget(optionPane);
-				dialogBox.getContents().addWidget(optionPaneWidget);
-				optionPaneWidget.resize(new WLength(400), new WLength(400));
-				dialogBox.rejectWhenEscapePressed();
-				dialogBox.show();
-				
-			}
-		});
+//        dialogFactory.setListener(new DialogFactoryListener() {
+//			
+//			@Override
+//			public void mustDisplayPanel(JOptionPane optionPane, String title, boolean isModal) {
+//				WDialog dialogBox = new WDialog(title);
+//				dialogBox.setModal(isModal);
+//				dialogBox.setWidth(new WLength(200));
+//				dialogBox.setHeight(new WLength(200));
+//				dialogBox.getContents().addWidget(new WLabel("Content"));
+//				dialogBox.rejectWhenEscapePressed();
+//				dialogBox.show();
+//			}
+//		});
         
 
         IFilePersistenceService filePersistenceService = new XHTMLPersistenceService();

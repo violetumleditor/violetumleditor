@@ -1,0 +1,11 @@
+Configuration example to enable gzip compression on Tomcat (server.xml file) :
+
+
+<Connector port="8080" maxHttpHeaderSize="8192"
+        maxThreads="150" minSpareThreads="25" maxSpareThreads="75"
+        enableLookups="false" redirectPort="8443" acceptCount="100"
+        connectionTimeout="20000" disableUploadTimeout="true"
+        compression="on"
+  		compressionMinSize="2048"
+  		noCompressionUserAgents="gozilla, traviata"
+  		compressableMimeType="text/html,text/xml,text/javascript"/>
