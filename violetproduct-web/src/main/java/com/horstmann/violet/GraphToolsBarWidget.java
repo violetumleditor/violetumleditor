@@ -3,6 +3,8 @@ package com.horstmann.violet;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
@@ -24,6 +26,12 @@ import eu.webtoolkit.jwt.servlet.WebResponse;
 public class GraphToolsBarWidget extends WCompositeWidget {
 
 	private IGraphToolsBar graphToolsBar;
+	
+	private List<WPushButton> graphToolButtonList = new ArrayList<WPushButton>();
+	
+	private static final String UNSELECTED_GRAPHTOOL_CSS_CLASS = "btn-info";
+	
+	private static final String SELECTED_GRAPHTOOL_CSS_CLASS = "btn-primary";
 
 	public GraphToolsBarWidget(final IGraphToolsBar graphToolsBar,
 			WContainerWidget parent) {
@@ -38,10 +46,12 @@ public class GraphToolsBarWidget extends WCompositeWidget {
 		for (final GraphTool aGraphTool : this.graphToolsBar.getNodeTools()) {
 			WPushButton graphToolButton = getButtonFromGraphTool(graphToolsBar,	aGraphTool);
 			vbox.addWidget(graphToolButton);
+			this.graphToolButtonList.add(graphToolButton);
 		}
 		for (final GraphTool aGraphTool : this.graphToolsBar.getEdgeTools()) {
 			WPushButton graphToolButton = getButtonFromGraphTool(graphToolsBar,	aGraphTool);
 			vbox.addWidget(graphToolButton);
+			this.graphToolButtonList.add(graphToolButton);
 		}
 		setImplementation(container);
 	}
@@ -66,11 +76,18 @@ public class GraphToolsBarWidget extends WCompositeWidget {
 		};
 		WPushButton graphToolButton = new WPushButton(aGraphTool.getLabel());
 		graphToolButton.setIcon(iconResource.generateUrl());
+		graphToolButton.setStyleClass(UNSELECTED_GRAPHTOOL_CSS_CLASS);
 		graphToolButton.clicked().addListener(graphToolButton, new Signal1.Listener<WMouseEvent>() {
 		    public void trigger(WMouseEvent e1) {
 		        graphToolsBar.setSelectedTool(aGraphTool);
+		        for (WPushButton aButton : graphToolButtonList) {
+		        	aButton.setStyleClass(UNSELECTED_GRAPHTOOL_CSS_CLASS);
+		        	setStyleClass(SELECTED_GRAPHTOOL_CSS_CLASS);
+		        }
 		    }
 		});
+		graphToolButton.setWidth(new WLength(120));
+		graphToolButton.setHeight(new WLength(30));
 		return graphToolButton;
 	}
 }

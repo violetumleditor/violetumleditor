@@ -105,6 +105,9 @@ public class UMLEditorWebApplication extends WApplication
 
     private void createDefaultWorkspace() throws IOException
     {
+    	
+    	
+    	
     	URL resource = getClass().getResource("test.class.violet.html");
 		IFile aFile = new LocalFile(new File(resource.getFile()));
         GraphFile graphFile = new GraphFile(aFile);
