@@ -26,7 +26,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import com.horstmann.violet.framework.dialog.DialogFactory;
+import com.horstmann.violet.framework.dialog.DialogFactoryListener;
 import com.horstmann.violet.framework.dialog.DialogFactoryMode;
 import com.horstmann.violet.framework.file.GraphFile;
 import com.horstmann.violet.framework.file.IFile;
@@ -49,8 +52,11 @@ import com.horstmann.violet.workspace.Workspace;
 
 import eu.webtoolkit.jwt.WApplication;
 import eu.webtoolkit.jwt.WContainerWidget;
+import eu.webtoolkit.jwt.WDialog;
 import eu.webtoolkit.jwt.WEnvironment;
 import eu.webtoolkit.jwt.WHBoxLayout;
+import eu.webtoolkit.jwt.WLabel;
+import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WVBoxLayout;
 
 /**
@@ -93,8 +99,25 @@ public class UMLEditorWebApplication extends WApplication
         themeManager.switchToTheme(theme1);
         BeanFactory.getFactory().register(ThemeManager.class, themeManager);
 
-        DialogFactory dialogFactory = new DialogFactory(DialogFactoryMode.INTERNAL);
+        DialogFactory dialogFactory = new DialogFactory(DialogFactoryMode.DELEGATED);
         BeanFactory.getFactory().register(DialogFactory.class, dialogFactory);
+        dialogFactory.setListener(new DialogFactoryListener() {
+			
+			@Override
+			public void mustDisplayPanel(JOptionPane optionPane, String title, boolean isModal) {
+				WDialog dialogBox = new WDialog(title);
+				dialogBox.setModal(isModal);
+				dialogBox.setWidth(new WLength(400));
+				dialogBox.setHeight(new WLength(400));
+				OptionPaneWidget optionPaneWidget = new OptionPaneWidget(optionPane);
+				dialogBox.getContents().addWidget(optionPaneWidget);
+				optionPaneWidget.resize(new WLength(400), new WLength(400));
+				dialogBox.rejectWhenEscapePressed();
+				dialogBox.show();
+				
+			}
+		});
+        
 
         IFilePersistenceService filePersistenceService = new XHTMLPersistenceService();
         BeanFactory.getFactory().register(IFilePersistenceService.class, filePersistenceService);

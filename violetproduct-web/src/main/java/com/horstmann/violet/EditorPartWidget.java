@@ -26,6 +26,8 @@ public class EditorPartWidget extends WPaintedWidget {
 	
 	private int mouseDragGapX = 0;
 	private int mouseDragGapY = 0;
+	
+	private MouseEvent lastMouseEvent;
 
 	public EditorPartWidget(IEditorPart editorPart) throws IOException {
 	    this.editorPart = editorPart;
@@ -115,8 +117,14 @@ public class EditorPartWidget extends WPaintedWidget {
 			modifiers |= MouseEvent.BUTTON3_DOWN_MASK;
 			button = MouseEvent.BUTTON3;
 		}
-
-		return new MouseEvent(c, type, System.currentTimeMillis(), modifiers, event.getWidget().x, event.getWidget().y, 1, event.getButton() == Button.RightButton, button);
+		
+		MouseEvent newMouseEvent = new MouseEvent(c, type, System.currentTimeMillis(), modifiers, event.getWidget().x, event.getWidget().y, 1, event.getButton() == Button.RightButton, button);
+		if (event.getButton() == Button.LeftButton && isDoubleClickDetected(this.lastMouseEvent, newMouseEvent)) {
+			newMouseEvent = new MouseEvent(c, type, System.currentTimeMillis(), modifiers, event.getWidget().x, event.getWidget().y, 2, event.getButton() == Button.RightButton, button);
+		}
+		this.lastMouseEvent = newMouseEvent;
+		
+		return newMouseEvent;
 	}
 	
 	
@@ -158,6 +166,16 @@ public class EditorPartWidget extends WPaintedWidget {
 	public void resize(WLength width, WLength height) {
 		super.resize(width, height);
 		this.editorPart.getSwingComponent().setSize((int) width.toPixels() , (int) height.toPixels());
+	}
+	
+	private boolean isDoubleClickDetected(MouseEvent firstMouseEvent, MouseEvent secondMouseEvent) {
+		if (firstMouseEvent == null || secondMouseEvent == null) {
+			return false;
+		}
+		boolean isSameButton = (firstMouseEvent.getButton() == secondMouseEvent.getButton());
+		boolean isButton1 = (firstMouseEvent.getButton() == MouseEvent.BUTTON1);
+		boolean isSameLocation = firstMouseEvent.getPoint().equals(secondMouseEvent.getPoint());
+		return isSameButton && isButton1 && isSameLocation;
 	}
 
 }
