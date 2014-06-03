@@ -13,6 +13,7 @@ import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
+import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
 import com.horstmann.violet.workspace.sidebar.graphtools.GraphTool;
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBar;
@@ -25,6 +26,7 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
         this.editorPart = editorPart;
         this.graph = editorPart.getGraph();
         this.selectionHandler = editorPart.getSelectionHandler();
+        this.behaviorManager = editorPart.getBehaviorManager();
         this.graphToolsBar = graphToolsBar;
     }
 
@@ -140,6 +142,9 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
         			resetSelectedElements();
         		}
         		this.selectionHandler.addSelectedElement(edge);
+        		if (this.selectionHandler.getSelectedEdges().size() == 1) {
+        			this.behaviorManager.fireOnEdgeSelected(edge);
+        		}
         	}
         	return;
         }
@@ -157,6 +162,9 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
                     resetSelectedElements();
                 }
                 this.selectionHandler.addSelectedElement(node);
+                if (this.selectionHandler.getSelectedNodes().size() == 1) {
+                	this.behaviorManager.fireOnNodeSelected(node);
+                }
             }
             return;
         }
@@ -229,6 +237,8 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
     private IGraph graph;
 
     private IEditorPartSelectionHandler selectionHandler;
+    
+    private IEditorPartBehaviorManager behaviorManager;
     
     private IGraphToolsBar graphToolsBar;
     
