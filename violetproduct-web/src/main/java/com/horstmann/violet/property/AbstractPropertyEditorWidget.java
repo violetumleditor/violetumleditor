@@ -29,6 +29,14 @@ public abstract class AbstractPropertyEditorWidget<T> extends WCompositeWidget {
 		this.propertyDescriptor = propertyDescriptor;
 		setImplementation(getCustomEditor());
 	}
+
+	protected Object getBean() {
+		return this.bean;
+	}
+	
+	protected PropertyDescriptor getPropertyDescriptor() {
+		return this.propertyDescriptor;
+	}
 	
     /**
      * A PropertyEditor may choose to make available a full custom Component

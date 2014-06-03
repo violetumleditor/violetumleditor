@@ -31,6 +31,7 @@ import java.io.Serializable;
 import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
 
+import com.horstmann.violet.framework.swingextension.MultiLineLabel;
 import com.horstmann.violet.framework.swingextension.UnderLinableJLabel;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
@@ -211,9 +212,9 @@ public class MultiLineString implements Serializable, Cloneable {
 		return cloned;
 	}
 
-	private UnderLinableJLabel getLabel() {
+	private MultiLineLabel getLabel() {
 		if (this.label == null) {
-			this.label = new UnderLinableJLabel();
+			this.label = new MultiLineLabel();
 			this.label.setBorder(new EmptyBorder(2, 2, 2, 2));
 		}
 		return this.label;
@@ -233,7 +234,7 @@ public class MultiLineString implements Serializable, Cloneable {
 	private int size;
 	@XStreamAsAttribute
 	private boolean underlined;
-	private transient UnderLinableJLabel label;
+	private transient MultiLineLabel label;
 	private transient boolean isBoundsDirty = true;
 	private transient Rectangle2D bounds;
 }
