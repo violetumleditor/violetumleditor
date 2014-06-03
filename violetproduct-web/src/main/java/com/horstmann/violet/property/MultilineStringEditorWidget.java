@@ -1,39 +1,45 @@
 package com.horstmann.violet.property;
 
+import java.beans.PropertyDescriptor;
+
 import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
 
 import eu.webtoolkit.jwt.Signal;
-import eu.webtoolkit.jwt.WCompositeWidget;
 import eu.webtoolkit.jwt.WTextArea;
+import eu.webtoolkit.jwt.WWidget;
 
-public abstract class MultilineStringEditorWidget extends WCompositeWidget {
-
-	private MultiLineString multiLineString;
+public class MultilineStringEditorWidget extends AbstractPropertyEditorWidget<MultiLineString> {
 
 	private WTextArea textAreaComponent;
 
-	public MultilineStringEditorWidget(MultiLineString multiLineString) {
-		super();
-		this.multiLineString = multiLineString;
-		setImplementation(getTextAreaComponent());
+	
+	public MultilineStringEditorWidget(Object bean, PropertyDescriptor propertyDescriptor) {
+		super(bean, propertyDescriptor);
 	}
 
-	public abstract void onValueChanged();
-
-	public MultiLineString getMultiLineString() {
-		return this.multiLineString;
-	}
 
 	private WTextArea getTextAreaComponent() {
 		if (this.textAreaComponent == null) {
-			this.textAreaComponent = new WTextArea(this.multiLineString.getText());
+			this.textAreaComponent = new WTextArea();
 			this.textAreaComponent.changed().addListener(this, new Signal.Listener() {
 				public void trigger() {
-					MultilineStringEditorWidget.this.multiLineString.setText(getTextAreaComponent().getText());
+					MultiLineString currentValue = getValue();
+					currentValue.setText(getTextAreaComponent().getText());
+					setValue(currentValue);
 				}
 			});
 		}
 		return this.textAreaComponent;
+	}
+
+	@Override
+	protected WWidget getCustomEditor() {
+		return getTextAreaComponent();
+	}
+
+	@Override
+	protected void updateCustomEditor() {
+		getTextAreaComponent().setText(super.getValue().getText());
 	}
 
 }

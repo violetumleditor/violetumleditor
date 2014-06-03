@@ -44,7 +44,6 @@ public abstract class AbstractPropertyEditorWidget<T> extends WCompositeWidget {
      *      edit the current property value.  May be null if this is
      *      not supported.
      */
-
     protected abstract WWidget getCustomEditor();
     
     /**
@@ -64,7 +63,8 @@ public abstract class AbstractPropertyEditorWidget<T> extends WCompositeWidget {
      */
     public void setValue(T value) {
     	this.newValue = value;
-    	if (!isKnownImmutable(type))
+    	firePropertyChanged(this.oldValue, this.newValue);
+    	if (!isKnownImmutable(this.propertyDescriptor.getPropertyType()))
         {
             try
             {
@@ -122,8 +122,17 @@ public abstract class AbstractPropertyEditorWidget<T> extends WCompositeWidget {
     	this.listeners.remove(listener);
     }
     
-    protected void firePropertyChanged(T newValue) {
-    	new PropertyChangeEvent(this.bean, this.propertyDescriptor.getName(), , newValue)
+    /**
+     * Fires property change event
+     * 
+     * @param oldValue
+     * @param newValue
+     */
+    private void firePropertyChanged(T oldValue, T newValue) {
+    	PropertyChangeEvent event = new PropertyChangeEvent(this.bean, this.propertyDescriptor.getName(), oldValue, newValue);
+    	for (PropertyChangeListener aListener : this.listeners) {
+    		aListener.propertyChange(event);
+    	}
     }
     
     
