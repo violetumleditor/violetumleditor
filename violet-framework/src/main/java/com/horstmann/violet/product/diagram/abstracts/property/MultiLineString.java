@@ -28,11 +28,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
-import javax.swing.JLabel;
-import javax.swing.border.EmptyBorder;
-
 import com.horstmann.violet.framework.swingextension.MultiLineLabel;
-import com.horstmann.violet.framework.swingextension.UnderLinableJLabel;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 /**
@@ -139,21 +135,14 @@ public class MultiLineString implements Serializable, Cloneable {
 	}
 
 	private void setLabelText() {
-		getLabel().setText(this.text);
+		getLabel().setLabel(text);
 		if (justification == LEFT)
-			getLabel().setHorizontalAlignment(JLabel.LEFT);
+			getLabel().setAlignment(MultiLineLabel.LEFT);
 		else if (justification == CENTER)
-			getLabel().setHorizontalAlignment(JLabel.CENTER);
+			getLabel().setAlignment(MultiLineLabel.CENTER);
 		else if (justification == RIGHT)
-			getLabel().setHorizontalAlignment(JLabel.RIGHT);
-		Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 10);
-		if (size == LARGE) {
-			font = font.deriveFont(Font.BOLD);
-		}
-		if (size == SMALL) {
-			font = font.deriveFont(Font.PLAIN);
-		}
-		getLabel().setFont(font);
+			getLabel().setAlignment(MultiLineLabel.RIGHT);
+		
 	}
 
 	/**
@@ -214,8 +203,16 @@ public class MultiLineString implements Serializable, Cloneable {
 
 	private MultiLineLabel getLabel() {
 		if (this.label == null) {
-			this.label = new MultiLineLabel();
-			this.label.setBorder(new EmptyBorder(2, 2, 2, 2));
+			this.label = new MultiLineLabel("");
+			Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 10);
+			if (size == LARGE) {
+				font = font.deriveFont(Font.BOLD);
+			}
+			if (size == SMALL) {
+				font = font.deriveFont(Font.PLAIN);
+			}
+			this.label.setFont(font);
+			this.label.setMarginWidth(2);
 		}
 		return this.label;
 	}
