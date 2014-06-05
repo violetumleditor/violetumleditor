@@ -25,45 +25,11 @@
 			<version>${applicationVersion}</version>
 		</dependency>
 		<!-- VIOLET (end) -->
-		<!-- JWT (deprecated) (start)  -->
+		<!-- JWT (start) -->
 		<dependency>
 			<groupId>eu.webtoolkit</groupId>
 			<artifactId>jwt</artifactId>
-			<version>3.1.11</version>
-		</dependency>
-		<!-- JWT (deprecated) (end)  -->
-		<!-- VAADIN (start) -->
-		<dependency>
-			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin-server</artifactId>
-			<version>7.1.12</version>
-		</dependency>
-		<dependency>
-			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin-client-compiled</artifactId>
-			<version>7.1.12</version>
-		</dependency>
-		<dependency>
-			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin-client</artifactId>
-			<version>7.1.12</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin-client-compiler</artifactId>
-			<version>7.1.12</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin-themes</artifactId>
-			<version>7.1.12</version>
-		</dependency>
-		<dependency>
-			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin-push</artifactId>
-			<version>7.1.12</version>
+			<version>3.3.3</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -71,16 +37,16 @@
 			<version>3.0.1</version>
 			<scope>provided</scope>
 		</dependency>
-		<!-- VAADIN (end) -->
+		<!-- JWT (end) -->
 	</dependencies>
 	<build>
 		<finalName>violetumleditor-${project.version}</finalName>
-		<plugins>
-			<plugin>
-				<groupId>com.vaadin</groupId>
-				<artifactId>vaadin-maven-plugin</artifactId>
-				<version>${vaadin.version}</version>
-			</plugin>
-		</plugins>
 	</build>
+	<repositories>
+		<repository>
+			<id>project.local</id>
+			<name>project</name>
+			<url>file:${project.basedir}/repo</url>
+		</repository>
+	</repositories>
 </project>

@@ -1,0 +1,4 @@
+This is an example of how to deploy jwt to this local repositiory :
+
+mvn deploy:deploy-file -Durl=file:///home/depellegrin/git/violetumleditor/violetproduct-web/src/repo -Dfile=/home/depellegrin/Téléchargements/jwt-3.3.3/dist/jwt-3.3.3.jar -DpomFile=/home/depellegrin/Téléchargements/jwt-3.3.3/jwt-3.3.3.pom
+mvn deploy:deploy-file -Durl=file:///home/depellegrin/git/violetumleditor/violetproduct-web/src/repo -Dfile=/home/depellegrin/Téléchargements/jwt-3.3.3/dist/jwt-auth-3.3.3.jar -DpomFile=/home/depellegrin/Téléchargements/jwt-3.3.3/jwt-auth-3.3.3.pom

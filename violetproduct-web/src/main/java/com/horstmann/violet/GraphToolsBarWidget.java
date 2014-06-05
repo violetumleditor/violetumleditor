@@ -16,6 +16,7 @@ import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WCompositeWidget;
 import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WLength;
+import eu.webtoolkit.jwt.WLink;
 import eu.webtoolkit.jwt.WMouseEvent;
 import eu.webtoolkit.jwt.WPushButton;
 import eu.webtoolkit.jwt.WResource;
@@ -74,8 +75,9 @@ public class GraphToolsBarWidget extends WCompositeWidget {
 				ImageIO.write(bi, "png", response.getOutputStream());
 			}
 		};
+		WLink iconLink = new WLink(iconResource);
 		WPushButton graphToolButton = new WPushButton(aGraphTool.getLabel());
-		graphToolButton.setIcon(iconResource.generateUrl());
+		graphToolButton.setIcon(iconLink);
 		graphToolButton.setStyleClass(UNSELECTED_GRAPHTOOL_CSS_CLASS);
 		graphToolButton.clicked().addListener(graphToolButton, new Signal1.Listener<WMouseEvent>() {
 		    public void trigger(WMouseEvent e1) {

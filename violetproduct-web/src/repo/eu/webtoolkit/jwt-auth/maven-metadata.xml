@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>eu.webtoolkit</groupId>
+  <artifactId>jwt-auth</artifactId>
+  <version>3.3.3</version>
+  <versioning>
+    <versions>
+      <version>3.3.3</version>
+    </versions>
+    <lastUpdated>20140605100019</lastUpdated>
+  </versioning>
+</metadata>

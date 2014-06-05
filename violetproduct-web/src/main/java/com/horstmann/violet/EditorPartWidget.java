@@ -167,7 +167,7 @@ public class EditorPartWidget extends WPaintedWidget {
 	@Override
 	protected void paintEvent(WPaintDevice paintDevice) {
 		WPainter painter = new WPainter(paintDevice);
-		painter.setClipping(true);
+		painter.setClipping(false);
 		paintDevice.init();
 		Graphics2D graphics = new CustomWebGraphics2D(painter);
 		this.editorPart.getSwingComponent().paint(graphics);

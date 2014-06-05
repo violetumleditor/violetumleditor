@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.horstmann.violet.framework.util.SerializableEnumeration;
-import com.vaadin.sass.internal.util.Clonable;
 
 import eu.webtoolkit.jwt.WCompositeWidget;
 import eu.webtoolkit.jwt.WWidget;
@@ -91,7 +90,7 @@ public abstract class AbstractPropertyEditorWidget<T> extends WCompositeWidget {
     {
         if (type.isPrimitive()) return true;
         if (SerializableEnumeration.class.isAssignableFrom(type)) return true;
-        if (Clonable.class.isAssignableFrom(type)) return true;
+        if (Cloneable.class.isAssignableFrom(type)) return true;
         return false;
     }
 
