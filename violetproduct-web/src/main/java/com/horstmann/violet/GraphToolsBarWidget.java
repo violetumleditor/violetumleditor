@@ -12,15 +12,20 @@ import javax.swing.Icon;
 import com.horstmann.violet.workspace.sidebar.graphtools.GraphTool;
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBar;
 
+import eu.webtoolkit.jwt.Orientation;
 import eu.webtoolkit.jwt.Signal1;
+import eu.webtoolkit.jwt.WAnchor;
 import eu.webtoolkit.jwt.WCompositeWidget;
 import eu.webtoolkit.jwt.WContainerWidget;
+import eu.webtoolkit.jwt.WImage;
 import eu.webtoolkit.jwt.WLength;
-import eu.webtoolkit.jwt.WLink;
+import eu.webtoolkit.jwt.WLength.Unit;
+import eu.webtoolkit.jwt.WMenu;
+import eu.webtoolkit.jwt.WMenuItem;
 import eu.webtoolkit.jwt.WMouseEvent;
-import eu.webtoolkit.jwt.WPushButton;
 import eu.webtoolkit.jwt.WResource;
-import eu.webtoolkit.jwt.WVBoxLayout;
+import eu.webtoolkit.jwt.WStackedWidget;
+import eu.webtoolkit.jwt.WText;
 import eu.webtoolkit.jwt.servlet.WebRequest;
 import eu.webtoolkit.jwt.servlet.WebResponse;
 
@@ -28,7 +33,7 @@ public class GraphToolsBarWidget extends WCompositeWidget {
 
 	private IGraphToolsBar graphToolsBar;
 	
-	private List<WPushButton> graphToolButtonList = new ArrayList<WPushButton>();
+	private List<WMenuItem> graphToolButtonList = new ArrayList<WMenuItem>();
 	
 	private static final String UNSELECTED_GRAPHTOOL_CSS_CLASS = "btn-info";
 	
@@ -41,23 +46,27 @@ public class GraphToolsBarWidget extends WCompositeWidget {
 		
 		
 	    WContainerWidget container = new WContainerWidget();
-	    container.resize(new WLength(150), new WLength(450));
-	    WVBoxLayout vbox = new WVBoxLayout();
-	    container.setLayout(vbox);
+	    WStackedWidget contents = new WStackedWidget();
+	    WMenu menu = new WMenu(contents, Orientation.Vertical, container);
+	    menu.setStyleClass("nav nav-pills nav-stacked");
+	    menu.setWidth(new WLength(200));
+	    
 		for (final GraphTool aGraphTool : this.graphToolsBar.getNodeTools()) {
-			WPushButton graphToolButton = getButtonFromGraphTool(graphToolsBar,	aGraphTool);
-			vbox.addWidget(graphToolButton);
-			this.graphToolButtonList.add(graphToolButton);
+			WMenuItem graphToolMenuItem = getMenuItemFromGraphTool(graphToolsBar,	aGraphTool);
+			menu.addItem(graphToolMenuItem);
+			this.graphToolButtonList.add(graphToolMenuItem);
 		}
 		for (final GraphTool aGraphTool : this.graphToolsBar.getEdgeTools()) {
-			WPushButton graphToolButton = getButtonFromGraphTool(graphToolsBar,	aGraphTool);
-			vbox.addWidget(graphToolButton);
-			this.graphToolButtonList.add(graphToolButton);
+			WMenuItem graphToolMenuItem = getMenuItemFromGraphTool(graphToolsBar,	aGraphTool);
+			menu.addItem(graphToolMenuItem);
+			this.graphToolButtonList.add(graphToolMenuItem);
 		}
+
 		setImplementation(container);
+		
 	}
 
-	private WPushButton getButtonFromGraphTool(
+	private WMenuItem getMenuItemFromGraphTool(
 			final IGraphToolsBar graphToolsBar, final GraphTool aGraphTool) {
 		WResource iconResource = new WResource() {
 
@@ -75,21 +84,35 @@ public class GraphToolsBarWidget extends WCompositeWidget {
 				ImageIO.write(bi, "png", response.getOutputStream());
 			}
 		};
-		WLink iconLink = new WLink(iconResource);
-		WPushButton graphToolButton = new WPushButton(aGraphTool.getLabel());
-		graphToolButton.setIcon(iconLink);
-		graphToolButton.setStyleClass(UNSELECTED_GRAPHTOOL_CSS_CLASS);
+		final WMenuItem graphToolButton = new WMenuItem(aGraphTool.getLabel());
+		WImage wImage = new WImage(iconResource, "icon");
+		WAnchor wAnchor = getAnchor(graphToolButton);
+		wAnchor.insertWidget(0, getSpaceText());
+		wAnchor.insertWidget(0, wImage);
 		graphToolButton.clicked().addListener(graphToolButton, new Signal1.Listener<WMouseEvent>() {
 		    public void trigger(WMouseEvent e1) {
 		        graphToolsBar.setSelectedTool(aGraphTool);
-		        for (WPushButton aButton : graphToolButtonList) {
-		        	aButton.setStyleClass(UNSELECTED_GRAPHTOOL_CSS_CLASS);
-		        	setStyleClass(SELECTED_GRAPHTOOL_CSS_CLASS);
-		        }
 		    }
 		});
-		graphToolButton.setWidth(new WLength(120));
-		graphToolButton.setHeight(new WLength(30));
 		return graphToolButton;
+	}
+	
+	
+	private WAnchor getAnchor(WMenuItem menuItem) {
+		for (int i = 0; i < menuItem.getCount(); ++i) {
+			WAnchor result = ((menuItem.getWidget(i)) instanceof WAnchor ? (WAnchor) (menuItem
+					.getWidget(i))
+					: null);
+			if (result != null) {
+				return result;
+			}
+		}
+		return null;
+	}
+	
+	private WText getSpaceText() {
+		WText spaceText = new WText(" ");
+		spaceText.setWidth(new WLength(10, Unit.Pixel));
+		return spaceText;
 	}
 }

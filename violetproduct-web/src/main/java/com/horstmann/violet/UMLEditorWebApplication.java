@@ -53,6 +53,7 @@ import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.behavior.AbstractEditorPartBehavior;
 
 import eu.webtoolkit.jwt.WApplication;
+import eu.webtoolkit.jwt.WBootstrapTheme;
 import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WEnvironment;
 import eu.webtoolkit.jwt.WHBoxLayout;
@@ -100,20 +101,6 @@ public class UMLEditorWebApplication extends WApplication
 
         DialogFactory dialogFactory = new DialogFactory(DialogFactoryMode.DELEGATED);
         BeanFactory.getFactory().register(DialogFactory.class, dialogFactory);
-//        dialogFactory.setListener(new DialogFactoryListener() {
-//			
-//			@Override
-//			public void mustDisplayPanel(JOptionPane optionPane, String title, boolean isModal) {
-//				WDialog dialogBox = new WDialog(title);
-//				dialogBox.setModal(isModal);
-//				dialogBox.setWidth(new WLength(200));
-//				dialogBox.setHeight(new WLength(200));
-//				dialogBox.getContents().addWidget(new WLabel("Content"));
-//				dialogBox.rejectWhenEscapePressed();
-//				dialogBox.show();
-//			}
-//		});
-        
 
         IFilePersistenceService filePersistenceService = new XHTMLPersistenceService();
         BeanFactory.getFactory().register(IFilePersistenceService.class, filePersistenceService);
@@ -124,7 +111,7 @@ public class UMLEditorWebApplication extends WApplication
 
     private void createDefaultWorkspace() throws IOException
     {
-    	
+    	setTheme(new WBootstrapTheme());
     	
     	
     	URL resource = getClass().getResource("test.class.violet.html");
