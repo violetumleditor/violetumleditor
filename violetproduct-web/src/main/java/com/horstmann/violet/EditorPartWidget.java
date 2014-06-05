@@ -6,7 +6,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.io.IOException;
 
-import com.horstmann.violet.workspace.editorpart.EditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.IGrid;
@@ -23,35 +22,23 @@ import eu.webtoolkit.jwt.WPainter;
 public class EditorPartWidget extends WPaintedWidget {
 
 	private IEditorPart editorPart;
-	
+
 	private int mouseDragGapX = 0;
 	private int mouseDragGapY = 0;
-	
+
 	private MouseEvent lastMouseEvent;
 
 	public EditorPartWidget(IEditorPart editorPart) throws IOException {
-	    this.editorPart = editorPart;
+		this.editorPart = editorPart;
 		final IGrid grid = editorPart.getGrid();
 		grid.setVisible(false);
 		this.editorPart.getGraph().setGridSticker(grid.getGridSticker());
 		final IEditorPartBehaviorManager behaviorManager = editorPart.getBehaviorManager();
-		
-		
-//		mouseMoved().addListener(this, new Signal1.Listener<WMouseEvent>() {
-//			@Override
-//			public void trigger(WMouseEvent event) {
-//				MouseEvent mouseEvent = convertMouseEvent(event, MouseEvent.MOUSE_MOVED, EditorPartWidget.this.editorPart.getSwingComponent());
-//				if (lastMouseEvent != null && isSameEvent(lastMouseEvent, mouseEvent)) {
-//					return;
-//				}
-//				behaviorManager.fireOnMouseMoved(mouseEvent);
-//				lastMouseEvent = mouseEvent;
-//			}
-//		});
+
 		mouseDragged().addListener(this, new Signal1.Listener<WMouseEvent>() {
 			@Override
 			public void trigger(WMouseEvent event) {
-				MouseEvent mouseEvent = convertMouseEvent(event, MouseEvent.MOUSE_DRAGGED, EditorPartWidget.this.editorPart.getSwingComponent());
+				MouseEvent mouseEvent = convertMouseEvent(event, MouseEvent.MOUSE_DRAGGED, 0, EditorPartWidget.this.editorPart.getSwingComponent());
 				if (lastMouseEvent != null && isSameEvent(lastMouseEvent, mouseEvent)) {
 					return;
 				}
@@ -69,21 +56,22 @@ public class EditorPartWidget extends WPaintedWidget {
 		mouseWentDown().addListener(this, new Signal1.Listener<WMouseEvent>() {
 			@Override
 			public void trigger(WMouseEvent event) {
-				MouseEvent mouseEvent = convertMouseEvent(event, MouseEvent.MOUSE_PRESSED, EditorPartWidget.this.editorPart.getSwingComponent());
+				MouseEvent mouseEvent = convertMouseEvent(event, MouseEvent.MOUSE_PRESSED, 0, EditorPartWidget.this.editorPart.getSwingComponent());
 				if (lastMouseEvent != null && isSameEvent(lastMouseEvent, mouseEvent)) {
 					return;
 				}
 				System.out.println("pressed");
 				behaviorManager.fireOnMousePressed(mouseEvent);
-				// No need to call update() that will be done on drag on button release;
+				// No need to call update() that will be done on drag on button
+				// release;
 				lastMouseEvent = mouseEvent;
 			}
 		});
-		
+
 		mouseWentUp().addListener(this, new Signal1.Listener<WMouseEvent>() {
 			@Override
 			public void trigger(WMouseEvent event) {
-				MouseEvent mouseEvent = convertMouseEvent(event, MouseEvent.MOUSE_RELEASED, EditorPartWidget.this.editorPart.getSwingComponent());
+				MouseEvent mouseEvent = convertMouseEvent(event, MouseEvent.MOUSE_RELEASED, 0, EditorPartWidget.this.editorPart.getSwingComponent());
 				if (lastMouseEvent != null && isSameEvent(lastMouseEvent, mouseEvent)) {
 					return;
 				}
@@ -96,28 +84,35 @@ public class EditorPartWidget extends WPaintedWidget {
 		clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
 			@Override
 			public void trigger(WMouseEvent event) {
-				MouseEvent mouseEvent = convertMouseEvent(event, MouseEvent.MOUSE_CLICKED, EditorPartWidget.this.editorPart.getSwingComponent());
+				MouseEvent mouseEvent = convertMouseEvent(event, MouseEvent.MOUSE_CLICKED, 1, EditorPartWidget.this.editorPart.getSwingComponent());
 				if (lastMouseEvent != null && isSameEvent(lastMouseEvent, mouseEvent)) {
 					return;
 				}
 				behaviorManager.fireOnMouseClicked(mouseEvent);
 				System.out.println("clicked");
-				// No need to call update() that will be done on drag on button release;
+				// No need to call update() that will be done on drag on button
+				// release;
 				lastMouseEvent = mouseEvent;
 			}
 		});
-//		mouseWheel().addListener(this, new Signal1.Listener<WMouseEvent>() {
-//			@Override
-//			public void trigger(WMouseEvent event) {
-//				MouseWheelEvent mouseWheelEvent = convertMouseWheelEvent(event, MouseEvent.MOUSE_WHEEL, editorPart.getSwingComponent());
-//				behaviorManager.fireOnMouseWheelMoved(mouseWheelEvent);
-//				update();
-//			}
-//		});
-		
+		doubleClicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
+			@Override
+			public void trigger(WMouseEvent event) {
+				MouseEvent mouseEvent = convertMouseEvent(event, MouseEvent.MOUSE_CLICKED, 2, EditorPartWidget.this.editorPart.getSwingComponent());
+				if (lastMouseEvent != null && isSameEvent(lastMouseEvent, mouseEvent)) {
+					return;
+				}
+				behaviorManager.fireOnMouseClicked(mouseEvent);
+				System.out.println("double clicked");
+				// No need to call update() that will be done on drag on button
+				// release;
+				lastMouseEvent = mouseEvent;
+			}
+		});
+
 	}
 
-	private MouseEvent convertMouseEvent(WMouseEvent event, int type, Component c) {
+	private MouseEvent convertMouseEvent(WMouseEvent event, int type, int clickCount, Component c) {
 		int modifiers = 0;
 
 		if (event.getModifiers().contains(KeyboardModifier.AltModifier))
@@ -141,12 +136,11 @@ public class EditorPartWidget extends WPaintedWidget {
 			modifiers |= MouseEvent.BUTTON3_DOWN_MASK;
 			button = MouseEvent.BUTTON3;
 		}
-		
-		MouseEvent newMouseEvent = new MouseEvent(c, type, System.currentTimeMillis(), modifiers, event.getWidget().x, event.getWidget().y, 1, event.getButton() == Button.RightButton, button);
+
+		MouseEvent newMouseEvent = new MouseEvent(c, type, System.currentTimeMillis(), modifiers, event.getWidget().x, event.getWidget().y, clickCount, event.getButton() == Button.RightButton, button);
 		return newMouseEvent;
 	}
-	
-	
+
 	private MouseWheelEvent convertMouseWheelEvent(WMouseEvent event, int type, Component c) {
 		int modifiers = 0;
 
@@ -160,7 +154,7 @@ public class EditorPartWidget extends WPaintedWidget {
 			modifiers |= MouseEvent.META_DOWN_MASK;
 
 		int wheelDelta = event.getWheelDelta();
-		
+
 		return new MouseWheelEvent(c, type, System.currentTimeMillis(), modifiers, event.getWidget().x, event.getWidget().y, 1, false, MouseWheelEvent.WHEEL_UNIT_SCROLL, 1, -wheelDelta);
 	}
 
@@ -174,19 +168,18 @@ public class EditorPartWidget extends WPaintedWidget {
 		paintDevice.done();
 	}
 
-	
 	@Override
 	protected void layoutSizeChanged(int width, int height) {
 		super.layoutSizeChanged(width, height);
 		this.editorPart.getSwingComponent().setSize(width, height);
 	}
-	
+
 	@Override
 	public void resize(WLength width, WLength height) {
 		super.resize(width, height);
-		this.editorPart.getSwingComponent().setSize((int) width.toPixels() , (int) height.toPixels());
+		this.editorPart.getSwingComponent().setSize((int) width.toPixels(), (int) height.toPixels());
 	}
-	
+
 	private boolean isSameEvent(MouseEvent firstMouseEvent, MouseEvent secondMouseEvent) {
 		if (firstMouseEvent == null || secondMouseEvent == null) {
 			return false;

@@ -5,7 +5,11 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
+import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
 import com.horstmann.violet.framework.util.SerializableEnumeration;
 
 import eu.webtoolkit.jwt.WCompositeWidget;
@@ -36,6 +40,24 @@ public abstract class AbstractPropertyEditorWidget<T> extends WCompositeWidget {
 	protected PropertyDescriptor getPropertyDescriptor() {
 		return this.propertyDescriptor;
 	}
+	
+	protected String getPropertyTitle() {
+		ResourceBundle rs = ResourceBundle.getBundle(ResourceBundleConstant.NODE_AND_EDGE_STRINGS, Locale.getDefault());
+		// Try to extract title from resource bundle
+		String title = this.propertyDescriptor.getName();
+		try {
+			String translatedTitle = rs.getString(title.toLowerCase());
+			if (translatedTitle != null)
+				title = translatedTitle;
+		} catch (MissingResourceException e) {
+			// Nothing to do
+		}
+
+		// Upper case the first character
+		title = title.substring(0, Math.min(1, title.length())).toUpperCase() + title.substring(Math.min(1, title.length()), title.length());
+		return title;
+	}
+
 	
     /**
      * A PropertyEditor may choose to make available a full custom Component

@@ -15,9 +15,12 @@ import java.util.ResourceBundle;
 
 import com.horstmann.violet.EditorPartWidget;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
-import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.BentStyle;
 import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
+import com.horstmann.violet.workspace.editorpart.IEditorPart;
+import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 
 import eu.webtoolkit.jwt.WCompositeWidget;
 import eu.webtoolkit.jwt.WContainerWidget;
@@ -27,20 +30,26 @@ import eu.webtoolkit.jwt.WVBoxLayout;
 public class PropertyEditorWidget extends WCompositeWidget {
 
 	private Object bean;
-	
-	private  EditorPartWidget editorPartWidget;
+	private EditorPartWidget editorPartWidget;
+	private IEditorPartBehaviorManager behaviorManager;
+	private boolean isSomethingToEdit = false;
 
-	public PropertyEditorWidget(Object bean, EditorPartWidget editorPartWidget) {
+	public PropertyEditorWidget(Object bean, IEditorPart editorPart, EditorPartWidget editorPartWidget) {
 		super();
 		this.bean = bean;
 		this.editorPartWidget = editorPartWidget;
+		this.behaviorManager = editorPart.getBehaviorManager();
 		populateWidget();
+	}
+
+	public boolean isEditable() {
+		return this.isSomethingToEdit;
 	}
 
 	private void populateWidget() {
 
 		WContainerWidget container = new WContainerWidget();
-		container.resize(new WLength(150), new WLength(450));
+		container.resize(new WLength(300), new WLength(250));
 		WVBoxLayout vbox = new WVBoxLayout();
 		try {
 			Introspector.flushFromCaches(bean.getClass());
@@ -65,6 +74,7 @@ public class PropertyEditorWidget extends WCompositeWidget {
 				AbstractPropertyEditorWidget<?> editor = getEditorWidget(bean, descriptors[i]);
 				if (editor != null) {
 					vbox.addWidget(editor);
+					this.isSomethingToEdit = true;
 				}
 			}
 		} catch (IntrospectionException exception) {
@@ -96,6 +106,12 @@ public class PropertyEditorWidget extends WCompositeWidget {
 					try {
 						Object newValue = editorWidget.getValue();
 						setter.invoke(bean, newValue);
+						if (bean instanceof INode) {
+							behaviorManager.fireWhileEditingNode((INode) bean, evt);
+						}
+						if (bean instanceof IEdge) {
+							behaviorManager.fireWhileEditingEdge((IEdge) bean, evt);
+						}
 						editorPartWidget.update();
 					} catch (IllegalAccessException exception) {
 						exception.printStackTrace();
@@ -125,4 +141,5 @@ public class PropertyEditorWidget extends WCompositeWidget {
 		return editorWidget;
 	}
 
+	
 }

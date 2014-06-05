@@ -35,7 +35,7 @@ public class MultilineStringEditorWidget extends AbstractPropertyEditorWidget<Mu
 	
 	private WLabel getTitleLabel() {
 		if (this.titleLabel == null) {
-			this.titleLabel = new WLabel(getPropertyDescriptor().getName());
+			this.titleLabel = new WLabel(getPropertyTitle());
 		}
 		return this.titleLabel;
 	}
