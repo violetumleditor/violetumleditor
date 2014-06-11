@@ -7,6 +7,8 @@ import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
 import eu.webtoolkit.jwt.Signal;
 import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WLabel;
+import eu.webtoolkit.jwt.WLength;
+import eu.webtoolkit.jwt.WLength.Unit;
 import eu.webtoolkit.jwt.WTextArea;
 import eu.webtoolkit.jwt.WVBoxLayout;
 import eu.webtoolkit.jwt.WWidget;
@@ -29,6 +31,8 @@ public class MultilineStringEditorWidget extends AbstractPropertyEditorWidget<Mu
 			editorLayout.addWidget(getTitleLabel());
 			editorLayout.addWidget(getTextAreaComponent());
 			this.editorWidget.setLayout(editorLayout);
+			this.editorWidget.setWidth(getTextAreaComponent().getWidth());
+			this.editorWidget.setHeight(new WLength(getTitleLabel().getHeight().toPixels() + getTextAreaComponent().getHeight().toPixels(), Unit.Pixel));
 		}
 		return this.editorWidget;
 	}
@@ -43,6 +47,8 @@ public class MultilineStringEditorWidget extends AbstractPropertyEditorWidget<Mu
 	private WTextArea getTextAreaComponent() {
 		if (this.textAreaComponent == null) {
 			this.textAreaComponent = new WTextArea();
+			this.textAreaComponent.setWidth(new WLength(300, Unit.Pixel));
+			this.textAreaComponent.setHeight(new WLength(100, Unit.Pixel));
 			this.textAreaComponent.changed().addListener(this, new Signal.Listener() {
 				public void trigger() {
 					MultiLineString currentValue = getValue();

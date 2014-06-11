@@ -25,6 +25,8 @@ import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import eu.webtoolkit.jwt.WCompositeWidget;
 import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WLength;
+import eu.webtoolkit.jwt.WLength.Unit;
+import eu.webtoolkit.jwt.WScrollArea;
 import eu.webtoolkit.jwt.WVBoxLayout;
 
 public class PropertyEditorWidget extends WCompositeWidget {
@@ -49,7 +51,6 @@ public class PropertyEditorWidget extends WCompositeWidget {
 	private void populateWidget() {
 
 		WContainerWidget container = new WContainerWidget();
-		container.resize(new WLength(300), new WLength(250));
 		WVBoxLayout vbox = new WVBoxLayout();
 		try {
 			Introspector.flushFromCaches(bean.getClass());
@@ -70,6 +71,13 @@ public class PropertyEditorWidget extends WCompositeWidget {
 			});
 
 			ResourceBundle rs = ResourceBundle.getBundle(ResourceBundleConstant.NODE_AND_EDGE_STRINGS, Locale.getDefault());
+			for (int i = 0; i < descriptors.length; i++) {
+				AbstractPropertyEditorWidget<?> editor = getEditorWidget(bean, descriptors[i]);
+				if (editor != null) {
+					vbox.addWidget(editor);
+					this.isSomethingToEdit = true;
+				}
+			}
 			for (int i = 0; i < descriptors.length; i++) {
 				AbstractPropertyEditorWidget<?> editor = getEditorWidget(bean, descriptors[i]);
 				if (editor != null) {

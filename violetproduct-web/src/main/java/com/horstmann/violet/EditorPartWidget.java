@@ -4,7 +4,6 @@ import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
-import java.io.IOException;
 
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
@@ -28,7 +27,7 @@ public class EditorPartWidget extends WPaintedWidget {
 
 	private MouseEvent lastMouseEvent;
 
-	public EditorPartWidget(IEditorPart editorPart) throws IOException {
+	public EditorPartWidget(IEditorPart editorPart) {
 		this.editorPart = editorPart;
 		final IGrid grid = editorPart.getGrid();
 		grid.setVisible(false);

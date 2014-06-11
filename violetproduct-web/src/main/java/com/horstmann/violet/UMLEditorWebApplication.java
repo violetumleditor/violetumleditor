@@ -46,14 +46,10 @@ import com.horstmann.violet.framework.userpreferences.DefaultUserPreferencesDao;
 import com.horstmann.violet.framework.userpreferences.IUserPreferencesDao;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
-import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 
 import eu.webtoolkit.jwt.WApplication;
 import eu.webtoolkit.jwt.WBootstrapTheme;
-import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WEnvironment;
-import eu.webtoolkit.jwt.WHBoxLayout;
-import eu.webtoolkit.jwt.WPanel;
 
 /**
  * A program for editing UML diagrams.
@@ -111,25 +107,8 @@ public class UMLEditorWebApplication extends WApplication {
 		IFile aFile = new LocalFile(new File(resource.getFile()));
 		GraphFile graphFile = new GraphFile(aFile);
 		IWorkspace workspace = new Workspace(graphFile);
-		workspace.getAWTComponent().setSize(800, 600);
-		workspace.getAWTComponent().prepareLayout();
-
-		WContainerWidget containerWidget = new WContainerWidget();
-		WHBoxLayout layout = new WHBoxLayout();
-		containerWidget.setLayout(layout);
-		getRoot().addWidget(containerWidget);
-
-		final EditorPartWidget editorPartWidget = new EditorPartWidget(workspace.getEditorPart());
-		GraphToolsBarWidget graphToolsBarWidget = new GraphToolsBarWidget(workspace.getSideBar().getGraphToolsBar(), containerWidget);
-		editorPartWidget.resize(1024, 768);
-		layout.addWidget(graphToolsBarWidget);
-		layout.addWidget(editorPartWidget);
-		final WPanel propertyPanel = new WPanel();
-		layout.addWidget(propertyPanel);
-		EditSelectedBehavior editSelectedBehavior = new EditSelectedBehavior(workspace.getEditorPart(), editorPartWidget);
-		IEditorPartBehaviorManager behaviorManager = workspace.getEditorPart().getBehaviorManager();
-		behaviorManager.addBehavior(editSelectedBehavior);
-
+		WorkspaceWidget workspaceWidget = new WorkspaceWidget(workspace);
+		getRoot().addWidget(workspaceWidget);
 	}
 
 	/**
