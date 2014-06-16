@@ -46,7 +46,7 @@
 		<repository>
 			<id>project.local</id>
 			<name>project</name>
-			<url>file:${project.basedir}/repo</url>
+			<url>file:${project.basedir}/src/repo</url>
 		</repository>
 	</repositories>
 </project>

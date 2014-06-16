@@ -1,26 +1,26 @@
 package com.horstmann.violet;
 
-import com.horstmann.violet.framework.file.IGraphFile;
 import com.horstmann.violet.workspace.IWorkspace;
-import com.horstmann.violet.workspace.Workspace;
+import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
+import com.horstmann.violet.workspace.sidebar.ISideBar;
 
 import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WHBoxLayout;
+import eu.webtoolkit.jwt.WLength;
+import eu.webtoolkit.jwt.WLength.Unit;
 
 public class WorkspaceWidget extends WContainerWidget {
 	
-	private IWorkspace workspace;
-
-	private WHBoxLayout mainLayout;
+	
+	private SideBarWidget sideBarWidget;
 	private EditorPartWidget editorPartWidget;
-	private GraphToolsBarWidget graphToolsBarWidget;
-
+	private IWorkspace workspace;
+	private WHBoxLayout mainLayout;
+	
 	public WorkspaceWidget(IWorkspace workspace) {
 		super();
 		this.workspace = workspace;
-		this.workspace.getAWTComponent().setSize(800, 600);
-		this.workspace.getAWTComponent().prepareLayout();
 		setLayout(getMainLayout());
 		addSpecificBehavior();
 	}
@@ -34,26 +34,32 @@ public class WorkspaceWidget extends WContainerWidget {
 	private WHBoxLayout getMainLayout() {
 		if (this.mainLayout == null) {
 			this.mainLayout = new WHBoxLayout();
-			this.mainLayout.addWidget(getGraphToolsBarWidget());
-			this.mainLayout.addWidget(getEditorPartWidget());
+			this.mainLayout.addWidget(getSideBarWidget());
+			this.mainLayout.addWidget(getEditorPartWidget(), 1);
 		}
 		return this.mainLayout;
 	}
 	
+	private SideBarWidget getSideBarWidget() {
+		if (this.sideBarWidget == null) {
+			ISideBar sideBar = this.workspace.getSideBar();
+			this.sideBarWidget = new SideBarWidget(sideBar);
+			this.sideBarWidget.setWidth(new WLength(150, Unit.Pixel));
+		}
+		return this.sideBarWidget;
+	}
+	
 	private EditorPartWidget getEditorPartWidget() {
 		if (this.editorPartWidget == null) {
-			this.editorPartWidget = new EditorPartWidget(this.workspace.getEditorPart());
+			IEditorPart editorPart = this.workspace.getEditorPart();
+			this.editorPartWidget = new EditorPartWidget(editorPart);
+			EditSelectedBehavior editSelectedBehavior = new EditSelectedBehavior(editorPart, this.editorPartWidget);
+			IEditorPartBehaviorManager behaviorManager = editorPart.getBehaviorManager();
+			behaviorManager.addBehavior(editSelectedBehavior);
 			this.editorPartWidget.resize(1024, 768);
 		}
 		return this.editorPartWidget;
 	}
 	
-	
-	private GraphToolsBarWidget getGraphToolsBarWidget() {
-		if (this.graphToolsBarWidget == null) {
-			this.graphToolsBarWidget = new GraphToolsBarWidget(workspace.getSideBar().getGraphToolsBar(), this);
-		}
-		return this.graphToolsBarWidget;
-	}
 
 }

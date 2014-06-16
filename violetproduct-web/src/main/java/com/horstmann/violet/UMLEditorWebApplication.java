@@ -107,6 +107,8 @@ public class UMLEditorWebApplication extends WApplication {
 		IFile aFile = new LocalFile(new File(resource.getFile()));
 		GraphFile graphFile = new GraphFile(aFile);
 		IWorkspace workspace = new Workspace(graphFile);
+		workspace.getAWTComponent().setSize(800, 600);
+		workspace.getAWTComponent().prepareLayout();
 		WorkspaceWidget workspaceWidget = new WorkspaceWidget(workspace);
 		getRoot().addWidget(workspaceWidget);
 	}
