@@ -10,7 +10,9 @@ import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.IGrid;
 
 import eu.webtoolkit.jwt.KeyboardModifier;
+import eu.webtoolkit.jwt.Signal;
 import eu.webtoolkit.jwt.Signal1;
+import eu.webtoolkit.jwt.Signal2;
 import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WMouseEvent;
 import eu.webtoolkit.jwt.WMouseEvent.Button;
@@ -89,20 +91,6 @@ public class EditorPartWidget extends WPaintedWidget {
 				}
 				behaviorManager.fireOnMouseClicked(mouseEvent);
 				System.out.println("clicked");
-				// No need to call update() that will be done on drag on button
-				// release;
-				lastMouseEvent = mouseEvent;
-			}
-		});
-		doubleClicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
-			@Override
-			public void trigger(WMouseEvent event) {
-				MouseEvent mouseEvent = convertMouseEvent(event, MouseEvent.MOUSE_CLICKED, 2, EditorPartWidget.this.editorPart.getSwingComponent());
-				if (lastMouseEvent != null && isSameEvent(lastMouseEvent, mouseEvent)) {
-					return;
-				}
-				behaviorManager.fireOnMouseClicked(mouseEvent);
-				System.out.println("double clicked");
 				// No need to call update() that will be done on drag on button
 				// release;
 				lastMouseEvent = mouseEvent;
@@ -190,5 +178,8 @@ public class EditorPartWidget extends WPaintedWidget {
 		boolean isSameType = (firstMouseEvent.getID() == secondMouseEvent.getID());
 		return isSameButton && isSameLocation && isSameModifiers && isSameClickCount && isSameType;
 	}
+	
+	
+
 
 }
