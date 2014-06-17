@@ -103,8 +103,10 @@ public abstract class AbstractTheme implements ITheme
      */
     private void updateTaskPaneUI()
     {
-        LookAndFeelAddons addons = new WindowsLookAndFeelAddons();
-        LookAndFeelAddons.setAddon(addons);
+    	LookAndFeelAddons addons = new WindowsLookAndFeelAddons();
+    	if (LookAndFeelAddons.getAddon() == null) {
+    		LookAndFeelAddons.setAddon(addons);
+    	}
 
         UIDefaults defaults = UIManager.getDefaults();
         Map<String, Object> m = new HashMap<String, Object>();
