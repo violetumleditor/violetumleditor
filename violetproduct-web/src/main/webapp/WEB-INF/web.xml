@@ -19,9 +19,12 @@
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
 
-	<session-config>
-		<tracking-mode>URL</tracking-mode>
-	</session-config>
+	<listener>
+		<listener-class>com.horstmann.violet.util.BeanFactoryServletContextListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>eu.webtoolkit.jwt.ServletInit</listener-class>
+	</listener>
 
 </web-app>
 

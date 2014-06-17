@@ -246,6 +246,9 @@ public class ManiocFramework {
 
                 /** Current factory context */
                 private Class<? extends DefaultApplicationContext> context;
+                
+                /** This flag indicates if Manioc has to finalize managed beans or not on JVM shutdown */ 
+                private static boolean isFinalizeBeansDelegated = false;
 
 
                 /**
@@ -255,13 +258,9 @@ public class ManiocFramework {
                         Runtime.getRuntime().addShutdownHook(new Thread() {
                                 @Override
                                 public void run() {
-                                        for (Map<Object, Class<? extends DefaultApplicationContext>> beansForAClassLoader : managedBeansPerClassloader.values()) {
-                                                Set<Object> beanSet = beansForAClassLoader.keySet();
-                                                for (Object aBean : beanSet) {
-                                                        Class<? extends DefaultApplicationContext> beanContext = beansForAClassLoader.get(aBean);
-                                                        BeanFactory.preDestroy(aBean, beanContext);
-                                                }
-                                        }
+                                	if (!isFinalizeBeansDelegated) {
+                                		finalizeManagedBeans();
+                                	}
                                 }
                         });
                 }
@@ -716,7 +715,28 @@ public class ManiocFramework {
                         return beans;
                 }
 
+                
                 /**
+                 *  Indicates if Manioc has to finalize or not managed beans on JVM shutdown. Set this to true if you're in a web app, implements ServletContextListener and call finalizeManagedBeans() directly. 
+                 */ 
+                public static void delegatesBeanFinalization(boolean isDelegated) {
+                	isFinalizeBeansDelegated = isDelegated;
+                }
+                
+                /**
+                 * Finalizes all managed beans by calling methods annotated with \@PreDestroy annotation 
+                 */
+                public static void finalizeManagedBeans() {
+					for (Map<Object, Class<? extends DefaultApplicationContext>> beansForAClassLoader : managedBeansPerClassloader.values()) {
+					        Set<Object> beanSet = beansForAClassLoader.keySet();
+					        for (Object aBean : beanSet) {
+					                Class<? extends DefaultApplicationContext> beanContext = beansForAClassLoader.get(aBean);
+					                BeanFactory.preDestroy(aBean, beanContext);
+					        }
+					}
+				}
+
+				/**
                  * Verifies if this class is annotated with \@ManagedBean <br/>
                  * which means that this factory can handle it
                  * 
