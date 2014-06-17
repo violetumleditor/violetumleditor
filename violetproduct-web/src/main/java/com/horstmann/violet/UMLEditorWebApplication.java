@@ -80,7 +80,8 @@ public class UMLEditorWebApplication extends WApplication {
 
 	private void initBeanFactory() {
 		IUserPreferencesDao userPreferencesDao = new DefaultUserPreferencesDao();
-		BeanFactory.getFactory().register(IUserPreferencesDao.class, userPreferencesDao);
+		BeanFactory.getFactory().register(IUserPreferencesDao.class,
+				userPreferencesDao);
 
 		ThemeManager themeManager = new ThemeManager();
 		ITheme theme1 = new ClassicMetalTheme();
@@ -90,19 +91,23 @@ public class UMLEditorWebApplication extends WApplication {
 		themeManager.switchToTheme(theme1);
 		BeanFactory.getFactory().register(ThemeManager.class, themeManager);
 
-		DialogFactory dialogFactory = new DialogFactory(DialogFactoryMode.DELEGATED);
+		DialogFactory dialogFactory = new DialogFactory(
+				DialogFactoryMode.DELEGATED);
 		BeanFactory.getFactory().register(DialogFactory.class, dialogFactory);
 
 		IFilePersistenceService filePersistenceService = new XHTMLPersistenceService();
-		BeanFactory.getFactory().register(IFilePersistenceService.class, filePersistenceService);
+		BeanFactory.getFactory().register(IFilePersistenceService.class,
+				filePersistenceService);
 
 		IFileChooserService fileChooserService = new JFileChooserService();
-		BeanFactory.getFactory().register(IFileChooserService.class, fileChooserService);
+		BeanFactory.getFactory().register(IFileChooserService.class,
+				fileChooserService);
 	}
 
 	private void createDefaultWorkspace() throws IOException {
 		setTheme(new WBootstrapTheme());
-
+		
+		
 		URL resource = getClass().getResource("test.class.violet.html");
 		IFile aFile = new LocalFile(new File(resource.getFile()));
 		GraphFile graphFile = new GraphFile(aFile);
