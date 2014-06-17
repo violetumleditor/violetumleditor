@@ -78,13 +78,6 @@ public class PropertyEditorWidget extends WCompositeWidget {
 					this.isSomethingToEdit = true;
 				}
 			}
-			for (int i = 0; i < descriptors.length; i++) {
-				AbstractPropertyEditorWidget<?> editor = getEditorWidget(bean, descriptors[i]);
-				if (editor != null) {
-					vbox.addWidget(editor);
-					this.isSomethingToEdit = true;
-				}
-			}
 		} catch (IntrospectionException exception) {
 			exception.printStackTrace();
 		}

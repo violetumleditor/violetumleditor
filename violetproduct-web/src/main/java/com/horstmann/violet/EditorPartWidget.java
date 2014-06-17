@@ -4,15 +4,14 @@ import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
+import java.util.Date;
 
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.IGrid;
 
 import eu.webtoolkit.jwt.KeyboardModifier;
-import eu.webtoolkit.jwt.Signal;
 import eu.webtoolkit.jwt.Signal1;
-import eu.webtoolkit.jwt.Signal2;
 import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WMouseEvent;
 import eu.webtoolkit.jwt.WMouseEvent.Button;
@@ -26,9 +25,12 @@ public class EditorPartWidget extends WPaintedWidget {
 
 	private int mouseDragGapX = 0;
 	private int mouseDragGapY = 0;
+	
+	private static final long DOUBLE_CLICK_MAX_GAP = 500;
 
 	private MouseEvent lastMouseEvent;
-
+	private long lastMouseClickTimestamp = 0;
+	
 	public EditorPartWidget(IEditorPart editorPart) {
 		this.editorPart = editorPart;
 		final IGrid grid = editorPart.getGrid();
@@ -89,11 +91,16 @@ public class EditorPartWidget extends WPaintedWidget {
 				if (lastMouseEvent != null && isSameEvent(lastMouseEvent, mouseEvent)) {
 					return;
 				}
+				long currentTimestamp = (new Date()).getTime();
+				if (isDoubleClickDetected(lastMouseClickTimestamp, currentTimestamp)) {
+					mouseEvent = convertMouseEvent(event, MouseEvent.MOUSE_CLICKED, 2, EditorPartWidget.this.editorPart.getSwingComponent());
+				}
+				lastMouseEvent = mouseEvent;
+				lastMouseClickTimestamp = currentTimestamp;
 				behaviorManager.fireOnMouseClicked(mouseEvent);
 				System.out.println("clicked");
 				// No need to call update() that will be done on drag on button
 				// release;
-				lastMouseEvent = mouseEvent;
 			}
 		});
 
@@ -176,7 +183,15 @@ public class EditorPartWidget extends WPaintedWidget {
 		boolean isSameModifiers = (firstMouseEvent.getModifiers() == secondMouseEvent.getModifiers());
 		boolean isSameClickCount = (firstMouseEvent.getClickCount() == secondMouseEvent.getClickCount());
 		boolean isSameType = (firstMouseEvent.getID() == secondMouseEvent.getID());
-		return isSameButton && isSameLocation && isSameModifiers && isSameClickCount && isSameType;
+		boolean isSameEvent = isSameButton && isSameLocation && isSameModifiers && isSameClickCount && isSameType;
+		return isSameEvent;
+	}
+	
+	private boolean isDoubleClickDetected(long firstMouseEventTimestamp, long secondMouseEventTimestamp) {
+		if (secondMouseEventTimestamp - firstMouseEventTimestamp <= DOUBLE_CLICK_MAX_GAP) {
+			return true;
+		}
+		return false;
 	}
 	
 	
