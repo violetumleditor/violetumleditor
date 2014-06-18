@@ -53,9 +53,6 @@ public class WorkspaceWidget extends WContainerWidget {
 		if (this.editorPartWidget == null) {
 			IEditorPart editorPart = this.workspace.getEditorPart();
 			this.editorPartWidget = new EditorPartWidget(editorPart);
-			EditSelectedBehavior editSelectedBehavior = new EditSelectedBehavior(editorPart, this.editorPartWidget);
-			IEditorPartBehaviorManager behaviorManager = editorPart.getBehaviorManager();
-			behaviorManager.addBehavior(editSelectedBehavior);
 			this.editorPartWidget.resize(1024, 768);
 		}
 		return this.editorPartWidget;

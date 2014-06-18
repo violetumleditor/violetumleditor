@@ -4,7 +4,6 @@ import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
-import java.util.Date;
 
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
@@ -25,12 +24,9 @@ public class EditorPartWidget extends WPaintedWidget {
 
 	private int mouseDragGapX = 0;
 	private int mouseDragGapY = 0;
-	
-	private static final long DOUBLE_CLICK_MAX_GAP = 500;
 
 	private MouseEvent lastMouseEvent;
-	private long lastMouseClickTimestamp = 0;
-	
+
 	public EditorPartWidget(IEditorPart editorPart) {
 		this.editorPart = editorPart;
 		final IGrid grid = editorPart.getGrid();
@@ -91,16 +87,24 @@ public class EditorPartWidget extends WPaintedWidget {
 				if (lastMouseEvent != null && isSameEvent(lastMouseEvent, mouseEvent)) {
 					return;
 				}
-				long currentTimestamp = (new Date()).getTime();
-				if (isDoubleClickDetected(lastMouseClickTimestamp, currentTimestamp)) {
-					mouseEvent = convertMouseEvent(event, MouseEvent.MOUSE_CLICKED, 2, EditorPartWidget.this.editorPart.getSwingComponent());
-				}
-				lastMouseEvent = mouseEvent;
-				lastMouseClickTimestamp = currentTimestamp;
-				behaviorManager.fireOnMouseClicked(mouseEvent);
 				System.out.println("clicked");
+				behaviorManager.fireOnMouseClicked(mouseEvent);
+				lastMouseEvent = mouseEvent;
 				// No need to call update() that will be done on drag on button
 				// release;
+			}
+		});
+		doubleClicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
+			@Override
+			public void trigger(WMouseEvent event) {
+				MouseEvent mouseEvent = convertMouseEvent(event, MouseEvent.MOUSE_CLICKED, 2, EditorPartWidget.this.editorPart.getSwingComponent());
+				if (lastMouseEvent != null && isSameEvent(lastMouseEvent, mouseEvent)) {
+					return;
+				}
+				System.out.println("double clicked");
+				behaviorManager.fireOnMouseClicked(mouseEvent);
+				lastMouseEvent = mouseEvent;
+				update();
 			}
 		});
 
@@ -186,15 +190,5 @@ public class EditorPartWidget extends WPaintedWidget {
 		boolean isSameEvent = isSameButton && isSameLocation && isSameModifiers && isSameClickCount && isSameType;
 		return isSameEvent;
 	}
-	
-	private boolean isDoubleClickDetected(long firstMouseEventTimestamp, long secondMouseEventTimestamp) {
-		if (secondMouseEventTimestamp - firstMouseEventTimestamp <= DOUBLE_CLICK_MAX_GAP) {
-			return true;
-		}
-		return false;
-	}
-	
-	
-
 
 }
