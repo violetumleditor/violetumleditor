@@ -1,4 +1,4 @@
-package com.horstmann.violet;
+package com.horstmann.violet.web.workspace.sidebar;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;

@@ -1,4 +1,4 @@
-package com.horstmann.violet;
+package com.horstmann.violet.web.util.jwt;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;

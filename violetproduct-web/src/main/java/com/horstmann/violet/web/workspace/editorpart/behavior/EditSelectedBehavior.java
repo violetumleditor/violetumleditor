@@ -1,4 +1,4 @@
-package com.horstmann.violet;
+package com.horstmann.violet.web.workspace.editorpart.behavior;
 
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
@@ -11,7 +11,8 @@ import com.horstmann.violet.framework.injection.resources.annotation.ResourceBun
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.property.PropertyEditorWidget;
+import com.horstmann.violet.web.property.PropertyEditorWidget;
+import com.horstmann.violet.web.workspace.editorpart.EditorPartWidget;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
 import com.horstmann.violet.workspace.editorpart.behavior.AbstractEditorPartBehavior;

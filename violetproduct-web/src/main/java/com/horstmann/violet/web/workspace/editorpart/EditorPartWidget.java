@@ -1,10 +1,11 @@
-package com.horstmann.violet;
+package com.horstmann.violet.web.workspace.editorpart;
 
 import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 
+import com.horstmann.violet.web.util.jwt.CustomWebGraphics2D;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.IGrid;
@@ -90,8 +91,7 @@ public class EditorPartWidget extends WPaintedWidget {
 				System.out.println("clicked");
 				behaviorManager.fireOnMouseClicked(mouseEvent);
 				lastMouseEvent = mouseEvent;
-				// No need to call update() that will be done on drag on button
-				// release;
+				update();
 			}
 		});
 		doubleClicked().addListener(this, new Signal1.Listener<WMouseEvent>() {

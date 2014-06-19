@@ -18,7 +18,7 @@
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package com.horstmann.violet;
+package com.horstmann.violet.web;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,12 +29,16 @@ import com.horstmann.violet.framework.file.IFile;
 import com.horstmann.violet.framework.file.LocalFile;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
 import com.horstmann.violet.framework.plugin.PluginLoader;
+import com.horstmann.violet.web.workspace.WorkspaceWidget;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
 
+import eu.webtoolkit.jwt.Key;
+import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WApplication;
 import eu.webtoolkit.jwt.WBootstrapTheme;
 import eu.webtoolkit.jwt.WEnvironment;
+import eu.webtoolkit.jwt.WKeyEvent;
 
 /**
  * A program for editing UML diagrams.
@@ -68,6 +72,7 @@ public class UMLEditorWebApplication extends WApplication {
 		workspace.getAWTComponent().prepareLayout();
 		WorkspaceWidget workspaceWidget = new WorkspaceWidget(workspace);
 		getRoot().addWidget(workspaceWidget);
+
 	}
 
 }

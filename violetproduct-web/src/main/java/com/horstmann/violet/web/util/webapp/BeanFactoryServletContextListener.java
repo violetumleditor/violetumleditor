@@ -1,4 +1,4 @@
-package com.horstmann.violet.util;
+package com.horstmann.violet.web.util.webapp;
 
 import java.util.ArrayList;
 import java.util.List;

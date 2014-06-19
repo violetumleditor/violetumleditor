@@ -1,4 +1,4 @@
-package com.horstmann.violet;
+package com.horstmann.violet.web;
 
 import java.io.IOException;
 

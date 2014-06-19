@@ -1,4 +1,4 @@
-package com.horstmann.violet.property;
+package com.horstmann.violet.web.property;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

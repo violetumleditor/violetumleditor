@@ -1,12 +1,18 @@
-package com.horstmann.violet;
+package com.horstmann.violet.web.workspace;
 
+import com.horstmann.violet.web.workspace.editorpart.EditorPartWidget;
+import com.horstmann.violet.web.workspace.editorpart.behavior.EditSelectedBehavior;
+import com.horstmann.violet.web.workspace.sidebar.SideBarWidget;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.sidebar.ISideBar;
 
+import eu.webtoolkit.jwt.Key;
+import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WHBoxLayout;
+import eu.webtoolkit.jwt.WKeyEvent;
 import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WLength.Unit;
 

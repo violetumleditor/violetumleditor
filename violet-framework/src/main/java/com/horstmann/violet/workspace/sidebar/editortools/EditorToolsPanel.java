@@ -183,7 +183,7 @@ public class EditorToolsPanel extends JPanel implements ISideBarElement
     /**
      * @return zoom in button
      */
-    JButton getZoomInButton()
+    public JButton getZoomInButton()
     {
         return this.bZoomIn;
     }
@@ -191,7 +191,7 @@ public class EditorToolsPanel extends JPanel implements ISideBarElement
     /**
      * @return zoom out button
      */
-    JButton getZoomOutButton()
+    public JButton getZoomOutButton()
     {
         return this.bZoomOut;
     }
@@ -199,7 +199,7 @@ public class EditorToolsPanel extends JPanel implements ISideBarElement
     /**
      * @return undo button
      */
-    JButton getUndoButton()
+    public JButton getUndoButton()
     {
         return this.bUndo;
     }
@@ -207,7 +207,7 @@ public class EditorToolsPanel extends JPanel implements ISideBarElement
     /**
      * @return redo button
      */
-    JButton getRedoButton()
+    public JButton getRedoButton()
     {
         return this.bRedo;
     }
@@ -215,7 +215,7 @@ public class EditorToolsPanel extends JPanel implements ISideBarElement
     /**
      * @return delete button
      */
-    JButton getDeleteButton()
+    public JButton getDeleteButton()
     {
         return this.bDelete;
     }
@@ -223,7 +223,7 @@ public class EditorToolsPanel extends JPanel implements ISideBarElement
     /**
      * @return cut button
      */
-    JButton getCutButton()
+    public JButton getCutButton()
     {
         return this.bCut;
     }
@@ -231,7 +231,7 @@ public class EditorToolsPanel extends JPanel implements ISideBarElement
     /**
      * @return copy button
      */
-    JButton getCopyButton()
+    public JButton getCopyButton()
     {
         return this.bCopy;
     }
@@ -239,7 +239,7 @@ public class EditorToolsPanel extends JPanel implements ISideBarElement
     /**
      * @return paste button
      */
-    JButton getPasteButton()
+    public JButton getPasteButton()
     {
         return this.bPaste;
     }

@@ -1,4 +1,4 @@
-package com.horstmann.violet.property;
+package com.horstmann.violet.web.property;
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
@@ -13,12 +13,12 @@ import java.util.Comparator;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import com.horstmann.violet.EditorPartWidget;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.BentStyle;
 import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
+import com.horstmann.violet.web.workspace.editorpart.EditorPartWidget;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 

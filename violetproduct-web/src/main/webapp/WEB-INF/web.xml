@@ -11,7 +11,7 @@
 		<servlet-name>VioletJWT</servlet-name>
 		<display-name>JWt Hello World example</display-name>
 		<description>JWt Hello World example</description>
-		<servlet-class>com.horstmann.violet.UMLEditorWebServlet
+		<servlet-class>com.horstmann.violet.web.UMLEditorWebServlet
 		</servlet-class>
 	</servlet>
 	<servlet-mapping>
@@ -20,7 +20,7 @@
 	</servlet-mapping>
 
 	<listener>
-		<listener-class>com.horstmann.violet.util.BeanFactoryServletContextListener</listener-class>
+		<listener-class>com.horstmann.violet.web.util.webapp.BeanFactoryServletContextListener</listener-class>
 	</listener>
 	<listener>
 		<listener-class>eu.webtoolkit.jwt.ServletInit</listener-class>
