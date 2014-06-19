@@ -18,9 +18,13 @@ import com.horstmann.violet.workspace.editorpart.behavior.CutCopyPasteBehavior;
 import com.horstmann.violet.workspace.editorpart.behavior.UndoRedoCompoundBehavior;
 import com.horstmann.violet.workspace.sidebar.SideBar;
 
+import eu.webtoolkit.jwt.AlignmentFlag;
 import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WContainerWidget;
+import eu.webtoolkit.jwt.WGridLayout;
 import eu.webtoolkit.jwt.WHBoxLayout;
+import eu.webtoolkit.jwt.WLength;
+import eu.webtoolkit.jwt.WLength.Unit;
 import eu.webtoolkit.jwt.WLink;
 import eu.webtoolkit.jwt.WMouseEvent;
 import eu.webtoolkit.jwt.WPushButton;
@@ -51,7 +55,7 @@ public class EditorToolsWidget extends WContainerWidget {
 	private String title;
 
 	private EditorPartWidget editorPartWidget;
-	private WHBoxLayout mainLayout;
+	private WGridLayout mainLayout;
 	private WPushButton undoButton;
 	private WPushButton redoButton;
 	private WPushButton cutButton;
@@ -64,17 +68,18 @@ public class EditorToolsWidget extends WContainerWidget {
 		ResourceBundleInjector.getInjector().inject(this);
 		this.editorPartWidget = editorPartWidget;
 		setLayout(getMainLayout());
+		setMaximumSize(new WLength(220,  Unit.Pixel), new WLength(100,  Unit.Pixel));
 	}
 
-	private WHBoxLayout getMainLayout() {
+	private WGridLayout getMainLayout() {
 		if (this.mainLayout == null) {
-			this.mainLayout = new WHBoxLayout();
-			this.mainLayout.addWidget(getUndoButton());
-			this.mainLayout.addWidget(getRedoButton());
-			this.mainLayout.addWidget(getCutButton());
-			this.mainLayout.addWidget(getCopyButton());
-			this.mainLayout.addWidget(getPasteButton());
-			this.mainLayout.addWidget(getDeleteButton());
+			this.mainLayout = new WGridLayout();
+			this.mainLayout.addWidget(getUndoButton(), 0, 0, AlignmentFlag.AlignMiddle);
+			this.mainLayout.addWidget(getRedoButton(), 0, 1, AlignmentFlag.AlignMiddle);
+			this.mainLayout.addWidget(getDeleteButton(), 0, 2, AlignmentFlag.AlignMiddle);
+			this.mainLayout.addWidget(getCutButton(), 1, 0, AlignmentFlag.AlignMiddle);
+			this.mainLayout.addWidget(getCopyButton(), 1, 1, AlignmentFlag.AlignMiddle);
+			this.mainLayout.addWidget(getPasteButton(), 1, 2, AlignmentFlag.AlignMiddle);
 		}
 		return this.mainLayout;
 	}

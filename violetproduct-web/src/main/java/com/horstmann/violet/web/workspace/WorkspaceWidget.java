@@ -47,7 +47,7 @@ public class WorkspaceWidget extends WContainerWidget {
 		if (this.sideBarWidget == null) {
 			ISideBar sideBar = this.workspace.getSideBar();
 			this.sideBarWidget = new SideBarWidget(sideBar, getEditorPartWidget());
-			this.sideBarWidget.setWidth(new WLength(150, Unit.Pixel));
+			this.sideBarWidget.setWidth(new WLength(230, Unit.Pixel));
 		}
 		return this.sideBarWidget;
 	}
