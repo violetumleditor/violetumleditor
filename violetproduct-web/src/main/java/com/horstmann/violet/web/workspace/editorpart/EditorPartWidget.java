@@ -190,5 +190,9 @@ public class EditorPartWidget extends WPaintedWidget {
 		boolean isSameEvent = isSameButton && isSameLocation && isSameModifiers && isSameClickCount && isSameType;
 		return isSameEvent;
 	}
+	
+	public IEditorPart getEditorPart() {
+		return this.editorPart;
+	}
 
 }

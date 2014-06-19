@@ -8,11 +8,8 @@ import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.sidebar.ISideBar;
 
-import eu.webtoolkit.jwt.Key;
-import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WHBoxLayout;
-import eu.webtoolkit.jwt.WKeyEvent;
 import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WLength.Unit;
 
@@ -49,7 +46,7 @@ public class WorkspaceWidget extends WContainerWidget {
 	private SideBarWidget getSideBarWidget() {
 		if (this.sideBarWidget == null) {
 			ISideBar sideBar = this.workspace.getSideBar();
-			this.sideBarWidget = new SideBarWidget(sideBar);
+			this.sideBarWidget = new SideBarWidget(sideBar, getEditorPartWidget());
 			this.sideBarWidget.setWidth(new WLength(150, Unit.Pixel));
 		}
 		return this.sideBarWidget;

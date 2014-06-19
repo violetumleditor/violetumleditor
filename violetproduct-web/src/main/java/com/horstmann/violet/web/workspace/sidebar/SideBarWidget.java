@@ -1,31 +1,44 @@
 package com.horstmann.violet.web.workspace.sidebar;
 
+import com.horstmann.violet.web.workspace.editorpart.EditorPartWidget;
 import com.horstmann.violet.workspace.sidebar.ISideBar;
 
 import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WVBoxLayout;
 public class SideBarWidget extends WContainerWidget {
 	
+	private EditorToolsWidget editorToolsWidget;
 	private GraphToolsBarWidget graphToolsBarWidget;
-
-	private ISideBar sideBar;
-	
 	private WVBoxLayout mainLayout;
+	
+	
+	private ISideBar sideBar;
+	private EditorPartWidget editorPartWidget;
+	
 
-	public SideBarWidget(ISideBar sideBar) {
+	public SideBarWidget(ISideBar sideBar, EditorPartWidget editorPartWidget) {
 		super();
 		this.sideBar = sideBar;
+		this.editorPartWidget = editorPartWidget;
 		setLayout(getMainLayout());
 	}
 	
 	private WVBoxLayout getMainLayout() {
 		if (this.mainLayout == null) {
 			this.mainLayout = new WVBoxLayout();
+			this.mainLayout.addWidget(getEditorToolsWidget());
 			this.mainLayout.addWidget(getGraphToolsBarWidget());
 		}
 		return this.mainLayout;
 	}
 	
+	
+	private EditorToolsWidget getEditorToolsWidget() {
+		if (this.editorToolsWidget == null) {
+			this.editorToolsWidget = new EditorToolsWidget(this.editorPartWidget);
+		}
+		return this.editorToolsWidget;
+	}
 	
 	private GraphToolsBarWidget getGraphToolsBarWidget() {
 		if (this.graphToolsBarWidget == null) {
