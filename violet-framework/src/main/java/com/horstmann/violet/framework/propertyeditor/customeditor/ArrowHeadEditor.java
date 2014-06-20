@@ -35,11 +35,11 @@ public class ArrowHeadEditor extends CustomPropertyEditorSupport
      */
     public ArrowHeadEditor()
     {
-        super(names, values);
+        super(NAMES, VALUES);
     }
 
     /** Arrows labels */
-    private static final String[] names =
+    public static final String[] NAMES =
     {
             "None",
             "Triangle",
@@ -49,7 +49,7 @@ public class ArrowHeadEditor extends CustomPropertyEditorSupport
     };
 
     /** Arrows technical values */
-    private static final Object[] values =
+    public static final Object[] VALUES =
     {
             ArrowHead.NONE,
             ArrowHead.TRIANGLE,

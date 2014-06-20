@@ -3,8 +3,8 @@ package com.horstmann.violet.web.property;
 import java.beans.PropertyDescriptor;
 import java.util.EnumSet;
 
-import com.horstmann.violet.framework.propertyeditor.customeditor.BentStyleEditor;
-import com.horstmann.violet.product.diagram.abstracts.property.BentStyle;
+import com.horstmann.violet.framework.propertyeditor.customeditor.ArrowHeadEditor;
+import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
 
 import eu.webtoolkit.jwt.Side;
 import eu.webtoolkit.jwt.Signal;
@@ -12,11 +12,11 @@ import eu.webtoolkit.jwt.WComboBox;
 import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WWidget;
 
-public class BentStyleEditorWidget extends AbstractPropertyEditorWidget<BentStyle> {
+public class ArrowHeadEditorWidget extends AbstractPropertyEditorWidget<ArrowHead> {
 
 	private WComboBox comboBoxComponent;
 
-	public BentStyleEditorWidget(Object bean, PropertyDescriptor propertyDescriptor) {
+	public ArrowHeadEditorWidget(Object bean, PropertyDescriptor propertyDescriptor) {
 		super(bean, propertyDescriptor);
 	}
 
@@ -27,10 +27,10 @@ public class BentStyleEditorWidget extends AbstractPropertyEditorWidget<BentStyl
 
 	@Override
 	protected void updateCustomEditor() {
-		BentStyle selectedBentStyle = getValue();
+		ArrowHead selectedArrowHead = getValue();
 		int newIndex = 0;
-		for (int i = 0; i < BentStyleEditor.VALUES.length; i++) {
-			if (BentStyleEditor.VALUES[i].equals(selectedBentStyle)) {
+		for (int i = 0; i < ArrowHeadEditor.VALUES.length; i++) {
+			if (ArrowHeadEditor.VALUES[i].equals(selectedArrowHead)) {
 				newIndex = i;
 				break;
 			}
@@ -43,14 +43,14 @@ public class BentStyleEditorWidget extends AbstractPropertyEditorWidget<BentStyl
 		if (this.comboBoxComponent == null) {
 			this.comboBoxComponent = new WComboBox();
 			this.comboBoxComponent.setMargin(new WLength(10), EnumSet.of(Side.Right));
-			for (int i = 0; i < BentStyleEditor.NAMES.length; i++) {
-				this.comboBoxComponent.addItem(BentStyleEditor.NAMES[i]);
+			for (int i = 0; i < ArrowHeadEditor.NAMES.length; i++) {
+				this.comboBoxComponent.addItem(ArrowHeadEditor.NAMES[i]);
 			}
 			this.comboBoxComponent.changed().addListener(this, new Signal.Listener() {
 				public void trigger() {
 					int row = getComboBoxComponent().getCurrentIndex();
-					BentStyle selectedBentStyle = (BentStyle) BentStyleEditor.VALUES[row];
-					setValue(selectedBentStyle);
+					ArrowHead selectedArrowHead = (ArrowHead) ArrowHeadEditor.VALUES[row];
+					setValue(selectedArrowHead);
 				}
 			});
 		}

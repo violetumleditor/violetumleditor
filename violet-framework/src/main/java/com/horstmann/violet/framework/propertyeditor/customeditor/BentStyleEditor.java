@@ -36,11 +36,11 @@ public class BentStyleEditor extends CustomPropertyEditorSupport
      */
     public BentStyleEditor()
     {
-        super(names, values);
+        super(NAMES, VALUES);
     }
 
     /** bent styme labels */
-    private static final String[] names =
+    public static final String[] NAMES =
     {
             "Auto",
             "Straight",
@@ -52,7 +52,7 @@ public class BentStyleEditor extends CustomPropertyEditorSupport
     };
 
     /** bent style technical values */
-    private static final Object[] values =
+    public static final Object[] VALUES =
     {
             BentStyle.AUTO,
             BentStyle.STRAIGHT,
