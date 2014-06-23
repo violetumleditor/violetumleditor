@@ -12,6 +12,9 @@ import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WHBoxLayout;
 import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WLength.Unit;
+import eu.webtoolkit.jwt.WPanel;
+import eu.webtoolkit.jwt.WScrollArea;
+import eu.webtoolkit.jwt.WScrollArea.ScrollBarPolicy;
 
 public class WorkspaceWidget extends WContainerWidget {
 	
@@ -20,6 +23,8 @@ public class WorkspaceWidget extends WContainerWidget {
 	private EditorPartWidget editorPartWidget;
 	private IWorkspace workspace;
 	private WHBoxLayout mainLayout;
+	private WPanel editorPartPanel;
+	private WScrollArea editorPartScrollArea;
 	
 	public WorkspaceWidget(IWorkspace workspace) {
 		super();
@@ -38,7 +43,7 @@ public class WorkspaceWidget extends WContainerWidget {
 		if (this.mainLayout == null) {
 			this.mainLayout = new WHBoxLayout();
 			this.mainLayout.addWidget(getSideBarWidget());
-			this.mainLayout.addWidget(getEditorPartWidget(), 1);
+			this.mainLayout.addWidget(getEditorPartPanel(), 1);
 		}
 		return this.mainLayout;
 	}
@@ -56,10 +61,27 @@ public class WorkspaceWidget extends WContainerWidget {
 		if (this.editorPartWidget == null) {
 			IEditorPart editorPart = this.workspace.getEditorPart();
 			this.editorPartWidget = new EditorPartWidget(editorPart);
-			this.editorPartWidget.resize(1024, 768);
+			this.editorPartWidget.resize(2000, 768);
 		}
 		return this.editorPartWidget;
 	}
 	
+	private WPanel getEditorPartPanel() {
+		if (this.editorPartPanel == null) {
+			this.editorPartPanel = new WPanel();
+			this.editorPartPanel.setCentralWidget(getEditorPartScrollArea());
+		}
+		return this.editorPartPanel;
+	}
 
+	
+	private WScrollArea getEditorPartScrollArea() {
+		if (this.editorPartScrollArea == null) {
+			this.editorPartScrollArea = new WScrollArea();
+			this.editorPartScrollArea.setWidget(getEditorPartWidget());
+			this.editorPartScrollArea.setHorizontalScrollBarPolicy(ScrollBarPolicy.ScrollBarAlwaysOn);
+			this.editorPartScrollArea.setVerticalScrollBarPolicy(ScrollBarPolicy.ScrollBarAlwaysOn);
+		}
+		return this.editorPartScrollArea;
+	}
 }

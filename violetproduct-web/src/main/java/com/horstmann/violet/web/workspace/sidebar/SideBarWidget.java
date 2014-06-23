@@ -9,6 +9,7 @@ public class SideBarWidget extends WContainerWidget {
 	
 	private EditorToolsWidget editorToolsWidget;
 	private GraphToolsBarWidget graphToolsBarWidget;
+	private WContainerWidget colorToolsWidget;
 	private WVBoxLayout mainLayout;
 	
 	
@@ -28,6 +29,7 @@ public class SideBarWidget extends WContainerWidget {
 			this.mainLayout = new WVBoxLayout();
 			this.mainLayout.addWidget(getEditorToolsWidget());
 			this.mainLayout.addWidget(getGraphToolsBarWidget());
+			this.mainLayout.addWidget(getColorToolsWidget(), 1);
 		}
 		return this.mainLayout;
 	}
@@ -45,6 +47,13 @@ public class SideBarWidget extends WContainerWidget {
 			this.graphToolsBarWidget = new GraphToolsBarWidget(this.sideBar.getGraphToolsBar(), this);
 		}
 		return this.graphToolsBarWidget;
+	}
+	
+	private WContainerWidget getColorToolsWidget() {
+		if (this.colorToolsWidget == null) {
+			this.colorToolsWidget = new WContainerWidget();
+		}
+		return this.colorToolsWidget;
 	}
 	
 	

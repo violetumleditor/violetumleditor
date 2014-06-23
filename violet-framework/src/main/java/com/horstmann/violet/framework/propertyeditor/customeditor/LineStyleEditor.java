@@ -34,13 +34,13 @@ public class LineStyleEditor extends CustomPropertyEditorSupport
      */
     public LineStyleEditor()
     {
-        super(names, values);
+        super(NAMES, VALUES);
     }
 
     /**
      * Type names
      */
-    private static final String[] names =
+    public static final String[] NAMES =
     {
             "Solid",
             "Dotted"
@@ -49,7 +49,7 @@ public class LineStyleEditor extends CustomPropertyEditorSupport
     /**
      * Corresponding objects
      */
-    private static final Object[] values =
+    public static final Object[] VALUES =
     {
             LineStyle.SOLID,
             LineStyle.DOTTED
