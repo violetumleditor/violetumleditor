@@ -164,7 +164,7 @@ public class ActivationBarNode extends RectangularNode
                 // call)
                 if (isSameLifelineNode && isActivationBarNodeOnStart && isActivationBarNodeOnEnd)
                 {
-                    boolean isStartingNode = this.equals(e.getStart());
+                	boolean isStartingNode = this.equals(e.getStart());
                     boolean isEndingNode = this.equals(e.getEnd());
                     if (isStartingNode)
                     {
@@ -607,6 +607,9 @@ public class ActivationBarNode extends RectangularNode
     {
         INode endingNode = edge.getEnd();
         INode startingNode = edge.getStart();
+        if (startingNode == null || endingNode == null) {
+        	return false;
+        }
         Class<? extends INode> startingNodeClass = startingNode.getClass();
         Class<? extends INode> endingNodeClass = endingNode.getClass();
         if (!startingNodeClass.isAssignableFrom(ActivationBarNode.class)
@@ -635,21 +638,16 @@ public class ActivationBarNode extends RectangularNode
         Class<?> startingNodeClass = (startingNode != null ? startingNode.getClass() : NullType.class);
         Class<?> endingNodeClass = (endingNode != null ? endingNode.getClass() : NullType.class);
         // Case 1 : check is call edge doesn't connect already connected nodes
-        for (IEdge anEdge : getGraph().getAllEdges()) {
-        	if (!anEdge.getClass().isAssignableFrom(CallEdge.class)) {
-        		continue;
-        	}
-        	List<INode> startingNodeFamily = new ArrayList<INode>();
-        	startingNodeFamily.add(startingNode);
-        	startingNodeFamily.addAll(startingNode.getChildren());
-        	List<INode> endingNodeFamily = new ArrayList<INode>();
-        	endingNodeFamily.add(endingNode);
-        	endingNodeFamily.addAll(endingNode.getChildren());
-        	if (startingNodeFamily.contains(anEdge.getStart()) && endingNodeFamily.contains(anEdge.getEnd())) {
-        		return false;
-        	}
-        	if (startingNodeFamily.contains(anEdge.getEnd()) && endingNodeFamily.contains(anEdge.getStart())) {
-        		return false;
+        if (startingNode != null && endingNode != null) {
+        	for (IEdge anEdge : getGraph().getAllEdges()) {
+        		if (!anEdge.getClass().isAssignableFrom(CallEdge.class)) {
+        			continue;
+        		}
+        		INode anEdgeStartingNode = anEdge.getStart();
+        		INode anEdgeEndingNode = anEdge.getEnd();
+        		if (startingNode.equals(anEdgeStartingNode) && endingNode.equals(anEdgeEndingNode)) {
+        			return false;
+        		}
         	}
         }
         // Case 2 : classic connection between activation bars
@@ -714,8 +712,8 @@ public class ActivationBarNode extends RectangularNode
         if (startingNodeClass.isAssignableFrom(ActivationBarNode.class) && endingNodeClass.isAssignableFrom(NullType.class))
         {
             ActivationBarNode newActivationBar = new ActivationBarNode();
-            int lastNodePos = startingNode.getChildren().size();
-            startingNode.addChild(newActivationBar, lastNodePos);
+            edge.getStartLocation();
+            startingNode.addChild(newActivationBar, edge.getStartLocation());
             edge.setEnd(newActivationBar);
             return true;
         }

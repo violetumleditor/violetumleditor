@@ -70,6 +70,8 @@ public class WorkspaceWidget extends WContainerWidget {
 		if (this.editorPartPanel == null) {
 			this.editorPartPanel = new WPanel();
 			this.editorPartPanel.setCentralWidget(getEditorPartScrollArea());
+			this.editorPartPanel.setWidth(new WLength(100, Unit.Percentage));
+			this.editorPartPanel.setHeight(new WLength(100, Unit.Percentage));
 		}
 		return this.editorPartPanel;
 	}
@@ -81,6 +83,8 @@ public class WorkspaceWidget extends WContainerWidget {
 			this.editorPartScrollArea.setWidget(getEditorPartWidget());
 			this.editorPartScrollArea.setHorizontalScrollBarPolicy(ScrollBarPolicy.ScrollBarAlwaysOn);
 			this.editorPartScrollArea.setVerticalScrollBarPolicy(ScrollBarPolicy.ScrollBarAlwaysOn);
+			this.editorPartScrollArea.setWidth(new WLength(100, Unit.Percentage));
+			this.editorPartScrollArea.setHeight(new WLength(100, Unit.Percentage));
 		}
 		return this.editorPartScrollArea;
 	}

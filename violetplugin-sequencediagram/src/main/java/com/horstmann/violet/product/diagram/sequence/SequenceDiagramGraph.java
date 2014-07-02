@@ -45,7 +45,7 @@ public class SequenceDiagramGraph extends AbstractGraph
     @Override
     public boolean addNode(INode newNode, Point2D p)
     {
-        INode foundNode = findNode(p);
+    	INode foundNode = findNode(p);
         if (foundNode == null && newNode.getClass().isAssignableFrom(ActivationBarNode.class)) {
             return false;
         }

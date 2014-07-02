@@ -166,11 +166,12 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior
         if (added)
         {
             this.selectionHandler.setSelectedElement(this.newEdge);
-            this.isLinkingInProgress = false;
-            this.isLinkBySeparatedClicks = false;
-            this.transitionPoints.clear();
-            this.newEdge = null;
         }
+        this.isLinkingInProgress = false;
+        this.isLinkBySeparatedClicks = false;
+        this.transitionPoints.clear();
+        this.newEdge = null;
+        
     }
 
     private void cancel()
@@ -217,7 +218,6 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior
                     relativeEndPoint = new Point2D.Double(relativeEndX, relativeEndY);
                 }
                 if (graph.connect(newEdge, startNode, relativeStartPoint, endNode, relativeEndPoint, transitionPointsAsArray))
-                ;
                 {
                     newEdge.incrementRevision();
                     isAdded = true;

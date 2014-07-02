@@ -45,17 +45,39 @@ public class EditSelectedBehavior extends AbstractEditorPartBehavior
         {
             double zoom = editorPart.getZoomFactor();
             Point2D mouseLocation = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
-            this.selectionHandler.clearSelection();
-            INode node = this.graph.findNode(mouseLocation);
-            IEdge edge = this.graph.findEdge(mouseLocation);
-            if (node != null) {
-                this.selectionHandler.setSelectedElement(node);
-            } else if (edge != null) {
-                this.selectionHandler.addSelectedElement(edge);
-            }
+            processSelection(mouseLocation);
             editSelected();
         }
     }
+    
+    /**
+     * Selects double clicked element (inspired from SelectByClickBehavior class)
+     * 
+     * @param mouseLocation
+     */
+    private void processSelection(Point2D mouseLocation)
+    {
+    	this.selectionHandler.clearSelection();
+    	INode node = this.graph.findNode(mouseLocation);
+        IEdge edge = this.graph.findEdge(mouseLocation);
+        if (edge != null)
+        {
+        	this.selectionHandler.addSelectedElement(edge);
+        	if (this.selectionHandler.getSelectedEdges().size() == 1) {
+        		this.behaviorManager.fireOnEdgeSelected(edge);
+        	}
+        	return;
+        }
+        if (node != null)
+        {
+        	this.selectionHandler.addSelectedElement(node);
+        	if (this.selectionHandler.getSelectedNodes().size() == 1) {
+        		this.behaviorManager.fireOnNodeSelected(node);
+        	}
+            return;
+        }
+    }
+    
 
     public void editSelected()
     {

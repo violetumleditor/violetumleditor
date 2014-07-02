@@ -23,6 +23,26 @@
             <artifactId>violetplugin-classdiagram</artifactId>
             <version>${applicationVersion}</version>
         </dependency>
+        <dependency>
+            <groupId>com.horstmann.violet</groupId>
+            <artifactId>violetplugin-sequencediagram</artifactId>
+            <version>${applicationVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.horstmann.violet</groupId>
+            <artifactId>violetplugin-statediagram</artifactId>
+            <version>${applicationVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.horstmann.violet</groupId>
+            <artifactId>violetplugin-usecasediagram</artifactId>
+            <version>${applicationVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.horstmann.violet</groupId>
+            <artifactId>violetplugin-activitydiagram</artifactId>
+            <version>${applicationVersion}</version>
+        </dependency>
 	</dependencies>
 	<build>
 		<finalName>violetumleditor-${project.version}</finalName>
