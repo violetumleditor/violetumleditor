@@ -474,9 +474,9 @@ public abstract class SegmentedLineEdge extends ShapeEdge
         return straightDirection;
     }
 
-    private transient LineStyle lineStyle;
-    private transient ArrowHead startArrowHead;
-    private transient ArrowHead endArrowHead;
+    private LineStyle lineStyle;
+    private ArrowHead startArrowHead;
+    private ArrowHead endArrowHead;
     private BentStyle bentStyle;
     private String startLabel;
     private String middleLabel;

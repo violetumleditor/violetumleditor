@@ -17,6 +17,9 @@ import com.horstmann.violet.framework.plugin.PluginRegistry;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
+import com.horstmann.violet.product.diagram.abstracts.property.BentStyle;
+import com.horstmann.violet.product.diagram.abstracts.property.LineStyle;
 import com.thoughtworks.xstream.XStream;
 
 @ManagedBean(registeredManually=true)
@@ -63,6 +66,9 @@ public class XStreamBasedPersistenceService implements IFilePersistenceService {
 		xStream.useAttributeFor(Point2D.Double.class, "x");
 		xStream.useAttributeFor(Point2D.Double.class, "y");
 		xStream.alias("Point2D.Double", Point2D.Double.class);
+		xStream.addImmutableType(ArrowHead.class);
+        xStream.addImmutableType(LineStyle.class);
+        xStream.addImmutableType(BentStyle.class);
 		List<IDiagramPlugin> diagramPlugins = this.pluginRegistry.getDiagramPlugins();
 		for (IDiagramPlugin aPlugin : diagramPlugins) {
 			Class<? extends IGraph> graphClass = aPlugin.getGraphClass();

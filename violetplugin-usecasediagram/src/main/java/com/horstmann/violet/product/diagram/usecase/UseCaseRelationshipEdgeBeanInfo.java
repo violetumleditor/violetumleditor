@@ -41,13 +41,8 @@ public class UseCaseRelationshipEdgeBeanInfo extends SimpleBeanInfo
         {
             PropertyDescriptor[] descriptors = new PropertyDescriptor[]
             {
-                    new PropertyDescriptor("startArrowHead", UseCaseRelationshipEdge.class),
-                    new PropertyDescriptor("startLabel", UseCaseRelationshipEdge.class),
                     new PropertyDescriptor("middleLabel", UseCaseRelationshipEdge.class),
-                    new PropertyDescriptor("endLabel", UseCaseRelationshipEdge.class),
-                    new PropertyDescriptor("endArrowHead", UseCaseRelationshipEdge.class),
                     new PropertyDescriptor("bentStyle", UseCaseRelationshipEdge.class),
-                    new PropertyDescriptor("lineStyle", UseCaseRelationshipEdge.class),
             };
             for (int i = 0; i < descriptors.length; i++)
             {
