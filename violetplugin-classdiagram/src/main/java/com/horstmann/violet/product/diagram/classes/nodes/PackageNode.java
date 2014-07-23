@@ -93,7 +93,7 @@ public class PackageNode extends RectangularNode implements IResizableNode
         double x = topBounds.getX();
         double y = topBounds.getMaxY();
         double w = Math.max(globalBounds.getWidth(), topBounds.getWidth() + 2 * NAME_GAP);
-        double h = globalBounds.getHeight() - topBounds.getHeight();
+        double h = globalBounds.getHeight();
         globalBounds.setFrame(x, y, w, h);
         Rectangle2D snappedBounds = getGraph().getGridSticker().snap(globalBounds);
         return snappedBounds;
