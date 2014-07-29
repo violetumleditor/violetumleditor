@@ -51,6 +51,18 @@ public abstract class RectangularNode extends AbstractNode implements IColorable
     {
         return getBounds().contains(p);
     }
+    
+    @Override
+    public boolean addConnection(IEdge e) {
+    	// Self call (loop)
+    	INode endingNode = e.getEnd();
+    	if (endingNode == null) {
+    		e.setEnd(e.getStart());
+    		e.setEndlocation(e.getStartLocation());
+    	}
+    	// Back to default behavior
+    	return super.addConnection(e);
+    }
 
     
     /**
@@ -63,6 +75,7 @@ public abstract class RectangularNode extends AbstractNode implements IColorable
         // Step 1 : look for edges
         List<IEdge> result = new ArrayList<IEdge>();
         Direction d = edge.getDirection(this);
+
         if (d == null) return result;
         Direction cardinalDirectionToSearch = d.getNearestCardinalDirection();
         for (IEdge anEdge : getConnectedEdges()) {
@@ -107,14 +120,12 @@ public abstract class RectangularNode extends AbstractNode implements IColorable
         List<IEdge> edgesOnSameSide = getEdgesOnSameSide(e);
         int position = edgesOnSameSide.indexOf(e);
         int size = edgesOnSameSide.size();
-        
         Rectangle2D b = getBounds();
         
         double x = b.getCenterX();
         double y = b.getCenterY();
 
         Direction d = e.getDirection(this);
-        
         Direction nearestCardinalDirection = d.getNearestCardinalDirection();
         if (Direction.NORTH.equals(nearestCardinalDirection)) {
             x = b.getMaxX() - (b.getWidth() / (size + 1)) * (position + 1);

@@ -402,6 +402,25 @@ public abstract class SegmentedLineEdge extends ShapeEdge
         Line2D connectionPoints = getConnectionPoints();
         Point2D startingPoint = connectionPoints.getP1();
         Point2D endingPoint = connectionPoints.getP2();
+        
+        // Path for self loop
+        if (getStart().equals(getEnd())) {
+        	int gapX = 20;
+        	int gapY = 20;
+        	Point2D p1 = new Point2D.Double(getStart().getBounds().getMaxX(), startingPoint.getY());
+        	Point2D p5 = new Point2D.Double(endingPoint.getX(), getEnd().getBounds().getMaxY());
+        	Point2D p2 = new Point2D.Double(p1.getX() + gapX, p1.getY());
+        	Point2D p4 = new Point2D.Double(p5.getX(), p5.getY() + gapY);
+        	Point2D p3 = new Point2D.Double(p2.getX(), p4.getY());
+        	ArrayList<Point2D> path = new ArrayList<Point2D>();
+        	path.add(p1);
+        	path.add(p2);
+        	path.add(p3);
+        	path.add(p4);
+        	path.add(p5);
+        	return path;
+        }
+        
 
         // Automatic based path
         if (!BentStyle.AUTO.equals(getBentStyle()))
@@ -449,7 +468,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge
         Direction straightDirection = super.getDirection(node);
         double x = straightDirection.getX();
         double y = straightDirection.getY();
-        if (node.equals(getStart()))
+        if (!getStart().equals(getEnd()) && node.equals(getStart()))
         {
             if (BentStyle.HV.equals(getBentStyle()) || BentStyle.HVH.equals(getBentStyle()))
             {
@@ -460,7 +479,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge
                 return (y >= 0) ? Direction.SOUTH : Direction.NORTH;
             }
         }
-        if (node.equals(getEnd()))
+        if (!getStart().equals(getEnd()) && node.equals(getEnd()))
         {
             if (BentStyle.HV.equals(getBentStyle()) || BentStyle.VHV.equals(getBentStyle()))
             {
