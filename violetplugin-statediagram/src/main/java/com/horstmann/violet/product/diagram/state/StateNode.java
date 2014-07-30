@@ -28,6 +28,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
+import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
 
@@ -42,6 +43,17 @@ public class StateNode extends RectangularNode
     public StateNode()
     {
         name = new MultiLineString();
+    }
+    
+    @Override
+    public boolean addConnection(IEdge e) {
+    	if (e.getEnd() == null) {
+    		return false;
+    	}
+    	if (this.equals(e.getEnd())) {
+    		return false;
+    	}
+    	return super.addConnection(e);
     }
 
     @Override

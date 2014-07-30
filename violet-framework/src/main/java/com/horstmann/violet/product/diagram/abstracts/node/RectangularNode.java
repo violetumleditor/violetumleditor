@@ -84,6 +84,10 @@ public abstract class RectangularNode extends AbstractNode implements IColorable
             if (cardinalDirectionToSearch.equals(nearestCardinalDirection)) {
                 result.add(anEdge);
             }
+            if (anEdge.getStart().equals(anEdge.getEnd()) && anEdge.getStart().equals(this)) {
+            	// self loop
+            	result.add(anEdge);
+            }
         }
         // Step 2: sort them
         if (Direction.NORTH.equals(cardinalDirectionToSearch) || Direction.SOUTH.equals(cardinalDirectionToSearch)) {
@@ -120,6 +124,7 @@ public abstract class RectangularNode extends AbstractNode implements IColorable
         List<IEdge> edgesOnSameSide = getEdgesOnSameSide(e);
         int position = edgesOnSameSide.indexOf(e);
         int size = edgesOnSameSide.size();
+        System.out.println(size);
         Rectangle2D b = getBounds();
         
         double x = b.getCenterX();
