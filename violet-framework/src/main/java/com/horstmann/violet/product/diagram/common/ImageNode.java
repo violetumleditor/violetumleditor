@@ -35,6 +35,8 @@ import java.util.StringTokenizer;
 
 import javax.swing.ImageIcon;
 
+import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
+import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
@@ -59,7 +61,8 @@ public class ImageNode extends RectangularNode
      */
     public ImageNode()
     {
-        text = new MultiLineString();
+    	ResourceBundleInjector.getInjector().inject(this);
+    	text = new MultiLineString();
         text.setJustification(MultiLineString.RIGHT);
     }
 
@@ -239,7 +242,9 @@ public class ImageNode extends RectangularNode
     }
 
     private MultiLineString text;
-    private ImageIcon imageIcon;
     private static final String PIXEL_SEPARATOR = ":";
+
+    @ResourceBundleBean(key = "imagenode.icon")
+    private ImageIcon imageIcon;
 
 }
