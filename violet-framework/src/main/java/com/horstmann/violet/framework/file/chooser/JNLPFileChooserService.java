@@ -99,11 +99,11 @@ public class JNLPFileChooserService implements IFileChooserService
     }    
     
     @Override
-    public IFileReader chooseAndGetFileReader() throws IOException
+    public IFileReader chooseAndGetFileReader(ExtensionFilter... filters) throws IOException
     {
         String currentDirectory = ".";
         ArrayList<String> fileExtensions = new ArrayList<String>();
-        ExtensionFilter[] filters = this.fileNamingService.getFileFilters();
+        //ExtensionFilter[] filters = this.fileNamingService.getFileFilters();
         for (int i = 0; i < filters.length; i++)
         {
             ExtensionFilter aFilter = filters[i];

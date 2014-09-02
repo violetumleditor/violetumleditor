@@ -52,7 +52,7 @@ public interface IFileChooserService
      * @return the Open object for the selected file
      * @throws IOException
      */
-    public IFileReader chooseAndGetFileReader() throws IOException;
+    public IFileReader chooseAndGetFileReader(ExtensionFilter... extensions) throws IOException;
     
     /**
      * Returns a file handler to read the given file

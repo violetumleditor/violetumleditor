@@ -34,6 +34,8 @@ import com.horstmann.violet.framework.file.GraphFile;
 import com.horstmann.violet.framework.file.IFile;
 import com.horstmann.violet.framework.file.IGraphFile;
 import com.horstmann.violet.framework.file.chooser.IFileChooserService;
+import com.horstmann.violet.framework.file.naming.ExtensionFilter;
+import com.horstmann.violet.framework.file.naming.FileNamingService;
 import com.horstmann.violet.framework.file.persistence.IFileReader;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
@@ -59,6 +61,9 @@ public abstract class AbstractDiagramLinkEditor extends PropertyEditorSupport
     @InjectedBean
     private IFileChooserService fileChooserService;
 
+    /** File services */
+    @InjectedBean
+    private FileNamingService fileNamingService;
     
     
     
@@ -103,7 +108,8 @@ public abstract class AbstractDiagramLinkEditor extends PropertyEditorSupport
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        IFileReader fileOpener = fileChooserService.chooseAndGetFileReader();
+                	ExtensionFilter[] filters = fileNamingService.getFileFilters();
+                        IFileReader fileOpener = fileChooserService.chooseAndGetFileReader(filters);
                         IFile selectedFile = fileOpener.getFileDefinition();
                         if (selectedFile == null) return;
                         DiagramLink diagramLink = (DiagramLink) AbstractDiagramLinkEditor.this.getValue();

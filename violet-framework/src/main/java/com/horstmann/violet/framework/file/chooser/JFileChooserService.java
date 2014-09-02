@@ -110,11 +110,11 @@ public class JFileChooserService implements IFileChooserService
     }
 
     @Override
-    public IFileReader chooseAndGetFileReader() throws FileNotFoundException, UnsupportedEncodingException
+    public IFileReader chooseAndGetFileReader(ExtensionFilter... filters) throws FileNotFoundException, UnsupportedEncodingException
     {
     	JFileChooser fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(this.currentDirectory);
-    	ExtensionFilter[] filters = fileNamingService.getFileFilters();
+    	//ExtensionFilter[] filters = fileNamingService.getFileFilters();
         for (int i = 0; i < filters.length; i++)
         {
             fileChooser.addChoosableFileFilter(filters[i]);

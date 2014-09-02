@@ -46,6 +46,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -60,6 +61,7 @@ import com.horstmann.violet.framework.propertyeditor.customeditor.ArrowHeadEdito
 import com.horstmann.violet.framework.propertyeditor.customeditor.BentStyleEditor;
 import com.horstmann.violet.framework.propertyeditor.customeditor.ChoiceListEditor;
 import com.horstmann.violet.framework.propertyeditor.customeditor.ColorEditor;
+import com.horstmann.violet.framework.propertyeditor.customeditor.ImageIconEditor;
 import com.horstmann.violet.framework.propertyeditor.customeditor.LineStyleEditor;
 import com.horstmann.violet.framework.propertyeditor.customeditor.MultiLineStringEditor;
 import com.horstmann.violet.framework.propertyeditor.customeditor.StringEditor;
@@ -399,6 +401,7 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
         editors.put(LineStyle.class, LineStyleEditor.class);
         editors.put(MultiLineString.class, MultiLineStringEditor.class);
         editors.put(String.class, StringEditor.class);
+        editors.put(ImageIcon.class, ImageIconEditor.class);
     }
 
     private static Set<Class<?>> knownImmutables = new HashSet<Class<?>>();

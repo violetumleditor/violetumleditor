@@ -408,7 +408,8 @@ public class FileMenu extends JMenu
                 IFile selectedFile = null;
                 try
                 {
-                    IFileReader fileOpener = fileChooserService.chooseAndGetFileReader();
+                    ExtensionFilter[] filters = fileNamingService.getFileFilters();
+                    IFileReader fileOpener = fileChooserService.chooseAndGetFileReader(filters);
                     if (fileOpener == null)
                     {
                         // Action cancelled by user

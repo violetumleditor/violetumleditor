@@ -121,8 +121,17 @@ public class ImageNode extends RectangularNode
     {
         text = newValue;
     }
+    
+    
+    public ImageIcon getImageIcon() {
+		return imageIcon;
+	}
 
-    /*
+	public void setImageIcon(ImageIcon imageIcon) {
+		this.imageIcon = imageIcon;
+	}
+
+	/*
      * (non-Javadoc)
      * 
      * @see com.horstmann.violet.product.diagram.abstracts.AbstractNode#draw(java.awt.Graphics2D)
@@ -185,7 +194,8 @@ public class ImageNode extends RectangularNode
         result.deleteCharAt(result.length() - 1);
         return result.toString();
     }
-
+    
+    
     /**
      * @return current image width
      */
@@ -241,10 +251,10 @@ public class ImageNode extends RectangularNode
         return cloned;
     }
 
-    private MultiLineString text;
     private static final String PIXEL_SEPARATOR = ":";
 
     @ResourceBundleBean(key = "imagenode.icon")
     private ImageIcon imageIcon;
 
+    private MultiLineString text;
 }
