@@ -124,7 +124,6 @@ public abstract class RectangularNode extends AbstractNode implements IColorable
         List<IEdge> edgesOnSameSide = getEdgesOnSameSide(e);
         int position = edgesOnSameSide.indexOf(e);
         int size = edgesOnSameSide.size();
-        System.out.println(size);
         Rectangle2D b = getBounds();
         
         double x = b.getCenterX();

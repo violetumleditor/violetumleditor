@@ -23,10 +23,8 @@ package com.horstmann.violet;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 import javax.swing.JFrame;
 
@@ -41,18 +39,16 @@ import com.horstmann.violet.framework.file.LocalFile;
 import com.horstmann.violet.framework.file.chooser.IFileChooserService;
 import com.horstmann.violet.framework.file.chooser.JFileChooserService;
 import com.horstmann.violet.framework.file.persistence.IFilePersistenceService;
-import com.horstmann.violet.framework.file.persistence.StandardJavaFilePersistenceService;
 import com.horstmann.violet.framework.file.persistence.XHTMLPersistenceService;
-import com.horstmann.violet.framework.file.persistence.XStreamBasedPersistenceService;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanFactory;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
 import com.horstmann.violet.framework.plugin.PluginLoader;
+import com.horstmann.violet.framework.theme.BlueAmbianceTheme;
 import com.horstmann.violet.framework.theme.ClassicMetalTheme;
 import com.horstmann.violet.framework.theme.DarkAmbianceTheme;
 import com.horstmann.violet.framework.theme.ITheme;
 import com.horstmann.violet.framework.theme.ThemeManager;
-import com.horstmann.violet.framework.theme.BlueAmbianceTheme;
 import com.horstmann.violet.framework.userpreferences.DefaultUserPreferencesDao;
 import com.horstmann.violet.framework.userpreferences.IUserPreferencesDao;
 import com.horstmann.violet.framework.userpreferences.UserPreferencesService;
@@ -156,8 +152,8 @@ public class UMLEditorApplication
         MainFrame mainFrame = new MainFrame();
         mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         SplashScreen.displayOverEditor(mainFrame, 1000);
-        Set<IFile> fullList = new HashSet<IFile>();
-        Set<IFile> lastSessionFiles = this.userPreferencesService.getOpenedFilesDuringLastSession();
+        List<IFile> fullList = new ArrayList<IFile>();
+        List<IFile> lastSessionFiles = this.userPreferencesService.getOpenedFilesDuringLastSession();
         fullList.addAll(lastSessionFiles);
         for (String aFileToOpen : filesToOpen)
         {

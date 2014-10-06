@@ -1,9 +1,8 @@
 package com.horstmann.violet.framework.userpreferences;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.horstmann.violet.framework.file.IFile;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
@@ -39,9 +38,9 @@ public class UserPreferencesService
     /**
      * @return the list of lastest opened files (as path strings)
      */
-    public Set<IFile> getRecentFiles()
+    public List<IFile> getRecentFiles()
     {
-        Set<PreferredFile> recentFiles = new HashSet<PreferredFile>();
+        List<PreferredFile> recentFiles = new ArrayList<PreferredFile>();
         String recent = this.dao.get(PreferencesConstant.RECENT_FILES, "").trim();
         String[] strings = recent.split(PreferencesConstant.FILE_SEPARATOR.toString());
         for (String anEntry : strings)
@@ -60,7 +59,7 @@ public class UserPreferencesService
             }
         }
         updateRecentFileList(recentFiles);
-        return new HashSet<IFile>(recentFiles);
+        return new ArrayList<IFile>(recentFiles);
     }
     
     
@@ -72,20 +71,14 @@ public class UserPreferencesService
     public void addRecentFile(IFile aFile)
     {
         PreferredFile newPreferredFile = new PreferredFile(aFile);
-        Set<PreferredFile> recentFileList = new HashSet<PreferredFile>();
+        List<PreferredFile> recentFileList = new ArrayList<PreferredFile>();
+        recentFileList.add(newPreferredFile);
         for (IFile file : getRecentFiles()) {
             recentFileList.add(new PreferredFile(file));
         }
-        recentFileList.add(newPreferredFile);
-        Iterator<PreferredFile> iter = recentFileList.iterator();
-        while (iter.hasNext())
-        {
-	    PreferredFile pfile = iter.next();
-            if (recentFileList.size() > DEFAULT_MAX_RECENT_FILES)
-	    {
-		        iter.remove();
-	    }
-	}
+        while(recentFileList.size() > DEFAULT_MAX_RECENT_FILES) {
+            recentFileList.remove(recentFileList.get(recentFileList.size() - 1));
+        }
         updateRecentFileList(recentFileList);
     }
     
@@ -93,7 +86,7 @@ public class UserPreferencesService
      * Update user preferences
      * @param recentFiles - set of recentFiles to be saved
      */
-    private void updateRecentFileList(Set<PreferredFile> recentFiles) {
+    private void updateRecentFileList(List<PreferredFile> recentFiles) {
         StringBuilder result = new StringBuilder("");
         for (IFile aFile : recentFiles) {
             PreferredFile aPreferredFile = new PreferredFile(aFile);
@@ -107,11 +100,11 @@ public class UserPreferencesService
      * 
      * @return file list
      */
-    public Set<IFile> getOpenedFilesDuringLastSession()
+    public List<IFile> getOpenedFilesDuringLastSession()
     {
         String list = this.dao.get(PreferencesConstant.OPENED_FILES_ON_WORKSPACE, "");
         String[] strings = list.split(PreferencesConstant.FILE_SEPARATOR.toString());
-        Set<PreferredFile> result = new HashSet<PreferredFile>();
+        List<PreferredFile> result = new ArrayList<PreferredFile>();
         for (String anEntry : strings)
         {
             try {
@@ -122,7 +115,7 @@ public class UserPreferencesService
             }
         }
         updateOpenedFileList(result);
-        return new HashSet<IFile>(result);
+        return new ArrayList<IFile>(result);
     }
 
     /**
@@ -133,7 +126,7 @@ public class UserPreferencesService
     public void addOpenedFile(IFile aFile)
     {
         PreferredFile newPreferredFile = new PreferredFile(aFile);
-        Set<PreferredFile> openedFileList = new HashSet<PreferredFile>();
+        List<PreferredFile> openedFileList = new ArrayList<PreferredFile>();
         for (IFile file : getOpenedFilesDuringLastSession()) {
             openedFileList.add(new PreferredFile(file));
         }
@@ -150,7 +143,7 @@ public class UserPreferencesService
     public void removeOpenedFile(IFile aFile)
     {
         PreferredFile newPreferredFile = new PreferredFile(aFile);
-        Set<PreferredFile> openedFileList = new HashSet<PreferredFile>();
+        List<PreferredFile> openedFileList = new ArrayList<PreferredFile>();
         for (IFile file : getOpenedFilesDuringLastSession()) {
             openedFileList.add(new PreferredFile(file));
         }
@@ -163,7 +156,7 @@ public class UserPreferencesService
      * Update user preferences
      * @param openedFiles set of Opened Files to be saved
      */
-    private void updateOpenedFileList(Set<PreferredFile> openedFiles) {
+    private void updateOpenedFileList(List<PreferredFile> openedFiles) {
         StringBuilder result = new StringBuilder("");
         for (PreferredFile aPreferredFile : openedFiles) {
             result.append(aPreferredFile.toString()).append(PreferencesConstant.FILE_SEPARATOR.toString());
@@ -227,5 +220,5 @@ public class UserPreferencesService
     /**
      * Recent opened files list capacity
      */
-    private static final int DEFAULT_MAX_RECENT_FILES = 2;
+    private static final int DEFAULT_MAX_RECENT_FILES = 10;
 }

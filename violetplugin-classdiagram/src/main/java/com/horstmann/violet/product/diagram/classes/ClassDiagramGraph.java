@@ -61,9 +61,9 @@ public class ClassDiagramGraph extends AbstractGraph
         node3.setToolTip(rs.getString("node3.tooltip"));
         NODE_PROTOTYPES.add(node3);
 
-        ImageNode node4 = new ImageNode();
-        node4.setToolTip(rs.getString("node4.tooltip"));
-        NODE_PROTOTYPES.add(node4);
+//        ImageNode node4 = new ImageNode();
+//        node4.setToolTip(rs.getString("node4.tooltip"));
+//        NODE_PROTOTYPES.add(node4);
         
         DependencyEdge dependency = new DependencyEdge();
         dependency.setToolTip(rs.getString("edge0.tooltip"));

@@ -1,7 +1,6 @@
 package com.horstmann.violet.workspace.editorpart.behavior;
 
 import java.awt.event.InputEvent;
-import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBar;
@@ -35,13 +34,5 @@ public class ChangeToolByWeelBehavior extends AbstractEditorPartBehavior
         }
     }
     
-    @Override
-    public void onMouseClicked(MouseEvent event)
-    {
-        if (event.getButton() == MouseEvent.BUTTON3)
-        {
-            this.graphToolsBar.reset();
-        }
-    }
-    
+  
 }

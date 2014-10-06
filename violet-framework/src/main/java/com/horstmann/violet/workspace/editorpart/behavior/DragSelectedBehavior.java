@@ -12,7 +12,6 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
-import com.horstmann.violet.workspace.sidebar.graphtools.GraphTool;
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBar;
 
 public class DragSelectedBehavior extends AbstractEditorPartBehavior
@@ -23,7 +22,6 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior
         this.editorPart = editorPart;
         this.graph = editorPart.getGraph();
         this.selectionHandler = editorPart.getSelectionHandler();
-        this.graphToolsBar = graphToolsBar;
     }
 
     @Override
@@ -36,14 +34,11 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior
         if (event.getButton() != MouseEvent.BUTTON1) {
             return;
         }
-        if (!GraphTool.SELECTION_TOOL.equals(this.graphToolsBar.getSelectedTool()))
-        {
-            return;
-        }
         double zoom = editorPart.getZoomFactor();
         final Point2D mousePoint = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
         if (isMouseOnNode(mousePoint))
         {
+            changeSelectedNodeIfNeeded(mousePoint);
             isReadyForDragging = true;
             lastMousePoint = mousePoint;
         }
@@ -134,6 +129,24 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior
         editorPart.getSwingComponent().revalidate();
         editorPart.getSwingComponent().repaint();
     }
+    
+
+    
+    private void changeSelectedNodeIfNeeded(Point2D mouseLocation)
+    {
+        INode node = this.graph.findNode(mouseLocation);
+        if (node == null)
+        {
+            return;
+        }
+        List<INode> selectedNodes = this.selectionHandler.getSelectedNodes();
+        if (!selectedNodes.contains(node))
+        {
+            this.selectionHandler.clearSelection();
+            this.selectionHandler.addSelectedElement(node);
+        }
+    }
+
 
     private IGraph graph;
 
@@ -143,7 +156,6 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior
 
     private IEditorPart editorPart;
 
-    private IGraphToolsBar graphToolsBar;
 
     private boolean isReadyForDragging = false;
 }

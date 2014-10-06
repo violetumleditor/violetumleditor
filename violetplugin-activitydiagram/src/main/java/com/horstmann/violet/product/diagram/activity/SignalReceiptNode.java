@@ -84,12 +84,12 @@ public class SignalReceiptNode extends RectangularNode
         float y1 = (float) b.getY();
         float x2 = x1 + (float) b.getWidth();
         float y2 = y1;
-        float x3 = x1 + (float) b.getWidth() - EDGE_WIDTH;
-        float y3 = y1 + (float) b.getHeight() / 2;
-        float x4 = x2;
-        float y4 = y1 + (float) b.getHeight();
-        float x5 = x1;
-        float y5 = y4;
+        float x3 = x2;
+        float y3 = y2 + (float) b.getHeight();
+        float x4 = x3 - (float) b.getWidth();
+        float y4 = y3;
+        float x5 = x4 + EDGE_WIDTH;
+        float y5 = y4 - (float) b.getHeight() / 2;
         GeneralPath path = new GeneralPath();
         path.moveTo(x1, y1);
         path.lineTo(x2, y2);

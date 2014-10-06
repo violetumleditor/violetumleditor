@@ -175,23 +175,23 @@ public class WelcomePanel extends JPanel
             this.rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
             this.rightPanel.setBorder(new EmptyBorder(0, 45, 0, 45));
 
-            final JMenu recentMenu = this.fileMenu.getFileRecentMenu();
-            for (int i = 0; i < recentMenu.getItemCount(); i++)
-            {
-                final JMenuItem item = recentMenu.getItem(i);
-                String label = item.getText();
-                JButton fileShortcut = new JButton(label.toLowerCase());
-                fileShortcut.setUI(new WelcomeButtonUI());
-                fileShortcut.setAlignmentX(Component.LEFT_ALIGNMENT);
-                fileShortcut.addActionListener(new ActionListener()
-                {
-                    public void actionPerformed(ActionEvent e)
-                    {
-                        item.doClick();
-                    }
-                });
-                rightPanel.add(fileShortcut);
-            }
+//            final JMenu recentMenu = this.fileMenu.getFileRecentMenu();
+//            for (int i = 0; i < recentMenu.getItemCount(); i++)
+//            {
+//                final JMenuItem item = recentMenu.getItem(i);
+//                String label = item.getText();
+//                JButton fileShortcut = new JButton(label.toLowerCase());
+//                fileShortcut.setUI(new WelcomeButtonUI());
+//                fileShortcut.setAlignmentX(Component.LEFT_ALIGNMENT);
+//                fileShortcut.addActionListener(new ActionListener()
+//                {
+//                    public void actionPerformed(ActionEvent e)
+//                    {
+//                        item.doClick();
+//                    }
+//                });
+//                rightPanel.add(fileShortcut);
+//            }
 
         }
         return this.rightPanel;
@@ -229,26 +229,26 @@ public class WelcomePanel extends JPanel
     {
         if (this.rightTitlePanel == null)
         {
-            JLabel icon = new JLabel();
-            icon.setIcon(this.rightPanelIcon);
-            icon.setAlignmentX(Component.LEFT_ALIGNMENT);
+//            JLabel icon = new JLabel();
+//            icon.setIcon(this.rightPanelIcon);
+//            icon.setAlignmentX(Component.LEFT_ALIGNMENT);
+//
+//            JLabel title = new JLabel(this.fileMenu.getFileRecentMenu().getText().toLowerCase());
+//            ITheme cLAF = ThemeManager.getInstance().getTheme();
+//            title.setFont(cLAF.getWelcomeBigFont());
+//            title.setForeground(cLAF.getWelcomeBigForegroundColor());
+//            title.setBorder(new EmptyBorder(0, 0, 0, 30));
 
-            JLabel title = new JLabel(this.fileMenu.getFileRecentMenu().getText().toLowerCase());
-            ITheme cLAF = ThemeManager.getInstance().getTheme();
-            title.setFont(cLAF.getWelcomeBigFont());
-            title.setForeground(cLAF.getWelcomeBigForegroundColor());
-            title.setBorder(new EmptyBorder(0, 0, 0, 30));
-
-            JPanel panel = new JPanel();
-            panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-            panel.add(title);
-            panel.add(icon);
-            panel.setOpaque(false);
+//            JPanel panel = new JPanel();
+//            panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+////            panel.add(title);
+////            panel.add(icon);
+//            panel.setOpaque(false);
 
             this.rightTitlePanel = new JPanel();
             this.rightTitlePanel.setOpaque(false);
             this.rightTitlePanel.setLayout(new BorderLayout());
-            this.rightTitlePanel.add(panel, BorderLayout.WEST);
+            //this.rightTitlePanel.add(panel, BorderLayout.WEST);
             this.rightTitlePanel.setBorder(new EmptyBorder(0, 45, 30, 0));
         }
         return this.rightTitlePanel;

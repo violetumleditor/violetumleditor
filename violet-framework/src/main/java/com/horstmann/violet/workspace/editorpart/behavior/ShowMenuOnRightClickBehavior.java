@@ -3,6 +3,7 @@ package com.horstmann.violet.workspace.editorpart.behavior;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
 import java.util.List;
 
 import javax.swing.JMenuItem;
@@ -10,8 +11,12 @@ import javax.swing.JPopupMenu;
 
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
+import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
+import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
 
 public class ShowMenuOnRightClickBehavior extends AbstractEditorPartBehavior
 {
@@ -20,6 +25,8 @@ public class ShowMenuOnRightClickBehavior extends AbstractEditorPartBehavior
     {
         ResourceBundleInjector.getInjector().inject(this);
         this.editorPart = editorPart;
+        this.graph = editorPart.getGraph();
+        this.selectionHandler = editorPart.getSelectionHandler();
     }
     
     @Override
@@ -28,10 +35,31 @@ public class ShowMenuOnRightClickBehavior extends AbstractEditorPartBehavior
         boolean isButton3Clicked = (event.getButton() == MouseEvent.BUTTON3);
         if (event.getClickCount() == 1 && isButton3Clicked)
         {
+            double zoom = editorPart.getZoomFactor();
+            final Point2D mousePoint = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
+            changeSelectedElementIfNeeded(mousePoint);
             getPopupMenu().show(this.editorPart.getSwingComponent(), event.getX(), event.getY());
         }
     }
     
+    private void changeSelectedElementIfNeeded(Point2D mouseLocation)
+    {
+        INode node = this.graph.findNode(mouseLocation);
+        IEdge edge = this.graph.findEdge(mouseLocation);
+        List<INode> selectedNodes = this.selectionHandler.getSelectedNodes();
+        if (node != null && !selectedNodes.contains(node))
+        {
+            this.selectionHandler.clearSelection();
+            this.selectionHandler.addSelectedElement(node);
+        }
+        List<IEdge> selectedEdges = this.selectionHandler.getSelectedEdges();
+        if (edge != null && !selectedEdges.contains(edge))
+        {
+            this.selectionHandler.clearSelection();
+            this.selectionHandler.addSelectedElement(edge);
+        }
+
+    }
     
     private JPopupMenu getPopupMenu() {
         if (this.popupMenu == null) {
@@ -157,6 +185,10 @@ public class ShowMenuOnRightClickBehavior extends AbstractEditorPartBehavior
     }
     
     private JPopupMenu popupMenu; 
+    
+    private IGraph graph;
+
+    private IEditorPartSelectionHandler selectionHandler;
     
     @ResourceBundleBean(key = "edit.undo")
     private JMenuItem undo;

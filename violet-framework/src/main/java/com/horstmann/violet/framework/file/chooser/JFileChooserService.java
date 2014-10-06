@@ -25,7 +25,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.Set;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -66,7 +66,7 @@ public class JFileChooserService implements IFileChooserService
      */
     private File getLastOpenedDir()
     {
-        Set<IFile> recentFiles = this.userPreferencesService.getRecentFiles();
+        List<IFile> recentFiles = this.userPreferencesService.getRecentFiles();
         for (IFile aFile : recentFiles) {
         	try {
 				LocalFile localFile = new LocalFile(aFile);
