@@ -34,6 +34,8 @@ import java.awt.Insets;
 import java.awt.Paint;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -51,6 +53,7 @@ import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBea
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 import com.horstmann.violet.framework.plugin.PluginRegistry;
+import com.horstmann.violet.framework.swingextension.FadeImage;
 import com.horstmann.violet.framework.theme.ITheme;
 import com.horstmann.violet.framework.theme.ThemeManager;
 
@@ -250,6 +253,38 @@ public class WelcomePanel extends JPanel
             this.rightTitlePanel.setLayout(new BorderLayout());
             //this.rightTitlePanel.add(panel, BorderLayout.WEST);
             this.rightTitlePanel.setBorder(new EmptyBorder(0, 45, 30, 0));
+            final FadeImage fadeImage = new FadeImage(this.rightPanelIcon);
+            this.rightTitlePanel.add(fadeImage);
+            getLeftTitlePanel().addMouseListener(new MouseListener() {
+	        
+	        @Override
+	        public void mouseReleased(MouseEvent e) {
+	    	// TODO Auto-generated method stub
+	    	
+	        }
+	        
+	        @Override
+	        public void mousePressed(MouseEvent e) {
+	    	// TODO Auto-generated method stub
+	    	
+	        }
+	        
+	        @Override
+	        public void mouseExited(MouseEvent e) {
+	    	    fadeImage.fadeOut();
+	        }
+	        
+	        @Override
+	        public void mouseEntered(MouseEvent e) {
+	    	    fadeImage.fadeIn();
+	        }
+	        
+	        @Override
+	        public void mouseClicked(MouseEvent e) {
+	    	// TODO Auto-generated method stub
+	    	
+	        }
+	    });
         }
         return this.rightTitlePanel;
     }
