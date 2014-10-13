@@ -12,6 +12,7 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
+import com.horstmann.violet.workspace.sidebar.graphtools.GraphTool;
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBar;
 
 public class DragSelectedBehavior extends AbstractEditorPartBehavior
@@ -22,8 +23,10 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior
         this.editorPart = editorPart;
         this.graph = editorPart.getGraph();
         this.selectionHandler = editorPart.getSelectionHandler();
+        this.graphToolsBar = graphToolsBar;
     }
 
+        
     @Override
     public void onMousePressed(MouseEvent event)
     {
@@ -32,6 +35,11 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior
             return;
         }
         if (event.getButton() != MouseEvent.BUTTON1) {
+            return;
+        }
+        GraphTool selectedTool = this.selectionHandler.getSelectedTool();
+        if (IEdge.class.isInstance(selectedTool.getNodeOrEdge()))
+        {
             return;
         }
         double zoom = editorPart.getZoomFactor();
@@ -156,6 +164,7 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior
 
     private IEditorPart editorPart;
 
+    private IGraphToolsBar graphToolsBar;
 
     private boolean isReadyForDragging = false;
 }
