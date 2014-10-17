@@ -204,7 +204,7 @@ public class MultiLineString implements Serializable, Cloneable {
 	private MultiLineLabel getLabel() {
 		if (this.label == null) {
 			this.label = new MultiLineLabel("");
-			Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 10);
+			Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
 			if (size == LARGE) {
 				font = font.deriveFont(Font.BOLD);
 			}

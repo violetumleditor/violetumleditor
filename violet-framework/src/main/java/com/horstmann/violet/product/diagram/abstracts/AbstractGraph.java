@@ -22,6 +22,7 @@
 package com.horstmann.violet.product.diagram.abstracts;
 
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
@@ -34,8 +35,6 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.common.NoteNode;
-import com.horstmann.violet.workspace.editorpart.EmptyGrid;
-import com.horstmann.violet.workspace.editorpart.IGrid;
 
 /**
  * A graph consisting of selectable nodes and edges.
@@ -101,6 +100,8 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
     @Override
     public void draw(Graphics2D g2)
     {
+        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
+
         List<INode> specialNodes = new ArrayList<INode>();
 
         int count = 0;
