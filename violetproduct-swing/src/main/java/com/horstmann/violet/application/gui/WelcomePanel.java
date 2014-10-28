@@ -29,21 +29,24 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.LayoutManager;
 import java.awt.Paint;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.BoxLayout;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.OverlayLayout;
 import javax.swing.border.EmptyBorder;
 
 import com.horstmann.violet.application.menu.FileMenu;
@@ -65,7 +68,7 @@ public class WelcomePanel extends JPanel
         ResourceBundleInjector.getInjector().inject(this);
         BeanInjector.getInjector().inject(this);
         this.fileMenu = fileMenu;
-       
+
         setOpaque(false);
         setLayout(new BorderLayout());
 
@@ -76,10 +79,14 @@ public class WelcomePanel extends JPanel
         JPanel shortcutPanel = new JPanel();
         shortcutPanel.setOpaque(false);
         shortcutPanel.setLayout(new GridBagLayout());
-        shortcutPanel.add(getLeftTitlePanel(), new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-        shortcutPanel.add(getRightTitlePanel(), new GridBagConstraints(1, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-        shortcutPanel.add(getLeftPanel(), new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-        shortcutPanel.add(getRightPanel(), new GridBagConstraints(1, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+        shortcutPanel.add(getLeftTitlePanel(), new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER,
+                GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+        shortcutPanel.add(getRightTitlePanel(), new GridBagConstraints(1, 0, 1, 1, 1, 1, GridBagConstraints.CENTER,
+                GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+        shortcutPanel.add(getLeftPanel(), new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.CENTER,
+                GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+        shortcutPanel.add(getRightPanel(), new GridBagConstraints(1, 1, 1, 1, 1, 1, GridBagConstraints.CENTER,
+                GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
         GridBagConstraints c = new GridBagConstraints();
         c.anchor = GridBagConstraints.NORTH;
         c.weightx = 1;
@@ -119,51 +126,74 @@ public class WelcomePanel extends JPanel
             {
                 final JMenuItem item = newMenu.getItem(i);
                 boolean isSubMenu = JMenu.class.isInstance(item);
-				if (isSubMenu) {
-					JMenu subMenu = (JMenu) item;
-					String label = subMenu.getText();
-					JLabel title = new JLabel(label.toLowerCase());
-		            ITheme cLAF = ThemeManager.getInstance().getTheme();
-		            title.setFont(cLAF.getWelcomeBigFont());
-		            title.setForeground(cLAF.getWelcomeBackgroundEndColor());
-		            title.setBorder(new EmptyBorder(0, 30, 0, 0));
-		            title.setAlignmentX(Component.RIGHT_ALIGNMENT);
-					leftPanel.add(title);
-					for (int j = 0; j < subMenu.getItemCount(); j++) {
-						final JMenuItem subItem = subMenu.getItem(j);
-						String subLabel = subItem.getText();
-						JButton newDiagramShortcut = new JButton(subLabel.toLowerCase());
-						newDiagramShortcut.setUI(new WelcomeButtonUI());
-						newDiagramShortcut.setAlignmentX(Component.RIGHT_ALIGNMENT);
-						newDiagramShortcut.addActionListener(new ActionListener()
-						{
-							public void actionPerformed(ActionEvent e)
-							{
-								subItem.doClick();
-							}
-						});
-						leftPanel.add(newDiagramShortcut);
-					}
-					JPanel separator = new JPanel();
-					separator.setBorder(new EmptyBorder(0, 0, 0, 0));
-					separator.setPreferredSize(new Dimension(10, 20));
-					separator.setOpaque(false);
-					leftPanel.add(separator);
+                if (isSubMenu)
+                {
+                    JMenu subMenu = (JMenu) item;
+                    String label = subMenu.getText();
+                    JLabel title = new JLabel(label.toLowerCase());
+                    ITheme cLAF = ThemeManager.getInstance().getTheme();
+                    title.setFont(cLAF.getWelcomeBigFont());
+                    title.setForeground(cLAF.getWelcomeBackgroundEndColor());
+                    title.setBorder(new EmptyBorder(0, 30, 0, 0));
+                    title.setAlignmentX(Component.RIGHT_ALIGNMENT);
+                    leftPanel.add(title);
+                    for (int j = 0; j < subMenu.getItemCount(); j++)
+                    {
+                        final JMenuItem subItem = subMenu.getItem(j);
+                        String subLabel = subItem.getText();
+                        JButton newDiagramShortcut = new JButton(subLabel.toLowerCase());
+                        newDiagramShortcut.setUI(new WelcomeButtonUI());
+                        newDiagramShortcut.setAlignmentX(Component.RIGHT_ALIGNMENT);
+                        newDiagramShortcut.addActionListener(new ActionListener()
+                        {
+                            public void actionPerformed(ActionEvent e)
+                            {
+                                subItem.doClick();
+                            }
+                        });
+                        Icon sampleDiagramIcon = subItem.getRolloverIcon();
+                        if (sampleDiagramIcon != null)
+                        {
+                            final FadeImage fadeImage = new FadeImage((ImageIcon) sampleDiagramIcon);
+                            getRightPanel().add(fadeImage);
+                            newDiagramShortcut.addMouseListener(new MouseAdapter()
+                            {
+                                @Override
+                                public void mouseEntered(MouseEvent e)
+                                {
+                                    fadeImage.fadeIn();
+                                };
+
+                                @Override
+                                public void mouseExited(MouseEvent e)
+                                {
+                                    fadeImage.fadeOut();
+                                };
+                            });
+                        }
+                        leftPanel.add(newDiagramShortcut);
+                    }
+                    JPanel separator = new JPanel();
+                    separator.setBorder(new EmptyBorder(0, 0, 0, 0));
+                    separator.setPreferredSize(new Dimension(10, 20));
+                    separator.setOpaque(false);
+                    leftPanel.add(separator);
                 }
-				if (!isSubMenu) {
-					String label = item.getText();
-					JButton newDiagramShortcut = new JButton(label.toLowerCase());
-					newDiagramShortcut.setUI(new WelcomeButtonUI());
-					newDiagramShortcut.setAlignmentX(Component.RIGHT_ALIGNMENT);
-					newDiagramShortcut.addActionListener(new ActionListener()
-					{
-						public void actionPerformed(ActionEvent e)
-						{
-							item.doClick();
-						}
-					});
-					leftPanel.add(newDiagramShortcut);
-				}
+                if (!isSubMenu)
+                {
+                    String label = item.getText();
+                    JButton newDiagramShortcut = new JButton(label.toLowerCase());
+                    newDiagramShortcut.setUI(new WelcomeButtonUI());
+                    newDiagramShortcut.setAlignmentX(Component.RIGHT_ALIGNMENT);
+                    newDiagramShortcut.addActionListener(new ActionListener()
+                    {
+                        public void actionPerformed(ActionEvent e)
+                        {
+                            item.doClick();
+                        }
+                    });
+                    leftPanel.add(newDiagramShortcut);
+                }
             }
         }
         return this.leftPanel;
@@ -175,27 +205,9 @@ public class WelcomePanel extends JPanel
         {
             this.rightPanel = new JPanel();
             this.rightPanel.setOpaque(false);
-            this.rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-            this.rightPanel.setBorder(new EmptyBorder(0, 45, 0, 45));
-
-//            final JMenu recentMenu = this.fileMenu.getFileRecentMenu();
-//            for (int i = 0; i < recentMenu.getItemCount(); i++)
-//            {
-//                final JMenuItem item = recentMenu.getItem(i);
-//                String label = item.getText();
-//                JButton fileShortcut = new JButton(label.toLowerCase());
-//                fileShortcut.setUI(new WelcomeButtonUI());
-//                fileShortcut.setAlignmentX(Component.LEFT_ALIGNMENT);
-//                fileShortcut.addActionListener(new ActionListener()
-//                {
-//                    public void actionPerformed(ActionEvent e)
-//                    {
-//                        item.doClick();
-//                    }
-//                });
-//                rightPanel.add(fileShortcut);
-//            }
-
+            LayoutManager overlay = new OverlayLayout(this.rightPanel);
+            this.rightPanel.setLayout(overlay);
+            
         }
         return this.rightPanel;
     }
@@ -232,59 +244,66 @@ public class WelcomePanel extends JPanel
     {
         if (this.rightTitlePanel == null)
         {
-//            JLabel icon = new JLabel();
-//            icon.setIcon(this.rightPanelIcon);
-//            icon.setAlignmentX(Component.LEFT_ALIGNMENT);
-//
-//            JLabel title = new JLabel(this.fileMenu.getFileRecentMenu().getText().toLowerCase());
-//            ITheme cLAF = ThemeManager.getInstance().getTheme();
-//            title.setFont(cLAF.getWelcomeBigFont());
-//            title.setForeground(cLAF.getWelcomeBigForegroundColor());
-//            title.setBorder(new EmptyBorder(0, 0, 0, 30));
+            // JLabel icon = new JLabel();
+            // icon.setIcon(this.rightPanelIcon);
+            // icon.setAlignmentX(Component.LEFT_ALIGNMENT);
+            //
+            // JLabel title = new
+            // JLabel(this.fileMenu.getFileRecentMenu().getText().toLowerCase());
+            // ITheme cLAF = ThemeManager.getInstance().getTheme();
+            // title.setFont(cLAF.getWelcomeBigFont());
+            // title.setForeground(cLAF.getWelcomeBigForegroundColor());
+            // title.setBorder(new EmptyBorder(0, 0, 0, 30));
 
-//            JPanel panel = new JPanel();
-//            panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-////            panel.add(title);
-////            panel.add(icon);
-//            panel.setOpaque(false);
+            // JPanel panel = new JPanel();
+            // panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+            // // panel.add(title);
+            // // panel.add(icon);
+            // panel.setOpaque(false);
 
             this.rightTitlePanel = new JPanel();
             this.rightTitlePanel.setOpaque(false);
             this.rightTitlePanel.setLayout(new BorderLayout());
-            //this.rightTitlePanel.add(panel, BorderLayout.WEST);
+            // this.rightTitlePanel.add(panel, BorderLayout.WEST);
             this.rightTitlePanel.setBorder(new EmptyBorder(0, 45, 30, 0));
             final FadeImage fadeImage = new FadeImage(this.rightPanelIcon);
             this.rightTitlePanel.add(fadeImage);
-            getLeftTitlePanel().addMouseListener(new MouseListener() {
-	        
-	        @Override
-	        public void mouseReleased(MouseEvent e) {
-	    	// TODO Auto-generated method stub
-	    	
-	        }
-	        
-	        @Override
-	        public void mousePressed(MouseEvent e) {
-	    	// TODO Auto-generated method stub
-	    	
-	        }
-	        
-	        @Override
-	        public void mouseExited(MouseEvent e) {
-	    	    fadeImage.fadeOut();
-	        }
-	        
-	        @Override
-	        public void mouseEntered(MouseEvent e) {
-	    	    fadeImage.fadeIn();
-	        }
-	        
-	        @Override
-	        public void mouseClicked(MouseEvent e) {
-	    	// TODO Auto-generated method stub
-	    	
-	        }
-	    });
+            getLeftTitlePanel().addMouseListener(new MouseListener()
+            {
+
+                @Override
+                public void mouseReleased(MouseEvent e)
+                {
+                    // TODO Auto-generated method stub
+
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e)
+                {
+                    // TODO Auto-generated method stub
+
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e)
+                {
+                    fadeImage.fadeOut();
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e)
+                {
+                    fadeImage.fadeIn();
+                }
+
+                @Override
+                public void mouseClicked(MouseEvent e)
+                {
+                    // TODO Auto-generated method stub
+
+                }
+            });
         }
         return this.rightTitlePanel;
     }
@@ -323,18 +342,17 @@ public class WelcomePanel extends JPanel
 
     private FileMenu fileMenu;
 
-    @ResourceBundleBean(key="welcomepanel.new_diagram.icon")
+    @ResourceBundleBean(key = "welcomepanel.new_diagram.icon")
     private ImageIcon leftPanelIcon;
 
-    @ResourceBundleBean(key="welcomepanel.recent_files.icon")
+    @ResourceBundleBean(key = "welcomepanel.recent_files.icon")
     private ImageIcon rightPanelIcon;
 
-    @ResourceBundleBean(key="welcomepanel.foot_text")
+    @ResourceBundleBean(key = "welcomepanel.foot_text")
     private String footText;
-    
+
     /** Plugin registry */
     @InjectedBean
     private PluginRegistry pluginRegistry;
-
 
 }

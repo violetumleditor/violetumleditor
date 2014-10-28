@@ -28,7 +28,11 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URL;
 import java.util.Comparator;
 import java.util.List;
 import java.util.SortedMap;
@@ -47,7 +51,9 @@ import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.file.GraphFile;
 import com.horstmann.violet.framework.file.IFile;
 import com.horstmann.violet.framework.file.IGraphFile;
+import com.horstmann.violet.framework.file.LocalFile;
 import com.horstmann.violet.framework.file.chooser.IFileChooserService;
+import com.horstmann.violet.framework.file.export.FileExportService;
 import com.horstmann.violet.framework.file.naming.ExtensionFilter;
 import com.horstmann.violet.framework.file.naming.FileNamingService;
 import com.horstmann.violet.framework.file.persistence.IFileReader;
@@ -483,6 +489,10 @@ public class FileMenu extends JMenu
                 String name = aDiagramPlugin.getName();
                 name = name.replaceFirst("[0-9]*\\.", "");
                 JMenuItem item = new JMenuItem(name);
+                ImageIcon sampleDiagramImage = getSampleDiagramImage(aDiagramPlugin);
+                if (sampleDiagramImage != null) {
+                    item.setRolloverIcon(sampleDiagramImage);
+                }
                 item.addActionListener(new ActionListener()
                 {
                     public void actionPerformed(ActionEvent event)
@@ -555,6 +565,34 @@ public class FileMenu extends JMenu
             });
         }
     }
+    
+    /**
+     * @param diagramPlugin
+     * @return an image exported from the sample diagram file attached to each plugin or null if no one exists
+     * @throws IOException
+     */
+    private ImageIcon getSampleDiagramImage(IDiagramPlugin diagramPlugin) {
+        try {
+            String sampleFilePath = diagramPlugin.getSampleFilePath();
+            URL resource = getClass().getResource("/" + sampleFilePath);
+            File file = new File(resource.getFile());
+            if (!file.exists()) {
+                return null;
+            }
+            if (!file.isFile()) {
+                return null;
+            }
+            IFile aFile = new LocalFile(file);
+            GraphFile graphFile = new GraphFile(aFile);
+            IGraph graph = graphFile.getGraph();
+            BufferedImage image = FileExportService.getImage(graph);
+            return new ImageIcon(image);
+        } catch (Exception e) {
+            // Failed to load sample. It doesn"t matter.
+            return null;
+        }
+    }
+    
 
     /** The file chooser to use with with menu */
     @InjectedBean
