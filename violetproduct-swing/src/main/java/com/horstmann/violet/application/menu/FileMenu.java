@@ -344,7 +344,12 @@ public class FileMenu extends JMenu
         {
             public void actionPerformed(ActionEvent event)
             {
-                IWorkspace workspace = (Workspace) mainFrame.getActiveWorkspace();
+        	IWorkspace workspace = null;
+        	try {
+        	    workspace = (Workspace) mainFrame.getActiveWorkspace();
+                } catch (RuntimeException e) {
+                    // Nothing to do if no diagram is opened
+                }
                 if (workspace != null)
                 {
                     IGraphFile graphFile = workspace.getGraphFile();
