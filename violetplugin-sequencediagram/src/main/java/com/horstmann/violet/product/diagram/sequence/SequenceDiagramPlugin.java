@@ -43,10 +43,11 @@ public class SequenceDiagramPlugin implements IDiagramPlugin, Violet016FileFilte
     }
 
     @Override
-    public String getCategory() {
+    public String getCategory()
+    {
         return this.rs.getString("menu.sequence_diagram.category");
     }
-    
+
     @Override
     public String getFileExtension()
     {
@@ -60,13 +61,17 @@ public class SequenceDiagramPlugin implements IDiagramPlugin, Violet016FileFilte
     }
 
     @Override
+    public String getSampleFilePath()
+    {
+        return this.rs.getString("sample.file.path");
+    }
+
+    @Override
     public Class<? extends IGraph> getGraphClass()
     {
         return SequenceDiagramGraph.class;
     }
 
- 
-    
     public Map<String, String> getMappingToKeepViolet016Compatibility()
     {
         Map<String, String> replaceMap = new HashMap<String, String>();
@@ -77,8 +82,7 @@ public class SequenceDiagramPlugin implements IDiagramPlugin, Violet016FileFilte
         replaceMap.put("com.horstmann.violet.SequenceDiagramGraph", SequenceDiagramGraph.class.getName());
         return replaceMap;
     }
-    
+
     private ResourceBundle rs = ResourceBundle.getBundle(SequenceDiagramConstant.SEQUENCE_DIAGRAM_STRINGS, Locale.getDefault());
-    
 
 }

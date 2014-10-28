@@ -18,48 +18,55 @@ import com.horstmann.violet.product.diagram.abstracts.IGraph;
 public class UseCaseDiagramPlugin implements IDiagramPlugin, Violet016FileFilterExtensionPoint
 {
 
-	@Override
+    @Override
     public String getDescription()
     {
         return "Use case UML diagram";
     }
 
-	@Override
+    @Override
     public String getProvider()
     {
         return "Alexandre de Pellegrin / Cays S. Horstmann";
     }
 
-	@Override
+    @Override
     public String getVersion()
     {
         return "1.0.0";
     }
 
-	@Override
+    @Override
     public String getName()
     {
         return this.rs.getString("menu.usecase_diagram.name");
     }
 
-	@Override
-	public String getCategory() {
+    @Override
+    public String getCategory()
+    {
         return this.rs.getString("menu.usecase_diagram.category");
-	}
-	
-	@Override
+    }
+
+    @Override
     public String getFileExtension()
     {
         return this.rs.getString("files.usecase.extension");
     }
 
-	@Override
+    @Override
     public String getFileExtensionName()
     {
         return this.rs.getString("files.usecase.name");
     }
 
-	@Override
+    @Override
+    public String getSampleFilePath()
+    {
+        return this.rs.getString("sample.file.path");
+    }
+
+    @Override
     public Class<? extends IGraph> getGraphClass()
     {
         return UseCaseDiagramGraph.class;

@@ -30,6 +30,11 @@ public interface IDiagramPlugin extends AbstractPlugin
      * @return file extension textual name (ex : Class Diagram Files)
      */
     public abstract String getFileExtensionName();
+    
+    /**
+     * @return path of a diagram file used to introduce this kind of diagram
+     */
+    public abstract String getSampleFilePath();
 
     /**
      * @return corresponding graph class
