@@ -24,7 +24,7 @@ public class FadeImage extends JLabel implements ActionListener {
     }
 
     private void initializeTimer() {
-	fadeTimer = new javax.swing.Timer(75, this);
+	fadeTimer = new javax.swing.Timer(25, this);
 	fadeTimer.setInitialDelay(0);
     }
 

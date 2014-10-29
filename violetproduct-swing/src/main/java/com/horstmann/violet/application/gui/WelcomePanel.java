@@ -205,9 +205,10 @@ public class WelcomePanel extends JPanel
         {
             this.rightPanel = new JPanel();
             this.rightPanel.setOpaque(false);
+            this.rightPanel.setDoubleBuffered(true);
             LayoutManager overlay = new OverlayLayout(this.rightPanel);
             this.rightPanel.setLayout(overlay);
-            
+
         }
         return this.rightPanel;
     }
