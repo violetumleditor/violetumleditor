@@ -21,7 +21,10 @@
 
 package com.horstmann.violet.application.menu;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -40,13 +43,17 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import com.horstmann.violet.application.ApplicationStopper;
 import com.horstmann.violet.application.gui.MainFrame;
+import com.horstmann.violet.application.swingextension.TextBubbleBorder;
 import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.file.GraphFile;
 import com.horstmann.violet.framework.file.IFile;
@@ -257,7 +264,8 @@ public class FileMenu extends JMenu
                         if (out != null)
                         {
                             String filename = fileSaver.getFileDefinition().getFilename();
-                            for (ExtensionFilter exportFilter : exportFilters) {
+                            for (ExtensionFilter exportFilter : exportFilters)
+                            {
                                 String extension = exportFilter.getExtension();
                                 if (filename.toLowerCase().endsWith(extension.toLowerCase()))
                                 {
@@ -311,7 +319,7 @@ public class FileMenu extends JMenu
                 if (workspace != null)
                 {
                     IGraphFile graphFile = workspace.getGraphFile();
-					graphFile.save();
+                    graphFile.save();
                     userPreferencesService.addRecentFile(graphFile);
                 }
             }
@@ -350,10 +358,13 @@ public class FileMenu extends JMenu
         {
             public void actionPerformed(ActionEvent event)
             {
-        	IWorkspace workspace = null;
-        	try {
-        	    workspace = (Workspace) mainFrame.getActiveWorkspace();
-                } catch (RuntimeException e) {
+                IWorkspace workspace = null;
+                try
+                {
+                    workspace = (Workspace) mainFrame.getActiveWorkspace();
+                }
+                catch (RuntimeException e)
+                {
                     // Nothing to do if no diagram is opened
                 }
                 if (workspace != null)
@@ -433,12 +444,13 @@ public class FileMenu extends JMenu
                     userPreferencesService.addOpenedFile(graphFile);
                     userPreferencesService.addRecentFile(graphFile);
                 }
-                catch (StreamException se) {
+                catch (StreamException se)
+                {
                     dialogFactory.showErrorDialog(dialogOpenFileIncompatibilityMessage);
                 }
                 catch (Exception e)
                 {
-                    dialogFactory.showErrorDialog(dialogOpenFileErrorMessage  + " : " + e.getMessage());
+                    dialogFactory.showErrorDialog(dialogOpenFileErrorMessage + " : " + e.getMessage());
                 }
             }
         });
@@ -451,7 +463,7 @@ public class FileMenu extends JMenu
     public void initFileNewMenu()
     {
         List<IDiagramPlugin> diagramPlugins = this.pluginRegistry.getDiagramPlugins();
-        
+
         // Step 1 : sort diagram plugins by categories and names
         SortedMap<String, SortedSet<IDiagramPlugin>> diagramPluginsSortedByCategory = new TreeMap<String, SortedSet<IDiagramPlugin>>();
         for (final IDiagramPlugin aDiagramPlugin : diagramPlugins)
@@ -476,12 +488,13 @@ public class FileMenu extends JMenu
         }
 
         // Step 2 : populate menu entry
-        for (String aCategory : diagramPluginsSortedByCategory.keySet()) {
+        for (String aCategory : diagramPluginsSortedByCategory.keySet())
+        {
             String categoryName = aCategory.replaceFirst("[0-9]*\\.", "");
             JMenu categorySubMenu = new JMenu(categoryName);
             Dimension preferredSize = categorySubMenu.getPreferredSize();
             preferredSize = new Dimension((int) preferredSize.getWidth() + 30, (int) preferredSize.getHeight());
-			categorySubMenu.setPreferredSize(preferredSize);
+            categorySubMenu.setPreferredSize(preferredSize);
             fileNewMenu.add(categorySubMenu);
             SortedSet<IDiagramPlugin> diagramPluginsByCategory = diagramPluginsSortedByCategory.get(aCategory);
             for (final IDiagramPlugin aDiagramPlugin : diagramPluginsByCategory)
@@ -490,7 +503,8 @@ public class FileMenu extends JMenu
                 name = name.replaceFirst("[0-9]*\\.", "");
                 JMenuItem item = new JMenuItem(name);
                 ImageIcon sampleDiagramImage = getSampleDiagramImage(aDiagramPlugin);
-                if (sampleDiagramImage != null) {
+                if (sampleDiagramImage != null)
+                {
                     item.setRolloverIcon(sampleDiagramImage);
                 }
                 item.addActionListener(new ActionListener()
@@ -559,40 +573,58 @@ public class FileMenu extends JMenu
                     }
                     catch (Exception e)
                     {
-                        dialogFactory.showErrorDialog(dialogOpenFileErrorMessage  + " : " + e.getMessage());
+                        dialogFactory.showErrorDialog(dialogOpenFileErrorMessage + " : " + e.getMessage());
                     }
                 }
             });
         }
     }
-    
+
     /**
      * @param diagramPlugin
      * @return an image exported from the sample diagram file attached to each plugin or null if no one exists
      * @throws IOException
      */
-    private ImageIcon getSampleDiagramImage(IDiagramPlugin diagramPlugin) {
-        try {
+    private ImageIcon getSampleDiagramImage(IDiagramPlugin diagramPlugin)
+    {
+        try
+        {
             String sampleFilePath = diagramPlugin.getSampleFilePath();
             URL resource = getClass().getResource("/" + sampleFilePath);
             File file = new File(resource.getFile());
-            if (!file.exists()) {
+            if (!file.exists())
+            {
                 return null;
             }
-            if (!file.isFile()) {
+            if (!file.isFile())
+            {
                 return null;
             }
             IFile aFile = new LocalFile(file);
             GraphFile graphFile = new GraphFile(aFile);
             IGraph graph = graphFile.getGraph();
             BufferedImage image = FileExportService.getImage(graph);
-            return new ImageIcon(image);
-        } catch (Exception e) {
+
+            // /
+            JPanel container = new JPanel();
+            container.setPreferredSize(new Dimension(600, 600));
+            container.setBorder(new TextBubbleBorder(Color.BLACK, 2, 16, 16));
+            container.setOpaque(false);
+            JLabel label = new JLabel("blabla");
+            label.setIcon(new ImageIcon(image));
+            container.add(label);
+            Dimension size = container.getSize();
+            BufferedImage image2 = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB);
+            Graphics2D g2 = image2.createGraphics();
+            container.paint(g2);
+            return new ImageIcon(image2);
+        }
+        catch (Exception e)
+        {
             // Failed to load sample. It doesn"t matter.
             return null;
         }
     }
-    
 
     /** The file chooser to use with with menu */
     @InjectedBean
@@ -667,10 +699,10 @@ public class FileMenu extends JMenu
 
     @ResourceBundleBean(key = "dialog.close.icon")
     private ImageIcon dialogCloseIcon;
-    
+
     @ResourceBundleBean(key = "dialog.open_file_failed.text")
     private String dialogOpenFileErrorMessage;
-    
+
     @ResourceBundleBean(key = "dialog.open_file_content_incompatibility.text")
     private String dialogOpenFileIncompatibilityMessage;
 
