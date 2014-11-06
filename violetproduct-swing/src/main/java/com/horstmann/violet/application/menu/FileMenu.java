@@ -21,7 +21,6 @@
 
 package com.horstmann.violet.application.menu;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -43,17 +42,14 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 import com.horstmann.violet.application.ApplicationStopper;
 import com.horstmann.violet.application.gui.MainFrame;
-import com.horstmann.violet.application.swingextension.TextBubbleBorder;
 import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.file.GraphFile;
 import com.horstmann.violet.framework.file.IFile;
@@ -605,18 +601,17 @@ public class FileMenu extends JMenu
             IGraph graph = graphFile.getGraph();
             BufferedImage image = FileExportService.getImage(graph);
 
-            // /
-            JPanel container = new JPanel();
-            container.setPreferredSize(new Dimension(600, 600));
-            container.setBorder(new TextBubbleBorder(Color.BLACK, 2, 16, 16));
-            container.setOpaque(false);
-            JLabel label = new JLabel("blabla");
+            JLabel label = new JLabel();
+            label.setHorizontalAlignment(JLabel.CENTER);
+            label.setVerticalAlignment(JLabel.CENTER);
             label.setIcon(new ImageIcon(image));
-            container.add(label);
-            Dimension size = container.getSize();
+            label.setSize(new Dimension(600, 550));
+            label.setBackground(Color.WHITE);
+            label.setOpaque(true);
+            Dimension size = label.getSize();
             BufferedImage image2 = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB);
             Graphics2D g2 = image2.createGraphics();
-            container.paint(g2);
+            label.paint(g2);
             return new ImageIcon(image2);
         }
         catch (Exception e)
