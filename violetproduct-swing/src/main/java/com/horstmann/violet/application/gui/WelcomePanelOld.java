@@ -71,10 +71,10 @@ import com.horstmann.violet.framework.theme.ITheme;
 import com.horstmann.violet.framework.theme.ThemeManager;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 
-public class WelcomePanel2 extends JPanel
+public class WelcomePanelOld extends JPanel
 {
 
-    public WelcomePanel2(FileMenu fileMenu)
+    public WelcomePanelOld(FileMenu fileMenu)
     {
         ResourceBundleInjector.getInjector().inject(this);
         BeanInjector.getInjector().inject(this);
