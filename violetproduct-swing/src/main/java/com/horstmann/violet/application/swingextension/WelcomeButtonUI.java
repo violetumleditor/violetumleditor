@@ -48,8 +48,11 @@ public class WelcomeButtonUI extends BasicButtonUI
         b.setRolloverEnabled(true);
         b.setFont(ThemeManager.getInstance().getTheme().getWelcomeBigFont());
         b.setBorder(new EmptyBorder(0, 0, 0, 0));
+        b.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
+
+    
     protected void paintText(Graphics g, AbstractButton b, Rectangle textRect, String text)
     {
 
@@ -57,7 +60,6 @@ public class WelcomeButtonUI extends BasicButtonUI
         if (model.isRollover())
         {
             b.setForeground(ThemeManager.getInstance().getTheme().getWelcomeBigRolloverForegroundColor());
-            b.setCursor(new Cursor(Cursor.HAND_CURSOR));
         }
         else
         {
