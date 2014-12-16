@@ -21,18 +21,18 @@
 
 package com.horstmann.violet.application.gui;
 
-import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.ComponentOrientation;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Paint;
-import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
@@ -42,6 +42,8 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
 import com.horstmann.violet.application.menu.FileMenu;
@@ -65,9 +67,9 @@ public class WelcomePanel extends JPanel
 
         setOpaque(false);
         setLayout(new BorderLayout());
-        add(getOptionPanel(), BorderLayout.CENTER);
+        add(getScrollableOptionPanel(), BorderLayout.CENTER);
         add(getFootTextPanel(), BorderLayout.SOUTH);
-
+        
     }
 
     public void paint(Graphics g)
@@ -83,6 +85,18 @@ public class WelcomePanel extends JPanel
         super.paint(g);
     }
 
+    private JScrollPane getScrollableOptionPanel() {
+        if (this.scrollableOptionPanel == null) {
+            this.scrollableOptionPanel = new JScrollPane(getOptionPanel());
+            this.scrollableOptionPanel.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            this.scrollableOptionPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+            this.scrollableOptionPanel.setOpaque(false);
+            this.scrollableOptionPanel.getViewport().setOpaque(false);
+            this.scrollableOptionPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
+        }
+        return this.scrollableOptionPanel;
+    }
+    
     private JPanel getOptionPanel()
     {
         if (this.optionPanel == null)
@@ -100,7 +114,6 @@ public class WelcomePanel extends JPanel
                     String label = item.getText();
                     JButton newDiagramShortcut = new JButton(label.toLowerCase());
                     newDiagramShortcut.setUI(new WelcomeButtonUI());
-                    newDiagramShortcut.setAlignmentX(Component.RIGHT_ALIGNMENT);
                     newDiagramShortcut.addActionListener(new ActionListener()
                     {
                         public void actionPerformed(ActionEvent e)
@@ -118,19 +131,20 @@ public class WelcomePanel extends JPanel
                     ITheme cLAF = ThemeManager.getInstance().getTheme();
                     title.setFont(cLAF.getWelcomeBigFont());
                     title.setForeground(cLAF.getWelcomeBackgroundEndColor());
-                    title.setBorder(new EmptyBorder(0, 30, 0, 0));
-                    title.setAlignmentX(Component.RIGHT_ALIGNMENT);
+                    title.setBorder(new EmptyBorder(0, 45, 0, 30));
+                    title.setAlignmentX(Component.LEFT_ALIGNMENT);
                     this.optionPanel.add(title);
                     JPanel diagramsPanel = new JPanel();
-                    FlowLayout subLayout = new FlowLayout();
-                    diagramsPanel.setLayout(subLayout);
+                    diagramsPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
                     diagramsPanel.setOpaque(false);
+                    diagramsPanel.setBorder(new EmptyBorder(0, 30, 0, 30));
                     for (int j = 0; j < subMenu.getItemCount(); j++)
                     {
                         final JMenuItem subItem = subMenu.getItem(j);
                         JPanel diagramClickablePanel = getDiagramClickablePanel(subItem);
                         diagramsPanel.add(diagramClickablePanel);
                     }
+                    diagramsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
                     this.optionPanel.add(diagramsPanel);
                 }
             }
@@ -144,10 +158,10 @@ public class WelcomePanel extends JPanel
         JPanel panel = new JPanel();
         panel.setOpaque(false);
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBorder(new EmptyBorder(10, 10, 10, 10));
         String subLabel = diagramMenuItem.getText();
         JButton newDiagramTextButton = new JButton(subLabel.toLowerCase());
         newDiagramTextButton.setUI(new WelcomeButtonUI());
-        newDiagramTextButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         newDiagramTextButton.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
@@ -155,23 +169,26 @@ public class WelcomePanel extends JPanel
                 diagramMenuItem.doClick();
             }
         });
+        panel.add(newDiagramTextButton);
+        JButton newDiagramImageButton = new JButton();
+        newDiagramImageButton.setPreferredSize(new Dimension(DIAGRAM_ICON_WIDTH, DIAGRAM_ICON_HEIGHT));
+        newDiagramImageButton.setUI(new WelcomeButtonUI());
         Icon sampleDiagramIcon = diagramMenuItem.getRolloverIcon();
         if (sampleDiagramIcon != null)
         {
             ImageIcon resizedImageIcon = getResizedImageIcon((ImageIcon) sampleDiagramIcon);
-            JButton newDiagramImageButton = new JButton();
             newDiagramImageButton.setIcon(resizedImageIcon);
-            newDiagramImageButton.addActionListener(new ActionListener()
-            {
-
-                @Override
-                public void actionPerformed(ActionEvent e)
-                {
-                    diagramMenuItem.doClick();
-                }
-            });
-            panel.add(newDiagramImageButton);
         }
+        newDiagramImageButton.addActionListener(new ActionListener()
+        {
+            
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                diagramMenuItem.doClick();
+            }
+        });
+        panel.add(newDiagramImageButton);
         return panel;
     }
 
@@ -196,32 +213,25 @@ public class WelcomePanel extends JPanel
 
         return this.footTextPanel;
     }
-    
-    
-    private ImageIcon getResizedImageIcon(ImageIcon originalImageIcon) {
-        BufferedImage resizedImage = new BufferedImage(DIAGRAM_ICON_WIDTH, DIAGRAM_ICON_HEIGHT, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g = resizedImage.createGraphics();
-        g.drawImage(originalImageIcon.getImage(), 0, 0, DIAGRAM_ICON_WIDTH, DIAGRAM_ICON_HEIGHT, null);
-        g.dispose();
-        g.setComposite(AlphaComposite.Src);
-        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        g.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_QUALITY);
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-        return new ImageIcon(resizedImage);
+
+    private ImageIcon getResizedImageIcon(ImageIcon originalImageIcon)
+    {
+        Image scaledInstance = originalImageIcon.getImage().getScaledInstance(DIAGRAM_ICON_WIDTH, DIAGRAM_ICON_HEIGHT,
+                java.awt.Image.SCALE_SMOOTH);
+        return new ImageIcon(scaledInstance);
     }
 
-    
+    private JScrollPane scrollableOptionPanel;
     
     private JPanel optionPanel;
 
     private JPanel footTextPanel;
 
     private FileMenu fileMenu;
-    
-    private static final int DIAGRAM_ICON_HEIGHT = 100;
-    
-    private static final int DIAGRAM_ICON_WIDTH = 120;
-    
+
+    private static final int DIAGRAM_ICON_HEIGHT = 240;
+
+    private static final int DIAGRAM_ICON_WIDTH = 240;
 
     @ResourceBundleBean(key = "welcomepanel.foot_text")
     private String footText;

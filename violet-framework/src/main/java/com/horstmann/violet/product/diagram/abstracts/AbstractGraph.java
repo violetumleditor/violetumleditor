@@ -188,7 +188,8 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
     @Override
     public void draw(Graphics2D g2)
     {
-        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
+        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         List<INode> specialNodes = new ArrayList<INode>();
 
