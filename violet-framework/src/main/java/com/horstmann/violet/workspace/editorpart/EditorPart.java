@@ -31,6 +31,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Double;
 import java.util.ArrayList;
@@ -267,6 +268,10 @@ public class EditorPart extends JPanel implements IEditorPart
         // Step 1 : determine edges and nodes to draw
 	for (INode n : nodes) {
             nodesToDraw.add(n);
+            INode p = n.getParent();
+            if (p != null) {
+        	nodesToDraw.add(p);
+            }
             List<INode> children = n.getChildren();
 	    nodesToDraw.addAll(children);
         }
@@ -284,11 +289,13 @@ public class EditorPart extends JPanel implements IEditorPart
 	Rectangle2D bounds = null;
 	for (INode n : nodesToDraw) {
 	    Rectangle2D b = n.getBounds();
+	    Point2D locationOnGraph = n.getLocationOnGraph();
+	    b = new Rectangle2D.Double(locationOnGraph.getX(), locationOnGraph.getY(), b.getWidth(), b.getHeight());
 	    if (bounds != null) {
 		bounds.add(b);
 	    }
 	    if (bounds == null) {
-		bounds = new Rectangle2D.Double(b.getX(), b.getY(), b.getWidth(), b.getHeight());
+		bounds = b;
 	    }
 	}
 	for (IEdge e : edgesToDraw) {
