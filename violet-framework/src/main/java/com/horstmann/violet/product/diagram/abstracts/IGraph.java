@@ -128,13 +128,12 @@ public interface IGraph
 
 
     /**
-     * Only draws the part of the graph which contains this nodes and edges AND their direct dependencies
+     * Only draws the part of the graph in the given area
      * 
      * @param g2 the graphics context
-     * @param nodes to draw on this graph
-     * @param edges to draw on this graph
+     * @param bounds the area to draw
      */
-    public abstract void draw(Graphics2D g2, List<INode> nodes, List<IEdge> edges);
+    public abstract void draw(Graphics2D g2, Rectangle2D bounds);
     
     
     /**

@@ -38,8 +38,7 @@ public class EditorPartUI extends PanelUI
         grid.paint(g2);
         g2.scale(zoom, zoom);
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        //graph.draw(g2);
-        graph.draw(g2, selectionHandler.getSelectedNodes(), selectionHandler.getSelectedEdges());
+        graph.draw(g2);
         for (IEditorPartBehavior paintableBehaviour : editor.getBehaviorManager().getBehaviors()) {
             paintableBehaviour.onPaint(g2);
         }

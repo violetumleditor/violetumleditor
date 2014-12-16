@@ -99,43 +99,17 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
     
     
     @Override
-    public void draw(Graphics2D g2, List<INode> nodes, List<IEdge> edges) {
-        List<IEdge> edgesToDraw = new ArrayList<IEdge>();
-        List<INode> nodesToDraw = new ArrayList<INode>();
-        // Step 1 : determine edges and nodes to draw
-	for (INode n : nodes) {
-            nodesToDraw.add(n);
-            List<INode> children = n.getChildren();
-	    nodesToDraw.addAll(children);
-        }
-	for (IEdge anEdge : getAllEdges()) {
-	    if (nodesToDraw.contains(anEdge.getStart()) || nodesToDraw.contains(anEdge.getEnd())) {
-		edgesToDraw.add(anEdge);
+    public void draw(Graphics2D g2, Rectangle2D bounds) {
+	List<INode> nodesToDraw = new ArrayList<INode>();
+	List<IEdge> edgesToDraw = new ArrayList<IEdge>();
+	for (INode n : getAllNodes()) {
+	    if (bounds.intersects(n.getBounds())) {
+		nodesToDraw.add(n);
 	    }
 	}
-	for (IEdge e : edges) {
-	    edgesToDraw.add(e);
-	    nodesToDraw.add(e.getStart());
-	    nodesToDraw.add(e.getEnd());
-	}
-	// Step 2 : determine global bounds
-	Rectangle2D bounds = null;
-	for (INode n : nodesToDraw) {
-	    Rectangle2D b = n.getBounds();
-	    if (bounds != null) {
-		bounds.add(b);
-	    }
-	    if (bounds == null) {
-		bounds = new Rectangle2D.Double(b.getX(), b.getY(), b.getWidth(), b.getHeight());
-	    }
-	}
-	for (IEdge e : edgesToDraw) {
-	    Rectangle2D b = e.getBounds();
-	    if (bounds != null) {
-		bounds.add(b);
-	    }
-	    if (bounds == null) {
-		bounds = new Rectangle2D.Double(b.getX(), b.getY(), b.getWidth(), b.getHeight());
+	for (IEdge e : getAllEdges()) {
+	    if (bounds.intersects(e.getBounds())) {
+		edgesToDraw.add(e);
 	    }
 	}
 	// Step 3 : draw
@@ -173,7 +147,6 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
         for (INode n : specialNodes)
         {
             // Translate g2 if node has parent
-            INode p = n.getParent();
             Point2D nodeLocationOnGraph = n.getLocationOnGraph();
             Point2D nodeLocation = n.getLocation();
             Point2D g2Location = new Point2D.Double(nodeLocationOnGraph.getX() - nodeLocation.getX(), nodeLocationOnGraph.getY()
@@ -226,7 +199,6 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
         for (INode n : specialNodes)
         {
             // Translate g2 if node has parent
-            INode p = n.getParent();
             Point2D nodeLocationOnGraph = n.getLocationOnGraph();
             Point2D nodeLocation = n.getLocation();
             Point2D g2Location = new Point2D.Double(nodeLocationOnGraph.getX() - nodeLocation.getX(), nodeLocationOnGraph.getY()

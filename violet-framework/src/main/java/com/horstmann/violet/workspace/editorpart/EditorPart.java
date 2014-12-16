@@ -33,6 +33,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Double;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -56,7 +57,7 @@ public class EditorPart extends JPanel implements IEditorPart
      */
     public EditorPart(IGraph aGraph)
     {
-        this.graph = aGraph;
+	this.graph = aGraph;
         this.zoom = 1;
         this.grid = new PlainGrid(this);
         this.graph.setGridSticker(grid.getGridSticker());
@@ -235,19 +236,75 @@ public class EditorPart extends JPanel implements IEditorPart
      */
     public void paintComponent(Graphics g)
     {
+	//super.paintComponent(g);
         setBackground(Color.WHITE);
-        super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         g2.scale(zoom, zoom);
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         //if (grid.isVisible()) grid.paint(g2);
         IEditorPartSelectionHandler selectionHandler = this.getSelectionHandler();
-        graph.draw(g2, selectionHandler.getSelectedNodes(), selectionHandler.getSelectedEdges());
+        Rectangle2D drawingBounds = getDrawingBounds(selectionHandler.getSelectedNodes(), selectionHandler.getSelectedEdges());
+        g2.clearRect((int) drawingBounds.getX() + 1 , (int) drawingBounds.getY() + 1, (int) drawingBounds.getWidth() - 1, (int) drawingBounds.getHeight() - 1);
+        graph.draw(g2, drawingBounds);
         //graph.draw(g2);
         for (IEditorPartBehavior behavior : this.behaviorManager.getBehaviors())
         {
             behavior.onPaint(g2);
         }
+    }
+    
+    
+    /**
+     * Determines the bounds necessary to draw the given nodes and edges with their direct dependencies  
+     * 
+     * @param nodes
+     * @param edges
+     * @return b
+     */
+    private Rectangle2D getDrawingBounds(List<INode> nodes, List<IEdge> edges) {
+	List<IEdge> edgesToDraw = new ArrayList<IEdge>();
+        List<INode> nodesToDraw = new ArrayList<INode>();
+        // Step 1 : determine edges and nodes to draw
+	for (INode n : nodes) {
+            nodesToDraw.add(n);
+            List<INode> children = n.getChildren();
+	    nodesToDraw.addAll(children);
+        }
+	for (IEdge anEdge : getGraph().getAllEdges()) {
+	    if (nodesToDraw.contains(anEdge.getStart()) || nodesToDraw.contains(anEdge.getEnd())) {
+		edgesToDraw.add(anEdge);
+	    }
+	}
+	for (IEdge e : edges) {
+	    edgesToDraw.add(e);
+	    nodesToDraw.add(e.getStart());
+	    nodesToDraw.add(e.getEnd());
+	}
+	// Step 2 : determine global bounds
+	Rectangle2D bounds = null;
+	for (INode n : nodesToDraw) {
+	    Rectangle2D b = n.getBounds();
+	    if (bounds != null) {
+		bounds.add(b);
+	    }
+	    if (bounds == null) {
+		bounds = new Rectangle2D.Double(b.getX(), b.getY(), b.getWidth(), b.getHeight());
+	    }
+	}
+	for (IEdge e : edgesToDraw) {
+	    Rectangle2D b = e.getBounds();
+	    if (bounds != null) {
+		bounds.add(b);
+	    }
+	    if (bounds == null) {
+		bounds = new Rectangle2D.Double(b.getX(), b.getY(), b.getWidth(), b.getHeight());
+	    }
+	}
+	if (bounds == null) {
+	    bounds = new Rectangle2D.Double(0,0,0,0);
+	}
+	bounds.setRect(bounds.getX() - 100, bounds.getY() - 100, bounds.getWidth() + 200, bounds.getHeight() + 200);
+	return bounds;
     }
 
     @Override
