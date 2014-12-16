@@ -240,8 +240,10 @@ public class EditorPart extends JPanel implements IEditorPart
         Graphics2D g2 = (Graphics2D) g;
         g2.scale(zoom, zoom);
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        if (grid.isVisible()) grid.paint(g2);
-        graph.draw(g2);
+        //if (grid.isVisible()) grid.paint(g2);
+        IEditorPartSelectionHandler selectionHandler = this.getSelectionHandler();
+        graph.draw(g2, selectionHandler.getSelectedNodes(), selectionHandler.getSelectedEdges());
+        //graph.draw(g2);
         for (IEditorPartBehavior behavior : this.behaviorManager.getBehaviors())
         {
             behavior.onPaint(g2);

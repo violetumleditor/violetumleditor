@@ -96,6 +96,94 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
         }
         return null;
     }
+    
+    
+    @Override
+    public void draw(Graphics2D g2, List<INode> nodes, List<IEdge> edges) {
+        List<IEdge> edgesToDraw = new ArrayList<IEdge>();
+        List<INode> nodesToDraw = new ArrayList<INode>();
+        // Step 1 : determine edges and nodes to draw
+	for (INode n : nodes) {
+            nodesToDraw.add(n);
+            List<INode> children = n.getChildren();
+	    nodesToDraw.addAll(children);
+        }
+	for (IEdge anEdge : getAllEdges()) {
+	    if (nodesToDraw.contains(anEdge.getStart()) || nodesToDraw.contains(anEdge.getEnd())) {
+		edgesToDraw.add(anEdge);
+	    }
+	}
+	for (IEdge e : edges) {
+	    edgesToDraw.add(e);
+	    nodesToDraw.add(e.getStart());
+	    nodesToDraw.add(e.getEnd());
+	}
+	// Step 2 : determine global bounds
+	Rectangle2D bounds = null;
+	for (INode n : nodesToDraw) {
+	    Rectangle2D b = n.getBounds();
+	    if (bounds != null) {
+		bounds.add(b);
+	    }
+	    if (bounds == null) {
+		bounds = new Rectangle2D.Double(b.getX(), b.getY(), b.getWidth(), b.getHeight());
+	    }
+	}
+	for (IEdge e : edgesToDraw) {
+	    Rectangle2D b = e.getBounds();
+	    if (bounds != null) {
+		bounds.add(b);
+	    }
+	    if (bounds == null) {
+		bounds = new Rectangle2D.Double(b.getX(), b.getY(), b.getWidth(), b.getHeight());
+	    }
+	}
+	// Step 3 : draw
+	g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
+        List<INode> specialNodes = new ArrayList<INode>();
+        int count = 0;
+        int z = 0;
+        while (count < nodesToDraw.size())
+        {
+            for (INode n : nodesToDraw)
+            {
+
+                if (n.getZ() == z)
+                {
+                    if (n instanceof NoteNode)
+                    {
+                        specialNodes.add(n);
+                    }
+                    else
+                    {
+                        n.draw(g2);
+                    }
+                    count++;
+                }
+            }
+            z++;
+        }
+
+        for (int i = 0; i < edgesToDraw.size(); i++)
+        {
+            IEdge e = (IEdge) edgesToDraw.get(i);
+            e.draw(g2);
+        }
+        // Special nodes are always drawn upon other elements
+        for (INode n : specialNodes)
+        {
+            // Translate g2 if node has parent
+            INode p = n.getParent();
+            Point2D nodeLocationOnGraph = n.getLocationOnGraph();
+            Point2D nodeLocation = n.getLocation();
+            Point2D g2Location = new Point2D.Double(nodeLocationOnGraph.getX() - nodeLocation.getX(), nodeLocationOnGraph.getY()
+                    - nodeLocation.getY());
+            g2.translate(g2Location.getX(), g2Location.getY());
+            n.draw(g2);
+            // Restore g2 original location
+            g2.translate(-g2Location.getX(), -g2Location.getY());
+        }
+    }
 
     @Override
     public void draw(Graphics2D g2)

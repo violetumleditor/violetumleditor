@@ -128,6 +128,16 @@ public interface IGraph
 
 
     /**
+     * Only draws the part of the graph which contains this nodes and edges AND their direct dependencies
+     * 
+     * @param g2 the graphics context
+     * @param nodes to draw on this graph
+     * @param edges to draw on this graph
+     */
+    public abstract void draw(Graphics2D g2, List<INode> nodes, List<IEdge> edges);
+    
+    
+    /**
      * Gets the smallest rectangle enclosing the graph
      * 
      * @return the bounding rectangle
