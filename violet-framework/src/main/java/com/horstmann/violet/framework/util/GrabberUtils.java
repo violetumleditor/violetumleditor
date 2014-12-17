@@ -22,10 +22,9 @@ public class GrabberUtils
      */
     public static void drawPurpleGrabber(Graphics2D g2, double x, double y)
     {
-        final int SIZE = 5;
         Color oldColor = g2.getColor();
         g2.setColor(GrabberUtils.PURPLE);
-        g2.fill(new Rectangle2D.Double(x - SIZE / 2, y - SIZE / 2, SIZE, SIZE));
+        g2.fill(new Rectangle2D.Double(x - GrabberUtils.GRABBER_WIDTH / 2, y - GrabberUtils.GRABBER_WIDTH / 2, GrabberUtils.GRABBER_WIDTH, GrabberUtils.GRABBER_WIDTH));
         g2.setColor(oldColor);
     }
 
@@ -38,15 +37,16 @@ public class GrabberUtils
      */
     public static void drawGrayGrabber(Graphics2D g2, double x, double y)
     {
-        final int SIZE = 5;
         Color oldColor = g2.getColor();
         g2.setColor(GrabberUtils.GRAY);
-        g2.fill(new Rectangle2D.Double(x - SIZE / 2, y - SIZE / 2, SIZE, SIZE));
+        g2.fill(new Rectangle2D.Double(x - GrabberUtils.GRABBER_WIDTH / 2, y - GrabberUtils.GRABBER_WIDTH / 2, GrabberUtils.GRABBER_WIDTH, GrabberUtils.GRABBER_WIDTH));
         g2.setColor(oldColor);
     }
     
     
     private static final Color PURPLE = new Color(0.7f, 0.4f, 0.7f);
     private static final Color GRAY = Color.GRAY.brighter();
-
+    public static final int GRABBER_WIDTH = 5;
+    
+    
 }

@@ -1,10 +1,12 @@
 package com.horstmann.violet.workspace.editorpart;
 
+import java.awt.geom.Rectangle2D;
 import java.util.List;
 
 import javax.swing.JComponent;
 
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 
 /**
@@ -85,6 +87,17 @@ public interface IEditorPart
      * @return manager used to declare new editor behaviors and how to send events between behaviors
      */
     public IEditorPartBehaviorManager getBehaviorManager();
+    
+    /**
+     * Mark a region that needs to be repainted 
+     */
+    public void addDirtyRegion(Rectangle2D newDirtyRegion);
+    
+    
+    /**
+     * Determines the bounds necessary to draw the given nodes and edges with their direct dependencies  
+     */ 
+    public Rectangle2D getDrawingArea(List<INode> nodes, List<IEdge> edges);
     
 
 }

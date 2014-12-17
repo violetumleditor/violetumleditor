@@ -40,6 +40,7 @@ import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import com.horstmann.violet.framework.util.GrabberUtils;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
@@ -58,7 +59,7 @@ public class EditorPart extends JPanel implements IEditorPart
      */
     public EditorPart(IGraph aGraph)
     {
-	this.graph = aGraph;
+        this.graph = aGraph;
         this.zoom = 1;
         this.grid = new PlainGrid(this);
         this.graph.setGridSticker(grid.getGridSticker());
@@ -103,7 +104,7 @@ public class EditorPart extends JPanel implements IEditorPart
                 behaviorManager.fireOnMouseMoved(event);
             }
         });
-        setBounds(0,0,0,0);
+        setBounds(0, 0, 0, 0);
     }
 
     /*
@@ -164,7 +165,7 @@ public class EditorPart extends JPanel implements IEditorPart
         int height = Math.max((int) (zoom * bounds.getMaxY()), (int) parentSize.getHeight());
         return new Dimension(width, height);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -230,6 +231,18 @@ public class EditorPart extends JPanel implements IEditorPart
         return this;
     }
 
+    @Override
+    public void addDirtyRegion(Rectangle2D newDirtyRegion)
+    {
+        if (this.dirtyRegion.isEmpty())
+        {
+            this.dirtyRegion = new Rectangle2D.Double(newDirtyRegion.getX(), newDirtyRegion.getY(), newDirtyRegion.getWidth(),
+                    newDirtyRegion.getHeight());
+            return;
+        }
+        this.dirtyRegion.add(newDirtyRegion);
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -237,81 +250,102 @@ public class EditorPart extends JPanel implements IEditorPart
      */
     public void paintComponent(Graphics g)
     {
-	//super.paintComponent(g);
         setBackground(Color.WHITE);
+        // super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         g2.scale(zoom, zoom);
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        //if (grid.isVisible()) grid.paint(g2);
-        IEditorPartSelectionHandler selectionHandler = this.getSelectionHandler();
-        Rectangle2D drawingBounds = getDrawingBounds(selectionHandler.getSelectedNodes(), selectionHandler.getSelectedEdges());
-        g2.clearRect((int) drawingBounds.getX() + 1 , (int) drawingBounds.getY() + 1, (int) drawingBounds.getWidth() - 1, (int) drawingBounds.getHeight() - 1);
-        graph.draw(g2, drawingBounds);
-        //graph.draw(g2);
+        // if (grid.isVisible()) grid.paint(g2);
+        if (this.dirtyRegion.isEmpty())
+        {
+            Rectangle2D clipBounds = graph.getClipBounds();
+            g2.clearRect((int) clipBounds.getX() + 1, (int) clipBounds.getY() + 1, (int) clipBounds.getWidth() - 1,
+                    (int) clipBounds.getHeight() - 1);
+            graph.draw(g2);
+        }
+        if (!this.dirtyRegion.isEmpty())
+        {
+            //Color oldColor = g2.getColor();
+            g2.clearRect((int) this.dirtyRegion.getX() - 1, (int) this.dirtyRegion.getY() + 1,
+                    (int) this.dirtyRegion.getWidth() - 1, (int) this.dirtyRegion.getHeight() - 1);
+            graph.draw(g2, this.dirtyRegion);
+            //g2.setColor(Color.RED);
+            //g2.drawRect((int) this.dirtyRegion.getX() - 1, (int) this.dirtyRegion.getY() + 1,
+            //        (int) this.dirtyRegion.getWidth() - 1, (int) this.dirtyRegion.getHeight() - 1);
+            //g2.setColor(oldColor);
+            this.dirtyRegion.setRect(0, 0, 0, 0);
+        }
         for (IEditorPartBehavior behavior : this.behaviorManager.getBehaviors())
         {
             behavior.onPaint(g2);
         }
     }
-    
-    
-    /**
-     * Determines the bounds necessary to draw the given nodes and edges with their direct dependencies  
-     * 
-     * @param nodes
-     * @param edges
-     * @return b
-     */
-    private Rectangle2D getDrawingBounds(List<INode> nodes, List<IEdge> edges) {
-	List<IEdge> edgesToDraw = new ArrayList<IEdge>();
+
+    @Override
+    public Rectangle2D getDrawingArea(List<INode> nodes, List<IEdge> edges)
+    {
+        List<IEdge> edgesToDraw = new ArrayList<IEdge>();
         List<INode> nodesToDraw = new ArrayList<INode>();
         // Step 1 : determine edges and nodes to draw
-	for (INode n : nodes) {
+        for (INode n : nodes)
+        {
             nodesToDraw.add(n);
             INode p = n.getParent();
-            if (p != null) {
-        	nodesToDraw.add(p);
+            if (p != null)
+            {
+                nodesToDraw.add(p);
             }
             List<INode> children = n.getChildren();
-	    nodesToDraw.addAll(children);
+            nodesToDraw.addAll(children);
         }
-	for (IEdge anEdge : getGraph().getAllEdges()) {
-	    if (nodesToDraw.contains(anEdge.getStart()) || nodesToDraw.contains(anEdge.getEnd())) {
-		edgesToDraw.add(anEdge);
-	    }
-	}
-	for (IEdge e : edges) {
-	    edgesToDraw.add(e);
-	    nodesToDraw.add(e.getStart());
-	    nodesToDraw.add(e.getEnd());
-	}
-	// Step 2 : determine global bounds
-	Rectangle2D bounds = null;
-	for (INode n : nodesToDraw) {
-	    Rectangle2D b = n.getBounds();
-	    Point2D locationOnGraph = n.getLocationOnGraph();
-	    b = new Rectangle2D.Double(locationOnGraph.getX(), locationOnGraph.getY(), b.getWidth(), b.getHeight());
-	    if (bounds != null) {
-		bounds.add(b);
-	    }
-	    if (bounds == null) {
-		bounds = b;
-	    }
-	}
-	for (IEdge e : edgesToDraw) {
-	    Rectangle2D b = e.getBounds();
-	    if (bounds != null) {
-		bounds.add(b);
-	    }
-	    if (bounds == null) {
-		bounds = new Rectangle2D.Double(b.getX(), b.getY(), b.getWidth(), b.getHeight());
-	    }
-	}
-	if (bounds == null) {
-	    bounds = new Rectangle2D.Double(0,0,0,0);
-	}
-	bounds.setRect(bounds.getX() - 100, bounds.getY() - 100, bounds.getWidth() + 200, bounds.getHeight() + 200);
-	return bounds;
+        for (IEdge anEdge : getGraph().getAllEdges())
+        {
+            if (nodesToDraw.contains(anEdge.getStart()) || nodesToDraw.contains(anEdge.getEnd()))
+            {
+                edgesToDraw.add(anEdge);
+            }
+        }
+        for (IEdge e : edges)
+        {
+            edgesToDraw.add(e);
+            nodesToDraw.add(e.getStart());
+            nodesToDraw.add(e.getEnd());
+        }
+        // Step 2 : determine global bounds
+        Rectangle2D bounds = null;
+        for (INode n : nodesToDraw)
+        {
+            Rectangle2D b = n.getBounds();
+            Point2D locationOnGraph = n.getLocationOnGraph();
+            b = new Rectangle2D.Double(locationOnGraph.getX(), locationOnGraph.getY(), b.getWidth(), b.getHeight());
+            if (bounds != null)
+            {
+                bounds.add(b);
+            }
+            if (bounds == null)
+            {
+                bounds = b;
+            }
+        }
+        for (IEdge e : edgesToDraw)
+        {
+            Rectangle2D b = e.getBounds();
+            if (bounds != null)
+            {
+                bounds.add(b);
+            }
+            if (bounds == null)
+            {
+                bounds = new Rectangle2D.Double(b.getX(), b.getY(), b.getWidth(), b.getHeight());
+            }
+        }
+        if (bounds == null)
+        {
+            bounds = new Rectangle2D.Double(0, 0, 0, 0);
+        }
+        bounds.setRect(bounds.getX() - GrabberUtils.GRABBER_WIDTH, bounds.getY() - GrabberUtils.GRABBER_WIDTH, bounds.getWidth()
+                + GrabberUtils.GRABBER_WIDTH * 2, bounds.getHeight() + GrabberUtils.GRABBER_WIDTH * 2);
+        return bounds;
     }
 
     @Override
@@ -333,6 +367,8 @@ public class EditorPart extends JPanel implements IEditorPart
     private double zoom;
 
     private IEditorPartSelectionHandler selectionHandler = new EditorPartSelectionHandler();
+
+    private Rectangle2D dirtyRegion = new Rectangle2D.Double(0, 0, 0, 0);
 
     /**
      * Scale factor used to grow drawing area
