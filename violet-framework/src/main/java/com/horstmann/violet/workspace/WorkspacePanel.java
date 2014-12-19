@@ -3,9 +3,15 @@ package com.horstmann.violet.workspace;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.LayoutManager;
+import java.awt.Rectangle;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.event.ContainerEvent;
+import java.awt.event.ContainerListener;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.RepaintManager;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
@@ -49,8 +55,15 @@ public class WorkspacePanel extends JPanel
         {
             final IEditorPart editorPart = this.workspace.getEditorPart();
             final Component panel = editorPart.getSwingComponent();
-            this.scrollableEditorPart = new JScrollPane();
+            this.scrollableEditorPart = new JScrollPane() {
+                public void invalidate() {
+                    super.invalidate();
+                    editorPart.getSwingComponent().invalidate();
+                    editorPart.getSwingComponent().repaint();
+                };
+            };
             this.scrollableEditorPart.getViewport().setView(panel);
+            panel.invalidate();
             this.scrollableEditorPart.setBackground(ThemeManager.getInstance().getTheme().getWhiteColor());
             this.scrollableEditorPart.setBorder(new EmptyBorder(0, 0, 0, 0));
             this.scrollableEditorPart.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -87,8 +100,6 @@ public class WorkspacePanel extends JPanel
         {
             public void run()
             {
-                WorkspacePanel.this.revalidate();
-                WorkspacePanel.this.doLayout();
                 WorkspacePanel.this.repaint();
             }
         });

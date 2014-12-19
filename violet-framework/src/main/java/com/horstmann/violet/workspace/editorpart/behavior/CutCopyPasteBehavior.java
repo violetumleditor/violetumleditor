@@ -82,6 +82,7 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
     {
         copy();
         editorPart.removeSelected();
+        editorPart.getSwingComponent().invalidate();
         editorPart.getSwingComponent().repaint();
     }
 

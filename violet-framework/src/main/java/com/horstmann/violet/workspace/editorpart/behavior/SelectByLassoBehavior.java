@@ -9,6 +9,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.Iterator;
 
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
@@ -59,6 +60,11 @@ public class SelectByLassoBehavior extends AbstractEditorPartBehavior
         
         double zoom = editorPart.getZoomFactor();
         Point2D mousePoint = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
+        IGridSticker gridSticker = graph.getGridSticker();
+        Point2D snappedMousePoint = gridSticker.snap(mousePoint);
+        if (snappedMousePoint.equals(lastMousePoint)) {
+            return;
+        }
         lastMousePoint = mousePoint;
         boolean isCtrl = (event.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0;
         double x1 = mouseDownPoint.getX();
@@ -94,6 +100,7 @@ public class SelectByLassoBehavior extends AbstractEditorPartBehavior
                 selectionHandler.addSelectedElement(e);
             }
         }
+        editorPart.getSwingComponent().invalidate();
     }
 
     @Override

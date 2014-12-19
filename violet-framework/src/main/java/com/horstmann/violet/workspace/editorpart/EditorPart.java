@@ -25,22 +25,26 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Double;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.RepaintManager;
 
-import com.horstmann.violet.framework.util.GrabberUtils;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
@@ -105,8 +109,10 @@ public class EditorPart extends JPanel implements IEditorPart
             }
         });
         setBounds(0, 0, 0, 0);
+        invalidate();
     }
 
+    
     /*
      * (non-Javadoc)
      * 
@@ -178,7 +184,7 @@ public class EditorPart extends JPanel implements IEditorPart
             zoom *= FACTOR;
         for (int i = 1; i <= -steps; i++)
             zoom /= FACTOR;
-        revalidate();
+        invalidate();
         repaint();
     }
 
@@ -231,18 +237,8 @@ public class EditorPart extends JPanel implements IEditorPart
         return this;
     }
 
-    @Override
-    public void addDirtyRegion(Rectangle2D newDirtyRegion)
-    {
-        if (this.dirtyRegion.isEmpty())
-        {
-            this.dirtyRegion = new Rectangle2D.Double(newDirtyRegion.getX(), newDirtyRegion.getY(), newDirtyRegion.getWidth(),
-                    newDirtyRegion.getHeight());
-            return;
-        }
-        this.dirtyRegion.add(newDirtyRegion);
-    }
 
+    
     /*
      * (non-Javadoc)
      * 
@@ -250,103 +246,26 @@ public class EditorPart extends JPanel implements IEditorPart
      */
     public void paintComponent(Graphics g)
     {
+        boolean valid = getSwingComponent().isValid();
+        super.paintComponent(g);
+        if (valid && !isNeverPaint) {
+            return;
+        }
         setBackground(Color.WHITE);
-        // super.paintComponent(g);
+        getSwingComponent().validate();
+        System.out.println(new Date().getTime());
         Graphics2D g2 = (Graphics2D) g;
         g2.scale(zoom, zoom);
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        // if (grid.isVisible()) grid.paint(g2);
-        if (this.dirtyRegion.isEmpty())
-        {
-            Rectangle2D clipBounds = graph.getClipBounds();
-            g2.clearRect((int) clipBounds.getX() + 1, (int) clipBounds.getY() + 1, (int) clipBounds.getWidth() - 1,
-                    (int) clipBounds.getHeight() - 1);
-            graph.draw(g2);
-        }
-        if (!this.dirtyRegion.isEmpty())
-        {
-            //Color oldColor = g2.getColor();
-            g2.clearRect((int) this.dirtyRegion.getX() - 1, (int) this.dirtyRegion.getY() + 1,
-                    (int) this.dirtyRegion.getWidth() - 1, (int) this.dirtyRegion.getHeight() - 1);
-            graph.draw(g2, this.dirtyRegion);
-            //g2.setColor(Color.RED);
-            //g2.drawRect((int) this.dirtyRegion.getX() - 1, (int) this.dirtyRegion.getY() + 1,
-            //        (int) this.dirtyRegion.getWidth() - 1, (int) this.dirtyRegion.getHeight() - 1);
-            //g2.setColor(oldColor);
-            this.dirtyRegion.setRect(0, 0, 0, 0);
-        }
+        if (grid.isVisible()) grid.paint(g2);
+        graph.draw(g2);
         for (IEditorPartBehavior behavior : this.behaviorManager.getBehaviors())
         {
             behavior.onPaint(g2);
         }
+        isNeverPaint = true;
     }
 
-    @Override
-    public Rectangle2D getDrawingArea(List<INode> nodes, List<IEdge> edges)
-    {
-        List<IEdge> edgesToDraw = new ArrayList<IEdge>();
-        List<INode> nodesToDraw = new ArrayList<INode>();
-        // Step 1 : determine edges and nodes to draw
-        for (INode n : nodes)
-        {
-            nodesToDraw.add(n);
-            INode p = n.getParent();
-            if (p != null)
-            {
-                nodesToDraw.add(p);
-            }
-            List<INode> children = n.getChildren();
-            nodesToDraw.addAll(children);
-        }
-        for (IEdge anEdge : getGraph().getAllEdges())
-        {
-            if (nodesToDraw.contains(anEdge.getStart()) || nodesToDraw.contains(anEdge.getEnd()))
-            {
-                edgesToDraw.add(anEdge);
-            }
-        }
-        for (IEdge e : edges)
-        {
-            edgesToDraw.add(e);
-            nodesToDraw.add(e.getStart());
-            nodesToDraw.add(e.getEnd());
-        }
-        // Step 2 : determine global bounds
-        Rectangle2D bounds = null;
-        for (INode n : nodesToDraw)
-        {
-            Rectangle2D b = n.getBounds();
-            Point2D locationOnGraph = n.getLocationOnGraph();
-            b = new Rectangle2D.Double(locationOnGraph.getX(), locationOnGraph.getY(), b.getWidth(), b.getHeight());
-            if (bounds != null)
-            {
-                bounds.add(b);
-            }
-            if (bounds == null)
-            {
-                bounds = b;
-            }
-        }
-        for (IEdge e : edgesToDraw)
-        {
-            Rectangle2D b = e.getBounds();
-            if (bounds != null)
-            {
-                bounds.add(b);
-            }
-            if (bounds == null)
-            {
-                bounds = new Rectangle2D.Double(b.getX(), b.getY(), b.getWidth(), b.getHeight());
-            }
-        }
-        if (bounds == null)
-        {
-            bounds = new Rectangle2D.Double(0, 0, 0, 0);
-        }
-        bounds.setRect(bounds.getX() - GrabberUtils.GRABBER_WIDTH, bounds.getY() - GrabberUtils.GRABBER_WIDTH, bounds.getWidth()
-                + GrabberUtils.GRABBER_WIDTH * 2, bounds.getHeight() + GrabberUtils.GRABBER_WIDTH * 2);
-        return bounds;
-    }
 
     @Override
     public IEditorPartSelectionHandler getSelectionHandler()
@@ -360,6 +279,8 @@ public class EditorPart extends JPanel implements IEditorPart
         return this.behaviorManager;
     }
 
+    private boolean isNeverPaint = true;
+    
     private IGraph graph;
 
     private IGrid grid;
@@ -367,8 +288,6 @@ public class EditorPart extends JPanel implements IEditorPart
     private double zoom;
 
     private IEditorPartSelectionHandler selectionHandler = new EditorPartSelectionHandler();
-
-    private Rectangle2D dirtyRegion = new Rectangle2D.Double(0, 0, 0, 0);
 
     /**
      * Scale factor used to grow drawing area

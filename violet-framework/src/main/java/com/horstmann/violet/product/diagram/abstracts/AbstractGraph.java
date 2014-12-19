@@ -98,65 +98,7 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
     }
     
     
-    @Override
-    public void draw(Graphics2D g2, Rectangle2D bounds) {
-	List<INode> nodesToDraw = new ArrayList<INode>();
-	List<IEdge> edgesToDraw = new ArrayList<IEdge>();
-	for (INode n : getAllNodes()) {
-	    if (bounds.intersects(n.getBounds())) {
-		nodesToDraw.add(n);
-	    }
-	}
-	for (IEdge e : getAllEdges()) {
-	    if (bounds.intersects(e.getBounds())) {
-		edgesToDraw.add(e);
-	    }
-	}
-	// Step 3 : draw
-	g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
-        List<INode> specialNodes = new ArrayList<INode>();
-        int count = 0;
-        int z = 0;
-        while (count < nodesToDraw.size())
-        {
-            for (INode n : nodesToDraw)
-            {
 
-                if (n.getZ() == z)
-                {
-                    if (n instanceof NoteNode)
-                    {
-                        specialNodes.add(n);
-                    }
-                    else
-                    {
-                        n.draw(g2);
-                    }
-                    count++;
-                }
-            }
-            z++;
-        }
-
-        for (int i = 0; i < edgesToDraw.size(); i++)
-        {
-            IEdge e = (IEdge) edgesToDraw.get(i);
-            e.draw(g2);
-        }
-        // Special nodes are always drawn upon other elements
-        for (INode n : specialNodes)
-        {
-            // Translate g2 if node has parent
-            Point2D nodeLocationOnGraph = n.getLocationOnGraph();
-            Point2D nodeLocation = n.getLocation();
-            Point2D g2Location = new Point2D.Double(nodeLocationOnGraph.getX() - nodeLocation.getX(), nodeLocationOnGraph.getY()
-                    - nodeLocation.getY());
-            g2.translate(g2Location.getX(), g2Location.getY());
-            n.draw(g2);
-            // Restore g2 original location
-            g2.translate(-g2Location.getX(), -g2Location.getY());
-        }
-    }
 
     @Override
     public void draw(Graphics2D g2)

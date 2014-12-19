@@ -16,6 +16,7 @@ public class SelectAllBehavior extends AbstractEditorPartBehavior
 
     public SelectAllBehavior(IEditorPart editorPart, IGraphToolsBar graphToolsBar)
     {
+        this.editorPart = editorPart;
         this.graph = editorPart.getGraph();
         this.selectionHandler = editorPart.getSelectionHandler();
         this.behaviorManager = editorPart.getBehaviorManager();
@@ -46,9 +47,12 @@ public class SelectAllBehavior extends AbstractEditorPartBehavior
                 behaviorManager.fireOnEdgeSelected((IEdge) toSelect);
             }
         }
+        editorPart.getSwingComponent().invalidate();
         graphToolsBar.reset();
     }
 
+    private IEditorPart editorPart;
+    
     private IGraph graph;
 
     private IEditorPartSelectionHandler selectionHandler;

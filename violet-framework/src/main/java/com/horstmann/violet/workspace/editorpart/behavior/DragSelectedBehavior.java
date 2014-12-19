@@ -6,7 +6,6 @@ import java.awt.geom.Rectangle2D;
 import java.util.Iterator;
 import java.util.List;
 
-import com.horstmann.violet.framework.util.GrabberUtils;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
@@ -80,7 +79,6 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior
         {
             return;
         }
-        markRegionToRepaint();
 
         Rectangle2D bounds = lastNode.getBounds();
         double dx = mousePoint.getX() - lastMousePoint.getX();
@@ -135,9 +133,12 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior
         // Save mouse location for next dragging sequence
         if (isAtLeastOneNodeMoved)
         {
-            lastMousePoint = gridSticker.snap(mousePoint);
+            Point2D snappedMousePoint = gridSticker.snap(mousePoint);
+            if (!snappedMousePoint.equals(lastMousePoint)) {
+                editorPart.getSwingComponent().invalidate();
+            }
+            lastMousePoint = snappedMousePoint;
         }
-        markRegionToRepaint();
     }
 
     @Override
@@ -145,9 +146,6 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior
     {
         lastMousePoint = null;
         isReadyForDragging = false;
-        markRegionToRepaint();
-        editorPart.getSwingComponent().revalidate();
-        editorPart.getSwingComponent().repaint();
     }
 
     private void changeSelectedNodeIfNeeded(Point2D mouseLocation)
@@ -165,11 +163,6 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior
         }
     }
 
-    private void markRegionToRepaint() {
-        Rectangle2D drawingArea = this.editorPart.getDrawingArea(this.selectionHandler.getSelectedNodes(), this.selectionHandler.getSelectedEdges());
-        this.editorPart.addDirtyRegion(drawingArea);
-    }
-    
 
     private IGraph graph;
 

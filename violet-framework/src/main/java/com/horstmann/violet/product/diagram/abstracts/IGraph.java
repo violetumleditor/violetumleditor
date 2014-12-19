@@ -8,7 +8,6 @@ import java.util.List;
 
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.workspace.editorpart.IGrid;
 
 public interface IGraph
 {
@@ -128,15 +127,6 @@ public interface IGraph
 
 
     /**
-     * Only draws the part of the graph in the given area
-     * 
-     * @param g2 the graphics context
-     * @param bounds the area to draw
-     */
-    public abstract void draw(Graphics2D g2, Rectangle2D bounds);
-    
-    
-    /**
      * Gets the smallest rectangle enclosing the graph
      * 
      * @return the bounding rectangle
@@ -164,5 +154,5 @@ public interface IGraph
      */
     public void setGridSticker(IGridSticker newCorrector);
     
-
+    
 }

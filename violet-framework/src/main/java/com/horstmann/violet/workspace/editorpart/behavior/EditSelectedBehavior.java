@@ -112,6 +112,7 @@ public class EditSelectedBehavior extends AbstractEditorPartBehavior
                 {
                     behaviorManager.fireWhileEditingEdge((IEdge) edited, event);
                 }
+                editorPart.getSwingComponent().invalidate();
             }
         });
 
@@ -138,6 +139,7 @@ public class EditSelectedBehavior extends AbstractEditorPartBehavior
                         {
                             behaviorManager.fireAfterEditingEdge((IEdge) edited);
                         }
+                        editorPart.getSwingComponent().invalidate();
                     }
                 }
             }

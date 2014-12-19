@@ -56,7 +56,7 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior
         if (added)
         {
             selectionHandler.setSelectedElement(newNode);
-            this.editorPart.addDirtyRegion(newNode.getBounds());
+            editorPart.getSwingComponent().invalidate();
         }
     }
 

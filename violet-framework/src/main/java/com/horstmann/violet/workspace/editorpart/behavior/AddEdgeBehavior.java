@@ -5,7 +5,6 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,6 +81,7 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior
     @Override
     public void onMouseReleased(MouseEvent event)
     {
+        this.editorPart.getSwingComponent().invalidate();
         if (this.isLinkBySeparatedClicks)
         {
             return;
@@ -97,11 +97,12 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior
     {
         double zoom = this.editorPart.getZoomFactor();
         Point2D mousePoint = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
-        this.editorPart.addDirtyRegion(new Rectangle2D.Double(Math.min(this.firstMousePoint.getX(), this.lastMousePoint.getX()), Math.min(this.firstMousePoint.getY(), this.lastMousePoint.getY()), Math.abs(this.lastMousePoint.getX() - this.firstMousePoint.getX()), Math.abs(this.lastMousePoint.getY() - this.firstMousePoint.getY())));
-        //lastMousePoint = grid.snap(mousePoint);
-        lastMousePoint = mousePoint;
-        //this.editorPart.getSwingComponent().doLayout();
-        this.editorPart.getSwingComponent().repaint();
+        Point2D snappedMousePoint = grid.snap(mousePoint);
+        if (!snappedMousePoint.equals(lastMousePoint)) {
+            this.editorPart.getSwingComponent().invalidate();
+        }
+        this.lastMousePoint = snappedMousePoint;
+        this.isRepaintRequest = true;
     }
 
     private boolean isConditionOK(MouseEvent event)
@@ -237,6 +238,9 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior
     @Override
     public void onPaint(Graphics2D g2)
     {
+        if (!this.isRepaintRequest) {
+            return;
+        }
         if (!isLinkingInProgress)
         {
             return;
@@ -252,6 +256,7 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior
         path.lineTo(this.lastMousePoint.getX(), this.lastMousePoint.getY());
         g2.draw(path);
         g2.setColor(oldColor);
+        this.isRepaintRequest = false;
     }
 
     private static final Color PURPLE = new Color(0.7f, 0.4f, 0.7f);
@@ -261,6 +266,8 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior
     private Point2D firstMousePoint = null;
 
     private Point2D lastMousePoint = null;
+    
+    private boolean isRepaintRequest = false;
 
     private IEditorPart editorPart;
 

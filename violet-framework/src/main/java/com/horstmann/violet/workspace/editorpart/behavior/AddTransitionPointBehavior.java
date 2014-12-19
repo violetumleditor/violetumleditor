@@ -69,6 +69,7 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
         	startUndoRedoCapture();
             addNewTransitionPoint();
             stopUndoRedoCapture();
+            this.editorPart.getSwingComponent().invalidate();
             this.isTransitionPointAdded = true;
         }
     }

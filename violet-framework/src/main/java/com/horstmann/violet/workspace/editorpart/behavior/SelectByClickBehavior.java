@@ -33,7 +33,6 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
     @Override
     public void onMousePressed(MouseEvent event)
     {
-        markRegionToRepaint();
         resetEventAttributes();
         
         if (event.getClickCount() > 1) {
@@ -51,20 +50,17 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
         boolean isOnNodeOrEdge = isMouseOnNodeOrEdge(mousePoint);
         if (!isOnNodeOrEdge && !isCtrl)
         {
-            markRegionToRepaint();
             resetSelectedElements();
             return;
         }
         if (isOnNodeOrEdge && !isCtrl)
         {
             processSelection(mousePoint, true);
-            markRegionToRepaint();
             return;
         }
         if (isOnNodeOrEdge && isCtrl)
         {
             processSelection(mousePoint, false);
-            markRegionToRepaint();
             return;
         }
     }
@@ -95,7 +91,7 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
         if (!isCtrl) {
             processSelectionInConflictWithDraggingEvents(true);
         }
-        markRegionToRepaint();
+        this.editorPart.getSwingComponent().invalidate();
     }
 
     private void resetEventAttributes()
@@ -123,12 +119,6 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
     }
     
     
-    private void markRegionToRepaint() {
-        Rectangle2D drawingArea = this.editorPart.getDrawingArea(this.selectionHandler.getSelectedNodes(), this.selectionHandler.getSelectedEdges());
-        this.editorPart.addDirtyRegion(drawingArea);
-    }
-    
-
     /**
      * Here, we add or remove the selected node or edge to the global selection. Under the wood, we can't remove anything.
      * This can only made on 'mouse released' to avoid conflict to any dragging event.

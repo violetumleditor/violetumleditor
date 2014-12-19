@@ -158,7 +158,6 @@ public class Workspace implements IWorkspace
             behaviorManager.addBehavior(new DragSelectedBehavior(this.graphEditor, this.getSideBar().getGraphToolsBar()));
             behaviorManager.addBehavior(new DragTransitionPointBehavior(this.graphEditor, this.getSideBar().getGraphToolsBar()));
             behaviorManager.addBehavior(new DragGraphBehavior(this));
-            behaviorManager.addBehavior(new SwingRepaintingBehavior(this.graphEditor));
             behaviorManager.addBehavior(new EditSelectedBehavior(this.graphEditor));
             behaviorManager.addBehavior(new FileCouldBeSavedBehavior(this.getGraphFile()));
             behaviorManager.addBehavior(new ResizeNodeBehavior(this.graphEditor, this.getSideBar().getGraphToolsBar()));
@@ -167,6 +166,7 @@ public class Workspace implements IWorkspace
             behaviorManager.addBehavior(new ShowMenuOnRightClickBehavior(this.graphEditor));
             behaviorManager.addBehavior(new UndoRedoCompoundBehavior(this.graphEditor));
             behaviorManager.addBehavior(new CutCopyPasteBehavior(this.graphEditor));
+            behaviorManager.addBehavior(new SwingRepaintingBehavior(this.graphEditor));
         }
         return this.graphEditor;
     }

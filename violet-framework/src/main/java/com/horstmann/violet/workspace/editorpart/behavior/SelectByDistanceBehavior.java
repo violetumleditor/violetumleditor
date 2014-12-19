@@ -22,6 +22,7 @@ public class SelectByDistanceBehavior extends AbstractEditorPartBehavior
 
     public SelectByDistanceBehavior(IEditorPart editorPart)
     {
+        this.editorPart = editorPart;
         this.graph = editorPart.getGraph();
         this.selectionHandler = editorPart.getSelectionHandler();
         this.behaviorManager = editorPart.getBehaviorManager();
@@ -105,7 +106,10 @@ public class SelectByDistanceBehavior extends AbstractEditorPartBehavior
             selectionHandler.setSelectedElement((IEdge) toSelect);
             behaviorManager.fireOnEdgeSelected((IEdge) toSelect);
         }
+        this.editorPart.getSwingComponent().invalidate();
     }
+    
+    private IEditorPart editorPart;
 
     private IGraph graph;
 
