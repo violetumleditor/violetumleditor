@@ -410,6 +410,11 @@ public class FileMenu extends JMenu
                         mainFrame.removeDiagramPanel(workspace);
                         userPreferencesService.removeOpenedFile(graphFile);
                     }
+                    List<IWorkspace> workspaceList = mainFrame.getWorkspaceList();
+                    if (workspaceList.size() == 0)
+                    {
+                        mainFrame.requestFocus();
+                    }
                 }
             }
         });
