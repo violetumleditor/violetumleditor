@@ -21,6 +21,7 @@ import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
 import com.horstmann.violet.product.diagram.abstracts.property.BentStyle;
 import com.horstmann.violet.product.diagram.abstracts.property.LineStyle;
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 
 @ManagedBean(registeredManually=true)
 public class XStreamBasedPersistenceService implements IFilePersistenceService {
@@ -35,7 +36,7 @@ public class XStreamBasedPersistenceService implements IFilePersistenceService {
 	@Override
 	public IGraph read(InputStream in) throws IOException {
 		InputStreamReader reader = new InputStreamReader(in, "UTF-8");
-		XStream xStream = new XStream();
+		XStream xStream = new XStream(new DomDriver("UTF-8"));
 		xStream = getConfiguredXStream(xStream);
 		Object fromXML = xStream.fromXML(reader);
 		IGraph graph = (IGraph) fromXML;
@@ -51,7 +52,7 @@ public class XStreamBasedPersistenceService implements IFilePersistenceService {
 	public void write(IGraph graph, OutputStream out) {
 		try {
 			OutputStreamWriter writer = new OutputStreamWriter(out, "UTF-8");
-			XStream xStream = new XStream();
+			XStream xStream = new XStream(new DomDriver("UTF-8"));
 			xStream = getConfiguredXStream(xStream);
 			xStream.toXML(graph, writer);
 			writer.close();
