@@ -361,7 +361,8 @@ public class FileMenu extends JMenu
                 }
                 catch (RuntimeException e)
                 {
-                    // Nothing to do if no diagram is opened
+                    // If no diagram is opened, close app
+                    stopper.exitProgram(mainFrame);
                 }
                 if (workspace != null)
                 {
