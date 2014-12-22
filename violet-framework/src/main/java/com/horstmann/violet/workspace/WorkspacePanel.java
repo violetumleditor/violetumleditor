@@ -5,6 +5,8 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.LayoutManager;
 import java.awt.Rectangle;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.ContainerEvent;
@@ -56,6 +58,7 @@ public class WorkspacePanel extends JPanel
         {
             final IEditorPart editorPart = this.workspace.getEditorPart();
             final Component panel = editorPart.getSwingComponent();
+            
             this.scrollableEditorPart = new JScrollPane() {
                 @Override
                 public void paint(Graphics g)
@@ -66,7 +69,26 @@ public class WorkspacePanel extends JPanel
                 
             };
             this.scrollableEditorPart.getViewport().setView(panel);
-            panel.invalidate();
+            this.scrollableEditorPart.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener()
+            {
+                
+                @Override
+                public void adjustmentValueChanged(AdjustmentEvent e)
+                {
+                    editorPart.getSwingComponent().invalidate();
+                    editorPart.getSwingComponent().repaint();
+                }
+            });
+            this.scrollableEditorPart.getHorizontalScrollBar().addAdjustmentListener(new AdjustmentListener()
+            {
+                
+                @Override
+                public void adjustmentValueChanged(AdjustmentEvent e)
+                {
+                    editorPart.getSwingComponent().invalidate();
+                    editorPart.getSwingComponent().repaint();
+                }
+            });
             this.scrollableEditorPart.setBackground(ThemeManager.getInstance().getTheme().getWhiteColor());
             this.scrollableEditorPart.setBorder(new EmptyBorder(0, 0, 0, 0));
             this.scrollableEditorPart.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);

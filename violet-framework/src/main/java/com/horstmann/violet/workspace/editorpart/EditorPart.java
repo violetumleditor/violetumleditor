@@ -236,6 +236,7 @@ public class EditorPart extends JPanel implements IEditorPart
         return this;
     }
     
+    
     @Override
     public void paintImmediately(int x, int y, int w, int h)
     {
@@ -245,15 +246,15 @@ public class EditorPart extends JPanel implements IEditorPart
     
 
     @Override
-    public void paint(Graphics g)
+    protected void paintComponent(Graphics g)
     {
         boolean valid = getSwingComponent().isValid();
         if (valid)
         {
             return;
         }
-        //super.paintComponent(g);
-        getSwingComponent().validate();
+        super.paintComponent(g);
+        getSwingComponent().revalidate(); // to inform parent scrollpane container
         System.out.println(new Date().getTime());
         Graphics2D g2 = (Graphics2D) g;
         g2.scale(zoom, zoom);
@@ -265,8 +266,10 @@ public class EditorPart extends JPanel implements IEditorPart
             behavior.onPaint(g2);
         }
     }
-
-
+    
+    
+    
+    
     @Override
     public IEditorPartSelectionHandler getSelectionHandler()
     {
