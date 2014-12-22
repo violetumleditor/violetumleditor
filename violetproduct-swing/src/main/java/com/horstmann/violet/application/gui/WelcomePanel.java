@@ -23,7 +23,6 @@ package com.horstmann.violet.application.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GradientPaint;
@@ -69,7 +68,7 @@ public class WelcomePanel extends JPanel
         setLayout(new BorderLayout());
         add(getScrollableOptionPanel(), BorderLayout.CENTER);
         add(getFootTextPanel(), BorderLayout.SOUTH);
-        
+
     }
 
     public void paint(Graphics g)
@@ -85,8 +84,10 @@ public class WelcomePanel extends JPanel
         super.paint(g);
     }
 
-    private JScrollPane getScrollableOptionPanel() {
-        if (this.scrollableOptionPanel == null) {
+    private JScrollPane getScrollableOptionPanel()
+    {
+        if (this.scrollableOptionPanel == null)
+        {
             this.scrollableOptionPanel = new JScrollPane(getOptionPanel());
             this.scrollableOptionPanel.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
             this.scrollableOptionPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -96,7 +97,7 @@ public class WelcomePanel extends JPanel
         }
         return this.scrollableOptionPanel;
     }
-    
+
     private JPanel getOptionPanel()
     {
         if (this.optionPanel == null)
@@ -181,7 +182,7 @@ public class WelcomePanel extends JPanel
         }
         newDiagramImageButton.addActionListener(new ActionListener()
         {
-            
+
             @Override
             public void actionPerformed(ActionEvent e)
             {
@@ -222,7 +223,7 @@ public class WelcomePanel extends JPanel
     }
 
     private JScrollPane scrollableOptionPanel;
-    
+
     private JPanel optionPanel;
 
     private JPanel footTextPanel;

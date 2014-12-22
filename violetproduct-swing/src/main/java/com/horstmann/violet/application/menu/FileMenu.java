@@ -31,10 +31,9 @@ import java.awt.event.FocusListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URL;
 import java.util.Comparator;
 import java.util.List;
 import java.util.SortedMap;
@@ -54,11 +53,11 @@ import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.file.GraphFile;
 import com.horstmann.violet.framework.file.IFile;
 import com.horstmann.violet.framework.file.IGraphFile;
-import com.horstmann.violet.framework.file.LocalFile;
 import com.horstmann.violet.framework.file.chooser.IFileChooserService;
 import com.horstmann.violet.framework.file.export.FileExportService;
 import com.horstmann.violet.framework.file.naming.ExtensionFilter;
 import com.horstmann.violet.framework.file.naming.FileNamingService;
+import com.horstmann.violet.framework.file.persistence.IFilePersistenceService;
 import com.horstmann.violet.framework.file.persistence.IFileReader;
 import com.horstmann.violet.framework.file.persistence.IFileWriter;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
@@ -592,19 +591,11 @@ public class FileMenu extends JMenu
         try
         {
             String sampleFilePath = diagramPlugin.getSampleFilePath();
-            URL resource = getClass().getResource("/" + sampleFilePath);
-            File file = new File(resource.getFile());
-            if (!file.exists())
-            {
+            InputStream resourceAsStream = getClass().getResourceAsStream("/" + sampleFilePath);
+            if (resourceAsStream == null) {
                 return null;
             }
-            if (!file.isFile())
-            {
-                return null;
-            }
-            IFile aFile = new LocalFile(file);
-            GraphFile graphFile = new GraphFile(aFile);
-            IGraph graph = graphFile.getGraph();
+            IGraph graph = this.filePersistenceService.read(resourceAsStream);
             BufferedImage image = FileExportService.getImage(graph);
 
             JLabel label = new JLabel();
@@ -649,6 +640,10 @@ public class FileMenu extends JMenu
     /** File services */
     @InjectedBean
     private FileNamingService fileNamingService;
+    
+    /** Service to convert IGraph to XML content (and XML to IGraph of course) */
+    @InjectedBean
+    private IFilePersistenceService filePersistenceService;
 
     /** Application main frame */
     private MainFrame mainFrame;
