@@ -100,9 +100,9 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior
         Point2D snappedMousePoint = grid.snap(mousePoint);
         if (!snappedMousePoint.equals(lastMousePoint)) {
             this.editorPart.getSwingComponent().invalidate();
+            this.editorPart.getSwingComponent().repaint();
         }
         this.lastMousePoint = snappedMousePoint;
-        this.isRepaintRequest = true;
     }
 
     private boolean isConditionOK(MouseEvent event)
@@ -238,9 +238,6 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior
     @Override
     public void onPaint(Graphics2D g2)
     {
-        if (!this.isRepaintRequest) {
-            return;
-        }
         if (!isLinkingInProgress)
         {
             return;
@@ -256,7 +253,6 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior
         path.lineTo(this.lastMousePoint.getX(), this.lastMousePoint.getY());
         g2.draw(path);
         g2.setColor(oldColor);
-        this.isRepaintRequest = false;
     }
 
     private static final Color PURPLE = new Color(0.7f, 0.4f, 0.7f);
@@ -267,8 +263,6 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior
 
     private Point2D lastMousePoint = null;
     
-    private boolean isRepaintRequest = false;
-
     private IEditorPart editorPart;
 
     private IGraph graph;

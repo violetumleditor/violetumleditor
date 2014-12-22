@@ -87,8 +87,12 @@ public class DragTransitionPointBehavior extends AbstractEditorPartBehavior
             newTransitionPoint = gridSticker.snap(newTransitionPoint);
             this.edgeTransitionPointToDrag.setLocation(newTransitionPoint.getX(), newTransitionPoint.getY());
             // Save mouse location for next dragging sequence
-            lastMousePoint = gridSticker.snap(mousePoint);
-            editorPart.getSwingComponent().invalidate();
+            Point2D snappedMousePoint = gridSticker.snap(mousePoint);
+            if (!snappedMousePoint.equals(lastMousePoint)) {
+                editorPart.getSwingComponent().invalidate();
+                editorPart.getSwingComponent().repaint();
+            }
+            lastMousePoint = snappedMousePoint;
             return;
         }
     }

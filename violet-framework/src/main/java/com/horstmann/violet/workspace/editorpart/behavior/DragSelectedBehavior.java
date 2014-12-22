@@ -136,6 +136,7 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior
             Point2D snappedMousePoint = gridSticker.snap(mousePoint);
             if (!snappedMousePoint.equals(lastMousePoint)) {
                 editorPart.getSwingComponent().invalidate();
+                editorPart.getSwingComponent().repaint();
             }
             lastMousePoint = snappedMousePoint;
         }

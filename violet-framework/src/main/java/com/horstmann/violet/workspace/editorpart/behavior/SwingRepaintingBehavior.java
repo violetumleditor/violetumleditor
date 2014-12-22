@@ -37,7 +37,7 @@ public class SwingRepaintingBehavior implements IEditorPartBehavior
     @Override
     public void onMouseClicked(MouseEvent event)
     {
-        //this.editorPart.getSwingComponent().repaint();
+        this.editorPart.getSwingComponent().repaint();
     }
 
     @Override
@@ -49,7 +49,7 @@ public class SwingRepaintingBehavior implements IEditorPartBehavior
     @Override
     public void onMouseDragged(MouseEvent event)
     {
-        this.editorPart.getSwingComponent().repaint();
+        //this.editorPart.getSwingComponent().repaint();
     }
     
     @Override

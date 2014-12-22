@@ -10,6 +10,7 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.Workspace;
@@ -21,7 +22,13 @@ public class DragGraphBehavior extends AbstractEditorPartBehavior
 
     private Workspace workspace = null;
     
+    private IEditorPart editorPart;
+    
+    private IGridSticker grid;
+    
     private Point2D initialMousePoint = null;
+    
+    private Point2D lastMousePoint = null;
     
     private Cursor initialCursor = null;
     
@@ -36,6 +43,8 @@ public class DragGraphBehavior extends AbstractEditorPartBehavior
     public DragGraphBehavior(Workspace workspace)
     {
         this.workspace = workspace;
+        this.editorPart = workspace.getEditorPart();
+        this.grid = workspace.getEditorPart().getGraph().getGridSticker();
     }
     
 
@@ -107,16 +116,24 @@ public class DragGraphBehavior extends AbstractEditorPartBehavior
             return;
         }
         
-        Point mousePoint = event.getLocationOnScreen();
-        double dx = mousePoint.getX() - initialMousePoint.getX();
-        double dy = mousePoint.getY() - initialMousePoint.getY();
+        Point rawMousePoint = event.getLocationOnScreen();
+        double dx = rawMousePoint.getX() - initialMousePoint.getX();
+        double dy = rawMousePoint.getY() - initialMousePoint.getY();
         
-        WorkspacePanel workspacePanel = this.workspace.getAWTComponent();
-        JScrollPane scrollableEditorPart = workspacePanel.getScrollableEditorPart();
-        JScrollBar verticalScrollBar = scrollableEditorPart.getVerticalScrollBar();
-        JScrollBar horizontalScrollBar = scrollableEditorPart.getHorizontalScrollBar();
-        horizontalScrollBar.setValue(this.initialHorizontalScrollBarValue - (int) dx);
-        verticalScrollBar.setValue(this.initialVerticalScrollBarValue - (int) dy);
+        double zoom = this.editorPart.getZoomFactor();
+        Point2D mousePoint = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
+        Point2D snappedMousePoint = this.grid.snap(mousePoint);
+        if (!snappedMousePoint.equals(lastMousePoint)) {
+            WorkspacePanel workspacePanel = this.workspace.getAWTComponent();
+            JScrollPane scrollableEditorPart = workspacePanel.getScrollableEditorPart();
+            JScrollBar verticalScrollBar = scrollableEditorPart.getVerticalScrollBar();
+            JScrollBar horizontalScrollBar = scrollableEditorPart.getHorizontalScrollBar();
+            horizontalScrollBar.setValue(this.initialHorizontalScrollBarValue - (int) dx);
+            verticalScrollBar.setValue(this.initialVerticalScrollBarValue - (int) dy);
+            this.editorPart.getSwingComponent().invalidate();
+            this.editorPart.getSwingComponent().repaint();
+        }
+        this.lastMousePoint = snappedMousePoint;
     }
 
     @Override

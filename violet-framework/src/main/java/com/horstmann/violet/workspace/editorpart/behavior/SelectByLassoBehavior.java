@@ -57,6 +57,10 @@ public class SelectByLassoBehavior extends AbstractEditorPartBehavior
         {
             return;
         }
+        boolean isCtrl = (event.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0;
+        if (isCtrl) {
+            return;
+        }
         
         double zoom = editorPart.getZoomFactor();
         Point2D mousePoint = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
@@ -65,8 +69,6 @@ public class SelectByLassoBehavior extends AbstractEditorPartBehavior
         if (snappedMousePoint.equals(lastMousePoint)) {
             return;
         }
-        lastMousePoint = mousePoint;
-        boolean isCtrl = (event.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0;
         double x1 = mouseDownPoint.getX();
         double y1 = mouseDownPoint.getY();
         double x2 = mousePoint.getX();
@@ -77,7 +79,7 @@ public class SelectByLassoBehavior extends AbstractEditorPartBehavior
         {
             INode n = (INode) iterOnNodes.next();
             Rectangle2D bounds = n.getBounds();
-            if (!isCtrl && !lasso.contains(bounds))
+            if (!lasso.contains(bounds))
             {
                 selectionHandler.removeElementFromSelection(n);
             }
@@ -91,7 +93,7 @@ public class SelectByLassoBehavior extends AbstractEditorPartBehavior
         {
             IEdge e = (IEdge) iterOnEdges.next();
             Rectangle2D bounds = e.getBounds();
-            if (!isCtrl && !lasso.contains(bounds))
+            if (!lasso.contains(bounds))
             {
                 selectionHandler.removeElementFromSelection(e);
             }
@@ -100,7 +102,11 @@ public class SelectByLassoBehavior extends AbstractEditorPartBehavior
                 selectionHandler.addSelectedElement(e);
             }
         }
-        editorPart.getSwingComponent().invalidate();
+        if (!snappedMousePoint.equals(lastMousePoint)) {
+            this.editorPart.getSwingComponent().invalidate();
+            this.editorPart.getSwingComponent().repaint();
+        }
+        this.lastMousePoint = snappedMousePoint;
     }
 
     @Override
@@ -108,6 +114,8 @@ public class SelectByLassoBehavior extends AbstractEditorPartBehavior
     {
         mouseDownPoint = null;
         lastMousePoint = null;
+        this.editorPart.getSwingComponent().invalidate();
+        this.editorPart.getSwingComponent().repaint();
     }
 
     private boolean isMouseOnNodeOrEdge(Point2D mouseLocation)
