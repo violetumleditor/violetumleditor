@@ -25,25 +25,25 @@ public class SwingRepaintingBehavior implements IEditorPartBehavior
     @Override
     public void onToolSelected(GraphTool selectedTool)
     {
-        this.editorPart.getSwingComponent().repaint();
+        //this.editorPart.getSwingComponent().repaint();
     }
 
     @Override
     public void onMouseReleased(MouseEvent event)
     {
-        this.editorPart.getSwingComponent().repaint();
+        //this.editorPart.getSwingComponent().repaint();
     }
     
     @Override
     public void onMouseClicked(MouseEvent event)
     {
-        this.editorPart.getSwingComponent().repaint();
+        //this.editorPart.getSwingComponent().repaint();
     }
 
     @Override
     public void onMousePressed(MouseEvent event)
     {
-        this.editorPart.getSwingComponent().repaint();
+        //this.editorPart.getSwingComponent().repaint();
     }
 
     @Override

@@ -109,10 +109,9 @@ public class EditorPart extends JPanel implements IEditorPart
             }
         });
         setBounds(0, 0, 0, 0);
-        invalidate();
+        setDoubleBuffered(false);
     }
 
-    
     /*
      * (non-Javadoc)
      * 
@@ -236,22 +235,24 @@ public class EditorPart extends JPanel implements IEditorPart
     {
         return this;
     }
-
-
     
-    /*
-     * (non-Javadoc)
-     * 
-     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-     */
-    public void paintComponent(Graphics g)
+    @Override
+    public void paintImmediately(int x, int y, int w, int h)
+    {
+        getSwingComponent().invalidate();
+        super.paintImmediately(x, y, w, h);
+    }
+    
+
+    @Override
+    public void paint(Graphics g)
     {
         boolean valid = getSwingComponent().isValid();
-        super.paintComponent(g);
-        if (valid && !isNeverPaint) {
+        if (valid)
+        {
             return;
         }
-        setBackground(Color.WHITE);
+        //super.paintComponent(g);
         getSwingComponent().validate();
         System.out.println(new Date().getTime());
         Graphics2D g2 = (Graphics2D) g;
@@ -263,7 +264,6 @@ public class EditorPart extends JPanel implements IEditorPart
         {
             behavior.onPaint(g2);
         }
-        isNeverPaint = true;
     }
 
 
@@ -280,7 +280,7 @@ public class EditorPart extends JPanel implements IEditorPart
     }
 
     private boolean isNeverPaint = true;
-    
+
     private IGraph graph;
 
     private IGrid grid;

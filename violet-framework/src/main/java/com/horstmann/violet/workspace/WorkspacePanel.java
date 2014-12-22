@@ -2,6 +2,7 @@ package com.horstmann.violet.workspace;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Graphics;
 import java.awt.LayoutManager;
 import java.awt.Rectangle;
 import java.awt.event.ComponentEvent;
@@ -56,11 +57,13 @@ public class WorkspacePanel extends JPanel
             final IEditorPart editorPart = this.workspace.getEditorPart();
             final Component panel = editorPart.getSwingComponent();
             this.scrollableEditorPart = new JScrollPane() {
-                public void invalidate() {
-                    super.invalidate();
+                @Override
+                public void paint(Graphics g)
+                {
                     editorPart.getSwingComponent().invalidate();
-                    editorPart.getSwingComponent().repaint();
-                };
+                    super.paint(g);
+                }
+                
             };
             this.scrollableEditorPart.getViewport().setView(panel);
             panel.invalidate();
