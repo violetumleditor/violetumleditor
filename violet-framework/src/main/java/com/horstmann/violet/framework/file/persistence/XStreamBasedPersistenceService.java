@@ -35,7 +35,7 @@ public class XStreamBasedPersistenceService implements IFilePersistenceService {
 
 	@Override
 	public IGraph read(InputStream in) throws IOException {
-		InputStreamReader reader = new InputStreamReader(in, "UTF-8");
+		InputStreamReader reader = new InputStreamReader(in);
 		XStream xStream = new XStream(new DomDriver("UTF-8"));
 		xStream = getConfiguredXStream(xStream);
 		Object fromXML = xStream.fromXML(reader);
@@ -51,7 +51,7 @@ public class XStreamBasedPersistenceService implements IFilePersistenceService {
 	@Override
 	public void write(IGraph graph, OutputStream out) {
 		try {
-			OutputStreamWriter writer = new OutputStreamWriter(out, "UTF-8");
+			OutputStreamWriter writer = new OutputStreamWriter(out);
 			XStream xStream = new XStream(new DomDriver("UTF-8"));
 			xStream = getConfiguredXStream(xStream);
 			xStream.toXML(graph, writer);
