@@ -37,11 +37,19 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
         boolean isMouseOnEdgePath = isMouseOnEdgePath(event);
         if (isMouseOnEdgePath)
         {
-            this.editorPart.getSwingComponent().setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+            if (this.initialCursor == null)
+            {
+                this.initialCursor = this.editorPart.getSwingComponent().getCursor();
+            }
+            this.editorPart.getSwingComponent().setCursor(this.transitionCursor);
         }
         if (!isMouseOnEdgePath)
         {
-            this.editorPart.getSwingComponent().setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            if (this.initialCursor != null)
+            {
+                this.editorPart.getSwingComponent().setCursor(this.initialCursor);
+                this.initialCursor = null;
+            }
         }
     }
 
@@ -116,7 +124,7 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
 
     private boolean isPrerequisitesOK()
     {
-        if (getSelectedEdge() == null)
+        if (this.selectionHandler.getSelectedEdges().size() != 1)
         {
             return false;
         }
@@ -251,5 +259,9 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
     private Point2D newTransitionPointLocation = null;
 
     private IEdge selectedEdge = null;
+
+    private Cursor initialCursor = null;
+
+    private Cursor transitionCursor = new Cursor(Cursor.CROSSHAIR_CURSOR);
 
 }

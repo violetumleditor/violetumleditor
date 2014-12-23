@@ -1,5 +1,6 @@
 package com.horstmann.violet.workspace.editorpart.behavior;
 
+import java.awt.Cursor;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -47,8 +48,10 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior
         if (isMouseOnNode(mousePoint))
         {
             changeSelectedElementIfNeeded(mousePoint);
-            isReadyForDragging = true;
-            lastMousePoint = mousePoint;
+            this.isReadyForDragging = true;
+            this.lastMousePoint = mousePoint;
+            this.initialCursor = this.editorPart.getSwingComponent().getCursor();
+            this.editorPart.getSwingComponent().setCursor(this.dragCursor);
         }
     }
 
@@ -145,8 +148,10 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior
     @Override
     public void onMouseReleased(MouseEvent event)
     {
-        lastMousePoint = null;
-        isReadyForDragging = false;
+        this.editorPart.getSwingComponent().setCursor(this.initialCursor);
+        this.lastMousePoint = null;
+        this.isReadyForDragging = false;
+        this.initialCursor = null;
     }
 
     private void changeSelectedElementIfNeeded(Point2D mouseLocation)
@@ -181,4 +186,8 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior
     private IGraphToolsBar graphToolsBar;
 
     private boolean isReadyForDragging = false;
+    
+    private Cursor initialCursor = null;
+    
+    private Cursor dragCursor = new Cursor(Cursor.HAND_CURSOR);
 }
