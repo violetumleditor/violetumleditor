@@ -1,5 +1,6 @@
 package com.horstmann.violet.workspace.editorpart.behavior;
 
+import java.awt.Cursor;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -29,7 +30,13 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
     @Override
     public void onMouseMoved(MouseEvent event)
     {
-        super.onMouseMoved(event);
+        boolean isMouseOnEdgePath = isMouseOnEdgePath(event);
+        if (isMouseOnEdgePath) {
+            this.editorPart.getSwingComponent().setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+        }
+        if (!isMouseOnEdgePath) {
+            this.editorPart.getSwingComponent().setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        }
     }
     
     @Override
@@ -47,10 +54,10 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
         {
             return;
         }
-        if (!isSelectedToolOK())
-        {
-            return;
-        }
+//        if (!isSelectedToolOK())
+//        {
+//            return;
+//        }
         if (isMouseOnTransitionPoint(event))
         {
             return;
@@ -73,7 +80,7 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
             // If we added it on mouse pressed, it will produce a conflict with
             // other click-based actions such as EditSeletedBehavior
         	startUndoRedoCapture();
-            addNewTransitionPoint();
+            addNewTransitionPoint(event);
             stopUndoRedoCapture();
             this.editorPart.getSwingComponent().invalidate();
             this.isTransitionPointAdded = true;
@@ -151,38 +158,48 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
         return false;
     }
 
-    private void addNewTransitionPoint()
+    private void addNewTransitionPoint(MouseEvent event)
     {
         if (getSelectedEdge() == null)
         {
             return;
         }
         Point2D[] transitionPoints = getSelectedEdge().getTransitionPoints();
-        List<Point2D> pointsToTest = new ArrayList<Point2D>();
-        Line2D connectionPoints = getSelectedEdge().getConnectionPoints();
-        pointsToTest.add(connectionPoints.getP1());
-        pointsToTest.addAll(Arrays.asList(transitionPoints));
-        pointsToTest.add(connectionPoints.getP2());
-        Point2D lineToTestStartingPoint = pointsToTest.get(0);
-        final double MAX_DIST = 5;
-        for (int i = 1; i < pointsToTest.size(); i++)
-        {
-            Point2D lineToTestEndingPoint = pointsToTest.get(i);
-            Line2D lineToTest = new Line2D.Double(lineToTestStartingPoint, lineToTestEndingPoint);
-            if (lineToTest.ptSegDist(this.newTransitionPointLocation) <= MAX_DIST)
-            {
-                List<Point2D> newTransitionPointList = new ArrayList<Point2D>();
-                newTransitionPointList.addAll(Arrays.asList(transitionPoints));
-                newTransitionPointList.add(i - 1, this.newTransitionPointLocation);
-                getSelectedEdge().setTransitionPoints(newTransitionPointList.toArray(new Point2D[newTransitionPointList.size()]));
-                return;
-            }
-            lineToTestStartingPoint = lineToTestEndingPoint;
+        if (transitionPoints.length == 0) {
+            List<Point2D> newTransitionPointList = new ArrayList<Point2D>();
+            newTransitionPointList.add(this.newTransitionPointLocation);
+            getSelectedEdge().setTransitionPoints(newTransitionPointList.toArray(new Point2D[newTransitionPointList.size()]));
+            return;
         }
+        if (transitionPoints.length > 0) {
+            List<Point2D> pointsToTest = new ArrayList<Point2D>();
+            Line2D connectionPoints = getSelectedEdge().getConnectionPoints();
+            pointsToTest.add(connectionPoints.getP1());
+            pointsToTest.addAll(Arrays.asList(transitionPoints));
+            pointsToTest.add(connectionPoints.getP2());
+            Point2D lineToTestStartingPoint = pointsToTest.get(0);
+            final double MAX_DIST = 5;
+            for (int i = 1; i < pointsToTest.size(); i++)
+            {
+                Point2D lineToTestEndingPoint = pointsToTest.get(i);
+                Line2D lineToTest = new Line2D.Double(lineToTestStartingPoint, lineToTestEndingPoint);
+                if (lineToTest.ptSegDist(this.newTransitionPointLocation) <= MAX_DIST)
+                {
+                    List<Point2D> newTransitionPointList = new ArrayList<Point2D>();
+                    newTransitionPointList.addAll(Arrays.asList(transitionPoints));
+                    newTransitionPointList.add(i - 1, this.newTransitionPointLocation);
+                    getSelectedEdge().setTransitionPoints(newTransitionPointList.toArray(new Point2D[newTransitionPointList.size()]));
+                    return;
+                }
+                lineToTestStartingPoint = lineToTestEndingPoint;
+            }
+            return;
+        }
+        
     }
     
     
-    private boolean isMouseOndgePath(MouseEvent event) {
+    private boolean isMouseOnEdgePath(MouseEvent event) {
         if (getSelectedEdge() == null)
         {
             return false;
