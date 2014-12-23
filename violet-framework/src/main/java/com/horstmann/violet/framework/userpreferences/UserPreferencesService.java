@@ -9,7 +9,6 @@ import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBea
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.ManagedBean;
 import com.horstmann.violet.framework.theme.BlueAmbianceTheme;
 
-
 /**
  * Manages all user preferences
  * 
@@ -19,7 +18,6 @@ import com.horstmann.violet.framework.theme.BlueAmbianceTheme;
 @ManagedBean
 public class UserPreferencesService
 {
-
 
     public void setPreferedLookAndFeel(String className)
     {
@@ -33,8 +31,7 @@ public class UserPreferencesService
         String preferedLAF = pService.get(PreferencesConstant.LOOK_AND_FEEL, BlueAmbianceTheme.class.getName());
         return preferedLAF;
     }
-    
-  
+
     /**
      * @return the list of lastest opened files (as path strings)
      */
@@ -47,8 +44,8 @@ public class UserPreferencesService
         {
             try
             {
-                PreferredFile aRecentFile  = new PreferredFile(anEntry);
-                if(!aRecentFile.getDirectory().equals("null"))
+                PreferredFile aRecentFile = new PreferredFile(anEntry);
+                if (!aRecentFile.getDirectory().equals("null") && !recentFiles.contains(aRecentFile))
                 {
                     recentFiles.add(aRecentFile);
                 }
@@ -61,8 +58,7 @@ public class UserPreferencesService
         updateRecentFileList(recentFiles);
         return new ArrayList<IFile>(recentFiles);
     }
-    
-    
+
     /**
      * add recently opened file into user preferences
      * 
@@ -73,28 +69,38 @@ public class UserPreferencesService
         PreferredFile newPreferredFile = new PreferredFile(aFile);
         List<PreferredFile> recentFileList = new ArrayList<PreferredFile>();
         recentFileList.add(newPreferredFile);
-        for (IFile file : getRecentFiles()) {
-            recentFileList.add(new PreferredFile(file));
+        for (IFile file : getRecentFiles())
+        {
+            PreferredFile aPreferredFile = new PreferredFile(file);
+            if (aPreferredFile.equals(newPreferredFile))
+            {
+                continue;
+            }
+            recentFileList.add(aPreferredFile);
         }
-        while(recentFileList.size() > DEFAULT_MAX_RECENT_FILES) {
+        while (recentFileList.size() > DEFAULT_MAX_RECENT_FILES)
+        {
             recentFileList.remove(recentFileList.get(recentFileList.size() - 1));
         }
         updateRecentFileList(recentFileList);
     }
-    
+
     /**
      * Update user preferences
+     * 
      * @param recentFiles - set of recentFiles to be saved
      */
-    private void updateRecentFileList(List<PreferredFile> recentFiles) {
+    private void updateRecentFileList(List<PreferredFile> recentFiles)
+    {
         StringBuilder result = new StringBuilder("");
-        for (IFile aFile : recentFiles) {
+        for (IFile aFile : recentFiles)
+        {
             PreferredFile aPreferredFile = new PreferredFile(aFile);
             result.append(aPreferredFile.toString()).append(PreferencesConstant.FILE_SEPARATOR.toString());
         }
         this.dao.put(PreferencesConstant.RECENT_FILES, result.toString());
     }
-    
+
     /**
      * Gets opened files on last session. Used to restore workspace after restart
      * 
@@ -107,10 +113,13 @@ public class UserPreferencesService
         List<PreferredFile> result = new ArrayList<PreferredFile>();
         for (String anEntry : strings)
         {
-            try {
-				PreferredFile aFile = new PreferredFile(anEntry);
+            try
+            {
+                PreferredFile aFile = new PreferredFile(anEntry);
                 result.add(aFile);
-            } catch (IOException a) {
+            }
+            catch (IOException a)
+            {
                 // We should purge list from unparsable entries
             }
         }
@@ -127,14 +136,14 @@ public class UserPreferencesService
     {
         PreferredFile newPreferredFile = new PreferredFile(aFile);
         List<PreferredFile> openedFileList = new ArrayList<PreferredFile>();
-        for (IFile file : getOpenedFilesDuringLastSession()) {
+        for (IFile file : getOpenedFilesDuringLastSession())
+        {
             openedFileList.add(new PreferredFile(file));
         }
         openedFileList.add(newPreferredFile);
         updateOpenedFileList(openedFileList);
     }
-    
-    
+
     /**
      * Removes newly closed file from user preferences
      * 
@@ -144,31 +153,28 @@ public class UserPreferencesService
     {
         PreferredFile newPreferredFile = new PreferredFile(aFile);
         List<PreferredFile> openedFileList = new ArrayList<PreferredFile>();
-        for (IFile file : getOpenedFilesDuringLastSession()) {
+        for (IFile file : getOpenedFilesDuringLastSession())
+        {
             openedFileList.add(new PreferredFile(file));
         }
         openedFileList.remove(newPreferredFile);
         updateOpenedFileList(openedFileList);
     }
 
-    
     /**
      * Update user preferences
+     * 
      * @param openedFiles set of Opened Files to be saved
      */
-    private void updateOpenedFileList(List<PreferredFile> openedFiles) {
+    private void updateOpenedFileList(List<PreferredFile> openedFiles)
+    {
         StringBuilder result = new StringBuilder("");
-        for (PreferredFile aPreferredFile : openedFiles) {
+        for (PreferredFile aPreferredFile : openedFiles)
+        {
             result.append(aPreferredFile.toString()).append(PreferencesConstant.FILE_SEPARATOR.toString());
         }
         this.dao.put(PreferencesConstant.OPENED_FILES_ON_WORKSPACE, result.toString());
     }
-    
-
-
-    
-
-
 
     /**
      * Indicates which diagram is currently focused on workspace and saves it into user preferences
@@ -203,20 +209,21 @@ public class UserPreferencesService
         }
         return aFile;
     }
-    
+
     /**
      * Clear user preferences
      */
-    public void reset() {
+    public void reset()
+    {
         this.dao.reset();
     }
-    
+
     /**
      * Allows to store and retrieve preferences
      */
     @InjectedBean
     private IUserPreferencesDao dao;
-    
+
     /**
      * Recent opened files list capacity
      */

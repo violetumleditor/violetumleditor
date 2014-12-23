@@ -571,10 +571,13 @@ public class FileMenu extends JMenu
                         IGraphFile graphFile = new GraphFile(aFile);
                         IWorkspace workspace = new Workspace(graphFile);
                         mainFrame.addTabbedPane(workspace);
+                        userPreferencesService.addOpenedFile(aFile);
+                        userPreferencesService.addRecentFile(aFile);
                     }
                     catch (Exception e)
                     {
                         dialogFactory.showErrorDialog(dialogOpenFileErrorMessage + " : " + e.getMessage());
+                        userPreferencesService.removeOpenedFile(aFile);
                     }
                 }
             });

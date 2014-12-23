@@ -82,14 +82,11 @@ public class PreferredFile implements IFile
         return this.directory + PreferencesConstant.PATH_SEPARATOR.toString() + this.filename;
     }
 
-    
-    
     @Override
     public int hashCode()
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((directory == null) ? 0 : directory.hashCode());
         result = prime * result + ((filename == null) ? 0 : filename.hashCode());
         return result;
     }
@@ -101,11 +98,6 @@ public class PreferredFile implements IFile
         if (obj == null) return false;
         if (getClass() != obj.getClass()) return false;
         PreferredFile other = (PreferredFile) obj;
-        if (directory == null)
-        {
-            if (other.directory != null) return false;
-        }
-        else if (!directory.equals(other.directory)) return false;
         if (filename == null)
         {
             if (other.filename != null) return false;
@@ -113,8 +105,6 @@ public class PreferredFile implements IFile
         else if (!filename.equals(other.filename)) return false;
         return true;
     }
-
-
 
     /**
      * The file name
