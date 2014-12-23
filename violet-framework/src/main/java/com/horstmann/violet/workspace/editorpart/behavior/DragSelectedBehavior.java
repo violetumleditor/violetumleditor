@@ -46,7 +46,7 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior
         final Point2D mousePoint = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
         if (isMouseOnNode(mousePoint))
         {
-            changeSelectedNodeIfNeeded(mousePoint);
+            changeSelectedElementIfNeeded(mousePoint);
             isReadyForDragging = true;
             lastMousePoint = mousePoint;
         }
@@ -149,8 +149,13 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior
         isReadyForDragging = false;
     }
 
-    private void changeSelectedNodeIfNeeded(Point2D mouseLocation)
+    private void changeSelectedElementIfNeeded(Point2D mouseLocation)
     {
+        IEdge edge = this.graph.findEdge(mouseLocation);
+        if (edge != null) {
+            // We don't want to drag edges
+            return;
+        }
         INode node = this.graph.findNode(mouseLocation);
         if (node == null)
         {
