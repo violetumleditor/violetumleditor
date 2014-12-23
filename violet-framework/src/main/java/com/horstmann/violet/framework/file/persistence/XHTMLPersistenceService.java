@@ -30,9 +30,9 @@ public class XHTMLPersistenceService implements IFilePersistenceService
 
     private static final String TEMPLATE_FILE = "XHTMLFileTemplate.violet.html";
 
-    private static final String IMAGE_TYPE = "jpg";
+    private static final String IMAGE_TYPE = "png";
 
-    private static final String HTML_INLINE_IMAGE_PREFIX = "data:image/jpeg;base64,";
+    private static final String HTML_INLINE_IMAGE_PREFIX = "data:image/png;base64,";
 
     private static final String TEMPLATE_VERSION_KEY = "${version}";
     
