@@ -30,15 +30,21 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
     @Override
     public void onMouseMoved(MouseEvent event)
     {
+        if (!isPrerequisitesOK())
+        {
+            return;
+        }
         boolean isMouseOnEdgePath = isMouseOnEdgePath(event);
-        if (isMouseOnEdgePath) {
+        if (isMouseOnEdgePath)
+        {
             this.editorPart.getSwingComponent().setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
         }
-        if (!isMouseOnEdgePath) {
+        if (!isMouseOnEdgePath)
+        {
             this.editorPart.getSwingComponent().setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         }
     }
-    
+
     @Override
     public void onMousePressed(MouseEvent event)
     {
@@ -54,10 +60,10 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
         {
             return;
         }
-//        if (!isSelectedToolOK())
-//        {
-//            return;
-//        }
+        // if (!isSelectedToolOK())
+        // {
+        // return;
+        // }
         if (isMouseOnTransitionPoint(event))
         {
             return;
@@ -79,7 +85,7 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
             // We add transition point only if a dragging action is detected.
             // If we added it on mouse pressed, it will produce a conflict with
             // other click-based actions such as EditSeletedBehavior
-        	startUndoRedoCapture();
+            startUndoRedoCapture();
             addNewTransitionPoint(event);
             stopUndoRedoCapture();
             this.editorPart.getSwingComponent().invalidate();
@@ -165,13 +171,15 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
             return;
         }
         Point2D[] transitionPoints = getSelectedEdge().getTransitionPoints();
-        if (transitionPoints.length == 0) {
+        if (transitionPoints.length == 0)
+        {
             List<Point2D> newTransitionPointList = new ArrayList<Point2D>();
             newTransitionPointList.add(this.newTransitionPointLocation);
             getSelectedEdge().setTransitionPoints(newTransitionPointList.toArray(new Point2D[newTransitionPointList.size()]));
             return;
         }
-        if (transitionPoints.length > 0) {
+        if (transitionPoints.length > 0)
+        {
             List<Point2D> pointsToTest = new ArrayList<Point2D>();
             Line2D connectionPoints = getSelectedEdge().getConnectionPoints();
             pointsToTest.add(connectionPoints.getP1());
@@ -188,18 +196,19 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
                     List<Point2D> newTransitionPointList = new ArrayList<Point2D>();
                     newTransitionPointList.addAll(Arrays.asList(transitionPoints));
                     newTransitionPointList.add(i - 1, this.newTransitionPointLocation);
-                    getSelectedEdge().setTransitionPoints(newTransitionPointList.toArray(new Point2D[newTransitionPointList.size()]));
+                    getSelectedEdge().setTransitionPoints(
+                            newTransitionPointList.toArray(new Point2D[newTransitionPointList.size()]));
                     return;
                 }
                 lineToTestStartingPoint = lineToTestEndingPoint;
             }
             return;
         }
-        
+
     }
-    
-    
-    private boolean isMouseOnEdgePath(MouseEvent event) {
+
+    private boolean isMouseOnEdgePath(MouseEvent event)
+    {
         if (getSelectedEdge() == null)
         {
             return false;
@@ -208,7 +217,6 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
         final Point2D mousePoint = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
         return getSelectedEdge().contains(mousePoint);
     }
-    
 
     private void startUndoRedoCapture()
     {
