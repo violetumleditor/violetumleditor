@@ -1,0 +1,73 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.horstmann.violet</groupId>
+		<artifactId>parent</artifactId>
+		<version>1.0.0</version>
+	</parent>
+	<artifactId>violetproduct-jnlp</artifactId>
+	<packaging>jar</packaging>
+	<name>Violet UML Editor JNLP (Java Web Start) packaging</name>
+	<description>Free and open source software to create UML diagrams and even more</description>
+	<url>http://violet.sourceforge.net</url>
+	<organization>
+		<name>Alexandre de Pellegrin / Cay S. Horstmann</name>
+	</organization>
+	<version>${applicationVersion}</version>
+	<dependencies>
+		<dependency>
+			<groupId>com.horstmann.violet</groupId>
+			<artifactId>violetproduct-swing</artifactId>
+			<version>${applicationVersion}</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>2.6.1</version>
+				<executions>
+					<execution>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>webstart-maven-plugin</artifactId>
+				<version>1.0-beta-6</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>jnlp</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<codebase>http://alexdp.free.fr/violetumleditor/demo</codebase>
+					<jnlp>
+						<mainClass>com.horstmann.violet.UMLEditorWebStart</mainClass>
+						<outputFile>violet.jnlp</outputFile>
+					</jnlp>
+					<sign>
+						<keystore>${project.basedir}/src/main/jnlp/keystore.jks</keystore>
+						<keypass>password</keypass>
+						<storepass>password</storepass>
+						<alias>selfsigned</alias>
+						<verify>false</verify>
+					</sign>
+					<updateManifestEntries>
+						<Permissions>all-permissions</Permissions>
+						<Codebase>*</Codebase>
+					</updateManifestEntries>
+					<verbose>true</verbose>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

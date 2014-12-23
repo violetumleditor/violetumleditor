@@ -35,9 +35,12 @@ import javax.jnlp.PersistenceService;
 import javax.jnlp.ServiceManager;
 import javax.jnlp.UnavailableServiceException;
 
+import com.horstmann.violet.framework.injection.bean.ManiocFramework.ManagedBean;
+
 /**
  * A preferences service that uses WebStart "muffins".
  */
+@ManagedBean(registeredManually=true)
 public class JNLPUserPreferencesDao implements IUserPreferencesDao
 {
 

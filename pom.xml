@@ -9,48 +9,49 @@
 	<version>1.0.0</version>
 	<packaging>pom</packaging>
 	<modules>
-	    <module>violet-framework</module>
-	    <module>violetplugin-activitydiagram</module>
-	    <module>violetplugin-classdiagram</module>
-	    <module>violetplugin-objectdiagram</module>
-	    <module>violetplugin-sequencediagram</module>
-	    <module>violetplugin-statediagram</module>
-	    <module>violetplugin-usecasediagram</module>
-	    <module>violetproduct-swing</module>
-	    <module>violetproduct-exe</module >
-	    <!-- module>violetproduct-rpm</module -->
-	    <module>violetproduct-deb</module>
-	    <module>violetproduct-web</module>
+		<module>violet-framework</module>
+		<module>violetplugin-activitydiagram</module>
+		<module>violetplugin-classdiagram</module>
+		<module>violetplugin-objectdiagram</module>
+		<module>violetplugin-sequencediagram</module>
+		<module>violetplugin-statediagram</module>
+		<module>violetplugin-usecasediagram</module>
+		<module>violetproduct-swing</module>
+		<module>violetproduct-jnlp</module>
+		<module>violetproduct-exe</module>
+		<!-- module>violetproduct-rpm</module -->
+		<module>violetproduct-deb</module>
+		<module>violetproduct-web</module>
 	</modules>
 	<properties>
-    	<applicationVersion>2.0.1</applicationVersion>
-  	</properties>
+		<applicationVersion>2.1.0</applicationVersion>
+	</properties>
 	<build>
 		<resources>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-            <resource>
-                <directory>src/main/java</directory>
-                <includes>
-                    <include>**/*.gif</include>
-                    <include>**/*.jpg</include>
-                    <include>**/*.properties</include>
-                    <include>**/*.xml</include>
-                </includes>
-            </resource>
-        </resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.gif</include>
+					<include>**/*.jpg</include>
+					<include>**/*.properties</include>
+					<include>**/*.xml</include>
+				</includes>
+			</resource>
+		</resources>
 		<pluginManagement>
-	        <plugins>
-	            <plugin>
-	                <artifactId>maven-compiler-plugin</artifactId>
-	                <version>2.0.2</version>
-	                <configuration>
-	                    <source>1.6</source>
-	                    <target>1.6</target>
-	                </configuration>
-	            </plugin>
-	        </plugins>
+			<plugins>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.0.2</version>
+					<configuration>
+						<source>1.6</source>
+						<target>1.6</target>
+					</configuration>
+				</plugin>
+			</plugins>
 		</pluginManagement>
 	</build>
 

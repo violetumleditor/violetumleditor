@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp
+    spec="1.0+"
+    codebase="$jnlpCodebase"
+    href="$outputFile">
+
+<information>
+#if($project.name)
+    <title>$project.name</title>
+#end
+#if($project.organization.name)
+    <vendor>$project.organization.name</vendor>
+#end
+#if($project.description)
+    <description>$project.description</description>
+#end
+#if($project.url)
+    <homepage href="$project.url"/>
+#end
+	<shortcut online="true">
+    	<desktop/>
+    	<menu submenu="Webstart Tutorial"/>
+  	</shortcut>
+  	<!-- 
+	<icon href="icon.png" kind="default" />
+	<icon href="splash.png" kind="splash" />
+	-->
+
+</information>
+
+<security>
+     <all-permissions/>
+     <j2ee-application-client-permissions/>
+</security>
+
+<resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se" />
+    $dependencies
+</resources>
+<application-desc main-class="$mainClass"/>
+</jnlp>
