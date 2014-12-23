@@ -27,6 +27,12 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
     }
 
     @Override
+    public void onMouseMoved(MouseEvent event)
+    {
+        super.onMouseMoved(event);
+    }
+    
+    @Override
     public void onMousePressed(MouseEvent event)
     {
         if (event.getClickCount() > 1)
@@ -174,6 +180,18 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
             lineToTestStartingPoint = lineToTestEndingPoint;
         }
     }
+    
+    
+    private boolean isMouseOndgePath(MouseEvent event) {
+        if (getSelectedEdge() == null)
+        {
+            return false;
+        }
+        double zoom = this.editorPart.getZoomFactor();
+        final Point2D mousePoint = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
+        return getSelectedEdge().contains(mousePoint);
+    }
+    
 
     private void startUndoRedoCapture()
     {

@@ -21,16 +21,10 @@
 
 package com.horstmann.violet.workspace.editorpart;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.RenderingHints;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -38,12 +32,10 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Double;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.RepaintManager;
 
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
@@ -255,7 +247,6 @@ public class EditorPart extends JPanel implements IEditorPart
         }
         super.paintComponent(g);
         getSwingComponent().revalidate(); // to inform parent scrollpane container
-        System.out.println(new Date().getTime());
         Graphics2D g2 = (Graphics2D) g;
         g2.scale(zoom, zoom);
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -281,8 +272,6 @@ public class EditorPart extends JPanel implements IEditorPart
     {
         return this.behaviorManager;
     }
-
-    private boolean isNeverPaint = true;
 
     private IGraph graph;
 
