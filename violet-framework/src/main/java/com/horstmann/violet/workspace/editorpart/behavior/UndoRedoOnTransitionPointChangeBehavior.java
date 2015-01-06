@@ -64,7 +64,14 @@ public class UndoRedoOnTransitionPointChangeBehavior extends AbstractEditorPartB
 	}
 
 	private void captureDraggedPoints(final IEdge edge, CompoundEdit capturedEdit) {
-		boolean isDragged = (this.transitionPointsBeforeChanges.size() == this.transitionPointsAfterChanges.size());
+		boolean isSameQuantity = (this.transitionPointsBeforeChanges.size() == this.transitionPointsAfterChanges.size());
+		boolean isSameLocation = true;
+		for (int i = 0; i < this.transitionPointsBeforeChanges.size(); i++) {
+            Point2D beforeDragPoint = this.transitionPointsBeforeChanges.get(i);
+            Point2D afterDragPoint = this.transitionPointsAfterChanges.get(i);
+            isSameLocation = isSameLocation && beforeDragPoint.equals(afterDragPoint);
+		}
+		boolean isDragged = isSameQuantity && !isSameLocation;
 		if (!isDragged) {
 			return;
 		}
