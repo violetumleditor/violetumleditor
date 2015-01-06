@@ -68,10 +68,10 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
         {
             return;
         }
-        // if (!isSelectedToolOK())
-        // {
-        // return;
-        // }
+        if (!isMouseOnEdgePath(event))
+        {
+            return;
+        }
         if (isMouseOnTransitionPoint(event))
         {
             return;
