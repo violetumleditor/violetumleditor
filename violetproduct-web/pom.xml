@@ -37,8 +37,6 @@
 			<groupId>eu.webtoolkit</groupId>
 			<artifactId>jwt</artifactId>
 			<version>3.3.3</version>
-			<scope>system</scope>
-			<systemPath>${project.build.directory}/../src/main/webapp/WEB-INF/lib/jwt-3.3.3.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>commons-fileupload</groupId>
@@ -72,8 +70,6 @@
 			<groupId>eu.webtoolkit</groupId>
 			<artifactId>jwt-auth</artifactId>
 			<version>3.3.3</version>
-			<scope>system</scope>
-			<systemPath>${project.build.directory}/../src/main/webapp/WEB-INF/lib/jwt-auth-3.3.3.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
