@@ -1,2 +1,6 @@
 #!/bin/sh
-update-menus
+if update-menus; then
+        echo "Debian menu updated!"
+else
+	echo "Could not find update-menus command. Menu should be updated on next restart."
+fi

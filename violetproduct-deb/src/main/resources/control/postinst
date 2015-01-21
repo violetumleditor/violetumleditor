@@ -1,3 +1,7 @@
 #!/bin/sh
-chmod 777 /usr/share/violet/violet.sh
-update-menus
+chmod 777 /usr/share/violetumleditor/violetumleditor.sh
+if update-menus; then
+        echo "Debian menu updated!"
+else
+	echo "Could not find update-menus command. Menu should be updated on next restart."
+fi
