@@ -20,6 +20,7 @@
 
 package com.horstmann.violet;
 
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -150,7 +151,7 @@ public class UMLEditorApplication
         splashScreen.setVisible(true);
         this.versionChecker.checkJavaVersion();
         MainFrame mainFrame = new MainFrame();
-        mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        mainFrame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
         SplashScreen.displayOverEditor(mainFrame, 1000);
         List<IFile> fullList = new ArrayList<IFile>();
         List<IFile> lastSessionFiles = this.userPreferencesService.getOpenedFilesDuringLastSession();

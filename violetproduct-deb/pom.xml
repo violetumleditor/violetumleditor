@@ -31,7 +31,7 @@
 									<version>${project.version}</version>
 									<type>jar</type>
 									<overWrite>true</overWrite>
-									<destFileName>violet-${project.version}.jar</destFileName>
+									<destFileName>violetumleditor-${project.version}.jar</destFileName>
 								</artifactItem>
 							</artifactItems>
 						</configuration>
@@ -49,27 +49,27 @@
 							<goal>jdeb</goal>
 						</goals>
 						<configuration>
-							<deb>${project.build.directory}/violet-${version}.deb</deb>
+							<deb>${project.build.directory}/violetumleditor-${version}.deb</deb>
 							<controlDir>${basedir}/src/main/resources/control</controlDir>
 							<dataSet>
 								<data>
-									<src>${project.build.directory}/dependency/violet-${project.version}.jar</src>
-									<dst>/usr/share/violet/com.horstmann.violet.jar</dst>
+									<src>${project.build.directory}/dependency/violetumleditor-${project.version}.jar</src>
+									<dst>/usr/share/violetumleditor/violetumleditor.jar</dst>
 									<type>file</type>
 								</data>
 								<data>
-									<src>${basedir}/src/main/resources/icons/hicolor/72x72/apps/violet.png</src>
-									<dst>/usr/share/icons/hicolor/72x72/apps/violet.png</dst>
+									<src>${basedir}/src/main/resources/icons/hicolor/72x72/apps/violetumleditor.png</src>
+									<dst>/usr/share/icons/hicolor/72x72/apps/violetumleditor.png</dst>
 									<type>file</type>
 								</data>
 								<data>
-									<src>${basedir}/src/main/resources/script/violet.sh</src>
-									<dst>/usr/share/violet/violet.sh</dst>
+									<src>${basedir}/src/main/resources/script/violetumleditor.sh</src>
+									<dst>/usr/share/violetumleditor/violetumleditor.sh</dst>
 									<type>file</type>
 								</data>
 								<data>
-									<src>${basedir}/src/main/resources/applications/violet.desktop</src>
-									<dst>/usr/share/applications/violet.desktop</dst>
+									<src>${basedir}/src/main/resources/applications/violetumleditor.desktop</src>
+									<dst>/usr/share/applications/violetumleditor.desktop</dst>
 									<type>file</type>
 								</data>
 							</dataSet>

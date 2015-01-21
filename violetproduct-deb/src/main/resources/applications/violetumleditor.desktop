@@ -2,8 +2,8 @@
 Encoding=UTF-8
 GenericName=UML diagrams editor
 Name=Violet UML Editor
-Exec=/usr/share/violet/violet.sh
-Icon=violet
+Exec=/usr/share/violetumleditor/violetumleditor.sh
+Icon=violetumleditor
 Terminal=false
 Type=Application
 Categories=Development;
