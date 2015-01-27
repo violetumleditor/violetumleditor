@@ -2,7 +2,6 @@
 
 
 
-
 By Cay S. Horstmann (http://www.horstmann.com)
 and Alexandre de Pellegrin (http://alexdp.free.fr)
 
@@ -77,6 +76,7 @@ Marc Godin
 Karine Lignon
 Victor Freches
 Alexandre Debril
+Martin Schleyer
 [Your name must be here] <- contribute!
 
 

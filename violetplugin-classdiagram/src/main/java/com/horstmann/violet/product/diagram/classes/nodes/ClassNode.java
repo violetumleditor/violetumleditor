@@ -115,6 +115,11 @@ public class ClassNode extends RectangularNode
         Rectangle2D topBounds = getTopRectangleBounds();
         Rectangle2D midBounds = getMiddleRectangleBounds(); 
         Rectangle2D bottomBounds = getBottomRectangleBounds();
+        if (topBounds.getWidth() < currentBounds.getWidth())
+        {
+        	// We need to re-center the topBounds - only do so if really required to avoid race conditions
+        	topBounds.setRect(topBounds.getX(), topBounds.getY(), currentBounds.getWidth(), topBounds.getHeight());
+        }
         g2.setColor(getBackgroundColor());
         g2.fill(currentBounds);
         g2.setColor(getBorderColor());
