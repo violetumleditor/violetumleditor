@@ -2,7 +2,6 @@
 
 
 
-
 By Cay S. Horstmann (http://www.horstmann.com)
 and Alexandre de Pellegrin (http://alexdp.free.fr)
 
@@ -36,7 +35,7 @@ Avi Bercovich
 Andrew Brandt
 Lars Arne Brekken
 Chandler Burgess
-JÃ¸rgen Cederberg
+Jørgen Cederberg
 Robert Colburn
 Piyush Devnani
 Jeremy Driver
@@ -47,7 +46,7 @@ Igor Garcia
 Mark George
 Mike Godfrey
 Daniel Guerrero
-Stefan GrÃ¼ndel
+Stefan Gründel
 Wee Jin Goh
 Laurent Hayoun
 Graham King
@@ -59,14 +58,14 @@ Matijs Moest
 Tri Nguyen
 Evelyn Obaid
 Norbert Oertel
-Johannes PÃ¤ivinen
+Johannes Päivinen
 Bill Pine
 Bruce Raggett
 Zack Rubinstein
 Grant Talarico
 Jordan Thompson
 Simon Tokumine
-Jesper TrÃ¤gÃ¥rdh
+Jesper Trägårdh
 Trygve Utstumo
 Glenn Vanmarcke
 Sam Watkins
@@ -74,9 +73,9 @@ Martin Wehner
 Raphael Wimmer
 Ed Zaron
 Marc Godin
-Karine Lignon
 Victor Freches
 Alexandre Debril
+Martin Schleyer
 [Your name must be here] <- contribute!
 
 

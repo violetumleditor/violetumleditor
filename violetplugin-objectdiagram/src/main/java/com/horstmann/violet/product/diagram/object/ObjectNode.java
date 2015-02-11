@@ -58,6 +58,12 @@ public class ObjectNode extends RectangularNode
         // Perform drawing
         Rectangle2D globalBounds = getBounds();
         Rectangle2D topBounds = getTopRectangle();
+        if (topBounds.getWidth() < globalBounds.getWidth())
+        {
+        	// We need to re-center the topBounds - only do so if really required to avoid race conditions
+        	topBounds.setRect(topBounds.getX(), topBounds.getY(), globalBounds.getWidth(), topBounds.getHeight());
+        }
+
         g2.setColor(getBackgroundColor());
         g2.fill(globalBounds);
         g2.setColor(getBorderColor());
@@ -204,6 +210,6 @@ public class ObjectNode extends RectangularNode
     private MultiLineString name;
 
     private static int DEFAULT_WIDTH = 80;
-    private static int DEFAULT_HEIGHT = 60;
+    private static int DEFAULT_HEIGHT = 30;
     private static int YGAP = 5;
 }
