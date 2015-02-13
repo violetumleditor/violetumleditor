@@ -32,16 +32,30 @@ public class ColorToolsPanel extends JPanel implements ISideBarElement
     @Override
     public Component getAWTComponent()
     {
-        // TODO Auto,generated method stub
-        return null;
+        return this;
+    }
+    
+ 
+    public ColorChoice getColorChoice()
+    {
+        return this.currentColorChoice;
+    }
+
+    public void setColorChoice(ColorChoice newColorChoice)
+    {
+        this.currentColorChoice = newColorChoice;
     }
 
     /**
      * Current diagram panel
      */
     private IWorkspace diagramPanel;
-    
-    
+
+    /**
+     * Current color choice
+     */
+    private ColorChoice currentColorChoice = PASTEL_WHITE;
+
     // Source : http://www.tinygorilla.com/Easter_eggs/pallatehex.html
     private static final ColorChoice PASTEL_WHITE = new ColorChoice(Color.WHITE, Color.BLACK, Color.BLACK);
     private static final ColorChoice PASTEL_RED = new ColorChoice(new Color(246, 150, 121), Color.BLACK, Color.BLACK);
@@ -61,7 +75,7 @@ public class ColorToolsPanel extends JPanel implements ISideBarElement
     private static final ColorChoice PASTEL_MAGENTA = new ColorChoice(new Color(244, 154, 193), Color.BLACK, Color.BLACK);
     private static final ColorChoice PASTEL_MAGENTA_RED = new ColorChoice(new Color(245, 152, 157), Color.BLACK, Color.BLACK);
 
-    private static final List<ColorChoice> CHOICE_LIST = new ArrayList<ColorChoice>();
+    protected static final List<ColorChoice> CHOICE_LIST = new ArrayList<ColorChoice>();
 
     static
     {

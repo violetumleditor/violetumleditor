@@ -28,6 +28,7 @@ import java.util.Map;
 import javax.swing.JPanel;
 
 import com.horstmann.violet.workspace.IWorkspace;
+import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsPanel;
 import com.horstmann.violet.workspace.sidebar.editortools.EditorToolsPanel;
 import com.horstmann.violet.workspace.sidebar.graphtools.GraphToolsBar;
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBar;
@@ -41,16 +42,18 @@ public class SideBar extends JPanel implements ISideBar
         this.diagramPanel = diagramPanel;
         setupUI();
     }
-    
-    private void setupUI() {
+
+    private void setupUI()
+    {
         setUI(new SideBarUI(this));
     }
 
     /*
      * (non-Javadoc)
      * 
-     * @see com.horstmann.violet.framework.display.clipboard.sidebar.ISideBar#addElement(com.horstmann.violet.framework.display.clipboard.sidebar.ISideBarElement,
-     *      java.lang.String)
+     * @see
+     * com.horstmann.violet.framework.display.clipboard.sidebar.ISideBar#addElement(com.horstmann.violet.framework.display.clipboard
+     * .sidebar.ISideBarElement, java.lang.String)
      */
     public void addElement(ISideBarElement element, String title)
     {
@@ -88,6 +91,17 @@ public class SideBar extends JPanel implements ISideBar
         return this.optionalToolsBar;
     }
 
+    protected ISideBarElement getColorToolsBar()
+    {
+        if (this.colorToolsBar == null)
+        {
+            this.colorToolsBar = new ColorToolsPanel();
+            this.colorToolsBar.install(this.diagramPanel);
+        }
+        return this.colorToolsBar;
+
+    }
+
     protected Map<ISideBarElement, String> getExternalContributionElements()
     {
         return this.externalContributionElements;
@@ -107,7 +121,7 @@ public class SideBar extends JPanel implements ISideBar
     private IGraphToolsBar graphToolsBar;
     private ISideBarElement editorToolsBar;
     private ISideBarElement optionalToolsBar;
+    private ISideBarElement colorToolsBar;
     private Map<ISideBarElement, String> externalContributionElements = new HashMap<ISideBarElement, String>();
-    
-    
+
 }
