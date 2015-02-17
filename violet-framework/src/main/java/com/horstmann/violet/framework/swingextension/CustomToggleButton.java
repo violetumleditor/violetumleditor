@@ -34,6 +34,7 @@ import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.ComponentUI;
 
 import com.horstmann.violet.framework.theme.ThemeManager;
 
@@ -46,16 +47,37 @@ import com.horstmann.violet.framework.theme.ThemeManager;
 public class CustomToggleButton extends JPanel
 {
 
+   
+    
     /**
-     * Default constructor
+     * Constructor empty button
+     */
+    public CustomToggleButton()
+    {
+        addMouseListener(new MouseAdapter()
+        {
+            public void mouseClicked(MouseEvent arg0)
+            {
+                isSelected = true;
+                repaint();
+            }
+
+        });
+        setDefaultLayout();
+    }
+    
+    
+    /**
+     * Constructor with text and icon 
      * 
      * @param text label text
      * @param icon associated icon
      * @param selectedColor
      * @param selectedBorderColor
      * @param unselectedColor
+     * @param unselectedBorderColor
      */
-    public CustomToggleButton(String text, Icon icon, Color selectedColor, Color selectedBorderColor, Color unselectedColor)
+    public CustomToggleButton(String text, Icon icon)
     {
         this.iconLabel.setIcon(icon);
         this.textLabel.setText(text);
@@ -77,7 +99,6 @@ public class CustomToggleButton extends JPanel
         setDefaultLayout();
         this.add(this.iconLabel);
         this.add(this.textLabel);
-        setUI(new CustomToggleButtonUI(selectedColor, selectedBorderColor, unselectedColor));
         this.textLabel.setPreferredSize(new Dimension(MAX_TEXT_WIDTH, (int) getBounds().getHeight()));
         setDefaultPreferredSize();
     }

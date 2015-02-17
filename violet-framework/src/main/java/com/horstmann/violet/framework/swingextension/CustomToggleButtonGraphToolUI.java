@@ -37,7 +37,7 @@ import javax.swing.plaf.basic.BasicPanelUI;
  * @author Alexandre de Pellegrin
  * 
  */
-public class CustomToggleButtonUI extends BasicPanelUI
+public class CustomToggleButtonGraphToolUI extends BasicPanelUI
 {
 
     /**
@@ -47,7 +47,7 @@ public class CustomToggleButtonUI extends BasicPanelUI
      * @param selectedBorderColor
      * @param unselectedColor
      */
-    public CustomToggleButtonUI(Color selectedColor, Color selectedBorderColor, Color unselectedColor)
+    public CustomToggleButtonGraphToolUI(Color selectedColor, Color selectedBorderColor, Color unselectedColor)
     {
         this.unselectedColor = unselectedColor;
         this.selectedColor = selectedColor;
