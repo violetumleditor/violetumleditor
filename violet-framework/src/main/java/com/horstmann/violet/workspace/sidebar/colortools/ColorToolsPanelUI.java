@@ -3,18 +3,20 @@ package com.horstmann.violet.workspace.sidebar.colortools;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.plaf.PanelUI;
 
-import com.horstmann.violet.framework.swingextension.CustomToggleButton;
-import com.horstmann.violet.framework.swingextension.CustomToggleButtonColorToolUI;
 import com.horstmann.violet.framework.theme.ThemeManager;
 
 public class ColorToolsPanelUI extends PanelUI
@@ -35,9 +37,7 @@ public class ColorToolsPanelUI extends PanelUI
     {
         c.removeAll();
         this.colorToolsPanel.setBackground(ThemeManager.getInstance().getTheme().getSidebarElementBackgroundColor());
-        this.colorToolsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
         this.colorToolsPanel.add(getPanel());
-
     }
 
     /**
@@ -49,68 +49,91 @@ public class ColorToolsPanelUI extends PanelUI
         {
             this.panel = new JPanel();
             this.panel.setOpaque(false);
-            this.panel.setBorder(new EmptyBorder(0, 5, 0, 0));
-            FlowLayout layout = new FlowLayout(FlowLayout.CENTER, 10, 10);
+            this.panel.setBorder(new EmptyBorder(0, 0, 0, 0));
+            this.panel.setPreferredSize(new Dimension(215, 100));
+            FlowLayout layout = new FlowLayout(FlowLayout.LEFT, 10, 10);
             this.panel.setLayout(layout);
-            for (CustomToggleButton aColorButton : getColorButtons())
+            for (ColorTool aColorButton : getColorToolList())
             {
                 this.panel.add(aColorButton);
             }
         }
         return this.panel;
     }
-    
-    
-    private List<CustomToggleButton> getColorButtons() {
-        if (this.colorButtons == null) {
-            this.colorButtons = new ArrayList<CustomToggleButton>();
+
+    private List<ColorTool> getColorToolList()
+    {
+        if (this.colorToolList == null)
+        {
+            this.colorToolList = new ArrayList<ColorTool>();
             for (ColorChoice aChoice : ColorToolsPanel.CHOICE_LIST)
             {
-                CustomToggleButton colorButton = getColorButton(aChoice);
-                this.colorButtons.add(colorButton);
+                ColorTool aColorTool = getColorTool(aChoice);
+                this.colorToolList.add(aColorTool);
             }
         }
-        return this.colorButtons;
+        return this.colorToolList;
     }
-    
 
-    private CustomToggleButton getColorButton(final ColorChoice colorChoice)
+    private ColorTool getColorTool(final ColorChoice colorChoice)
     {
-        final CustomToggleButton button = new CustomToggleButton();
-        button.setPreferredSize(new Dimension(20, 20));
-        button.setUI(new CustomToggleButtonColorToolUI(colorChoice.getBackgroundColor(), Color.BLACK, colorChoice.getBackgroundColor(), colorChoice.getBackgroundColor()));
-        button.addMouseListener(new MouseAdapter()
+        final ColorTool aColorTool = new ColorTool(colorChoice);
+        aColorTool.addMouseListener(new MouseAdapter()
         {
+            @Override
+            public void mouseEntered(MouseEvent e)
+            {
+                aColorTool.setBorderPaintable(true);
+                aColorTool.repaint();
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e)
+            {
+                aColorTool.setBorderPaintable(false);
+                aColorTool.repaint();
+            }
+
             @Override
             public void mouseClicked(MouseEvent e)
             {
-                colorToolsPanel.setColorChoice(colorChoice);
-                setSelectedButton(button);
-                System.out.println(colorChoice.getBackgroundColor());
+                colorToolsPanel.fireColorChoiceChanged(colorChoice);
             }
         });
-        return button;
+        return aColorTool;
     }
-    
-    
-    /**
-     * Performs button select
-     * 
-     * @param selectedButton to be considered as selected
-     */
-    private void setSelectedButton(CustomToggleButton selectedButton)
+
+    private class ColorTool extends JLabel
     {
-        for (CustomToggleButton button : getColorButtons())
+
+        public ColorTool(ColorChoice colorChoice)
         {
-            if (button != selectedButton)
-            {
-                button.setSelected(false);
-            }
-            if (button == selectedButton)
-            {
-                button.setSelected(true);
-            }
+            this.colorChoice = colorChoice;
+            setPreferredSize(new Dimension(20, 20));
         }
+
+        @Override
+        public void paint(Graphics g)
+        {
+            Graphics2D g2 = (Graphics2D) g;
+            Color oldColor = g2.getColor();
+            g2.setColor(colorChoice.getBackgroundColor());
+            g2.fillRect(0, 0, getWidth(), getHeight());
+            if (this.isBorderPaintable)
+            {
+                g.setColor(Color.BLACK);
+                g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
+            }
+            g2.setColor(oldColor);
+        }
+
+        public void setBorderPaintable(boolean isBorderPaintable)
+        {
+            this.isBorderPaintable = isBorderPaintable;
+        }
+
+        private boolean isBorderPaintable = false;
+        private ColorChoice colorChoice;
     }
 
     /**
@@ -119,6 +142,6 @@ public class ColorToolsPanelUI extends PanelUI
     private JPanel panel;
 
     private ColorToolsPanel colorToolsPanel;
-    
-    private List<CustomToggleButton> colorButtons;
+
+    private List<ColorTool> colorToolList;
 }

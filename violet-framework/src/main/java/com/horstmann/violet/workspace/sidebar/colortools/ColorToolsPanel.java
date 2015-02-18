@@ -20,7 +20,7 @@ public class ColorToolsPanel extends JPanel implements ISideBarElement
     public ColorToolsPanel()
     {
         ResourceBundleInjector.getInjector().inject(this);
-        this.setUI(new ColorToolsPanelUI(this));
+        setUI(new ColorToolsPanelUI(this));
     }
 
     @Override
@@ -36,25 +36,22 @@ public class ColorToolsPanel extends JPanel implements ISideBarElement
     }
     
  
-    public ColorChoice getColorChoice()
-    {
-        return this.currentColorChoice;
+    public void addColorChoiceChangeListener(IColorChoiceChangeListener listener) {
+        this.colorChoiceChangeListenersList.add(listener);
     }
-
-    public void setColorChoice(ColorChoice newColorChoice)
-    {
-        this.currentColorChoice = newColorChoice;
+    
+    public void fireColorChoiceChanged(ColorChoice newColorChoice) {
+        for (IColorChoiceChangeListener aListener : this.colorChoiceChangeListenersList) {
+            aListener.onColorChoiceChange(newColorChoice);
+        }
     }
+    
 
     /**
      * Current diagram panel
      */
     private IWorkspace diagramPanel;
 
-    /**
-     * Current color choice
-     */
-    private ColorChoice currentColorChoice = PASTEL_WHITE;
 
     // Source : http://www.tinygorilla.com/Easter_eggs/pallatehex.html
     private static final ColorChoice PASTEL_WHITE = new ColorChoice(Color.WHITE, Color.BLACK, Color.BLACK);
@@ -76,6 +73,7 @@ public class ColorToolsPanel extends JPanel implements ISideBarElement
     private static final ColorChoice PASTEL_MAGENTA_RED = new ColorChoice(new Color(245, 152, 157), Color.BLACK, Color.BLACK);
 
     protected static final List<ColorChoice> CHOICE_LIST = new ArrayList<ColorChoice>();
+    private List<IColorChoiceChangeListener> colorChoiceChangeListenersList = new ArrayList<IColorChoiceChangeListener>();
 
     static
     {
