@@ -23,6 +23,7 @@ package com.horstmann.violet.workspace.sidebar;
 
 import java.awt.Component;
 
+import com.horstmann.violet.workspace.sidebar.colortools.IColorChoiceBar;
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBar;
 
 /**
@@ -48,6 +49,12 @@ public interface ISideBar
      * @return the graph tools bar
      */
     public IGraphToolsBar getGraphToolsBar();
+    
+    
+    /**
+     * @return the color choice bar
+     */
+    public IColorChoiceBar getColorChoiceBar();
 
     
     /**

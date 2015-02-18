@@ -10,17 +10,16 @@ import javax.swing.JPanel;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 import com.horstmann.violet.workspace.IWorkspace;
-import com.horstmann.violet.workspace.sidebar.ISideBarElement;
 import com.horstmann.violet.workspace.sidebar.SideBar;
 
 @ResourceBundleBean(resourceReference = SideBar.class)
-public class ColorToolsPanel extends JPanel implements ISideBarElement
+public class ColorToolsBarPanel extends JPanel implements IColorChoiceBar
 {
 
-    public ColorToolsPanel()
+    public ColorToolsBarPanel()
     {
         ResourceBundleInjector.getInjector().inject(this);
-        setUI(new ColorToolsPanelUI(this));
+        setUI(new ColorToolsBarPanelUI(this));
     }
 
     @Override
@@ -34,24 +33,25 @@ public class ColorToolsPanel extends JPanel implements ISideBarElement
     {
         return this;
     }
-    
- 
-    public void addColorChoiceChangeListener(IColorChoiceChangeListener listener) {
+
+    @Override
+    public void addColorChoiceChangeListener(IColorChoiceChangeListener listener)
+    {
         this.colorChoiceChangeListenersList.add(listener);
     }
-    
-    public void fireColorChoiceChanged(ColorChoice newColorChoice) {
-        for (IColorChoiceChangeListener aListener : this.colorChoiceChangeListenersList) {
+
+    public void fireColorChoiceChanged(ColorChoice newColorChoice)
+    {
+        for (IColorChoiceChangeListener aListener : this.colorChoiceChangeListenersList)
+        {
             aListener.onColorChoiceChange(newColorChoice);
         }
     }
-    
 
     /**
      * Current diagram panel
      */
     private IWorkspace diagramPanel;
-
 
     // Source : http://www.tinygorilla.com/Easter_eggs/pallatehex.html
     private static final ColorChoice PASTEL_WHITE = new ColorChoice(Color.WHITE, Color.BLACK, Color.BLACK);

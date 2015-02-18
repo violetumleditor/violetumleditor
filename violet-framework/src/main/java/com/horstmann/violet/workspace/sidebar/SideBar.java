@@ -28,7 +28,8 @@ import java.util.Map;
 import javax.swing.JPanel;
 
 import com.horstmann.violet.workspace.IWorkspace;
-import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsPanel;
+import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
+import com.horstmann.violet.workspace.sidebar.colortools.IColorChoiceBar;
 import com.horstmann.violet.workspace.sidebar.editortools.EditorToolsPanel;
 import com.horstmann.violet.workspace.sidebar.graphtools.GraphToolsBar;
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBar;
@@ -91,14 +92,14 @@ public class SideBar extends JPanel implements ISideBar
         return this.optionalToolsBar;
     }
 
-    protected ISideBarElement getColorToolsBar()
+    public IColorChoiceBar getColorChoiceBar()
     {
-        if (this.colorToolsBar == null)
+        if (this.colorChoiceBar == null)
         {
-            this.colorToolsBar = new ColorToolsPanel();
-            this.colorToolsBar.install(this.diagramPanel);
+            this.colorChoiceBar = new ColorToolsBarPanel();
+            this.colorChoiceBar.install(this.diagramPanel);
         }
-        return this.colorToolsBar;
+        return this.colorChoiceBar;
 
     }
 
@@ -121,7 +122,7 @@ public class SideBar extends JPanel implements ISideBar
     private IGraphToolsBar graphToolsBar;
     private ISideBarElement editorToolsBar;
     private ISideBarElement optionalToolsBar;
-    private ISideBarElement colorToolsBar;
+    private IColorChoiceBar colorChoiceBar;
     private Map<ISideBarElement, String> externalContributionElements = new HashMap<ISideBarElement, String>();
 
 }

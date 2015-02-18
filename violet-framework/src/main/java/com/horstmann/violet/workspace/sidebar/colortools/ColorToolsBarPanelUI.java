@@ -19,7 +19,7 @@ import javax.swing.plaf.PanelUI;
 
 import com.horstmann.violet.framework.theme.ThemeManager;
 
-public class ColorToolsPanelUI extends PanelUI
+public class ColorToolsBarPanelUI extends PanelUI
 {
 
     /**
@@ -27,7 +27,7 @@ public class ColorToolsPanelUI extends PanelUI
      * 
      * @param colorToolsPanel
      */
-    public ColorToolsPanelUI(ColorToolsPanel colorToolsPanel)
+    public ColorToolsBarPanelUI(ColorToolsBarPanel colorToolsPanel)
     {
         this.colorToolsPanel = colorToolsPanel;
     }
@@ -66,7 +66,7 @@ public class ColorToolsPanelUI extends PanelUI
         if (this.colorToolList == null)
         {
             this.colorToolList = new ArrayList<ColorTool>();
-            for (ColorChoice aChoice : ColorToolsPanel.CHOICE_LIST)
+            for (ColorChoice aChoice : ColorToolsBarPanel.CHOICE_LIST)
             {
                 ColorTool aColorTool = getColorTool(aChoice);
                 this.colorToolList.add(aColorTool);
@@ -141,7 +141,7 @@ public class ColorToolsPanelUI extends PanelUI
      */
     private JPanel panel;
 
-    private ColorToolsPanel colorToolsPanel;
+    private ColorToolsBarPanel colorToolsPanel;
 
     private List<ColorTool> colorToolList;
 }
