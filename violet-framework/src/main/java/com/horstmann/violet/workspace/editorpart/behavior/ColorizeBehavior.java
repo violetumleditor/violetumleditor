@@ -5,9 +5,9 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 
 import com.horstmann.violet.product.diagram.abstracts.IColorable;
-import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.IWorkspace;
+import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorChoice;
 import com.horstmann.violet.workspace.sidebar.colortools.IColorChoiceBar;
 import com.horstmann.violet.workspace.sidebar.colortools.IColorChoiceChangeListener;
@@ -18,6 +18,7 @@ public class ColorizeBehavior extends AbstractEditorPartBehavior
     public ColorizeBehavior(IWorkspace workspace, IColorChoiceBar colorChoiceBar)
     {
         this.workspace = workspace;
+        this.editorPart = workspace.getEditorPart();
         colorChoiceBar.addColorChoiceChangeListener(new IColorChoiceChangeListener()
         {
 
@@ -25,8 +26,7 @@ public class ColorizeBehavior extends AbstractEditorPartBehavior
             public void onColorChoiceChange(ColorChoice newColorChoice)
             {
                 currentColorChoice = newColorChoice;
-                initialCursor = ColorizeBehavior.this.workspace.getAWTComponent().getCursor();
-                ColorizeBehavior.this.workspace.getAWTComponent().setCursor(transitionCursor);
+                ColorizeBehavior.this.editorPart.getSwingComponent().setCursor(transitionCursor);
             }
         });
     }
@@ -36,23 +36,23 @@ public class ColorizeBehavior extends AbstractEditorPartBehavior
     {
         if (event.getClickCount() > 1)
         {
-            this.workspace.getAWTComponent().setCursor(this.initialCursor);
+            this.editorPart.getSwingComponent().setCursor(this.defaultCursor);
             return;
         }
         if (event.getButton() != MouseEvent.BUTTON1)
         {
-            this.workspace.getAWTComponent().setCursor(this.initialCursor);
+            this.editorPart.getSwingComponent().setCursor(this.defaultCursor);
             return;
         }
         if (currentColorChoice == null)
         {
-            this.workspace.getAWTComponent().setCursor(this.initialCursor);
+            this.editorPart.getSwingComponent().setCursor(this.defaultCursor);
             return;
         }
         double zoom = this.workspace.getEditorPart().getZoomFactor();
         Point2D mouseLocation = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
         INode node = this.workspace.getGraphFile().getGraph().findNode(mouseLocation);
-        if (node != null && node.getClass().isAssignableFrom(IColorable.class))
+        if (node != null && IColorable.class.isInstance(node))
         {
             IColorable colorableNode = (IColorable) node;
             colorableNode.setBackgroundColor(this.currentColorChoice.getBackgroundColor());
@@ -60,7 +60,7 @@ public class ColorizeBehavior extends AbstractEditorPartBehavior
             colorableNode.setTextColor(this.currentColorChoice.getTextColor());
         }
         this.currentColorChoice = null;
-        this.workspace.getAWTComponent().setCursor(this.initialCursor);
+        this.editorPart.getSwingComponent().setCursor(this.defaultCursor);
     }
 
     @Override
@@ -70,12 +70,13 @@ public class ColorizeBehavior extends AbstractEditorPartBehavior
         {
             return;
         }
-        this.workspace.getAWTComponent().setCursor(this.transitionCursor);
+        this.editorPart.getSwingComponent().setCursor(this.transitionCursor);
     }
 
     private IWorkspace workspace;
+    private IEditorPart editorPart;
     private ColorChoice currentColorChoice = null;
+    private Cursor defaultCursor = Cursor.getDefaultCursor();
     private Cursor transitionCursor = new Cursor(Cursor.CROSSHAIR_CURSOR);
-    private Cursor initialCursor = null;
 
 }
