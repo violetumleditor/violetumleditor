@@ -19,6 +19,7 @@ public class ColorizeBehavior extends AbstractEditorPartBehavior
     {
         this.workspace = workspace;
         this.editorPart = workspace.getEditorPart();
+        this.colorChoiceBar = colorChoiceBar;
         colorChoiceBar.addColorChoiceChangeListener(new IColorChoiceChangeListener()
         {
 
@@ -26,7 +27,7 @@ public class ColorizeBehavior extends AbstractEditorPartBehavior
             public void onColorChoiceChange(ColorChoice newColorChoice)
             {
                 currentColorChoice = newColorChoice;
-                ColorizeBehavior.this.editorPart.getSwingComponent().setCursor(transitionCursor);
+                ColorizeBehavior.this.editorPart.getSwingComponent().setCursor(IColorChoiceBar.CUTSOM_CURSOR);
             }
         });
     }
@@ -34,19 +35,17 @@ public class ColorizeBehavior extends AbstractEditorPartBehavior
     @Override
     public void onMouseClicked(MouseEvent event)
     {
+        this.editorPart.getSwingComponent().setCursor(this.defaultCursor);
         if (event.getClickCount() > 1)
         {
-            this.editorPart.getSwingComponent().setCursor(this.defaultCursor);
             return;
         }
         if (event.getButton() != MouseEvent.BUTTON1)
         {
-            this.editorPart.getSwingComponent().setCursor(this.defaultCursor);
             return;
         }
         if (currentColorChoice == null)
         {
-            this.editorPart.getSwingComponent().setCursor(this.defaultCursor);
             return;
         }
         double zoom = this.workspace.getEditorPart().getZoomFactor();
@@ -60,7 +59,7 @@ public class ColorizeBehavior extends AbstractEditorPartBehavior
             colorableNode.setTextColor(this.currentColorChoice.getTextColor());
         }
         this.currentColorChoice = null;
-        this.editorPart.getSwingComponent().setCursor(this.defaultCursor);
+        this.colorChoiceBar.resetSelection();
     }
 
     @Override
@@ -70,13 +69,13 @@ public class ColorizeBehavior extends AbstractEditorPartBehavior
         {
             return;
         }
-        this.editorPart.getSwingComponent().setCursor(this.transitionCursor);
+        this.editorPart.getSwingComponent().setCursor(IColorChoiceBar.CUTSOM_CURSOR);
     }
 
-    private IWorkspace workspace;
     private IEditorPart editorPart;
+    private IColorChoiceBar colorChoiceBar;
+    private IWorkspace workspace;
     private ColorChoice currentColorChoice = null;
     private Cursor defaultCursor = Cursor.getDefaultCursor();
-    private Cursor transitionCursor = new Cursor(Cursor.CROSSHAIR_CURSOR);
 
 }

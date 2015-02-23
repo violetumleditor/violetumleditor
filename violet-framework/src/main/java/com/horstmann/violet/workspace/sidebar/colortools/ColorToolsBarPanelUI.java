@@ -14,7 +14,6 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.plaf.PanelUI;
 
 import com.horstmann.violet.framework.theme.ThemeManager;
@@ -90,14 +89,21 @@ public class ColorToolsBarPanelUI extends PanelUI
             @Override
             public void mouseExited(MouseEvent e)
             {
-                aColorTool.setBorderPaintable(false);
-                aColorTool.repaint();
+                if (!aColorTool.equals(currentTool)) {
+                    aColorTool.setBorderPaintable(false);
+                    aColorTool.repaint();
+                }
             }
 
             @Override
             public void mouseClicked(MouseEvent e)
             {
                 colorToolsPanel.fireColorChoiceChanged(colorChoice);
+                if (currentTool != null) {
+                    currentTool.setBorderPaintable(false);
+                    currentTool.repaint();
+                }
+                currentTool = aColorTool;
             }
         });
         return aColorTool;
@@ -135,6 +141,14 @@ public class ColorToolsBarPanelUI extends PanelUI
         private boolean isBorderPaintable = false;
         private ColorChoice colorChoice;
     }
+    
+    protected void resetChoice() {
+        if (currentTool != null) {
+            currentTool.setBorderPaintable(false);
+            currentTool.repaint();
+        }
+        currentTool = null;
+    }
 
     /**
      * Component(s panel
@@ -144,4 +158,6 @@ public class ColorToolsBarPanelUI extends PanelUI
     private ColorToolsBarPanel colorToolsPanel;
 
     private List<ColorTool> colorToolList;
+    
+    private ColorTool currentTool;
 }

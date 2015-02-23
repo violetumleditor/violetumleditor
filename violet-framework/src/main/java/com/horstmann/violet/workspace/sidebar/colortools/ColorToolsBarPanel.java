@@ -19,7 +19,9 @@ public class ColorToolsBarPanel extends JPanel implements IColorChoiceBar
     public ColorToolsBarPanel()
     {
         ResourceBundleInjector.getInjector().inject(this);
-        setUI(new ColorToolsBarPanelUI(this));
+        this.ui = new ColorToolsBarPanelUI(this);
+        setUI(this.ui);
+        setCursor(IColorChoiceBar.CUTSOM_CURSOR);
     }
 
     @Override
@@ -40,6 +42,12 @@ public class ColorToolsBarPanel extends JPanel implements IColorChoiceBar
         this.colorChoiceChangeListenersList.add(listener);
     }
 
+    @Override
+    public void resetSelection()
+    {
+        this.ui.resetChoice();
+    }
+    
     public void fireColorChoiceChanged(ColorChoice newColorChoice)
     {
         for (IColorChoiceChangeListener aListener : this.colorChoiceChangeListenersList)
@@ -74,7 +82,9 @@ public class ColorToolsBarPanel extends JPanel implements IColorChoiceBar
 
     protected static final List<ColorChoice> CHOICE_LIST = new ArrayList<ColorChoice>();
     private List<IColorChoiceChangeListener> colorChoiceChangeListenersList = new ArrayList<IColorChoiceChangeListener>();
-
+    private ColorToolsBarPanelUI ui;
+    
+    
     static
     {
         CHOICE_LIST.add(PASTEL_WHITE);
