@@ -91,7 +91,7 @@ public class DarkAmbianceTheme extends AbstractTheme
 
     public Color getGridColor()
     {
-        return new Color(245, 245, 245);
+        return new Color(250, 250, 250);
     }
 
     public Color getBackgroundColor()

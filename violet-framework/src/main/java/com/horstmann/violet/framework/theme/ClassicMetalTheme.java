@@ -81,7 +81,7 @@ public class ClassicMetalTheme extends AbstractTheme
 
     public Color getGridColor()
     {
-        return new Color(220, 220, 220);
+        return new Color(250, 250, 250);
     }
 
     public Color getBackgroundColor()

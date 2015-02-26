@@ -171,8 +171,7 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
         {
             r.add(e.getBounds());
         }
-        return r == null ? new Rectangle2D.Double() : new Rectangle2D.Double(r.getX(), r.getY(), r.getWidth()
-                + RectangularNode.SHADOW_GAP, r.getHeight() + RectangularNode.SHADOW_GAP);
+        return r == null ? new Rectangle2D.Double() : new Rectangle2D.Double(r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }
 
     @Override

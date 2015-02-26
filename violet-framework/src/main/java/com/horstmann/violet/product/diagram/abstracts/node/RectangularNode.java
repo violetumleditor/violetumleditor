@@ -35,6 +35,7 @@ import com.horstmann.violet.framework.theme.ThemeManager;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.IColorable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 
 /**
  * A node that has a rectangular shape.
@@ -153,7 +154,11 @@ public abstract class RectangularNode extends AbstractNode implements IColorable
     
     
     
-
+    @Override
+    public void draw(Graphics2D g2)
+    {
+        
+    }
     
     
 
@@ -163,21 +168,7 @@ public abstract class RectangularNode extends AbstractNode implements IColorable
         return getBounds();
     }
 
-    @Override
-    public void draw(Graphics2D g2)
-    {
-        Shape shape = getShape();
-        Color oldColor = g2.getColor();
-        g2.translate(SHADOW_GAP, SHADOW_GAP);
-        g2.setColor(SHADOW_COLOR);
-        g2.fill(shape);
-        g2.translate(-SHADOW_GAP, -SHADOW_GAP);
-        g2.setColor(backgroundColor);
-        g2.fill(shape);
-        g2.setColor(oldColor);
-    }
-
-    
+   
     
     public void setBackgroundColor(Color bgColor) {
         this.backgroundColor = bgColor;
@@ -206,11 +197,8 @@ public abstract class RectangularNode extends AbstractNode implements IColorable
 
 
 
-    private static final Color SHADOW_COLOR = new Color(210,210,210);
-    private Color backgroundColor = ThemeManager.getInstance().getTheme().getWhiteColor();
-    private Color borderColor =  ThemeManager.getInstance().getTheme().getBlackColor();
-    private Color textColor =  ThemeManager.getInstance().getTheme().getBlackColor();
+    private Color backgroundColor = ColorToolsBarPanel.DEFAULT_COLOR.getBackgroundColor();
+    private Color borderColor =  ColorToolsBarPanel.DEFAULT_COLOR.getBorderColor();
+    private Color textColor =  ColorToolsBarPanel.DEFAULT_COLOR.getTextColor();
     
-    public static final double SHADOW_GAP = 4;
-
 }

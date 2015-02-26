@@ -128,8 +128,6 @@ public class NoteNode extends RectangularNode
     @Override
     public void draw(Graphics2D g2)
     {
-        super.draw(g2);
-
         // Backup current color;
         Color oldColor = g2.getColor();
 

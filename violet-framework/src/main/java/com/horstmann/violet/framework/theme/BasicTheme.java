@@ -59,7 +59,7 @@ public class BasicTheme extends AbstractTheme
     @Override
     protected void configure()
     {
-        this.defaultGridColor = new Color(220, 220, 220);
+        this.defaultGridColor = new Color(250, 250, 250);
 
         JMenuBar menuBar = new JMenuBar();
         this.basicMenubarBackground = menuBar.getBackground();
