@@ -21,6 +21,11 @@
 			<artifactId>violetproduct-swing</artifactId>
 			<version>${applicationVersion}</version>
 		</dependency>
+		<dependency>
+			<groupId>javax.javaws</groupId>
+			<artifactId>javaws</artifactId>
+			<version>1.6.0</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

@@ -4,12 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JRootPane;
 import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.plaf.PanelUI;
 
@@ -33,19 +36,22 @@ public class SideBarUI extends PanelUI
     public void installUI(JComponent c)
     {
         c.removeAll();
-        c.setLayout(new BoxLayout(c, BoxLayout.Y_AXIS));
+        c.setLayout(new BorderLayout());
         this.taskPane = new JTaskPane();
-        addElementToTaskPane(this.sideBar.getEditorToolsBar().getAWTComponent(), standardButtonsTitle);
-        addElementToTaskPane(this.sideBar.getGraphToolsBar().getAWTComponent(), diagramToolsTitle);
-        addElementToTaskPane(this.sideBar.getOptionalToolsBar().getAWTComponent(), extendedFunctionsTitle);
-        addElementToTaskPane(this.sideBar.getColorChoiceBar().getAWTComponent(), colorToolsTitle);
+        this.taskPane.setLayout(new GridBagLayout());
+        this.taskPane.setBorder(new EmptyBorder(0, 0, 0, 0));
+        addElementToTaskPane(this.sideBar.getEditorToolsBar().getAWTComponent(), standardButtonsTitle, 0);
+        addElementToTaskPane(this.sideBar.getGraphToolsBar().getAWTComponent(), diagramToolsTitle, 1);
+        addElementToTaskPane(this.sideBar.getOptionalToolsBar().getAWTComponent(), extendedFunctionsTitle, 2);
+        addElementToTaskPane(this.sideBar.getColorChoiceBar().getAWTComponent(), colorToolsTitle, 3);
+        int i = 4;
         for (ISideBarElement anExternalElement : this.sideBar.getExternalContributionElements().keySet()) {
             String externalElementTitle = this.sideBar.getExternalContributionElements().get(anExternalElement);
-            addElementToTaskPane(anExternalElement.getAWTComponent(), externalElementTitle);
+            addElementToTaskPane(anExternalElement.getAWTComponent(), externalElementTitle, i++);
         }
-        c.add(taskPane);
+        c.add(taskPane, BorderLayout.NORTH);
         c.setBorder(new MatteBorder(0, 1, 0, 0, ThemeManager.getInstance().getTheme().getSidebarBorderColor()));
-        fixWidth();
+        //fixWidth();
         this.sideBar.doLayout();
         JRootPane rootPane = SwingUtilities.getRootPane(this.sideBar);
         if (rootPane != null) {
@@ -60,14 +66,20 @@ public class SideBarUI extends PanelUI
         this.taskPane.add(sizer);
     }
 
-    private void addElementToTaskPane(final Component c, String title)
+    private void addElementToTaskPane(final Component c, String title, int order)
     {
         JTaskPaneGroup group = new JTaskPaneGroup();
-        group.setFont(group.getFont().deriveFont(Font.PLAIN));
+        Font font = group.getFont().deriveFont(Font.PLAIN);
+        group.setFont(font);
         group.setTitle(title);
         group.setLayout(new BorderLayout());
         group.add(c, BorderLayout.CENTER);
-        this.taskPane.add(group);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridx = 0;
+        gbc.gridy = order;
+        this.taskPane.add(group,gbc);
     }
 
     private SideBar sideBar;
