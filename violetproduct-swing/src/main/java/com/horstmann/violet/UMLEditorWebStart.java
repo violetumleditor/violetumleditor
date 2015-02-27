@@ -36,10 +36,11 @@ import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanFactory
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
 import com.horstmann.violet.framework.plugin.PluginLoader;
+import com.horstmann.violet.framework.theme.BlueAmbianceTheme;
 import com.horstmann.violet.framework.theme.ClassicMetalTheme;
+import com.horstmann.violet.framework.theme.DarkBlueTheme;
 import com.horstmann.violet.framework.theme.ITheme;
 import com.horstmann.violet.framework.theme.ThemeManager;
-import com.horstmann.violet.framework.theme.BlueAmbianceTheme;
 import com.horstmann.violet.framework.userpreferences.IUserPreferencesDao;
 import com.horstmann.violet.framework.userpreferences.JNLPUserPreferencesDao;
 
@@ -75,10 +76,11 @@ public class UMLEditorWebStart
         ThemeManager themeManager = new ThemeManager();
         ITheme theme1 = new ClassicMetalTheme();
         ITheme theme2 = new BlueAmbianceTheme();
+        ITheme theme3 = new DarkBlueTheme();
         List<ITheme> themeList = new ArrayList<ITheme>();
         themeList.add(theme1);
         themeList.add(theme2);
-        themeManager.setInstalledThemes(themeList);
+        themeList.add(theme3);
         themeManager.setInstalledThemes(themeList);
         BeanFactory.getFactory().register(ThemeManager.class, themeManager);
         themeManager.applyPreferedTheme();

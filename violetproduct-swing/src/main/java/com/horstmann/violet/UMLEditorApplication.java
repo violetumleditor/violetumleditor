@@ -27,8 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import javax.swing.JFrame;
-
 import com.horstmann.violet.application.gui.MainFrame;
 import com.horstmann.violet.application.gui.SplashScreen;
 import com.horstmann.violet.framework.dialog.DialogFactory;
@@ -48,6 +46,7 @@ import com.horstmann.violet.framework.plugin.PluginLoader;
 import com.horstmann.violet.framework.theme.BlueAmbianceTheme;
 import com.horstmann.violet.framework.theme.ClassicMetalTheme;
 import com.horstmann.violet.framework.theme.DarkAmbianceTheme;
+import com.horstmann.violet.framework.theme.DarkBlueTheme;
 import com.horstmann.violet.framework.theme.ITheme;
 import com.horstmann.violet.framework.theme.ThemeManager;
 import com.horstmann.violet.framework.userpreferences.DefaultUserPreferencesDao;
@@ -116,10 +115,12 @@ public class UMLEditorApplication
         ITheme theme1 = new ClassicMetalTheme();
         ITheme theme2 = new BlueAmbianceTheme();
         ITheme theme3 = new DarkAmbianceTheme();
+        ITheme theme4 = new DarkBlueTheme();
         List<ITheme> themeList = new ArrayList<ITheme>();
         themeList.add(theme1);
         themeList.add(theme2);
         themeList.add(theme3);
+        themeList.add(theme4);
         themeManager.setInstalledThemes(themeList);
         themeManager.applyPreferedTheme();
         BeanFactory.getFactory().register(ThemeManager.class, themeManager);
