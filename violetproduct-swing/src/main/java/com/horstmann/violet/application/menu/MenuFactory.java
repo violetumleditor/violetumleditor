@@ -86,10 +86,23 @@ public class MenuFactory
         return this.viewMenu;
     }
 
+    /**
+     * @param editorFrame
+     * @return window menu
+     */    
+    public WindowMenu getWindowMenu(MainFrame editorFrame)
+    {
+        if (this.windowMenu == null)
+        {
+            this.windowMenu = new WindowMenu(editorFrame);
+        }
+        return this.windowMenu;
+    }
 
     private EditMenu editMenu;
     private FileMenu fileMenu;
     private HelpMenu helpMenu;
     private ViewMenu viewMenu;
+    private WindowMenu windowMenu;
 
 }
