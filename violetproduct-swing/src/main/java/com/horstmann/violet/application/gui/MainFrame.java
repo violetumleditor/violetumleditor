@@ -22,14 +22,10 @@
 package com.horstmann.violet.application.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Paint;
 import java.awt.Toolkit;
-import java.awt.event.MouseWheelListener;
 import java.awt.geom.Point2D;
 import java.beans.BeanInfo;
 import java.io.IOException;
@@ -39,8 +35,6 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import com.horstmann.violet.application.help.AboutDialog;
@@ -64,6 +58,7 @@ import com.horstmann.violet.product.diagram.abstracts.property.LineStyle;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.IWorkspaceListener;
 import com.horstmann.violet.workspace.Workspace;
+import com.horstmann.violet.workspace.WorkspacePanel;
 
 /**
  * This desktop frame contains panes that show graphs.
@@ -125,31 +120,6 @@ public class MainFrame extends JFrame
         setJMenuBar(menuBar);
     }
 
-    /**
-     * Adds a tabbed pane (only if not already added)
-     * 
-     * @param c the component to display in the internal frame
-     */
-    public void addTabbedPane(final IWorkspace workspace)
-    {
-        replaceWelcomePanelByTabbedPane();
-        if (this.workspaceList.contains(workspace))
-        {
-            return;
-        }
-        this.workspaceList.add(workspace);
-        this.getTabbedPane().add(workspace.getTitle(), workspace.getAWTComponent());
-        listenToDiagramPanelEvents(workspace);
-        // Use invokeLater to prevent exception
-        SwingUtilities.invokeLater(new Runnable()
-        {
-            public void run()
-            {
-                getTabbedPane().setSelectedIndex(workspaceList.size() - 1);
-                workspace.getEditorPart().getSwingComponent().requestFocus();
-            }
-        });
-    }
 
     /**
      * Add a listener to perform action when something happens on this diagram
@@ -163,7 +133,7 @@ public class MainFrame extends JFrame
             public void titleChanged(String newTitle)
             {
                 int pos = workspaceList.indexOf(diagramPanel);
-                getTabbedPane().setTitleAt(pos, newTitle);
+                // TODO : update window menu here
             }
 
             public void graphCouldBeSaved()
@@ -177,7 +147,7 @@ public class MainFrame extends JFrame
                 {
                     IGraphFile graphFile = new GraphFile(file);
                     IWorkspace newWorkspace = new Workspace(graphFile);
-                    addTabbedPane(newWorkspace);
+                    addWorkspace(newWorkspace);
                 }
                 catch (IOException e)
                 {
@@ -187,99 +157,83 @@ public class MainFrame extends JFrame
         });
     }
 
-    private void replaceWelcomePanelByTabbedPane()
-    {
-        WelcomePanel welcomePanel = this.getWelcomePanel();
-        JTabbedPane tabbedPane = getTabbedPane();
-        getMainPanel().remove(welcomePanel);
-        getMainPanel().add(tabbedPane, BorderLayout.CENTER);
-        repaint();
-    }
 
-    private void replaceTabbedPaneByWelcomePanel()
-    {
-        this.welcomePanel = null;
-        WelcomePanel welcomePanel = this.getWelcomePanel();
-        JTabbedPane tabbedPane = getTabbedPane();
-        getMainPanel().remove(tabbedPane);
-        getMainPanel().add(welcomePanel, BorderLayout.CENTER);
-        repaint();
-    }
+    
+    
 
-    /**
-     * @return the tabbed pane that contains diagram panels
-     */
-    public JTabbedPane getTabbedPane()
-    {
-        if (this.tabbedPane == null)
-        {
-            this.tabbedPane = new JTabbedPane()
-            {
-                public void paint(Graphics g)
-                {
-                    Graphics2D g2 = (Graphics2D) g;
-                    Paint currentPaint = g2.getPaint();
-                    ITheme LAF = themeManager.getTheme();
-                    GradientPaint paint = new GradientPaint(getWidth() / 2, -getHeight() / 4, LAF.getWelcomeBackgroundStartColor(),
-                            getWidth() / 2, getHeight() + getHeight() / 4, LAF.getWelcomeBackgroundEndColor());
-                    g2.setPaint(paint);
-                    g2.fillRect(0, 0, getWidth(), getHeight());
-                    g2.setPaint(currentPaint);
-                    super.paint(g);
-                }
-            };
-            this.tabbedPane.setOpaque(false);
-            MouseWheelListener[] mouseWheelListeners = this.tabbedPane.getMouseWheelListeners();
-            for (int i = 0; i < mouseWheelListeners.length; i++)
-            {
-                this.tabbedPane.removeMouseWheelListener(mouseWheelListeners[i]);
-            }
-        }
-        return this.tabbedPane;
-    }
 
     /**
      * Removes a diagram panel from this editor frame
      * 
      * @param diagramPanel
      */
-    public void removeDiagramPanel(IWorkspace diagramPanel)
+    public void removeWorkspace(IWorkspace workspaceToRemove)
     {
-        if (!this.workspaceList.contains(diagramPanel))
+        if (!this.workspaceList.contains(workspaceToRemove))
         {
             return;
         }
-        JTabbedPane tp = getTabbedPane();
-        int pos = this.workspaceList.indexOf(diagramPanel);
-        tp.remove(pos);
-        this.workspaceList.remove(diagramPanel);
-        if (tp.getTabCount() == 0)
-        {
-            replaceTabbedPaneByWelcomePanel();
+        int pos = this.workspaceList.indexOf(workspaceToRemove);
+        if (pos < 0) {
+            return;
         }
+        boolean isWorkspaceDisplayed = workspaceToRemove.equals(getActiveWorkspace());
+        if (!isWorkspaceDisplayed) {
+            // TODO : update window menu here
+            return;
+        }
+        this.workspaceList.remove(workspaceToRemove);
+        if (pos >= this.workspaceList.size()) {
+            pos = this.workspaceList.size() - 1;
+        }
+        if (pos < 0) {
+            Component currentWorkspaceComponent = ((BorderLayout) getMainPanel().getLayout()).getLayoutComponent(BorderLayout.CENTER);
+            getMainPanel().remove(currentWorkspaceComponent);
+            getMainPanel().add(new JPanel(), BorderLayout.CENTER);
+            getMainPanel().revalidate();
+            return;
+        }
+        IWorkspace workspaceToDisplay = this.workspaceList.get(pos);
+        setActiveWorkspace(workspaceToDisplay);
     }
-
+    
+    public void addWorkspace(IWorkspace newWorkspace) {
+        this.workspaceList.add(newWorkspace);
+        setActiveWorkspace(newWorkspace);
+    }
+    
+    
     /**
      * Looks for an opened diagram from its file path and focus it
      * 
      * @param diagramFilePath diagram file path
      */
-    public void setActiveDiagramPanel(IFile aGraphFile)
+    public void setActiveWorkspace(IFile aGraphFile)
     {
         if (aGraphFile == null) return;
-        for (IWorkspace aDiagramPanel : this.workspaceList)
+        for (IWorkspace aWorkspace : this.workspaceList)
         {
-            IFile toCompare = aDiagramPanel.getGraphFile();
+            IFile toCompare = aWorkspace.getGraphFile();
             boolean isSameFilename = aGraphFile.getFilename().equals(toCompare.getFilename());
             if (isSameFilename)
             {
-                int pos = this.workspaceList.indexOf(aDiagramPanel);
-                JTabbedPane tp = getTabbedPane();
-                tp.setSelectedIndex(pos);
+                setActiveWorkspace(aWorkspace);
                 return;
             }
         }
     }
+    
+    public void setActiveWorkspace(IWorkspace activeWorkspace) {
+        if (!this.workspaceList.contains(activeWorkspace)) {
+            return;
+        }
+        WorkspacePanel activeWorkspaceComponent = activeWorkspace.getAWTComponent();
+        Component currentWorkspaceComponent = ((BorderLayout) getMainPanel().getLayout()).getLayoutComponent(BorderLayout.CENTER);
+        getMainPanel().remove(currentWorkspaceComponent);
+        getMainPanel().add(activeWorkspaceComponent, BorderLayout.CENTER);
+        getMainPanel().revalidate();
+    }
+    
 
     /**
      * @return true if at least a diagram is displayed
@@ -299,29 +253,24 @@ public class MainFrame extends JFrame
      */
     public IWorkspace getActiveWorkspace()
     {
-        JTabbedPane tp = getTabbedPane();
-        int pos = tp.getSelectedIndex();
-        if (pos >= 0)
-        {
-            return this.workspaceList.get(pos);
+        Component activeWorkspace = ((BorderLayout) getMainPanel().getLayout()).getLayoutComponent(BorderLayout.CENTER);
+        if (activeWorkspace == null) {
+            return null;
         }
-        throw new RuntimeException("Error while retreiving current active diagram panel");
+        for (IWorkspace aWorkspace : this.workspaceList) {
+            if (activeWorkspace.equals(aWorkspace.getAWTComponent())) {
+                return aWorkspace;
+            }
+        }
+        return null;
     }
 
-    private WelcomePanel getWelcomePanel()
-    {
-        if (this.welcomePanel == null)
-        {
-            this.welcomePanel = new WelcomePanel(this.getMenuFactory().getFileMenu(this));
-        }
-        return this.welcomePanel;
-    }
 
     private JPanel getMainPanel() {
         if (this.mainPanel == null) {
             this.mainPanel = new JPanel(new BorderLayout());
             this.mainPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
-            this.mainPanel.add(this.getWelcomePanel(), BorderLayout.CENTER);
+            this.mainPanel.add(new JPanel(), BorderLayout.CENTER);
             JPanel bottomBorderPanel = new JPanel();
             ITheme cLAF = this.themeManager.getTheme();
             bottomBorderPanel.setBackground(cLAF.getMenubarBackgroundColor().darker());
@@ -343,16 +292,7 @@ public class MainFrame extends JFrame
         }
         return this.menuFactory;
     }
-
-    /**
-     * Tabbed pane instance
-     */
-    private JTabbedPane tabbedPane;
-
-    /**
-     * Panel added is not diagram is opened
-     */
-    private WelcomePanel welcomePanel;
+    
     
     /**
      * Main panel

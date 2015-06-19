@@ -66,7 +66,7 @@ public class DarkBlueTheme extends AbstractTheme
 
             public ColorUIResource getSecondary3()
             {
-                return new ColorUIResource(new Color(224, 231, 242));
+                return new ColorUIResource(new Color(244, 244, 244));
             }
         };
 
@@ -96,7 +96,7 @@ public class DarkBlueTheme extends AbstractTheme
 
     public Color getBackgroundColor()
     {
-        return new Color(67, 87, 113);
+        return new Color(244 ,244,244);
     }
 
     public Font getMenubarFont()
@@ -131,12 +131,12 @@ public class DarkBlueTheme extends AbstractTheme
 
     public Color getSidebarBackgroundEndColor()
     {
-        return new Color(50, 50, 50);
+        return new Color(244, 244, 244);
     }
 
     public Color getSidebarBackgroundStartColor()
     {
-        return new Color(90, 90, 90);
+        return new Color(244, 244, 244);
     }
 
     public Color getSidebarBorderColor()

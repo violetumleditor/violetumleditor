@@ -394,19 +394,19 @@ public class FileMenu extends JMenu
                             }
                             if (!graphFile.isSaveRequired())
                             {
-                                mainFrame.removeDiagramPanel(workspace);
+                                mainFrame.removeWorkspace(workspace);
                                 userPreferencesService.removeOpenedFile(graphFile);
                             }
                         }
                         if (result == JOptionPane.NO_OPTION)
                         {
-                            mainFrame.removeDiagramPanel(workspace);
+                            mainFrame.removeWorkspace(workspace);
                             userPreferencesService.removeOpenedFile(graphFile);
                         }
                     }
                     if (!graphFile.isSaveRequired())
                     {
-                        mainFrame.removeDiagramPanel(workspace);
+                        mainFrame.removeWorkspace(workspace);
                         userPreferencesService.removeOpenedFile(graphFile);
                     }
                     List<IWorkspace> workspaceList = mainFrame.getWorkspaceList();
@@ -441,7 +441,7 @@ public class FileMenu extends JMenu
                     selectedFile = fileOpener.getFileDefinition();
                     IGraphFile graphFile = new GraphFile(selectedFile);
                     IWorkspace workspace = new Workspace(graphFile);
-                    mainFrame.addTabbedPane(workspace);
+                    mainFrame.addWorkspace(workspace);
                     userPreferencesService.addOpenedFile(graphFile);
                     userPreferencesService.addRecentFile(graphFile);
                 }
@@ -515,7 +515,7 @@ public class FileMenu extends JMenu
                         Class<? extends IGraph> graphClass = aDiagramPlugin.getGraphClass();
                         IGraphFile graphFile = new GraphFile(graphClass);
                         IWorkspace diagramPanel = new Workspace(graphFile);
-                        mainFrame.addTabbedPane(diagramPanel);
+                        mainFrame.addWorkspace(diagramPanel);
                     }
                 });
                 categorySubMenu.add(item);
@@ -570,7 +570,7 @@ public class FileMenu extends JMenu
                     {
                         IGraphFile graphFile = new GraphFile(aFile);
                         IWorkspace workspace = new Workspace(graphFile);
-                        mainFrame.addTabbedPane(workspace);
+                        mainFrame.addWorkspace(workspace);
                         userPreferencesService.addOpenedFile(aFile);
                         userPreferencesService.addRecentFile(aFile);
                     }

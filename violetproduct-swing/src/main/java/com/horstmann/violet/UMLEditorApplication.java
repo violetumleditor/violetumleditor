@@ -178,7 +178,7 @@ public class UMLEditorApplication
             {
                 IGraphFile graphFile = new GraphFile(aFile);
                 IWorkspace workspace = new Workspace(graphFile);
-                mainFrame.addTabbedPane(workspace);
+                mainFrame.addWorkspace(workspace);
             }
             catch (Exception e)
             {
@@ -188,7 +188,7 @@ public class UMLEditorApplication
             }
         }
         IFile activeFile = this.userPreferencesService.getActiveDiagramFile();
-        mainFrame.setActiveDiagramPanel(activeFile);
+        mainFrame.setActiveWorkspace(activeFile);
         mainFrame.setVisible(true);
         splashScreen.setVisible(false);
         splashScreen.dispose();
