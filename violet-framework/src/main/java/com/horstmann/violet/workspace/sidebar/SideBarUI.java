@@ -7,7 +7,6 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
-import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JRootPane;
@@ -50,8 +49,7 @@ public class SideBarUI extends PanelUI
             addElementToTaskPane(anExternalElement.getAWTComponent(), externalElementTitle, i++);
         }
         c.add(taskPane, BorderLayout.NORTH);
-        c.setBorder(new MatteBorder(0, 1, 0, 0, ThemeManager.getInstance().getTheme().getSidebarBorderColor()));
-        //fixWidth();
+        c.setBorder(new MatteBorder(0, 0, 0, 0, ThemeManager.getInstance().getTheme().getSidebarBorderColor()));
         this.sideBar.doLayout();
         JRootPane rootPane = SwingUtilities.getRootPane(this.sideBar);
         if (rootPane != null) {

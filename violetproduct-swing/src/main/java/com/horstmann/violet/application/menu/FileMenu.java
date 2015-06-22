@@ -515,6 +515,10 @@ public class FileMenu extends JMenu
                         Class<? extends IGraph> graphClass = aDiagramPlugin.getGraphClass();
                         IGraphFile graphFile = new GraphFile(graphClass);
                         IWorkspace diagramPanel = new Workspace(graphFile);
+                        String name = aDiagramPlugin.getName();
+                        name = name.replaceFirst("[0-9]*\\.", "");
+                        name = "Unsaved " + name.toLowerCase();
+                        diagramPanel.setTitle(name);
                         mainFrame.addWorkspace(diagramPanel);
                     }
                 });
@@ -650,7 +654,7 @@ public class FileMenu extends JMenu
 
     /** Application main frame */
     private MainFrame mainFrame;
-
+    
     @ResourceBundleBean(key = "file.new")
     private JMenu fileNewMenu;
 

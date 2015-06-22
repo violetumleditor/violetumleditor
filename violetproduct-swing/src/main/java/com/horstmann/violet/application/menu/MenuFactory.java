@@ -90,19 +90,19 @@ public class MenuFactory
      * @param editorFrame
      * @return window menu
      */    
-    public WindowMenu getWindowMenu(MainFrame editorFrame)
+    public DocumentMenu getDocumentMenu(MainFrame editorFrame)
     {
-        if (this.windowMenu == null)
+        if (this.documentMenu == null)
         {
-            this.windowMenu = new WindowMenu(editorFrame);
+            this.documentMenu = new DocumentMenu(editorFrame);
         }
-        return this.windowMenu;
+        return this.documentMenu;
     }
 
     private EditMenu editMenu;
     private FileMenu fileMenu;
     private HelpMenu helpMenu;
     private ViewMenu viewMenu;
-    private WindowMenu windowMenu;
+    private DocumentMenu documentMenu;
 
 }

@@ -116,7 +116,7 @@ public class MainFrame extends JFrame
         menuBar.add(menuFactory.getFileMenu(this));
         menuBar.add(menuFactory.getEditMenu(this));
         menuBar.add(menuFactory.getViewMenu(this));
-        menuBar.add(menuFactory.getWindowMenu(this));
+        menuBar.add(menuFactory.getDocumentMenu(this));
         menuBar.add(menuFactory.getHelpMenu(this));
         setJMenuBar(menuBar);
     }
@@ -125,16 +125,15 @@ public class MainFrame extends JFrame
     /**
      * Add a listener to perform action when something happens on this diagram
      * 
-     * @param diagramPanel
+     * @param workspace
      */
-    private void listenToDiagramPanelEvents(final IWorkspace diagramPanel)
+    private void listenToWorkspaceEvents(final IWorkspace workspace)
     {
-        diagramPanel.addListener(new IWorkspaceListener()
+        workspace.addListener(new IWorkspaceListener()
         {
             public void titleChanged(String newTitle)
             {
-                int pos = workspaceList.indexOf(diagramPanel);
-                // TODO : update window menu here
+                setTitle(newTitle);
             }
 
             public void graphCouldBeSaved()
@@ -191,7 +190,10 @@ public class MainFrame extends JFrame
             Component currentWorkspaceComponent = ((BorderLayout) getMainPanel().getLayout()).getLayoutComponent(BorderLayout.CENTER);
             getMainPanel().remove(currentWorkspaceComponent);
             getMainPanel().add(new JPanel(), BorderLayout.CENTER);
+            setTitle(this.applicationName);
+            menuFactory.getDocumentMenu(this).updateMenuItem();
             getMainPanel().revalidate();
+            getMainPanel().repaint();
             return;
         }
         IWorkspace workspaceToDisplay = this.workspaceList.get(pos);
@@ -232,7 +234,11 @@ public class MainFrame extends JFrame
         Component currentWorkspaceComponent = ((BorderLayout) getMainPanel().getLayout()).getLayoutComponent(BorderLayout.CENTER);
         getMainPanel().remove(currentWorkspaceComponent);
         getMainPanel().add(activeWorkspaceComponent, BorderLayout.CENTER);
+        listenToWorkspaceEvents(activeWorkspace);
+        menuFactory.getDocumentMenu(this).updateMenuItem();
+        setTitle(activeWorkspace.getTitle());
         getMainPanel().revalidate();
+        getMainPanel().repaint();
     }
     
 

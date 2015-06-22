@@ -22,8 +22,8 @@
 package com.horstmann.violet.workspace;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import com.horstmann.violet.framework.file.IFile;
 import com.horstmann.violet.framework.file.IGraphFile;
@@ -198,12 +198,8 @@ public class Workspace implements IWorkspace
         return title;
     }
 
-    /**
-     * Set graph title
-     * 
-     * @param newValue
-     */
-    private void setTitle(String newValue)
+    @Override
+    public void setTitle(String newValue)
     {
         title = newValue;
         fireTitleChanged(newValue);
@@ -216,13 +212,13 @@ public class Workspace implements IWorkspace
      */
     private void fireTitleChanged(String newTitle)
     {
-        Vector<IWorkspaceListener> tl = cloneListeners();
+        List<IWorkspaceListener> tl = cloneListeners();
         int size = tl.size();
         if (size == 0) return;
 
         for (int i = 0; i < size; ++i)
         {
-            IWorkspaceListener aListener = (IWorkspaceListener) tl.elementAt(i);
+            IWorkspaceListener aListener = tl.get(i);
             aListener.titleChanged(newTitle);
         }
     }
@@ -236,18 +232,19 @@ public class Workspace implements IWorkspace
     private void updateTitle(boolean isSaveNeeded)
     {
         String aTitle = getTitle();
+        String prefix = "Unsaved ";
         if (isSaveNeeded)
         {
-            if (!aTitle.endsWith("*"))
+            if (!aTitle.startsWith(prefix))
             {
-                setTitle(aTitle + "*");
+                setTitle(prefix + aTitle);
             }
         }
         if (!isSaveNeeded)
         {
-            if (aTitle.endsWith("*"))
+            if (aTitle.startsWith(prefix))
             {
-                setTitle(aTitle.substring(0, aTitle.length() - 1));
+                setTitle(aTitle.substring(prefix.length(), aTitle.length() - 1));
             }
         }
     }
@@ -272,14 +269,14 @@ public class Workspace implements IWorkspace
     {
         if (!this.listeners.contains(l))
         {
-            this.listeners.addElement(l);
+            this.listeners.add(l);
         }
     }
 
     @SuppressWarnings("unchecked")
-    private synchronized Vector<IWorkspaceListener> cloneListeners()
+    private synchronized List<IWorkspaceListener> cloneListeners()
     {
-        return (Vector<IWorkspaceListener>) this.listeners.clone();
+        return (List<IWorkspaceListener>) new ArrayList<IWorkspaceListener>(this.listeners);
     }
 
     /**
@@ -287,12 +284,12 @@ public class Workspace implements IWorkspace
      */
     public void fireMustOpenFile(IFile aFile)
     {
-        Vector<IWorkspaceListener> tl = cloneListeners();
+        List<IWorkspaceListener> tl = cloneListeners();
         int size = tl.size();
         if (size == 0) return;
         for (int i = 0; i < size; ++i)
         {
-            IWorkspaceListener l = (IWorkspaceListener) tl.elementAt(i);
+            IWorkspaceListener l = tl.get(i);
             l.mustOpenfile(aFile);
         }
     }
@@ -302,12 +299,12 @@ public class Workspace implements IWorkspace
      */
     private void fireSaveNeeded()
     {
-        Vector<IWorkspaceListener> tl = cloneListeners();
+        List<IWorkspaceListener> tl = cloneListeners();
         int size = tl.size();
         if (size == 0) return;
         for (int i = 0; i < size; ++i)
         {
-            IWorkspaceListener l = (IWorkspaceListener) tl.elementAt(i);
+            IWorkspaceListener l = tl.get(i);
             l.graphCouldBeSaved();
         }
     }
@@ -344,7 +341,7 @@ public class Workspace implements IWorkspace
     private ISideBar sideBar;
     private String filePath;
     private String title;
-    private Vector<IWorkspaceListener> listeners = new Vector<IWorkspaceListener>();
+    private List<IWorkspaceListener> listeners = new ArrayList<IWorkspaceListener>();
     private Id id;
     
     @InjectedBean

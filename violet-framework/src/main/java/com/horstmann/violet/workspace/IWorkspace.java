@@ -29,6 +29,12 @@ public interface IWorkspace
     public String getTitle();
 
     /**
+     * Sets current diagram's title
+     */
+    public void setTitle(String newTitle);
+    
+    
+    /**
      * Gets the fileName property.
      * 
      * @return the file path
