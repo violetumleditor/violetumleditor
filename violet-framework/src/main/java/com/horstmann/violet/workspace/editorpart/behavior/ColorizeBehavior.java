@@ -8,6 +8,7 @@ import com.horstmann.violet.product.diagram.abstracts.IColorable;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
+import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorChoice;
 import com.horstmann.violet.workspace.sidebar.colortools.IColorChoiceBar;
 import com.horstmann.violet.workspace.sidebar.colortools.IColorChoiceChangeListener;
@@ -19,6 +20,7 @@ public class ColorizeBehavior extends AbstractEditorPartBehavior
     {
         this.workspace = workspace;
         this.editorPart = workspace.getEditorPart();
+        this.behaviorManager = editorPart.getBehaviorManager();
         this.colorChoiceBar = colorChoiceBar;
         colorChoiceBar.addColorChoiceChangeListener(new IColorChoiceChangeListener()
         {
@@ -53,10 +55,12 @@ public class ColorizeBehavior extends AbstractEditorPartBehavior
         INode node = this.workspace.getGraphFile().getGraph().findNode(mouseLocation);
         if (node != null && IColorable.class.isInstance(node))
         {
+            this.behaviorManager.fireBeforeChangingColorOnElement((IColorable) node);
             IColorable colorableNode = (IColorable) node;
             colorableNode.setBackgroundColor(this.currentColorChoice.getBackgroundColor());
             colorableNode.setBorderColor(this.currentColorChoice.getBorderColor());
             colorableNode.setTextColor(this.currentColorChoice.getTextColor());
+            this.behaviorManager.fireAfterChangingColorOnElement((IColorable) node);
         }
         this.currentColorChoice = null;
         this.colorChoiceBar.resetSelection();
@@ -77,5 +81,6 @@ public class ColorizeBehavior extends AbstractEditorPartBehavior
     private IWorkspace workspace;
     private ColorChoice currentColorChoice = null;
     private Cursor defaultCursor = Cursor.getDefaultCursor();
+    private IEditorPartBehaviorManager behaviorManager;
 
 }

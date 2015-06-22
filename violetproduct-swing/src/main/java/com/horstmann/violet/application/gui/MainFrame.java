@@ -93,6 +93,7 @@ public class MainFrame extends JFrame
         int screenWidth = (int) screenSize.getWidth();
         int screenHeight = (int) screenSize.getHeight();
         setBounds(screenWidth / 16, screenHeight / 16, screenWidth * 7 / 8, screenHeight * 7 / 8);
+        setLocation(0, 0);
         // For screenshots only -> setBounds(50, 50, 850, 650);
     }
 

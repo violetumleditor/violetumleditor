@@ -32,5 +32,5 @@ public class ColorChoice
     {
         return textColor;
     }
-
+    
 }
