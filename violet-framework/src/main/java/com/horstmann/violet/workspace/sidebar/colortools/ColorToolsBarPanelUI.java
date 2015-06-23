@@ -123,7 +123,8 @@ public class ColorToolsBarPanelUI extends PanelUI
         {
             Graphics2D g2 = (Graphics2D) g;
             Color oldColor = g2.getColor();
-            g2.setColor(colorChoice.getBackgroundColor());
+            Color backgroundColor = colorChoice.getBackgroundColor();
+            g2.setColor(backgroundColor);
             g2.fillRect(0, 0, getWidth(), getHeight());
             if (this.isBorderPaintable)
             {

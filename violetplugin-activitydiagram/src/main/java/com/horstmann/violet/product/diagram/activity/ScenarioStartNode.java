@@ -29,12 +29,23 @@ import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.EllipticalNode;
+import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 
 /**
  * An initial node (bull's eye) in an activity diagram.
  */
 public class ScenarioStartNode extends EllipticalNode
 {
+
+    
+    
+    public ScenarioStartNode()
+    {
+        super();
+        setBackgroundColor(ColorToolsBarPanel.PASTEL_GREY.getBackgroundColor());
+        setBorderColor(ColorToolsBarPanel.PASTEL_GREY.getBorderColor());
+        setTextColor(ColorToolsBarPanel.PASTEL_GREY.getTextColor());
+    }
 
     @Override
     public Rectangle2D getBounds()

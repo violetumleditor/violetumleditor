@@ -32,6 +32,7 @@ import com.horstmann.violet.framework.theme.ThemeManager;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
+import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 
 /**
  * A note node in a UML diagram.
@@ -51,7 +52,9 @@ public class NoteNode extends RectangularNode
     {
         text = new MultiLineString();
         text.setJustification(MultiLineString.LEFT);
-        color = DEFAULT_COLOR;
+        setBackgroundColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getBackgroundColor());
+        setBorderColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getBorderColor());
+        setTextColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getTextColor());
     }
 
     @Override
@@ -106,23 +109,11 @@ public class NoteNode extends RectangularNode
     }
 
     /**
-     * Gets the value of the color property.
-     * 
-     * @return the background color of the note
-     */
-    public Color getColor()
-    {
-        return color;
-    }
-
-    /**
-     * Sets the value of the color property.
-     * 
-     * @param newValue the background color of the note
+     * Kept for compatibility
      */
     public void setColor(Color newValue)
     {
-        color = newValue;
+        // Nothing to do
     }
 
     @Override
@@ -132,7 +123,7 @@ public class NoteNode extends RectangularNode
         Color oldColor = g2.getColor();
 
         // Perform drawing
-        g2.setColor(color);
+        g2.setColor(getBackgroundColor());
         Shape path = getShape();
         g2.fill(path);
         g2.setColor(getBorderColor());
@@ -179,11 +170,9 @@ public class NoteNode extends RectangularNode
     }
 
     private MultiLineString text;
-    private Color color;
 
     private static int DEFAULT_WIDTH = 60;
     private static int DEFAULT_HEIGHT = 40;
-    private static Color DEFAULT_COLOR = new Color(255, 228, 181); // very pale pink
     private static int FOLD_X = 8;
     private static int FOLD_Y = 8;
     private static int INFINITE_Z_LEVEL = 10000;

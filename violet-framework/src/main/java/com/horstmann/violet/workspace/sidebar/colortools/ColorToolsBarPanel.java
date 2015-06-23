@@ -64,9 +64,10 @@ public class ColorToolsBarPanel extends JPanel implements IColorChoiceBar
     // Source : http://www.tinygorilla.com/Easter_eggs/pallatehex.html
     // http://www.colorhexa.com/
     public static final ColorChoice DEFAULT_COLOR = new ColorChoice(Color.WHITE, new Color(191,191,191), new Color(51,51,51));
+    public static final ColorChoice PASTEL_GREY = new ColorChoice(new Color(240,240,240), new Color(91,91,91), new Color(51,51,51));
     private static final ColorChoice PASTEL_RED = new ColorChoice(new Color(250,189,170), new Color(246,132,98), new Color(51,51,51));
     private static final ColorChoice PASTEL_RED_ORANGE = new ColorChoice(new Color(251,205,178), new Color(248,157,105), new Color(51,51,51));
-    private static final ColorChoice PASTEL_YELLOW_ORANCE = new ColorChoice(new Color(254,222,188), new Color(253,186,113), new Color(51,51,51));
+    public static final ColorChoice PASTEL_YELLOW_ORANCE = new ColorChoice(new Color(254,222,188), new Color(253,186,113), new Color(51,51,51));
     private static final ColorChoice PASTEL_YELLOW = new ColorChoice(new Color(255,251,205), new Color(255,222,154), new Color(51,51,51));
     private static final ColorChoice PASTEL_PEA_GREEN = new ColorChoice(new Color(219,235,194), new Color(185,217,136), new Color(51,51,51));
     private static final ColorChoice PASTEL_YELLOW_GREEN = new ColorChoice(new Color(195,227,191), new Color(145,203,138), new Color(51,51,51));
@@ -89,6 +90,7 @@ public class ColorToolsBarPanel extends JPanel implements IColorChoiceBar
     static
     {
         CHOICE_LIST.add(DEFAULT_COLOR);
+        CHOICE_LIST.add(PASTEL_GREY);
         CHOICE_LIST.add(PASTEL_RED);
         CHOICE_LIST.add(PASTEL_RED_ORANGE);
         CHOICE_LIST.add(PASTEL_YELLOW_ORANCE);
