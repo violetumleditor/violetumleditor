@@ -20,15 +20,12 @@
 
 package com.horstmann.violet.web;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
 import com.horstmann.violet.framework.file.GraphFile;
-import com.horstmann.violet.framework.file.IFile;
-import com.horstmann.violet.framework.file.LocalFile;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
 import com.horstmann.violet.framework.plugin.PluginLoader;
+import com.horstmann.violet.product.diagram.classes.ClassDiagramGraph;
 import com.horstmann.violet.web.workspace.WorkspaceWidget;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
@@ -60,10 +57,9 @@ public class UMLEditorWebApplication extends WApplication {
 
 	private void createDefaultWorkspace() throws IOException {
 		setTheme(new WBootstrapTheme());
-
-		URL resource = getClass().getResource("test.class.violet.html");
-		IFile aFile = new LocalFile(new File(resource.getFile()));
-		GraphFile graphFile = new GraphFile(aFile);
+		//URL resource = getClass().getResource("test.class.violet.html");
+		//IFile aFile = new LocalFile(new File(resource.getFile()));
+		GraphFile graphFile = new GraphFile(ClassDiagramGraph.class);
 		IWorkspace workspace = new Workspace(graphFile);
 		workspace.getAWTComponent().setSize(800, 600);
 		workspace.getAWTComponent().prepareLayout();
