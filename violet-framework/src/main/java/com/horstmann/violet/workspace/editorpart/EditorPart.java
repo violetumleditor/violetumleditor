@@ -245,7 +245,6 @@ public class EditorPart extends JPanel implements IEditorPart
         {
             return;
         }
-        super.paintComponent(g);
         getSwingComponent().revalidate(); // to inform parent scrollpane container
         Graphics2D g2 = (Graphics2D) g;
         g2.scale(zoom, zoom);

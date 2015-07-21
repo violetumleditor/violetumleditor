@@ -12,7 +12,9 @@ import com.horstmann.violet.workspace.editorpart.IGrid;
 
 import eu.webtoolkit.jwt.KeyboardModifier;
 import eu.webtoolkit.jwt.Signal1;
+import eu.webtoolkit.jwt.WFont;
 import eu.webtoolkit.jwt.WLength;
+import eu.webtoolkit.jwt.WLength.Unit;
 import eu.webtoolkit.jwt.WMouseEvent;
 import eu.webtoolkit.jwt.WMouseEvent.Button;
 import eu.webtoolkit.jwt.WPaintDevice;
@@ -60,7 +62,6 @@ public class EditorPartWidget extends WPaintedWidget {
 				if (lastMouseEvent != null && isSameEvent(lastMouseEvent, mouseEvent)) {
 					return;
 				}
-				System.out.println("pressed");
 				behaviorManager.fireOnMousePressed(mouseEvent);
 				// No need to call update() that will be done on drag on button
 				// release;
@@ -75,7 +76,6 @@ public class EditorPartWidget extends WPaintedWidget {
 				if (lastMouseEvent != null && isSameEvent(lastMouseEvent, mouseEvent)) {
 					return;
 				}
-				System.out.println("released");
 				behaviorManager.fireOnMouseReleased(mouseEvent);
 				update();
 				lastMouseEvent = mouseEvent;
@@ -88,7 +88,6 @@ public class EditorPartWidget extends WPaintedWidget {
 				if (lastMouseEvent != null && isSameEvent(lastMouseEvent, mouseEvent)) {
 					return;
 				}
-				System.out.println("clicked");
 				behaviorManager.fireOnMouseClicked(mouseEvent);
 				lastMouseEvent = mouseEvent;
 				update();
@@ -101,9 +100,16 @@ public class EditorPartWidget extends WPaintedWidget {
 				if (lastMouseEvent != null && isSameEvent(lastMouseEvent, mouseEvent)) {
 					return;
 				}
-				System.out.println("double clicked");
 				behaviorManager.fireOnMouseClicked(mouseEvent);
 				lastMouseEvent = mouseEvent;
+				update();
+			}
+		});
+		mouseWheel().addListener(this, new Signal1.Listener<WMouseEvent>() {
+			@Override
+			public void trigger(WMouseEvent event) {
+				MouseWheelEvent wheelEvent = convertMouseWheelEvent(event, MouseEvent.MOUSE_WHEEL, EditorPartWidget.this.editorPart.getSwingComponent());
+				behaviorManager.fireOnMouseWheelMoved(wheelEvent);
 				update();
 			}
 		});
@@ -158,7 +164,14 @@ public class EditorPartWidget extends WPaintedWidget {
 
 	@Override
 	protected void paintEvent(WPaintDevice paintDevice) {
-		WPainter painter = new WPainter(paintDevice);
+		WPainter painter = new WPainter(paintDevice) {
+			@Override
+			public WFont getFont() {
+				WFont font = super.getFont();
+				font.setSize(new WLength(12, Unit.Pixel));
+				return font;
+			}
+		};
 		painter.setClipping(false);
 		paintDevice.init();
 		Graphics2D graphics = new CustomWebGraphics2D(painter);
