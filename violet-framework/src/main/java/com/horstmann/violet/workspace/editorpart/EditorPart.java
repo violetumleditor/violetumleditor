@@ -249,8 +249,9 @@ public class EditorPart extends JPanel implements IEditorPart
         getSwingComponent().revalidate(); // to inform parent scrollpane container
         Graphics2D g2 = (Graphics2D) g;
         g2.scale(zoom, zoom);
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
         if (grid.isVisible()) grid.paint(g2);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         graph.draw(g2);
         for (IEditorPartBehavior behavior : this.behaviorManager.getBehaviors())
         {
