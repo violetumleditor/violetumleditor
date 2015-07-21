@@ -21,6 +21,11 @@
 package com.horstmann.violet.web;
 
 import java.io.IOException;
+import java.io.InputStream;
+
+import javax.servlet.ServletOutputStream;
+
+import org.apache.commons.io.IOUtils;
 
 import com.horstmann.violet.framework.file.GraphFile;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
@@ -33,6 +38,11 @@ import com.horstmann.violet.workspace.Workspace;
 import eu.webtoolkit.jwt.WApplication;
 import eu.webtoolkit.jwt.WBootstrapTheme;
 import eu.webtoolkit.jwt.WEnvironment;
+import eu.webtoolkit.jwt.WLink;
+import eu.webtoolkit.jwt.WLink.Type;
+import eu.webtoolkit.jwt.WResource;
+import eu.webtoolkit.jwt.servlet.WebRequest;
+import eu.webtoolkit.jwt.servlet.WebResponse;
 
 /**
  * A program for editing UML diagrams.
@@ -53,10 +63,23 @@ public class UMLEditorWebApplication extends WApplication {
 	public UMLEditorWebApplication(WEnvironment env) throws IOException {
 		super(env);
 		createDefaultWorkspace();
+		
 	}
 
 	private void createDefaultWorkspace() throws IOException {
 		setTheme(new WBootstrapTheme());
+		useStyleSheet(new WLink(new WResource() {
+			@Override
+			protected void handleRequest(WebRequest request, WebResponse response) throws IOException {
+				ClassLoader classLoader = this.getClass().getClassLoader();
+				ServletOutputStream outputStream = response.getOutputStream();
+				InputStream inputStream = classLoader.getResourceAsStream("/violet.css");
+				IOUtils.copy(inputStream, outputStream);
+				inputStream.close();
+				outputStream.close();
+			}
+			
+		}));
 		//URL resource = getClass().getResource("test.class.violet.html");
 		//IFile aFile = new LocalFile(new File(resource.getFile()));
 		GraphFile graphFile = new GraphFile(ClassDiagramGraph.class);

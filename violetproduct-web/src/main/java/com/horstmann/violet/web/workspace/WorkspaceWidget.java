@@ -8,6 +8,7 @@ import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.sidebar.ISideBar;
 
+import eu.webtoolkit.jwt.Side;
 import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WHBoxLayout;
 import eu.webtoolkit.jwt.WLength;
@@ -31,6 +32,7 @@ public class WorkspaceWidget extends WContainerWidget {
 		this.workspace = workspace;
 		setLayout(getMainLayout());
 		addSpecificBehavior();
+		setStyleClass("editorpart");
 	}
 	
 	private void addSpecificBehavior() {
@@ -44,6 +46,7 @@ public class WorkspaceWidget extends WContainerWidget {
 			this.mainLayout = new WHBoxLayout();
 			this.mainLayout.addWidget(getSideBarWidget());
 			this.mainLayout.addWidget(getEditorPartPanel(), 1);
+			this.mainLayout.setContentsMargins(0, 0, 0, 0);
 		}
 		return this.mainLayout;
 	}

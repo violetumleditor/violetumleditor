@@ -3,7 +3,10 @@ package com.horstmann.violet.web.workspace.sidebar;
 import com.horstmann.violet.web.workspace.editorpart.EditorPartWidget;
 import com.horstmann.violet.workspace.sidebar.ISideBar;
 
+import eu.webtoolkit.jwt.Side;
 import eu.webtoolkit.jwt.WContainerWidget;
+import eu.webtoolkit.jwt.WLength;
+import eu.webtoolkit.jwt.WLength.Unit;
 import eu.webtoolkit.jwt.WVBoxLayout;
 public class SideBarWidget extends WContainerWidget {
 	
@@ -22,6 +25,7 @@ public class SideBarWidget extends WContainerWidget {
 		this.sideBar = sideBar;
 		this.editorPartWidget = editorPartWidget;
 		setLayout(getMainLayout());
+		setStyleClass("sidebar");
 	}
 	
 	private WVBoxLayout getMainLayout() {
