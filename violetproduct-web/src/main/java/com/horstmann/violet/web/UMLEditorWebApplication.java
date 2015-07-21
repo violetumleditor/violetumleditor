@@ -33,12 +33,9 @@ import com.horstmann.violet.web.workspace.WorkspaceWidget;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
 
-import eu.webtoolkit.jwt.Key;
-import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WApplication;
 import eu.webtoolkit.jwt.WBootstrapTheme;
 import eu.webtoolkit.jwt.WEnvironment;
-import eu.webtoolkit.jwt.WKeyEvent;
 
 /**
  * A program for editing UML diagrams.
@@ -72,7 +69,6 @@ public class UMLEditorWebApplication extends WApplication {
 		workspace.getAWTComponent().prepareLayout();
 		WorkspaceWidget workspaceWidget = new WorkspaceWidget(workspace);
 		getRoot().addWidget(workspaceWidget);
-
 	}
 
 }

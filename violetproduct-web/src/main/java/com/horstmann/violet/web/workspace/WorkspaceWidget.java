@@ -70,8 +70,6 @@ public class WorkspaceWidget extends WContainerWidget {
 		if (this.editorPartPanel == null) {
 			this.editorPartPanel = new WPanel();
 			this.editorPartPanel.setCentralWidget(getEditorPartScrollArea());
-			this.editorPartPanel.setWidth(new WLength(100, Unit.Percentage));
-			this.editorPartPanel.setHeight(new WLength(100, Unit.Percentage));
 		}
 		return this.editorPartPanel;
 	}

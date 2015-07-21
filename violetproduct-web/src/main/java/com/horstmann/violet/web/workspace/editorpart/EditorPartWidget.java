@@ -10,9 +10,11 @@ import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.IGrid;
 
+import eu.webtoolkit.jwt.Key;
 import eu.webtoolkit.jwt.KeyboardModifier;
 import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WFont;
+import eu.webtoolkit.jwt.WKeyEvent;
 import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WLength.Unit;
 import eu.webtoolkit.jwt.WMouseEvent;
@@ -29,6 +31,7 @@ public class EditorPartWidget extends WPaintedWidget {
 	private int mouseDragGapY = 0;
 
 	private MouseEvent lastMouseEvent;
+	private boolean isDragDetected = false; // Used to avoid 'clicked' event after 'dragged" event
 
 	public EditorPartWidget(IEditorPart editorPart) {
 		this.editorPart = editorPart;
@@ -53,6 +56,7 @@ public class EditorPartWidget extends WPaintedWidget {
 					mouseDragGapY = deltaY;
 				}
 				lastMouseEvent = mouseEvent;
+				isDragDetected = true;
 			}
 		});
 		mouseWentDown().addListener(this, new Signal1.Listener<WMouseEvent>() {
@@ -84,6 +88,10 @@ public class EditorPartWidget extends WPaintedWidget {
 		clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
 			@Override
 			public void trigger(WMouseEvent event) {
+				if (isDragDetected) {
+					isDragDetected = false;
+					return;
+				}
 				MouseEvent mouseEvent = convertMouseEvent(event, MouseEvent.MOUSE_CLICKED, 1, EditorPartWidget.this.editorPart.getSwingComponent());
 				if (lastMouseEvent != null && isSameEvent(lastMouseEvent, mouseEvent)) {
 					return;
@@ -113,7 +121,6 @@ public class EditorPartWidget extends WPaintedWidget {
 				update();
 			}
 		});
-
 	}
 
 	private MouseEvent convertMouseEvent(WMouseEvent event, int type, int clickCount, Component c) {
@@ -179,16 +186,11 @@ public class EditorPartWidget extends WPaintedWidget {
 		paintDevice.done();
 	}
 
+	
 	@Override
-	protected void layoutSizeChanged(int width, int height) {
-		super.layoutSizeChanged(width, height);
-		this.editorPart.getSwingComponent().setSize(width, height);
-	}
-
-	@Override
-	public void resize(WLength width, WLength height) {
-		super.resize(width, height);
-		this.editorPart.getSwingComponent().setSize((int) width.toPixels(), (int) height.toPixels());
+	public void resize(int widthPixels, int heightPixels) {
+		super.resize(widthPixels, heightPixels);
+		this.editorPart.getSwingComponent().setSize(widthPixels, heightPixels);
 	}
 
 	private boolean isSameEvent(MouseEvent firstMouseEvent, MouseEvent secondMouseEvent) {

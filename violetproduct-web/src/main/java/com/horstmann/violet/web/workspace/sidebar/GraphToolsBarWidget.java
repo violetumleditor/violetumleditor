@@ -4,15 +4,17 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 
 import com.horstmann.violet.workspace.sidebar.graphtools.GraphTool;
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBar;
+import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBarListener;
 
-import eu.webtoolkit.jwt.Orientation;
 import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WAnchor;
 import eu.webtoolkit.jwt.WCompositeWidget;
@@ -38,6 +40,8 @@ public class GraphToolsBarWidget extends WCompositeWidget {
 	private static final String UNSELECTED_GRAPHTOOL_CSS_CLASS = "btn-info";
 	
 	private static final String SELECTED_GRAPHTOOL_CSS_CLASS = "btn-primary";
+	
+	private Map<GraphTool, WMenuItem> graphToolCache = new HashMap<GraphTool, WMenuItem>();
 
 	public GraphToolsBarWidget(final IGraphToolsBar graphToolsBar,
 			WContainerWidget parent) {
@@ -47,7 +51,7 @@ public class GraphToolsBarWidget extends WCompositeWidget {
 		
 	    WContainerWidget container = new WContainerWidget();
 	    WStackedWidget contents = new WStackedWidget();
-	    WMenu menu = new WMenu(contents, Orientation.Vertical, container);
+	    WMenu menu = new WMenu(contents, container);
 	    menu.setStyleClass("nav nav-pills nav-stacked");
 	    menu.setWidth(new WLength(200));
 	    
@@ -61,13 +65,31 @@ public class GraphToolsBarWidget extends WCompositeWidget {
 			menu.addItem(graphToolMenuItem);
 			this.graphToolButtonList.add(graphToolMenuItem);
 		}
-
+		addListener(graphToolsBar);
 		setImplementation(container);
 		
 	}
+	
+	
+	private void addListener(IGraphToolsBar graphToolsBar) {
+		graphToolsBar.addListener(new IGraphToolsBarListener() {
+			@Override
+			public void toolSelectionChanged(GraphTool selectedTool) {
+				if (!graphToolCache.containsKey(selectedTool)) {
+					return;
+				}
+				WMenuItem wMenuItem = graphToolCache.get(selectedTool);
+				wMenuItem.select();
+			}
+		});
+	}
+	
 
 	private WMenuItem getMenuItemFromGraphTool(
 			final IGraphToolsBar graphToolsBar, final GraphTool aGraphTool) {
+		if (this.graphToolCache.containsKey(aGraphTool)) {
+			return this.graphToolCache.get(aGraphTool);
+		}
 		WResource iconResource = new WResource() {
 
 			@Override
@@ -94,6 +116,7 @@ public class GraphToolsBarWidget extends WCompositeWidget {
 		        graphToolsBar.setSelectedTool(aGraphTool);
 		    }
 		});
+		this.graphToolCache.put(aGraphTool, graphToolButton);
 		return graphToolButton;
 	}
 	
