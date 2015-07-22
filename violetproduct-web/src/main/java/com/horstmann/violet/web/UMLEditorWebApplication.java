@@ -76,6 +76,7 @@ public class UMLEditorWebApplication extends WApplication {
 			protected void handleRequest(WebRequest request, WebResponse response) throws IOException {
 				ClassLoader classLoader = this.getClass().getClassLoader();
 				ServletOutputStream outputStream = response.getOutputStream();
+				response.setContentType("text/css");
 				InputStream inputStream = classLoader.getResourceAsStream("/violet.css");
 				IOUtils.copy(inputStream, outputStream);
 				inputStream.close();
