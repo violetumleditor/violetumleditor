@@ -86,5 +86,6 @@ public interface IEditorPart
      */
     public IEditorPartBehaviorManager getBehaviorManager();
     
+   
 
 }

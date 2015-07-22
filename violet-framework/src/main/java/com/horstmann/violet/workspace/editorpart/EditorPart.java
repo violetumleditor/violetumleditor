@@ -160,6 +160,10 @@ public class EditorPart extends JPanel implements IEditorPart
         Rectangle2D bounds = graph.getClipBounds();
         int width = Math.max((int) (zoom * bounds.getMaxX()), (int) parentSize.getWidth());
         int height = Math.max((int) (zoom * bounds.getMaxY()), (int) parentSize.getHeight());
+        if (this.lastWidth != width || this.lastHeight != height) {
+            this.lastWidth = width;
+            this.lastHeight = height;
+        }
         return new Dimension(width, height);
     }
 
@@ -236,7 +240,7 @@ public class EditorPart extends JPanel implements IEditorPart
         super.paintImmediately(x, y, w, h);
     }
     
-
+    
     @Override
     protected void paintComponent(Graphics g)
     {
@@ -273,6 +277,10 @@ public class EditorPart extends JPanel implements IEditorPart
         return this.behaviorManager;
     }
 
+    
+    
+
+    
     private IGraph graph;
 
     private IGrid grid;
@@ -280,6 +288,10 @@ public class EditorPart extends JPanel implements IEditorPart
     private double zoom;
 
     private IEditorPartSelectionHandler selectionHandler = new EditorPartSelectionHandler();
+    
+    private int lastWidth = 0;
+    
+    private int lastHeight = 0;
 
     /**
      * Scale factor used to grow drawing area
@@ -287,5 +299,7 @@ public class EditorPart extends JPanel implements IEditorPart
     private static final double GROW_SCALE_FACTOR = Math.sqrt(2);
 
     private IEditorPartBehaviorManager behaviorManager = new EditorPartBehaviorManager();
+    
+
 
 }

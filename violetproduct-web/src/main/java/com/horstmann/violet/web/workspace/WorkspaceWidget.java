@@ -32,7 +32,8 @@ public class WorkspaceWidget extends WContainerWidget {
 		this.workspace = workspace;
 		setLayout(getMainLayout());
 		addSpecificBehavior();
-		setStyleClass("editorpart");
+		setWidth(new WLength(100,  Unit.Percentage));
+		setHeight(new WLength(100,  Unit.Percentage));
 	}
 	
 	private void addSpecificBehavior() {
@@ -56,6 +57,7 @@ public class WorkspaceWidget extends WContainerWidget {
 			ISideBar sideBar = this.workspace.getSideBar();
 			this.sideBarWidget = new SideBarWidget(sideBar, getEditorPartWidget());
 			this.sideBarWidget.setWidth(new WLength(230, Unit.Pixel));
+			this.sideBarWidget.setHeight(new WLength(100, Unit.Percentage));
 		}
 		return this.sideBarWidget;
 	}
@@ -64,7 +66,9 @@ public class WorkspaceWidget extends WContainerWidget {
 		if (this.editorPartWidget == null) {
 			IEditorPart editorPart = this.workspace.getEditorPart();
 			this.editorPartWidget = new EditorPartWidget(editorPart);
-			this.editorPartWidget.resize(2000, 768);
+			this.editorPartWidget.setWidth(new WLength(100, Unit.Percentage));
+			this.editorPartWidget.setHeight(new WLength(100, Unit.Percentage));
+			
 		}
 		return this.editorPartWidget;
 	}

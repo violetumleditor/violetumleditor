@@ -1,20 +1,21 @@
 package com.horstmann.violet.web.workspace.editorpart;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
+import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.web.util.jwt.CustomWebGraphics2D;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.IGrid;
 
-import eu.webtoolkit.jwt.Key;
+import eu.webtoolkit.jwt.Coordinates;
 import eu.webtoolkit.jwt.KeyboardModifier;
 import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WFont;
-import eu.webtoolkit.jwt.WKeyEvent;
 import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WLength.Unit;
 import eu.webtoolkit.jwt.WMouseEvent;
@@ -34,6 +35,8 @@ public class EditorPartWidget extends WPaintedWidget {
 	private boolean isDragDetected = false; // Used to avoid 'clicked' event after 'dragged" event
 
 	public EditorPartWidget(IEditorPart editorPart) {
+		setWidth(new WLength(100, Unit.Percentage));
+		setHeight(new WLength(100, Unit.Percentage));
 		this.editorPart = editorPart;
 		final IGrid grid = editorPart.getGrid();
 		grid.setVisible(false);
@@ -47,10 +50,11 @@ public class EditorPartWidget extends WPaintedWidget {
 				if (lastMouseEvent != null && isSameEvent(lastMouseEvent, mouseEvent)) {
 					return;
 				}
-				behaviorManager.fireOnMouseDragged(mouseEvent);
 				int deltaX = Math.abs(event.getDragDelta().x);
 				int deltaY = Math.abs(event.getDragDelta().y);
 				if (Math.abs(deltaX - mouseDragGapX) >= grid.getSnappingWidth() || Math.abs(deltaY - mouseDragGapY) >= grid.getSnappingHeight()) {
+					behaviorManager.fireOnMouseDragged(mouseEvent);
+					fixEditorSize(event);
 					update();
 					mouseDragGapX = deltaX;
 					mouseDragGapY = deltaY;
@@ -83,6 +87,7 @@ public class EditorPartWidget extends WPaintedWidget {
 				behaviorManager.fireOnMouseReleased(mouseEvent);
 				update();
 				lastMouseEvent = mouseEvent;
+				fixEditorSize(event);
 			}
 		});
 		clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
@@ -98,6 +103,7 @@ public class EditorPartWidget extends WPaintedWidget {
 				}
 				behaviorManager.fireOnMouseClicked(mouseEvent);
 				lastMouseEvent = mouseEvent;
+				fixEditorSize(event);
 				update();
 			}
 		});
@@ -110,6 +116,7 @@ public class EditorPartWidget extends WPaintedWidget {
 				}
 				behaviorManager.fireOnMouseClicked(mouseEvent);
 				lastMouseEvent = mouseEvent;
+				fixEditorSize(event);
 				update();
 			}
 		});
@@ -187,12 +194,6 @@ public class EditorPartWidget extends WPaintedWidget {
 	}
 
 	
-	@Override
-	public void resize(int widthPixels, int heightPixels) {
-		super.resize(widthPixels, heightPixels);
-		this.editorPart.getSwingComponent().setSize(widthPixels, heightPixels);
-	}
-
 	private boolean isSameEvent(MouseEvent firstMouseEvent, MouseEvent secondMouseEvent) {
 		if (firstMouseEvent == null || secondMouseEvent == null) {
 			return false;
@@ -208,6 +209,27 @@ public class EditorPartWidget extends WPaintedWidget {
 	
 	public IEditorPart getEditorPart() {
 		return this.editorPart;
+	}
+	
+	
+	@Override
+	public void resize(int widthPixels, int heightPixels) {
+		this.editorPart.getSwingComponent().setSize(widthPixels, heightPixels);
+		super.resize(widthPixels, heightPixels);
+	}
+
+	private void fixEditorSize(WMouseEvent event) {
+		Dimension preferredSize = this.editorPart.getSwingComponent().getPreferredSize();
+		int gap = 10;
+		Coordinates mouseLocationRelativeToEditorPart = event.getWidget();
+		double graphWidth = Math.max(preferredSize.getWidth() + gap, mouseLocationRelativeToEditorPart.x + gap);
+		double graphHeight = Math.max(preferredSize.getHeight() + gap, mouseLocationRelativeToEditorPart.y + gap);
+		double editorPartWidth = getWidth().toPixels();
+		double editorPartHeight = getHeight().toPixels();
+		if (editorPartWidth != graphWidth || editorPartHeight != graphHeight) {
+			setMinimumSize(new WLength(100, Unit.Percentage), new WLength(100, Unit.Percentage));
+			resize((int) graphWidth, (int) graphHeight);
+		}
 	}
 
 }

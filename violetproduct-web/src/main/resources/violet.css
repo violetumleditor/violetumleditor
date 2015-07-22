@@ -1,3 +1,15 @@
+html{
+  height: 100%;
+}
+body {
+  min-height: 100%;
+}
+.root {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+}
 .sidebar {
 	background-color: #F4F4F4;
 }
