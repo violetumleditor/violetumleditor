@@ -42,7 +42,7 @@ public class EditorPartWidget extends WPaintedWidget {
 		grid.setVisible(false);
 		this.editorPart.getGraph().setGridSticker(grid.getGridSticker());
 		final IEditorPartBehaviorManager behaviorManager = editorPart.getBehaviorManager();
-
+		
 		mouseDragged().addListener(this, new Signal1.Listener<WMouseEvent>() {
 			@Override
 			public void trigger(WMouseEvent event) {

@@ -96,6 +96,7 @@ public class UMLEditorWebApplication extends WApplication {
 		root.setWidth(new WLength(100,  Unit.Percentage));
 		root.setStyleClass("root");
 		root.addWidget(workspaceWidget);
+		root.mouseMoved().setBlocked(true);
 		
 	}
 
