@@ -8,12 +8,10 @@ import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.sidebar.ISideBar;
 
-import eu.webtoolkit.jwt.Side;
 import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WHBoxLayout;
 import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WLength.Unit;
-import eu.webtoolkit.jwt.WPanel;
 import eu.webtoolkit.jwt.WScrollArea;
 import eu.webtoolkit.jwt.WScrollArea.ScrollBarPolicy;
 
@@ -24,7 +22,6 @@ public class WorkspaceWidget extends WContainerWidget {
 	private EditorPartWidget editorPartWidget;
 	private IWorkspace workspace;
 	private WHBoxLayout mainLayout;
-	private WPanel editorPartPanel;
 	private WScrollArea editorPartScrollArea;
 	
 	public WorkspaceWidget(IWorkspace workspace) {
@@ -46,7 +43,7 @@ public class WorkspaceWidget extends WContainerWidget {
 		if (this.mainLayout == null) {
 			this.mainLayout = new WHBoxLayout();
 			this.mainLayout.addWidget(getSideBarWidget());
-			this.mainLayout.addWidget(getEditorPartPanel(), 1);
+			this.mainLayout.addWidget(getEditorPartScrollArea());
 			this.mainLayout.setContentsMargins(0, 0, 0, 0);
 		}
 		return this.mainLayout;
@@ -56,6 +53,7 @@ public class WorkspaceWidget extends WContainerWidget {
 		if (this.sideBarWidget == null) {
 			ISideBar sideBar = this.workspace.getSideBar();
 			this.sideBarWidget = new SideBarWidget(sideBar, getEditorPartWidget());
+			this.sideBarWidget.setMinimumSize(new WLength(230, Unit.Pixel), new WLength(100, Unit.Percentage));
 			this.sideBarWidget.setWidth(new WLength(230, Unit.Pixel));
 			this.sideBarWidget.setHeight(new WLength(100, Unit.Percentage));
 		}
@@ -73,14 +71,6 @@ public class WorkspaceWidget extends WContainerWidget {
 		return this.editorPartWidget;
 	}
 	
-	private WPanel getEditorPartPanel() {
-		if (this.editorPartPanel == null) {
-			this.editorPartPanel = new WPanel();
-			this.editorPartPanel.setCentralWidget(getEditorPartScrollArea());
-		}
-		return this.editorPartPanel;
-	}
-
 	
 	private WScrollArea getEditorPartScrollArea() {
 		if (this.editorPartScrollArea == null) {

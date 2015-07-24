@@ -20,9 +20,11 @@ import com.horstmann.violet.workspace.sidebar.SideBar;
 
 import eu.webtoolkit.jwt.AlignmentFlag;
 import eu.webtoolkit.jwt.Signal1;
+import eu.webtoolkit.jwt.WBoxLayout;
+import eu.webtoolkit.jwt.WBoxLayout.Direction;
 import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WGridLayout;
-import eu.webtoolkit.jwt.WHBoxLayout;
+import eu.webtoolkit.jwt.WLabel;
 import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WLength.Unit;
 import eu.webtoolkit.jwt.WLink;
@@ -55,7 +57,9 @@ public class EditorToolsWidget extends WContainerWidget {
 	private String title;
 
 	private EditorPartWidget editorPartWidget;
-	private WGridLayout mainLayout;
+	private WBoxLayout mainLayout;
+	private WLabel titleLabel;
+	private WGridLayout buttonLayout;
 	private WPushButton undoButton;
 	private WPushButton redoButton;
 	private WPushButton cutButton;
@@ -68,20 +72,43 @@ public class EditorToolsWidget extends WContainerWidget {
 		ResourceBundleInjector.getInjector().inject(this);
 		this.editorPartWidget = editorPartWidget;
 		setLayout(getMainLayout());
-		setMaximumSize(new WLength(220,  Unit.Pixel), new WLength(100,  Unit.Pixel));
+		setMinimumSize(new WLength(100, Unit.Percentage), new WLength(120, Unit.Pixel));
 	}
-
-	private WGridLayout getMainLayout() {
+	
+	private WBoxLayout getMainLayout() {
 		if (this.mainLayout == null) {
-			this.mainLayout = new WGridLayout();
-			this.mainLayout.addWidget(getUndoButton(), 0, 0, AlignmentFlag.AlignMiddle);
-			this.mainLayout.addWidget(getRedoButton(), 0, 1, AlignmentFlag.AlignMiddle);
-			this.mainLayout.addWidget(getDeleteButton(), 0, 2, AlignmentFlag.AlignMiddle);
-			this.mainLayout.addWidget(getCutButton(), 1, 0, AlignmentFlag.AlignMiddle);
-			this.mainLayout.addWidget(getCopyButton(), 1, 1, AlignmentFlag.AlignMiddle);
-			this.mainLayout.addWidget(getPasteButton(), 1, 2, AlignmentFlag.AlignMiddle);
+			this.mainLayout = new WBoxLayout(Direction.TopToBottom);
+			this.mainLayout.addWidget(getTitleLabel());
+			WContainerWidget wContainerWidget = new WContainerWidget();
+			wContainerWidget.setLayout(getButtonLayout(), AlignmentFlag.AlignCenter, AlignmentFlag.AlignMiddle);
+			this.mainLayout.addWidget(wContainerWidget);
+			this.mainLayout.setContentsMargins(0, 0, 0, 0);
 		}
 		return this.mainLayout;
+	}
+	
+	private WLabel getTitleLabel() {
+		if (this.titleLabel == null) {
+			this.titleLabel = new WLabel(this.title);
+			this.titleLabel.setStyleClass("darktitle");
+			this.titleLabel.setMinimumSize(new WLength(100, Unit.Percentage),new WLength(22, Unit.Pixel));
+			this.titleLabel.setMaximumSize(new WLength(100, Unit.Percentage),new WLength(22, Unit.Pixel));
+		}
+		return this.titleLabel;
+	}
+	
+	
+	private WGridLayout getButtonLayout() {
+		if (this.buttonLayout == null) {
+			this.buttonLayout = new WGridLayout();
+			this.buttonLayout.addWidget(getUndoButton(), 0, 0, AlignmentFlag.AlignMiddle);
+			this.buttonLayout.addWidget(getRedoButton(), 0, 1, AlignmentFlag.AlignMiddle);
+			this.buttonLayout.addWidget(getDeleteButton(), 0, 2, AlignmentFlag.AlignMiddle);
+			this.buttonLayout.addWidget(getCutButton(), 1, 0, AlignmentFlag.AlignMiddle);
+			this.buttonLayout.addWidget(getCopyButton(), 1, 1, AlignmentFlag.AlignMiddle);
+			this.buttonLayout.addWidget(getPasteButton(), 1, 2, AlignmentFlag.AlignMiddle);
+		}
+		return this.buttonLayout;
 	}
 
 	private WPushButton getUndoButton() {
