@@ -49,7 +49,7 @@ public abstract class ShapeEdge extends AbstractEdge
 
     public boolean contains(Point2D aPoint)
     {
-        final double MAX_DIST = 3;
+        final double MAX_DIST = 10;
 
         // the end points may contain small nodes, so don't
         // match them
