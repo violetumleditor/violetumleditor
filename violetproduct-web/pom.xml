@@ -87,8 +87,59 @@
 			<version>3.1.1</version>
 		</dependency>
 		<!-- JWT auth (end) -->
+		<!-- JETTY SERVER (start) -->
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-server</artifactId>
+			<version>8.1.17.v20150415</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-servlet</artifactId>
+			<version>8.1.17.v20150415</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-webapp</artifactId>
+			<version>8.1.17.v20150415</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-util</artifactId>
+			<version>8.1.17.v20150415</version>
+		</dependency>
+		<!-- JETTY SERVER (end) -->
 	</dependencies>
 	<build>
 		<finalName>violetumleditor-${project.version}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<dependencies>
+					<dependency>
+						<groupId>org.springframework</groupId>
+						<artifactId>springloaded</artifactId>
+						<version>1.2.0.RELEASE</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<jvmArguments>
+						-Xdebug
+						-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8008
+					</jvmArguments>
+					<folders>
+						<folder>${project.parent.build.directory}../../violet-framework/target/classes</folder>
+						<folder>${project.parent.build.directory}../../violetplugin-classdiagram/target/classes</folder>
+						<folder>${project.parent.build.directory}../../violetplugin-sequencediagram/target/classes</folder>
+						<folder>${project.parent.build.directory}../../violetplugin-statediagram/target/classes</folder>
+						<folder>${project.parent.build.directory}../../violetplugin-usecasediagram/target/classes</folder>
+						<folder>${project.parent.build.directory}../../violetplugin-activitydiagram/target/classes</folder>
+						<folder>${project.parent.build.directory}../../violetplugin-objectdiagram/target/classes</folder>
+					</folders>
+					<excludeArtifactIds>violet-framework,violetplugin-classdiagram,violetplugin-sequencediagram,violetplugin-statediagram,violetplugin-usecasediagram,violetplugin-activitydiagram,violetplugin-objectdiagram</excludeArtifactIds>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 </project>
