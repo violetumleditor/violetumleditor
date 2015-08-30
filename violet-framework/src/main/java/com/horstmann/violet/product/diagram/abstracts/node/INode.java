@@ -27,7 +27,6 @@ import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 import java.util.List;
 
-import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.IIdentifiable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
@@ -187,12 +186,15 @@ public interface INode extends Serializable, Cloneable, IIdentifiable
      */
     void setZ(int z);
     
-    
     /**
-     * Gets current node tool tip
-     * @return
+     * @return the current node resource bundle name
      */
-    String getToolTip();
+    String getResourcePrefix();
+
+    /**
+     * @return the current node resource bundle name
+     */
+    String getResourceBundleName();
     
     /**
      * @return a deep copy of this object

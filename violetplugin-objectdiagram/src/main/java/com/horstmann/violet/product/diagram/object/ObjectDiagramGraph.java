@@ -24,11 +24,11 @@ package com.horstmann.violet.product.diagram.object;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
+import com.horstmann.violet.product.diagram.abstracts.edge.AbstractEdge;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
 import com.horstmann.violet.product.diagram.common.NoteEdge;
@@ -66,14 +66,13 @@ public class ObjectDiagramGraph extends AbstractGraph
 
     static
     {
-        ResourceBundle rs = ResourceBundle.getBundle(ObjectDiagramConstant.OBJECT_DIAGRAM_STRINGS, Locale.getDefault());
-
         ObjectNode node0 = new ObjectNode();
-        node0.setToolTip(rs.getString("node0.tooltip"));
+        node0.setResourcePrefix(("node0"));
         NODE_PROTOTYPES.add(node0);
 
         FieldNode node1 = new FieldNode();
-        node1.setToolTip(rs.getString("node1.tooltip"));
+        node1.setResourcePrefix(("node1"));
+
         MultiLineString fn = new MultiLineString();
         fn.setText("name");
         node1.setName(fn);
@@ -83,20 +82,27 @@ public class ObjectDiagramGraph extends AbstractGraph
         NODE_PROTOTYPES.add(node1);
 
         NoteNode node2 = new NoteNode();
-        node2.setToolTip(rs.getString("node2.tooltip"));
+        node2.setResourcePrefix(("node2"));
         NODE_PROTOTYPES.add(node2);
 
         ObjectReferenceEdge reference = new ObjectReferenceEdge();
-        reference.setToolTip(rs.getString("edge0.tooltip"));
+        reference.setResourcePrefix(("edge0"));
         EDGE_PROTOTYPES.add(reference);
 
         ObjectRelationshipEdge association = new ObjectRelationshipEdge();
-        association.setToolTip(rs.getString("edge1.tooltip"));
+        association.setResourcePrefix(("edge1"));
         EDGE_PROTOTYPES.add(association);
 
         NoteEdge noteEdge = new NoteEdge();
-        noteEdge.setToolTip(rs.getString("edge2.tooltip"));
+        noteEdge.setResourcePrefix(("edge2"));
         EDGE_PROTOTYPES.add(noteEdge);
+
+        for (IEdge proto : EDGE_PROTOTYPES) {
+        	((AbstractEdge)proto).setResourceBundleName(ObjectDiagramConstant.OBJECT_DIAGRAM_STRINGS);
+        }
+        for (INode proto : NODE_PROTOTYPES) {
+        	((AbstractNode)proto).setResourceBundleName(ObjectDiagramConstant.OBJECT_DIAGRAM_STRINGS);
+        }
     }
 
 }

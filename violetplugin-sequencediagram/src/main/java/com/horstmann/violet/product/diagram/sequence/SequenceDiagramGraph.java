@@ -24,11 +24,11 @@ package com.horstmann.violet.product.diagram.sequence;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
+import com.horstmann.violet.product.diagram.abstracts.edge.AbstractEdge;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.common.NoteEdge;
 import com.horstmann.violet.product.diagram.common.NoteNode;
@@ -69,31 +69,36 @@ public class SequenceDiagramGraph extends AbstractGraph
 
     static
     {
-        ResourceBundle rs = ResourceBundle.getBundle(SequenceDiagramConstant.SEQUENCE_DIAGRAM_STRINGS, Locale.getDefault());
-        
         LifelineNode lifelineNode = new LifelineNode();
-        lifelineNode.setToolTip(rs.getString("node0.tooltip"));
+        lifelineNode.setResourcePrefix(("node0"));
         NODE_PROTOTYPES.add(lifelineNode);
         
         ActivationBarNode activationBarNode = new ActivationBarNode();
-        activationBarNode.setToolTip(rs.getString("node1.tooltip"));
+        activationBarNode.setResourcePrefix(("node1"));
         NODE_PROTOTYPES.add(activationBarNode);
         
         NoteNode noteNode = new NoteNode();
-        noteNode.setToolTip(rs.getString("node2.tooltip"));
+        noteNode.setResourcePrefix(("node2"));
         NODE_PROTOTYPES.add(noteNode);
         
         CallEdge callEdge = new CallEdge();
-        callEdge.setToolTip(rs.getString("edge0.tooltip"));
+        callEdge.setResourcePrefix(("edge0"));
         EDGE_PROTOTYPES.add(callEdge);
         
         ReturnEdge returnEdge = new ReturnEdge();
-        returnEdge.setToolTip(rs.getString("edge1.tooltip"));
+        returnEdge.setResourcePrefix(("edge1"));
         EDGE_PROTOTYPES.add(returnEdge);
         
         NoteEdge noteEdge = new NoteEdge();
-        noteEdge.setToolTip(rs.getString("edge2.tooltip"));
+        noteEdge.setResourcePrefix(("edge2"));
         EDGE_PROTOTYPES.add(noteEdge);
+
+        for (IEdge proto : EDGE_PROTOTYPES) {
+        	((AbstractEdge)proto).setResourceBundleName(SequenceDiagramConstant.SEQUENCE_DIAGRAM_STRINGS);
+        }
+        for (INode proto : NODE_PROTOTYPES) {
+        	((AbstractNode)proto).setResourceBundleName(SequenceDiagramConstant.SEQUENCE_DIAGRAM_STRINGS);
+        }
     }
 
 }

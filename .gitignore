@@ -11,3 +11,6 @@
 
 # Maven build files #
 target/
+
+# patches
+*.patch

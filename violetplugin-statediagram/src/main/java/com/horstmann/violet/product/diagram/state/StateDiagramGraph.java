@@ -23,11 +23,11 @@ package com.horstmann.violet.product.diagram.state;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
+import com.horstmann.violet.product.diagram.abstracts.edge.AbstractEdge;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.common.NoteEdge;
 import com.horstmann.violet.product.diagram.common.NoteNode;
@@ -53,31 +53,36 @@ public class StateDiagramGraph extends AbstractGraph
 
     static
     {
-        ResourceBundle rs = ResourceBundle.getBundle(StateDiagramConstant.STATE_DIAGRAM_STRINGS, Locale.getDefault());
-        
         CircularInitialStateNode circularInitialStateNode = new CircularInitialStateNode();
-        circularInitialStateNode.setToolTip(rs.getString("node1.tooltip"));
+        circularInitialStateNode.setResourcePrefix(("node1"));
         NODE_PROTOTYPES.add(circularInitialStateNode);
         
         StateNode stateNode = new StateNode();
-        stateNode.setToolTip(rs.getString("node0.tooltip"));
+        stateNode.setResourcePrefix(("node0"));
         NODE_PROTOTYPES.add(stateNode);
         
         CircularFinalStateNode circularFinalStateNode = new CircularFinalStateNode();
-        circularFinalStateNode.setToolTip(rs.getString("node2.tooltip"));
+        circularFinalStateNode.setResourcePrefix(("node2"));
         NODE_PROTOTYPES.add(circularFinalStateNode);
         
         NoteNode noteNode = new NoteNode();
-        noteNode.setToolTip(rs.getString("node3.tooltip"));
+        noteNode.setResourcePrefix(("node3"));
         NODE_PROTOTYPES.add(noteNode);
 
         StateTransitionEdge stateTransitionEdge = new StateTransitionEdge();
-        stateTransitionEdge.setToolTip(rs.getString("edge0.tooltip"));
+        stateTransitionEdge.setResourcePrefix(("edge0"));
         EDGE_PROTOTYPES.add(stateTransitionEdge);
         
         NoteEdge noteEdge = new NoteEdge();
-        noteEdge.setToolTip(rs.getString("edge1.tooltip"));
+        noteEdge.setResourcePrefix(("edge1"));
         EDGE_PROTOTYPES.add(noteEdge);
+
+        for (IEdge proto : EDGE_PROTOTYPES) {
+        	((AbstractEdge)proto).setResourceBundleName(StateDiagramConstant.STATE_DIAGRAM_STRINGS);
+        }
+        for (INode proto : NODE_PROTOTYPES) {
+        	((AbstractNode)proto).setResourceBundleName(StateDiagramConstant.STATE_DIAGRAM_STRINGS);
+        }
     }
 
 }

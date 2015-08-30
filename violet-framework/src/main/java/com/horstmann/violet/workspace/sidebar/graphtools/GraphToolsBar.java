@@ -130,19 +130,19 @@ public class GraphToolsBar implements IGraphToolsBar, ISideBarElement
 
     
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.horstmann.violet.framework.display.clipboard.sidebar.ISideToolPanel#addCustomTool(com.horstmann.violet.product.diagram.abstracts.Node,
-     *      java.lang.String)
-     */
-    public void addTool(INode nodePrototype, String title)
-    {
-        GraphTool newTool = new GraphTool(nodePrototype, title);
-        nodeTools.add(newTool);
-        // FIXME : rebuild UI
-        
-    }
+//    /*
+//     * (non-Javadoc)
+//     * 
+//     * @see com.horstmann.violet.framework.display.clipboard.sidebar.ISideToolPanel#addCustomTool(com.horstmann.violet.product.diagram.abstracts.Node,
+//     *      java.lang.String)
+//     */
+//    public void addTool(INode nodePrototype, String title)
+//    {
+//        GraphTool newTool = new GraphTool(nodePrototype, title);
+//        nodeTools.add(newTool);
+//        // FIXME : rebuild UI
+//        
+//    }
 
     /**
      * Returns standard node tools associated to a graph
@@ -159,10 +159,11 @@ public class GraphToolsBar implements IGraphToolsBar, ISideBarElement
         if (nodeTypes.size() == 0)
         {
             return tools;
+            
         }
         for (int i = 0; i < nodeTypes.size(); i++)
         {
-            GraphTool aTool = new GraphTool(nodeTypes.get(i), nodeTypes.get(i).getToolTip());
+            GraphTool aTool = new GraphTool(nodeTypes.get(i));
             tools.add(aTool);
         }
         return tools;
@@ -184,7 +185,7 @@ public class GraphToolsBar implements IGraphToolsBar, ISideBarElement
         }
         for (int i = 0; i < edgeTypes.size(); i++)
         {
-            GraphTool aTool = new GraphTool(edgeTypes.get(i), edgeTypes.get(i).getToolTip());
+            GraphTool aTool = new GraphTool(edgeTypes.get(i));
             tools.add(aTool);
         }
         return tools;

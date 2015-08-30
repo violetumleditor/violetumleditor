@@ -39,7 +39,7 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
  */
 public abstract class AbstractNode implements INode
 {
-    /**
+	/**
      * Constructs a node with no parents or children at location (0, 0).
      */
     public AbstractNode()
@@ -272,26 +272,29 @@ public abstract class AbstractNode implements INode
         this.z = z;
     }
 
-    /**
-     * Sets node tool tip
-     * 
-     * @param label
-     */
-    public void setToolTip(String s)
+    public void setResourcePrefix(String s) 
     {
-        this.toolTip = s;
+    	this.resourcePrefix = s;
+    }
+    
+    @Override
+    public String getResourcePrefix()
+    {
+    	return this.resourcePrefix;
     }
 
     @Override
-    public String getToolTip()
-    {
-        if (this.toolTip == null) {
-        	this.toolTip = "";
-        }
-    	return this.toolTip;
-    }
+    public String getResourceBundleName()
+	{
+		return resourceBundleName;
+	}
 
-    private ArrayList<INode> children;
+	public void setResourceBundleName(String resourceBundleName)
+	{
+		this.resourceBundleName = resourceBundleName;
+	}
+
+	private ArrayList<INode> children;
     private INode parent;
     private transient IGraph graph;
     private Point2D location;
@@ -303,4 +306,8 @@ public abstract class AbstractNode implements INode
 
     /** Node's current revision */
     private Integer revision;
+
+    private String resourcePrefix;
+    private String resourceBundleName;
+
 }
