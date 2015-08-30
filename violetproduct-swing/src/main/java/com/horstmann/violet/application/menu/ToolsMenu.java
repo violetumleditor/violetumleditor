@@ -44,6 +44,7 @@ public class ToolsMenu extends JMenu {
 		addTool(GraphTool.SELECTION_TOOL);
 		addSeparator();
 		add(new Label("Nodes"));
+		addSeparator();
 		for (final GraphTool tool : activeWorkspace.getSideBar().getGraphToolsBar().getNodeTools()) {
 			if (tool == GraphTool.SELECTION_TOOL) {
 				continue;
@@ -52,6 +53,7 @@ public class ToolsMenu extends JMenu {
 		};
 		addSeparator();
 		add(new Label("Edges"));
+		addSeparator();
 		for (final GraphTool tool : activeWorkspace.getSideBar().getGraphToolsBar().getEdgeTools()) {
 			addTool(tool);
 		};
