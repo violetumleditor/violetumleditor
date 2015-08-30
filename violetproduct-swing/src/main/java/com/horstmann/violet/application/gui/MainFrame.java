@@ -118,6 +118,7 @@ public class MainFrame extends JFrame
         menuBar.add(menuFactory.getEditMenu(this));
         menuBar.add(menuFactory.getViewMenu(this));
         menuBar.add(menuFactory.getDocumentMenu(this));
+        menuBar.add(menuFactory.getToolsMenu(this));
         menuBar.add(menuFactory.getHelpMenu(this));
         setJMenuBar(menuBar);
     }
@@ -192,6 +193,8 @@ public class MainFrame extends JFrame
             getMainPanel().remove(currentWorkspaceComponent);
             getMainPanel().add(new JPanel(), BorderLayout.CENTER);
             setTitle(this.applicationName);
+            // TODO add toolbar buttons as menu
+            menuFactory.getToolsMenu(this).updateMenuItem();
             menuFactory.getDocumentMenu(this).updateMenuItem();
             getMainPanel().revalidate();
             getMainPanel().repaint();
@@ -237,6 +240,7 @@ public class MainFrame extends JFrame
         getMainPanel().add(activeWorkspaceComponent, BorderLayout.CENTER);
         listenToWorkspaceEvents(activeWorkspace);
         menuFactory.getDocumentMenu(this).updateMenuItem();
+        menuFactory.getToolsMenu(this).updateMenuItem();
         setTitle(activeWorkspace.getTitle());
         getMainPanel().revalidate();
         getMainPanel().repaint();

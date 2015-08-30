@@ -21,6 +21,8 @@
 
 package com.horstmann.violet.application.menu;
 
+import javax.swing.JMenu;
+
 import com.horstmann.violet.application.gui.MainFrame;
 
 /**
@@ -99,10 +101,19 @@ public class MenuFactory
         return this.documentMenu;
     }
 
+	public ToolsMenu getToolsMenu(MainFrame editorFrame)
+	{
+		if (this.toolsMenu == null) 
+		{
+			this.toolsMenu = new ToolsMenu(editorFrame);
+		}
+		return this.toolsMenu;
+	}
+
     private EditMenu editMenu;
     private FileMenu fileMenu;
     private HelpMenu helpMenu;
     private ViewMenu viewMenu;
+    private ToolsMenu toolsMenu;
     private DocumentMenu documentMenu;
-
 }
