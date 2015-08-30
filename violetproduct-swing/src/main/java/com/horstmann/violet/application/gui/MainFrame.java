@@ -193,7 +193,6 @@ public class MainFrame extends JFrame
             getMainPanel().remove(currentWorkspaceComponent);
             getMainPanel().add(new JPanel(), BorderLayout.CENTER);
             setTitle(this.applicationName);
-            // TODO add toolbar buttons as menu
             menuFactory.getToolsMenu(this).updateMenuItem();
             menuFactory.getDocumentMenu(this).updateMenuItem();
             getMainPanel().revalidate();
