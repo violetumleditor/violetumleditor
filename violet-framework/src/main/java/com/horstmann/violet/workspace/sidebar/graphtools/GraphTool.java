@@ -219,7 +219,6 @@ public class GraphTool
 
 	private void setUpMenuItemAndLabel()
 	{
-		System.out.println(nodeOrEdge);
 		final ResourceBundle rs = ResourceBundle.getBundle(resourceBundleName, Locale.getDefault());
 		ResourceFactory factory = new ResourceFactory(rs);
 		this.menuItem = factory.createMenuItem(resourcePrefix);
