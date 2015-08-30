@@ -172,9 +172,7 @@ public interface INode extends Serializable, Cloneable, IIdentifiable
      */
     void draw(Graphics2D g2);
 
-
     /**
-        
      * Gets the z-order. Nodes with higher z-order are drawn above those with lower z-order.
      * @return the z-order.
      */
@@ -187,9 +185,21 @@ public interface INode extends Serializable, Cloneable, IIdentifiable
     void setZ(int z);
     
     /**
+     * Set the resource prefix for this node
+     * @param resourcePrefix
+     */
+    void setResourcePrefix(String resourcePrefix);
+    
+    /**
      * @return the current node resource bundle name
      */
     String getResourcePrefix();
+
+    /**
+     * Set the resource bundle name for this node
+     * @param resourceBundleName
+     */
+    void setResourceBundleName(String resourceBundleName);
 
     /**
      * @return the current node resource bundle name

@@ -272,6 +272,7 @@ public abstract class AbstractNode implements INode
         this.z = z;
     }
 
+    @Override
     public void setResourcePrefix(String s) 
     {
     	this.resourcePrefix = s;
@@ -289,6 +290,7 @@ public abstract class AbstractNode implements INode
 		return resourceBundleName;
 	}
 
+    @Override
 	public void setResourceBundleName(String resourceBundleName)
 	{
 		this.resourceBundleName = resourceBundleName;

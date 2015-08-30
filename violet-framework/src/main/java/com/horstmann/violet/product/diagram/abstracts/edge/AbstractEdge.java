@@ -220,11 +220,13 @@ public abstract class AbstractEdge implements IEdge
         this.revision = new Integer(i);
     }
 
+    @Override
     public String getResourcePrefix()
 	{
 		return resourceName;
 	}
 
+    @Override
 	public void setResourcePrefix(String resourceName)
 	{
 		this.resourceName = resourceName;
@@ -236,6 +238,7 @@ public abstract class AbstractEdge implements IEdge
 		return resourceBundleName;
 	}
 
+	@Override
 	public void setResourceBundleName(String resourceBundleName)
 	{
 		this.resourceBundleName = resourceBundleName;

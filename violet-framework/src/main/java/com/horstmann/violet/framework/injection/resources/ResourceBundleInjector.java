@@ -133,7 +133,7 @@ public class ResourceBundleInjector
             if (annotationType.equals(ResourceBundleBean.class))
             {
                 ResourceBundleBean propertyAnnotation = (ResourceBundleBean) annotation;
-                Class ref = propertyAnnotation.resourceReference();
+				Class ref = propertyAnnotation.resourceReference();
                 if (!Object.class.equals(ref))
                 {
                     return ref;
