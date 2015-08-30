@@ -46,7 +46,7 @@ public interface IGraphToolsBar extends ISideBarElement
      * @param nodePrototype
      * @param title
      */
-    public void addTool(INode nodePrototype, String title);
+//    public void addTool(INode nodePrototype, String title);
 
     /**
      * Select next tool

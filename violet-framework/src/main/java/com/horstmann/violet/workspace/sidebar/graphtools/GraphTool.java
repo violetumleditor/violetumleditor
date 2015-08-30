@@ -33,8 +33,10 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.swing.Icon;
+import javax.swing.JMenuItem;
 
 import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
+import com.horstmann.violet.framework.injection.resources.ResourceFactory;
 import com.horstmann.violet.framework.util.GrabberUtils;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
@@ -43,16 +45,17 @@ import com.horstmann.violet.product.diagram.common.PointNode;
 public class GraphTool
 {
 
-    /**
+	/**
      * Constructs an edge type tool
      * 
      * @param e
      * @param label
      */
-    public GraphTool(final IEdge e, String label)
+    public GraphTool(final IEdge e)
     {
         this.nodeOrEdge = e;
-        this.label = label;
+        this.resourcePrefix = e.getResourcePrefix();
+        this.resourceBundleName = e.getResourceBundleName();
         this.icon = new Icon()
         {
             public int getIconHeight()
@@ -99,7 +102,7 @@ public class GraphTool
                 g2.setTransform(oldTransform);
             }
         };
-
+		setUpMenuItemAndLabel();
     }
 
     /**
@@ -108,10 +111,11 @@ public class GraphTool
      * @param n
      * @param label
      */
-    public GraphTool(final INode n, String label)
+    public GraphTool(final INode n)
     {
         this.nodeOrEdge = n;
-        this.label = label;
+        this.resourcePrefix = n.getResourcePrefix();
+        this.resourceBundleName = n.getResourceBundleName();
         this.icon = new Icon()
         {
             public int getIconHeight()
@@ -149,6 +153,7 @@ public class GraphTool
                 // g2b.drawImage(image, x, y, null);
             }
         };
+		setUpMenuItemAndLabel();
     }
 
     /**
@@ -177,9 +182,10 @@ public class GraphTool
                 GrabberUtils.drawPurpleGrabber(g2, x + ICON_SIZE - OFFSET, y + ICON_SIZE - OFFSET);
             }
         };
-        ResourceBundle rs = ResourceBundle.getBundle(ResourceBundleConstant.OTHER_STRINGS, Locale.getDefault());
-        this.label = rs.getString("grabber.tooltip");
         this.nodeOrEdge = null;
+        this.resourcePrefix = "grabber";
+        this.resourceBundleName = ResourceBundleConstant.OTHER_STRINGS;
+		setUpMenuItemAndLabel();
     }
 
     /**
@@ -195,9 +201,9 @@ public class GraphTool
      */
     public String getLabel()
     {
-        return label;
+    	return this.label;
     }
-
+    
     /**
      * @return node or edge associated with this tool
      */
@@ -206,10 +212,28 @@ public class GraphTool
         return nodeOrEdge;
     }
 
+    public JMenuItem getMenuItem()
+	{
+    	return this.menuItem;
+	}
+
+	private void setUpMenuItemAndLabel()
+	{
+		System.out.println(nodeOrEdge);
+		final ResourceBundle rs = ResourceBundle.getBundle(resourceBundleName, Locale.getDefault());
+		ResourceFactory factory = new ResourceFactory(rs);
+		this.menuItem = factory.createMenuItem(resourcePrefix);
+		menuItem.setIcon(getIcon());
+		this.label = menuItem.getText();
+	}
+
     private Object nodeOrEdge;
     private Icon icon;
     private String label;
     private static final int ICON_SIZE = 20;
     private static final int OFFSET = 4;
     public static final GraphTool SELECTION_TOOL = new GraphTool(); 
+    private final String resourcePrefix;
+    private final String resourceBundleName;
+	private JMenuItem menuItem;
 }

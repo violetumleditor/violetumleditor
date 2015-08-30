@@ -220,26 +220,28 @@ public abstract class AbstractEdge implements IEdge
         this.revision = new Integer(i);
     }
 
-    /**
-     * Sets edge tool tip
-     * 
-     * @param s
-     */
-    public void setToolTip(String s)
-    {
-        this.toolTip = s;
-    }
+    public String getResourcePrefix()
+	{
+		return resourceName;
+	}
 
-    @Override
-    public String getToolTip()
-    {
-        if (this.toolTip == null) {
-        	this.toolTip = "";
-        }
-    	return this.toolTip;
-    }
+	public void setResourcePrefix(String resourceName)
+	{
+		this.resourceName = resourceName;
+	}
 
-    /** The node where the edge starts */
+	@Override
+	public String getResourceBundleName()
+	{
+		return resourceBundleName;
+	}
+
+	public void setResourceBundleName(String resourceBundleName)
+	{
+		this.resourceBundleName = resourceBundleName;
+	}
+
+	/** The node where the edge starts */
     private INode start;
 
     /** The node where the edge ends */
@@ -262,4 +264,8 @@ public abstract class AbstractEdge implements IEdge
 
     /** Edge tool tip */
     private transient String toolTip;
+    
+    private String resourceName;
+    
+    private String resourceBundleName;
 }

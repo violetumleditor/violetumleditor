@@ -41,6 +41,7 @@ import com.horstmann.violet.product.diagram.common.NoteNode;
  */
 public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
 {
+	
     /**
      * Constructs a graph with no nodes or edges.
      */
