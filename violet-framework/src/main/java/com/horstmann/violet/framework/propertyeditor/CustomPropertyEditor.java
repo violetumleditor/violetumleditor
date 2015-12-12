@@ -64,7 +64,7 @@ import com.horstmann.violet.framework.propertyeditor.customeditor.ColorEditor;
 import com.horstmann.violet.framework.propertyeditor.customeditor.ImageIconEditor;
 import com.horstmann.violet.framework.propertyeditor.customeditor.LineStyleEditor;
 import com.horstmann.violet.framework.propertyeditor.customeditor.MultiLineStringEditor;
-import com.horstmann.violet.framework.propertyeditor.customeditor.StringEditor;
+import com.horstmann.violet.framework.propertyeditor.customeditor.OneLineStringEditor;
 import com.horstmann.violet.framework.util.SerializableEnumeration;
 import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
 import com.horstmann.violet.product.diagram.abstracts.property.BentStyle;
@@ -400,7 +400,7 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
         editors.put(DiagramLink.class, AbstractDiagramLinkEditor.class);
         editors.put(LineStyle.class, LineStyleEditor.class);
         editors.put(MultiLineString.class, MultiLineStringEditor.class);
-        editors.put(String.class, StringEditor.class);
+        editors.put(String.class, OneLineStringEditor.class);
         editors.put(ImageIcon.class, ImageIconEditor.class);
     }
 

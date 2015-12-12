@@ -36,6 +36,7 @@ import java.util.List;
 
 import javax.swing.JLabel;
 
+import com.horstmann.violet.framework.util.string.OneLineString;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
@@ -52,9 +53,9 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      */
     public SegmentedLineEdge()
     {
-        startLabel = "";
-        middleLabel = "";
-        endLabel = "";
+        startLabel = new OneLineString();
+        middleLabel = new OneLineString();
+        endLabel = new OneLineString();
     }
     
     @Override
@@ -175,7 +176,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      */
     public void setStartLabel(String newValue)
     {
-        startLabel = newValue;
+        startLabel = new OneLineString(newValue);
     }
 
     /**
@@ -185,7 +186,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      */
     public String getStartLabel()
     {
-        return startLabel;
+        return startLabel.toLabel();
     }
 
     /**
@@ -195,7 +196,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      */
     public void setMiddleLabel(String newValue)
     {
-        middleLabel = newValue;
+        middleLabel = new OneLineString(newValue);
     }
 
     /**
@@ -205,7 +206,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      */
     public String getMiddleLabel()
     {
-        return middleLabel;
+        return middleLabel.toLabel();
     }
 
     /**
@@ -215,7 +216,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      */
     public void setEndLabel(String newValue)
     {
-        endLabel = newValue;
+        endLabel = new OneLineString(newValue);
     }
 
     /**
@@ -225,7 +226,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      */
     public String getEndLabel()
     {
-        return endLabel;
+        return endLabel.toLabel();
     }
 
     /**
@@ -245,11 +246,11 @@ public abstract class SegmentedLineEdge extends ShapeEdge
         getStartArrowHead().draw(g2, (Point2D) points.get(1), (Point2D) points.get(0));
         getEndArrowHead().draw(g2, (Point2D) points.get(points.size() - 2), (Point2D) points.get(points.size() - 1));
 
-        drawString(g2, (Point2D) points.get(1), (Point2D) points.get(0), getStartArrowHead(), startLabel, false);
-        drawString(g2, (Point2D) points.get(points.size() / 2 - 1), (Point2D) points.get(points.size() / 2), null, middleLabel,
+        drawString(g2, (Point2D) points.get(1), (Point2D) points.get(0), getStartArrowHead(), startLabel.toHTML(), false);
+        drawString(g2, (Point2D) points.get(points.size() / 2 - 1), (Point2D) points.get(points.size() / 2), null, middleLabel.toHTML(),
                 true);
         drawString(g2, (Point2D) points.get(points.size() - 2), (Point2D) points.get(points.size() - 1), getEndArrowHead(),
-                endLabel, false);
+                endLabel.toHTML(), false);
         g2.setColor(oldColor);
     }
 
@@ -358,11 +359,11 @@ public abstract class SegmentedLineEdge extends ShapeEdge
     {
         ArrayList<Point2D> points = getPoints();
         Rectangle2D r = super.getBounds();
-        r.add(getStringBounds((Point2D) points.get(1), (Point2D) points.get(0), getStartArrowHead(), startLabel, false));
+        r.add(getStringBounds((Point2D) points.get(1), (Point2D) points.get(0), getStartArrowHead(), startLabel.toHTML(), false));
         r.add(getStringBounds((Point2D) points.get(points.size() / 2 - 1), (Point2D) points.get(points.size() / 2), null,
-                middleLabel, true));
+                middleLabel.toHTML(), true));
         r.add(getStringBounds((Point2D) points.get(points.size() - 2), (Point2D) points.get(points.size() - 1), getEndArrowHead(),
-                endLabel, false));
+                endLabel.toHTML(), false));
         return r;
     }
 
@@ -497,9 +498,9 @@ public abstract class SegmentedLineEdge extends ShapeEdge
     private ArrowHead startArrowHead;
     private ArrowHead endArrowHead;
     private BentStyle bentStyle;
-    private String startLabel;
-    private String middleLabel;
-    private String endLabel;
+    private OneLineString startLabel;
+    private OneLineString middleLabel;
+    private OneLineString endLabel;
 
     private static JLabel label = new JLabel();
 }

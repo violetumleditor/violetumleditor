@@ -5,7 +5,7 @@ package com.horstmann.violet.framework.propertyeditor.customeditor;
 
 import java.beans.PropertyEditorSupport;
 
-public class StringEditor extends PropertyEditorSupport
+public class OneLineStringEditor extends PropertyEditorSupport
 {
     public String getAsText()
     {

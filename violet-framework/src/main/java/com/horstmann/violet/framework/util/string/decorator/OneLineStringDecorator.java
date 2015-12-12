@@ -1,14 +1,15 @@
 package com.horstmann.violet.framework.util.string.decorator;
 
-import com.horstmann.violet.framework.util.string.ILineString;
+import com.horstmann.violet.framework.util.string.OneLineString;
 
 /**
  * Created by Adrian Bobrowski on 12.12.2015.
  */
-public class OneLineStringDecorator implements ILineString {
-    protected ILineString decoratedOneLineString;
+public class OneLineStringDecorator extends OneLineString {
+    protected String labelPrefix = "";
+    protected OneLineString decoratedOneLineString;
 
-    public OneLineStringDecorator(ILineString decoratedOneLineString)
+    public OneLineStringDecorator(OneLineString decoratedOneLineString)
     {
         this.decoratedOneLineString = decoratedOneLineString;
     }
@@ -21,6 +22,10 @@ public class OneLineStringDecorator implements ILineString {
     @Override
     public String toLabel()
     {
-        return decoratedOneLineString.toLabel();
+        if(true == this.labelPrefix.isEmpty())
+        {
+            return decoratedOneLineString.toLabel();
+        }
+        return this.labelPrefix + " " + decoratedOneLineString.toLabel();
     }
 }
