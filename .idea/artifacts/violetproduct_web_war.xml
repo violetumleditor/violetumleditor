@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="violetproduct-web:war">
+    <output-path>$PROJECT_DIR$/violetproduct-web/target</output-path>
+    <root id="archive" name="violetumleditor-2.1.0.war">
+      <element id="artifact" artifact-name="violetproduct-web:war exploded" />
+    </root>
+  </artifact>
+</component>
