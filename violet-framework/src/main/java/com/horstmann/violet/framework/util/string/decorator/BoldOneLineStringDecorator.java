@@ -12,15 +12,14 @@ public class BoldOneLineStringDecorator extends OneLineStringDecorator {
         super(decoratedOneLineString);
     }
 
-    public BoldOneLineStringDecorator(OneLineString decoratedOneLineString, String labelPrefix)
+    public BoldOneLineStringDecorator(OneLineString decoratedOneLineString, String regex)
     {
-        super(decoratedOneLineString);
-        this.labelPrefix = labelPrefix;
+        super(decoratedOneLineString, regex);
     }
 
     @Override
     public String toHTML()
     {
-        return "<b>" + decoratedOneLineString.toHTML() + "</b>";
+        return getHtml("<b>", "</b>");
     }
 }

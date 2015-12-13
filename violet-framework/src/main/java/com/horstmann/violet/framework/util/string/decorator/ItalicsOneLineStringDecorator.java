@@ -12,15 +12,14 @@ public class ItalicsOneLineStringDecorator  extends OneLineStringDecorator {
         super(decoratedOneLineString);
     }
 
-    public ItalicsOneLineStringDecorator(OneLineString decoratedOneLineString, String labelPrefix)
+    public ItalicsOneLineStringDecorator(OneLineString decoratedOneLineString, String regex)
     {
-        super(decoratedOneLineString);
-        this.labelPrefix = labelPrefix;
+        super(decoratedOneLineString, regex);
     }
 
     @Override
     public String toHTML()
     {
-        return "<b>" + decoratedOneLineString.toHTML() + "</b>";
+        return getHtml("<i>", "</i>");
     }
 }

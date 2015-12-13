@@ -32,7 +32,7 @@ public class OneLineString implements ILineString {
         return sentence;
     }
 
-    protected String escapeHtml(String sentence)
+    private String escapeHtml(String sentence)
     {
         return sentence.replace("&", "&amp;").replace("<<", "«").replace(">>", "»").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;").replace("'", "&#x27;").replace("/", "&#x2F;");
     }

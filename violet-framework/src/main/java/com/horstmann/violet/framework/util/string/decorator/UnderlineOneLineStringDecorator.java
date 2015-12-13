@@ -12,15 +12,14 @@ public class UnderlineOneLineStringDecorator extends OneLineStringDecorator {
         super(decoratedOneLineString);
     }
 
-    public UnderlineOneLineStringDecorator(OneLineString decoratedOneLineString, String labelPrefix)
+    public UnderlineOneLineStringDecorator(OneLineString decoratedOneLineString, String regex)
     {
-        super(decoratedOneLineString);
-        this.labelPrefix = labelPrefix;
+        super(decoratedOneLineString, regex);
     }
 
     @Override
     public String toHTML()
     {
-        return "<u>" + decoratedOneLineString.toHTML() + "</u>";
+        return getHtml("<u>", "</u>");
     }
 }

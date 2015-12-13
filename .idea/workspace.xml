@@ -2,15 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b045ca67-d97d-484a-a2b3-c0026e4fee21" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/propertyeditor/CustomPropertyEditor.java" afterPath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/propertyeditor/CustomPropertyEditor.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/OneLineString.java" afterPath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/OneLineString.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/decorator/BoldOneLineStringDecorator.java" afterPath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/decorator/BoldOneLineStringDecorator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/decorator/ItalicsOneLineStringDecorator.java" afterPath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/decorator/ItalicsOneLineStringDecorator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/decorator/OneLineStringDecorator.java" afterPath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/decorator/OneLineStringDecorator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/decorator/UnderlineOneLineStringDecorator.java" afterPath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/decorator/UnderlineOneLineStringDecorator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/edge/SegmentedLineEdge.java" afterPath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/edge/SegmentedLineEdge.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/propertyeditor/customeditor/StringEditor.java" afterPath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/propertyeditor/customeditor/OneLineStringEditor.java" />
     </list>
     <ignored path="parent.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -47,14 +43,10 @@
       <file leaf-file-name="SegmentedLineEdge.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/edge/SegmentedLineEdge.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.551724">
+            <state vertical-scroll-proportion="0.0">
               <caret line="52" column="7" selection-start-line="52" selection-start-column="7" selection-end-line="52" selection-end-column="7" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#4495#4496#0" expanded="true" />
-                <element signature="e#4551#4552#0" expanded="true" />
-                <element signature="e#4900#4901#0" expanded="true" />
-                <element signature="e#4957#4958#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -63,43 +55,38 @@
       <file leaf-file-name="CustomPropertyEditor.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/propertyeditor/CustomPropertyEditor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.75862">
+            <state vertical-scroll-proportion="0.0">
               <caret line="209" column="52" selection-start-line="209" selection-start-column="52" selection-end-line="209" selection-end-column="52" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OneLineString.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/OneLineString.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
               <folding>
-                <element signature="e#8020#8808#0" expanded="true" />
-                <element signature="e#8807#8808#0" expanded="true" />
+                <element signature="e#393#394#0" expanded="true" />
+                <element signature="e#433#434#0" expanded="true" />
+                <element signature="e#481#482#0" expanded="true" />
+                <element signature="e#529#530#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ShapeEdge.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/edge/ShapeEdge.java">
+      <file leaf-file-name="OneLineStringDecorator.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/decorator/OneLineStringDecorator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="34" column="22" selection-start-line="34" selection-start-column="22" selection-end-line="34" selection-end-column="22" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AbstractEdge.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/edge/AbstractEdge.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="36" column="22" selection-start-line="36" selection-start-column="22" selection-end-line="36" selection-end-column="22" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="OneLineString.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/OneLineString.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.42079207">
-              <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+            <state vertical-scroll-proportion="1.1197605">
+              <caret line="40" column="51" selection-start-line="40" selection-start-column="51" selection-end-line="40" selection-end-column="51" />
               <folding>
-                <element signature="e#393#394#0" expanded="true" />
+                <element signature="e#711#712#0" expanded="true" />
+                <element signature="e#753#754#0" expanded="true" />
+                <element signature="e#801#802#0" expanded="true" />
+                <element signature="e#856#857#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -134,11 +121,11 @@
         <option value="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/ILineString.java" />
         <option value="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/OneLineStringDecorator.java" />
         <option value="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/MultiLineString.java" />
-        <option value="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/OneLineString.java" />
         <option value="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/edge/SegmentedLineEdge.java" />
+        <option value="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/OneLineString.java" />
         <option value="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/decorator/UnderlineOneLineStringDecorator.java" />
-        <option value="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/decorator/ItalicsOneLineStringDecorator.java" />
         <option value="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/decorator/BoldOneLineStringDecorator.java" />
+        <option value="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/decorator/ItalicsOneLineStringDecorator.java" />
         <option value="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/decorator/OneLineStringDecorator.java" />
       </list>
     </option>
@@ -1291,11 +1278,12 @@
       <workItem from="1449916086580" duration="3860000" />
       <workItem from="1449943541887" duration="7974000" />
       <workItem from="1449953741824" duration="3607000" />
+      <workItem from="1449996442694" duration="2785000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="15441000" />
+    <option name="totallyTimeSpent" value="18226000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -1319,7 +1307,7 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.42902207" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.42902207" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1350,37 +1338,37 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/ILineString.java">
+    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/edge/SegmentedLineEdge.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="7" column="58" selection-start-line="7" selection-start-column="58" selection-end-line="7" selection-end-column="58" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/propertyeditor/customeditor/MultiLineStringEditor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="90" column="21" selection-start-line="90" selection-start-column="21" selection-end-line="90" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/property/MultiLineString.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="56" column="0" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/MultiLineString.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="27" column="27" selection-start-line="27" selection-start-column="27" selection-end-line="27" selection-end-column="27" />
+          <caret line="52" column="7" selection-start-line="52" selection-start-column="7" selection-end-line="52" selection-end-column="7" />
           <folding>
-            <element signature="imports" expanded="false" />
+            <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/propertyeditor/CustomPropertyEditor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="209" column="52" selection-start-line="209" selection-start-column="52" selection-end-line="209" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/edge/ShapeEdge.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="34" column="22" selection-start-line="34" selection-start-column="22" selection-end-line="34" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/edge/AbstractEdge.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="36" column="22" selection-start-line="36" selection-start-column="22" selection-end-line="36" selection-end-column="22" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1389,7 +1377,51 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#608#609#0" expanded="true" />
+            <element signature="e#393#394#0" expanded="true" />
+            <element signature="e#433#434#0" expanded="true" />
+            <element signature="e#481#482#0" expanded="true" />
+            <element signature="e#529#530#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/ILineString.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="7" column="58" selection-start-line="7" selection-start-column="58" selection-end-line="7" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/propertyeditor/customeditor/MultiLineStringEditor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="90" column="21" selection-start-line="90" selection-start-column="21" selection-end-line="90" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/property/MultiLineString.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="56" column="0" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/MultiLineString.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="27" column="27" selection-start-line="27" selection-start-column="27" selection-end-line="27" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/OneLineString.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#393#394#0" expanded="true" />
+            <element signature="e#433#434#0" expanded="true" />
+            <element signature="e#481#482#0" expanded="true" />
+            <element signature="e#529#530#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1398,7 +1430,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
-          <folding />
+          <folding>
+            <element signature="e#711#712#0" expanded="true" />
+            <element signature="e#753#754#0" expanded="true" />
+            <element signature="e#801#802#0" expanded="true" />
+            <element signature="e#856#857#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1406,12 +1443,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#222#223#0" expanded="true" />
-            <element signature="e#264#265#0" expanded="true" />
-            <element signature="e#307#308#0" expanded="true" />
-            <element signature="e#334#335#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1419,7 +1450,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="90" column="23" selection-start-line="90" selection-start-column="23" selection-end-line="90" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1427,7 +1457,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="233" column="33" selection-start-line="233" selection-start-column="33" selection-end-line="233" selection-end-column="33" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1435,7 +1464,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1492,7 +1520,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.028052805">
           <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1500,7 +1527,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="7" column="58" selection-start-line="7" selection-start-column="58" selection-end-line="7" selection-end-column="58" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1508,9 +1534,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="27" column="27" selection-start-line="27" selection-start-column="27" selection-end-line="27" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1531,7 +1554,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1539,7 +1561,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.22442244">
           <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1547,7 +1568,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.7013201">
           <caret line="53" column="7" selection-start-line="53" selection-start-column="4" selection-end-line="53" selection-end-column="7" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1555,7 +1575,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5610561">
           <caret line="22" column="66" selection-start-line="22" selection-start-column="66" selection-end-line="22" selection-end-column="66" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1563,7 +1582,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.11221122">
           <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1571,7 +1589,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="13" column="45" selection-start-line="13" selection-start-column="45" selection-end-line="13" selection-end-column="45" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1579,7 +1596,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33275563">
           <caret line="177" column="16" selection-start-line="177" selection-start-column="16" selection-end-line="177" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1587,7 +1603,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="95" column="0" selection-start-line="95" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1595,7 +1610,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1603,7 +1617,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1611,7 +1624,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="56" column="0" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1619,31 +1631,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="18" column="1" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
-          <folding>
-            <element signature="e#222#223#0" expanded="true" />
-            <element signature="e#264#265#0" expanded="true" />
-            <element signature="e#307#308#0" expanded="true" />
-            <element signature="e#334#335#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/edge/ShapeEdge.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="34" column="22" selection-start-line="34" selection-start-column="22" selection-end-line="34" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/propertyeditor/CustomPropertyEditor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.75862">
-          <caret line="209" column="52" selection-start-line="209" selection-start-column="52" selection-end-line="209" selection-end-column="52" />
-          <folding>
-            <element signature="e#8020#8808#0" expanded="true" />
-            <element signature="e#8807#8808#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1651,79 +1638,98 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.25247526">
           <caret line="42" column="22" selection-start-line="42" selection-start-column="22" selection-end-line="42" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/edge/SegmentedLineEdge.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="52" column="7" selection-start-line="52" selection-start-column="7" selection-end-line="52" selection-end-column="7" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/edge/ShapeEdge.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.074257426">
+          <caret line="34" column="22" selection-start-line="34" selection-start-column="22" selection-end-line="34" selection-end-column="22" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/edge/AbstractEdge.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state vertical-scroll-proportion="0.028052805">
           <caret line="36" column="22" selection-start-line="36" selection-start-column="22" selection-end-line="36" selection-end-column="22" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/edge/SegmentedLineEdge.java">
+    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/propertyeditor/CustomPropertyEditor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.551724">
-          <caret line="52" column="7" selection-start-line="52" selection-start-column="7" selection-end-line="52" selection-end-column="7" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#4495#4496#0" expanded="true" />
-            <element signature="e#4551#4552#0" expanded="true" />
-            <element signature="e#4900#4901#0" expanded="true" />
-            <element signature="e#4957#4958#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/decorator/BoldOneLineStringDecorator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.22442244">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding>
-            <element signature="e#337#338#0" expanded="true" />
-            <element signature="e#382#383#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/decorator/ItalicsOneLineStringDecorator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5891089">
-          <caret line="24" column="5" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
-          <folding>
-            <element signature="e#344#345#0" expanded="true" />
-            <element signature="e#389#390#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/decorator/UnderlineOneLineStringDecorator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5891089">
-          <caret line="24" column="5" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
-          <folding>
-            <element signature="e#347#348#0" expanded="true" />
-            <element signature="e#392#393#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/decorator/OneLineStringDecorator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.25247526">
-          <caret line="9" column="51" selection-start-line="9" selection-start-column="51" selection-end-line="9" selection-end-column="51" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="209" column="52" selection-start-line="209" selection-start-column="52" selection-end-line="209" selection-end-column="52" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/OneLineString.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.42079207">
-          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
           <folding>
             <element signature="e#393#394#0" expanded="true" />
+            <element signature="e#433#434#0" expanded="true" />
+            <element signature="e#481#482#0" expanded="true" />
+            <element signature="e#529#530#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/decorator/ItalicsOneLineStringDecorator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="22" column="34" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="34" />
+          <folding>
+            <element signature="e#589#590#0" expanded="true" />
+            <element signature="e#634#635#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/decorator/UnderlineOneLineStringDecorator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="6" column="3" selection-start-line="6" selection-start-column="3" selection-end-line="6" selection-end-column="3" />
+          <folding>
+            <element signature="e#594#595#0" expanded="true" />
+            <element signature="e#639#640#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/decorator/BoldOneLineStringDecorator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="14" column="88" selection-start-line="14" selection-start-column="88" selection-end-line="14" selection-end-column="88" />
+          <folding>
+            <element signature="e#579#580#0" expanded="true" />
+            <element signature="e#624#625#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/util/string/decorator/OneLineStringDecorator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.1197605">
+          <caret line="40" column="51" selection-start-line="40" selection-start-column="51" selection-end-line="40" selection-end-column="51" />
+          <folding>
+            <element signature="e#711#712#0" expanded="true" />
+            <element signature="e#753#754#0" expanded="true" />
+            <element signature="e#801#802#0" expanded="true" />
+            <element signature="e#856#857#0" expanded="true" />
           </folding>
         </state>
       </provider>
