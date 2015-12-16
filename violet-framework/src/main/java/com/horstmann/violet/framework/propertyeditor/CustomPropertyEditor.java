@@ -70,7 +70,7 @@ import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
 import com.horstmann.violet.product.diagram.abstracts.property.BentStyle;
 import com.horstmann.violet.product.diagram.abstracts.property.ChoiceList;
 import com.horstmann.violet.product.diagram.abstracts.property.LineStyle;
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
+import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
 import com.horstmann.violet.product.diagram.common.DiagramLink;
 
 /**
@@ -399,7 +399,7 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
         editors.put(java.awt.Color.class, ColorEditor.class);
         editors.put(DiagramLink.class, AbstractDiagramLinkEditor.class);
         editors.put(LineStyle.class, LineStyleEditor.class);
-        editors.put(MultiLineString.class, MultiLineStringEditor.class);
+        editors.put(MultiLineText.class, MultiLineStringEditor.class);
         editors.put(String.class, OneLineStringEditor.class);
         editors.put(ImageIcon.class, ImageIconEditor.class);
     }

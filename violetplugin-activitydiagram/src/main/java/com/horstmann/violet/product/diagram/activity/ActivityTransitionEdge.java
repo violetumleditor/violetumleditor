@@ -22,8 +22,6 @@
 package com.horstmann.violet.product.diagram.activity;
 
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.SegmentedLineEdge;

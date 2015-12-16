@@ -7,5 +7,5 @@ import java.io.Serializable;
  */
 public interface ILineString extends Serializable, Cloneable{
     String toHTML();
-    String toLabel();
+    String toEditor();
 }

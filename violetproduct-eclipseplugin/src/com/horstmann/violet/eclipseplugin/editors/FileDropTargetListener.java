@@ -32,7 +32,7 @@ import org.eclipse.swt.dnd.DropTargetListener;
 import com.horstmann.violet.eclipseplugin.tools.JavaFileModel;
 import com.horstmann.violet.framework.file.IFile;
 import com.horstmann.violet.framework.file.LocalFile;
-import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.abstracts.node_old.INode;
 import com.horstmann.violet.product.diagram.classes.ClassDiagramGraph;
 import com.horstmann.violet.product.diagram.common.DiagramLink;
 import com.horstmann.violet.product.diagram.common.DiagramLinkNode;
@@ -111,7 +111,7 @@ public class FileDropTargetListener implements DropTargetListener {
 	}
 
 	/**
-	 * Parses a Java file and creates a new node in the current diagram with its
+	 * Parses a Java file and creates a new node_old in the current diagram with its
 	 * properties
 	 */
 	private void importJavaFile(DropTargetEvent event, Point mouseLocationOnUMLGraphPanel, IResource rs) {

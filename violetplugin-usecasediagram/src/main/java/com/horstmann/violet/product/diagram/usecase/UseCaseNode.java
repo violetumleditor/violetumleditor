@@ -29,19 +29,19 @@ import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.EllipticalNode;
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
+import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
 
 /**
- * A use case node in a use case diagram.
+ * A use case node_old in a use case diagram.
  */
 public class UseCaseNode extends EllipticalNode
 {
     /**
-     * Construct a use case node with a default size
+     * Construct a use case node_old with a default size
      */
     public UseCaseNode()
     {
-        name = new MultiLineString();
+        name = new MultiLineText();
     }
 
     @Override
@@ -66,7 +66,7 @@ public class UseCaseNode extends EllipticalNode
     @Override
     public Point2D getConnectionPoint(IEdge e)
     {
-        // if use case node is atatched to an actor node, we force connection point to cardianl points
+        // if use case node_old is atatched to an actor node_old, we force connection point to cardianl points
         if (e.getStart().getClass().isAssignableFrom(ActorNode.class) || e.getEnd().getClass().isAssignableFrom(ActorNode.class))
         {
 
@@ -101,7 +101,7 @@ public class UseCaseNode extends EllipticalNode
      * 
      * @param newValue the new use case name
      */
-    public void setName(MultiLineString newValue)
+    public void setName(MultiLineText newValue)
     {
         name = newValue;
     }
@@ -111,7 +111,7 @@ public class UseCaseNode extends EllipticalNode
      * 
      * @param the use case name
      */
-    public MultiLineString getName()
+    public MultiLineText getName()
     {
         return name;
     }
@@ -124,7 +124,7 @@ public class UseCaseNode extends EllipticalNode
         return cloned;
     }
 
-    private MultiLineString name;
+    private MultiLineText name;
 
     private static int DEFAULT_WIDTH = 110;
     private static int DEFAULT_HEIGHT = 40;

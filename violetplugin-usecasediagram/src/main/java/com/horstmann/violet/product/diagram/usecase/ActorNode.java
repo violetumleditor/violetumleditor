@@ -28,20 +28,20 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
+import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
 
 /**
- * An actor node in a use case diagram.
+ * An actor node_old in a use case diagram.
  */
 public class ActorNode extends RectangularNode
 {
 
     /**
-     * Construct an actor node with a default size and name
+     * Construct an actor node_old with a default size and name
      */
     public ActorNode()
     {
-        name = new MultiLineString();
+        name = new MultiLineText();
         name.setText("Actor");
     }
 
@@ -116,7 +116,7 @@ public class ActorNode extends RectangularNode
      * 
      * @param newValue the new actor name
      */
-    public void setName(MultiLineString newValue)
+    public void setName(MultiLineText newValue)
     {
         name = newValue;
     }
@@ -126,7 +126,7 @@ public class ActorNode extends RectangularNode
      * 
      * @param the actor name
      */
-    public MultiLineString getName()
+    public MultiLineText getName()
     {
         return name;
     }
@@ -134,12 +134,12 @@ public class ActorNode extends RectangularNode
     public ActorNode clone()
     {
         ActorNode cloned = (ActorNode) super.clone();
-        cloned.name = (MultiLineString) name.clone();
+        cloned.name = (MultiLineText) name.clone();
         return cloned;
     }
 
     /** Actor name */
-    private MultiLineString name;
+    private MultiLineText name;
     /** Bounding rectangle width */
     private static int DEFAULT_WIDTH = 48;
     /** Bounding rectangle height */

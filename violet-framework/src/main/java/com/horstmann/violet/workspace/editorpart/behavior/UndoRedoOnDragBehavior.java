@@ -44,12 +44,12 @@ public class UndoRedoOnDragBehavior extends AbstractEditorPartBehavior
     private IEditorPartSelectionHandler selectionHandler;
 
     /**
-     * Keeps node locations before dragging event
+     * Keeps node_old locations before dragging event
      */
     private Map<INode, Point2D> nodesLocationsBeforeDrag = new HashMap<INode, Point2D>();
 
     /**
-     * Used on node's drag'n drop
+     * Used on node_old's drag'n drop
      */
     private boolean isDragInProgress = false;
 

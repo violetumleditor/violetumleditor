@@ -103,7 +103,7 @@ public class GraphTool
     }
 
     /**
-     * Constructs a node type tool
+     * Constructs a node_old type tool
      * 
      * @param n
      * @param label
@@ -126,7 +126,7 @@ public class GraphTool
 
             public void paintIcon(Component c, Graphics g, int x, int y)
             {
-                // Use a buffer image to be more precise in rendering, especially for join/fork node
+                // Use a buffer image to be more precise in rendering, especially for join/fork node_old
                 double width = n.getBounds().getWidth();
                 double height = n.getBounds().getHeight();
                 // BufferedImage image = new BufferedImage(ICON_SIZE, ICON_SIZE, BufferedImage.TYPE_INT_ARGB);
@@ -199,7 +199,7 @@ public class GraphTool
     }
 
     /**
-     * @return node or edge associated with this tool
+     * @return node_old or edge associated with this tool
      */
     public Object getNodeOrEdge()
     {

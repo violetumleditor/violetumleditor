@@ -29,19 +29,19 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
+import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
 
 /**
- * An activity node in an activity diagram.
+ * An activity node_old in an activity diagram.
  */
 public class ActivityNode extends RectangularNode
 {
     /**
-     * Construct an action node with a default size
+     * Construct an action node_old with a default size
      */
     public ActivityNode()
     {
-        name = new MultiLineString();
+        name = new MultiLineText();
     }
 
     public void draw(Graphics2D g2)
@@ -87,7 +87,7 @@ public class ActivityNode extends RectangularNode
      * 
      * @param newValue the new action name
      */
-    public void setName(MultiLineString newValue)
+    public void setName(MultiLineText newValue)
     {
         name = newValue;
     }
@@ -97,7 +97,7 @@ public class ActivityNode extends RectangularNode
      * 
      * @param the action name
      */
-    public MultiLineString getName()
+    public MultiLineText getName()
     {
         return name;
     }
@@ -110,7 +110,7 @@ public class ActivityNode extends RectangularNode
         return cloned;
     }
 
-    private MultiLineString name;
+    private MultiLineText name;
 
     private static int ARC_SIZE = 20;
     private static int DEFAULT_WIDTH = 80;

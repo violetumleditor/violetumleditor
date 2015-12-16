@@ -13,9 +13,9 @@ public interface IGraph
 {
 
     /**
-     * Gets the node types of a particular graph type.
+     * Gets the node_old types of a particular graph type.
      * 
-     * @return a list of node prototypes
+     * @return a list of node_old prototypes
      */
     public abstract List<INode> getNodePrototypes();
 
@@ -59,10 +59,10 @@ public interface IGraph
     public abstract void removeNode(INode... nodesToRemove);    
     
     /**
-     * Adds a node to the graph so that the top left corner of the bounding rectangle is at the given point.
+     * Adds a node_old to the graph so that the top left corner of the bounding rectangle is at the given point.
      * This method is called by a decoder when reading a data file.
      * 
-     * @param n the node to add
+     * @param n the node_old to add
      * @param p the desired location
      */
     public abstract boolean addNode(INode n, Point2D p);
@@ -72,10 +72,10 @@ public interface IGraph
      * Adds an edge to this graph. 
      * 
      * @param e the new edge to add (don't forget to populate it withs the following nodes and points!)
-     * @param start the start node of the edge
-     * @param startLocation the point inside the start node where the edge begins
-     * @param end the end node of the edge
-     * @param endLocation the point inside the end node where the edge ends
+     * @param start the start node_old of the edge
+     * @param startLocation the point inside the start node_old where the edge begins
+     * @param end the end node_old of the edge
+     * @param endLocation the point inside the end node_old where the edge ends
      * @param list a points for edge that supports free path 
      * @return isOK as true if successfully connected
      */
@@ -83,20 +83,20 @@ public interface IGraph
 
 
     /**
-     * Finds a node by its id. This internal method should only be used by network features (for the moment because
-     * node ids are still generated automatically)
+     * Finds a node_old by its id. This internal method should only be used by network features (for the moment because
+     * node_old ids are still generated automatically)
      * 
      * @param id 
-     * @return the found node or null if no one found
+     * @return the found node_old or null if no one found
      */
     public abstract INode findNode(Id id);
 
 
     /**
-     * Finds a node containing the given point.
+     * Finds a node_old containing the given point.
      * 
      * @param p a point
-     * @return a node containing p or null if no nodes contain p
+     * @return a node_old containing p or null if no nodes contain p
      */
     public abstract INode findNode(Point2D p);
 

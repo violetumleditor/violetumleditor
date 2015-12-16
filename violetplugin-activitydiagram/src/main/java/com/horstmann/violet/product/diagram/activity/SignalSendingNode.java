@@ -30,19 +30,19 @@ import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
+import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
 
 /**
- * An send event node in an activity diagram.
+ * An send event node_old in an activity diagram.
  */
 public class SignalSendingNode extends RectangularNode
 {
     /**
-     * Construct an send event node with a default size
+     * Construct an send event node_old with a default size
      */
     public SignalSendingNode()
     {
-        signal = new MultiLineString();
+        signal = new MultiLineText();
     }
 
     @Override
@@ -125,7 +125,7 @@ public class SignalSendingNode extends RectangularNode
      * 
      * @param newValue the new signal description
      */
-    public void setSignal(MultiLineString newValue)
+    public void setSignal(MultiLineText newValue)
     {
         signal = newValue;
     }
@@ -135,7 +135,7 @@ public class SignalSendingNode extends RectangularNode
      * 
      * @param the signal description
      */
-    public MultiLineString getSignal()
+    public MultiLineText getSignal()
     {
         return signal;
     }
@@ -144,11 +144,11 @@ public class SignalSendingNode extends RectangularNode
     public SignalSendingNode clone()
     {
         SignalSendingNode cloned = (SignalSendingNode) super.clone();
-        cloned.signal = (MultiLineString) signal.clone();
+        cloned.signal = (MultiLineText) signal.clone();
         return cloned;
     }
 
-    private MultiLineString signal;
+    private MultiLineText signal;
 
     private static int DEFAULT_WIDTH = 80;
     private static int DEFAULT_HEIGHT = 40;

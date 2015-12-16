@@ -142,7 +142,7 @@ public class CallEdge extends SegmentedLineEdge
         return a;
     }
 
-    /** Indicate if the node represents an asynchonus signal */
+    /** Indicate if the node_old represents an asynchonus signal */
     private boolean signal;
 
     /** Horizintal gap used to connected two activation bars on the same lifeline */

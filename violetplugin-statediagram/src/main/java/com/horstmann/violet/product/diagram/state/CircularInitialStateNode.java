@@ -31,7 +31,7 @@ import com.horstmann.violet.product.diagram.abstracts.node.EllipticalNode;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 
 /**
- * An initial or final node (bull's eye) in a state or activity diagram.
+ * An initial or final node_old (bull's eye) in a state or activity diagram.
  */
 public class CircularInitialStateNode extends EllipticalNode
 {
@@ -85,7 +85,7 @@ public class CircularInitialStateNode extends EllipticalNode
         // Nothing to do
     }
 
-    /** default node diameter */
+    /** default node_old diameter */
     private static int DEFAULT_DIAMETER = 20;
 
 }

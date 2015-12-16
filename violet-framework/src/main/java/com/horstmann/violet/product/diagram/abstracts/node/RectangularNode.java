@@ -31,14 +31,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.horstmann.violet.framework.theme.ThemeManager;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.IColorable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 
 /**
- * A node that has a rectangular shape.
+ * A node_old that has a rectangular shape.
  */
 public abstract class RectangularNode extends AbstractNode implements IColorable
 {

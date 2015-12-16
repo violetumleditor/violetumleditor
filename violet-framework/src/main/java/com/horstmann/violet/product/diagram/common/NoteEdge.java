@@ -27,10 +27,8 @@ import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 
 import com.horstmann.violet.product.diagram.abstracts.edge.ShapeEdge;
-import com.horstmann.violet.product.diagram.abstracts.node.INode;
 
 /**
  * A dotted line that connects a note to its attachment.

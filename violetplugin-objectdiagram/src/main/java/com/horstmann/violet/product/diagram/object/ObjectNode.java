@@ -31,21 +31,21 @@ import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
+import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
 
 /**
- * An object node in an object diagram.
+ * An object node_old in an object diagram.
  */
 public class ObjectNode extends RectangularNode
 {
     /**
-     * Construct an object node with a default size
+     * Construct an object node_old with a default size
      */
     public ObjectNode()
     {
-        name = new MultiLineString();
-        name.setUnderlined(true);
-        name.setSize(MultiLineString.LARGE);
+        name = new MultiLineText();
+//        name.setUnderlined(true);
+//        name.setSize(MultiLineText.LARGE);
     }
 
     public void draw(Graphics2D g2)
@@ -84,7 +84,7 @@ public class ObjectNode extends RectangularNode
     }
 
     /**
-     * Returns the rectangle at the top of the object node.
+     * Returns the rectangle at the top of the object node_old.
      * 
      * @return the top rectangle
      */
@@ -170,7 +170,7 @@ public class ObjectNode extends RectangularNode
      * 
      * @param newValue the new object name
      */
-    public void setName(MultiLineString n)
+    public void setName(MultiLineText n)
     {
         name = n;
     }
@@ -180,7 +180,7 @@ public class ObjectNode extends RectangularNode
      * 
      * @param the object name
      */
-    public MultiLineString getName()
+    public MultiLineText getName()
     {
         return name;
     }
@@ -207,7 +207,7 @@ public class ObjectNode extends RectangularNode
         return cloned;
     }
 
-    private MultiLineString name;
+    private MultiLineText name;
 
     private static int DEFAULT_WIDTH = 80;
     private static int DEFAULT_HEIGHT = 30;

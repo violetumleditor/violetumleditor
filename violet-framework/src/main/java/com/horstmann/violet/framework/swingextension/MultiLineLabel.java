@@ -1,12 +1,13 @@
 package com.horstmann.violet.framework.swingextension;
 
+import com.horstmann.violet.framework.util.string.MultiLineString;
+
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.util.StringTokenizer;
 
 /**
  * Multiline label Class grabbed from java2s.com (
@@ -25,9 +26,7 @@ public class MultiLineLabel extends Canvas {
 
 	public static final int RIGHT = 2;
 
-	protected String[] lines; // The lines of text to display
-
-	protected int num_lines; // The number of lines
+	protected MultiLineString label;
 
 	protected int margin_width; // Left and right margins
 
@@ -45,13 +44,9 @@ public class MultiLineLabel extends Canvas {
 
 	// This method breaks a specified label up into an array of lines.
 	// It uses the StringTokenizer utility class.
-	protected void newLabel(String label) {
-		StringTokenizer t = new StringTokenizer(label, "\n");
-		num_lines = t.countTokens();
-		lines = new String[num_lines];
-		line_widths = new int[num_lines];
-		for (int i = 0; i < num_lines; i++)
-			lines[i] = t.nextToken();
+	protected void newLabel(MultiLineString label) {
+		this.label = label;
+		line_widths = new int[this.label.count()];
 	}
 
 	// This method figures out how the font is, and how wide each
@@ -65,8 +60,9 @@ public class MultiLineLabel extends Canvas {
 		line_height = fm.getHeight();
 		line_ascent = fm.getAscent();
 		max_width = 0;
-		for (int i = 0; i < num_lines; i++) {
-			line_widths[i] = fm.stringWidth(lines[i]);
+		for (int i = 0; i < this.label.count(); i++) {
+			//todo zrobic funkcje zwracajaca wyswietlany tekst
+			line_widths[i] = fm.stringWidth(this.label.getLine(i).toEditor());
 			if (line_widths[i] > max_width)
 				max_width = line_widths[i];
 		}
@@ -74,27 +70,27 @@ public class MultiLineLabel extends Canvas {
 
 	// Here are four versions of the cosntrutor.
 	// Break the label up into separate lines, and save the other info.
-	public MultiLineLabel(String label, int margin_width, int margin_height, int alignment) {
+	public MultiLineLabel(MultiLineString label, int margin_width, int margin_height, int alignment) {
 		newLabel(label);
 		this.margin_width = margin_width;
 		this.margin_height = margin_height;
 		this.alignment = alignment;
 	}
 
-	public MultiLineLabel(String label, int margin_width, int margin_height) {
+	public MultiLineLabel(MultiLineString label, int margin_width, int margin_height) {
 		this(label, margin_width, margin_height, LEFT);
 	}
 
-	public MultiLineLabel(String label, int alignment) {
+	public MultiLineLabel(MultiLineString label, int alignment) {
 		this(label, 10, 10, alignment);
 	}
 
-	public MultiLineLabel(String label) {
+	public MultiLineLabel(MultiLineString label) {
 		this(label, 10, 10, LEFT);
 	}
 
 	// Methods to set the various attributes of the component
-	public void setLabel(String label) {
+	public void setLabel(MultiLineString label) {
 		newLabel(label);
 		measure();
 		repaint();
@@ -151,13 +147,13 @@ public class MultiLineLabel extends Canvas {
 	// This method is called by a layout manager when it wants to
 	// know how big we'd like to be.
 	public Dimension getPreferredSize() {
-		return new Dimension(max_width + 2 * margin_width, num_lines * line_height + 2 * margin_height);
+		return new Dimension(max_width + 2 * margin_width, this.label.count() * line_height + 2 * margin_height);
 	}
 
 	// This method is called when the layout manager wants to know
 	// the bare minimum amount of space we need to get by.
 	public Dimension getMinimumSize() {
-		return new Dimension(max_width, num_lines * line_height);
+		return new Dimension(max_width, this.label.count() * line_height);
 	}
 
 	// This method draws the label (applets use the same method).
@@ -167,8 +163,8 @@ public class MultiLineLabel extends Canvas {
 	public void paint(Graphics g) {
 		int x, y;
 		Dimension d = getSize();
-		y = line_ascent + (d.height - num_lines * line_height) / 2;
-		for (int i = 0; i < num_lines; i++, y += line_height) {
+		y = line_ascent + (d.height - this.label.count() * line_height) / 2;
+		for (int i = 0; i < this.label.count(); i++, y += line_height) {
 			switch (alignment) {
 			case LEFT:
 				x = margin_width;
@@ -183,7 +179,7 @@ public class MultiLineLabel extends Canvas {
 			}
 			Font oldFont = g.getFont();
 			g.setFont(getFont());
-			g.drawString(lines[i], x, y);
+			g.drawString(label.getLine(i).toHTML(), x, y);
 			g.setFont(oldFont);
 		}
 	}

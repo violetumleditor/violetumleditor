@@ -27,7 +27,7 @@ public class OneLineString implements ILineString {
         return this.escapeHtml(sentence);
     }
     @Override
-    public String toLabel()
+    public String toEditor()
     {
         return sentence;
     }

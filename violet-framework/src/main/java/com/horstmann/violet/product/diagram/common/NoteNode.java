@@ -31,11 +31,11 @@ import java.awt.geom.Rectangle2D;
 import com.horstmann.violet.framework.theme.ThemeManager;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
+import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 
 /**
- * A note node in a UML diagram.
+ * A note node_old in a UML diagram.
  * 
  * FIXME : manage Z order
  * 
@@ -46,12 +46,12 @@ import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 public class NoteNode extends RectangularNode
 {
     /**
-     * Construct a note node with a default size and color
+     * Construct a note node_old with a default size and color
      */
     public NoteNode()
     {
-        text = new MultiLineString();
-        text.setJustification(MultiLineString.LEFT);
+        text = new MultiLineText();
+        text.setAlignment(MultiLineText.LEFT);
         setBackgroundColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getBackgroundColor());
         setBorderColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getBorderColor());
         setTextColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getTextColor());
@@ -93,7 +93,7 @@ public class NoteNode extends RectangularNode
      * 
      * @return the text inside the note
      */
-    public MultiLineString getText()
+    public MultiLineText getText()
     {
         return text;
     }
@@ -103,7 +103,7 @@ public class NoteNode extends RectangularNode
      * 
      * @param newValue the text inside the note
      */
-    public void setText(MultiLineString newValue)
+    public void setText(MultiLineText newValue)
     {
         text = newValue;
     }
@@ -169,7 +169,7 @@ public class NoteNode extends RectangularNode
         return cloned;
     }
 
-    private MultiLineString text;
+    private MultiLineText text;
 
     private static int DEFAULT_WIDTH = 60;
     private static int DEFAULT_HEIGHT = 40;

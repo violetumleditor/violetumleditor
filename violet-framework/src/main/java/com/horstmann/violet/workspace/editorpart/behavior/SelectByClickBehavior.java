@@ -120,7 +120,7 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
     
     
     /**
-     * Here, we add or remove the selected node or edge to the global selection. Under the wood, we can't remove anything.
+     * Here, we add or remove the selected node_old or edge to the global selection. Under the wood, we can't remove anything.
      * This can only made on 'mouse released' to avoid conflict to any dragging event.
      * 
      * @param mouseLocation
@@ -154,7 +154,7 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
         {
             if (this.selectionHandler.isElementAlreadySelected(node))
             {
-                // This node will be removed only on mouse button released
+                // This node_old will be removed only on mouse button released
                 // to avoid conflicts with dragging events
                 this.unprocessedNode = node;
             }

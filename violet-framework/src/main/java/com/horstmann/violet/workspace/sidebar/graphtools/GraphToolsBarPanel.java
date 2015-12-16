@@ -93,7 +93,7 @@ public class GraphToolsBarPanel extends JPanel
     }
     
     /**
-     * @return all node buttons
+     * @return all node_old buttons
      */
     public List<GraphToolsBarButton> getNodeButtons() {
         return this.nodeButtons;
@@ -227,7 +227,7 @@ public class GraphToolsBarPanel extends JPanel
 
 
     /**
-     * @return panel containing node buttons
+     * @return panel containing node_old buttons
      */
     public JPanel getNodeButtonsPanel() {
         if (this.nodeButtonsPanel == null) {

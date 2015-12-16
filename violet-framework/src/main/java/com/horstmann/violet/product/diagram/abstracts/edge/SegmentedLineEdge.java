@@ -186,7 +186,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      */
     public String getStartLabel()
     {
-        return startLabel.toLabel();
+        return startLabel.toEditor();
     }
 
     /**
@@ -206,7 +206,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      */
     public String getMiddleLabel()
     {
-        return middleLabel.toLabel();
+        return middleLabel.toEditor();
     }
 
     /**
@@ -226,7 +226,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      */
     public String getEndLabel()
     {
-        return endLabel.toLabel();
+        return endLabel.toEditor();
     }
 
     /**

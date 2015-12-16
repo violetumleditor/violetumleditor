@@ -40,7 +40,7 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 public abstract class AbstractNode implements INode
 {
     /**
-     * Constructs a node with no parents or children at location (0, 0).
+     * Constructs a node_old with no parents or children at location (0, 0).
      */
     public AbstractNode()
     {
@@ -273,7 +273,7 @@ public abstract class AbstractNode implements INode
     }
 
     /**
-     * Sets node tool tip
+     * Sets node_old tool tip
      * 
      * @param label
      */

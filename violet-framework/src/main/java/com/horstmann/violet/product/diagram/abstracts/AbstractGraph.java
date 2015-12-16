@@ -33,7 +33,6 @@ import java.util.List;
 
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.common.NoteNode;
 
 /**
@@ -140,7 +139,7 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
         // Special nodes are always drawn upon other elements
         for (INode n : specialNodes)
         {
-            // Translate g2 if node has parent
+            // Translate g2 if node_old has parent
             Point2D nodeLocationOnGraph = n.getLocationOnGraph();
             Point2D nodeLocation = n.getLocation();
             Point2D g2Location = new Point2D.Double(nodeLocationOnGraph.getX() - nodeLocation.getX(), nodeLocationOnGraph.getY()
@@ -216,14 +215,14 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
     {
         newNode.setId(new Id());
         newNode.setGraph(this);
-        // Case 1 : Note node always attached to the graph
+        // Case 1 : Note node_old always attached to the graph
         if (newNode instanceof NoteNode)
         {
             newNode.setLocation(p);
             nodes.add(newNode);
             return true;
         }
-        // Case 2 : attached to an existing node
+        // Case 2 : attached to an existing node_old
         INode potentialParentNode = findNode(p);
         if (potentialParentNode != null)
         {

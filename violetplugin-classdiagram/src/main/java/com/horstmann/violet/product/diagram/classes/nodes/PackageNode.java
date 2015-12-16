@@ -12,21 +12,21 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.IResizableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
+import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
 
 /**
- * A package node in a UML diagram.
+ * A package node_old in a UML diagram.
  */
 public class PackageNode extends RectangularNode implements IResizableNode
 {
     /**
-     * Construct a package node with a default size
+     * Construct a package node_old with a default size
      */
     public PackageNode()
     {
-        name = new MultiLineString();
-        name.setSize(MultiLineString.LARGE);
-        content = new MultiLineString();
+        name = new MultiLineText();
+//        name.setSize(MultiLineText.LARGE);
+        content = new MultiLineText();
     }
 
     @Override
@@ -114,7 +114,7 @@ public class PackageNode extends RectangularNode implements IResizableNode
     {
         // Backup current color;
         Color oldColor = g2.getColor();
-        // Translate g2 if node has parent
+        // Translate g2 if node_old has parent
         Point2D nodeLocationOnGraph = getLocationOnGraph();
         Point2D nodeLocation = getLocation();
         Point2D g2Location = new Point2D.Double(nodeLocationOnGraph.getX() - nodeLocation.getX(), nodeLocationOnGraph.getY()
@@ -146,7 +146,7 @@ public class PackageNode extends RectangularNode implements IResizableNode
     }
 
     /**
-     * Ensure that child node respects the minimum gap with package borders
+     * Ensure that child node_old respects the minimum gap with package borders
      * 
      * @param topBounds
      * @param node
@@ -200,7 +200,7 @@ public class PackageNode extends RectangularNode implements IResizableNode
      * 
      * @param newValue the class name
      */
-    public void setName(MultiLineString newValue)
+    public void setName(MultiLineText newValue)
     {
         name = newValue;
     }
@@ -210,7 +210,7 @@ public class PackageNode extends RectangularNode implements IResizableNode
      * 
      * @return the class name
      */
-    public MultiLineString getName()
+    public MultiLineText getName()
     {
         return name;
     }
@@ -220,7 +220,7 @@ public class PackageNode extends RectangularNode implements IResizableNode
      * 
      * @param newValue the contents of this class
      */
-    public void setContent(MultiLineString newValue)
+    public void setContent(MultiLineText newValue)
     {
         content = newValue;
     }
@@ -230,13 +230,13 @@ public class PackageNode extends RectangularNode implements IResizableNode
      * 
      * @return the contents of this class
      */
-    public MultiLineString getContent()
+    public MultiLineText getContent()
     {
         return content;
     }
 
-    private MultiLineString name;
-    private MultiLineString content;
+    private MultiLineText name;
+    private MultiLineText content;
     private Rectangle2D wantedSize;
 
     private static int DEFAULT_TOP_WIDTH = 60;

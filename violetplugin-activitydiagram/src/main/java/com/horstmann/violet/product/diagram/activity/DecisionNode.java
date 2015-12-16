@@ -31,19 +31,19 @@ import java.awt.geom.Rectangle2D;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
+import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
 
 /**
- * A decision node in an activity diagram.
+ * A decision node_old in an activity diagram.
  */
 public class DecisionNode extends RectangularNode
 {
     /**
-     * Construct a decision node with a default size
+     * Construct a decision node_old with a default size
      */
     public DecisionNode()
     {
-        condition = new MultiLineString();
+        condition = new MultiLineText();
     }
 
     @Override
@@ -158,7 +158,7 @@ public class DecisionNode extends RectangularNode
      * 
      * @param newValue the branch condition
      */
-    public void setCondition(MultiLineString newValue)
+    public void setCondition(MultiLineText newValue)
     {
         condition = newValue;
     }
@@ -168,7 +168,7 @@ public class DecisionNode extends RectangularNode
      * 
      * @return the branch condition
      */
-    public MultiLineString getCondition()
+    public MultiLineText getCondition()
     {
         return condition;
     }
@@ -180,11 +180,11 @@ public class DecisionNode extends RectangularNode
     public DecisionNode clone()
     {
         DecisionNode cloned = (DecisionNode) super.clone();
-        cloned.condition = (MultiLineString) condition.clone();
+        cloned.condition = (MultiLineText) condition.clone();
         return cloned;
     }
 
-    private MultiLineString condition;
+    private MultiLineText condition;
 
     private static int DEFAULT_WIDTH = 30;
     private static int DEFAULT_HEIGHT = 20;

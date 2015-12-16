@@ -34,7 +34,7 @@ import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.sidebar.ISideBarElement;
 
 /**
- * A tool bar that contains node and edge prototype icons. Exactly one icon is selected at any time.
+ * A tool bar that contains node_old and edge prototype icons. Exactly one icon is selected at any time.
  */
 public class GraphToolsBar implements IGraphToolsBar, ISideBarElement
 {
@@ -145,7 +145,7 @@ public class GraphToolsBar implements IGraphToolsBar, ISideBarElement
     }
 
     /**
-     * Returns standard node tools associated to a graph
+     * Returns standard node_old tools associated to a graph
      * 
      * @param graph
      * @return tools collection

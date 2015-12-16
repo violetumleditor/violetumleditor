@@ -30,19 +30,19 @@ import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
+import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
 
 /**
- * An receive event node in an activity diagram.
+ * An receive event node_old in an activity diagram.
  */
 public class SignalReceiptNode extends RectangularNode
 {
     /**
-     * Construct an receive event node with a default size
+     * Construct an receive event node_old with a default size
      */
     public SignalReceiptNode()
     {
-        signal = new MultiLineString();
+        signal = new MultiLineText();
     }
 
     @Override
@@ -125,7 +125,7 @@ public class SignalReceiptNode extends RectangularNode
      * 
      * @param newValue the new signal description
      */
-    public void setSignal(MultiLineString newValue)
+    public void setSignal(MultiLineText newValue)
     {
         signal = newValue;
     }
@@ -135,7 +135,7 @@ public class SignalReceiptNode extends RectangularNode
      * 
      * @param the signal description
      */
-    public MultiLineString getSignal()
+    public MultiLineText getSignal()
     {
         return signal;
     }
@@ -147,11 +147,11 @@ public class SignalReceiptNode extends RectangularNode
     public SignalReceiptNode clone()
     {
         SignalReceiptNode cloned = (SignalReceiptNode) super.clone();
-        cloned.signal = (MultiLineString) signal.clone();
+        cloned.signal = (MultiLineText) signal.clone();
         return cloned;
     }
 
-    private MultiLineString signal;
+    private MultiLineText signal;
 
     private static int DEFAULT_WIDTH = 80;
     private static int DEFAULT_HEIGHT = 40;

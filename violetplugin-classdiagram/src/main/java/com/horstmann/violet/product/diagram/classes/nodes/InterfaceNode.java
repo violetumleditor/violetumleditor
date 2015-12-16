@@ -7,24 +7,24 @@ import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
+import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
 import com.horstmann.violet.product.diagram.common.PointNode;
 
 /**
- * An interface node in a class diagram.
+ * An interface node_old in a class diagram.
  */
 public class InterfaceNode extends RectangularNode
 {
     /**
-     * Construct an interface node with a default size and the text <<interface>>.
+     * Construct an interface node_old with a default size and the text <<interface>>.
      */
     public InterfaceNode()
     {
-        name = new MultiLineString();
-        name.setSize(MultiLineString.LARGE);
+        name = new MultiLineText();
+//        name.setSize(MultiLineText.LARGE);
         name.setText("\u00ABinterface\u00BB");
-        methods = new MultiLineString();
-        methods.setJustification(MultiLineString.LEFT);
+        methods = new MultiLineText();
+        methods.setAlignment(MultiLineText.LEFT);
     }
 
     private Rectangle2D getTopRectangleBounds()
@@ -83,7 +83,7 @@ public class InterfaceNode extends RectangularNode
     {
         // Backup current color;
         Color oldColor = g2.getColor();
-        // Translate g2 if node has parent
+        // Translate g2 if node_old has parent
         Point2D nodeLocationOnGraph = getLocationOnGraph();
         Point2D nodeLocation = getLocation();
         Point2D g2Location = new Point2D.Double(nodeLocationOnGraph.getX() - nodeLocation.getX(), nodeLocationOnGraph.getY()
@@ -129,7 +129,7 @@ public class InterfaceNode extends RectangularNode
      * 
      * @param newValue the interface name
      */
-    public void setName(MultiLineString newValue)
+    public void setName(MultiLineText newValue)
     {
         name = newValue;
     }
@@ -139,7 +139,7 @@ public class InterfaceNode extends RectangularNode
      * 
      * @return the interface name
      */
-    public MultiLineString getName()
+    public MultiLineText getName()
     {
         return name;
     }
@@ -149,7 +149,7 @@ public class InterfaceNode extends RectangularNode
      * 
      * @param newValue the methods of this interface
      */
-    public void setMethods(MultiLineString newValue)
+    public void setMethods(MultiLineText newValue)
     {
         methods = newValue;
     }
@@ -159,7 +159,7 @@ public class InterfaceNode extends RectangularNode
      * 
      * @return the methods of this interface
      */
-    public MultiLineString getMethods()
+    public MultiLineText getMethods()
     {
         return methods;
     }
@@ -175,8 +175,8 @@ public class InterfaceNode extends RectangularNode
 
     // private transient double midHeight;
     // private transient double botHeight;
-    private MultiLineString name;
-    private MultiLineString methods;
+    private MultiLineText name;
+    private MultiLineText methods;
 
     private static int DEFAULT_COMPARTMENT_HEIGHT = 20;
     private static int DEFAULT_WIDTH = 100;

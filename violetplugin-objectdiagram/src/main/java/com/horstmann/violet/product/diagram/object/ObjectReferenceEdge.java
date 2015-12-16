@@ -87,11 +87,11 @@ public class ObjectReferenceEdge extends ShapeEdge
     
     @Override
     public Direction getDirection(INode node) {
-        // Case 1 : start node
+        // Case 1 : start node_old
         if (node.equals(getStart())) {
             return Direction.WEST;
         }
-        // Case 2 : end node
+        // Case 2 : end node_old
         if (isSShaped()) {
             return Direction.EAST;
         }
@@ -99,9 +99,9 @@ public class ObjectReferenceEdge extends ShapeEdge
     }
 
     /**
-     * Tests whether the node should be S- or C-shaped.
+     * Tests whether the node_old should be S- or C-shaped.
      * 
-     * @return true if the node should be S-shaped
+     * @return true if the node_old should be S-shaped
      */
     private boolean isSShaped()
     {

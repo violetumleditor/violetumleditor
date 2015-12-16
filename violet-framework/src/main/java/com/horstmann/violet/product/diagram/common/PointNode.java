@@ -29,7 +29,7 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 
 /**
- * An inivisible node that is used in the toolbar to draw an edge, and in notes to serve as an end point of the node connector.
+ * An inivisible node_old that is used in the toolbar to draw an edge, and in notes to serve as an end point of the node_old connector.
  */
 public class PointNode extends AbstractNode
 {
@@ -75,6 +75,6 @@ public class PointNode extends AbstractNode
     @Override
     public void draw(Graphics2D g2)
     {
-        // Invisible node
+        // Invisible node_old
     }
 }

@@ -30,10 +30,10 @@ import java.util.List;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
+import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
 
 /**
- * A field node in an object diagram.
+ * A field node_old in an object diagram.
  */
 public class FieldNode extends RectangularNode
 {
@@ -42,10 +42,10 @@ public class FieldNode extends RectangularNode
      */
     public FieldNode()
     {
-        name = new MultiLineString();
-        name.setJustification(MultiLineString.RIGHT);
-        value = new MultiLineString();
-        equalSeparator = new MultiLineString();
+        name = new MultiLineText();
+        name.setAlignment(MultiLineText.RIGHT);
+        value = new MultiLineText();
+        equalSeparator = new MultiLineText();
         equalSeparator.setText(" = ");
         setZ(1);
     }
@@ -128,7 +128,7 @@ public class FieldNode extends RectangularNode
         Color oldColor = g2.getColor();
         adjustHorizontalLocation();
         adjustVerticalLocation();
-        // Translate g2 if node has parent
+        // Translate g2 if node_old has parent
         Point2D nodeLocationOnGraph = getLocationOnGraph();
         Point2D nodeLocation = getLocation();
         Point2D g2Location = new Point2D.Double(nodeLocationOnGraph.getX() - nodeLocation.getX(), nodeLocationOnGraph.getY()
@@ -263,7 +263,7 @@ public class FieldNode extends RectangularNode
      * 
      * @param newValue the field name
      */
-    public void setName(MultiLineString newValue)
+    public void setName(MultiLineText newValue)
     {
         name = newValue;
     }
@@ -273,7 +273,7 @@ public class FieldNode extends RectangularNode
      * 
      * @return the field name
      */
-    public MultiLineString getName()
+    public MultiLineText getName()
     {
         return name;
     }
@@ -283,7 +283,7 @@ public class FieldNode extends RectangularNode
      * 
      * @param newValue the field value
      */
-    public void setValue(MultiLineString newValue)
+    public void setValue(MultiLineText newValue)
     {
         value = newValue;
     }
@@ -293,7 +293,7 @@ public class FieldNode extends RectangularNode
      * 
      * @return the field value
      */
-    public MultiLineString getValue()
+    public MultiLineText getValue()
     {
         return value;
     }
@@ -316,14 +316,14 @@ public class FieldNode extends RectangularNode
     public FieldNode clone()
     {
         FieldNode cloned = (FieldNode) super.clone();
-        cloned.name = (MultiLineString) name.clone();
-        cloned.value = (MultiLineString) value.clone();
+        cloned.name = (MultiLineText) name.clone();
+        cloned.value = (MultiLineText) value.clone();
         return cloned;
     }
 
-    private MultiLineString name;
-    private MultiLineString value;
-    private MultiLineString equalSeparator;
+    private MultiLineText name;
+    private MultiLineText value;
+    private MultiLineText equalSeparator;
 
     private static int DEFAULT_WIDTH = 60;
     private static int DEFAULT_HEIGHT = 20;

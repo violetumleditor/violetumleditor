@@ -7,25 +7,25 @@ import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
+import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
 import com.horstmann.violet.product.diagram.common.PointNode;
 
 /**
- * A class node in a class diagram.
+ * A class node_old in a class diagram.
  */
 public class ClassNode extends RectangularNode
 {
     /**
-     * Construct a class node with a default size
+     * Construct a class node_old with a default size
      */
     public ClassNode()
     {
-        name = new MultiLineString();
-        name.setSize(MultiLineString.LARGE);
-        attributes = new MultiLineString();
-        attributes.setJustification(MultiLineString.LEFT);
-        methods = new MultiLineString();
-        methods.setJustification(MultiLineString.LEFT);
+        name = new MultiLineText();
+//        name.setSize(MultiLineText.LARGE);
+        attributes = new MultiLineText();
+        attributes.setAlignment(MultiLineText.LEFT);
+        methods = new MultiLineText();
+        methods.setAlignment(MultiLineText.LEFT);
     }
     
     private Rectangle2D getTopRectangleBounds() {
@@ -104,7 +104,7 @@ public class ClassNode extends RectangularNode
     {
         // Backup current color;
         Color oldColor = g2.getColor();
-        // Translate g2 if node has parent
+        // Translate g2 if node_old has parent
         Point2D nodeLocationOnGraph = getLocationOnGraph();
         Point2D nodeLocation = getLocation();
         Point2D g2Location = new Point2D.Double(nodeLocationOnGraph.getX() - nodeLocation.getX(), nodeLocationOnGraph.getY() - nodeLocation.getY());
@@ -156,7 +156,7 @@ public class ClassNode extends RectangularNode
      * 
      * @param newValue the class name
      */
-    public void setName(MultiLineString newValue)
+    public void setName(MultiLineText newValue)
     {
         name = newValue;
     }
@@ -166,7 +166,7 @@ public class ClassNode extends RectangularNode
      * 
      * @return the class name
      */
-    public MultiLineString getName()
+    public MultiLineText getName()
     {
         return name;
     }
@@ -176,7 +176,7 @@ public class ClassNode extends RectangularNode
      * 
      * @param newValue the attributes of this class
      */
-    public void setAttributes(MultiLineString newValue)
+    public void setAttributes(MultiLineText newValue)
     {
         attributes = newValue;
     }
@@ -186,7 +186,7 @@ public class ClassNode extends RectangularNode
      * 
      * @return the attributes of this class
      */
-    public MultiLineString getAttributes()
+    public MultiLineText getAttributes()
     {
         return attributes;
     }
@@ -196,7 +196,7 @@ public class ClassNode extends RectangularNode
      * 
      * @param newValue the methods of this class
      */
-    public void setMethods(MultiLineString newValue)
+    public void setMethods(MultiLineText newValue)
     {
         methods = newValue;
     }
@@ -206,7 +206,7 @@ public class ClassNode extends RectangularNode
      * 
      * @return the methods of this class
      */
-    public MultiLineString getMethods()
+    public MultiLineText getMethods()
     {
         return methods;
     }
@@ -219,16 +219,16 @@ public class ClassNode extends RectangularNode
     public ClassNode clone()
     {
         ClassNode cloned = (ClassNode) super.clone();
-        cloned.name = (MultiLineString) name.clone();
-        cloned.methods = (MultiLineString) methods.clone();
-        cloned.attributes = (MultiLineString) attributes.clone();
+        cloned.name = (MultiLineText) name.clone();
+        cloned.methods = (MultiLineText) methods.clone();
+        cloned.attributes = (MultiLineText) attributes.clone();
         return cloned;
     }
 
 
-    private MultiLineString name;
-    private MultiLineString attributes;
-    private MultiLineString methods;
+    private MultiLineText name;
+    private MultiLineText attributes;
+    private MultiLineText methods;
 
     private static int DEFAULT_COMPARTMENT_HEIGHT = 20;
     private static int DEFAULT_WIDTH = 100;

@@ -16,7 +16,10 @@ public class OneLineStringDecorator extends OneLineString {
     public OneLineStringDecorator(OneLineString decoratedOneLineString, String regex)
     {
         this.decoratedOneLineString = decoratedOneLineString;
-        this.regex = regex;
+        if(null != regex)
+        {
+            this.regex = regex.replace("<<", "«").replace(">>", "»").toLowerCase();
+        }
     }
 
     @Override
@@ -25,9 +28,9 @@ public class OneLineStringDecorator extends OneLineString {
         return this.getHtml("","");
     }
     @Override
-    public String toLabel()
+    public String toEditor()
     {
-        return decoratedOneLineString.toLabel();
+        return decoratedOneLineString.toEditor();
     }
 
     private boolean isRegexContains() {

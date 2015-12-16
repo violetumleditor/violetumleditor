@@ -36,20 +36,20 @@ import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
+import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
 
 /**
- * An object node in a scenario diagram.
+ * An object node_old in a scenario diagram.
  */
 public class LifelineNode extends RectangularNode
 {
     /**
-     * Construct an object node with a default size
+     * Construct an object node_old with a default size
      */
     public LifelineNode()
     {
-        name = new MultiLineString();
-        name.setUnderlined(true);
+        name = new MultiLineText();
+//        name.setUnderlined(true);
     }
 
     /**
@@ -57,7 +57,7 @@ public class LifelineNode extends RectangularNode
      * 
      * @param newValue the name of this object
      */
-    public void setName(MultiLineString n)
+    public void setName(MultiLineText n)
     {
         name = n;
     }
@@ -67,7 +67,7 @@ public class LifelineNode extends RectangularNode
      * 
      * @return the name of this object
      */
-    public MultiLineString getName()
+    public MultiLineText getName()
     {
         return name;
     }
@@ -92,16 +92,16 @@ public class LifelineNode extends RectangularNode
     }
 
     /**
-     * Looks for the node which is located just after the given point
+     * Looks for the node_old which is located just after the given point
      * 
      * @param p
-     * @return the node we found or null if there's no node after this point
+     * @return the node_old we found or null if there's no node_old after this point
      */
     private INode getNearestNodeAfterThisPoint(Point2D p)
     {
         double y = p.getY();
         INode nearestNodeAfterThisPoint = null;
-        // Step 1 : we look for the closest node
+        // Step 1 : we look for the closest node_old
         for (INode childNode : getChildren())
         {
             if (nearestNodeAfterThisPoint == null)
@@ -124,14 +124,14 @@ public class LifelineNode extends RectangularNode
         {
             return null;
         }
-        // Step 3 : as by default we set the first child node as the nearest one
+        // Step 3 : as by default we set the first child node_old as the nearest one
         // We check if it is not before p
         Point2D nearestChildLocation = nearestNodeAfterThisPoint.getLocation();
         if (y > nearestChildLocation.getY())
         {
             return null;
         }
-        // Step 4 : we return the closest node after p
+        // Step 4 : we return the closest node_old after p
         return nearestNodeAfterThisPoint;
     }
 
@@ -180,7 +180,7 @@ public class LifelineNode extends RectangularNode
     }
 
     /**
-     * Returns the rectangle at the top of the object node.
+     * Returns the rectangle at the top of the object node_old.
      * 
      * @return the top rectangle
      */
@@ -228,7 +228,7 @@ public class LifelineNode extends RectangularNode
         {
             if (n.getClass().isAssignableFrom(ActivationBarNode.class))
             {
-                // We are looking for the last activation bar node to get the total height needed
+                // We are looking for the last activation bar node_old to get the total height needed
                 height = Math.max(height, n.getBounds().getMaxY());
             }
         }
@@ -334,7 +334,7 @@ public class LifelineNode extends RectangularNode
         return cloned;
     }
 
-    private MultiLineString name;
+    private MultiLineText name;
     private transient double maxYOverAllLifeLineNodes = 0;
     private static int DEFAULT_TOP_HEIGHT = 60;
     private static int DEFAULT_WIDTH = 80;

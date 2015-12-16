@@ -35,10 +35,10 @@ import javax.swing.KeyStroke;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
+import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
 
 /**
- * A property editor for the MultiLineString type.
+ * A property editor for the MultiLineText type.
  */
 public class MultiLineStringEditor extends PropertyEditorSupport
 {
@@ -49,7 +49,7 @@ public class MultiLineStringEditor extends PropertyEditorSupport
 
     public Component getCustomEditor()
     {
-        this.source = (MultiLineString) getValue();
+        this.source = (MultiLineText) getValue();
         final JPanel panel = new JPanel();
         panel.add(getTextEditorComponent());
         return panel;
@@ -88,7 +88,7 @@ public class MultiLineStringEditor extends PropertyEditorSupport
         return this.textEditorComponent;
     }
 
-    private MultiLineString source;
+    private MultiLineText source;
     private JComponent textEditorComponent;
 
     private static final int ROWS = 5;

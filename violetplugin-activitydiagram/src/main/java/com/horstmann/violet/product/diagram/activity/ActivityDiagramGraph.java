@@ -67,7 +67,7 @@ public class ActivityDiagramGraph extends AbstractGraph
             }
             if (!isSyncBarAtEnd)
             {
-                // For all the other cases, decision node are connected from east or west
+                // For all the other cases, decision node_old are connected from east or west
                 transitionEdge.setBentStyle(BentStyle.HV);
             }
         }

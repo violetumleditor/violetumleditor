@@ -36,7 +36,7 @@ public interface IGraphToolsBar extends ISideBarElement
 {
 
     /**
-     * Registers a new node tool to this panel.<br>
+     * Registers a new node_old tool to this panel.<br>
      * <br>
      * Example :<br>
      * ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("/icons/72x72/welcome_create.png"));<br>
@@ -90,7 +90,7 @@ public interface IGraphToolsBar extends ISideBarElement
     public void setSelectedTool(GraphTool t);
     
     /**
-     * @return current graph node tools
+     * @return current graph node_old tools
      */
     public List<GraphTool> getNodeTools();
     

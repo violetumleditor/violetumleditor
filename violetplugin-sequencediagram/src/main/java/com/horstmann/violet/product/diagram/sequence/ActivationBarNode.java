@@ -299,7 +299,7 @@ public class ActivationBarNode extends RectangularNode
     /**
      * 
      * @return true if this activation bar is connected to another one from another lifeline with a CallEdge AND if this activation
-     *         bar is the STARTING node of this edge
+     *         bar is the STARTING node_old of this edge
      */
     private boolean isCallingNode()
     {
@@ -446,8 +446,8 @@ public class ActivationBarNode extends RectangularNode
     public void setLocation(Point2D aPoint)
     {
         INode parentNode = getParent();
-        // Special use case : when this node is connected to another activation bar on another life line,
-        // we adjust its location to keep it relative to the node it is connected to
+        // Special use case : when this node_old is connected to another activation bar on another life line,
+        // we adjust its location to keep it relative to the node_old it is connected to
         if (parentNode != null && parentNode.getClass().isAssignableFrom(LifelineNode.class)) {
             LifelineNode lifelineNode = getImplicitParameter();
             Rectangle2D topRectangle = lifelineNode.getTopRectangle();
@@ -540,7 +540,7 @@ public class ActivationBarNode extends RectangularNode
     	this.locationCache = null;
     	// Backup current color;
         Color oldColor = g2.getColor();
-        // Translate g2 if node has parent
+        // Translate g2 if node_old has parent
         Point2D nodeLocationOnGraph = getLocationOnGraph();
         Point2D nodeLocation = getLocation();
         Rectangle2D b = getBounds();
@@ -724,8 +724,8 @@ public class ActivationBarNode extends RectangularNode
      * Finds an edge in the graph connected to start and end nodes
      * 
      * @param g the graph
-     * @param start the start node
-     * @param end the end node
+     * @param start the start node_old
+     * @param end the end node_old
      * @return the edge or null if no one is found
      */
     private IEdge findEdge(INode start, INode end)
@@ -772,6 +772,6 @@ public class ActivationBarNode extends RectangularNode
     /** Default height */
     private static int DEFAULT_HEIGHT = 30;
 
-    /** Default vertical gap between two call nodes and a call node and an implicit node */
+    /** Default vertical gap between two call nodes and a call node_old and an implicit node_old */
     public static int CALL_YGAP = 20;
 }

@@ -33,7 +33,7 @@ import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 
 /**
- * A synchronization bar node in an activity diagram.
+ * A synchronization bar node_old in an activity diagram.
  */
 public class SynchronizationBarNode extends RectangularNode
 {
@@ -91,7 +91,7 @@ public class SynchronizationBarNode extends RectangularNode
 
             minX -= EXTRA_WIDTH;
             maxX += EXTRA_WIDTH;
-            // calling translate() hare is a hack but this node (at the opposite of other nodes)
+            // calling translate() hare is a hack but this node_old (at the opposite of other nodes)
             // can have its location changed when it is connected to other nodes.
             // Other nodes are usually only moved with a drag and drop action.
             translate(minX - b.getX(), 0);
@@ -117,7 +117,7 @@ public class SynchronizationBarNode extends RectangularNode
 
     /**
      * 
-     * @return nodes which are connected (with edges) to this node
+     * @return nodes which are connected (with edges) to this node_old
      */
     private List<INode> getConnectedNodes()
     {

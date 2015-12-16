@@ -30,7 +30,7 @@ import java.util.ResourceBundle;
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
+import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
 import com.horstmann.violet.product.diagram.common.NoteEdge;
 import com.horstmann.violet.product.diagram.common.NoteNode;
 
@@ -74,10 +74,10 @@ public class ObjectDiagramGraph extends AbstractGraph
 
         FieldNode node1 = new FieldNode();
         node1.setToolTip(rs.getString("node1.tooltip"));
-        MultiLineString fn = new MultiLineString();
+        MultiLineText fn = new MultiLineText();
         fn.setText("name");
         node1.setName(fn);
-        MultiLineString fv = new MultiLineString();
+        MultiLineText fv = new MultiLineText();
         fv.setText("value");
         node1.setValue(fv);
         NODE_PROTOTYPES.add(node1);

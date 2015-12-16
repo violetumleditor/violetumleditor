@@ -65,7 +65,7 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior
      * 
      * @param newNode to be added
      * @param location
-     * @return true if the node has been added
+     * @return true if the node_old has been added
      */
     public boolean addNodeAtPoint(INode newNode, Point2D location)
     {

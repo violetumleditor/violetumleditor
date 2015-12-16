@@ -38,7 +38,7 @@ public interface IEditorPart
     public void clearSelection();
     
     /**
-     * Selects a node
+     * Selects a node_old
      * @param node
      */
     public void selectElement(INode node);

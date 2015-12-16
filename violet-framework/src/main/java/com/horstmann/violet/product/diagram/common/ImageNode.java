@@ -39,20 +39,20 @@ import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
+import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
 
 /**
- * A node in a diagram represented by an image
+ * A node_old in a diagram represented by an image
  */
 public class ImageNode extends RectangularNode
 {
     /**
-     * Default construct a note node with a default size and color
+     * Default construct a note node_old with a default size and color
      */
     public ImageNode(Image img)
     {
-        text = new MultiLineString();
-        text.setJustification(MultiLineString.RIGHT);
+        text = new MultiLineText();
+        text.setAlignment(MultiLineText.RIGHT);
         this.setImage(img);
     }
 
@@ -62,8 +62,8 @@ public class ImageNode extends RectangularNode
     public ImageNode()
     {
     	ResourceBundleInjector.getInjector().inject(this);
-    	text = new MultiLineString();
-        text.setJustification(MultiLineString.RIGHT);
+    	text = new MultiLineText();
+        text.setAlignment(MultiLineText.RIGHT);
     }
 
     /**
@@ -107,7 +107,7 @@ public class ImageNode extends RectangularNode
      * 
      * @return the text inside the note
      */
-    public MultiLineString getText()
+    public MultiLineText getText()
     {
         return text;
     }
@@ -117,7 +117,7 @@ public class ImageNode extends RectangularNode
      * 
      * @param newValue the text inside the note
      */
-    public void setText(MultiLineString newValue)
+    public void setText(MultiLineText newValue)
     {
         text = newValue;
     }
@@ -256,5 +256,5 @@ public class ImageNode extends RectangularNode
     @ResourceBundleBean(key = "imagenode.icon")
     private ImageIcon imageIcon;
 
-    private MultiLineString text;
+    private MultiLineText text;
 }
