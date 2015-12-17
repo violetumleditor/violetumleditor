@@ -36,7 +36,7 @@ import java.util.List;
 
 import javax.swing.JLabel;
 
-import com.horstmann.violet.framework.util.string.OneLineString;
+import com.horstmann.violet.framework.util.string.decorator.OneLineString;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
@@ -186,7 +186,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      */
     public String getStartLabel()
     {
-        return startLabel.toEditor();
+        return startLabel.getText();
     }
 
     /**
@@ -206,7 +206,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      */
     public String getMiddleLabel()
     {
-        return middleLabel.toEditor();
+        return middleLabel.getText();
     }
 
     /**
@@ -226,7 +226,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      */
     public String getEndLabel()
     {
-        return endLabel.toEditor();
+        return endLabel.getText();
     }
 
     /**
@@ -246,11 +246,11 @@ public abstract class SegmentedLineEdge extends ShapeEdge
         getStartArrowHead().draw(g2, (Point2D) points.get(1), (Point2D) points.get(0));
         getEndArrowHead().draw(g2, (Point2D) points.get(points.size() - 2), (Point2D) points.get(points.size() - 1));
 
-        drawString(g2, (Point2D) points.get(1), (Point2D) points.get(0), getStartArrowHead(), startLabel.toHTML(), false);
-        drawString(g2, (Point2D) points.get(points.size() / 2 - 1), (Point2D) points.get(points.size() / 2), null, middleLabel.toHTML(),
+        drawString(g2, (Point2D) points.get(1), (Point2D) points.get(0), getStartArrowHead(), startLabel.getHTML(), false);
+        drawString(g2, (Point2D) points.get(points.size() / 2 - 1), (Point2D) points.get(points.size() / 2), null, middleLabel.getHTML(),
                 true);
         drawString(g2, (Point2D) points.get(points.size() - 2), (Point2D) points.get(points.size() - 1), getEndArrowHead(),
-                endLabel.toHTML(), false);
+                endLabel.getHTML(), false);
         g2.setColor(oldColor);
     }
 
@@ -359,11 +359,11 @@ public abstract class SegmentedLineEdge extends ShapeEdge
     {
         ArrayList<Point2D> points = getPoints();
         Rectangle2D r = super.getBounds();
-        r.add(getStringBounds((Point2D) points.get(1), (Point2D) points.get(0), getStartArrowHead(), startLabel.toHTML(), false));
+        r.add(getStringBounds((Point2D) points.get(1), (Point2D) points.get(0), getStartArrowHead(), startLabel.getHTML(), false));
         r.add(getStringBounds((Point2D) points.get(points.size() / 2 - 1), (Point2D) points.get(points.size() / 2), null,
-                middleLabel.toHTML(), true));
+                middleLabel.getHTML(), true));
         r.add(getStringBounds((Point2D) points.get(points.size() - 2), (Point2D) points.get(points.size() - 1), getEndArrowHead(),
-                endLabel.toHTML(), false));
+                endLabel.getHTML(), false));
         return r;
     }
 

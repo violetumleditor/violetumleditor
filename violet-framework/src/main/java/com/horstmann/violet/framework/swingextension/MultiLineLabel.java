@@ -62,7 +62,7 @@ public class MultiLineLabel extends Canvas {
 		max_width = 0;
 		for (int i = 0; i < this.label.count(); i++) {
 			//todo zrobic funkcje zwracajaca wyswietlany tekst
-			line_widths[i] = fm.stringWidth(this.label.getLine(i).toEditor());
+//			line_widths[i] = fm.stringWidth(this.label.getLine(i).toEditor());
 			if (line_widths[i] > max_width)
 				max_width = line_widths[i];
 		}
@@ -179,7 +179,7 @@ public class MultiLineLabel extends Canvas {
 			}
 			Font oldFont = g.getFont();
 			g.setFont(getFont());
-			g.drawString(label.getLine(i).toHTML(), x, y);
+//			g.drawString(label.getLine(i).toHTML(), x, y);
 			g.setFont(oldFont);
 		}
 	}

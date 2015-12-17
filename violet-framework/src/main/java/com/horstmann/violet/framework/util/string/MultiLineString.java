@@ -1,62 +1,68 @@
 package com.horstmann.violet.framework.util.string;
 
+import com.horstmann.violet.framework.util.string.decorator.OneLineString;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
 
-public class MultiLineString implements ILineString {
-    protected List<OneLineString> rows = new ArrayList<OneLineString>();
-
-    public MultiLineString() {
-
+public class MultiLineString extends AbstractLineString {
+    @Override
+    protected OneLineString convertTextToLineString(String text)
+    {
+        return new OneLineString(text);
     }
 
-    public MultiLineString(List<OneLineString> rows) {
-        this.rows = rows;
+    @Override
+    final public void setText(String text)
+    {
+        rows.clear();
+        String[] array = text.split("\n", -1);
+
+        for (String rawRow: array) {
+            rows.add(this.convertTextToLineString(rawRow));
+        }
     }
 
-    public int count()
+    @Override
+    final public String getText()
+    {
+        Iterator<OneLineString> iterator = rows.iterator();
+        if(iterator.hasNext())
+        {
+            StringBuilder ret = new StringBuilder(iterator.next().getText());
+
+            while(iterator.hasNext())
+            {
+                ret.append("\n").append(iterator.next().getText());
+            }
+            return ret.toString();
+        }
+        return "";
+    }
+
+    @Override
+    final public String getHTML()
+    {
+        Iterator<OneLineString> iterator = rows.iterator();
+
+        if(iterator.hasNext())
+        {
+            StringBuilder ret = new StringBuilder(iterator.next().getHTML());
+
+            while(iterator.hasNext())
+            {
+                ret.append("<br>").append(iterator.next().getHTML());
+            }
+            return ret.toString();
+        }
+        return "";
+    }
+
+    final public int count()
     {
         return this.rows.size();
     }
 
-    //todo wyjątek !!!
-    public OneLineString getLine(int number)
-    {
-        return this.rows.get(number);
-    }
-
-    @Override
-    public String toHTML()
-    {
-        Iterator<OneLineString> iterator = rows.iterator();
-
-        if(iterator.hasNext())
-        {
-            StringBuilder ret = new StringBuilder(iterator.next().toHTML());
-
-            while(iterator.hasNext())
-            {
-                ret.append("<br>").append(iterator.next().toHTML());
-            }
-            return ret.toString();
-        }
-        return "";
-    }
-    @Override
-    public String toEditor()
-    {
-        Iterator<OneLineString> iterator = rows.iterator();
-        if(iterator.hasNext())
-        {
-            StringBuilder ret = new StringBuilder(iterator.next().toEditor());
-
-            while(iterator.hasNext())
-            {
-                ret.append("\n").append(iterator.next().toEditor());
-            }
-            return ret.toString();
-        }
-        return "";
-    }
+    private List<OneLineString> rows = new ArrayList<OneLineString>();
 }

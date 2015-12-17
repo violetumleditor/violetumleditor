@@ -21,11 +21,7 @@
 
 package com.horstmann.violet.product.diagram.abstracts.property;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.horstmann.violet.framework.util.string.MultiLineString;
-import com.horstmann.violet.framework.util.string.OneLineString;
 
 /**
  * A string that can extend over multiple lines.
@@ -35,7 +31,13 @@ public class MultiLineText extends LineText {
 	 * Constructs an empty, centered, normal size multiline string that is not
 	 * underlined.
 	 */
-	public MultiLineText() {}
+    public MultiLineText() {
+        multiLineString = new MultiLineString();
+    }
+
+    public MultiLineText(MultiLineString multiLineString) {
+        this.multiLineString = multiLineString;
+    }
 
     /**
      * Gets the value of the text property.
@@ -43,7 +45,7 @@ public class MultiLineText extends LineText {
      * @return the text of the multiline string
      */
     public String getText() {
-        return text.toEditor();
+        return multiLineString.getText();
     }
 
 	/**
@@ -53,36 +55,20 @@ public class MultiLineText extends LineText {
 	 *            the text of the multiline string
 	 */
 	public void setText(String newValue) {
-		text = convertToMultiLineString(newValue);
+        multiLineString.setText(newValue);
 
-        this.setLabelText(text.toHTML());
+        this.setLabelText(multiLineString.getHTML());
 	}
 
     public String toString() {
-        return text.toEditor().replace('\n', '|');
+        return multiLineString.getText().replace('\n', '|');
     }
 
     public MultiLineText clone() {
         MultiLineText cloned = new MultiLineText();
-        cloned.text = text; // TODO potrzeban funkcja clone
+        cloned.multiLineString = multiLineString; // TODO potrzeban funkcja clone
         return cloned;
     }
 
-    protected MultiLineString convertToMultiLineString(String rawText)
-    {
-        List<OneLineString> rows = new ArrayList<OneLineString>();
-        String[] array = this.explode(rawText, "\n");
-
-        for (String rawRow: array) {
-            rows.add(new OneLineString(rawRow));
-        }
-        return new MultiLineString(rows);
-    }
-
-	final protected String[] explode(String text, String separator)
-	{
-		return text.split(separator, -1);
-	}
-
-	protected MultiLineString text = new MultiLineString();
+	private MultiLineString multiLineString = null;
 }
