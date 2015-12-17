@@ -58,10 +58,15 @@ public abstract class LineText implements Serializable, Cloneable {
     {
         BufferedImage image = new BufferedImage(1000, 1000, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2 = (Graphics2D) image.getGraphics();
-        this.bounds = getTextBounds(g2);
+        this.bounds = getTextBounds(getText());
     }
 
-    private Rectangle2D getTextBounds(Graphics2D g2) {
+    private Rectangle2D getTextBounds(String text) {
+        if (null == text || text.isEmpty())
+        {
+            return new Rectangle2D.Double(0, 0, 0, 0);
+        }
+
         Dimension dim = label.getPreferredSize();
         return new Rectangle2D.Double(0, 0, dim.getWidth(), dim.getHeight());
     }

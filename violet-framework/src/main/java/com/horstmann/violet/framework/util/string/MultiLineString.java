@@ -59,6 +59,12 @@ public class MultiLineString extends AbstractLineString {
         return "";
     }
 
+    public MultiLineString clone() {
+        MultiLineString cloned = new MultiLineString();
+        cloned.rows = new ArrayList<OneLineString>(rows);
+        return cloned;
+    }
+
     final public int count()
     {
         return this.rows.size();

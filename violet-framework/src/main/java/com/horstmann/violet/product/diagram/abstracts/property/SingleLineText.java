@@ -36,7 +36,7 @@ public class SingleLineText extends LineText {
 
     public SingleLineText clone() {
         SingleLineText cloned = new SingleLineText();
-        cloned.singleLineString = singleLineString; // TODO potrzeban funkcja clone
+        cloned.singleLineString = singleLineString.clone();
         return cloned;
     }
 

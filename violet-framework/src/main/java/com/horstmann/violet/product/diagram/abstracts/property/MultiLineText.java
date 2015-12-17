@@ -66,7 +66,7 @@ public class MultiLineText extends LineText {
 
     public MultiLineText clone() {
         MultiLineText cloned = new MultiLineText();
-        cloned.multiLineString = multiLineString; // TODO potrzeban funkcja clone
+        cloned.multiLineString = multiLineString.clone();
         return cloned;
     }
 

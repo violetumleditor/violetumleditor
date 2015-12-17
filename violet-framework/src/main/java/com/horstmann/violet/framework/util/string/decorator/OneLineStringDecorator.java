@@ -3,7 +3,7 @@ package com.horstmann.violet.framework.util.string.decorator;
 /**
  * Created by Adrian Bobrowski on 12.12.2015.
  */
-public abstract class OneLineStringDecorator extends OneLineString {
+public class OneLineStringDecorator extends OneLineString {
     public OneLineStringDecorator(OneLineString decoratedOneLineString)
     {
         this.decoratedOneLineString = decoratedOneLineString;
@@ -16,6 +16,10 @@ public abstract class OneLineStringDecorator extends OneLineString {
     public String getText()
     {
         return decoratedOneLineString.getText();
+    }
+
+    public OneLineStringDecorator clone() {
+        return new OneLineStringDecorator(this.decoratedOneLineString.clone());
     }
 
     protected OneLineString decoratedOneLineString;

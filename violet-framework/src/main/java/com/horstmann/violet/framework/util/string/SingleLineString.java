@@ -30,5 +30,12 @@ public class SingleLineString extends AbstractLineString {
         return oneLineString.getHTML();
     }
 
+
+    public SingleLineString clone() {
+        SingleLineString cloned = new SingleLineString();
+        cloned.oneLineString = oneLineString.clone();
+        return cloned;
+    }
+
     private OneLineString oneLineString = new OneLineString();
 }

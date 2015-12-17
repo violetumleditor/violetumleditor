@@ -36,5 +36,11 @@ public class OneLineString implements Serializable, Cloneable{
         return sentence.replace("&", "&amp;").replace("<<", "«").replace(">>", "»").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;").replace("'", "&#x27;").replace("/", "&#x2F;");
     }
 
+    public OneLineString clone() {
+        OneLineString cloned = new OneLineString();
+        cloned.text = text;
+        return cloned;
+    }
+
     private String text = "";
 }
