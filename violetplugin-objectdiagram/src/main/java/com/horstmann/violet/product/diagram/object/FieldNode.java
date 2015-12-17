@@ -31,6 +31,7 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
+import com.horstmann.violet.product.diagram.abstracts.property.SingleLineText;
 
 /**
  * A field node_old in an object diagram.
@@ -42,10 +43,10 @@ public class FieldNode extends RectangularNode
      */
     public FieldNode()
     {
-        name = new MultiLineText();
+        name = new SingleLineText();
         name.setAlignment(MultiLineText.RIGHT);
-        value = new MultiLineText();
-        equalSeparator = new MultiLineText();
+        value = new SingleLineText();
+        equalSeparator = new SingleLineText();
         equalSeparator.setText(" = ");
         setZ(1);
     }
@@ -263,9 +264,9 @@ public class FieldNode extends RectangularNode
      * 
      * @param newValue the field name
      */
-    public void setName(MultiLineText newValue)
+    public void setName(SingleLineText newValue)
     {
-        name = newValue;
+        name.setText(newValue.getText());
     }
 
     /**
@@ -273,7 +274,7 @@ public class FieldNode extends RectangularNode
      * 
      * @return the field name
      */
-    public MultiLineText getName()
+    public SingleLineText getName()
     {
         return name;
     }
@@ -283,9 +284,9 @@ public class FieldNode extends RectangularNode
      * 
      * @param newValue the field value
      */
-    public void setValue(MultiLineText newValue)
+    public void setValue(SingleLineText newValue)
     {
-        value = newValue;
+        value.setText(newValue.getText());
     }
 
     /**
@@ -293,7 +294,7 @@ public class FieldNode extends RectangularNode
      * 
      * @return the field value
      */
-    public MultiLineText getValue()
+    public SingleLineText getValue()
     {
         return value;
     }
@@ -316,14 +317,14 @@ public class FieldNode extends RectangularNode
     public FieldNode clone()
     {
         FieldNode cloned = (FieldNode) super.clone();
-        cloned.name = (MultiLineText) name.clone();
-        cloned.value = (MultiLineText) value.clone();
+        cloned.name = (SingleLineText) name.clone();
+        cloned.value = (SingleLineText) value.clone();
         return cloned;
     }
 
-    private MultiLineText name;
-    private MultiLineText value;
-    private MultiLineText equalSeparator;
+    private SingleLineText name;
+    private SingleLineText value;
+    private SingleLineText equalSeparator;
 
     private static int DEFAULT_WIDTH = 60;
     private static int DEFAULT_HEIGHT = 20;

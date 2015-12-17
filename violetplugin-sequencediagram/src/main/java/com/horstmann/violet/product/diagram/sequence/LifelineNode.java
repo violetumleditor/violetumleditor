@@ -31,12 +31,17 @@ import java.awt.geom.Rectangle2D;
 import java.util.Collection;
 import java.util.List;
 
+import com.horstmann.violet.framework.util.string.Converter;
+import com.horstmann.violet.framework.util.string.decorator.LargeSizeDecorator;
+import com.horstmann.violet.framework.util.string.decorator.OneLineString;
+import com.horstmann.violet.framework.util.string.decorator.UnderlineDecorator;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
+import com.horstmann.violet.product.diagram.abstracts.property.SingleLineText;
 
 /**
  * An object node_old in a scenario diagram.
@@ -48,8 +53,13 @@ public class LifelineNode extends RectangularNode
      */
     public LifelineNode()
     {
-        name = new MultiLineText();
-//        name.setUnderlined(true);
+        name = new SingleLineText(new Converter(){
+            @Override
+            public OneLineString convertTextToLineString(String text)
+            {
+                return new UnderlineDecorator(new OneLineString(text));
+            }
+        });
     }
 
     /**
@@ -57,9 +67,9 @@ public class LifelineNode extends RectangularNode
      * 
      * @param newValue the name of this object
      */
-    public void setName(MultiLineText n)
+    public void setName(SingleLineText n)
     {
-        name = n;
+        name.setText(n.getText());
     }
 
     /**
@@ -67,7 +77,7 @@ public class LifelineNode extends RectangularNode
      * 
      * @return the name of this object
      */
-    public MultiLineText getName()
+    public SingleLineText getName()
     {
         return name;
     }
@@ -334,7 +344,7 @@ public class LifelineNode extends RectangularNode
         return cloned;
     }
 
-    private MultiLineText name;
+    private SingleLineText name;
     private transient double maxYOverAllLifeLineNodes = 0;
     private static int DEFAULT_TOP_HEIGHT = 60;
     private static int DEFAULT_WIDTH = 80;

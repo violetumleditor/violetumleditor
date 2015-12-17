@@ -13,6 +13,11 @@ public class OneLineString implements Serializable, Cloneable{
         setText(text);
     }
 
+    public boolean contains(String sentence)
+    {
+        return replaceForUnification(text).toLowerCase().contains(replaceForUnification(sentence).toLowerCase());
+    }
+
     public String getHTML()
     {
         return this.escapeHtml(text);
@@ -33,7 +38,17 @@ public class OneLineString implements Serializable, Cloneable{
 
     private String escapeHtml(String sentence)
     {
-        return sentence.replace("&", "&amp;").replace("<<", "«").replace(">>", "»").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;").replace("'", "&#x27;").replace("/", "&#x2F;");
+        return replaceForUnification(sentence).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;").replace("'", "&#x27;").replace("/", "&#x2F;");
+    }
+
+    protected String replaceForUnification(String sentence)
+    {
+        return sentence.replace("<<", "«").replace(">>", "»");
+    }
+
+    protected String removeDuplicateWhitespace(String sentence)
+    {
+        return sentence.replaceAll("\\s+", " ");
     }
 
     public OneLineString clone() {
@@ -42,5 +57,5 @@ public class OneLineString implements Serializable, Cloneable{
         return cloned;
     }
 
-    private String text = "";
+    protected String text = "";
 }

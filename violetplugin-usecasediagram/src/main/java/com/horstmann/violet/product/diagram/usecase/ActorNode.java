@@ -29,6 +29,7 @@ import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
+import com.horstmann.violet.product.diagram.abstracts.property.SingleLineText;
 
 /**
  * An actor node_old in a use case diagram.
@@ -41,7 +42,7 @@ public class ActorNode extends RectangularNode
      */
     public ActorNode()
     {
-        name = new MultiLineText();
+        name = new SingleLineText();
         name.setText("Actor");
     }
 
@@ -116,9 +117,9 @@ public class ActorNode extends RectangularNode
      * 
      * @param newValue the new actor name
      */
-    public void setName(MultiLineText newValue)
+    public void setName(SingleLineText newValue)
     {
-        name = newValue;
+        name.setText(newValue.getText());
     }
 
     /**
@@ -126,7 +127,7 @@ public class ActorNode extends RectangularNode
      * 
      * @param the actor name
      */
-    public MultiLineText getName()
+    public SingleLineText getName()
     {
         return name;
     }
@@ -134,12 +135,12 @@ public class ActorNode extends RectangularNode
     public ActorNode clone()
     {
         ActorNode cloned = (ActorNode) super.clone();
-        cloned.name = (MultiLineText) name.clone();
+        cloned.name = (SingleLineText) name.clone();
         return cloned;
     }
 
     /** Actor name */
-    private MultiLineText name;
+    private SingleLineText name;
     /** Bounding rectangle width */
     private static int DEFAULT_WIDTH = 48;
     /** Bounding rectangle height */

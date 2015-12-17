@@ -31,6 +31,7 @@ import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
+import com.horstmann.violet.product.diagram.abstracts.property.SingleLineText;
 import com.horstmann.violet.product.diagram.common.NoteEdge;
 import com.horstmann.violet.product.diagram.common.NoteNode;
 
@@ -74,10 +75,10 @@ public class ObjectDiagramGraph extends AbstractGraph
 
         FieldNode node1 = new FieldNode();
         node1.setToolTip(rs.getString("node1.tooltip"));
-        MultiLineText fn = new MultiLineText();
+        SingleLineText fn = new SingleLineText();
         fn.setText("name");
         node1.setName(fn);
-        MultiLineText fv = new MultiLineText();
+        SingleLineText fv = new SingleLineText();
         fv.setText("value");
         node1.setValue(fv);
         NODE_PROTOTYPES.add(node1);

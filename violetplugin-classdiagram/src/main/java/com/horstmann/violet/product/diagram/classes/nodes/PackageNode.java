@@ -13,6 +13,7 @@ import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.IResizableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
+import com.horstmann.violet.product.diagram.abstracts.property.SingleLineText;
 
 /**
  * A package node_old in a UML diagram.
@@ -24,7 +25,7 @@ public class PackageNode extends RectangularNode implements IResizableNode
      */
     public PackageNode()
     {
-        name = new MultiLineText();
+        name = new SingleLineText();
 //        name.setSize(MultiLineText.LARGE);
         content = new MultiLineText();
     }
@@ -200,9 +201,9 @@ public class PackageNode extends RectangularNode implements IResizableNode
      * 
      * @param newValue the class name
      */
-    public void setName(MultiLineText newValue)
+    public void setName(SingleLineText newValue)
     {
-        name = newValue;
+        name.setText(newValue.getText());
     }
 
     /**
@@ -210,7 +211,7 @@ public class PackageNode extends RectangularNode implements IResizableNode
      * 
      * @return the class name
      */
-    public MultiLineText getName()
+    public SingleLineText getName()
     {
         return name;
     }
@@ -235,7 +236,7 @@ public class PackageNode extends RectangularNode implements IResizableNode
         return content;
     }
 
-    private MultiLineText name;
+    private SingleLineText name;
     private MultiLineText content;
     private Rectangle2D wantedSize;
 

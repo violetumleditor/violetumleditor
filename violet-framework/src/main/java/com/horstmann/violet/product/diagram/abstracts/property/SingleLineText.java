@@ -1,6 +1,7 @@
 package com.horstmann.violet.product.diagram.abstracts.property;
 
 import com.horstmann.violet.framework.util.string.AbstractLineString;
+import com.horstmann.violet.framework.util.string.Converter;
 import com.horstmann.violet.framework.util.string.SingleLineString;
 import com.horstmann.violet.framework.util.string.decorator.OneLineString;
 
@@ -10,13 +11,12 @@ import com.horstmann.violet.framework.util.string.decorator.OneLineString;
 public class SingleLineText extends LineText {
 
     public SingleLineText() {
-        singleLineString = new SingleLineString();
+        this.singleLineString = new SingleLineString();
     }
 
-    public SingleLineText(SingleLineString singleLineString) {
-        this.singleLineString = singleLineString;
+    public SingleLineText(Converter converter) {
+        this.singleLineString = new SingleLineString(converter);
     }
-
 
     @Override
     public void setText(String text) {

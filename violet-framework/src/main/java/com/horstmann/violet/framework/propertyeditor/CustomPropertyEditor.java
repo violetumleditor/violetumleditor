@@ -56,21 +56,10 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
-import com.horstmann.violet.framework.propertyeditor.customeditor.AbstractDiagramLinkEditor;
-import com.horstmann.violet.framework.propertyeditor.customeditor.ArrowHeadEditor;
-import com.horstmann.violet.framework.propertyeditor.customeditor.BentStyleEditor;
-import com.horstmann.violet.framework.propertyeditor.customeditor.ChoiceListEditor;
-import com.horstmann.violet.framework.propertyeditor.customeditor.ColorEditor;
-import com.horstmann.violet.framework.propertyeditor.customeditor.ImageIconEditor;
-import com.horstmann.violet.framework.propertyeditor.customeditor.LineStyleEditor;
-import com.horstmann.violet.framework.propertyeditor.customeditor.MultiLineStringEditor;
-import com.horstmann.violet.framework.propertyeditor.customeditor.OneLineStringEditor;
+import com.horstmann.violet.framework.propertyeditor.customeditor.*;
+import com.horstmann.violet.framework.propertyeditor.customeditor.SingleLineStringEditor;
 import com.horstmann.violet.framework.util.SerializableEnumeration;
-import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
-import com.horstmann.violet.product.diagram.abstracts.property.BentStyle;
-import com.horstmann.violet.product.diagram.abstracts.property.ChoiceList;
-import com.horstmann.violet.product.diagram.abstracts.property.LineStyle;
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
+import com.horstmann.violet.product.diagram.abstracts.property.*;
 import com.horstmann.violet.product.diagram.common.DiagramLink;
 
 /**
@@ -400,7 +389,8 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
         editors.put(DiagramLink.class, AbstractDiagramLinkEditor.class);
         editors.put(LineStyle.class, LineStyleEditor.class);
         editors.put(MultiLineText.class, MultiLineStringEditor.class);
-        editors.put(String.class, OneLineStringEditor.class);
+        editors.put(SingleLineText.class, SingleLineStringEditor.class);
+        editors.put(String.class, SingleLineStringEditor.class);
         editors.put(ImageIcon.class, ImageIconEditor.class);
     }
 

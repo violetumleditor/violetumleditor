@@ -5,9 +5,15 @@ import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import com.horstmann.violet.framework.util.string.Converter;
+import com.horstmann.violet.framework.util.string.decorator.LargeSizeDecorator;
+import com.horstmann.violet.framework.util.string.decorator.OneLineString;
+import com.horstmann.violet.framework.util.string.decorator.RemoveSentenceDecorator;
+import com.horstmann.violet.framework.util.string.decorator.UnderlineDecorator;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
+import com.horstmann.violet.product.diagram.abstracts.property.SingleLineText;
 import com.horstmann.violet.product.diagram.common.PointNode;
 
 /**
@@ -20,12 +26,31 @@ public class ClassNode extends RectangularNode
      */
     public ClassNode()
     {
-        name = new MultiLineText();
-//        name.setSize(MultiLineText.LARGE);
-        attributes = new MultiLineText();
-        attributes.setAlignment(MultiLineText.LEFT);
-        methods = new MultiLineText();
-        methods.setAlignment(MultiLineText.LEFT);
+        name = new SingleLineText(new Converter(){
+            @Override
+            public OneLineString convertTextToLineString(String text)
+            {
+                return new LargeSizeDecorator(new OneLineString(text));
+            }
+        });
+        name.setAlignment(MultiLineText.CENTER);
+
+        Converter converter = new Converter(){
+            @Override
+            public OneLineString convertTextToLineString(String text)
+            {
+                OneLineString lineString = new OneLineString(text);
+
+                if(lineString.contains("<<static>>"))
+                {
+                    lineString = new UnderlineDecorator(new RemoveSentenceDecorator(lineString, "<<static>>"));
+                }
+                return lineString;
+            }
+        };
+
+        attributes = new MultiLineText(converter);
+        methods = new MultiLineText(converter);
     }
     
     private Rectangle2D getTopRectangleBounds() {
@@ -156,9 +181,9 @@ public class ClassNode extends RectangularNode
      * 
      * @param newValue the class name
      */
-    public void setName(MultiLineText newValue)
+    public void setName(SingleLineText newValue)
     {
-        name = newValue;
+        name.setText(newValue.getText());
     }
 
     /**
@@ -166,7 +191,7 @@ public class ClassNode extends RectangularNode
      * 
      * @return the class name
      */
-    public MultiLineText getName()
+    public SingleLineText getName()
     {
         return name;
     }
@@ -219,14 +244,14 @@ public class ClassNode extends RectangularNode
     public ClassNode clone()
     {
         ClassNode cloned = (ClassNode) super.clone();
-        cloned.name = (MultiLineText) name.clone();
+        cloned.name = (SingleLineText) name.clone();
         cloned.methods = (MultiLineText) methods.clone();
         cloned.attributes = (MultiLineText) attributes.clone();
         return cloned;
     }
 
 
-    private MultiLineText name;
+    private SingleLineText name;
     private MultiLineText attributes;
     private MultiLineText methods;
 

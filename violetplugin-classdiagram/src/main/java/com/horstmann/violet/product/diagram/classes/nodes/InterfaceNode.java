@@ -5,9 +5,14 @@ import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import com.horstmann.violet.framework.util.string.Converter;
+import com.horstmann.violet.framework.util.string.decorator.LargeSizeDecorator;
+import com.horstmann.violet.framework.util.string.decorator.OneLineString;
+import com.horstmann.violet.framework.util.string.decorator.PrefixDecorator;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
+import com.horstmann.violet.product.diagram.abstracts.property.SingleLineText;
 import com.horstmann.violet.product.diagram.common.PointNode;
 
 /**
@@ -20,11 +25,14 @@ public class InterfaceNode extends RectangularNode
      */
     public InterfaceNode()
     {
-        name = new MultiLineText();
-//        name.setSize(MultiLineText.LARGE);
-        name.setText("\u00ABinterface\u00BB");
+        name = new SingleLineText(new Converter(){
+            @Override
+            public OneLineString convertTextToLineString(String text)
+            {
+                return new PrefixDecorator( new LargeSizeDecorator(new OneLineString(text)), "\u00ABinterface\u00BB");
+            }
+        });
         methods = new MultiLineText();
-        methods.setAlignment(MultiLineText.LEFT);
     }
 
     private Rectangle2D getTopRectangleBounds()
@@ -129,9 +137,9 @@ public class InterfaceNode extends RectangularNode
      * 
      * @param newValue the interface name
      */
-    public void setName(MultiLineText newValue)
+    public void setName(SingleLineText newValue)
     {
-        name = newValue;
+        name.setText(newValue.getText());
     }
 
     /**
@@ -139,7 +147,7 @@ public class InterfaceNode extends RectangularNode
      * 
      * @return the interface name
      */
-    public MultiLineText getName()
+    public SingleLineText getName()
     {
         return name;
     }
@@ -175,7 +183,7 @@ public class InterfaceNode extends RectangularNode
 
     // private transient double midHeight;
     // private transient double botHeight;
-    private MultiLineText name;
+    private SingleLineText name;
     private MultiLineText methods;
 
     private static int DEFAULT_COMPARTMENT_HEIGHT = 20;

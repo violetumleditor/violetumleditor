@@ -13,6 +13,6 @@ public class SmallSizeDecorator extends OneLineStringDecorator {
     @Override
     public String getHTML()
     {
-        return "<font size=+2>" + decoratedOneLineString.getHTML() + "</font>";
+        return "<font size=-1>" + decoratedOneLineString.getHTML() + "</font>";
     }
 }

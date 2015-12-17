@@ -30,6 +30,7 @@ import java.awt.geom.Rectangle2D;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.EllipticalNode;
 import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
+import com.horstmann.violet.product.diagram.abstracts.property.SingleLineText;
 
 /**
  * A use case node_old in a use case diagram.
@@ -41,7 +42,7 @@ public class UseCaseNode extends EllipticalNode
      */
     public UseCaseNode()
     {
-        name = new MultiLineText();
+        name = new SingleLineText();
     }
 
     @Override
@@ -101,17 +102,16 @@ public class UseCaseNode extends EllipticalNode
      * 
      * @param newValue the new use case name
      */
-    public void setName(MultiLineText newValue)
+    public void setName(SingleLineText newValue)
     {
-        name = newValue;
+        name.setText(newValue.getText());
     }
 
     /**
      * Gets the name property value.
-     * 
-     * @param the use case name
+     *
      */
-    public MultiLineText getName()
+    public SingleLineText getName()
     {
         return name;
     }
@@ -124,7 +124,7 @@ public class UseCaseNode extends EllipticalNode
         return cloned;
     }
 
-    private MultiLineText name;
+    private SingleLineText name;
 
     private static int DEFAULT_WIDTH = 110;
     private static int DEFAULT_HEIGHT = 40;

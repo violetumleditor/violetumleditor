@@ -31,6 +31,7 @@ import java.awt.geom.RoundRectangle2D;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
+import com.horstmann.violet.product.diagram.abstracts.property.SingleLineText;
 
 /**
  * A node_old in a state diagram.
@@ -42,7 +43,7 @@ public class StateNode extends RectangularNode
      */
     public StateNode()
     {
-        name = new MultiLineText();
+        name = new SingleLineText();
     }
     
     @Override
@@ -103,17 +104,16 @@ public class StateNode extends RectangularNode
      * 
      * @param newValue the new state name
      */
-    public void setName(MultiLineText newValue)
+    public void setName(SingleLineText newValue)
     {
-        name = newValue;
+        name.setText(newValue.getText());
     }
 
     /**
      * Gets the name property value.
-     * 
-     * @param the state name
+     *
      */
-    public MultiLineText getName()
+    public SingleLineText getName()
     {
         return name;
     }
@@ -125,7 +125,7 @@ public class StateNode extends RectangularNode
         return cloned;
     }
 
-    private MultiLineText name;
+    private SingleLineText name;
 
     private static int ARC_SIZE = 20;
     private static int DEFAULT_WIDTH = 80;

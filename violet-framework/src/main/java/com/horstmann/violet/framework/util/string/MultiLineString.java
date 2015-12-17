@@ -7,10 +7,12 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class MultiLineString extends AbstractLineString {
-    @Override
-    protected OneLineString convertTextToLineString(String text)
-    {
-        return new OneLineString(text);
+    public MultiLineString(Converter converter) {
+        super(converter);
+    }
+
+    public MultiLineString() {
+        super();
     }
 
     @Override
@@ -20,7 +22,7 @@ public class MultiLineString extends AbstractLineString {
         String[] array = text.split("\n", -1);
 
         for (String rawRow: array) {
-            rows.add(this.convertTextToLineString(rawRow));
+            rows.add(this.converter.convertTextToLineString(rawRow));
         }
     }
 
@@ -62,6 +64,7 @@ public class MultiLineString extends AbstractLineString {
     public MultiLineString clone() {
         MultiLineString cloned = new MultiLineString();
         cloned.rows = new ArrayList<OneLineString>(rows);
+        cloned.converter = converter;
         return cloned;
     }
 

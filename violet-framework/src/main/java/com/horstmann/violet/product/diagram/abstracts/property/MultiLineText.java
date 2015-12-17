@@ -21,6 +21,7 @@
 
 package com.horstmann.violet.product.diagram.abstracts.property;
 
+import com.horstmann.violet.framework.util.string.Converter;
 import com.horstmann.violet.framework.util.string.MultiLineString;
 
 /**
@@ -35,8 +36,8 @@ public class MultiLineText extends LineText {
         multiLineString = new MultiLineString();
     }
 
-    public MultiLineText(MultiLineString multiLineString) {
-        this.multiLineString = multiLineString;
+    public MultiLineText(Converter converter) {
+        this.multiLineString = new MultiLineString(converter);
     }
 
     /**

@@ -6,16 +6,18 @@ import com.horstmann.violet.framework.util.string.decorator.OneLineString;
  * Created by Adrian Bobrowski on 16.12.2015.
  */
 public class SingleLineString extends AbstractLineString {
-    @Override
-    protected OneLineString convertTextToLineString(String text)
-    {
-        return new OneLineString(text);
+    public SingleLineString(Converter converter) {
+        super(converter);
+    }
+
+    public SingleLineString() {
+        super();
     }
 
     @Override
     final public void setText(String text)
     {
-        this.oneLineString = this.convertTextToLineString(text);
+        this.oneLineString = this.converter.convertTextToLineString(text);
     }
 
     @Override
@@ -34,6 +36,7 @@ public class SingleLineString extends AbstractLineString {
     public SingleLineString clone() {
         SingleLineString cloned = new SingleLineString();
         cloned.oneLineString = oneLineString.clone();
+        cloned.converter = converter;
         return cloned;
     }
 

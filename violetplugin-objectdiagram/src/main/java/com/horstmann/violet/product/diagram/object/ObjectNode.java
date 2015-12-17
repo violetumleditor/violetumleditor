@@ -27,11 +27,16 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
+import com.horstmann.violet.framework.util.string.Converter;
+import com.horstmann.violet.framework.util.string.decorator.LargeSizeDecorator;
+import com.horstmann.violet.framework.util.string.decorator.OneLineString;
+import com.horstmann.violet.framework.util.string.decorator.UnderlineDecorator;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
+import com.horstmann.violet.product.diagram.abstracts.property.SingleLineText;
 
 /**
  * An object node_old in an object diagram.
@@ -43,7 +48,13 @@ public class ObjectNode extends RectangularNode
      */
     public ObjectNode()
     {
-        name = new MultiLineText();
+        name = new SingleLineText(new Converter(){
+            @Override
+            public OneLineString convertTextToLineString(String text)
+            {
+                return new LargeSizeDecorator(new UnderlineDecorator(new OneLineString(text)));
+            }
+        });
 //        name.setUnderlined(true);
 //        name.setSize(MultiLineText.LARGE);
     }
@@ -170,9 +181,9 @@ public class ObjectNode extends RectangularNode
      * 
      * @param newValue the new object name
      */
-    public void setName(MultiLineText n)
+    public void setName(SingleLineText n)
     {
-        name = n;
+        name.setText(n.getText());
     }
 
     /**
@@ -180,7 +191,7 @@ public class ObjectNode extends RectangularNode
      * 
      * @param the object name
      */
-    public MultiLineText getName()
+    public SingleLineText getName()
     {
         return name;
     }
@@ -207,7 +218,7 @@ public class ObjectNode extends RectangularNode
         return cloned;
     }
 
-    private MultiLineText name;
+    private SingleLineText name;
 
     private static int DEFAULT_WIDTH = 80;
     private static int DEFAULT_HEIGHT = 30;

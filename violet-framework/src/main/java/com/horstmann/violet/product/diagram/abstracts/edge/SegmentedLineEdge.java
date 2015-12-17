@@ -36,6 +36,7 @@ import java.util.List;
 
 import javax.swing.JLabel;
 
+import com.horstmann.violet.framework.util.string.SingleLineString;
 import com.horstmann.violet.framework.util.string.decorator.OneLineString;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
@@ -53,9 +54,9 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      */
     public SegmentedLineEdge()
     {
-        startLabel = new OneLineString();
-        middleLabel = new OneLineString();
-        endLabel = new OneLineString();
+        startLabel = new SingleLineString();
+        middleLabel = new SingleLineString();
+        endLabel = new SingleLineString();
     }
     
     @Override
@@ -176,7 +177,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      */
     public void setStartLabel(String newValue)
     {
-        startLabel = new OneLineString(newValue);
+        startLabel.setText(newValue);
     }
 
     /**
@@ -196,7 +197,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      */
     public void setMiddleLabel(String newValue)
     {
-        middleLabel = new OneLineString(newValue);
+        middleLabel.setText(newValue);
     }
 
     /**
@@ -216,7 +217,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      */
     public void setEndLabel(String newValue)
     {
-        endLabel = new OneLineString(newValue);
+        endLabel.setText(newValue);;
     }
 
     /**
@@ -498,9 +499,9 @@ public abstract class SegmentedLineEdge extends ShapeEdge
     private ArrowHead startArrowHead;
     private ArrowHead endArrowHead;
     private BentStyle bentStyle;
-    private OneLineString startLabel;
-    private OneLineString middleLabel;
-    private OneLineString endLabel;
+    private SingleLineString startLabel;
+    private SingleLineString middleLabel;
+    private SingleLineString endLabel;
 
     private static JLabel label = new JLabel();
 }
