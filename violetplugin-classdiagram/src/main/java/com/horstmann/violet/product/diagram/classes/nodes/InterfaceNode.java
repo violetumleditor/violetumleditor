@@ -5,14 +5,14 @@ import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import com.horstmann.violet.framework.util.string.Converter;
-import com.horstmann.violet.framework.util.string.decorator.LargeSizeDecorator;
-import com.horstmann.violet.framework.util.string.decorator.OneLineString;
-import com.horstmann.violet.framework.util.string.decorator.PrefixDecorator;
+import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
+import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.LargeSizeDecorator;
+import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.OneLineString;
+import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.PrefixDecorator;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
-import com.horstmann.violet.product.diagram.abstracts.property.SingleLineText;
+import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
+import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 import com.horstmann.violet.product.diagram.common.PointNode;
 
 /**
@@ -25,11 +25,12 @@ public class InterfaceNode extends RectangularNode
      */
     public InterfaceNode()
     {
-        name = new SingleLineText(new Converter(){
+        name = new SingleLineText(new LineText.Converter(){
             @Override
-            public OneLineString convertTextToLineString(String text)
+            public OneLineString toLineString(String text)
             {
-                return new PrefixDecorator( new LargeSizeDecorator(new OneLineString(text)), "\u00ABinterface\u00BB");
+                return new PrefixDecorator( new LargeSizeDecorator(new OneLineString(text)), "\u00ABinterface\u00BB<br>");
+//                return new ItalicsDecorator( new LargeSizeDecorator(new OneLineString(text)));
             }
         });
         methods = new MultiLineText();

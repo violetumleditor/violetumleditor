@@ -29,8 +29,7 @@ import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.EllipticalNode;
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
-import com.horstmann.violet.product.diagram.abstracts.property.SingleLineText;
+import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 
 /**
  * A use case node_old in a use case diagram.

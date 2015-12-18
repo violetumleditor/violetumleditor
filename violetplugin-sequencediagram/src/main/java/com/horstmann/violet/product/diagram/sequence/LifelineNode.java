@@ -31,17 +31,15 @@ import java.awt.geom.Rectangle2D;
 import java.util.Collection;
 import java.util.List;
 
-import com.horstmann.violet.framework.util.string.Converter;
-import com.horstmann.violet.framework.util.string.decorator.LargeSizeDecorator;
-import com.horstmann.violet.framework.util.string.decorator.OneLineString;
-import com.horstmann.violet.framework.util.string.decorator.UnderlineDecorator;
+import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
+import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.OneLineString;
+import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.UnderlineDecorator;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
-import com.horstmann.violet.product.diagram.abstracts.property.SingleLineText;
+import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 
 /**
  * An object node_old in a scenario diagram.
@@ -53,9 +51,9 @@ public class LifelineNode extends RectangularNode
      */
     public LifelineNode()
     {
-        name = new SingleLineText(new Converter(){
+        name = new SingleLineText(new LineText.Converter(){
             @Override
-            public OneLineString convertTextToLineString(String text)
+            public OneLineString toLineString(String text)
             {
                 return new UnderlineDecorator(new OneLineString(text));
             }

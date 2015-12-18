@@ -36,13 +36,12 @@ import java.util.List;
 
 import javax.swing.JLabel;
 
-import com.horstmann.violet.framework.util.string.SingleLineString;
-import com.horstmann.violet.framework.util.string.decorator.OneLineString;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
 import com.horstmann.violet.product.diagram.abstracts.property.BentStyle;
 import com.horstmann.violet.product.diagram.abstracts.property.LineStyle;
+import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 
 /**
  * An edge that is composed of multiple line segments
@@ -54,9 +53,9 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      */
     public SegmentedLineEdge()
     {
-        startLabel = new SingleLineString();
-        middleLabel = new SingleLineString();
-        endLabel = new SingleLineString();
+        startLabel = new SingleLineText();
+        middleLabel = new SingleLineText();
+        endLabel = new SingleLineText();
     }
     
     @Override
@@ -499,9 +498,9 @@ public abstract class SegmentedLineEdge extends ShapeEdge
     private ArrowHead startArrowHead;
     private ArrowHead endArrowHead;
     private BentStyle bentStyle;
-    private SingleLineString startLabel;
-    private SingleLineString middleLabel;
-    private SingleLineString endLabel;
+    private SingleLineText startLabel;
+    private SingleLineText middleLabel;
+    private SingleLineText endLabel;
 
     private static JLabel label = new JLabel();
 }

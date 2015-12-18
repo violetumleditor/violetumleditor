@@ -1,6 +1,6 @@
-package com.horstmann.violet.product.diagram.abstracts.property;
+package com.horstmann.violet.product.diagram.abstracts.property.string;
 
-import com.horstmann.violet.framework.util.string.Converter;
+import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.OneLineString;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -13,17 +13,26 @@ import java.io.Serializable;
  * Created by Adrian Bobrowski on 16.12.2015.
  */
 public abstract class LineText implements Serializable, Cloneable {
+    public interface Converter extends Cloneable {
+        OneLineString toLineString(String text);
+    }
+
+    public LineText() {
+        this.converter = new Converter() {
+            @Override
+            public OneLineString toLineString(String text)
+            {
+                return new OneLineString(text);
+            }
+        };
+    }
+    public LineText(Converter converter) {
+        this.converter = converter;
+    }
 
     public abstract void setText(String text);
     public abstract String getText();
-
-    final public void setAlignment(int flag) {
-        label.setHorizontalAlignment(flag);
-        refresh();
-    }
-    final public int getAlignment(int flag) {
-        return label.getHorizontalAlignment();
-    }
+    public abstract String getHTML();
 
     final public void setPadding(int padding){
         setPadding(padding, padding);
@@ -35,6 +44,16 @@ public abstract class LineText implements Serializable, Cloneable {
         label.setBorder(new EmptyBorder(top, left, bottom, right));
         refresh();
     }
+//
+//    final public void setAlignment(int flag) {
+//        label.setHorizontalAlignment(flag);
+//        refresh();
+//    }
+//    final public int getAlignment(int flag) {
+//        return label.getHorizontalAlignment();
+//    }
+//
+
 
     final public Rectangle2D getBounds() {
         if (null == this.bounds) {
@@ -77,6 +96,7 @@ public abstract class LineText implements Serializable, Cloneable {
     public static final int CENTER = SwingConstants.CENTER;
     public static final int RIGHT = SwingConstants.RIGHT;
 
+    protected transient Converter converter;
     private transient JLabel label = new JLabel();
     private transient Rectangle2D bounds = null;
 }

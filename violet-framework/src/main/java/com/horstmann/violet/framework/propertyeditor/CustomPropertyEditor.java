@@ -57,9 +57,11 @@ import javax.swing.event.DocumentListener;
 
 import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
 import com.horstmann.violet.framework.propertyeditor.customeditor.*;
-import com.horstmann.violet.framework.propertyeditor.customeditor.SingleLineStringEditor;
+import com.horstmann.violet.framework.propertyeditor.customeditor.SingleLineTextEditor;
 import com.horstmann.violet.framework.util.SerializableEnumeration;
 import com.horstmann.violet.product.diagram.abstracts.property.*;
+import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
+import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 import com.horstmann.violet.product.diagram.common.DiagramLink;
 
 /**
@@ -388,9 +390,9 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
         editors.put(java.awt.Color.class, ColorEditor.class);
         editors.put(DiagramLink.class, AbstractDiagramLinkEditor.class);
         editors.put(LineStyle.class, LineStyleEditor.class);
-        editors.put(MultiLineText.class, MultiLineStringEditor.class);
-        editors.put(SingleLineText.class, SingleLineStringEditor.class);
-        editors.put(String.class, SingleLineStringEditor.class);
+        editors.put(MultiLineText.class, MultiLineTextEditor.class);
+        editors.put(SingleLineText.class, SingleLineTextEditor.class);
+        editors.put(String.class, SingleLineTextEditor.class);
         editors.put(ImageIcon.class, ImageIconEditor.class);
     }
 

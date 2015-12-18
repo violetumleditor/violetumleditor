@@ -28,8 +28,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
-import com.horstmann.violet.product.diagram.abstracts.property.SingleLineText;
+import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 
 /**
  * An actor node_old in a use case diagram.

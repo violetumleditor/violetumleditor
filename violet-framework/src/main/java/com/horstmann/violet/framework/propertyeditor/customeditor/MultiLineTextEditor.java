@@ -35,12 +35,12 @@ import javax.swing.KeyStroke;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
+import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
 
 /**
  * A property editor for the MultiLineText type.
  */
-public class MultiLineStringEditor extends PropertyEditorSupport
+public class MultiLineTextEditor extends PropertyEditorSupport
 {
     public boolean supportsCustomEditor()
     {

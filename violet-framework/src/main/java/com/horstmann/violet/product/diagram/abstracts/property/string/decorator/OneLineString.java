@@ -1,4 +1,4 @@
-package com.horstmann.violet.framework.util.string.decorator;
+package com.horstmann.violet.product.diagram.abstracts.property.string.decorator;
 
 import java.io.Serializable;
 

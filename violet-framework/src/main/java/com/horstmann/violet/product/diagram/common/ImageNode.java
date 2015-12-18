@@ -39,7 +39,7 @@ import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
+import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
 
 /**
  * A node_old in a diagram represented by an image
@@ -52,7 +52,7 @@ public class ImageNode extends RectangularNode
     public ImageNode(Image img)
     {
         text = new MultiLineText();
-        text.setAlignment(MultiLineText.RIGHT);
+//        text.setAlignment(MultiLineText.RIGHT);
         this.setImage(img);
     }
 
@@ -63,7 +63,7 @@ public class ImageNode extends RectangularNode
     {
     	ResourceBundleInjector.getInjector().inject(this);
     	text = new MultiLineText();
-        text.setAlignment(MultiLineText.RIGHT);
+//        text.setAlignment(MultiLineText.RIGHT);
     }
 
     /**

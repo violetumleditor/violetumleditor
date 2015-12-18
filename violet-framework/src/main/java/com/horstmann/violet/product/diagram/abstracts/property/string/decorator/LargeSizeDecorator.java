@@ -1,4 +1,4 @@
-package com.horstmann.violet.framework.util.string.decorator;
+package com.horstmann.violet.product.diagram.abstracts.property.string.decorator;
 
 /**
  * Created by Adrian Bobrowski on 16.12.2015.

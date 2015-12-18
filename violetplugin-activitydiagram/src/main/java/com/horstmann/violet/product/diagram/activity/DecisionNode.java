@@ -31,7 +31,7 @@ import java.awt.geom.Rectangle2D;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
+import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
 
 /**
  * A decision node_old in an activity diagram.

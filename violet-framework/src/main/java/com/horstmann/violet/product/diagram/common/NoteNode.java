@@ -31,7 +31,7 @@ import java.awt.geom.Rectangle2D;
 import com.horstmann.violet.framework.theme.ThemeManager;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineText;
+import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 
 /**
@@ -51,7 +51,7 @@ public class NoteNode extends RectangularNode
     public NoteNode()
     {
         text = new MultiLineText();
-        text.setAlignment(MultiLineText.LEFT);
+//        text.setAlignment(MultiLineText.LEFT);
         setBackgroundColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getBackgroundColor());
         setBorderColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getBorderColor());
         setTextColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getTextColor());

@@ -3,8 +3,7 @@
  */
 package com.horstmann.violet.framework.propertyeditor.customeditor;
 
-import com.horstmann.violet.framework.util.string.SingleLineString;
-import com.horstmann.violet.product.diagram.abstracts.property.SingleLineText;
+import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -14,7 +13,7 @@ import java.beans.PropertyEditorSupport;
 import java.util.HashSet;
 import java.util.Set;
 
-public class SingleLineStringEditor extends PropertyEditorSupport
+public class SingleLineTextEditor extends PropertyEditorSupport
 {
     public boolean supportsCustomEditor()
     {
