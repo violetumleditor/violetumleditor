@@ -6,10 +6,12 @@ import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.
 public class SingleLineText extends LineText {
     public SingleLineText() {
         super();
+        setPadding(0,10);
     }
 
     public SingleLineText(Converter converter) {
         super(converter);
+        setPadding(0,10);
     }
 
     @Override
@@ -40,6 +42,7 @@ public class SingleLineText extends LineText {
     public SingleLineText clone() {
         SingleLineText cloned = new SingleLineText(converter);
         cloned.oneLineString = oneLineString.clone();
+        copyLabelProperty(cloned);
         return cloned;
     }
 

@@ -29,6 +29,7 @@ import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.EllipticalNode;
+import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 
 /**
@@ -42,6 +43,7 @@ public class UseCaseNode extends EllipticalNode
     public UseCaseNode()
     {
         name = new SingleLineText();
+        name.setAlignment(LineText.CENTER);
     }
 
     @Override

@@ -174,6 +174,10 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      * 
      * @param newValue the new value
      */
+    public void setStartLabel(SingleLineText newValue)
+    {
+        startLabel.setText(newValue.getText());
+    }
     public void setStartLabel(String newValue)
     {
         startLabel.setText(newValue);
@@ -184,9 +188,9 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      * 
      * @return the label at the start of the edge
      */
-    public String getStartLabel()
+    public SingleLineText getStartLabel()
     {
-        return startLabel.getText();
+        return startLabel;
     }
 
     /**
@@ -194,6 +198,10 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      * 
      * @param newValue the new value
      */
+    public void setMiddleLabel(SingleLineText newValue)
+    {
+        middleLabel.setText(newValue.getText());
+    }
     public void setMiddleLabel(String newValue)
     {
         middleLabel.setText(newValue);
@@ -204,9 +212,9 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      * 
      * @return the label at the middle of the edge
      */
-    public String getMiddleLabel()
+    public SingleLineText getMiddleLabel()
     {
-        return middleLabel.getText();
+        return middleLabel;
     }
 
     /**
@@ -214,19 +222,23 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      * 
      * @param newValue the new value
      */
+    public void setEndLabel(SingleLineText newValue)
+    {
+        endLabel.setText(newValue.getText());
+    }
     public void setEndLabel(String newValue)
     {
-        endLabel.setText(newValue);;
+        endLabel.setText(newValue);
     }
 
     /**
      * Gets the end label property
-     * 
+     *
      * @return the label at the end of the edge
      */
-    public String getEndLabel()
+    public SingleLineText getEndLabel()
     {
-        return endLabel.getText();
+        return endLabel;
     }
 
     /**

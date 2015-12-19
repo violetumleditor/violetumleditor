@@ -33,19 +33,19 @@ public class ClassNode extends RectangularNode
                 return new LargeSizeDecorator(new OneLineString(text));
             }
         });
-//        name.setAlignment(MultiLineText.CENTER);
+        name.setAlignment(LineText.CENTER);
 
         LineText.Converter converter = new LineText.Converter(){
             @Override
             public OneLineString toLineString(String text)
             {
-                OneLineString lineString = new OneLineString(text);
+            OneLineString lineString = new OneLineString(text);
 
-                if(lineString.contains("<<static>>"))
-                {
-                    lineString = new UnderlineDecorator(new RemoveSentenceDecorator(lineString, "<<static>>"));
-                }
-                return lineString;
+            if(lineString.contains("<<static>>"))
+            {
+                lineString = new UnderlineDecorator(new RemoveSentenceDecorator(lineString, "<<static>>"));
+            }
+            return lineString;
             }
         };
 

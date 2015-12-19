@@ -4,7 +4,9 @@ import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.LabelUI;
 import java.awt.*;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
@@ -44,15 +46,20 @@ public abstract class LineText implements Serializable, Cloneable {
         label.setBorder(new EmptyBorder(top, left, bottom, right));
         refresh();
     }
-//
-//    final public void setAlignment(int flag) {
-//        label.setHorizontalAlignment(flag);
-//        refresh();
-//    }
-//    final public int getAlignment(int flag) {
-//        return label.getHorizontalAlignment();
-//    }
-//
+
+    final public void setAlignment(int flag) {
+        label.setHorizontalAlignment(flag);
+        refresh();
+    }
+    final public int getAlignment() {
+        return label.getHorizontalAlignment();
+    }
+
+    final public void setMinimumSize(Dimension dimension) {
+        label.setMinimumSize(dimension);
+        refresh();
+    }
+
 
 
     final public Rectangle2D getBounds() {
@@ -90,6 +97,15 @@ public abstract class LineText implements Serializable, Cloneable {
 
         Dimension dim = label.getPreferredSize();
         return new Rectangle2D.Double(0, 0, dim.getWidth(), dim.getHeight());
+    }
+
+    protected final void copyLabelProperty(LineText cloned)
+    {
+        cloned.label.setHorizontalAlignment(this.label.getHorizontalAlignment());
+        cloned.label.setVerticalAlignment(this.label.getVerticalAlignment());
+        cloned.label.setBorder(this.label.getBorder());
+        cloned.label.setMinimumSize(this.label.getMinimumSize());
+        cloned.label.setText(this.label.getText());
     }
 
     public static final int LEFT = SwingConstants.LEFT;

@@ -12,6 +12,7 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.IResizableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
+import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 
@@ -26,7 +27,8 @@ public class PackageNode extends RectangularNode implements IResizableNode
     public PackageNode()
     {
         name = new SingleLineText();
-//        name.setSize(MultiLineText.LARGE);
+        name.setAlignment(LineText.CENTER);
+
         content = new MultiLineText();
     }
 

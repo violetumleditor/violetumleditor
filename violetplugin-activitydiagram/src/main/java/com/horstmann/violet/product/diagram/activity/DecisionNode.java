@@ -32,6 +32,7 @@ import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
+import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 
 /**
  * A decision node_old in an activity diagram.
@@ -43,7 +44,7 @@ public class DecisionNode extends RectangularNode
      */
     public DecisionNode()
     {
-        condition = new MultiLineText();
+        condition = new SingleLineText();
     }
 
     @Override
@@ -158,9 +159,9 @@ public class DecisionNode extends RectangularNode
      * 
      * @param newValue the branch condition
      */
-    public void setCondition(MultiLineText newValue)
+    public void setCondition(SingleLineText newValue)
     {
-        condition = newValue;
+        condition.setText(newValue.getText());
     }
 
     /**
@@ -168,7 +169,7 @@ public class DecisionNode extends RectangularNode
      * 
      * @return the branch condition
      */
-    public MultiLineText getCondition()
+    public SingleLineText getCondition()
     {
         return condition;
     }
@@ -180,11 +181,11 @@ public class DecisionNode extends RectangularNode
     public DecisionNode clone()
     {
         DecisionNode cloned = (DecisionNode) super.clone();
-        cloned.condition = (MultiLineText) condition.clone();
+        cloned.condition = (SingleLineText) condition.clone();
         return cloned;
     }
 
-    private MultiLineText condition;
+    private SingleLineText condition;
 
     private static int DEFAULT_WIDTH = 30;
     private static int DEFAULT_HEIGHT = 20;

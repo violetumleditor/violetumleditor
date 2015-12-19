@@ -21,15 +21,15 @@
 
 package com.horstmann.violet.product.diagram.activity;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
+import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
+import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 
 /**
  * An activity node_old in an activity diagram.
@@ -41,7 +41,8 @@ public class ActivityNode extends RectangularNode
      */
     public ActivityNode()
     {
-        name = new MultiLineText();
+        name = new SingleLineText();
+        name.setMinimumSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
     }
 
     public void draw(Graphics2D g2)
@@ -87,7 +88,7 @@ public class ActivityNode extends RectangularNode
      * 
      * @param newValue the new action name
      */
-    public void setName(MultiLineText newValue)
+    public void setName(SingleLineText newValue)
     {
         name = newValue;
     }
@@ -97,7 +98,7 @@ public class ActivityNode extends RectangularNode
      * 
      * @param the action name
      */
-    public MultiLineText getName()
+    public SingleLineText getName()
     {
         return name;
     }
@@ -110,7 +111,7 @@ public class ActivityNode extends RectangularNode
         return cloned;
     }
 
-    private MultiLineText name;
+    private SingleLineText name;
 
     private static int ARC_SIZE = 20;
     private static int DEFAULT_WIDTH = 80;

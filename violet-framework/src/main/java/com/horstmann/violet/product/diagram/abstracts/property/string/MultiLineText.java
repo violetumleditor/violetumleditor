@@ -15,10 +15,12 @@ public class MultiLineText extends LineText {
 
     public MultiLineText() {
         super();
+        setPadding(1,8);
     }
 
     public MultiLineText(Converter converter) {
         super(converter);
+        setPadding(1,8);
     }
 
     @Override
@@ -67,6 +69,7 @@ public class MultiLineText extends LineText {
     public MultiLineText clone() {
         MultiLineText cloned = new MultiLineText(converter);
         cloned.rows = new ArrayList<OneLineString>(rows);
+        copyLabelProperty(cloned);
         return cloned;
     }
 
