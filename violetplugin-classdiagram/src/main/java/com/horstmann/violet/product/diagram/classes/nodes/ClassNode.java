@@ -5,6 +5,9 @@ import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import com.horstmann.violet.framework.graphics.content.SeparatorContent;
+import com.horstmann.violet.framework.graphics.content.TextContent;
+import com.horstmann.violet.framework.graphics.content.VerticalGroupContent;
 import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.LargeSizeDecorator;
 import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.OneLineString;
@@ -152,9 +155,24 @@ public class ClassNode extends RectangularNode
         g2.drawLine((int) topBounds.getX(),(int) topBounds.getMaxY(),(int) currentBounds.getMaxX(),(int) topBounds.getMaxY());
         g2.drawLine((int) bottomBounds.getX(),(int) bottomBounds.getY(),(int) currentBounds.getMaxX(),(int) bottomBounds.getY());
         g2.setColor(getTextColor());
-        name.draw(g2, topBounds);
-        attributes.draw(g2, midBounds);
-        methods.draw(g2, bottomBounds);
+
+        TextContent n = new TextContent(name);
+        TextContent a = new TextContent(attributes);
+        TextContent m = new TextContent(methods);
+        SeparatorContent s = new SeparatorContent();
+
+        VerticalGroupContent v = new VerticalGroupContent();
+        v.add(n);
+        v.add(s);
+        v.add(a);
+        v.add(s);
+        v.add(m);
+
+        v.draw(g2, new Point2D.Double(topBounds.getX(),topBounds.getY()));
+
+//        name.draw(g2, topBounds);
+//        attributes.draw(g2, midBounds);
+//        methods.draw(g2, bottomBounds);
         // Restore g2 original location
         g2.translate(-g2Location.getX(), -g2Location.getY());
         // Restore first color

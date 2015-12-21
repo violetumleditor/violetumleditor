@@ -4,11 +4,9 @@ import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.LabelUI;
 import java.awt.*;
-import java.awt.geom.Dimension2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
 /**
@@ -70,6 +68,7 @@ public abstract class LineText implements Serializable, Cloneable {
         return this.bounds;
     }
 
+    //todo probowac usunac na rzecz punktu
     final public void draw(Graphics2D g2, Rectangle2D r) {
         label.setBounds(0, 0, (int) r.getWidth(), (int) r.getHeight());
         g2.translate(r.getX(), r.getY());
