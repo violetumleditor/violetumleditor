@@ -43,7 +43,8 @@ public abstract class LineText implements Serializable, Cloneable {
         setPadding(vertical, horizontal, vertical, horizontal);
     }
     final public void setPadding(int top, int left, int bottom, int right){
-        label.setBorder(new EmptyBorder(top, left, bottom, right));
+        label.setBorder(BorderFactory.createLineBorder(Color.BLUE,2));
+//        label.setBorder(new EmptyBorder(top, left, bottom, right));
         refresh();
     }
 
@@ -84,8 +85,6 @@ public abstract class LineText implements Serializable, Cloneable {
 
     private void refresh()
     {
-        BufferedImage image = new BufferedImage(1000, 1000, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2 = (Graphics2D) image.getGraphics();
         this.bounds = getTextBounds(getText());
     }
 
