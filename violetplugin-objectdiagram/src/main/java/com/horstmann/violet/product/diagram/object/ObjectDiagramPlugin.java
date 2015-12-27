@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import com.horstmann.violet.framework.plugin.IDiagramPlugin;
 import com.horstmann.violet.framework.plugin.extensionpoint.Violet016FileFilterExtensionPoint;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.common.edge.BasePropertyEdge;
 
 /**
  * Describes object diagram graph type
@@ -79,7 +80,7 @@ public class ObjectDiagramPlugin implements IDiagramPlugin, Violet016FileFilterE
         replaceMap.put("com.horstmann.violet.FieldNode", FieldNode.class.getName());
         replaceMap.put("com.horstmann.violet.ObjectNode", ObjectNode.class.getName());
         replaceMap.put("com.horstmann.violet.ObjectReferenceEdge", ObjectReferenceEdge.class.getName());
-        replaceMap.put("com.horstmann.violet.ObjectRelationshipEdge", ObjectRelationshipEdge.class.getName());
+        replaceMap.put("com.horstmann.violet.BasePropertyEdge", BasePropertyEdge.class.getName());
         return replaceMap;
     }
 

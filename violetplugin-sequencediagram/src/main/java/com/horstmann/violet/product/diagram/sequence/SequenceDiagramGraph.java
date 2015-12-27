@@ -30,7 +30,9 @@ import java.util.ResourceBundle;
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.common.NoteEdge;
+import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
+import com.horstmann.violet.product.diagram.abstracts.property.LineStyle;
+import com.horstmann.violet.product.diagram.common.edge.NoteEdge;
 import com.horstmann.violet.product.diagram.common.NoteNode;
 
 /**
@@ -82,17 +84,30 @@ public class SequenceDiagramGraph extends AbstractGraph
         NoteNode noteNode = new NoteNode();
         noteNode.setToolTip(rs.getString("node2.tooltip"));
         NODE_PROTOTYPES.add(noteNode);
-        
+
         CallEdge callEdge = new CallEdge();
+        callEdge.setEndArrowHead(ArrowHead.BLACK_TRIANGLE);
+        callEdge.setStartArrowHead(ArrowHead.NONE);
+        callEdge.setLineStyle(LineStyle.SOLID);
         callEdge.setToolTip(rs.getString("edge0.tooltip"));
         EDGE_PROTOTYPES.add(callEdge);
+
+        CallEdge createEdge = new CallEdge();
+        createEdge.setEndArrowHead(ArrowHead.V);
+        createEdge.setStartArrowHead(ArrowHead.NONE);
+        createEdge.setLineStyle(LineStyle.SOLID);
+        createEdge.setToolTip(rs.getString("edge1.tooltip"));
+        EDGE_PROTOTYPES.add(createEdge);
         
         ReturnEdge returnEdge = new ReturnEdge();
-        returnEdge.setToolTip(rs.getString("edge1.tooltip"));
+        returnEdge.setEndArrowHead(ArrowHead.V);
+        returnEdge.setStartArrowHead(ArrowHead.NONE);
+        returnEdge.setLineStyle(LineStyle.DOTTED);
+        returnEdge.setToolTip(rs.getString("edge2.tooltip"));
         EDGE_PROTOTYPES.add(returnEdge);
         
         NoteEdge noteEdge = new NoteEdge();
-        noteEdge.setToolTip(rs.getString("edge2.tooltip"));
+        noteEdge.setToolTip(rs.getString("edge3.tooltip"));
         EDGE_PROTOTYPES.add(noteEdge);
     }
 

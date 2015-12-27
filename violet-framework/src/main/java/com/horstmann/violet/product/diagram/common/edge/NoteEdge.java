@@ -19,7 +19,7 @@
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package com.horstmann.violet.product.diagram.common;
+package com.horstmann.violet.product.diagram.common.edge;
 
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
@@ -35,7 +35,6 @@ import com.horstmann.violet.product.diagram.abstracts.edge.ShapeEdge;
  */
 public class NoteEdge extends ShapeEdge
 {
-    
     @Override
     public void draw(Graphics2D g2)
     {
@@ -44,7 +43,6 @@ public class NoteEdge extends ShapeEdge
         g2.draw(getConnectionPoints());
         g2.setStroke(oldStroke);
     }
-
 
     @Override
     public Shape getShape()
@@ -56,9 +54,12 @@ public class NoteEdge extends ShapeEdge
         return path;
     }
 
-    private static Stroke DOTTED_STROKE = new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0.0f, new float[]
-    {
-            3.0f,
-            3.0f
-    }, 0.0f);
+    private static Stroke DOTTED_STROKE = new BasicStroke(
+        1.0f,
+        BasicStroke.CAP_ROUND,
+        BasicStroke.JOIN_ROUND,
+        0.0f,
+        new float[] {3.0f,3.0f},
+        0.0f
+    );
 }

@@ -36,8 +36,7 @@ public class CallEdgeBeanInfo extends SimpleBeanInfo
         {
             return new PropertyDescriptor[]
             {
-                    new PropertyDescriptor("middleLabel", CallEdge.class),
-                    new PropertyDescriptor("signal", CallEdge.class)
+                    new PropertyDescriptor("middleLabel", CallEdge.class)
             };
         }
         catch (IntrospectionException exception)

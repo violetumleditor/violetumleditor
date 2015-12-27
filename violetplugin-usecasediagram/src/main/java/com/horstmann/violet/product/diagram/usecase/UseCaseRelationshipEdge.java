@@ -28,5 +28,14 @@ import com.horstmann.violet.product.diagram.abstracts.edge.SegmentedLineEdge;
  */
 public class UseCaseRelationshipEdge extends SegmentedLineEdge
 {
+    public UseCaseRelationshipEdge() {}
 
+    @Override
+    public UseCaseRelationshipEdge clone() {
+        return new UseCaseRelationshipEdge(this);
+    }
+
+    protected UseCaseRelationshipEdge(SegmentedLineEdge clone) {
+        super(clone);
+    }
 }

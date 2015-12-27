@@ -47,7 +47,7 @@ import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLine
  * An edge that is composed of multiple line segments
  */
 //public abstract class SegmentedLineEdge extends ShapeEdge
-public class SegmentedLineEdge extends ShapeEdge
+public abstract class SegmentedLineEdge extends ShapeEdge
 {
     /**
      * Constructs an edge with no adornments.
@@ -505,19 +505,6 @@ public class SegmentedLineEdge extends ShapeEdge
             }
         }
         return straightDirection;
-    }
-
-    @Override
-    public SegmentedLineEdge clone() {
-        SegmentedLineEdge cloned = new SegmentedLineEdge();
-        cloned.lineStyle = lineStyle;
-        cloned.startArrowHead = startArrowHead;
-        cloned.endArrowHead = endArrowHead;
-        cloned.bentStyle = bentStyle;
-        cloned.startLabel = startLabel.clone();
-        cloned.middleLabel = middleLabel.clone();
-        cloned.endLabel = endLabel.clone();
-        return cloned;
     }
 
     protected SegmentedLineEdge(SegmentedLineEdge segmentedLineEdge)
