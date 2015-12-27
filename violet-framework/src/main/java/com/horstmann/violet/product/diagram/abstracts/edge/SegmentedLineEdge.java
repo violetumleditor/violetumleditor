@@ -520,6 +520,17 @@ public class SegmentedLineEdge extends ShapeEdge
         return cloned;
     }
 
+    protected SegmentedLineEdge(SegmentedLineEdge segmentedLineEdge)
+    {
+        this.lineStyle = segmentedLineEdge.lineStyle;
+        this.startArrowHead = segmentedLineEdge.startArrowHead;
+        this.endArrowHead = segmentedLineEdge.endArrowHead;
+        this.bentStyle = segmentedLineEdge.bentStyle;
+        this.startLabel = segmentedLineEdge.startLabel.clone();
+        this.middleLabel = segmentedLineEdge.middleLabel.clone();
+        this.endLabel = segmentedLineEdge.endLabel.clone();
+    }
+
     private LineStyle lineStyle;
     private ArrowHead startArrowHead;
     private ArrowHead endArrowHead;

@@ -186,20 +186,20 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
             {
                 public void propertyChange(PropertyChangeEvent event)
                 {
-                    try
-                    {
-                        Object newValue = editor.getValue();
-                        setter.invoke(bean, newValue);
-                        firePropertyStateChanged(new PropertyChangeEvent(bean, descriptor.getName(), oldValue, newValue));
-                    }
-                    catch (IllegalAccessException exception)
-                    {
-                        exception.printStackTrace();
-                    }
-                    catch (InvocationTargetException exception)
-                    {
-                        exception.printStackTrace();
-                    }
+                try
+                {
+                    Object newValue = editor.getValue();
+                    setter.invoke(bean, newValue);
+                    firePropertyStateChanged(new PropertyChangeEvent(bean, descriptor.getName(), oldValue, newValue));
+                }
+                catch (IllegalAccessException exception)
+                {
+                    exception.printStackTrace();
+                }
+                catch (InvocationTargetException exception)
+                {
+                    exception.printStackTrace();
+                }
                 }
             });
             return editor;

@@ -36,7 +36,7 @@ import com.horstmann.violet.framework.util.StringFilterOutputStream;
 import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
 import com.horstmann.violet.product.diagram.abstracts.property.BentStyle;
 import com.horstmann.violet.product.diagram.abstracts.property.LineStyle;
-import com.horstmann.violet.product.diagram.classes.edges.ClassRelationshipEdge;
+import com.horstmann.violet.product.diagram.classes.edges.SimpleEdge;
 import com.horstmann.violet.product.diagram.classes.nodes.ClassNode;
 import com.horstmann.violet.product.diagram.classes.nodes.InterfaceNode;
 import com.horstmann.violet.product.diagram.classes.nodes.PackageNode;
@@ -79,7 +79,7 @@ public class FileCompatiliblyServiceToDelete
         // fix class diagram package
         replaceMap.put("com.horstmann.violet.ClassDiagramGraph", ClassDiagramGraph.class.getName());
         replaceMap.put("com.horstmann.violet.ClassNode", ClassNode.class.getName());
-        replaceMap.put("com.horstmann.violet.ClassRelationshipEdge", ClassRelationshipEdge.class.getName());
+        replaceMap.put("com.horstmann.violet.SimpleEdge", SimpleEdge.class.getName());
         replaceMap.put("com.horstmann.violet.InterfaceNode", InterfaceNode.class.getName());
         replaceMap.put("com.horstmann.violet.PackageNode", PackageNode.class.getName());
 
@@ -168,7 +168,7 @@ public class FileCompatiliblyServiceToDelete
         // fix class diagram package
         replaceMap.put(ClassDiagramGraph.class.getName(), "com.horstmann.violet.ClassDiagramGraph");
         replaceMap.put(ClassNode.class.getName(), "com.horstmann.violet.ClassNode");
-        replaceMap.put(ClassRelationshipEdge.class.getName(), "com.horstmann.violet.ClassRelationshipEdge");
+        replaceMap.put(SimpleEdge.class.getName(), "com.horstmann.violet.SimpleEdge");
         replaceMap.put(InterfaceNode.class.getName(), "com.horstmann.violet.InterfaceNode");
         replaceMap.put(PackageNode.class.getName(), "com.horstmann.violet.PackageNode");
 

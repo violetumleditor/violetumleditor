@@ -5,11 +5,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 import com.horstmann.violet.framework.plugin.IDiagramPlugin;
 import com.horstmann.violet.framework.plugin.extensionpoint.Violet016FileFilterExtensionPoint;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
-import com.horstmann.violet.product.diagram.classes.edges.ClassRelationshipEdge;
+import com.horstmann.violet.product.diagram.classes.edges.SimpleEdge;
 import com.horstmann.violet.product.diagram.classes.nodes.ClassNode;
 import com.horstmann.violet.product.diagram.classes.nodes.InterfaceNode;
 import com.horstmann.violet.product.diagram.classes.nodes.PackageNode;
@@ -85,15 +84,11 @@ public class ClassDiagramPlugin implements IDiagramPlugin, Violet016FileFilterEx
         Map<String, String> replaceMap = new HashMap<String, String>();
         replaceMap.put("com.horstmann.violet.ClassDiagramGraph", ClassDiagramGraph.class.getName());
         replaceMap.put("com.horstmann.violet.ClassNode", ClassNode.class.getName());
-        replaceMap.put("com.horstmann.violet.ClassRelationshipEdge", ClassRelationshipEdge.class.getName());
+        replaceMap.put("com.horstmann.violet.SimpleEdge", SimpleEdge.class.getName());
         replaceMap.put("com.horstmann.violet.InterfaceNode", InterfaceNode.class.getName());
         replaceMap.put("com.horstmann.violet.PackageNode", PackageNode.class.getName());
         return replaceMap;
     }
 
     private ResourceBundle rs = ResourceBundle.getBundle(ClassDiagramConstant.CLASS_DIAGRAM_STRINGS, Locale.getDefault());
-    
-    
-    
-
 }

@@ -5,11 +5,10 @@ import java.beans.PropertyDescriptor;
 import java.beans.SimpleBeanInfo;
 
 /**
- * The bean info for the ClassRelationshipEdge type.
+ * Created by Adrian Bobrowski on 27.12.2015.
  */
-public class DependencyEdgeBeanInfo extends SimpleBeanInfo
+public class SimpleEdgeBeanInfo extends SimpleBeanInfo
 {
-
     @Override
     public PropertyDescriptor[] getPropertyDescriptors()
     {
@@ -17,10 +16,10 @@ public class DependencyEdgeBeanInfo extends SimpleBeanInfo
         {
             PropertyDescriptor[] descriptors = new PropertyDescriptor[]
             {
-                    new PropertyDescriptor("startLabel", DependencyEdge.class),
-                    new PropertyDescriptor("middleLabel", DependencyEdge.class),
-                    new PropertyDescriptor("endLabel", DependencyEdge.class),
-                    new PropertyDescriptor("bentStyle", DependencyEdge.class),
+                new PropertyDescriptor("startLabel", SimpleEdge.class),
+                new PropertyDescriptor("middleLabel", SimpleEdge.class),
+                new PropertyDescriptor("endLabel", SimpleEdge.class),
+                new PropertyDescriptor("bentStyle", SimpleEdge.class),
             };
             for (int i = 0; i < descriptors.length; i++)
             {
@@ -34,5 +33,4 @@ public class DependencyEdgeBeanInfo extends SimpleBeanInfo
             return null;
         }
     }
-
 }
