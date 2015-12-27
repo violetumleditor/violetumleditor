@@ -46,7 +46,8 @@ import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLine
 /**
  * An edge that is composed of multiple line segments
  */
-public abstract class SegmentedLineEdge extends ShapeEdge
+//public abstract class SegmentedLineEdge extends ShapeEdge
+public class SegmentedLineEdge extends ShapeEdge
 {
     /**
      * Constructs an edge with no adornments.
@@ -328,7 +329,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge
             }
             if (arrow != null)
             {
-                Rectangle2D arrowBounds = arrow.getPath(p, q).getBounds2D();
+                Rectangle2D arrowBounds = arrow.getPath().getBounds2D();
                 if (p.getX() < q.getX())
                 {
                     xoff -= arrowBounds.getWidth();
@@ -384,8 +385,8 @@ public abstract class SegmentedLineEdge extends ShapeEdge
     {
         GeneralPath path = getSegmentPath();
         ArrayList<Point2D> points = getPoints();
-        path.append(getStartArrowHead().getPath((Point2D) points.get(1), (Point2D) points.get(0)), false);
-        path.append(getEndArrowHead().getPath((Point2D) points.get(points.size() - 2), (Point2D) points.get(points.size() - 1)),
+        path.append(getStartArrowHead().getPath(), false);
+        path.append(getEndArrowHead().getPath(),
                 false);
         return path;
     }
