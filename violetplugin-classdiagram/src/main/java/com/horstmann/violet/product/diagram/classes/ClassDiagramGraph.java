@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.edge.SegmentedLineEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.classes.edges.AggregationEdge;
 import com.horstmann.violet.product.diagram.classes.edges.AssociationEdge;
@@ -91,6 +92,10 @@ public class ClassDiagramGraph extends AbstractGraph
         NoteEdge noteEdge = new NoteEdge();
         noteEdge.setToolTip(rs.getString("edge6.tooltip"));
         EDGE_PROTOTYPES.add(noteEdge);
+
+        SegmentedLineEdge customEdge = new SegmentedLineEdge();
+        customEdge.setToolTip(rs.getString("edge7.tooltip"));
+        EDGE_PROTOTYPES.add(customEdge);
     }
 
 }

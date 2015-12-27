@@ -507,6 +507,19 @@ public class SegmentedLineEdge extends ShapeEdge
         return straightDirection;
     }
 
+    @Override
+    public SegmentedLineEdge clone() {
+        SegmentedLineEdge cloned = new SegmentedLineEdge();
+        cloned.lineStyle = lineStyle;
+        cloned.startArrowHead = startArrowHead;
+        cloned.endArrowHead = endArrowHead;
+        cloned.bentStyle = bentStyle;
+        cloned.startLabel = startLabel.clone();
+        cloned.middleLabel = middleLabel.clone();
+        cloned.endLabel = endLabel.clone();
+        return cloned;
+    }
+
     private LineStyle lineStyle;
     private ArrowHead startArrowHead;
     private ArrowHead endArrowHead;

@@ -41,20 +41,22 @@ public class ArrowHeadEditor extends CustomPropertyEditorSupport
     /** Arrows labels */
     public static final String[] NAMES =
     {
-            "None",
-            "Triangle",
-            "V",
-            "Diamond",
-            "Black Diamond"
+        "None",
+        "Triangle",
+        "V",
+        "Diamond",
+        "Black Diamond",
+        "X"
     };
 
     /** Arrows technical values */
     public static final Object[] VALUES =
     {
-            ArrowHead.NONE,
-            ArrowHead.TRIANGLE,
-            ArrowHead.V,
-            ArrowHead.DIAMOND,
-            ArrowHead.BLACK_DIAMOND
+        ArrowHead.NONE,
+        ArrowHead.TRIANGLE,
+        ArrowHead.V,
+        ArrowHead.DIAMOND,
+        ArrowHead.BLACK_DIAMOND,
+        ArrowHead.X
     };
 }
