@@ -5,9 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import com.horstmann.violet.framework.graphics.content.SeparatorContent;
-import com.horstmann.violet.framework.graphics.content.TextContent;
-import com.horstmann.violet.framework.graphics.content.VerticalGroupContent;
+import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.LargeSizeDecorator;
 import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.OneLineString;
@@ -159,16 +157,15 @@ public class ClassNode extends RectangularNode
         TextContent n = new TextContent(name);
         TextContent a = new TextContent(attributes);
         TextContent m = new TextContent(methods);
-        SeparatorContent s = new SeparatorContent();
 
         VerticalGroupContent v = new VerticalGroupContent();
         v.add(n);
-        v.add(s);
         v.add(a);
-        v.add(s);
         v.add(m);
 
-        v.draw(g2, new Point2D.Double(topBounds.getX(),topBounds.getY()));
+        Content test = new ContentBackground(new ContentBorder(new ContentInsideEllipse(v), Color.RED),Color.CYAN);
+
+        test.draw(g2, new Point2D.Double(topBounds.getX(),topBounds.getY()));
 
 //        name.draw(g2, topBounds);
 //        attributes.draw(g2, midBounds);

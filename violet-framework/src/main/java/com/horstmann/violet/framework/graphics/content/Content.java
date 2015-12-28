@@ -42,7 +42,7 @@ public abstract class Content {
         this.height = height;
     }
 
-    Rectangle2D getBounds()
+    protected Rectangle2D getBounds()
     {
         return new Rectangle2D.Double(0,0,width,height);
     }

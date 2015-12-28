@@ -38,7 +38,4 @@ public abstract class GroupContent extends Content{
     }
 
     protected List<Content> contents = new ArrayList<Content>();
-
-    protected int width;
-    protected int height;
 }

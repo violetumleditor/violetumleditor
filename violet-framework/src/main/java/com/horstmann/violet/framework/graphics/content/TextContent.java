@@ -22,7 +22,7 @@ public class TextContent extends Content{
     }
 
     @Override
-    Rectangle2D getBounds()
+    protected Rectangle2D getBounds()
     {
         Rectangle2D textBounds = text.getBounds();
         return new Rectangle2D.Double(0,0,Math.max(textBounds.getWidth(),width),Math.max(textBounds.getHeight(),height));

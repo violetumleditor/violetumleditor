@@ -3,6 +3,7 @@ package com.horstmann.violet.product.diagram.abstracts.property.string;
 import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.OneLineString;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -42,6 +43,7 @@ public abstract class LineText implements Serializable, Cloneable {
     }
     final public void setPadding(int top, int left, int bottom, int right){
         label.setBorder(new EmptyBorder(top, left, bottom, right));
+        label.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
         refresh();
     }
 

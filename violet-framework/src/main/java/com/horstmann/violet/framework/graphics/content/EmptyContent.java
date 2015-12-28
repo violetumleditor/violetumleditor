@@ -1,0 +1,13 @@
+package com.horstmann.violet.framework.graphics.content;
+
+import java.awt.*;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+
+/**
+ * Created by Adrian Bobrowski on 21.12.2015.
+ */
+public class EmptyContent extends Content{
+    @Override
+    public void draw(Graphics2D g2, Point2D point) {}
+}
