@@ -1,15 +1,14 @@
-package com.horstmann.violet.product.diagram.classes.edges;
+package com.horstmann.violet.product.diagram.common.edge;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.beans.SimpleBeanInfo;
 
 /**
- * The bean info for the ClassRelationshipEdge type.
+ * Created by Adrian Bobrowski on 27.12.2015.
  */
-public class DependencyEdgeBeanInfo extends SimpleBeanInfo
+public class BasePropertyEdgeBeanInfo extends SimpleBeanInfo
 {
-
     @Override
     public PropertyDescriptor[] getPropertyDescriptors()
     {
@@ -17,10 +16,10 @@ public class DependencyEdgeBeanInfo extends SimpleBeanInfo
         {
             PropertyDescriptor[] descriptors = new PropertyDescriptor[]
             {
-                    new PropertyDescriptor("startLabel", DependencyEdge.class),
-                    new PropertyDescriptor("middleLabel", DependencyEdge.class),
-                    new PropertyDescriptor("endLabel", DependencyEdge.class),
-                    new PropertyDescriptor("bentStyle", DependencyEdge.class),
+                new PropertyDescriptor("startLabel", BasePropertyEdge.class),
+                new PropertyDescriptor("middleLabel", BasePropertyEdge.class),
+                new PropertyDescriptor("endLabel", BasePropertyEdge.class),
+                new PropertyDescriptor("bentStyle", BasePropertyEdge.class),
             };
             for (int i = 0; i < descriptors.length; i++)
             {
@@ -34,5 +33,4 @@ public class DependencyEdgeBeanInfo extends SimpleBeanInfo
             return null;
         }
     }
-
 }

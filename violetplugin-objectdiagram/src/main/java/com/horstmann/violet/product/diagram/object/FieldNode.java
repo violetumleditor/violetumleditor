@@ -32,6 +32,7 @@ import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
+import com.horstmann.violet.product.diagram.common.edge.BasePropertyEdge;
 
 /**
  * A field node_old in an object diagram.
@@ -157,7 +158,7 @@ public class FieldNode extends RectangularNode
             return true;
         }
         // Hack to allow drawing relationship edge over fields
-        if (e.getClass().isAssignableFrom(ObjectRelationshipEdge.class))
+        if (e.getClass().isAssignableFrom(BasePropertyEdge.class))
         {
             INode startingNode = e.getStart();
             INode endingNode = e.getEnd();

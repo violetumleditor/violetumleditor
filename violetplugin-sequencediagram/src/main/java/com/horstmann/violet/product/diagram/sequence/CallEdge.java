@@ -27,7 +27,6 @@ import java.util.ArrayList;
 
 import com.horstmann.violet.product.diagram.abstracts.edge.SegmentedLineEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
 
 /**
  * An edge that joins two call nodes. Typically, call edges are used in sequence diagram to represent calls between entities (call
@@ -35,50 +34,22 @@ import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
  */
 public class CallEdge extends SegmentedLineEdge
 {
+    public CallEdge() {}
+
+    @Override
+    public CallEdge clone() {
+        return new CallEdge(this);
+    }
+
+    protected CallEdge(SegmentedLineEdge clone) {
+        super(clone);
+    }
 
 	@Override
 	public boolean isTransitionPointsSupported() {
 		return false;
 	}
-	
-	/**
-     * Default constructor
-     */
-    public CallEdge()
-    {
-        setSignal(false);
-    }
 
-    /**
-     * Gets the signal property.
-     * 
-     * @return true if this is an edge that represents an asynchronus signal
-     */
-    public boolean isSignal()
-    {
-        return signal;
-    }
-
-    /**
-     * Sets the signal property.
-     * 
-     * @param newValue true if this is an edge that represents an asynchronus signal
-     */
-    public void setSignal(boolean newValue)
-    {
-        signal = newValue;
-
-    }
-
-    @Override
-    public ArrowHead getEndArrowHead()
-    {
-        if (signal)
-        {
-            return ArrowHead.V;
-        }
-        return ArrowHead.BLACK_TRIANGLE;
-    }
 
     @Override
     public Line2D getConnectionPoints()
@@ -141,9 +112,6 @@ public class CallEdge extends SegmentedLineEdge
         a.add(s);
         return a;
     }
-
-    /** Indicate if the node_old represents an asynchonus signal */
-    private boolean signal;
 
     /** Horizintal gap used to connected two activation bars on the same lifeline */
     private static int LOOP_GAP = 15;

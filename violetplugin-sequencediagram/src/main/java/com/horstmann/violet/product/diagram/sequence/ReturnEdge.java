@@ -27,31 +27,16 @@ import java.util.ArrayList;
 
 import com.horstmann.violet.product.diagram.abstracts.edge.SegmentedLineEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
-import com.horstmann.violet.product.diagram.abstracts.property.LineStyle;
 
 /**
  * An edge that joins two call nodes.
  */
 public class ReturnEdge extends SegmentedLineEdge
 {
-
 	@Override
 	public boolean isTransitionPointsSupported() {
 		return false;
 	}
-	
-    @Override
-    public ArrowHead getEndArrowHead()
-    {
-        return ArrowHead.V;
-    }
-
-    @Override
-    public LineStyle getLineStyle()
-    {
-        return LineStyle.DOTTED;
-    }
 
     @Override
     public Line2D getConnectionPoints()

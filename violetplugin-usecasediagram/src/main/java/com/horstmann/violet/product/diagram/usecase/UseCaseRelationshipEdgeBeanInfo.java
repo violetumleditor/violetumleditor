@@ -44,10 +44,11 @@ public class UseCaseRelationshipEdgeBeanInfo extends SimpleBeanInfo
                     new PropertyDescriptor("middleLabel", UseCaseRelationshipEdge.class),
                     new PropertyDescriptor("bentStyle", UseCaseRelationshipEdge.class),
             };
-            for (int i = 0; i < descriptors.length; i++)
-            {
-                descriptors[i].setValue("priority", new Integer(i));
-            }
+            descriptors[0].setValue("priority", new Integer(0));
+            descriptors[0].setName("Text");
+            descriptors[1].setValue("priority", new Integer(1));
+            descriptors[1].setName("Bent style");
+
             return descriptors;
         }
         catch (IntrospectionException exception)

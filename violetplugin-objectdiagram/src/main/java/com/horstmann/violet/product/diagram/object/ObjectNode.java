@@ -36,6 +36,7 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
+import com.horstmann.violet.product.diagram.common.edge.BasePropertyEdge;
 
 /**
  * An object node_old in an object diagram.
@@ -145,7 +146,7 @@ public class ObjectNode extends RectangularNode
 
     public boolean addConnection(IEdge e)
     {
-        if (!e.getClass().isAssignableFrom(ObjectRelationshipEdge.class))
+        if (!e.getClass().isAssignableFrom(BasePropertyEdge.class))
         {
             return false;
         }

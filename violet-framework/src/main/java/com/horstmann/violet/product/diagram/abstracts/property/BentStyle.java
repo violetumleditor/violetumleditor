@@ -34,6 +34,7 @@ import com.horstmann.violet.framework.util.SerializableEnumeration;
 public class BentStyle extends SerializableEnumeration
 {
 
+
     /**
      * Default constructor
      */
@@ -300,5 +301,4 @@ public class BentStyle extends SerializableEnumeration
     public static final BentStyle VHV = new BentStyle();
     /** Automatic bent style */
     public static final BentStyle AUTO = new BentStyle();
-
 }
