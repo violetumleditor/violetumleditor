@@ -43,7 +43,7 @@ public abstract class LineText implements Serializable, Cloneable {
     }
     final public void setPadding(int top, int left, int bottom, int right){
         label.setBorder(new EmptyBorder(top, left, bottom, right));
-        label.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
+//        label.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
         refresh();
     }
 

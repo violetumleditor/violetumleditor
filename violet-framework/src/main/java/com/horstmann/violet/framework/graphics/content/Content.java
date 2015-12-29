@@ -33,6 +33,11 @@ public abstract class Content {
         }
     }
 
+    public Rectangle2D getBounds()
+    {
+        return new Rectangle2D.Double(0,0,width,height);
+    }
+
     protected void setWidth(int width)
     {
         this.width = width;
@@ -42,10 +47,7 @@ public abstract class Content {
         this.height = height;
     }
 
-    protected Rectangle2D getBounds()
-    {
-        return new Rectangle2D.Double(0,0,width,height);
-    }
+
 
     protected int minWidth;
     protected int minHeight;

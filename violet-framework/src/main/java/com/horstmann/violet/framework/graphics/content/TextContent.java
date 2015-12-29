@@ -9,7 +9,7 @@ import java.awt.geom.Rectangle2D;
 /**
  * Created by Adrian Bobrowski on 21.12.2015.
  */
-public class TextContent extends Content{
+public class TextContent extends Content {
     public TextContent(LineText text)
     {
         this.text = text;
@@ -22,7 +22,7 @@ public class TextContent extends Content{
     }
 
     @Override
-    protected Rectangle2D getBounds()
+    public Rectangle2D getBounds()
     {
         Rectangle2D textBounds = text.getBounds();
         return new Rectangle2D.Double(0,0,Math.max(textBounds.getWidth(),width),Math.max(textBounds.getHeight(),height));
