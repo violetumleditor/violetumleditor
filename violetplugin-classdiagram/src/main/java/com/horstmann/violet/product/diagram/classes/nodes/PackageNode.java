@@ -15,12 +15,16 @@ import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
+import com.sun.xml.internal.bind.v2.TODO;
 
 /**
  * A package node_old in a UML diagram.
  */
+
 public class PackageNode extends RectangularNode implements IResizableNode
 {
+    //TODO przerobic na nowa wersje
+
     /**
      * Construct a package node_old with a default size
      */

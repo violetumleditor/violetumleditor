@@ -18,7 +18,7 @@ public abstract class GroupContent extends Content
     protected abstract Point2D getStartPointSeparator(Point2D offset);
     protected abstract Point2D getEndPointSeparator(Point2D offset);
 
-    public final void add(Content content)
+    public void add(Content content)
     {
         if(null == content)
         {
@@ -81,14 +81,14 @@ public abstract class GroupContent extends Content
         {
             content = iterator.next();
             content.draw(g2, offset);
-            offset = getNextOffset(offset, content);
         }
         while(iterator.hasNext())
         {
+            offset = getNextOffset(offset, content);
+
             content = iterator.next();
             content.draw(g2, offset);
             separator.draw(g2, getStartPointSeparator(offset), getEndPointSeparator(offset));
-            offset = getNextOffset(offset, content);
         }
     }
 

@@ -5,6 +5,10 @@ import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import com.horstmann.violet.framework.graphics.Separator;
+import com.horstmann.violet.framework.graphics.content.*;
+import com.horstmann.violet.framework.graphics.content.VerticalGroupContent;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.LargeSizeDecorator;
 import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.OneLineString;
@@ -34,92 +38,44 @@ public class InterfaceNode extends RectangularNode
             }
         });
         methods = new MultiLineText();
+
+        createContentStructure();
     }
 
-    private Rectangle2D getTopRectangleBounds()
+    protected void createContentStructure()
     {
-        Rectangle2D globalBounds = new Rectangle2D.Double(0, 0, 0, 0);
-        Rectangle2D nameBounds = name.getBounds();
-        globalBounds.add(nameBounds);
-        boolean isMethodsEmpty = (methods.getText().length() == 0);
-        double defaultHeight = DEFAULT_HEIGHT;
-        if (!isMethodsEmpty)
-        {
-            defaultHeight = DEFAULT_COMPARTMENT_HEIGHT;
-        }
-        globalBounds.add(new Rectangle2D.Double(0, 0, DEFAULT_WIDTH, defaultHeight));
-        Point2D currentLocation = getLocation();
-        double x = currentLocation.getX();
-        double y = currentLocation.getY();
-        double w = globalBounds.getWidth();
-        double h = globalBounds.getHeight();
-        globalBounds.setFrame(x, y, w, h);
-        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(globalBounds);
-        return snappedBounds;
-    }
+        TextContent nameContent = new TextContent(name);
+        nameContent.setMinHeight(DEFAULT_NAME_HEIGHT);
+        nameContent.setMinWidth(DEFAULT_WIDTH);
+        TextContent methodsContent = new TextContent(methods);
 
-    private Rectangle2D getBottomRectangleBounds()
-    {
-        Rectangle2D globalBounds = new Rectangle2D.Double(0, 0, 0, 0);
-        Rectangle2D methodsBounds = methods.getBounds();
-        globalBounds.add(methodsBounds);
-        if (methodsBounds.getHeight() > 0)
-        {
-            globalBounds.add(new Rectangle2D.Double(0, 0, DEFAULT_WIDTH, DEFAULT_COMPARTMENT_HEIGHT));
-        }
-        Rectangle2D topBounds = getTopRectangleBounds();
-        double x = topBounds.getX();
-        double y = topBounds.getMaxY();
-        double w = globalBounds.getWidth();
-        double h = globalBounds.getHeight();
-        globalBounds.setFrame(x, y, w, h);
-        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(globalBounds);
-        return snappedBounds;
+        VerticalGroupContent verticalGroupContent = new VerticalGroupContent();
+        verticalGroupContent.add(nameContent);
+        verticalGroupContent.add(methodsContent);
+        verticalGroupContent.setSeparator(new Separator.LineSeparator(getBorderColor()));
+
+        ContentInsideShape contentInsideShape = new ContentInsideRectangle(verticalGroupContent);
+
+        border = new ContentBorder(contentInsideShape, getBorderColor());
+        background = new ContentBackground(border, getBackgroundColor());
+
+        content = background;
     }
 
     @Override
     public Rectangle2D getBounds()
     {
-        Rectangle2D top = getTopRectangleBounds();
-        Rectangle2D bot = getBottomRectangleBounds();
-        top.add(bot);
-        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(top);
-        return snappedBounds;
+        Point2D location = getLocationOnGraph();
+        Rectangle2D contentBounds = content.getBounds();
+        return new Rectangle2D.Double(location.getX(), location.getY(), contentBounds.getWidth(), contentBounds.getHeight());
     }
+
 
     @Override
     public void draw(Graphics2D g2)
     {
-        // Backup current color;
         Color oldColor = g2.getColor();
-        // Translate g2 if node_old has parent
-        Point2D nodeLocationOnGraph = getLocationOnGraph();
-        Point2D nodeLocation = getLocation();
-        Point2D g2Location = new Point2D.Double(nodeLocationOnGraph.getX() - nodeLocation.getX(), nodeLocationOnGraph.getY()
-                - nodeLocation.getY());
-        g2.translate(g2Location.getX(), g2Location.getY());
-        // Perform drawing
-        super.draw(g2);
-        Rectangle2D currentBounds = getBounds();
-        Rectangle2D topBounds = getTopRectangleBounds();
-        Rectangle2D bottomBounds = getBottomRectangleBounds();
-        if (topBounds.getWidth() < currentBounds.getWidth())
-        {
-        	// We need to re-center the topBounds - only do so if really required to avoid race conditions
-        	topBounds.setRect(topBounds.getX(), topBounds.getY(), currentBounds.getWidth(), topBounds.getHeight());
-        }
-        g2.setColor(getBackgroundColor());
-        g2.fill(currentBounds);
-        g2.setColor(getBorderColor());
-        g2.draw(currentBounds);
-        g2.setColor(getBorderColor());
-        g2.drawLine((int) topBounds.getX(), (int) topBounds.getMaxY(), (int) currentBounds.getMaxX(), (int) topBounds.getMaxY());
-        g2.setColor(getTextColor());
-        name.draw(g2, topBounds);
-        methods.draw(g2, bottomBounds);
-        // Restore g2 original location
-        g2.translate(-g2Location.getX(), -g2Location.getY());
-        // Restore first color
+        content.draw(g2, getLocationOnGraph());
         g2.setColor(oldColor);
     }
 
@@ -179,15 +135,17 @@ public class InterfaceNode extends RectangularNode
         InterfaceNode cloned = (InterfaceNode) super.clone();
         cloned.name = name.clone();
         cloned.methods = methods.clone();
+        cloned.createContentStructure();
         return cloned;
     }
 
-    // private transient double midHeight;
-    // private transient double botHeight;
+    private Content content = null;
+    private ContentBackground background = null;
+    private ContentBorder border = null;
+
     private SingleLineText name;
     private MultiLineText methods;
 
-    private static int DEFAULT_COMPARTMENT_HEIGHT = 20;
+    private static int DEFAULT_NAME_HEIGHT = 45;
     private static int DEFAULT_WIDTH = 100;
-    private static int DEFAULT_HEIGHT = 60;
 }

@@ -45,7 +45,7 @@ public class FieldNode extends RectangularNode
     public FieldNode()
     {
         name = new SingleLineText();
-//        name.setAlignment(MultiLineText.RIGHT);
+        name.setAlignment(MultiLineText.RIGHT);
         value = new SingleLineText();
         equalSeparator = new SingleLineText();
         equalSeparator.setText(" = ");
@@ -318,8 +318,8 @@ public class FieldNode extends RectangularNode
     public FieldNode clone()
     {
         FieldNode cloned = (FieldNode) super.clone();
-        cloned.name = (SingleLineText) name.clone();
-        cloned.value = (SingleLineText) value.clone();
+        cloned.name = name.clone();
+        cloned.value = value.clone();
         return cloned;
     }
 

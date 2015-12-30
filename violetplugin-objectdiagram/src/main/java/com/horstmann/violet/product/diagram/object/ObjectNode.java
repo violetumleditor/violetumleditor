@@ -55,8 +55,6 @@ public class ObjectNode extends RectangularNode
                 return new LargeSizeDecorator(new UnderlineDecorator(new OneLineString(text)));
             }
         });
-//        name.setUnderlined(true);
-//        name.setSize(MultiLineText.LARGE);
     }
 
     public void draw(Graphics2D g2)

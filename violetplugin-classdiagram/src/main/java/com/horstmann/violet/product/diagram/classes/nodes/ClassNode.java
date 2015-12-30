@@ -8,7 +8,7 @@ import java.awt.geom.Rectangle2D;
 import com.horstmann.violet.framework.graphics.content.Content;
 import com.horstmann.violet.framework.graphics.Separator;
 import com.horstmann.violet.framework.graphics.content.*;
-import com.horstmann.violet.framework.graphics.group.VerticalGroupContent;
+import com.horstmann.violet.framework.graphics.content.VerticalGroupContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.LargeSizeDecorator;
@@ -57,10 +57,10 @@ public class ClassNode extends RectangularNode
         attributes = new MultiLineText(converter);
         methods = new MultiLineText(converter);
 
-        createStructureContent();
+        createContentStructure();
     }
 
-    private void createStructureContent()
+    protected void createContentStructure()
     {
         TextContent nameContent = new TextContent(name);
         nameContent.setMinHeight(DEFAULT_NAME_HEIGHT);
@@ -88,9 +88,6 @@ public class ClassNode extends RectangularNode
         Point2D location = getLocationOnGraph();
         Rectangle2D contentBounds = content.getBounds();
         return new Rectangle2D.Double(location.getX(), location.getY(), contentBounds.getWidth(), contentBounds.getHeight());
-
-//        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(new Rectangle2D.Double(location.getX(), location.getY(), contentBounds.getWidth(), contentBounds.getHeight()));
-//        return snappedBounds;
     }
 
     @Override
@@ -176,18 +173,13 @@ public class ClassNode extends RectangularNode
         return methods;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.horstmann.violet.product.diagram.abstracts.RectangularNode#clone()
-     */
     public ClassNode clone()
     {
         ClassNode cloned = (ClassNode) super.clone();
-        cloned.name = (SingleLineText) name.clone();
-        cloned.methods = (MultiLineText) methods.clone();
-        cloned.attributes = (MultiLineText) attributes.clone();
-        cloned.createStructureContent();
+        cloned.name = name.clone();
+        cloned.methods = methods.clone();
+        cloned.attributes = attributes.clone();
+        cloned.createContentStructure();
         return cloned;
     }
 
