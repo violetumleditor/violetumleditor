@@ -10,7 +10,6 @@ import java.util.List;
  * Created by Adrian Bobrowski on 21.12.2015.
  */
 public abstract class GroupContent extends Content {
-    protected abstract void measureAndSetSize();
 
     @Override
     protected final void setWidth(int width)
@@ -28,14 +27,17 @@ public abstract class GroupContent extends Content {
             content.setHeight(height);
         }
     }
-
-    public final void refresh()
-    {
-        measureAndSetSize();
-    }
+//
+//    public final void refresh()
+//    {
+//        measureAndSetSize();
+//
+//        super.refresh();
+//    }
 
     public final void add(Content content)
     {
+        content.parents.add(this);
         contents.add(content);
         refresh();
     }
@@ -48,6 +50,6 @@ public abstract class GroupContent extends Content {
         this.separator = separator;
     }
 
-    protected Separator separator;
+    protected Separator separator = Separator.EMPTY;
     protected List<Content> contents = new ArrayList<Content>();
 }

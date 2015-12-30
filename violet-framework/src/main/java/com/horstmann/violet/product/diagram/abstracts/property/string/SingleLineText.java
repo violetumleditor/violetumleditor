@@ -19,6 +19,7 @@ public class SingleLineText extends LineText {
     {
         oneLineString = converter.toLineString(text);
         setLabelText(getHTML());
+        notifyAboutChange();
     }
 
     @Override

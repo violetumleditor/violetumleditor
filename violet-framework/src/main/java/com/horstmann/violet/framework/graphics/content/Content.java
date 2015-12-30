@@ -3,54 +3,95 @@ package com.horstmann.violet.framework.graphics.content;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 /**
  * Created by Adrian Bobrowski on 21.12.2015.
  */
 public abstract class Content {
 
-    public abstract void draw(Graphics2D g2, Point2D point);
-    public void draw(Graphics2D g2) {
-        draw(g2, new Point2D.Double(0,0));
+    public abstract void draw(Graphics2D g2);
+
+    public final void draw(Graphics2D g2, Point2D offset)
+    {
+        g2.translate(offset.getX(), offset.getY());
+        draw(g2);
+        g2.translate(-offset.getX(), -offset.getY());
     }
 
-    public void refresh(){}
-
-    public final void setMinWidth(int minWidth)
+    public final Rectangle2D getBounds()
     {
-        this.minWidth = minWidth;
-        if(width < minWidth)
-        {
-            setWidth(minWidth);
+        return bounds;
+    }
+    public final int getX()
+    {
+        return (int)bounds.getX();
+    }
+    public final int getY()
+    {
+        return (int)bounds.getY();
+    }
+    public final int getWidth()
+    {
+        return (int)bounds.getWidth();
+    }
+    public final int getHeight()
+    {
+        return (int)bounds.getHeight();
+    }
+    public final void setMinWidth(int minWidth){
+        if(0<=minWidth) {
+            this.minWidth = minWidth;
+            refresh();
         }
     }
-    public final void setMinHeight(int minHeight)
-    {
-        this.minHeight = minHeight;
-        if(height < minHeight)
-        {
-            setHeight(minHeight);
+    public final void setMinHeight(int minHeight){
+        if(0<=minHeight) {
+            this.minHeight = minHeight;
+            refresh();
         }
     }
 
-    public Rectangle2D getBounds()
+    public void refresh()
     {
-        return new Rectangle2D.Double(0,0,width,height);
+        bounds.setRect(getX(), getY(), Math.max(getWidth(), minWidth), Math.max(getHeight(), minHeight));
+
+        for (Content parent: parents ) {
+            parent.refresh();
+        }
+    }
+
+    protected final void addParent(Content parent)
+    {
+        if(null == parent)
+        {
+            throw new NullPointerException("parent can't be null");
+        }
+        parents.add(parent);
+    }
+
+    protected final void removeParent(Content parent)
+    {
+        if(null == parent)
+        {
+            throw new NullPointerException("parent can't be null");
+        }
+        parents.remove(parent);
     }
 
     protected void setWidth(int width)
     {
-        this.width = width;
+        bounds.setRect(getX(), getY(), Math.max(width, minWidth), getHeight());
     }
     protected void setHeight(int height)
     {
-        this.height = height;
+        bounds.setRect(getX(), getY(), getWidth(), Math.max(height, minHeight));
     }
 
+    private ArrayList<Content> parents = new ArrayList<Content>();
 
+    private Rectangle2D bounds = new Rectangle2D.Double(0,0,0,0);
 
-    protected int minWidth;
-    protected int minHeight;
-    protected int width;
-    protected int height;
+    private int minWidth = 0;
+    private int minHeight = 0;
 }

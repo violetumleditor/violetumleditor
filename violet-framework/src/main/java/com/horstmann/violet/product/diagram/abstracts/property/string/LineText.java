@@ -9,15 +9,20 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
+import java.util.*;
+import java.util.List;
 
 /**
  * Created by Adrian Bobrowski on 16.12.2015.
  */
 public abstract class LineText implements Serializable, Cloneable {
-    public interface Converter extends Cloneable {
+    public interface Converter {
         OneLineString toLineString(String text);
     }
-
+    public interface ChangeListener
+    {
+        void onChange();
+    }
 
     public LineText() {
         this(DEFAULT_CONVERTER);
@@ -30,6 +35,10 @@ public abstract class LineText implements Serializable, Cloneable {
     public abstract String getText();
     public abstract String getHTML();
 
+    final public void addChangeListener(ChangeListener changeListener)
+    {
+        changeListeners.add(changeListener);
+    }
     final public void setPadding(int padding){
         setPadding(padding, padding);
     }
@@ -91,6 +100,13 @@ public abstract class LineText implements Serializable, Cloneable {
         return new Rectangle2D.Double(0, 0, dim.getWidth(), dim.getHeight());
     }
 
+    protected final void notifyAboutChange()
+    {
+        for (ChangeListener changeListener : changeListeners) {
+            changeListener.onChange();
+        }
+    }
+
     protected final void copyLabelProperty(LineText cloned)
     {
         cloned.label.setHorizontalAlignment(this.label.getHorizontalAlignment());
@@ -115,4 +131,6 @@ public abstract class LineText implements Serializable, Cloneable {
     protected transient Converter converter;
     private transient JLabel label = new JLabel();
     private transient Rectangle2D bounds = null;
+
+    private transient List<ChangeListener> changeListeners = new ArrayList<ChangeListener>();
 }

@@ -9,24 +9,32 @@ import java.awt.geom.Rectangle2D;
 /**
  * Created by Adrian Bobrowski on 21.12.2015.
  */
-public class TextContent extends Content {
+public class TextContent extends Content implements LineText.ChangeListener
+{
     public TextContent(LineText text)
     {
         this.text = text;
+        this.text.addChangeListener(this);
     }
 
     @Override
-    public void draw(Graphics2D g2, Point2D offset) {
-        Rectangle2D textBounds = getBounds();
-        text.draw(g2, new Rectangle2D.Double(offset.getX(), offset.getY(), textBounds.getWidth(), textBounds.getHeight()));
+    public void onChange() {
+        refresh();
     }
 
     @Override
-    public Rectangle2D getBounds()
+    public void draw(Graphics2D g2) {
+        text.draw(g2, getBounds());
+    }
+
+    @Override
+    public void refresh()
     {
         Rectangle2D textBounds = text.getBounds();
-        return new Rectangle2D.Double(0,0,Math.max(textBounds.getWidth(),width),Math.max(textBounds.getHeight(),height));
+        setWidth((int)textBounds.getWidth());
+        setHeight((int)textBounds.getHeight());
+        super.refresh();
     }
 
-    protected LineText text;
+    private LineText text;
 }

@@ -32,8 +32,9 @@ public class MultiLineText extends LineText {
         for (String rawRow: array) {
             rows.add(converter.toLineString(rawRow));
         }
-
         setLabelText(getHTML());
+
+        notifyAboutChange();
     }
 
     @Override
