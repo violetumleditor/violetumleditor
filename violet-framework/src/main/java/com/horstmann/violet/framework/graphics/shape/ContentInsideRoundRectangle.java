@@ -25,6 +25,7 @@ public class ContentInsideRoundRectangle extends ContentInsideShape
 
     protected Shape getShape()
     {
+        content.refresh();
         Rectangle2D contentBounds = content.getBounds();
         return new RoundRectangle2D.Double(0,0, contentBounds.getWidth() + (arcw-arcw/Math.sqrt(2)), contentBounds.getHeight() + (arch - arch/Math.sqrt(2)), arcw, arch);
     }

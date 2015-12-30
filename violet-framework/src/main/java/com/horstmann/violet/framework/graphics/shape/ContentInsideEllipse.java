@@ -24,6 +24,7 @@ public class ContentInsideEllipse extends ContentInsideShape
 
     protected Shape getShape()
     {
+        content.refresh();
         Rectangle2D contentBounds = content.getBounds();
         double width = Math.sqrt(contentBounds.getWidth() * contentBounds.getWidth() + aspectRatio * aspectRatio * contentBounds.getHeight() * contentBounds.getHeight());
         double height = width / aspectRatio;

@@ -16,6 +16,7 @@ public class ContentInsideRectangle extends ContentInsideShape
 
     protected Shape getShape()
     {
+        content.refresh();
         Rectangle2D contentBounds = content.getBounds();
         return new Rectangle((int)contentBounds.getWidth(), (int) contentBounds.getHeight());
     }

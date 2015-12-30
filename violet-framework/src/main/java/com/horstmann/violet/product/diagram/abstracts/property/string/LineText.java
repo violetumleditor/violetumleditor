@@ -18,14 +18,9 @@ public abstract class LineText implements Serializable, Cloneable {
         OneLineString toLineString(String text);
     }
 
+
     public LineText() {
-        this.converter = new Converter() {
-            @Override
-            public OneLineString toLineString(String text)
-            {
-                return new OneLineString(text);
-            }
-        };
+        this(DEFAULT_CONVERTER);
     }
     public LineText(Converter converter) {
         this.converter = converter;
@@ -59,8 +54,6 @@ public abstract class LineText implements Serializable, Cloneable {
         label.setMinimumSize(dimension);
         refresh();
     }
-
-
 
     final public Rectangle2D getBounds() {
         if (null == this.bounds) {
@@ -106,6 +99,14 @@ public abstract class LineText implements Serializable, Cloneable {
         cloned.label.setMinimumSize(this.label.getMinimumSize());
         cloned.label.setText(this.label.getText());
     }
+
+    public static final Converter DEFAULT_CONVERTER = new Converter(){
+        @Override
+        public OneLineString toLineString(String text)
+        {
+            return new OneLineString(text);
+        }
+    };
 
     public static final int LEFT = SwingConstants.LEFT;
     public static final int CENTER = SwingConstants.CENTER;

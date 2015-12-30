@@ -23,8 +23,6 @@ public abstract class ContentInsideShape extends Content {
 
     @Override
     public void draw(Graphics2D g2, Point2D point) {
-        refresh();
-
         Point2D offset = getShapeOffset();
         g2.translate(offset.getX(), offset.getY());
         content.draw(g2, point);
