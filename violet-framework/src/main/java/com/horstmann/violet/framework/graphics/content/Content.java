@@ -8,8 +8,8 @@ import java.util.ArrayList;
 /**
  * Created by Adrian Bobrowski on 21.12.2015.
  */
-public abstract class Content {
-
+public abstract class Content
+{
     public abstract void draw(Graphics2D g2);
 
     public final void draw(Graphics2D g2, Point2D offset)
@@ -25,19 +25,19 @@ public abstract class Content {
     }
     public final int getX()
     {
-        return (int)bounds.getX();
+        return (int)getBounds().getX();
     }
     public final int getY()
     {
-        return (int)bounds.getY();
+        return (int)getBounds().getY();
     }
     public final int getWidth()
     {
-        return (int)bounds.getWidth();
+        return (int)getBounds().getWidth();
     }
     public final int getHeight()
     {
-        return (int)bounds.getHeight();
+        return (int)getBounds().getHeight();
     }
     public final void setMinWidth(int minWidth){
         if(0<=minWidth) {
@@ -79,11 +79,11 @@ public abstract class Content {
         parents.remove(parent);
     }
 
-    protected void setWidth(int width)
+    protected final void setWidth(int width)
     {
         bounds.setRect(getX(), getY(), Math.max(width, minWidth), getHeight());
     }
-    protected void setHeight(int height)
+    protected final void setHeight(int height)
     {
         bounds.setRect(getX(), getY(), getWidth(), Math.max(height, minHeight));
     }

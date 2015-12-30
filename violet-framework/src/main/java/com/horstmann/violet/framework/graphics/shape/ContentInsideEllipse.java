@@ -1,6 +1,7 @@
 package com.horstmann.violet.framework.graphics.shape;
 
 import com.horstmann.violet.framework.graphics.content.Content;
+import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -18,17 +19,19 @@ public class ContentInsideEllipse extends ContentInsideShape
         this(content, (double)DEFAULT_WIDTH/DEFAULT_HEIGHT);
     }
     public ContentInsideEllipse(Content content, double aspectRatio) {
-        this.content = content;
         this.aspectRatio = aspectRatio;
+        setContent(content);
     }
 
-    protected Shape getShape()
+    @Override
+    public void refresh()
     {
-        content.refresh();
-        Rectangle2D contentBounds = content.getBounds();
+        Rectangle2D contentBounds = getContent().getBounds();
         double width = Math.sqrt(contentBounds.getWidth() * contentBounds.getWidth() + aspectRatio * aspectRatio * contentBounds.getHeight() * contentBounds.getHeight());
         double height = width / aspectRatio;
-        return new Ellipse2D.Double(0,0,(int) width, (int) height);
+
+        setShape(new Ellipse2D.Double(0,0,(int)width, (int)height));
+        super.refresh();
     }
 
     private double aspectRatio;

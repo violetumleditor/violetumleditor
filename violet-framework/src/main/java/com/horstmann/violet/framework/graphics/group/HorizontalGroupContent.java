@@ -11,49 +11,40 @@ import java.util.Iterator;
 /**
  * Created by Adrian Bobrowski on 21.12.2015.
  */
-public class HorizontalGroupContent extends GroupContent {
+public class HorizontalGroupContent extends GroupContent
+{
     @Override
-    protected void measureAndSetSize()
-    {
-        Rectangle2D bounds;
-        int tmpHeight;
-        width = 0;
-
-        for (Content content: contents) {
-            bounds = content.getBounds();
-            tmpHeight = (int)bounds.getHeight();
-            width += (int)bounds.getWidth();
-            if(height<tmpHeight)
-            {
-                height = tmpHeight;
-            }
-        }
-        setHeight(height);
+    protected Point2D getNextOffset(Point2D beforeOffset, Content content) {
+        return new Point2D.Double(beforeOffset.getX() + content.getWidth(),beforeOffset.getY());
     }
 
     @Override
-    public void draw(Graphics2D g2, Point2D point) {
-        refresh();
+    protected Point2D getStartPointSeparator(Point2D offset) {
+        return new Point2D.Double(offset.getX(), 0);
+    }
 
-        g2.translate(point.getX(), point.getY());
+    @Override
+    protected Point2D getEndPointSeparator(Point2D offset) {
+        return new Point2D.Double(offset.getX(), getHeight());
+    }
 
-        Content content = null;
-        Point2D offset = new Point2D.Double(0,0);
-        Iterator<Content> iterator = contents.iterator();
+    @Override
+    public final void refresh() {
+        int height = 0;
+        int width = 0;
 
-        if(iterator.hasNext())
-        {
-            content = iterator.next();
-            content.draw(g2, offset);
-            offset = new Point2D.Double(offset.getX() + content.getBounds().getWidth(),offset.getY());
+        for (Content content: getContents()) {
+            width += content.getWidth();
+            if(height < content.getHeight())
+            {
+                height = content.getHeight();
+            }
         }
-        while(iterator.hasNext())
-        {
-            separator.draw(g2, new Point2D.Double(offset.getX(), 0), new Point2D.Double(offset.getX(), height));
-            content = iterator.next();
-            content.draw(g2, offset);
-            point = new Point2D.Double(offset.getX() + content.getBounds().getWidth(),offset.getY());
-        }
-        g2.translate(-point.getX(), -point.getY());
+
+        setHeight(height);
+        setWidth(width);
+        setContentsHeight(width);
+
+        super.refresh();
     }
 }

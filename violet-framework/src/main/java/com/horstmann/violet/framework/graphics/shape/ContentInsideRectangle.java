@@ -1,6 +1,7 @@
 package com.horstmann.violet.framework.graphics.shape;
 
 import com.horstmann.violet.framework.graphics.content.Content;
+import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -11,13 +12,13 @@ import java.awt.geom.Rectangle2D;
 public class ContentInsideRectangle extends ContentInsideShape
 {
     public ContentInsideRectangle(Content content) {
-        this.content = content;
+        setContent(content);
     }
 
-    protected Shape getShape()
+    @Override
+    public void refresh()
     {
-        content.refresh();
-        Rectangle2D contentBounds = content.getBounds();
-        return new Rectangle((int)contentBounds.getWidth(), (int) contentBounds.getHeight());
+        setShape(new Rectangle(getContent().getWidth(), getContent().getHeight()));
+        super.refresh();
     }
 }
