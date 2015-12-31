@@ -27,9 +27,13 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
+import com.horstmann.violet.framework.graphics.Separator;
+import com.horstmann.violet.framework.graphics.content.*;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
+import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 import com.horstmann.violet.product.diagram.common.edge.BasePropertyEdge;
@@ -39,84 +43,75 @@ import com.horstmann.violet.product.diagram.common.edge.BasePropertyEdge;
  */
 public class FieldNode extends RectangularNode
 {
+    protected static Separator equalSeparator = new Separator()
+    {
+        @Override
+        public void draw(Graphics2D g2, Point2D startPoint, Point2D endPoint)
+        {
+            g2.drawLine((int)startPoint.getX()-3, (int)startPoint.getY() + DEFAULT_HEIGHT/2 -1, (int)startPoint.getX()+3, (int)startPoint.getY() + DEFAULT_HEIGHT/2 -1);
+            g2.drawLine((int)startPoint.getX()-3, (int)startPoint.getY() + DEFAULT_HEIGHT/2 +2, (int)startPoint.getX()+3, (int)startPoint.getY() + DEFAULT_HEIGHT/2 +2);
+        }
+    };
+
     /**
      * Default constructor
      */
     public FieldNode()
     {
-        name = new SingleLineText();
-        name.setAlignment(MultiLineText.RIGHT);
-        value = new SingleLineText();
-        equalSeparator = new SingleLineText();
-        equalSeparator.setText(" = ");
         setZ(1);
+
+        name = new SingleLineText();
+        name.setAlignment(LineText.RIGHT);
+        name.setPadding(0, 10, 0, 20);
+        value = new SingleLineText();
+        name.setAlignment(LineText.LEFT);
+        name.setPadding(0, 20, 0, 10);
+//        equalSeparator.setText(" = ");
+
+        createContentStructure();
+    }
+
+    protected void createContentStructure()
+    {
+        TextContent nameContent = new TextContent(name);
+        nameContent.setMinHeight(DEFAULT_HEIGHT);
+        nameContent.setMinWidth(DEFAULT_WIDTH/2);
+        TextContent valueContent = new TextContent(value);
+        valueContent.setMinHeight(DEFAULT_HEIGHT);
+        valueContent.setMinWidth(DEFAULT_WIDTH/2);
+
+        horizontalGroupContent = new HorizontalGroupContent();
+        horizontalGroupContent.add(nameContent);
+        horizontalGroupContent.add(valueContent);
+        horizontalGroupContent.setSeparator(equalSeparator);
+
+        ContentInsideShape contentInsideShape = new ContentInsideRectangle(horizontalGroupContent);
+
+        content = contentInsideShape;
+//        border = new ContentBorder(contentInsideShape, getBorderColor());
+//        background = new ContentBackground(border, getBackgroundColor());
+    }
+
+    public Content getContent()
+    {
+        return content;
     }
 
     @Override
     public Point2D getLocation()
     {
-        Point2D location = new Point2D.Double(this.horizontalLocation, this.verticalLocation);
-        Point2D snappedLocation = getGraph().getGridSticker().snap(location);
-        return snappedLocation;
-    }
-
-    private void adjustVerticalLocation()
-    {
-        this.verticalLocation = 0;
         INode parent = getParent();
-        if (parent == null)
+        if (parent == null )
         {
-            return;
+            return new Point2D.Double(0, 0);
         }
-        List<INode> children = parent.getChildren();
-        INode lastNode = null;
-        for (INode node : children)
+        if (!(parent instanceof ObjectNode))
         {
-            if (node == this)
-            {
-                if (lastNode == null) {
-                	ObjectNode parentNode = (ObjectNode) parent;
-                	Rectangle2D topRectangle = parentNode.getTopRectangle();
-                	this.verticalLocation = topRectangle.getHeight();
-                }
-                if (lastNode != null) {
-                	this.verticalLocation = lastNode.getLocation().getY() + lastNode.getBounds().getHeight(); 
-                }
-            	return;
-            }
-            lastNode = node;
+            throw new IllegalStateException("Field node can be only ObjectNode child");
         }
-    }
+        Point2D location = ((ObjectNode)parent).getFieldsGroup().getLocation(content);
 
-    private void adjustHorizontalLocation()
-    {
-        this.horizontalLocation = 0;
-        double maxWidth = 0;
-        INode parent = getParent();
-        if (parent == null)
-        {
-            return;
-        }
-        for (INode node : parent.getChildren())
-        {
-            if (node == this)
-            {
-                continue;
-            }
-            if (!node.getClass().isAssignableFrom(FieldNode.class))
-            {
-                continue;
-            }
-            Rectangle2D bounds = node.getBounds();
-            double nodeWidth = bounds.getWidth();
-            maxWidth = Math.max(maxWidth, nodeWidth);
-        }
-        Rectangle2D currentBounds = getBounds();
-        double currentWidth = currentBounds.getWidth();
-        if (currentWidth < maxWidth)
-        {
-            this.horizontalLocation = (maxWidth - currentWidth) / 2;
-        }
+        return new Point2D.Double(location.getX(), location.getY()+((ObjectNode)parent).getFieldsTopOffset());
     }
 
     /*
@@ -126,26 +121,7 @@ public class FieldNode extends RectangularNode
      */
     public void draw(Graphics2D g2)
     {
-        // Backup current color;
-        Color oldColor = g2.getColor();
-        adjustHorizontalLocation();
-        adjustVerticalLocation();
-        // Translate g2 if node_old has parent
-        Point2D nodeLocationOnGraph = getLocationOnGraph();
-        Point2D nodeLocation = getLocation();
-        Point2D g2Location = new Point2D.Double(nodeLocationOnGraph.getX() - nodeLocation.getX(), nodeLocationOnGraph.getY()
-                - nodeLocation.getY());
-        g2.translate(g2Location.getX(), g2Location.getY());
-        // Perform drawing
-        Rectangle2D b = getBounds();
-        g2.setColor(getTextColor());
-        name.draw(g2, getNameBounds());
-        equalSeparator.draw(g2, getEqualSeparatorBounds());
-        value.draw(g2, getValueBounds());
-        // Restore first color
-        g2.setColor(oldColor);
-        // Restore g2 original location
-        g2.translate(-g2Location.getX(), -g2Location.getY());
+        content.draw(g2, getLocationOnGraph());
     }
 
     @Override
@@ -200,64 +176,21 @@ public class FieldNode extends RectangularNode
     @Override
     public Point2D getConnectionPoint(IEdge edge)
     {
-        Rectangle2D b = getBounds();
-        return new Point2D.Double((b.getMaxX() + b.getX() + getAxisX()) / 2, b.getCenterY());
-    }
-
-    private Rectangle2D getNameBounds()
-    {
-        Rectangle2D nameBounds = name.getBounds();
-        Point2D currentLocation = getLocation();
-        double x = currentLocation.getX();
-        double y = currentLocation.getY();
-        double w = nameBounds.getWidth();
-        double h = nameBounds.getHeight();
-        nameBounds = new Rectangle2D.Double(x, y, w, h);
-        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(nameBounds);
-        return snappedBounds;
-    }
-
-    private Rectangle2D getEqualSeparatorBounds()
-    {
-        Rectangle2D equalsSeparatorBounds = equalSeparator.getBounds();
-        Rectangle2D nameBounds = getNameBounds();
-        double x = nameBounds.getMaxX();
-        double y = nameBounds.getY();
-        double w = equalsSeparatorBounds.getWidth();
-        double h = equalsSeparatorBounds.getHeight();
-        equalsSeparatorBounds = new Rectangle2D.Double(x, y, w, h);
-        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(equalsSeparatorBounds);
-        return snappedBounds;
-    }
-
-    private Rectangle2D getValueBounds()
-    {
-        Rectangle2D valueBounds = value.getBounds();
-        Rectangle2D equalSeparatorBounds = getEqualSeparatorBounds();
-        double x = equalSeparatorBounds.getMaxX();
-        double y = equalSeparatorBounds.getY();
-        double w = valueBounds.getWidth();
-        double h = valueBounds.getHeight();
-        valueBounds = new Rectangle2D.Double(x, y, w, h);
-        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(valueBounds);
-        return snappedBounds;
+        Point2D location = getLocation();
+        int x = (int)name.getBounds().getWidth();
+        if(0==x)
+        {
+            x = DEFAULT_WIDTH/2;
+        }
+        return new Point2D.Double(x + 20, location.getY() + DEFAULT_HEIGHT/2);
     }
 
     @Override
     public Rectangle2D getBounds()
     {
-        Rectangle2D nameBounds = getNameBounds();
-        Rectangle2D valueBounds = getValueBounds();
-        Rectangle2D equalSeparatorBounds = getEqualSeparatorBounds();
-        nameBounds.add(equalSeparatorBounds);
-        nameBounds.add(valueBounds);
-        double x = nameBounds.getX();
-        double y = nameBounds.getY();
-        double w = Math.max(nameBounds.getWidth(), DEFAULT_WIDTH);
-        double h = Math.max(nameBounds.getHeight(), DEFAULT_HEIGHT);
-        Rectangle2D globalBounds = new Rectangle2D.Double(x, y, w, h);
-        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(globalBounds);
-        return snappedBounds;
+        Point2D location = getLocationOnGraph();
+        Rectangle2D contentBounds = content.getBounds();
+        return new Rectangle2D.Double(location.getX(), location.getY(), contentBounds.getWidth(), contentBounds.getHeight());
     }
 
     /**
@@ -300,19 +233,18 @@ public class FieldNode extends RectangularNode
         return value;
     }
 
-    /**
-     * Gets the x-offset of the axis (the location of the = sign) from the left corner of the bounding rectangle.
-     * 
-     * @return the x-offset of the axis
-     */
-    public double getAxisX()
-    {
-        Rectangle2D nameBounds = getNameBounds();
-        Rectangle2D equalSeparatorBounds = getEqualSeparatorBounds();
-        double leftWidth = nameBounds.getWidth();
-        double middleWidth = equalSeparatorBounds.getWidth();
-        return leftWidth + middleWidth / 2;
-    }
+//    /**
+//     * Gets the x-offset of the axis (the location of the = sign) from the left corner of the bounding rectangle.
+//     *
+//     * @return the x-offset of the axis
+//     */
+//    public double getAxisX()
+//    {
+//        Rectangle2D nameBounds = getNameBounds();
+//        double leftWidth = nameBounds.getWidth();
+//        double middleWidth = 10;
+//        return leftWidth + middleWidth / 2;
+//    }
 
     @Override
     public FieldNode clone()
@@ -320,17 +252,23 @@ public class FieldNode extends RectangularNode
         FieldNode cloned = (FieldNode) super.clone();
         cloned.name = name.clone();
         cloned.value = value.clone();
+        cloned.createContentStructure();
         return cloned;
     }
 
+    private Content content = null;
+    private ContentBorder border = null;
+    private ContentBackground background = null;
+    private HorizontalGroupContent horizontalGroupContent = null;
+
     private SingleLineText name;
     private SingleLineText value;
-    private SingleLineText equalSeparator;
+//    private SingleLineText equalSeparator;
 
-    private static int DEFAULT_WIDTH = 60;
-    private static int DEFAULT_HEIGHT = 20;
-    private static int XGAP = 5;
-    private static int YGAP = 5;
+    private final static int DEFAULT_WIDTH = 80;
+    private final static int DEFAULT_HEIGHT = 20;
+    private final static int XGAP = 5;
+    private final static int YGAP = 5;
 
     private transient double verticalLocation = 0;
     private transient double horizontalLocation = 0;

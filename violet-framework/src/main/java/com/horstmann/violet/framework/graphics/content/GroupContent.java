@@ -92,6 +92,18 @@ public abstract class GroupContent extends Content
         }
     }
 
+    public Point2D getLocation(Content content)
+    {
+        int index = contents.indexOf(content);
+        Point2D offset = new Point2D.Double(0,0);
+
+        for(int i = 0; i < index; ++i)
+        {
+            offset = getNextOffset(offset, contents.get(i));
+        }
+        return offset;
+    }
+
     private Separator separator = Separator.EMPTY;
     private List<Content> contents = new ArrayList<Content>();
 }

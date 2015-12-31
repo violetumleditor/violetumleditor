@@ -78,10 +78,10 @@ public class ObjectDiagramGraph extends AbstractGraph
         FieldNode node1 = new FieldNode();
         node1.setToolTip(rs.getString("node1.tooltip"));
         SingleLineText fn = new SingleLineText();
-        fn.setText("name");
+//        fn.setText("name");
         node1.setName(fn);
         SingleLineText fv = new SingleLineText();
-        fv.setText("value");
+//        fv.setText("value");
         node1.setValue(fv);
         NODE_PROTOTYPES.add(node1);
 

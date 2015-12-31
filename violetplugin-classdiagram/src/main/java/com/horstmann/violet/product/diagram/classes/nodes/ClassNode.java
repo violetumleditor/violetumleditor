@@ -93,9 +93,7 @@ public class ClassNode extends RectangularNode
     @Override
     public void draw(Graphics2D g2)
     {
-        Color oldColor = g2.getColor();
         content.draw(g2, getLocationOnGraph());
-        g2.setColor(oldColor);
     }
 
     /*

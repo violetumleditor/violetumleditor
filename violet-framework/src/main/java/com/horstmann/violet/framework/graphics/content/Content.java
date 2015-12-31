@@ -1,5 +1,8 @@
 package com.horstmann.violet.framework.graphics.content;
 
+import com.sun.javafx.geom.Vec4d;
+import com.sun.javafx.scene.layout.region.Margins;
+
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;

@@ -43,7 +43,7 @@ public class HorizontalGroupContent extends GroupContent
 
         setHeight(height);
         setWidth(width);
-        setContentsHeight(width);
+        setContentsHeight(height);
 
         super.refresh();
     }

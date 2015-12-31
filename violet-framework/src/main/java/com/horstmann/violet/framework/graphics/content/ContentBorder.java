@@ -28,13 +28,13 @@ public class ContentBorder extends ContentInsideShape
 
     @Override
     public void draw(Graphics2D g2) {
+        contentShape.draw(g2);
         if(null!=color) {
             Color oldColor = g2.getColor();
             g2.setColor(color);
             g2.draw(getShape());
             g2.setColor(oldColor);
         }
-        contentShape.draw(g2);
     }
 
     protected Shape getShape()

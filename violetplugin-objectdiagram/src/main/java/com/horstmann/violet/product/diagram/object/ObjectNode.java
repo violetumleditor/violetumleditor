@@ -27,6 +27,9 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
+import com.horstmann.violet.framework.graphics.Separator;
+import com.horstmann.violet.framework.graphics.content.*;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.LargeSizeDecorator;
 import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.OneLineString;
@@ -55,41 +58,43 @@ public class ObjectNode extends RectangularNode
                 return new LargeSizeDecorator(new UnderlineDecorator(new OneLineString(text)));
             }
         });
+
+        createContentStructure();
+    }
+
+    protected void createContentStructure()
+    {
+        TextContent nameContent = new TextContent(name);
+        nameContent.setMinHeight(DEFAULT_HEIGHT);
+        nameContent.setMinWidth(DEFAULT_WIDTH);
+
+        fieldsGroup = new VerticalGroupContent();
+        nameContent.setMinWidth(DEFAULT_WIDTH);
+
+        VerticalGroupContent verticalGroupContent = new VerticalGroupContent();
+        verticalGroupContent.add(nameContent);
+        verticalGroupContent.add(fieldsGroup);
+        verticalGroupContent.setSeparator(new Separator.LineSeparator(getBorderColor()));
+
+        ContentInsideShape contentInsideShape = new ContentInsideRectangle(verticalGroupContent);
+
+        border = new ContentBorder(contentInsideShape, getBorderColor());
+        background = new ContentBackground(border, getBackgroundColor());
+
+        content = background;
+    }
+
+    @Override
+    public Rectangle2D getBounds()
+    {
+        Point2D location = getLocationOnGraph();
+        Rectangle2D contentBounds = content.getBounds();
+        return new Rectangle2D.Double(location.getX(), location.getY(), contentBounds.getWidth(), contentBounds.getHeight());
     }
 
     public void draw(Graphics2D g2)
     {
-        super.draw(g2);
-
-        // Backup current color;
-        Color oldColor = g2.getColor();
-
-        // Perform drawing
-        Rectangle2D globalBounds = getBounds();
-        Rectangle2D topBounds = getTopRectangle();
-        if (topBounds.getWidth() < globalBounds.getWidth())
-        {
-        	// We need to re-center the topBounds - only do so if really required to avoid race conditions
-        	topBounds.setRect(topBounds.getX(), topBounds.getY(), globalBounds.getWidth(), topBounds.getHeight());
-        }
-
-        g2.setColor(getBackgroundColor());
-        g2.fill(globalBounds);
-        g2.setColor(getBorderColor());
-        g2.draw(globalBounds);
-        g2.setColor(getTextColor());
-        name.draw(g2, topBounds);
-        g2.setColor(getBorderColor());
-        g2.drawLine((int) globalBounds.getX(), (int) topBounds.getMaxY(), (int) globalBounds.getMaxX(), (int) topBounds.getMaxY());
-
-        // Restore first color
-        g2.setColor(oldColor);
-
-        // Draw children
-        for (INode n : getChildren())
-        {
-            n.draw(g2); // make sure they get drawn on top
-        }
+        content.draw(g2, getLocationOnGraph());
     }
 
     /**
@@ -112,32 +117,6 @@ public class ObjectNode extends RectangularNode
         double w = Math.max(b.getWidth(), DEFAULT_WIDTH);
         double h = Math.max(b.getHeight(), DEFAULT_HEIGHT);
         Rectangle2D topBounds = new Rectangle2D.Double(x, y, w, h);
-        topBounds = getGraph().getGridSticker().snap(topBounds);
-        return topBounds;
-    }
-
-    private Rectangle2D getBottomRectangle()
-    {
-        Rectangle2D topBounds = getTopRectangle();
-        double globalHeight = 0;
-        double globalWidth = 0;
-        for (INode node : getChildren())
-        {
-            Rectangle2D nodeBounds = node.getBounds();
-            globalHeight = globalHeight + nodeBounds.getHeight();
-            globalWidth = Math.max(globalWidth, nodeBounds.getWidth());
-        }
-        Rectangle2D bottomBounds = new Rectangle2D.Double(topBounds.getX(), topBounds.getMaxY(), globalWidth, globalHeight);
-        bottomBounds = getGraph().getGridSticker().snap(bottomBounds);
-        return bottomBounds;
-    }
-
-    @Override
-    public Rectangle2D getBounds()
-    {
-        Rectangle2D topBounds = getTopRectangle();
-        Rectangle2D bottomBounds = getBottomRectangle();
-        topBounds.add(bottomBounds);
         topBounds = getGraph().getGridSticker().snap(topBounds);
         return topBounds;
     }
@@ -200,12 +179,18 @@ public class ObjectNode extends RectangularNode
         List<INode> fields = getChildren();
         if (!(n instanceof FieldNode)) return false;
         if (fields.contains(n)) return true;
+
         int i = 0;
         while (i < fields.size() && fields.get(i).getLocation().getY() < p.getY())
             i++;
         addChild(n, i);
         n.setGraph(getGraph());
         n.setParent(this);
+
+
+        fieldsGroup.add(((FieldNode) n).getContent());
+
+
         return true;
     }
 
@@ -213,12 +198,26 @@ public class ObjectNode extends RectangularNode
     {
         ObjectNode cloned = (ObjectNode) super.clone();
         cloned.name = name.clone();
+        cloned.createContentStructure();
         return cloned;
     }
 
+
+    public int getFieldsTopOffset() {
+        return DEFAULT_HEIGHT;
+    }
+    public VerticalGroupContent getFieldsGroup() {
+        return fieldsGroup;
+    }
+
+    private Content content = null;
+    private ContentBackground background = null;
+    private ContentBorder border = null;
+    private VerticalGroupContent fieldsGroup = null;
+
     private SingleLineText name;
 
-    private static int DEFAULT_WIDTH = 80;
-    private static int DEFAULT_HEIGHT = 30;
-    private static int YGAP = 5;
+    private final static int DEFAULT_WIDTH = 80;
+    private final static int DEFAULT_HEIGHT = 30;
+    private final static int YGAP = 5;
 }
