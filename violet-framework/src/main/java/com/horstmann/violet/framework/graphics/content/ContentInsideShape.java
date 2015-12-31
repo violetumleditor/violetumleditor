@@ -61,7 +61,7 @@ public abstract class ContentInsideShape extends Content
         refresh();
     }
 
-    private Point2D getShapeOffset()
+    protected Point2D getShapeOffset()
     {
         Rectangle2D shapeBounds = getShape().getBounds();
 
