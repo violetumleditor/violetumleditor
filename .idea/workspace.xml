@@ -3,15 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b045ca67-d97d-484a-a2b3-c0026e4fee21" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/graphics/content/Content.java" afterPath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/graphics/content/Content.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/graphics/content/ContentBorder.java" afterPath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/graphics/content/ContentBorder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/graphics/content/GroupContent.java" afterPath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/graphics/content/GroupContent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/graphics/content/HorizontalGroupContent.java" afterPath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/graphics/content/HorizontalGroupContent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/violetplugin-classdiagram/src/main/java/com/horstmann/violet/product/diagram/classes/nodes/ClassNode.java" afterPath="$PROJECT_DIR$/violetplugin-classdiagram/src/main/java/com/horstmann/violet/product/diagram/classes/nodes/ClassNode.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/violetplugin-classdiagram/src/main/java/com/horstmann/violet/product/diagram/classes/nodes/InterfaceNode.java" afterPath="$PROJECT_DIR$/violetplugin-classdiagram/src/main/java/com/horstmann/violet/product/diagram/classes/nodes/InterfaceNode.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/violetplugin-objectdiagram/src/main/java/com/horstmann/violet/product/diagram/object/FieldNode.java" afterPath="$PROJECT_DIR$/violetplugin-objectdiagram/src/main/java/com/horstmann/violet/product/diagram/object/FieldNode.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/violetplugin-objectdiagram/src/main/java/com/horstmann/violet/product/diagram/object/ObjectDiagramGraph.java" afterPath="$PROJECT_DIR$/violetplugin-objectdiagram/src/main/java/com/horstmann/violet/product/diagram/object/ObjectDiagramGraph.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/violetplugin-objectdiagram/src/main/java/com/horstmann/violet/product/diagram/object/ObjectNode.java" afterPath="$PROJECT_DIR$/violetplugin-objectdiagram/src/main/java/com/horstmann/violet/product/diagram/object/ObjectNode.java" />
     </list>
     <ignored path="parent.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -60,9 +52,12 @@
       <file leaf-file-name="FieldNode.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/violetplugin-objectdiagram/src/main/java/com/horstmann/violet/product/diagram/object/FieldNode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5786667">
-              <caret line="184" column="39" selection-start-line="184" selection-start-column="39" selection-end-line="184" selection-end-column="39" />
-              <folding />
+            <state vertical-scroll-proportion="1.608">
+              <caret line="121" column="33" selection-start-line="121" selection-start-column="33" selection-end-line="121" selection-end-column="33" />
+              <folding>
+                <element signature="e#4487#4488#0" expanded="true" />
+                <element signature="e#4544#4545#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -1392,12 +1387,12 @@
       <workItem from="1451502721550" duration="41000" />
       <workItem from="1451502801283" duration="1046000" />
       <workItem from="1451504020228" duration="6578000" />
-      <workItem from="1451544120751" duration="19708000" />
+      <workItem from="1451544120751" duration="19896000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="173239000" />
+    <option name="totallyTimeSpent" value="173427000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -1470,7 +1465,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="209" />
+      <option name="time" value="210" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1890,9 +1885,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/violetplugin-objectdiagram/src/main/java/com/horstmann/violet/product/diagram/object/FieldNode.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5786667">
-          <caret line="184" column="39" selection-start-line="184" selection-start-column="39" selection-end-line="184" selection-end-column="39" />
-          <folding />
+        <state vertical-scroll-proportion="1.608">
+          <caret line="121" column="33" selection-start-line="121" selection-start-column="33" selection-end-line="121" selection-end-column="33" />
+          <folding>
+            <element signature="e#4487#4488#0" expanded="true" />
+            <element signature="e#4544#4545#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

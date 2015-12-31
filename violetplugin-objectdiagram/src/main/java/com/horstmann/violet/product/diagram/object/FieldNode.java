@@ -58,7 +58,7 @@ public class FieldNode extends RectangularNode
      */
     public FieldNode()
     {
-        setZ(1);
+//        setZ(1);
 
         name = new SingleLineText();
         name.setAlignment(LineText.RIGHT);
@@ -89,7 +89,7 @@ public class FieldNode extends RectangularNode
 
         content = contentInsideShape;
 //        border = new ContentBorder(contentInsideShape, getBorderColor());
-//        background = new ContentBackground(border, getBackgroundColor());
+        background = new ContentBackground(contentInsideShape, getBackgroundColor());
     }
 
     public Content getContent()
@@ -121,7 +121,7 @@ public class FieldNode extends RectangularNode
      */
     public void draw(Graphics2D g2)
     {
-        content.draw(g2, getLocationOnGraph());
+        background.draw(g2, getLocationOnGraph());
     }
 
     @Override
