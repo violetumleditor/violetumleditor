@@ -21,7 +21,6 @@
 
 package com.horstmann.violet.product.diagram.object;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -34,21 +33,14 @@ import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.LargeSizeDecorator;
 import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.OneLineString;
 import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.UnderlineDecorator;
-import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 import com.horstmann.violet.product.diagram.common.edge.BasePropertyEdge;
 
-/**
- * An object node_old in an object diagram.
- */
 public class ObjectNode extends RectangularNode
 {
-    /**
-     * Construct an object node_old with a default size
-     */
     public ObjectNode()
     {
         name = new SingleLineText(new LineText.Converter(){
@@ -97,30 +89,6 @@ public class ObjectNode extends RectangularNode
         content.draw(g2, getLocationOnGraph());
     }
 
-    /**
-     * Returns the rectangle at the top of the object node_old.
-     * 
-     * @return the top rectangle
-     */
-    public Rectangle2D getTopRectangle()
-    {
-        Rectangle2D b = name.getBounds();
-        double defaultHeight = DEFAULT_HEIGHT;
-        boolean hasChildren = (getChildren().size() > 0);
-        if (hasChildren)
-        {
-            defaultHeight = defaultHeight - YGAP;
-        }
-        Point2D currentLocation = getLocation();
-        double x = currentLocation.getX();
-        double y = currentLocation.getY();
-        double w = Math.max(b.getWidth(), DEFAULT_WIDTH);
-        double h = Math.max(b.getHeight(), DEFAULT_HEIGHT);
-        Rectangle2D topBounds = new Rectangle2D.Double(x, y, w, h);
-        topBounds = getGraph().getGridSticker().snap(topBounds);
-        return topBounds;
-    }
-
     public boolean addConnection(IEdge e)
     {
         if (!e.getClass().isAssignableFrom(BasePropertyEdge.class))
@@ -142,35 +110,22 @@ public class ObjectNode extends RectangularNode
         return true;
     }
 
-    public Point2D getConnectionPoint(Direction d)
-    {
-        Rectangle2D topBounds = getTopRectangle();
-        double topHeight = topBounds.getHeight();
-        if (d.getX() > 0)
-        {
-            return new Point2D.Double(getBounds().getMaxX(), getBounds().getMinY() + topHeight / 2);
-        }
-        return new Point2D.Double(getBounds().getX(), getBounds().getMinY() + topHeight / 2);
-    }
 
-    /**
-     * Sets the name property value.
-     * 
-     * @param newValue the new object name
-     */
     public void setName(SingleLineText n)
     {
         name.setText(n.getText());
     }
 
-    /**
-     * Gets the name property value.
-     * 
-     * @param the object name
-     */
     public SingleLineText getName()
     {
         return name;
+    }
+
+    @Override
+    public void removeChild(INode node)
+    {
+        fieldsGroup.remove(((FieldNode) node).getContent());
+        super.removeChild(node);
     }
 
     @Override
