@@ -30,14 +30,13 @@ import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
-import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
+import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 
 /**
  * A decision node_old in an activity diagram.
  */
-public class DecisionNode extends RectangularNode
+public class DecisionNode extends ColorableNode
 {
     /**
      * Construct a decision node_old with a default size

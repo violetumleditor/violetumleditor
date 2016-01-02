@@ -17,11 +17,11 @@ public class ContentBorder extends ContentInsideShape
         this.setContent(contentShape);
     }
 
-    public final Color getColor()
+    public final Color getBorderColor()
     {
         return color;
     }
-    public final void setColor(Color color)
+    public final void setBorderColor(Color color)
     {
         this.color = color;
     }

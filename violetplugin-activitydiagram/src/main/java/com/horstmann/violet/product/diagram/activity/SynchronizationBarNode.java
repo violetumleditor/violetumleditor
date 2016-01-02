@@ -29,13 +29,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 
 /**
  * A synchronization bar node_old in an activity diagram.
  */
-public class SynchronizationBarNode extends RectangularNode
+public class SynchronizationBarNode extends ColorableNode
 {
 
     @Override

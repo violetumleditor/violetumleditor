@@ -28,12 +28,11 @@ import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 
 /**
  * An elliptical (or circular) node_old.
  */
-public abstract class EllipticalNode extends RectangularNode
+public abstract class EllipticalNode extends ColorableNode
 {
 
     @Override

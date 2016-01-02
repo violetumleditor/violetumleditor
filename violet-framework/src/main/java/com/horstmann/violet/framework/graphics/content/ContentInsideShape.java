@@ -18,6 +18,12 @@ public abstract class ContentInsideShape extends Content
     }
 
     @Override
+    public boolean contains(Point2D p)
+    {
+        return getShape().contains(p);
+    }
+
+    @Override
     public void refresh()
     {
         Rectangle2D shapeBounds = getShape().getBounds();

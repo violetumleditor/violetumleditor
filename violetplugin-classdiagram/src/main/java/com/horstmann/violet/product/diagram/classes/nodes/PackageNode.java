@@ -7,33 +7,44 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import com.horstmann.violet.framework.graphics.Separator;
+import com.horstmann.violet.framework.graphics.content.*;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideRoundRectangle;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.IResizableNode;
-import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
-import com.sun.xml.internal.bind.v2.TODO;
 
 /**
- * A package node_old in a UML diagram.
+ * A package node in a class diagram.
  */
-
-public class PackageNode extends RectangularNode implements IResizableNode
+public class PackageNode extends ColorableNode implements IResizableNode
 {
     //TODO przerobic na nowa wersje
-
-    /**
-     * Construct a package node_old with a default size
-     */
     public PackageNode()
     {
         name = new SingleLineText();
         name.setAlignment(LineText.CENTER);
+        text = new MultiLineText();
+        createContentStructure();
+    }
 
-        content = new MultiLineText();
+    public PackageNode(PackageNode node) throws CloneNotSupportedException
+    {
+        super(node);
+        name = node.name.clone();
+        text = node.text.clone();
+        createContentStructure();
+    }
+
+    @Override
+    public INode copy() throws CloneNotSupportedException {
+        return new PackageNode(this);
     }
 
     @Override
@@ -84,7 +95,7 @@ public class PackageNode extends RectangularNode implements IResizableNode
     private Rectangle2D getBottomRectangleBounds()
     {
         Rectangle2D globalBounds = new Rectangle2D.Double(0, 0, 0, 0);
-        Rectangle2D contentsBounds = content.getBounds();
+        Rectangle2D contentsBounds = text.getBounds();
         globalBounds.add(contentsBounds);
         globalBounds.add(new Rectangle2D.Double(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT));
         Rectangle2D childrenBounds = new Rectangle2D.Double(0, 0, 0, 0);
@@ -128,7 +139,7 @@ public class PackageNode extends RectangularNode implements IResizableNode
                 - nodeLocation.getY());
         g2.translate(g2Location.getX(), g2Location.getY());
         // Perform drawing
-        super.draw(g2);
+//        super.draw(g2);
         Rectangle2D topBounds = getTopRectangleBounds();
         Rectangle2D bottomBounds = getBottomRectangleBounds();
         g2.setColor(getBackgroundColor());
@@ -139,7 +150,7 @@ public class PackageNode extends RectangularNode implements IResizableNode
         g2.draw(bottomBounds);
         g2.setColor(getTextColor());
         name.draw(g2, topBounds);
-        content.draw(g2, bottomBounds);
+        text.draw(g2, bottomBounds);
         // Restore g2 original location
         g2.translate(-g2Location.getX(), -g2Location.getY());
         // Restore first color
@@ -198,7 +209,7 @@ public class PackageNode extends RectangularNode implements IResizableNode
     {
         PackageNode cloned = (PackageNode) super.clone();
         cloned.name = name.clone();
-        cloned.content = content.clone();
+        cloned.text = text.clone();
         return cloned;
     }
 
@@ -227,9 +238,9 @@ public class PackageNode extends RectangularNode implements IResizableNode
      * 
      * @param newValue the contents of this class
      */
-    public void setContent(MultiLineText newValue)
+    public void setText(MultiLineText newValue)
     {
-        content = newValue;
+        text = newValue;
     }
 
     /**
@@ -237,13 +248,13 @@ public class PackageNode extends RectangularNode implements IResizableNode
      * 
      * @return the contents of this class
      */
-    public MultiLineText getContent()
+    public MultiLineText getText()
     {
-        return content;
+        return text;
     }
 
     private SingleLineText name;
-    private MultiLineText content;
+    private MultiLineText text;
     private Rectangle2D wantedSize;
 
     private static int DEFAULT_TOP_WIDTH = 60;

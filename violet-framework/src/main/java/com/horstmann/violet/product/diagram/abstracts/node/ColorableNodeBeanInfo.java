@@ -25,9 +25,9 @@ import java.beans.PropertyDescriptor;
 import java.beans.SimpleBeanInfo;
 
 /**
- * The bean info for the RectangularNode type. This hides the bounds property. 
+ * The bean info for the ColorableNode type. This hides the bounds property.
  */
-public class RectangularNodeBeanInfo extends SimpleBeanInfo
+public class ColorableNodeBeanInfo extends SimpleBeanInfo
 {
     /*
      * (non-Javadoc)

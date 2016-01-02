@@ -29,13 +29,13 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
+import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 
 /**
  * A node_old in a state diagram.
  */
-public class StateNode extends RectangularNode
+public class StateNode extends ColorableNode
 {
     /**
      * Construct a state node_old with a default size

@@ -38,13 +38,13 @@ import javax.swing.ImageIcon;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
+import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
 
 /**
  * A node_old in a diagram represented by an image
  */
-public class ImageNode extends RectangularNode
+public class ImageNode extends ColorableNode
 {
     /**
      * Default construct a note node_old with a default size and color
@@ -157,7 +157,7 @@ public class ImageNode extends RectangularNode
     /*
      * (non-Javadoc)
      * 
-     * @see com.horstmann.violet.product.diagram.abstracts.RectangularNode#getShape()
+     * @see com.horstmann.violet.product.diagram.abstracts.ColorableNode#getShape()
      */
     public Shape getShape()
     {
@@ -241,7 +241,7 @@ public class ImageNode extends RectangularNode
     /*
      * (non-Javadoc)
      * 
-     * @see com.horstmann.violet.product.diagram.abstracts.RectangularNode#clone()
+     * @see com.horstmann.violet.product.diagram.abstracts.ColorableNode#clone()
      */
     public ImageNode clone()
     {

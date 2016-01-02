@@ -31,6 +31,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import com.horstmann.violet.framework.graphics.content.Content;
+import com.horstmann.violet.framework.graphics.content.ContentBackground;
+import com.horstmann.violet.framework.graphics.content.ContentBorder;
+import com.horstmann.violet.framework.graphics.content.EmptyContent;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideRoundRectangle;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.IColorable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
@@ -39,17 +44,51 @@ import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 /**
  * A node_old that has a rectangular shape.
  */
-public abstract class RectangularNode extends AbstractNode implements IColorable
+public abstract class ColorableNode extends AbstractNode implements IColorable
 {
-
-    public RectangularNode()
+    public ColorableNode()
     {
         super();
+
+        setBackgroundColor(ColorToolsBarPanel.DEFAULT_COLOR.getBackgroundColor());
+        setBorderColor(ColorToolsBarPanel.DEFAULT_COLOR.getBorderColor());
+        setTextColor(ColorToolsBarPanel.DEFAULT_COLOR.getTextColor());
+    }
+
+    public ColorableNode(ColorableNode node) throws CloneNotSupportedException
+    {
+        super(node);
+
+        textColor = node.textColor;
+        backgroundColor = node.backgroundColor;
+        borderColor = node.borderColor;
+    }
+
+//  protected abstract void createContentStructure();
+    protected void createContentStructure()
+    {
+        setBorder(new ContentBorder(new ContentInsideRoundRectangle(new EmptyContent()), getBorderColor()));
+        setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
+        setContent(getBackground());
+    }
+
+    @Override
+    public void draw(Graphics2D g2)
+    {
+        getContent().draw(g2, getLocationOnGraph());
+    }
+
+    @Override
+    public Rectangle2D getBounds()
+    {
+        Point2D location = getLocation();
+        Rectangle2D contentBounds = getContent().getBounds();
+        return new Rectangle2D.Double(location.getX(), location.getY(), contentBounds.getWidth(), contentBounds.getHeight());
     }
 
     public boolean contains(Point2D p)
     {
-        return getBounds().contains(p);
+        return getContent().contains(p);
     }
     
     @Override
@@ -94,8 +133,8 @@ public abstract class RectangularNode extends AbstractNode implements IColorable
             Collections.sort(result, new Comparator<IEdge>() {
                 @Override
                 public int compare(IEdge e1, IEdge e2) {
-                    Direction d1 = e1.getDirection(RectangularNode.this);
-                    Direction d2 = e2.getDirection(RectangularNode.this);
+                    Direction d1 = e1.getDirection(ColorableNode.this);
+                    Direction d2 = e2.getDirection(ColorableNode.this);
                     double x1 = d1.getX();
                     double x2 = d2.getX();
                     return Double.compare(x1, x2);
@@ -106,8 +145,8 @@ public abstract class RectangularNode extends AbstractNode implements IColorable
             Collections.sort(result, new Comparator<IEdge>() {
                 @Override
                 public int compare(IEdge e1, IEdge e2) {
-                    Direction d1 = e1.getDirection(RectangularNode.this);
-                    Direction d2 = e2.getDirection(RectangularNode.this);
+                    Direction d1 = e1.getDirection(ColorableNode.this);
+                    Direction d2 = e2.getDirection(ColorableNode.this);
                     double y1 = d1.getY();
                     double y2 = d2.getY();
                     return Double.compare(y1, y2);
@@ -150,14 +189,7 @@ public abstract class RectangularNode extends AbstractNode implements IColorable
         Point2D rawPoint = new Point2D.Double(x, y);
         return rawPoint;
     }
-    
-    
-    
-    @Override
-    public void draw(Graphics2D g2)
-    {
-        
-    }
+
     
     
 
@@ -169,20 +201,24 @@ public abstract class RectangularNode extends AbstractNode implements IColorable
 
    
     
-    public void setBackgroundColor(Color bgColor) {
+    public final void setBackgroundColor(Color bgColor)
+    {
         this.backgroundColor = bgColor;
     }
     
-    public Color getBackgroundColor() {
+    public final Color getBackgroundColor()
+    {
         return this.backgroundColor;
     }
     
-    public void setBorderColor(Color borderColor) {
+    public final void setBorderColor(Color borderColor)
+    {
         this.borderColor = borderColor;
-    };
+    }
 
-    public Color getBorderColor() {
+    public final Color getBorderColor() {
         return this.borderColor;
+
     }
     
     public void setTextColor(Color textColor) {
@@ -194,10 +230,35 @@ public abstract class RectangularNode extends AbstractNode implements IColorable
     }
 
 
+    public final Content getContent() {
+        return content;
+    }
 
+    protected final void setContent(Content content) {
+        this.content = content;
+    }
 
-    private Color backgroundColor = ColorToolsBarPanel.DEFAULT_COLOR.getBackgroundColor();
-    private Color borderColor =  ColorToolsBarPanel.DEFAULT_COLOR.getBorderColor();
-    private Color textColor =  ColorToolsBarPanel.DEFAULT_COLOR.getTextColor();
-    
+    protected final ContentBackground getBackground() {
+        return background;
+    }
+
+    protected final void setBackground(ContentBackground background) {
+        this.background = background;
+    }
+
+    protected final ContentBorder getBorder() {
+        return border;
+    }
+
+    protected final void setBorder(ContentBorder border) {
+        this.border = border;
+    }
+
+    private Content content = null;
+    private ContentBackground background = null;
+    private ContentBorder border = null;
+
+    private Color textColor;
+    private Color borderColor;
+    private Color backgroundColor;
 }

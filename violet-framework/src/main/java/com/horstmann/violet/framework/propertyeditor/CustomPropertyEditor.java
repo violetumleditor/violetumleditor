@@ -248,8 +248,8 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
              * WIDTH - 8; } public int getIconHeight() { return HEIGHT - 8; }
              * 
              * public void paintIcon(Component c, Graphics g, int x, int y) { g.translate(x, y); Rectangle r = new Rectangle(0, 0,
-             * getIconWidth(), getIconHeight()); Color oldColor = g.getColor(); g.setColor(Color.BLACK); editor.paintValue(g, r);
-             * g.setColor(oldColor); g.translate(-x, -y); } }); } else button.setText(buttonText(text)); // pop up custom editor
+             * getIconWidth(), getIconHeight()); Color oldColor = g.getBackgroundColor(); g.setBackgroundColor(Color.BLACK); editor.paintValue(g, r);
+             * g.setBackgroundColor(oldColor); g.translate(-x, -y); } }); } else button.setText(buttonText(text)); // pop up custom editor
              * when button is clicked button.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent event)
              * { final Component customEditor = editor.getCustomEditor();
              * 

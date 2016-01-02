@@ -21,7 +21,6 @@
 
 package com.horstmann.violet.product.diagram.object;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -31,17 +30,16 @@ import com.horstmann.violet.framework.graphics.Separator;
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
-import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 import com.horstmann.violet.product.diagram.common.edge.BasePropertyEdge;
 
 /**
  * A field node_old in an object diagram.
  */
-public class FieldNode extends RectangularNode
+public class FieldNode extends ColorableNode
 {
     protected static Separator equalSeparator = new Separator()
     {
@@ -90,11 +88,6 @@ public class FieldNode extends RectangularNode
         content = contentInsideShape;
 //        border = new ContentBorder(contentInsideShape, getBorderColor());
         background = new ContentBackground(contentInsideShape, getBackgroundColor());
-    }
-
-    public Content getContent()
-    {
-        return content;
     }
 
     @Override

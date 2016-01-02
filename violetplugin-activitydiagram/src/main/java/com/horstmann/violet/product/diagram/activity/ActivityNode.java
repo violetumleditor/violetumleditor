@@ -26,15 +26,13 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
-import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
-import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
-import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
+import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 
 /**
  * An activity node_old in an activity diagram.
  */
-public class ActivityNode extends RectangularNode
+public class ActivityNode extends ColorableNode
 {
     /**
      * Construct an action node_old with a default size

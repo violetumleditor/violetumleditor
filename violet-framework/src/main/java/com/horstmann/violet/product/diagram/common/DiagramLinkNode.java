@@ -30,13 +30,13 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
-import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
+import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
 
 /**
  * An link node_old in a diagram.
  */
-public class DiagramLinkNode extends RectangularNode
+public class DiagramLinkNode extends ColorableNode
 {
 
     /**

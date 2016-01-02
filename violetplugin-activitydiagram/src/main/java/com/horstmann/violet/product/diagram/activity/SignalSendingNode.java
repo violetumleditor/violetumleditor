@@ -29,14 +29,13 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
-import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
+import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 
 /**
  * An send event node_old in an activity diagram.
  */
-public class SignalSendingNode extends RectangularNode
+public class SignalSendingNode extends ColorableNode
 {
     /**
      * Construct an send event node_old with a default size

@@ -55,6 +55,11 @@ public abstract class Content
         }
     }
 
+    public boolean contains(Point2D p)
+    {
+        return getBounds().contains(p);
+    }
+
     public void refresh()
     {
         bounds.setRect(getX(), getY(), Math.max(getWidth(), minWidth), Math.max(getHeight(), minHeight));

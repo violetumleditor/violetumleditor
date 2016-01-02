@@ -28,9 +28,14 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import com.horstmann.violet.framework.graphics.Separator;
+import com.horstmann.violet.framework.graphics.content.*;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.framework.theme.ThemeManager;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
+import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
+import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 
@@ -43,18 +48,79 @@ import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
  * INode n = getGraph().findNode(endPoint); if (n != end) end.setZ(n.getZ() + 1); } }
  * 
  */
-public class NoteNode extends RectangularNode
+public class NoteNode extends ColorableNode
 {
     /**
      * Construct a note node_old with a default size and color
      */
     public NoteNode()
     {
+        super();
+
         text = new MultiLineText();
-//        text.setAlignment(MultiLineText.LEFT);
+        text.setTextColor(getTextColor());
         setBackgroundColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getBackgroundColor());
         setBorderColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getBorderColor());
         setTextColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getTextColor());
+
+        createContentStructure();
+    }
+
+    public NoteNode(NoteNode node) throws CloneNotSupportedException
+    {
+        super(node);
+        text = node.text.clone();
+        createContentStructure();
+    }
+
+    @Override
+    protected INode copy() throws CloneNotSupportedException {
+        return new NoteNode(this);
+    }
+
+    @Override
+    protected void createContentStructure()
+    {
+        TextContent textContent = new TextContent(text);
+        textContent.setMinHeight(DEFAULT_HEIGHT);
+        textContent.setMinWidth(DEFAULT_WIDTH);
+
+        ContentInsideShape contentInsideShape = new ContentInsideCustomShape(textContent, new ContentInsideCustomShape.ShapeCreator() {
+            @Override
+            public Shape createShape(int contentWidth, int contentHeight) {
+                GeneralPath path = new GeneralPath();
+                path.moveTo(0, 0);
+                path.lineTo(contentWidth - FOLD_X, 0);
+                path.lineTo(contentWidth, FOLD_Y);
+                path.lineTo(contentWidth, contentHeight);
+                path.lineTo(0, contentHeight);
+                path.closePath();
+                return path;
+            }
+        });
+
+        setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
+        setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
+        setContent(getBackground());
+    }
+
+    @Override
+    public void draw(Graphics2D g2)
+    {
+        super.draw(g2);
+
+        Color oldColor = g2.getColor();
+        GeneralPath fold = new GeneralPath();
+        Rectangle2D bounds = getBounds();
+        fold.moveTo((float) (bounds.getMaxX() - FOLD_X), (float) bounds.getY());
+        fold.lineTo((float) bounds.getMaxX() - FOLD_X, (float) bounds.getY() + FOLD_X);
+        fold.lineTo((float) bounds.getMaxX(), (float) (bounds.getY() + FOLD_Y));
+        fold.closePath();
+        g2.setColor(ThemeManager.getInstance().getTheme().getWhiteColor());
+        g2.fill(fold);
+        g2.setColor(getBorderColor());
+        g2.draw(fold);
+        g2.setColor(oldColor);
     }
 
     @Override
@@ -72,20 +138,6 @@ public class NoteNode extends RectangularNode
             return false;
         }
         return super.addConnection(e);
-    }
-
-    @Override
-    public Rectangle2D getBounds()
-    {
-        Rectangle2D b = text.getBounds();
-        Point2D currentLocation = getLocation();
-        double x = currentLocation.getX();
-        double y = currentLocation.getY();
-        double w = Math.max(b.getWidth(), DEFAULT_WIDTH);
-        double h = Math.max(b.getHeight(), DEFAULT_HEIGHT);
-        Rectangle2D currentBounds = new Rectangle2D.Double(x, y, w, h);
-        Rectangle2D snapperBounds = getGraph().getGridSticker().snap(currentBounds);
-        return snapperBounds;
     }
 
     /**
@@ -114,59 +166,6 @@ public class NoteNode extends RectangularNode
     public void setColor(Color newValue)
     {
         // Nothing to do
-    }
-
-    @Override
-    public void draw(Graphics2D g2)
-    {
-        // Backup current color;
-        Color oldColor = g2.getColor();
-
-        // Perform drawing
-        g2.setColor(getBackgroundColor());
-        Shape path = getShape();
-        g2.fill(path);
-        g2.setColor(getBorderColor());
-        g2.draw(path);
-
-        Rectangle2D bounds = getBounds();
-        GeneralPath fold = new GeneralPath();
-        fold.moveTo((float) (bounds.getMaxX() - FOLD_X), (float) bounds.getY());
-        fold.lineTo((float) bounds.getMaxX() - FOLD_X, (float) bounds.getY() + FOLD_X);
-        fold.lineTo((float) bounds.getMaxX(), (float) (bounds.getY() + FOLD_Y));
-        fold.closePath();
-        g2.setColor(ThemeManager.getInstance().getTheme().getWhiteColor());
-        g2.fill(fold);
-        g2.setColor(getBorderColor());
-        g2.draw(fold);
-
-        g2.setColor(getTextColor());
-        text.draw(g2, getBounds());
-
-        // Restore first color
-        g2.setColor(oldColor);
-    }
-
-    @Override
-    public Shape getShape()
-    {
-        Rectangle2D bounds = getBounds();
-        GeneralPath path = new GeneralPath();
-        path.moveTo((float) bounds.getX(), (float) bounds.getY());
-        path.lineTo((float) (bounds.getMaxX() - FOLD_X), (float) bounds.getY());
-        path.lineTo((float) bounds.getMaxX(), (float) (bounds.getY() + FOLD_Y));
-        path.lineTo((float) bounds.getMaxX(), (float) bounds.getMaxY());
-        path.lineTo((float) bounds.getX(), (float) bounds.getMaxY());
-        path.closePath();
-        return path;
-    }
-
-    @Override
-    public NoteNode clone()
-    {
-        NoteNode cloned = (NoteNode) super.clone();
-        cloned.text = text.clone();
-        return cloned;
     }
 
     private MultiLineText text;

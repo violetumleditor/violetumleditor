@@ -32,13 +32,13 @@ import javax.lang.model.type.NullType;
 
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 
 /**
  * An activation bar in a sequence diagram. This activation bar is hang on a lifeline (implicit parameter)
  */
-public class ActivationBarNode extends RectangularNode
+public class ActivationBarNode extends ColorableNode
 {
 
     @Override

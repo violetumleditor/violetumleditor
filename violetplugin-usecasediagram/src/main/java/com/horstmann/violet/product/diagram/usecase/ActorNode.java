@@ -27,13 +27,13 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
+import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 
 /**
  * An actor node_old in a use case diagram.
  */
-public class ActorNode extends RectangularNode
+public class ActorNode extends ColorableNode
 {
 
     /**

@@ -35,6 +35,15 @@ public abstract class LineText implements Serializable, Cloneable {
     public abstract String getText();
     public abstract String getHTML();
 
+    public final Color getTextColor()
+    {
+        return label.getForeground();
+    }
+    public final void setTextColor(Color color)
+    {
+        label.setForeground(color);
+    }
+
     final public void addChangeListener(ChangeListener changeListener)
     {
         changeListeners.add(changeListener);
@@ -114,6 +123,8 @@ public abstract class LineText implements Serializable, Cloneable {
         cloned.label.setBorder(this.label.getBorder());
         cloned.label.setMinimumSize(this.label.getMinimumSize());
         cloned.label.setText(this.label.getText());
+        cloned.label.setForeground(this.label.getForeground());
+        cloned.converter = this.converter;
     }
 
     public static final Converter DEFAULT_CONVERTER = new Converter(){
@@ -128,7 +139,7 @@ public abstract class LineText implements Serializable, Cloneable {
     public static final int CENTER = SwingConstants.CENTER;
     public static final int RIGHT = SwingConstants.RIGHT;
 
-    protected transient Converter converter;
+    protected Converter converter;
     private transient JLabel label = new JLabel();
     private transient Rectangle2D bounds = null;
 

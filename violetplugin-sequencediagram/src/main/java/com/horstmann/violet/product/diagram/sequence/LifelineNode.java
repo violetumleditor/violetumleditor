@@ -31,6 +31,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.Collection;
 import java.util.List;
 
+import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.OneLineString;
 import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.UnderlineDecorator;
@@ -38,13 +39,12 @@ import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 
 /**
  * An object node_old in a scenario diagram.
  */
-public class LifelineNode extends RectangularNode
+public class LifelineNode extends ColorableNode
 {
     /**
      * Construct an object node_old with a default size

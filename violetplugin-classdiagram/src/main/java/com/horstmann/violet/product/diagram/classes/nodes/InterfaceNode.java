@@ -1,34 +1,30 @@
 package com.horstmann.violet.product.diagram.classes.nodes;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.framework.graphics.Separator;
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.content.VerticalGroupContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
+import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.LargeSizeDecorator;
 import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.OneLineString;
 import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.PrefixDecorator;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 import com.horstmann.violet.product.diagram.common.PointNode;
 
 /**
- * An interface node_old in a class diagram.
+ * An interface node in a class diagram.
  */
-public class InterfaceNode extends RectangularNode
+public class InterfaceNode extends ColorableNode
 {
-    /**
-     * Construct an interface node_old with a default size and the text <<interface>>.
-     */
     public InterfaceNode()
     {
+        super();
+
         name = new SingleLineText(new LineText.Converter(){
             @Override
             public OneLineString toLineString(String text)
@@ -38,10 +34,23 @@ public class InterfaceNode extends RectangularNode
             }
         });
         methods = new MultiLineText();
-
         createContentStructure();
     }
 
+    public InterfaceNode(InterfaceNode node) throws CloneNotSupportedException
+    {
+        super(node);
+        name = node.name.clone();
+        methods = node.methods.clone();
+        createContentStructure();
+    }
+
+    @Override
+    protected INode copy() throws CloneNotSupportedException {
+        return new InterfaceNode(this);
+    }
+
+    @Override
     protected void createContentStructure()
     {
         TextContent nameContent = new TextContent(name);
@@ -56,25 +65,9 @@ public class InterfaceNode extends RectangularNode
 
         ContentInsideShape contentInsideShape = new ContentInsideRectangle(verticalGroupContent);
 
-        border = new ContentBorder(contentInsideShape, getBorderColor());
-        background = new ContentBackground(border, getBackgroundColor());
-
-        content = background;
-    }
-
-    @Override
-    public Rectangle2D getBounds()
-    {
-        Point2D location = getLocationOnGraph();
-        Rectangle2D contentBounds = content.getBounds();
-        return new Rectangle2D.Double(location.getX(), location.getY(), contentBounds.getWidth(), contentBounds.getHeight());
-    }
-
-
-    @Override
-    public void draw(Graphics2D g2)
-    {
-        content.draw(g2, getLocationOnGraph());
+        setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
+        setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
+        setContent(getBackground());
     }
 
     @Override
@@ -127,19 +120,9 @@ public class InterfaceNode extends RectangularNode
         return methods;
     }
 
-    @Override
-    public InterfaceNode clone()
-    {
-        InterfaceNode cloned = (InterfaceNode) super.clone();
-        cloned.name = name.clone();
-        cloned.methods = methods.clone();
-        cloned.createContentStructure();
-        return cloned;
-    }
 
-    private Content content = null;
-    private ContentBackground background = null;
-    private ContentBorder border = null;
+
+
 
     private SingleLineText name;
     private MultiLineText methods;
