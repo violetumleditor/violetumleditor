@@ -28,8 +28,14 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
+import com.horstmann.violet.framework.graphics.content.ContentBackground;
+import com.horstmann.violet.framework.graphics.content.ContentBorder;
+import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
+import com.horstmann.violet.framework.graphics.content.TextContent;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideRoundRectangle;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
+import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 
 /**
@@ -42,9 +48,51 @@ public class StateNode extends ColorableNode
      */
     public StateNode()
     {
+        super();
         name = new SingleLineText();
+        createContentStructure();
     }
-    
+
+    public StateNode(StateNode node) throws CloneNotSupportedException
+    {
+        super(node);
+        name = node.name.clone();
+        createContentStructure();
+    }
+
+    @Override
+    protected INode copy() throws CloneNotSupportedException {
+        return new StateNode(this);
+    }
+
+    @Override
+    protected void createContentStructure()
+    {
+        TextContent nameContent = new TextContent(name);
+        nameContent.setMinHeight(DEFAULT_HEIGHT);
+        nameContent.setMinWidth(DEFAULT_WIDTH);
+
+        ContentInsideShape contentInsideShape = new ContentInsideRoundRectangle(nameContent, ARC_SIZE);
+
+        setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
+        setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
+        setContent(getBackground());
+
+        setTextColor(super.getTextColor());
+    }
+
+    @Override
+    public void setTextColor(Color textColor)
+    {
+        name.setTextColor(textColor);
+    }
+
+    @Override
+    public Color getTextColor()
+    {
+        return name.getTextColor();
+    }
+
     @Override
     public boolean addConnection(IEdge e) {
     	if (e.getEnd() == null) {
@@ -54,48 +102,6 @@ public class StateNode extends ColorableNode
     		return false;
     	}
     	return super.addConnection(e);
-    }
-
-    @Override
-    public Rectangle2D getBounds()
-    {
-        Rectangle2D b = name.getBounds();
-        Point2D currentLocation = getLocation();
-        double x = currentLocation.getX();
-        double y = currentLocation.getY();
-        double w = Math.max(b.getWidth(), DEFAULT_WIDTH);
-        double h = Math.max(b.getHeight(), DEFAULT_HEIGHT);
-        Rectangle2D currentBounds = new Rectangle2D.Double(x, y, w, h);
-        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(currentBounds);
-        return snappedBounds;
-    }
-
-    @Override
-    public void draw(Graphics2D g2)
-    {
-        super.draw(g2);
-
-        // Backup current color;
-        Color oldColor = g2.getColor();
-
-        // Perform drawing
-        Shape shape = getShape();
-        g2.setColor(getBackgroundColor());
-        g2.fill(shape);
-        g2.setColor(getBorderColor());
-        g2.draw(shape);
-        g2.setColor(getTextColor());
-        name.draw(g2, getBounds());
-
-        // Restore first color
-        g2.setColor(oldColor);
-    }
-
-    @Override
-    public Shape getShape()
-    {
-        return new RoundRectangle2D.Double(getBounds().getX(), getBounds().getY(), getBounds().getWidth(), getBounds().getHeight(),
-                ARC_SIZE, ARC_SIZE);
     }
 
     /**
@@ -117,16 +123,10 @@ public class StateNode extends ColorableNode
         return name;
     }
 
-    public StateNode clone()
-    {
-        StateNode cloned = (StateNode) super.clone();
-        cloned.name = name.clone();
-        return cloned;
-    }
 
     private SingleLineText name;
 
     private static int ARC_SIZE = 20;
-    private static int DEFAULT_WIDTH = 80;
-    private static int DEFAULT_HEIGHT = 60;
+    private static int DEFAULT_WIDTH = 60;
+    private static int DEFAULT_HEIGHT = 40;
 }

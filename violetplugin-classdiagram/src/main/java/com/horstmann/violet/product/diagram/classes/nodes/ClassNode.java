@@ -1,5 +1,6 @@
 package com.horstmann.violet.product.diagram.classes.nodes;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 import com.horstmann.violet.framework.graphics.Separator;
@@ -88,7 +89,24 @@ public class ClassNode extends ColorableNode
         setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
         setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
         setContent(getBackground());
+
+        setTextColor(super.getTextColor());
     }
+
+    @Override
+    public void setTextColor(Color textColor)
+    {
+        name.setTextColor(textColor);
+        attributes.setTextColor(textColor);
+        methods.setTextColor(textColor);
+    }
+
+    @Override
+    public Color getTextColor()
+    {
+        return name.getTextColor();
+    }
+
 
     /*
      * (non-Javadoc)

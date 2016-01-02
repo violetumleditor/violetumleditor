@@ -21,13 +21,15 @@
 
 package com.horstmann.violet.product.diagram.usecase;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import com.horstmann.violet.framework.graphics.content.*;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
+import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 
 /**
@@ -35,80 +37,90 @@ import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLine
  */
 public class ActorNode extends ColorableNode
 {
-
     /**
      * Construct an actor node_old with a default size and name
      */
     public ActorNode()
     {
+        super();
         name = new SingleLineText();
-        name.setText("Actor");
+        name.setPadding(10,5,5,5);
+//        name.setText("Actor");
+        createContentStructure();
+    }
+
+    public ActorNode(ActorNode node) throws CloneNotSupportedException
+    {
+        super(node);
+        name = node.name.clone();
+        createContentStructure();
     }
 
     @Override
-    public Rectangle2D getBounds()
-    {
-        Rectangle2D top = new Rectangle2D.Double(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT);
-        Rectangle2D bot = name.getBounds();
-        Point2D currentLocation = getLocation();
-        double x = currentLocation.getX();
-        double y = currentLocation.getY();
-        double w = Math.max(top.getWidth(), bot.getWidth());
-        double h = top.getHeight() + bot.getHeight();
-        Rectangle2D currentBounds = new Rectangle2D.Double(x, y, w, h);
-        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(currentBounds);
-        return snappedBounds;
+    protected INode copy() throws CloneNotSupportedException {
+        return new ActorNode(this);
     }
 
-    /**
-     * Draws the stick man
-     */
     @Override
-    public void draw(Graphics2D g2)
+    protected void createContentStructure()
     {
-        // Backup current color;
-        Color oldColor = g2.getColor();
+        TextContent nameContent = new TextContent(name);
+        nameContent.setMinWidth(DEFAULT_WIDTH);
 
-        Rectangle2D bounds = getBounds();
+        ContentInsideShape stickPersonContent = new ContentInsideCustomShape(new EmptyContent(), new ContentInsideCustomShape.ShapeCreator()
+        {
+            @Override
+            public Shape createShape(int contentWidth, int contentHeight) {
+                GeneralPath path = new GeneralPath();
+                float neckX = DEFAULT_WIDTH / 2;
+                float neckY = HEAD_SIZE + GAP_ABOVE;
+                // head
+                path.moveTo(neckX, neckY);
+                path.quadTo(neckX + HEAD_SIZE / 2, neckY, neckX + HEAD_SIZE / 2, neckY - HEAD_SIZE / 2);
+                path.quadTo(neckX + HEAD_SIZE / 2, neckY - HEAD_SIZE, neckX, neckY - HEAD_SIZE);
+                path.quadTo(neckX - HEAD_SIZE / 2, neckY - HEAD_SIZE, neckX - HEAD_SIZE / 2, neckY - HEAD_SIZE / 2);
+                path.quadTo(neckX - HEAD_SIZE / 2, neckY, neckX, neckY);
+                // body
+                float hipX = neckX;
+                float hipY = neckY + BODY_SIZE;
+                path.lineTo(hipX, hipY);
+                // arms
+                path.moveTo(neckX - ARMS_SIZE / 2, neckY + BODY_SIZE / 3);
+                path.lineTo(neckX + ARMS_SIZE / 2, neckY + BODY_SIZE / 3);
+                // legs
+                float dx = (float) (LEG_SIZE / Math.sqrt(2));
+                float feetX1 = hipX - dx;
+                float feetX2 = hipX + dx + 1;
+                float feetY = hipY + dx + 1;
+                path.moveTo(feetX1, feetY);
+                path.lineTo(hipX, hipY);
+                path.lineTo(feetX2, feetY);
+                return path;
+            }
+        });
 
-        // Draw stick person
-        GeneralPath path = new GeneralPath();
-        float neckX = (float) (bounds.getX() + bounds.getWidth() / 2);
-        float neckY = (float) (bounds.getY() + HEAD_SIZE + GAP_ABOVE);
-        // head
-        path.moveTo(neckX, neckY);
-        path.quadTo(neckX + HEAD_SIZE / 2, neckY, neckX + HEAD_SIZE / 2, neckY - HEAD_SIZE / 2);
-        path.quadTo(neckX + HEAD_SIZE / 2, neckY - HEAD_SIZE, neckX, neckY - HEAD_SIZE);
-        path.quadTo(neckX - HEAD_SIZE / 2, neckY - HEAD_SIZE, neckX - HEAD_SIZE / 2, neckY - HEAD_SIZE / 2);
-        path.quadTo(neckX - HEAD_SIZE / 2, neckY, neckX, neckY);
-        // body
-        float hipX = neckX;
-        float hipY = neckY + BODY_SIZE;
-        path.lineTo(hipX, hipY);
-        // arms
-        path.moveTo(neckX - ARMS_SIZE / 2, neckY + BODY_SIZE / 3);
-        path.lineTo(neckX + ARMS_SIZE / 2, neckY + BODY_SIZE / 3);
-        // legs
-        float dx = (float) (LEG_SIZE / Math.sqrt(2));
-        float feetX1 = hipX - dx;
-        float feetX2 = hipX + dx + 1;
-        float feetY = hipY + dx + 1;
-        path.moveTo(feetX1, feetY);
-        path.lineTo(hipX, hipY);
-        path.lineTo(feetX2, feetY);
+        setBorder(new ContentBorder(stickPersonContent, getBorderColor()));
+        setBackground(new ContentBackground(getBorder(), null));
 
-        g2.setColor(getBorderColor());
-        g2.draw(path);
+        VerticalGroupContent verticalGroupContent = new VerticalGroupContent();
+        verticalGroupContent.add(getBackground());
+        verticalGroupContent.add(nameContent);
 
-        // Draw name
-        Rectangle2D bot = name.getBounds();
-        Rectangle2D namebox = new Rectangle2D.Double(bounds.getX() + (bounds.getWidth() - bot.getWidth()) / 2, bounds.getY()
-                + DEFAULT_HEIGHT, bot.getWidth(), bot.getHeight());
-        g2.setColor(getTextColor());
-        name.draw(g2, namebox);
+        setContent(verticalGroupContent);
 
-        // Restore first color
-        g2.setColor(oldColor);
+        setTextColor(super.getTextColor());
+    }
+
+    @Override
+    public void setTextColor(Color textColor)
+    {
+        name.setTextColor(textColor);
+    }
+
+    @Override
+    public Color getTextColor()
+    {
+        return name.getTextColor();
     }
 
     /**
@@ -123,19 +135,10 @@ public class ActorNode extends ColorableNode
 
     /**
      * Gets the name property value.
-     * 
-     * @param the actor name
      */
     public SingleLineText getName()
     {
         return name;
-    }
-
-    public ActorNode clone()
-    {
-        ActorNode cloned = (ActorNode) super.clone();
-        cloned.name = (SingleLineText) name.clone();
-        return cloned;
     }
 
     /** Actor name */

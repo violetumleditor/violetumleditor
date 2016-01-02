@@ -22,7 +22,7 @@ public abstract class Separator
     {
         public LineSeparator()
         {
-            color = Color.BLACK;
+            this(Color.BLACK);
         }
         public LineSeparator(Color color)
         {

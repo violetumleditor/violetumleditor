@@ -56,13 +56,7 @@ public class NoteNode extends ColorableNode
     public NoteNode()
     {
         super();
-
         text = new MultiLineText();
-        text.setTextColor(getTextColor());
-        setBackgroundColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getBackgroundColor());
-        setBorderColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getBorderColor());
-        setTextColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getTextColor());
-
         createContentStructure();
     }
 
@@ -85,7 +79,8 @@ public class NoteNode extends ColorableNode
         textContent.setMinHeight(DEFAULT_HEIGHT);
         textContent.setMinWidth(DEFAULT_WIDTH);
 
-        ContentInsideShape contentInsideShape = new ContentInsideCustomShape(textContent, new ContentInsideCustomShape.ShapeCreator() {
+        ContentInsideShape contentInsideShape = new ContentInsideCustomShape(textContent, new ContentInsideCustomShape.ShapeCreator()
+        {
             @Override
             public Shape createShape(int contentWidth, int contentHeight) {
                 GeneralPath path = new GeneralPath();
@@ -102,6 +97,10 @@ public class NoteNode extends ColorableNode
         setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
         setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
         setContent(getBackground());
+
+        setBackgroundColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getBackgroundColor());
+        setBorderColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getBorderColor());
+        setTextColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getTextColor());
     }
 
     @Override
@@ -122,6 +121,27 @@ public class NoteNode extends ColorableNode
         g2.draw(fold);
         g2.setColor(oldColor);
     }
+
+    @Override
+    public void setTextColor(Color textColor)
+    {
+        text.setTextColor(textColor);
+    }
+
+    @Override
+    public Color getTextColor()
+    {
+        return text.getTextColor();
+    }
+
+
+
+
+
+
+
+
+
 
     @Override
     public int getZ()

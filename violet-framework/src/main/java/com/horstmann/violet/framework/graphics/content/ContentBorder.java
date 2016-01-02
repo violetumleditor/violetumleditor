@@ -11,9 +11,8 @@ import java.awt.geom.Point2D;
 public class ContentBorder extends ContentInsideShape
 {
     public ContentBorder(ContentInsideShape contentShape, Color color) {
-        this.color = color;
         this.contentShape = contentShape;
-
+        this.setBorderColor(color);
         this.setContent(contentShape);
     }
 

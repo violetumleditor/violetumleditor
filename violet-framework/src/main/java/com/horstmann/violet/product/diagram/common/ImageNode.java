@@ -20,6 +20,7 @@
  */
 
 package com.horstmann.violet.product.diagram.common;
+//TODO Czy ta klasa jest wogole potrzebna
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -243,13 +244,15 @@ public class ImageNode extends ColorableNode
      * 
      * @see com.horstmann.violet.product.diagram.abstracts.ColorableNode#clone()
      */
-    public ImageNode clone()
-    {
-        ImageNode cloned = (ImageNode) super.clone();
-        cloned.text = text.clone();
-        cloned.imageIcon = imageIcon;
-        return cloned;
-    }
+
+    //TODO cos z tym zrobic
+//    public ImageNode clone()
+//    {
+//        ImageNode cloned = (ImageNode) super.clone();
+//        cloned.text = text.clone();
+//        cloned.imageIcon = imageIcon;
+//        return cloned;
+//    }
 
     private static final String PIXEL_SEPARATOR = ":";
 

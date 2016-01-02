@@ -27,42 +27,73 @@ import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import com.horstmann.violet.framework.graphics.content.ContentBackground;
+import com.horstmann.violet.framework.graphics.content.ContentBorder;
+import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
+import com.horstmann.violet.framework.graphics.content.TextContent;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideEllipse;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.EllipticalNode;
+import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 
 /**
  * A use case node_old in a use case diagram.
  */
-public class UseCaseNode extends EllipticalNode
+public class UseCaseNode extends ColorableNode
 {
     /**
      * Construct a use case node_old with a default size
      */
     public UseCaseNode()
     {
+        super();
+
         name = new SingleLineText();
         name.setAlignment(LineText.CENTER);
+        createContentStructure();
+    }
+
+    public UseCaseNode(UseCaseNode node) throws CloneNotSupportedException
+    {
+        super(node);
+        name = node.name.clone();
+        createContentStructure();
     }
 
     @Override
-    public Rectangle2D getBounds()
+    protected INode copy() throws CloneNotSupportedException {
+        return new UseCaseNode(this);
+    }
+
+    @Override
+    protected void createContentStructure()
     {
-        double aspectRatio = DEFAULT_WIDTH / DEFAULT_HEIGHT;
-        Rectangle2D b = name.getBounds();
-        double bw = b.getWidth();
-        double bh = b.getHeight();
-        double minWidth = Math.sqrt(bw * bw + aspectRatio * aspectRatio * bh * bh);
-        double minHeight = minWidth / aspectRatio;
-        Point2D currentLocation = getLocation();
-        double x = currentLocation.getX();
-        double y = currentLocation.getY();
-        double w = Math.max(minWidth, DEFAULT_WIDTH);
-        double h = Math.max(minHeight, DEFAULT_HEIGHT);
-        Rectangle2D currentBounds = new Rectangle2D.Double(x, y, w, h);
-        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(currentBounds);
-        return snappedBounds;
+        TextContent nameContent = new TextContent(name);
+        nameContent.setMinHeight(DEFAULT_HEIGHT);
+        nameContent.setMinWidth(DEFAULT_WIDTH);
+
+        ContentInsideShape contentInsideShape = new ContentInsideEllipse(nameContent);
+
+        setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
+        setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
+        setContent(getBackground());
+
+        setTextColor(super.getTextColor());
+    }
+
+    @Override
+    public void setTextColor(Color textColor)
+    {
+        name.setTextColor(textColor);
+    }
+
+    @Override
+    public Color getTextColor()
+    {
+        return name.getTextColor();
     }
 
     @Override
@@ -73,30 +104,9 @@ public class UseCaseNode extends EllipticalNode
         {
 
         }
-
         return super.getConnectionPoint(e);
     }
 
-    @Override
-    public void draw(Graphics2D g2)
-    {
-        super.draw(g2);
-
-        // Backup current color;
-        Color oldColor = g2.getColor();
-
-        // Draw shape and text
-        Shape shape = getShape();
-        g2.setColor(getBackgroundColor());
-        g2.fill(shape);
-        g2.setColor(getBorderColor());
-        g2.draw(shape);
-        g2.setColor(getTextColor());
-        name.draw(g2, getBounds());
-
-        // Restore first color
-        g2.setColor(oldColor);
-    }
 
     /**
      * Sets the name property value.
@@ -117,16 +127,9 @@ public class UseCaseNode extends EllipticalNode
         return name;
     }
 
-    @Override
-    public UseCaseNode clone()
-    {
-        UseCaseNode cloned = (UseCaseNode) super.clone();
-        cloned.name = name.clone();
-        return cloned;
-    }
 
     private SingleLineText name;
 
-    private static int DEFAULT_WIDTH = 110;
-    private static int DEFAULT_HEIGHT = 40;
+    private static int DEFAULT_WIDTH = 60;
+    private static int DEFAULT_HEIGHT = 20;
 }

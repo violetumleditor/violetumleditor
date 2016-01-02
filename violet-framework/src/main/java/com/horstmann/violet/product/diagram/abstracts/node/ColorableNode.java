@@ -49,19 +49,11 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
     public ColorableNode()
     {
         super();
-
-        setBackgroundColor(ColorToolsBarPanel.DEFAULT_COLOR.getBackgroundColor());
-        setBorderColor(ColorToolsBarPanel.DEFAULT_COLOR.getBorderColor());
-        setTextColor(ColorToolsBarPanel.DEFAULT_COLOR.getTextColor());
     }
 
     public ColorableNode(ColorableNode node) throws CloneNotSupportedException
     {
         super(node);
-
-        textColor = node.textColor;
-        backgroundColor = node.backgroundColor;
-        borderColor = node.borderColor;
     }
 
 //  protected abstract void createContentStructure();
@@ -190,44 +182,13 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
         return rawPoint;
     }
 
-    
-    
-
-
     public Shape getShape()
     {
         return getBounds();
     }
 
-   
-    
-    public final void setBackgroundColor(Color bgColor)
-    {
-        this.backgroundColor = bgColor;
-    }
-    
-    public final Color getBackgroundColor()
-    {
-        return this.backgroundColor;
-    }
-    
-    public final void setBorderColor(Color borderColor)
-    {
-        this.borderColor = borderColor;
-    }
 
-    public final Color getBorderColor() {
-        return this.borderColor;
-
-    }
     
-    public void setTextColor(Color textColor) {
-        this.textColor = textColor;
-    }
-    
-    public Color getTextColor() {
-        return this.textColor;
-    }
 
 
     public final Content getContent() {
@@ -254,11 +215,50 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
         this.border = border;
     }
 
+    public final void setBackgroundColor(Color bgColor)
+    {
+        if(null != background)
+        {
+            background.setBackgroundColor(bgColor);
+        }
+    }
+
+    public final Color getBackgroundColor()
+    {
+        if(null == background)
+        {
+            return ColorToolsBarPanel.DEFAULT_COLOR.getBackgroundColor();
+        }
+        return background.getBackgroundColor();
+    }
+
+    public final void setBorderColor(Color borderColor)
+    {
+        if(null != border)
+        {
+            border.setBorderColor(borderColor);
+        }
+    }
+
+    public final Color getBorderColor()
+    {
+        if(null == border)
+        {
+            return ColorToolsBarPanel.DEFAULT_COLOR.getBorderColor();
+        }
+        return border.getBorderColor();
+    }
+
+    public void setTextColor(Color textColor)
+    {}
+
+    public Color getTextColor()
+    {
+        return ColorToolsBarPanel.DEFAULT_COLOR.getTextColor();
+    }
+
+
     private Content content = null;
     private ContentBackground background = null;
     private ContentBorder border = null;
-
-    private Color textColor;
-    private Color borderColor;
-    private Color backgroundColor;
 }

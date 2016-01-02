@@ -27,15 +27,49 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import com.horstmann.violet.framework.graphics.content.EmptyContent;
+import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.EllipticalNode;
+import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 
 /**
  * An initial or final node_old (bull's eye) in a state or activity diagram.
  */
-public class CircularFinalStateNode extends EllipticalNode
+public class CircularFinalStateNode extends ColorableNode
 {
-    
+    public CircularFinalStateNode()
+    {
+        super();
+        createContentStructure();
+    }
+
+    public CircularFinalStateNode(CircularFinalStateNode node) throws CloneNotSupportedException
+    {
+        super(node);
+        createContentStructure();
+    }
+
+    @Override
+    protected INode copy() throws CloneNotSupportedException {
+        return new CircularFinalStateNode(this);
+    }
+
+    @Override
+    protected void createContentStructure()
+    {
+        EmptyContent emptyContent = new EmptyContent();
+        emptyContent.setMinHeight(DEFAULT_DIAMETER);
+        emptyContent.setMinWidth(DEFAULT_DIAMETER);
+
+        ContentInsideShape contentInsideShape = new ContentInsideRoundRectangle(nameContent, ARC_SIZE);
+
+        setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
+        setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
+        setContent(getBackground());
+
+        setTextColor(super.getTextColor());
+    }
     
 
     public CircularFinalStateNode()
@@ -92,6 +126,6 @@ public class CircularFinalStateNode extends EllipticalNode
     private static int DEFAULT_DIAMETER = 14;
 
     /** default gap between the main circle and the ring for a final node_old */
-    private static int DEFAULT_GAP = 3;
+    private static int DEFAULT_GAP = 2;
 
 }
