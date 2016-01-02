@@ -21,13 +21,13 @@
 
 package com.horstmann.violet.product.diagram.state;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import com.horstmann.violet.framework.graphics.content.EmptyContent;
+import com.horstmann.violet.framework.graphics.content.*;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideEllipse;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.EllipticalNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
@@ -58,68 +58,28 @@ public class CircularFinalStateNode extends ColorableNode
     @Override
     protected void createContentStructure()
     {
-        EmptyContent emptyContent = new EmptyContent();
-        emptyContent.setMinHeight(DEFAULT_DIAMETER);
-        emptyContent.setMinWidth(DEFAULT_DIAMETER);
+        EmptyContent outsideEmptyContent = new EmptyContent();
+        outsideEmptyContent.setMinHeight(DEFAULT_DIAMETER);
+        outsideEmptyContent.setMinWidth(DEFAULT_DIAMETER);
+        ContentInsideShape contentOutsideShape = new ContentInsideEllipse(outsideEmptyContent, 1);
+        setBackground(new ContentBackground(contentOutsideShape, getBackgroundColor()));
+        setBorder(new ContentBorder(getBackground(), getBorderColor()));
 
-        ContentInsideShape contentInsideShape = new ContentInsideRoundRectangle(nameContent, ARC_SIZE);
-
-        setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
-        setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
-        setContent(getBackground());
-
-        setTextColor(super.getTextColor());
-    }
-    
-
-    public CircularFinalStateNode()
-    {
-        super();
         setBackgroundColor(ColorToolsBarPanel.PASTEL_GREY.getBackgroundColor());
         setBorderColor(ColorToolsBarPanel.PASTEL_GREY.getBorderColor());
-        setTextColor(ColorToolsBarPanel.PASTEL_GREY.getTextColor());
-    }
 
-    @Override
-    public Rectangle2D getBounds()
-    {
-        Point2D currentLocation = getLocation();
-        double x = currentLocation.getX();
-        double y = currentLocation.getY();
-        double w = DEFAULT_DIAMETER + 2 * DEFAULT_GAP;
-        double h = DEFAULT_DIAMETER + 2 * DEFAULT_GAP;
-        Rectangle2D currentBounds = new Rectangle2D.Double(x, y, w, h);
-        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(currentBounds);
-        return snappedBounds;
-    }
+        EmptyContent insideEmptyContent = new EmptyContent();
+        insideEmptyContent.setMinHeight(DEFAULT_DIAMETER - 2*DEFAULT_GAP);
+        insideEmptyContent.setMinWidth(DEFAULT_DIAMETER - 2*DEFAULT_GAP);
+        ContentInsideShape contentInsideShape = new ContentInsideEllipse(insideEmptyContent, 1);
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.horstmann.violet.framework.Node#draw(java.awt.Graphics2D)
-     */
-    public void draw(Graphics2D g2)
-    {
-        super.draw(g2);
+        RelativeGroupContent relativeGroupContent = new RelativeGroupContent();
+        relativeGroupContent.add(getBorder(), new Point(0,0));
+        relativeGroupContent.add(new ContentBackground(contentInsideShape, getBorderColor()), new Point.Double(DEFAULT_GAP*Math.sqrt(2),DEFAULT_GAP*Math.sqrt(2)));
 
-        // Backup current color;
-        Color oldColor = g2.getColor();
+        setContent(relativeGroupContent);
 
-        // Draw circles
-        Ellipse2D circle = new Ellipse2D.Double(getBounds().getX(), getBounds().getY(), getBounds().getWidth(), getBounds()
-                .getHeight());
 
-        Rectangle2D bounds = getBounds();
-        Ellipse2D inside = new Ellipse2D.Double(bounds.getX() + DEFAULT_GAP, bounds.getY() + DEFAULT_GAP, bounds.getWidth() - 2
-                * DEFAULT_GAP, bounds.getHeight() - 2 * DEFAULT_GAP);
-        g2.setColor(getBackgroundColor());
-        g2.fill(circle);
-        g2.setColor(getBorderColor());
-        g2.fill(inside);
-        g2.draw(circle);
-
-        // Restore first color
-        g2.setColor(oldColor);
     }
 
     /** default node_old diameter */

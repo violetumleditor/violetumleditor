@@ -27,52 +27,50 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import com.horstmann.violet.framework.graphics.content.ContentBackground;
+import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
+import com.horstmann.violet.framework.graphics.content.EmptyContent;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideEllipse;
+import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.EllipticalNode;
+import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 
 /**
  * An initial or final node_old (bull's eye) in a state or activity diagram.
  */
-public class CircularInitialStateNode extends EllipticalNode
+public class CircularInitialStateNode extends ColorableNode
 {
-    
-
     public CircularInitialStateNode()
     {
         super();
-        setBackgroundColor(ColorToolsBarPanel.PASTEL_GREY.getBackgroundColor());
-        setBorderColor(ColorToolsBarPanel.PASTEL_GREY.getBorderColor());
-        setTextColor(ColorToolsBarPanel.PASTEL_GREY.getTextColor());
+        createContentStructure();
+    }
+
+    public CircularInitialStateNode(CircularInitialStateNode node) throws CloneNotSupportedException
+    {
+        super(node);
+        createContentStructure();
     }
 
     @Override
-    public Rectangle2D getBounds()
-    {
-        Point2D currentLocation = getLocation();
-        double x = currentLocation.getX();
-        double y = currentLocation.getY();
-        double w = DEFAULT_DIAMETER;
-        double h = DEFAULT_DIAMETER;
-        Rectangle2D currentBounds = new Rectangle2D.Double(x, y, w, h);
-        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(currentBounds);
-        return snappedBounds;
+    protected INode copy() throws CloneNotSupportedException {
+        return new CircularInitialStateNode(this);
     }
 
-    public void draw(Graphics2D g2)
+    @Override
+    protected void createContentStructure()
     {
-        super.draw(g2);
+        EmptyContent emptyContent = new EmptyContent();
+        emptyContent.setMinHeight(DEFAULT_DIAMETER);
+        emptyContent.setMinWidth(DEFAULT_DIAMETER);
 
-        // Backup current color;
-        Color oldColor = g2.getColor();
+        ContentInsideShape contentInsideShape = new ContentInsideEllipse(emptyContent, 1);
 
-        // Draw circle
-        g2.setColor(getBorderColor());
-        Rectangle2D bounds = getBounds();
-        Ellipse2D circle = new Ellipse2D.Double(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
-        g2.fill(circle);
+        setBackground(new ContentBackground(contentInsideShape, getBackgroundColor()));
+        setContent(getBackground());
 
-        // Restore first color
-        g2.setColor(oldColor);
+        setBackgroundColor(ColorToolsBarPanel.PASTEL_GREY.getBorderColor());
     }
 
     /**
@@ -86,6 +84,6 @@ public class CircularInitialStateNode extends EllipticalNode
     }
 
     /** default node_old diameter */
-    private static int DEFAULT_DIAMETER = 20;
+    private static int DEFAULT_DIAMETER = 14;
 
 }
