@@ -33,6 +33,7 @@ import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
 import com.horstmann.violet.product.diagram.abstracts.property.BentStyle;
 import com.horstmann.violet.product.diagram.abstracts.property.LineStyle;
+import com.horstmann.violet.product.diagram.activity.nodes.*;
 import com.horstmann.violet.product.diagram.common.edge.NoteEdge;
 import com.horstmann.violet.product.diagram.common.NoteNode;
 
@@ -82,49 +83,47 @@ public class ActivityDiagramGraph extends AbstractGraph
 
     static
     {
-        ResourceBundle rs = ResourceBundle.getBundle(ActivityDiagramConstant.ACTIVITY_DIAGRAM_STRINGS, Locale.getDefault());
-
         ScenarioStartNode node5 = new ScenarioStartNode();
-        node5.setToolTip(rs.getString("node5.tooltip"));
+        node5.setToolTip(ActivityResource.ACTIVITY.getResourceString("scenario.start.tooltip"));
         NODE_PROTOTYPES.add(node5);
         
         ActivityNode node0 = new ActivityNode();
-        node0.setToolTip(rs.getString("node0.tooltip"));
+        node0.setToolTip(ActivityResource.ACTIVITY.getResourceString("activity.tooltip"));
         NODE_PROTOTYPES.add(node0);
 
         DecisionNode node1 = new DecisionNode();
-        node1.setToolTip(rs.getString("node1.tooltip"));
+        node1.setToolTip(ActivityResource.ACTIVITY.getResourceString("decision.tooltip"));
         NODE_PROTOTYPES.add(node1);
 
         SynchronizationBarNode node2 = new SynchronizationBarNode();
-        node2.setToolTip(rs.getString("node2.tooltip"));
+        node2.setToolTip(ActivityResource.ACTIVITY.getResourceString("synchronization.bar.tooltip"));
         NODE_PROTOTYPES.add(node2);
 
         SignalSendingNode node3 = new SignalSendingNode();
-        node3.setToolTip(rs.getString("node3.tooltip"));
+        node3.setToolTip(ActivityResource.ACTIVITY.getResourceString("signal.sending.tooltip"));
         NODE_PROTOTYPES.add(node3);
 
         SignalReceiptNode node4 = new SignalReceiptNode();
-        node4.setToolTip(rs.getString("node4.tooltip"));
+        node4.setToolTip(ActivityResource.ACTIVITY.getResourceString("signal.receipt.tooltip"));
         NODE_PROTOTYPES.add(node4);
 
         ScenarioEndNode node6 = new ScenarioEndNode();
-        node6.setToolTip(rs.getString("node6.tooltip"));
+        node6.setToolTip(ActivityResource.ACTIVITY.getResourceString("scenario.end.tooltip"));
         NODE_PROTOTYPES.add(node6);
 
         NoteNode node7 = new NoteNode();
-        node7.setToolTip(rs.getString("node7.tooltip"));
+        node7.setToolTip(ActivityResource.ACTIVITY.getResourceString("note.tooltip"));
         NODE_PROTOTYPES.add(node7);
 
         ActivityTransitionEdge transition = new ActivityTransitionEdge();
         transition.setEndArrowHead(ArrowHead.V);
         transition.setStartArrowHead(ArrowHead.NONE);
         transition.setLineStyle(LineStyle.SOLID);
-        transition.setToolTip(rs.getString("edge0.tooltip"));
+        transition.setToolTip(ActivityResource.ACTIVITY.getResourceString("transition.tooltip"));
         EDGE_PROTOTYPES.add(transition);
 
         NoteEdge noteEdge = new NoteEdge();
-        noteEdge.setToolTip(rs.getString("edge1.tooltip"));
+        noteEdge.setToolTip(ActivityResource.ACTIVITY.getResourceString("note.connector.tooltip"));
         EDGE_PROTOTYPES.add(noteEdge);
     }
 

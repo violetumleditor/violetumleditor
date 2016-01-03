@@ -21,7 +21,7 @@ import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineT
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 
 /**
- * A package node in a class diagram.
+ * A package nodes in a class diagram.
  */
 public class PackageNode extends ColorableNode implements IResizableNode
 {

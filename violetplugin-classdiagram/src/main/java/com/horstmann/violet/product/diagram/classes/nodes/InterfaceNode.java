@@ -17,7 +17,7 @@ import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLine
 import com.horstmann.violet.product.diagram.common.PointNode;
 
 /**
- * An interface node in a class diagram.
+ * An interface nodes in a class diagram.
  */
 public class InterfaceNode extends ColorableNode
 {

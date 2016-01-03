@@ -19,33 +19,18 @@
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package com.horstmann.violet.product.diagram.activity;
+package com.horstmann.violet.product.diagram.activity.nodes;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
 
-import com.horstmann.violet.framework.graphics.Separator;
 import com.horstmann.violet.framework.graphics.content.*;
-import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRoundRectangle;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
-import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.LargeSizeDecorator;
-import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.OneLineString;
-import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.UnderlineDecorator;
 
-/**
- * An activity node_old in an activity diagram.
- */
 public class ActivityNode extends ColorableNode
 {
-    /**
-     * Construct an action node_old with a default size
-     */
     public ActivityNode()
     {
         super();
@@ -62,7 +47,8 @@ public class ActivityNode extends ColorableNode
     }
 
     @Override
-    protected INode copy() throws CloneNotSupportedException {
+    protected INode copy() throws CloneNotSupportedException
+    {
         return new ActivityNode(this);
     }
 
@@ -94,32 +80,19 @@ public class ActivityNode extends ColorableNode
         return name.getTextColor();
     }
 
-
-
-    /**
-     * Sets the name property value.
-     * 
-     * @param newValue the new action name
-     */
     public void setName(SingleLineText newValue)
     {
         name = newValue;
     }
 
-    /**
-     * Gets the name property value.
-     * 
-     * @param the action name
-     */
     public SingleLineText getName()
     {
         return name;
     }
 
-
     private SingleLineText name;
 
-    private static int ARC_SIZE = 20;
-    private static int DEFAULT_WIDTH = 60;
-    private static int DEFAULT_HEIGHT = 40;
+    private final static int ARC_SIZE = 20;
+    private final static int DEFAULT_WIDTH = 60;
+    private final static int DEFAULT_HEIGHT = 40;
 }

@@ -144,7 +144,7 @@ public class FieldNode extends ColorableNode
         }
         if (!(parent instanceof ObjectNode))
         {
-            throw new IllegalStateException("Field node can be only ObjectNode child");
+            throw new IllegalStateException("Field nodes can be only ObjectNode child");
         }
         Point2D location = ((ObjectNode)parent).getFieldsGroup().getLocation(getContent());
 

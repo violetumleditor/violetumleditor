@@ -19,18 +19,14 @@
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package com.horstmann.violet.product.diagram.activity;
+package com.horstmann.violet.product.diagram.activity.nodes;
 
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideEllipse;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
-import com.horstmann.violet.product.diagram.abstracts.node.EllipticalNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 

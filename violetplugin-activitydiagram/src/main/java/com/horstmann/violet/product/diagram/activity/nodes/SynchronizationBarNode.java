@@ -19,7 +19,7 @@
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package com.horstmann.violet.product.diagram.activity;
+package com.horstmann.violet.product.diagram.activity.nodes;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -31,6 +31,7 @@ import java.util.List;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.activity.ActivityTransitionEdge;
 
 /**
  * A synchronization bar node_old in an activity diagram.
