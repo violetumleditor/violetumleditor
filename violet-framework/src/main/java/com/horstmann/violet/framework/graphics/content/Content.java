@@ -64,7 +64,8 @@ public abstract class Content
     {
         bounds.setRect(getX(), getY(), Math.max(getWidth(), minWidth), Math.max(getHeight(), minHeight));
 
-        for (Content parent: parents ) {
+        for (Content parent: parents )
+        {
             parent.refresh();
         }
     }
@@ -87,11 +88,11 @@ public abstract class Content
         parents.remove(parent);
     }
 
-    protected final void setWidth(int width)
+    protected void setWidth(int width)
     {
         bounds.setRect(getX(), getY(), Math.max(width, minWidth), getHeight());
     }
-    protected final void setHeight(int height)
+    protected void setHeight(int height)
     {
         bounds.setRect(getX(), getY(), getWidth(), Math.max(height, minHeight));
     }

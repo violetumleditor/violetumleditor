@@ -4,6 +4,7 @@ import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * Created by Adrian Bobrowski on 28.12.2015.
@@ -11,7 +12,7 @@ import java.awt.geom.Point2D;
 public class ContentBorder extends ContentInsideShape
 {
     public ContentBorder(ContentInsideShape contentShape, Color color) {
-        this.contentShape = contentShape;
+        contentShape.addParent(this);
         this.setBorderColor(color);
         this.setContent(contentShape);
     }
@@ -27,7 +28,7 @@ public class ContentBorder extends ContentInsideShape
 
     @Override
     public void draw(Graphics2D g2) {
-        contentShape.draw(g2);
+        getContent().draw(g2);
         if(null!=color) {
             Color oldColor = g2.getColor();
             g2.setColor(color);
@@ -38,9 +39,8 @@ public class ContentBorder extends ContentInsideShape
 
     protected Shape getShape()
     {
-        return contentShape.getShape();
+        return ((ContentInsideShape)getContent()).getShape();
     }
 
     private Color color;
-    private ContentInsideShape contentShape;
 }

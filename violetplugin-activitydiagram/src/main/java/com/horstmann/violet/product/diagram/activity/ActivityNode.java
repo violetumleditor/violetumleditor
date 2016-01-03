@@ -26,8 +26,17 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
+import com.horstmann.violet.framework.graphics.Separator;
+import com.horstmann.violet.framework.graphics.content.*;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideRoundRectangle;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
+import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
+import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.LargeSizeDecorator;
+import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.OneLineString;
+import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.UnderlineDecorator;
 
 /**
  * An activity node_old in an activity diagram.
@@ -39,47 +48,53 @@ public class ActivityNode extends ColorableNode
      */
     public ActivityNode()
     {
+        super();
+
         name = new SingleLineText();
-        name.setMinimumSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
+        createContentStructure();
     }
 
-    public void draw(Graphics2D g2)
+    public ActivityNode(ActivityNode node) throws CloneNotSupportedException
     {
-        super.draw(g2);
-        // Backup current color;
-        Color oldColor = g2.getColor();
-        // Draw shape and content
-        Shape shape = getShape();
-        g2.setColor(getBackgroundColor());
-        g2.fill(shape);
-        g2.setColor(getBorderColor());
-        g2.draw(shape);
-        g2.setColor(getTextColor());
-        name.draw(g2, getBounds());
-        // Restore first color
-        g2.setColor(oldColor);
+        super(node);
+        name = node.name.clone();
+        createContentStructure();
     }
 
     @Override
-    public Shape getShape()
-    {
-        Rectangle2D bounds = getBounds();
-        return new RoundRectangle2D.Double(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight(), ARC_SIZE, ARC_SIZE);
+    protected INode copy() throws CloneNotSupportedException {
+        return new ActivityNode(this);
     }
 
     @Override
-    public Rectangle2D getBounds()
+    protected void createContentStructure()
     {
-        Rectangle2D nameBounds = name.getBounds();
-        Point2D currentLocation = getLocation();
-        double x = currentLocation.getX();
-        double y = currentLocation.getY();
-        double w = Math.max(nameBounds.getWidth(), DEFAULT_WIDTH);
-        double h = Math.max(nameBounds.getHeight(), DEFAULT_HEIGHT);
-        Rectangle2D.Double globalBounds = new Rectangle2D.Double(x, y, w, h);
-        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(globalBounds);
-        return snappedBounds;
+        TextContent nameContent = new TextContent(name);
+        nameContent.setMinHeight(DEFAULT_HEIGHT);
+        nameContent.setMinWidth(DEFAULT_WIDTH);
+
+        ContentInsideShape contentInsideShape = new ContentInsideRoundRectangle(nameContent, ARC_SIZE);
+
+        setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
+        setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
+        setContent(getBackground());
+
+        setTextColor(super.getTextColor());
     }
+
+    @Override
+    public void setTextColor(Color textColor)
+    {
+        name.setTextColor(textColor);
+    }
+
+    @Override
+    public Color getTextColor()
+    {
+        return name.getTextColor();
+    }
+
+
 
     /**
      * Sets the name property value.
@@ -101,17 +116,10 @@ public class ActivityNode extends ColorableNode
         return name;
     }
 
-    @Override
-    public ActivityNode clone()
-    {
-        ActivityNode cloned = (ActivityNode) super.clone();
-        cloned.name = name.clone();
-        return cloned;
-    }
 
     private SingleLineText name;
 
     private static int ARC_SIZE = 20;
-    private static int DEFAULT_WIDTH = 80;
-    private static int DEFAULT_HEIGHT = 60;
+    private static int DEFAULT_WIDTH = 60;
+    private static int DEFAULT_HEIGHT = 40;
 }

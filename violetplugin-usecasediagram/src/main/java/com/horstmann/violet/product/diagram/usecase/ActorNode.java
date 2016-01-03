@@ -28,8 +28,10 @@ import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 
 /**
@@ -45,6 +47,7 @@ public class ActorNode extends ColorableNode
         super();
         name = new SingleLineText();
         name.setPadding(10,5,5,5);
+        name.setAlignment(LineText.CENTER);
 //        name.setText("Actor");
         createContentStructure();
     }
@@ -64,15 +67,21 @@ public class ActorNode extends ColorableNode
     @Override
     protected void createContentStructure()
     {
+        TextContent emptyContent = new TextContent(name){
+            @Override
+            public void draw(Graphics2D g2) {}
+        };
         TextContent nameContent = new TextContent(name);
+
+        emptyContent.setMinWidth(DEFAULT_WIDTH);
         nameContent.setMinWidth(DEFAULT_WIDTH);
 
-        ContentInsideShape stickPersonContent = new ContentInsideCustomShape(new EmptyContent(), new ContentInsideCustomShape.ShapeCreator()
+        ContentInsideShape stickPersonContent = new ContentInsideCustomShape(emptyContent, new ContentInsideCustomShape.ShapeCreator()
         {
             @Override
             public Shape createShape(int contentWidth, int contentHeight) {
                 GeneralPath path = new GeneralPath();
-                float neckX = DEFAULT_WIDTH / 2;
+                float neckX = contentWidth / 2;
                 float neckY = HEAD_SIZE + GAP_ABOVE;
                 // head
                 path.moveTo(neckX, neckY);
@@ -131,6 +140,7 @@ public class ActorNode extends ColorableNode
     public void setName(SingleLineText newValue)
     {
         name.setText(newValue.getText());
+        getContent().refresh();
     }
 
     /**
@@ -140,6 +150,7 @@ public class ActorNode extends ColorableNode
     {
         return name;
     }
+
 
     /** Actor name */
     private SingleLineText name;

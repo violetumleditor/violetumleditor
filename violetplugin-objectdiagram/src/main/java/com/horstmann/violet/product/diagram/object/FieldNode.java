@@ -239,7 +239,10 @@ public class FieldNode extends ColorableNode
      */
     public void setValue(SingleLineText newValue)
     {
-        value.setText(newValue.getText());
+        if(0==getConnectedEdges().size())
+        {
+            value.setText(newValue.getText());
+        }
     }
 
     /**
@@ -249,6 +252,10 @@ public class FieldNode extends ColorableNode
      */
     public SingleLineText getValue()
     {
+        if(0<getConnectedEdges().size())
+        {
+            return new SingleLineText();
+        }
         return value;
     }
 

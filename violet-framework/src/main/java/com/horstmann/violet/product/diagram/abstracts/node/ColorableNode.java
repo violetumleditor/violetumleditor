@@ -80,7 +80,8 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
 
     public boolean contains(Point2D p)
     {
-        return getContent().contains(p);
+//        return getContent().contains(p);
+        return getBackground().contains(p);
     }
     
     @Override

@@ -93,5 +93,5 @@ public class ScenarioEndNode extends ColorableNode
     private static int DEFAULT_DIAMETER = 14;
 
     /** default gap between the main circle and the ring for a final node_old */
-    private static int DEFAULT_GAP = 3;
+    private static int DEFAULT_GAP = 2;
 }

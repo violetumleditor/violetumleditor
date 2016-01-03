@@ -83,8 +83,8 @@ public abstract class AbstractNode implements INode
     }
 
     @Override
-    public AbstractNode clone(){
-//    public final AbstractNode clone(){
+//    public AbstractNode clone(){
+    public final AbstractNode clone(){
         try {
             return (AbstractNode) copy();
         } catch (CloneNotSupportedException e) {

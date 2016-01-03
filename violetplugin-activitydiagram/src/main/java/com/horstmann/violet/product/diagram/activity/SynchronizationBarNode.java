@@ -134,7 +134,7 @@ public class SynchronizationBarNode extends ColorableNode
     @Override
     public void draw(Graphics2D g2)
     {
-        super.draw(g2);
+//        super.draw(g2);
 
         // Backup current color;
         Color oldColor = g2.getColor();
@@ -147,14 +147,14 @@ public class SynchronizationBarNode extends ColorableNode
         g2.setColor(oldColor);
     }
 
-    /**
-     * @see java.lang.Object#clone()
-     */
-    @Override
-    public SynchronizationBarNode clone()
-    {
-        return (SynchronizationBarNode) super.clone();
-    }
+//    /**
+//     * @see java.lang.Object#clone()
+//     */
+//    @Override
+//    public SynchronizationBarNode clone()
+//    {
+//        return (SynchronizationBarNode) super.clone();
+//    }
 
     private static int DEFAULT_WIDTH = 100;
     private static int DEFAULT_HEIGHT = 4;

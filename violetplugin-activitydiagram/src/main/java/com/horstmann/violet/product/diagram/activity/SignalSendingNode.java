@@ -28,8 +28,15 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import com.horstmann.violet.framework.graphics.content.ContentBackground;
+import com.horstmann.violet.framework.graphics.content.ContentBorder;
+import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
+import com.horstmann.violet.framework.graphics.content.TextContent;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideRoundRectangle;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
+import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 
 /**
@@ -42,9 +49,63 @@ public class SignalSendingNode extends ColorableNode
      */
     public SignalSendingNode()
     {
+        super();
         signal = new SingleLineText();
         signal.setPadding(1,10,1,20);
+        createContentStructure();
     }
+
+    public SignalSendingNode(SignalSendingNode node) throws CloneNotSupportedException
+    {
+        super(node);
+        signal = node.signal.clone();
+        createContentStructure();
+    }
+
+    @Override
+    protected INode copy() throws CloneNotSupportedException {
+        return new SignalSendingNode(this);
+    }
+
+    @Override
+    protected void createContentStructure()
+    {
+        TextContent signalContent = new TextContent(signal);
+        signalContent.setMinHeight(DEFAULT_HEIGHT);
+        signalContent.setMinWidth(DEFAULT_WIDTH);
+
+        ContentInsideShape contentInsideShape = new ContentInsideCustomShape(signalContent, new ContentInsideCustomShape.ShapeCreator() {
+            @Override
+            public Shape createShape(int contentWidth, int contentHeight) {
+                GeneralPath path = new GeneralPath();
+                path.moveTo(0, 0);
+                path.lineTo(contentWidth - DEFAULT_HEIGHT / 2, 0);
+                path.lineTo(contentWidth, contentHeight / 2);
+                path.lineTo(contentWidth - DEFAULT_HEIGHT / 2, contentHeight);
+                path.lineTo(0, contentHeight);
+                path.lineTo(0, 0);
+                return path;
+            }
+        });
+        setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
+        setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
+        setContent(getBackground());
+
+        setTextColor(super.getTextColor());
+    }
+
+    @Override
+    public void setTextColor(Color textColor)
+    {
+        signal.setTextColor(textColor);
+    }
+
+    @Override
+    public Color getTextColor()
+    {
+        return signal.getTextColor();
+    }
+
 
     @Override
     public boolean addConnection(IEdge e)
@@ -54,71 +115,6 @@ public class SignalSendingNode extends ColorableNode
             return true;
         }
         return false;
-    }
-
-    @Override
-    public void draw(Graphics2D g2)
-    {
-        super.draw(g2);
-
-        // Backup current color;
-        Color oldColor = g2.getColor();
-
-        // Perform drawing
-        Shape shape = getShape();
-        g2.setColor(getBackgroundColor());
-        g2.fill(shape);
-        g2.setColor(getBorderColor());
-        g2.draw(shape);
-        g2.setColor(getTextColor());
-        signal.draw(g2, getTextBounds());
-
-        // Restore first color
-        g2.setColor(oldColor);
-    }
-
-    @Override
-    public Shape getShape()
-    {
-        Rectangle2D b = getBounds();
-        float x1 = (float) b.getX();
-        float y1 = (float) b.getY();
-        float x2 = x1 + (float) b.getWidth() - EDGE_WIDTH;
-        float y2 = y1;
-        float x3 = x1 + (float) b.getWidth();
-        float y3 = y1 + (float) b.getHeight() / 2;
-        float x4 = x2;
-        float y4 = y1 + (float) b.getHeight();
-        float x5 = x1;
-        float y5 = y4;
-        GeneralPath path = new GeneralPath();
-        path.moveTo(x1, y1);
-        path.lineTo(x2, y2);
-        path.lineTo(x3, y3);
-        path.lineTo(x4, y4);
-        path.lineTo(x5, y5);
-        path.lineTo(x1, y1);
-        return path;
-    }
-
-    private Rectangle2D getTextBounds()
-    {
-        Rectangle2D b = getBounds();
-        return new Rectangle2D.Double(b.getX(), b.getY(), b.getWidth() - EDGE_WIDTH, b.getHeight());
-    }
-
-    @Override
-    public Rectangle2D getBounds()
-    {
-        Rectangle2D textBounds = signal.getBounds();
-        Point2D currentLocation = getLocation();
-        double x = currentLocation.getX();
-        double y = currentLocation.getY();
-        double w = Math.max(textBounds.getWidth(), DEFAULT_WIDTH);
-        double h = Math.max(textBounds.getHeight(), DEFAULT_HEIGHT);
-        Rectangle2D currentBounds = new Rectangle2D.Double(x, y, w, h);
-        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(currentBounds);
-        return snappedBounds;
     }
 
     /**
@@ -139,14 +135,6 @@ public class SignalSendingNode extends ColorableNode
     public SingleLineText getSignal()
     {
         return signal;
-    }
-
-    @Override
-    public SignalSendingNode clone()
-    {
-        SignalSendingNode cloned = (SignalSendingNode) super.clone();
-        cloned.signal = (SingleLineText) signal.clone();
-        return cloned;
     }
 
     private SingleLineText signal;

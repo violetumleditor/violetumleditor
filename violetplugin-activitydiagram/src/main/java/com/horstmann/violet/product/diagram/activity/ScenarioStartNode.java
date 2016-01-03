@@ -82,5 +82,5 @@ public class ScenarioStartNode extends ColorableNode
 
 
     /** default node_old diameter */
-    private static int DEFAULT_DIAMETER = 19;
+    private static int DEFAULT_DIAMETER = 14;
 }

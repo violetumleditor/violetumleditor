@@ -31,6 +31,7 @@ public abstract class ContentInsideShape extends Content
         setWidth((int)shapeBounds.getWidth());
         setHeight((int)shapeBounds.getHeight());
 
+
         super.refresh();
     }
 

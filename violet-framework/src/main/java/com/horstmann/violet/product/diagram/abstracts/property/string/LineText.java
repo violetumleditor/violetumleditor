@@ -68,10 +68,10 @@ public abstract class LineText implements Serializable, Cloneable {
         return label.getHorizontalAlignment();
     }
 
-    final public void setMinimumSize(Dimension dimension) {
-        label.setMinimumSize(dimension);
-        refresh();
-    }
+//    final public void setMinimumSize(Dimension dimension) {
+//        label.setMinimumSize(dimension);
+//        refresh();
+//    }
 
     final public Rectangle2D getBounds() {
         if (null == this.bounds) {

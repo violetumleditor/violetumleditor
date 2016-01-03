@@ -4,6 +4,7 @@ import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * Created by Adrian Bobrowski on 28.12.2015.
@@ -12,7 +13,6 @@ public class ContentBackground extends ContentInsideShape
 {
     public ContentBackground(ContentInsideShape contentShape, Color color) {
         this.color = color;
-        this.contentShape = contentShape;
         this.setContent(contentShape);
     }
 
@@ -33,14 +33,13 @@ public class ContentBackground extends ContentInsideShape
             g2.fill(getShape());
             g2.setColor(oldColor);
         }
-        contentShape.draw(g2);
+        getContent().draw(g2);
     }
 
     protected Shape getShape()
     {
-        return contentShape.getShape();
+        return ((ContentInsideShape)getContent()).getShape();
     }
 
     private Color color;
-    private ContentInsideShape contentShape;
 }
