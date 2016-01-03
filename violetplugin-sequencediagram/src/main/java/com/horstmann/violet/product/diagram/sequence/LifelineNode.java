@@ -31,9 +31,15 @@ import java.awt.geom.Rectangle2D;
 import java.util.Collection;
 import java.util.List;
 
+import com.horstmann.violet.framework.graphics.Separator;
+import com.horstmann.violet.framework.graphics.content.*;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
+import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
+import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.LargeSizeDecorator;
 import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.OneLineString;
+import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.RemoveSentenceDecorator;
 import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.UnderlineDecorator;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
@@ -51,23 +57,70 @@ public class LifelineNode extends ColorableNode
      */
     public LifelineNode()
     {
+        super();
+
         name = new SingleLineText(new LineText.Converter(){
             @Override
             public OneLineString toLineString(String text)
             {
-                return new UnderlineDecorator(new OneLineString(text));
+            return new UnderlineDecorator(new OneLineString(text));
             }
         });
+        createContentStructure();
     }
+
+    public LifelineNode(LifelineNode node) throws CloneNotSupportedException
+    {
+        super(node);
+        name = node.name.clone();
+        createContentStructure();
+    }
+
+    @Override
+    protected INode copy() throws CloneNotSupportedException {
+        return new LifelineNode(this);
+    }
+
+    @Override
+    protected void createContentStructure()
+    {
+        TextContent nameContent = new TextContent(name);
+        nameContent.setMinHeight(DEFAULT_TOP_HEIGHT);
+        nameContent.setMinWidth(DEFAULT_WIDTH);
+
+        ContentInsideShape contentInsideShape = new ContentInsideRectangle(nameContent);
+
+        setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
+        setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
+        setContent(getBackground());
+
+        setTextColor(super.getTextColor());
+    }
+
+    @Override
+    public void setTextColor(Color textColor)
+    {
+        name.setTextColor(textColor);
+    }
+
+    @Override
+    public Color getTextColor()
+    {
+        return name.getTextColor();
+    }
+
+
+
+
 
     /**
      * Sets the name property value.
      * 
      * @param newValue the name of this object
      */
-    public void setName(SingleLineText n)
+    public void setName(SingleLineText newValue)
     {
-        name.setText(n.getText());
+        name.setText(newValue.getText());
     }
 
     /**
@@ -335,12 +388,6 @@ public class LifelineNode extends ColorableNode
         return bounds.getX() <= p.getX() && p.getX() <= bounds.getX() + bounds.getWidth();
     }
 
-    public LifelineNode clone()
-    {
-        LifelineNode cloned = (LifelineNode) super.clone();
-        cloned.name = name.clone();
-        return cloned;
-    }
 
     private SingleLineText name;
     private transient double maxYOverAllLifeLineNodes = 0;

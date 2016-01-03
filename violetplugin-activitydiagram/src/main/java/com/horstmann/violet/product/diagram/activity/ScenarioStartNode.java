@@ -27,68 +27,59 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import com.horstmann.violet.framework.graphics.content.ContentBackground;
+import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
+import com.horstmann.violet.framework.graphics.content.EmptyContent;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideEllipse;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.EllipticalNode;
+import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 
 /**
  * An initial node_old (bull's eye) in an activity diagram.
  */
-public class ScenarioStartNode extends EllipticalNode
+public class ScenarioStartNode extends ColorableNode
 {
-
-    
-    
     public ScenarioStartNode()
     {
         super();
-        setBackgroundColor(ColorToolsBarPanel.PASTEL_GREY.getBackgroundColor());
-        setBorderColor(ColorToolsBarPanel.PASTEL_GREY.getBorderColor());
-        setTextColor(ColorToolsBarPanel.PASTEL_GREY.getTextColor());
+        createContentStructure();
+    }
+
+    public ScenarioStartNode(ScenarioStartNode node) throws CloneNotSupportedException
+    {
+        super(node);
+        createContentStructure();
     }
 
     @Override
-    public Rectangle2D getBounds()
-    {
-        Point2D currentLocation = getLocation();
-        double x = currentLocation.getX();
-        double y = currentLocation.getY();
-        double w = DEFAULT_DIAMETER;
-        double h = DEFAULT_DIAMETER;
-        Rectangle2D currentBounds = new Rectangle2D.Double(x, y, w, h);
-        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(currentBounds);
-        return snappedBounds;
+    protected INode copy() throws CloneNotSupportedException {
+        return new ScenarioStartNode(this);
     }
 
+    @Override
+    protected void createContentStructure()
+    {
+        EmptyContent emptyContent = new EmptyContent();
+        emptyContent.setMinHeight(DEFAULT_DIAMETER);
+        emptyContent.setMinWidth(DEFAULT_DIAMETER);
+
+        ContentInsideShape contentInsideShape = new ContentInsideEllipse(emptyContent, 1);
+
+        setBackground(new ContentBackground(contentInsideShape, getBackgroundColor()));
+        setContent(getBackground());
+
+        setBackgroundColor(ColorToolsBarPanel.PASTEL_GREY.getBorderColor());
+    }
+    
     @Override
     public boolean addConnection(IEdge e)
     {
         return e.getEnd() != null && this != e.getEnd();
     }
 
-    @Override
-    public void draw(Graphics2D g2)
-    {
-        super.draw(g2);
-
-        // Backup current color;
-        Color oldColor = g2.getColor();
-
-        // Draw circles
-        g2.setColor(getBorderColor());
-        Rectangle2D bounds = getBounds();
-        Ellipse2D circle = new Ellipse2D.Double(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
-        g2.fill(circle);
-
-        // Restore first color
-        g2.setColor(oldColor);
-    }
-
-    @Override
-    public ScenarioStartNode clone()
-    {
-        return (ScenarioStartNode) super.clone();
-    }
 
     /** default node_old diameter */
     private static int DEFAULT_DIAMETER = 19;

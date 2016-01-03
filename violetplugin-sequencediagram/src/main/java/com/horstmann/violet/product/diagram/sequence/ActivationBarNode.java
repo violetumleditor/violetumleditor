@@ -548,7 +548,7 @@ public class ActivationBarNode extends ColorableNode
                 - nodeLocation.getY());
         g2.translate(g2Location.getX(), g2Location.getY());
         // Perform painting
-        super.draw(g2);
+//        super.draw(g2);
         g2.setColor(getBackgroundColor());
         g2.fill(b);
         g2.setColor(getBorderColor());

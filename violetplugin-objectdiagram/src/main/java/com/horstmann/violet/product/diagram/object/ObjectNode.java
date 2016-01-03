@@ -21,7 +21,7 @@
 
 package com.horstmann.violet.product.diagram.object;
 
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
@@ -43,17 +43,31 @@ public class ObjectNode extends ColorableNode
 {
     public ObjectNode()
     {
+        super();
+
         name = new SingleLineText(new LineText.Converter(){
             @Override
             public OneLineString toLineString(String text)
             {
-                return new LargeSizeDecorator(new UnderlineDecorator(new OneLineString(text)));
+            return new LargeSizeDecorator(new UnderlineDecorator(new OneLineString(text)));
             }
         });
-
         createContentStructure();
     }
 
+    public ObjectNode(ObjectNode node) throws CloneNotSupportedException
+    {
+        super(node);
+        name = node.name.clone();
+        createContentStructure();
+    }
+
+    @Override
+    protected INode copy() throws CloneNotSupportedException {
+        return new ObjectNode(this);
+    }
+
+    @Override
     protected void createContentStructure()
     {
         TextContent nameContent = new TextContent(name);
@@ -70,24 +84,25 @@ public class ObjectNode extends ColorableNode
 
         ContentInsideShape contentInsideShape = new ContentInsideRectangle(verticalGroupContent);
 
-        border = new ContentBorder(contentInsideShape, getBorderColor());
-        background = new ContentBackground(border, getBackgroundColor());
-
-        content = background;
+        setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
+        setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
+        setContent(getBackground());
     }
 
     @Override
-    public Rectangle2D getBounds()
+    public void setTextColor(Color textColor)
     {
-        Point2D location = getLocationOnGraph();
-        Rectangle2D contentBounds = content.getBounds();
-        return new Rectangle2D.Double(location.getX(), location.getY(), contentBounds.getWidth(), contentBounds.getHeight());
+        name.setTextColor(textColor);
     }
 
-    public void draw(Graphics2D g2)
+    @Override
+    public Color getTextColor()
     {
-        content.draw(g2, getLocationOnGraph());
+        return name.getTextColor();
     }
+
+
+
 
     public boolean addConnection(IEdge e)
     {
@@ -149,15 +164,6 @@ public class ObjectNode extends ColorableNode
         return true;
     }
 
-    public ObjectNode clone()
-    {
-        ObjectNode cloned = (ObjectNode) super.clone();
-        cloned.name = name.clone();
-        cloned.createContentStructure();
-        return cloned;
-    }
-
-
     public int getFieldsTopOffset() {
         return DEFAULT_HEIGHT;
     }
@@ -165,9 +171,6 @@ public class ObjectNode extends ColorableNode
         return fieldsGroup;
     }
 
-    private Content content = null;
-    private ContentBackground background = null;
-    private ContentBorder border = null;
     private VerticalGroupContent fieldsGroup = null;
 
     private SingleLineText name;

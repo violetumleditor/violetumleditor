@@ -21,7 +21,7 @@
 
 package com.horstmann.violet.product.diagram.object;
 
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
@@ -33,7 +33,12 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
+import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
+import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.LargeSizeDecorator;
+import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.OneLineString;
+import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.RemoveSentenceDecorator;
+import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.UnderlineDecorator;
 import com.horstmann.violet.product.diagram.common.edge.BasePropertyEdge;
 
 /**
@@ -41,7 +46,7 @@ import com.horstmann.violet.product.diagram.common.edge.BasePropertyEdge;
  */
 public class FieldNode extends ColorableNode
 {
-    protected static Separator equalSeparator = new Separator()
+    protected final static Separator EQUAL_SEPARATOR = new Separator()
     {
         @Override
         public void draw(Graphics2D g2, Point2D startPoint, Point2D endPoint)
@@ -56,19 +61,31 @@ public class FieldNode extends ColorableNode
      */
     public FieldNode()
     {
-//        setZ(1);
+        super();
 
         name = new SingleLineText();
         name.setAlignment(LineText.RIGHT);
-        name.setPadding(0, 10, 0, 20);
+        name.setPadding(0, 10, 0, 15);
         value = new SingleLineText();
-        name.setAlignment(LineText.LEFT);
-        name.setPadding(0, 20, 0, 10);
-//        equalSeparator.setText(" = ");
-
+        value.setAlignment(LineText.LEFT);
+        value.setPadding(0, 15, 0, 10);
         createContentStructure();
     }
 
+    public FieldNode(FieldNode node) throws CloneNotSupportedException
+    {
+        super(node);
+        name = node.name.clone();
+        value = node.value.clone();
+        createContentStructure();
+    }
+
+    @Override
+    protected INode copy() throws CloneNotSupportedException {
+        return new FieldNode(this);
+    }
+
+    @Override
     protected void createContentStructure()
     {
         TextContent nameContent = new TextContent(name);
@@ -81,14 +98,41 @@ public class FieldNode extends ColorableNode
         horizontalGroupContent = new HorizontalGroupContent();
         horizontalGroupContent.add(nameContent);
         horizontalGroupContent.add(valueContent);
-        horizontalGroupContent.setSeparator(equalSeparator);
+        horizontalGroupContent.setSeparator(EQUAL_SEPARATOR);
 
         ContentInsideShape contentInsideShape = new ContentInsideRectangle(horizontalGroupContent);
 
-        content = contentInsideShape;
-//        border = new ContentBorder(contentInsideShape, getBorderColor());
-        background = new ContentBackground(contentInsideShape, getBackgroundColor());
+        setBorder(new ContentBorder(contentInsideShape, null));
+        setBackground(new ContentBackground(contentInsideShape, getBackgroundColor()));
+
+        setContent(getBackground());
     }
+
+    @Override
+    public Rectangle2D getBounds()
+    {
+        Point2D location = getLocationOnGraph();
+        Rectangle2D contentBounds = getContent().getBounds();
+        return new Rectangle2D.Double(location.getX(), location.getY(), contentBounds.getWidth(), contentBounds.getHeight());
+    }
+
+    @Override
+    public void setTextColor(Color textColor)
+    {
+        name.setTextColor(textColor);
+        value.setTextColor(textColor);
+    }
+
+    @Override
+    public Color getTextColor()
+    {
+        return name.getTextColor();
+    }
+
+
+
+
+
 
     @Override
     public Point2D getLocation()
@@ -102,19 +146,9 @@ public class FieldNode extends ColorableNode
         {
             throw new IllegalStateException("Field node can be only ObjectNode child");
         }
-        Point2D location = ((ObjectNode)parent).getFieldsGroup().getLocation(content);
+        Point2D location = ((ObjectNode)parent).getFieldsGroup().getLocation(getContent());
 
         return new Point2D.Double(location.getX(), location.getY()+((ObjectNode)parent).getFieldsTopOffset());
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.horstmann.violet.framework.INode#draw(java.awt.Graphics2D)
-     */
-    public void draw(Graphics2D g2)
-    {
-        background.draw(g2, getLocationOnGraph());
     }
 
     @Override
@@ -178,14 +212,6 @@ public class FieldNode extends ColorableNode
         return new Point2D.Double(x + 20, location.getY() + DEFAULT_HEIGHT/2);
     }
 
-    @Override
-    public Rectangle2D getBounds()
-    {
-        Point2D location = getLocationOnGraph();
-        Rectangle2D contentBounds = content.getBounds();
-        return new Rectangle2D.Double(location.getX(), location.getY(), contentBounds.getWidth(), contentBounds.getHeight());
-    }
-
     /**
      * Sets the name property value.
      * 
@@ -226,32 +252,6 @@ public class FieldNode extends ColorableNode
         return value;
     }
 
-//    /**
-//     * Gets the x-offset of the axis (the location of the = sign) from the left corner of the bounding rectangle.
-//     *
-//     * @return the x-offset of the axis
-//     */
-//    public double getAxisX()
-//    {
-//        Rectangle2D nameBounds = getNameBounds();
-//        double leftWidth = nameBounds.getWidth();
-//        double middleWidth = 10;
-//        return leftWidth + middleWidth / 2;
-//    }
-
-    @Override
-    public FieldNode clone()
-    {
-        FieldNode cloned = (FieldNode) super.clone();
-        cloned.name = name.clone();
-        cloned.value = value.clone();
-        cloned.createContentStructure();
-        return cloned;
-    }
-
-    private Content content = null;
-    private ContentBorder border = null;
-    private ContentBackground background = null;
     private HorizontalGroupContent horizontalGroupContent = null;
 
     private SingleLineText name;

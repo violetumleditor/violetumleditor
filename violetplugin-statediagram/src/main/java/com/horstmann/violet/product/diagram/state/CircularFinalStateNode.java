@@ -78,8 +78,6 @@ public class CircularFinalStateNode extends ColorableNode
         relativeGroupContent.add(new ContentBackground(contentInsideShape, getBorderColor()), new Point.Double(DEFAULT_GAP*Math.sqrt(2),DEFAULT_GAP*Math.sqrt(2)));
 
         setContent(relativeGroupContent);
-
-
     }
 
     /** default node_old diameter */

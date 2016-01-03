@@ -48,6 +48,19 @@ public class PackageNode extends ColorableNode implements IResizableNode
     }
 
     @Override
+    public void setTextColor(Color textColor)
+    {
+        name.setTextColor(textColor);
+        text.setTextColor(textColor);
+    }
+
+    @Override
+    public Color getTextColor()
+    {
+        return name.getTextColor();
+    }
+
+    @Override
     public Point2D getConnectionPoint(IEdge e)
     {
         Point2D connectionPoint = super.getConnectionPoint(e);
@@ -203,14 +216,6 @@ public class PackageNode extends ColorableNode implements IResizableNode
             return true;
         }
         return false;
-    }
-
-    public PackageNode clone()
-    {
-        PackageNode cloned = (PackageNode) super.clone();
-        cloned.name = name.clone();
-        cloned.text = text.clone();
-        return cloned;
     }
 
     /**
