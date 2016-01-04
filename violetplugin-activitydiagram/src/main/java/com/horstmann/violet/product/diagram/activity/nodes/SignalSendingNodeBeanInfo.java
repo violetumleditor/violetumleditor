@@ -14,8 +14,7 @@ public class SignalSendingNodeBeanInfo extends SimpleBeanInfo
         try
         {
             PropertyDescriptor nameDescriptor = new PropertyDescriptor("signal", SignalSendingNode.class);
-            nameDescriptor.setValue("priority", new Integer(1));
-            nameDescriptor.setName(ActivityResource.ACTIVITY.getResourceString("signal.sending.node.signal"));
+            nameDescriptor.setValue("priority", new Integer(0));
 
             return new PropertyDescriptor[]
             {

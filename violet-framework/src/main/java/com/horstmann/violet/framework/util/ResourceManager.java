@@ -6,17 +6,19 @@ import java.util.ResourceBundle;
 /**
  * Created by Adrian Bobrowski on 03.01.2016.
  */
-public abstract class ResourceManager
+public class ResourceManager
 {
     protected ResourceManager(String baseName)
     {
         resourceBundle = ResourceBundle.getBundle(baseName, Locale.getDefault());
     }
 
-    public final String getResourceString(String key)
+    public final String getString(String key)
     {
         return resourceBundle.getString(key);
     }
+
+    public final static ResourceManager NODE_AND_EDGE = new ResourceManager("properties.NodeAndEdgeStrings");
 
     private ResourceBundle resourceBundle;
 }
