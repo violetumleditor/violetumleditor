@@ -233,7 +233,7 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
         return background.getBackgroundColor();
     }
 
-    public final void setBorderColor(Color borderColor)
+    public void setBorderColor(Color borderColor)
     {
         if(null != border)
         {

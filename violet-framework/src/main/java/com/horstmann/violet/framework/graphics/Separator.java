@@ -38,8 +38,14 @@ public abstract class Separator
             g2.setColor(oldColor);
         }
 
+        public void setColor(Color color) {
+            this.color = color;
+        }
+
         private Color color;
     }
+
+    public void setColor(Color color) {}
 
     public static final Separator EMPTY = new EmptySeparator();
     public static final Separator LINE = new LineSeparator();

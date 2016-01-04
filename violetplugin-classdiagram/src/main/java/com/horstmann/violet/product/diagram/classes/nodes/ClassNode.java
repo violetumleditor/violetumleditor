@@ -82,7 +82,8 @@ public class ClassNode extends ColorableNode
         verticalGroupContent.add(nameContent);
         verticalGroupContent.add(attributesContent);
         verticalGroupContent.add(methodsContent);
-        verticalGroupContent.setSeparator(new Separator.LineSeparator(getBorderColor()));
+        separator = new Separator.LineSeparator(getBorderColor());
+        verticalGroupContent.setSeparator(separator);
 
         ContentInsideShape contentInsideShape = new ContentInsideRectangle(verticalGroupContent);
 
@@ -91,6 +92,13 @@ public class ClassNode extends ColorableNode
         setContent(getBackground());
 
         setTextColor(super.getTextColor());
+    }
+
+    @Override
+    public void setBorderColor(Color borderColor)
+    {
+        separator.setColor(borderColor);
+        super.setBorderColor(borderColor);
     }
 
     @Override
@@ -182,6 +190,9 @@ public class ClassNode extends ColorableNode
     {
         return methods;
     }
+
+
+    private Separator separator;
 
     private SingleLineText name;
     private MultiLineText attributes;
