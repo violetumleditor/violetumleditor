@@ -27,10 +27,21 @@ public class ContentInsideCustomShape extends ContentInsideShape
     }
 
     @Override
-    public void refresh()
+    public void refreshUp()
     {
-        setShape(customShapeCreator.createShape(getContent().getWidth(), getContent().getHeight()));
-        super.refresh();
+        setShape(createCustomShape());
+        super.refreshUp();
+    }
+    @Override
+    protected void refreshDown()
+    {
+        setShape(createCustomShape());
+        super.refreshDown();
+    }
+
+    private Shape createCustomShape()
+    {
+        return customShapeCreator.createShape(getContent().getWidth(), getContent().getHeight());
     }
 
     protected Point2D getShapeOffset()

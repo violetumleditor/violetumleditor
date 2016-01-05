@@ -23,12 +23,9 @@ package com.horstmann.violet.product.diagram.usecase;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
-import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
@@ -67,10 +64,7 @@ public class ActorNode extends ColorableNode
     @Override
     protected void createContentStructure()
     {
-        TextContent emptyContent = new TextContent(name){
-            @Override
-            public void draw(Graphics2D g2) {}
-        };
+        EmptyContent emptyContent = new EmptyContent();
         TextContent nameContent = new TextContent(name);
 
         emptyContent.setMinWidth(DEFAULT_WIDTH);
@@ -140,7 +134,7 @@ public class ActorNode extends ColorableNode
     public void setName(SingleLineText newValue)
     {
         name.setText(newValue.getText());
-        getContent().refresh();
+//        getContent().refresh();
     }
 
     /**

@@ -1,8 +1,5 @@
 package com.horstmann.violet.framework.graphics.content;
 
-import com.sun.javafx.geom.Vec4d;
-import com.sun.javafx.scene.layout.region.Margins;
-
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -14,6 +11,11 @@ import java.util.ArrayList;
 public abstract class Content
 {
     public abstract void draw(Graphics2D g2);
+
+    public boolean contains(Point2D p)
+    {
+        return getBounds().contains(p);
+    }
 
     public final void draw(Graphics2D g2, Point2D offset)
     {
@@ -45,29 +47,42 @@ public abstract class Content
     public final void setMinWidth(int minWidth){
         if(0<=minWidth) {
             this.minWidth = minWidth;
-            refresh();
+            refreshUp();
         }
     }
     public final void setMinHeight(int minHeight){
         if(0<=minHeight) {
             this.minHeight = minHeight;
-            refresh();
+            refreshUp();
         }
     }
 
-    public boolean contains(Point2D p)
+
+    public final void refresh()
     {
-        return getBounds().contains(p);
+        refreshUp();
+        refreshDown();
     }
 
-    public void refresh()
+    protected void refreshUp()
     {
         bounds.setRect(getX(), getY(), Math.max(getWidth(), minWidth), Math.max(getHeight(), minHeight));
 
         for (Content parent: parents )
         {
-            parent.refresh();
+            parent.refreshUp();
         }
+    }
+    protected void refreshDown()
+    {}
+
+    protected void setWidth(int width)
+    {
+        bounds.setRect(getX(), getY(), Math.max(width, minWidth), getHeight());
+    }
+    protected void setHeight(int height)
+    {
+        bounds.setRect(getX(), getY(), getWidth(), Math.max(height, minHeight));
     }
 
     protected final void addParent(Content parent)
@@ -86,15 +101,6 @@ public abstract class Content
             throw new NullPointerException("parent can't be null");
         }
         parents.remove(parent);
-    }
-
-    protected void setWidth(int width)
-    {
-        bounds.setRect(getX(), getY(), Math.max(width, minWidth), getHeight());
-    }
-    protected void setHeight(int height)
-    {
-        bounds.setRect(getX(), getY(), getWidth(), Math.max(height, minHeight));
     }
 
     private ArrayList<Content> parents = new ArrayList<Content>();

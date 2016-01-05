@@ -1,7 +1,6 @@
 package com.horstmann.violet.framework.graphics.content;
 
 import com.horstmann.violet.framework.graphics.Separator;
-import com.horstmann.violet.framework.graphics.content.Content;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -61,13 +60,25 @@ public abstract class GroupContent extends Content
     {
         for (Content content: contents) {
             content.setWidth(width);
+            content.refreshDown();
         }
     }
     protected final void setContentsHeight(int height)
     {
         for (Content content: contents) {
             content.setHeight(height);
+            content.refreshDown();
         }
+    }
+
+    @Override
+    protected void refreshDown()
+    {
+        for (Content content: getContents()) {
+            content.refreshDown();
+        }
+
+        super.refreshDown();
     }
 
     @Override

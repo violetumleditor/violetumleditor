@@ -1,8 +1,5 @@
 package com.horstmann.violet.framework.graphics.content;
 
-import com.horstmann.violet.framework.graphics.content.Content;
-import com.horstmann.violet.framework.graphics.content.EmptyContent;
-
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -24,15 +21,22 @@ public abstract class ContentInsideShape extends Content
     }
 
     @Override
-    public void refresh()
+    protected void refreshUp()
     {
         Rectangle2D shapeBounds = getShape().getBounds();
 
         setWidth((int)shapeBounds.getWidth());
         setHeight((int)shapeBounds.getHeight());
 
-
-        super.refresh();
+        super.refreshUp();
+    }
+    @Override
+    protected void refreshDown()
+    {
+        content.setWidth(getWidth());
+        content.setHeight(getHeight());
+        content.refreshDown();
+        super.refreshDown();
     }
 
     protected Shape getShape()
@@ -65,7 +69,7 @@ public abstract class ContentInsideShape extends Content
 
         content.addParent(this);
         this.content = content;
-        refresh();
+        refreshUp();
     }
 
     protected Point2D getShapeOffset()

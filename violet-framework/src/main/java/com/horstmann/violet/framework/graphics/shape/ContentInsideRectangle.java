@@ -4,7 +4,6 @@ import com.horstmann.violet.framework.graphics.content.Content;
 import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 /**
  * Created by Adrian Bobrowski on 28.12.2015.
@@ -16,9 +15,20 @@ public class ContentInsideRectangle extends ContentInsideShape
     }
 
     @Override
-    public void refresh()
+    public void refreshUp()
     {
-        setShape(new Rectangle(getContent().getWidth(), getContent().getHeight()));
-        super.refresh();
+        setShape(createRectangle());
+        super.refreshUp();
+    }
+    @Override
+    protected void refreshDown()
+    {
+        setShape(createRectangle());
+        super.refreshDown();
+    }
+
+    private Rectangle createRectangle()
+    {
+        return new Rectangle(getContent().getWidth(), getContent().getHeight());
     }
 }

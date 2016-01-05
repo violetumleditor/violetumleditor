@@ -3,8 +3,6 @@ package com.horstmann.violet.framework.graphics.shape;
 import com.horstmann.violet.framework.graphics.content.Content;
 import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
 
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
 /**
@@ -25,10 +23,21 @@ public class ContentInsideRoundRectangle extends ContentInsideShape
     }
 
     @Override
-    public void refresh()
+    public void refreshUp()
     {
-        setShape(new RoundRectangle2D.Double(0,0, getContent().getWidth() + (arcw-arcw/Math.sqrt(2)), getContent().getHeight() + (arch - arch/Math.sqrt(2)), arcw, arch));
-        super.refresh();
+        setShape(createRoundRectangle());
+        super.refreshUp();
+    }
+    @Override
+    protected void refreshDown()
+    {
+        setShape(createRoundRectangle());
+        super.refreshDown();
+    }
+
+    private RoundRectangle2D createRoundRectangle()
+    {
+        return new RoundRectangle2D.Double(0,0, getContent().getWidth() + (arcw-arcw/Math.sqrt(2)), getContent().getHeight() + (arch - arch/Math.sqrt(2)), arcw, arch);
     }
 
     private double arcw;

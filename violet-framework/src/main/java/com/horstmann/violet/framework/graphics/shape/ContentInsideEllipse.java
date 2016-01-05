@@ -3,7 +3,6 @@ package com.horstmann.violet.framework.graphics.shape;
 import com.horstmann.violet.framework.graphics.content.Content;
 import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
 
-import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
@@ -24,14 +23,26 @@ public class ContentInsideEllipse extends ContentInsideShape
     }
 
     @Override
-    public void refresh()
+    public void refreshUp()
+    {
+        setShape(createEllipse());
+        super.refreshUp();
+    }
+
+    @Override
+    protected void refreshDown()
+    {
+        setShape(createEllipse());
+        super.refreshDown();
+    }
+
+    private Ellipse2D createEllipse()
     {
         Rectangle2D contentBounds = getContent().getBounds();
         double width = Math.sqrt(contentBounds.getWidth() * contentBounds.getWidth() + aspectRatio * aspectRatio * contentBounds.getHeight() * contentBounds.getHeight());
         double height = width / aspectRatio;
 
-        setShape(new Ellipse2D.Double(0,0,(int)width, (int)height));
-        super.refresh();
+        return new Ellipse2D.Double(0,0,(int)width, (int)height);
     }
 
     private double aspectRatio;

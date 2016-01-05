@@ -1,12 +1,6 @@
 package com.horstmann.violet.framework.graphics.content;
 
-import com.horstmann.violet.framework.graphics.content.Content;
-import com.horstmann.violet.framework.graphics.content.GroupContent;
-
-import java.awt.*;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.util.Iterator;
 
 /**
  * Created by Adrian Bobrowski on 21.12.2015.
@@ -29,7 +23,7 @@ public class HorizontalGroupContent extends GroupContent
     }
 
     @Override
-    public final void refresh() {
+    public final void refreshUp() {
         int height = 0;
         int width = 0;
 
@@ -45,6 +39,6 @@ public class HorizontalGroupContent extends GroupContent
         setWidth(width);
         setContentsHeight(height);
 
-        super.refresh();
+        super.refreshUp();
     }
 }

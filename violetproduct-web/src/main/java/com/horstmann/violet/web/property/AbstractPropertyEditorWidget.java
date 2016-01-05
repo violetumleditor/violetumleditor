@@ -76,7 +76,7 @@ public abstract class AbstractPropertyEditorWidget<T> extends WCompositeWidget {
     protected abstract WWidget getCustomEditor();
     
     /**
-     * Called when setValue() is invoked to refresh editor content
+     * Called when setValue() is invoked to refreshUp editor content
      */
     protected abstract void updateCustomEditor();
 	

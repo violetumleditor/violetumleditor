@@ -1,8 +1,5 @@
 package com.horstmann.violet.framework.graphics.content;
 
-import com.horstmann.violet.framework.graphics.content.Content;
-import com.horstmann.violet.framework.graphics.content.GroupContent;
-
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -18,7 +15,7 @@ public class RelativeGroupContent extends GroupContent
             content.addParent(this);
             this.content = content;
             this.position = position;
-            refresh();
+            refreshUp();
         }
 
         @Override
@@ -27,11 +24,11 @@ public class RelativeGroupContent extends GroupContent
         }
 
         @Override
-        public void refresh()
+        public void refreshUp()
         {
             setHeight(content.getHeight());
             setWidth(content.getWidth());
-            super.refresh();
+            super.refreshUp();
         }
 
         public Rectangle2D getRect()
@@ -73,7 +70,7 @@ public class RelativeGroupContent extends GroupContent
     }
 
     @Override
-    public final void refresh() {
+    public final void refreshUp() {
         Rectangle2D rect;
         int minX = Integer.MAX_VALUE;
         int minY = Integer.MAX_VALUE;
@@ -92,6 +89,6 @@ public class RelativeGroupContent extends GroupContent
         setHeight(maxY-minY);
         setWidth(maxX-minX);
 
-        super.refresh();
+        super.refreshUp();
     }
 }

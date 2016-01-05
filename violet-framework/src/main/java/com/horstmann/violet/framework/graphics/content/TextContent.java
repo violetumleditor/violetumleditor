@@ -3,7 +3,6 @@ package com.horstmann.violet.framework.graphics.content;
 import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -28,12 +27,12 @@ public class TextContent extends Content implements LineText.ChangeListener
     }
 
     @Override
-    public void refresh()
+    public void refreshUp()
     {
         Rectangle2D textBounds = text.getBounds();
         setWidth((int)textBounds.getWidth());
         setHeight((int)textBounds.getHeight());
-        super.refresh();
+        super.refreshUp();
     }
 
     private LineText text;
