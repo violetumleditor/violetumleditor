@@ -21,35 +21,32 @@
 
 package com.horstmann.violet.product.diagram.object;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.util.List;
-
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.List;
+
 /**
  * An object node in an object diagram.
  */
-public class ObjectNode extends RectangularNode
-{
+public class ObjectNode extends RectangularNode {
     /**
      * Construct an object node with a default size
      */
-    public ObjectNode()
-    {
+    public ObjectNode() {
         name = new MultiLineString();
         name.setUnderlined(true);
         name.setSize(MultiLineString.LARGE);
+
     }
 
-    public void draw(Graphics2D g2)
-    {
+    public void draw(Graphics2D g2) {
         super.draw(g2);
 
         // Backup current color;
@@ -58,10 +55,9 @@ public class ObjectNode extends RectangularNode
         // Perform drawing
         Rectangle2D globalBounds = getBounds();
         Rectangle2D topBounds = getTopRectangle();
-        if (topBounds.getWidth() < globalBounds.getWidth())
-        {
-        	// We need to re-center the topBounds - only do so if really required to avoid race conditions
-        	topBounds.setRect(topBounds.getX(), topBounds.getY(), globalBounds.getWidth(), topBounds.getHeight());
+        if (topBounds.getWidth() < globalBounds.getWidth()) {
+            // We need to re-center the topBounds - only do so if really required to avoid race conditions
+            topBounds.setRect(topBounds.getX(), topBounds.getY(), globalBounds.getWidth(), topBounds.getHeight());
         }
 
         g2.setColor(getBackgroundColor());
@@ -77,24 +73,21 @@ public class ObjectNode extends RectangularNode
         g2.setColor(oldColor);
 
         // Draw children
-        for (INode n : getChildren())
-        {
+        for (INode n : getChildren()) {
             n.draw(g2); // make sure they get drawn on top
         }
     }
 
     /**
      * Returns the rectangle at the top of the object node.
-     * 
+     *
      * @return the top rectangle
      */
-    public Rectangle2D getTopRectangle()
-    {
+    public Rectangle2D getTopRectangle() {
         Rectangle2D b = name.getBounds();
         double defaultHeight = DEFAULT_HEIGHT;
         boolean hasChildren = (getChildren().size() > 0);
-        if (hasChildren)
-        {
+        if (hasChildren) {
             defaultHeight = defaultHeight - YGAP;
         }
         Point2D currentLocation = getLocation();
@@ -107,13 +100,11 @@ public class ObjectNode extends RectangularNode
         return topBounds;
     }
 
-    private Rectangle2D getBottomRectangle()
-    {
+    private Rectangle2D getBottomRectangle() {
         Rectangle2D topBounds = getTopRectangle();
         double globalHeight = 0;
         double globalWidth = 0;
-        for (INode node : getChildren())
-        {
+        for (INode node : getChildren()) {
             Rectangle2D nodeBounds = node.getBounds();
             globalHeight = globalHeight + nodeBounds.getHeight();
             globalWidth = Math.max(globalWidth, nodeBounds.getWidth());
@@ -124,8 +115,7 @@ public class ObjectNode extends RectangularNode
     }
 
     @Override
-    public Rectangle2D getBounds()
-    {
+    public Rectangle2D getBounds() {
         Rectangle2D topBounds = getTopRectangle();
         Rectangle2D bottomBounds = getBottomRectangle();
         topBounds.add(bottomBounds);
@@ -133,20 +123,16 @@ public class ObjectNode extends RectangularNode
         return topBounds;
     }
 
-    public boolean addConnection(IEdge e)
-    {
-        if (!e.getClass().isAssignableFrom(ObjectRelationshipEdge.class))
-        {
+    public boolean addConnection(IEdge e) {
+        if (!e.getClass().isAssignableFrom(ObjectRelationshipEdge.class)) {
             return false;
         }
         INode startingNode = e.getStart();
         INode endingNode = e.getEnd();
-        if (startingNode.getClass().isAssignableFrom(FieldNode.class))
-        {
+        if (startingNode.getClass().isAssignableFrom(FieldNode.class)) {
             startingNode = startingNode.getParent();
         }
-        if (endingNode.getClass().isAssignableFrom(FieldNode.class))
-        {
+        if (endingNode.getClass().isAssignableFrom(FieldNode.class)) {
             endingNode = endingNode.getParent();
         }
         e.setStart(startingNode);
@@ -154,12 +140,10 @@ public class ObjectNode extends RectangularNode
         return true;
     }
 
-    public Point2D getConnectionPoint(Direction d)
-    {
+    public Point2D getConnectionPoint(Direction d) {
         Rectangle2D topBounds = getTopRectangle();
         double topHeight = topBounds.getHeight();
-        if (d.getX() > 0)
-        {
+        if (d.getX() > 0) {
             return new Point2D.Double(getBounds().getMaxX(), getBounds().getMinY() + topHeight / 2);
         }
         return new Point2D.Double(getBounds().getX(), getBounds().getMinY() + topHeight / 2);
@@ -167,27 +151,22 @@ public class ObjectNode extends RectangularNode
 
     /**
      * Sets the name property value.
-     * 
+     *
      * @param newValue the new object name
      */
-    public void setName(MultiLineString n)
-    {
+    public void setName(MultiLineString n) {
         name = n;
     }
 
     /**
      * Gets the name property value.
-     * 
-     * @param the object name
      */
-    public MultiLineString getName()
-    {
+    public MultiLineString getName() {
         return name;
     }
 
     @Override
-    public boolean addChild(INode n, Point2D p)
-    {
+    public boolean addChild(INode n, Point2D p) {
         List<INode> fields = getChildren();
         if (!(n instanceof FieldNode)) return false;
         if (fields.contains(n)) return true;
@@ -200,8 +179,7 @@ public class ObjectNode extends RectangularNode
         return true;
     }
 
-    public ObjectNode clone()
-    {
+    public ObjectNode clone() {
         ObjectNode cloned = (ObjectNode) super.clone();
         cloned.name = name.clone();
         return cloned;
