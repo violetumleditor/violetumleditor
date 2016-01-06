@@ -9,5 +9,9 @@
 .project
 .settings/
 
+# IDEA files #
+.idea/
+*.iml
+
 # Maven build files #
 target/
