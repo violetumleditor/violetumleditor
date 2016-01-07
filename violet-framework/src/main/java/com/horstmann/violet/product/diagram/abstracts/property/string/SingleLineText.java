@@ -3,48 +3,60 @@ package com.horstmann.violet.product.diagram.abstracts.property.string;
 import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.OneLineString;
 
 
-public class SingleLineText extends LineText {
-    public SingleLineText() {
+public class SingleLineText extends LineText
+{
+    public SingleLineText()
+    {
         super();
         setPadding(0,10);
     }
-
-    public SingleLineText(Converter converter) {
+    public SingleLineText(Converter converter)
+    {
         super(converter);
         setPadding(0,10);
+    }
+    protected SingleLineText(SingleLineText lineText) throws CloneNotSupportedException
+    {
+        super(lineText);
+        oneLineString = oneLineString.clone();
+    }
+
+    @Override
+    public SingleLineText clone()
+    {
+        return (SingleLineText)super.clone();
+    }
+
+    @Override
+    protected SingleLineText copy() throws CloneNotSupportedException
+    {
+        return new SingleLineText(this);
     }
 
     @Override
     final public void setText(String text)
     {
         oneLineString = converter.toLineString(text);
-        setLabelText(getHTML());
+        setLabelText(toDisplay());
         notifyAboutChange();
     }
 
     @Override
-    final public String getText()
+    final public String toDisplay()
     {
-        return oneLineString.getText();
+        return oneLineString.toDisplay();
     }
 
     @Override
-    final public String getHTML()
+    final public String toEdit()
     {
-        return oneLineString.getHTML();
+        return oneLineString.toEdit();
     }
 
     @Override
-    public String toString() {
-        return oneLineString.getText();
-    }
-
-    @Override
-    public SingleLineText clone() {
-        SingleLineText cloned = new SingleLineText(converter);
-        cloned.oneLineString = oneLineString.clone();
-        copyLabelProperty(cloned);
-        return cloned;
+    final public String toString()
+    {
+        return oneLineString.toString();
     }
 
     private OneLineString oneLineString = new OneLineString();

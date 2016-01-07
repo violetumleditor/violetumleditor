@@ -133,7 +133,7 @@ public class ActorNode extends ColorableNode
      */
     public void setName(SingleLineText newValue)
     {
-        name.setText(newValue.getText());
+        name.setText(newValue.toEdit());
 //        getContent().refresh();
     }
 

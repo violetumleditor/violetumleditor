@@ -7,20 +7,39 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class MultiLineText extends LineText {
+public class MultiLineText extends LineText
+{
     private interface Command
     {
         String execute(OneLineString oneLineString);
     }
 
-    public MultiLineText() {
+    public MultiLineText()
+    {
         super();
         setPadding(1,8);
     }
-
-    public MultiLineText(Converter converter) {
+    public MultiLineText(Converter converter)
+    {
         super(converter);
         setPadding(1,8);
+    }
+    protected MultiLineText(MultiLineText lineText) throws CloneNotSupportedException
+    {
+        super(lineText);
+        rows = new ArrayList<OneLineString>(lineText.rows);
+    }
+
+    @Override
+    public final MultiLineText clone()
+    {
+        return (MultiLineText)super.clone();
+    }
+
+    @Override
+    protected MultiLineText copy() throws CloneNotSupportedException
+    {
+        return new MultiLineText(this);
     }
 
     @Override
@@ -29,49 +48,31 @@ public class MultiLineText extends LineText {
         rows.clear();
         String[] array = text.split("\n", -1);
 
-        for (String rawRow: array) {
+        for (String rawRow: array)
+        {
             rows.add(converter.toLineString(rawRow));
         }
-        setLabelText(getHTML());
+        setLabelText(toDisplay());
 
         notifyAboutChange();
     }
 
     @Override
-    final public String getText()
+    final public String toDisplay()
     {
-        return implode(new Command(){
-            @Override
-            public String execute(OneLineString oneLineString)
-            {
-                return oneLineString.getText();
-            }
-        }, "\n");
+        return implode(TO_DISPLAY, "<br>");
     }
 
     @Override
-    final public String getHTML()
+    final public String toEdit()
     {
-        return implode(new Command(){
-            @Override
-            public String execute(OneLineString oneLineString)
-            {
-                return oneLineString.getHTML();
-            }
-        }, "<br>");
+        return implode(TO_EDIT, "\n");
     }
 
     @Override
-    public String toString() {
-        return getText().replace('\n', '|');
-    }
-
-    @Override
-    public MultiLineText clone() {
-        MultiLineText cloned = new MultiLineText(converter);
-        cloned.rows = new ArrayList<OneLineString>(rows);
-        copyLabelProperty(cloned);
-        return cloned;
+    public String toString()
+    {
+        return implode(TO_STRING, "|");
     }
 
     private String implode(Command command, String glue)
@@ -91,4 +92,26 @@ public class MultiLineText extends LineText {
     }
 
     private List<OneLineString> rows = new ArrayList<OneLineString>();
+
+    private final static Command TO_DISPLAY = new Command(){
+        @Override
+        public String execute(OneLineString oneLineString)
+        {
+            return oneLineString.toEdit();
+        }
+    };
+    private final static Command TO_EDIT = new Command(){
+        @Override
+        public String execute(OneLineString oneLineString)
+        {
+            return oneLineString.toDisplay();
+        }
+    };
+    private final static Command TO_STRING = new Command(){
+        @Override
+        public String execute(OneLineString oneLineString)
+        {
+            return oneLineString.toString();
+        }
+    };
 }

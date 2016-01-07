@@ -22,11 +22,6 @@
 package com.horstmann.violet.product.diagram.state;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Shape;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
 
 import com.horstmann.violet.framework.graphics.content.ContentBackground;
 import com.horstmann.violet.framework.graphics.content.ContentBorder;
@@ -111,7 +106,7 @@ public class StateNode extends ColorableNode
      */
     public void setName(SingleLineText newValue)
     {
-        name.setText(newValue.getText());
+        name.setText(newValue.toEdit());
     }
 
     /**

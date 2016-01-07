@@ -3,23 +3,25 @@ package com.horstmann.violet.product.diagram.abstracts.property.string.decorator
 /**
  * Created by Adrian Bobrowski on 12.12.2015.
  */
-public class OneLineStringDecorator extends OneLineString {
+public class OneLineStringDecorator extends OneLineString
+{
     public OneLineStringDecorator(OneLineString decoratedOneLineString)
     {
         this.decoratedOneLineString = decoratedOneLineString;
     }
 
-    public String getHTML()
+    public OneLineStringDecorator clone()
     {
-        return decoratedOneLineString.getHTML();
-    }
-    public String getText()
-    {
-        return decoratedOneLineString.getText();
+        return new OneLineStringDecorator(this.decoratedOneLineString.clone());
     }
 
-    public OneLineStringDecorator clone() {
-        return new OneLineStringDecorator(this.decoratedOneLineString.clone());
+    public String toDisplay()
+    {
+        return decoratedOneLineString.toDisplay();
+    }
+    public String toEdit()
+    {
+        return decoratedOneLineString.toEdit();
     }
 
     protected OneLineString decoratedOneLineString;

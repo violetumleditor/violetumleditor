@@ -64,7 +64,7 @@ public class MultiLineTextEditor extends PropertyEditorSupport
             textArea.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, tab);
             textArea.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, shiftTab);
 
-            textArea.setText(source.getText());
+            textArea.setText(source.toEdit());
             textArea.getDocument().addDocumentListener(new DocumentListener()
             {
                 public void insertUpdate(DocumentEvent e)

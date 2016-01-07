@@ -51,7 +51,7 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
         super();
     }
 
-    public ColorableNode(ColorableNode node) throws CloneNotSupportedException
+    protected ColorableNode(ColorableNode node) throws CloneNotSupportedException
     {
         super(node);
     }

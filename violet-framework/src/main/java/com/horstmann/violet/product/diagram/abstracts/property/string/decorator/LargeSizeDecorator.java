@@ -3,16 +3,23 @@ package com.horstmann.violet.product.diagram.abstracts.property.string.decorator
 /**
  * Created by Adrian Bobrowski on 16.12.2015.
  */
-public class LargeSizeDecorator extends OneLineStringDecorator {
-
+public class LargeSizeDecorator extends OneLineStringDecorator
+{
     public LargeSizeDecorator(OneLineString decoratedOneLineString)
     {
+        this(decoratedOneLineString,1);
+    }
+    public LargeSizeDecorator(OneLineString decoratedOneLineString, int increase)
+    {
         super(decoratedOneLineString);
+        this.increase = increase;
     }
 
     @Override
-    public String getHTML()
+    public String toDisplay()
     {
-        return "<font size=+1>" + decoratedOneLineString.getHTML() + "</font>";
+        return "<font size=+" + increase + ">" + decoratedOneLineString.toDisplay() + "</font>";
     }
+
+    private int increase;
 }

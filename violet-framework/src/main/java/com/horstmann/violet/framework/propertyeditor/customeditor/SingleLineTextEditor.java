@@ -37,7 +37,7 @@ public class SingleLineTextEditor extends PropertyEditorSupport
             textField.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, tab);
             textField.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, shiftTab);
 
-            textField.setText(source.getText());
+            textField.setText(source.toEdit());
             textField.getDocument().addDocumentListener(new DocumentListener()
             {
                 public void insertUpdate(DocumentEvent e)

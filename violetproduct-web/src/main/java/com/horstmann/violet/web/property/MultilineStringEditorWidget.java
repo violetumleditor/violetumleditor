@@ -67,7 +67,7 @@ public class MultilineStringEditorWidget extends AbstractPropertyEditorWidget<Mu
 
 	@Override
 	protected void updateCustomEditor() {
-		getTextAreaComponent().setText(super.getValue().getText());
+		getTextAreaComponent().setText(super.getValue().toEdit());
 	}
 
 }

@@ -121,7 +121,7 @@ public class SignalReceiptNode extends ColorableNode
      */
     public void setSignal(SingleLineText newValue)
     {
-        signal.setText(newValue.getText());
+        signal.setText(newValue.toEdit());
     }
 
     /**

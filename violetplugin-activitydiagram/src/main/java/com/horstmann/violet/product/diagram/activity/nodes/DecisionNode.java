@@ -157,7 +157,7 @@ public class DecisionNode extends ColorableNode
      */
     public void setCondition(SingleLineText newValue)
     {
-        condition.setText(newValue.getText());
+        condition.setText(newValue.toEdit());
     }
 
     /**

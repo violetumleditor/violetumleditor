@@ -68,7 +68,7 @@ public abstract class AbstractNode implements INode
     /**
      * copy Constructs
      */
-    public AbstractNode(AbstractNode node) throws CloneNotSupportedException
+    protected AbstractNode(AbstractNode node) throws CloneNotSupportedException
     {
         this.id = node.getId().clone();
         this.revision = new Integer(0);

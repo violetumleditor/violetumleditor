@@ -7,10 +7,6 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import com.horstmann.violet.framework.graphics.Separator;
-import com.horstmann.violet.framework.graphics.content.*;
-import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
-import com.horstmann.violet.framework.graphics.shape.ContentInsideRoundRectangle;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
@@ -225,7 +221,7 @@ public class PackageNode extends ColorableNode implements IResizableNode
      */
     public void setName(SingleLineText newValue)
     {
-        name.setText(newValue.getText());
+        name.setText(newValue.toEdit());
     }
 
     /**

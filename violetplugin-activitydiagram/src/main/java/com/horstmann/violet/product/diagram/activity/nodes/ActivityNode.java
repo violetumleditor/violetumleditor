@@ -39,7 +39,7 @@ public class ActivityNode extends ColorableNode
         createContentStructure();
     }
 
-    public ActivityNode(ActivityNode node) throws CloneNotSupportedException
+    protected ActivityNode(ActivityNode node) throws CloneNotSupportedException
     {
         super(node);
         name = node.name.clone();

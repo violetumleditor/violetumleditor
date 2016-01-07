@@ -23,7 +23,6 @@ package com.horstmann.violet.product.diagram.object;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.List;
 
 import com.horstmann.violet.framework.graphics.Separator;
@@ -128,7 +127,7 @@ public class ObjectNode extends ColorableNode
 
     public void setName(SingleLineText n)
     {
-        name.setText(n.getText());
+        name.setText(n.toEdit());
     }
 
     public SingleLineText getName()

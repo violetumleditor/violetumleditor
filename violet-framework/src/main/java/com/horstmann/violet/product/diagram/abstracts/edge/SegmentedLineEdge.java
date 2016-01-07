@@ -177,7 +177,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      */
     public void setStartLabel(SingleLineText newValue)
     {
-        startLabel.setText(newValue.getText());
+        startLabel.setText(newValue.toEdit());
     }
     public void setStartLabel(String newValue)
     {
@@ -201,7 +201,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      */
     public void setMiddleLabel(SingleLineText newValue)
     {
-        middleLabel.setText(newValue.getText());
+        middleLabel.setText(newValue.toEdit());
     }
     public void setMiddleLabel(String newValue)
     {
@@ -225,7 +225,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      */
     public void setEndLabel(SingleLineText newValue)
     {
-        endLabel.setText(newValue.getText());
+        endLabel.setText(newValue.toEdit());
     }
     public void setEndLabel(String newValue)
     {
@@ -259,11 +259,11 @@ public abstract class SegmentedLineEdge extends ShapeEdge
         getStartArrowHead().draw(g2, (Point2D) points.get(1), (Point2D) points.get(0));
         getEndArrowHead().draw(g2, (Point2D) points.get(points.size() - 2), (Point2D) points.get(points.size() - 1));
 
-        drawString(g2, (Point2D) points.get(1), (Point2D) points.get(0), getStartArrowHead(), startLabel.getHTML(), false);
-        drawString(g2, (Point2D) points.get(points.size() / 2 - 1), (Point2D) points.get(points.size() / 2), null, middleLabel.getHTML(),
+        drawString(g2, (Point2D) points.get(1), (Point2D) points.get(0), getStartArrowHead(), startLabel.toDisplay(), false);
+        drawString(g2, (Point2D) points.get(points.size() / 2 - 1), (Point2D) points.get(points.size() / 2), null, middleLabel.toDisplay(),
                 true);
         drawString(g2, (Point2D) points.get(points.size() - 2), (Point2D) points.get(points.size() - 1), getEndArrowHead(),
-                endLabel.getHTML(), false);
+                endLabel.toDisplay(), false);
         g2.setColor(oldColor);
     }
 
@@ -372,11 +372,11 @@ public abstract class SegmentedLineEdge extends ShapeEdge
     {
         ArrayList<Point2D> points = getPoints();
         Rectangle2D r = super.getBounds();
-        r.add(getStringBounds((Point2D) points.get(1), (Point2D) points.get(0), getStartArrowHead(), startLabel.getHTML(), false));
+        r.add(getStringBounds((Point2D) points.get(1), (Point2D) points.get(0), getStartArrowHead(), startLabel.toDisplay(), false));
         r.add(getStringBounds((Point2D) points.get(points.size() / 2 - 1), (Point2D) points.get(points.size() / 2), null,
-                middleLabel.getHTML(), true));
+                middleLabel.toDisplay(), true));
         r.add(getStringBounds((Point2D) points.get(points.size() - 2), (Point2D) points.get(points.size() - 1), getEndArrowHead(),
-                endLabel.getHTML(), false));
+                endLabel.toDisplay(), false));
         return r;
     }
 

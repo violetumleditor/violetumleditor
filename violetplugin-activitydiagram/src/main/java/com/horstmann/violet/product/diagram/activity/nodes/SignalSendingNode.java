@@ -120,7 +120,7 @@ public class SignalSendingNode extends ColorableNode
      */
     public void setSignal(SingleLineText newValue)
     {
-        signal.setText(newValue.getText());
+        signal.setText(newValue.toEdit());
     }
 
     /**

@@ -33,12 +33,7 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
-import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
-import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.LargeSizeDecorator;
-import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.OneLineString;
-import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.RemoveSentenceDecorator;
-import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.UnderlineDecorator;
 import com.horstmann.violet.product.diagram.common.edge.BasePropertyEdge;
 
 /**
@@ -219,7 +214,7 @@ public class FieldNode extends ColorableNode
      */
     public void setName(SingleLineText newValue)
     {
-        name.setText(newValue.getText());
+        name.setText(newValue.toEdit());
     }
 
     /**
@@ -241,7 +236,7 @@ public class FieldNode extends ColorableNode
     {
         if(0==getConnectedEdges().size())
         {
-            value.setText(newValue.getText());
+            value.setText(newValue.toEdit());
         }
     }
 

@@ -3,8 +3,8 @@ package com.horstmann.violet.product.diagram.abstracts.property.string.decorator
 /**
  * Created by Adrian Bobrowski on 17.12.2015.
  */
-public class PrefixDecorator extends OneLineStringDecorator {
-
+public class PrefixDecorator extends OneLineStringDecorator
+{
     public PrefixDecorator(OneLineString decoratedOneLineString, String prefix)
     {
         super(decoratedOneLineString);
@@ -21,14 +21,10 @@ public class PrefixDecorator extends OneLineStringDecorator {
     }
 
     @Override
-    public String getHTML()
+    public String toDisplay()
     {
-        return prefix + " " + decoratedOneLineString.getHTML();
+        return prefix + " " + decoratedOneLineString.toDisplay();
     }
 
-    public OneLineStringDecorator clone() {
-        return new PrefixDecorator(this.decoratedOneLineString.clone(), prefix);
-    }
-
-    protected String prefix = "";
+    private String prefix = "";
 }

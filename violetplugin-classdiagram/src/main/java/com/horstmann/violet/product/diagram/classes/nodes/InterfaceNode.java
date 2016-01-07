@@ -87,7 +87,7 @@ public class InterfaceNode extends ColorableNode
      */
     public void setName(SingleLineText newValue)
     {
-        name.setText(newValue.getText());
+        name.setText(newValue.toEdit());
     }
 
     /**

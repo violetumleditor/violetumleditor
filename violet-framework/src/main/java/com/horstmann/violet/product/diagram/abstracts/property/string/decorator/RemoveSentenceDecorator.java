@@ -3,8 +3,8 @@ package com.horstmann.violet.product.diagram.abstracts.property.string.decorator
 /**
  * Created by Adrian Bobrowski on 17.12.2015.
  */
-public class RemoveSentenceDecorator extends OneLineStringDecorator {
-
+public class RemoveSentenceDecorator extends OneLineStringDecorator
+{
     public RemoveSentenceDecorator(OneLineString decoratedOneLineString, String sentence)
     {
         super(decoratedOneLineString);
@@ -12,12 +12,12 @@ public class RemoveSentenceDecorator extends OneLineStringDecorator {
     }
 
     @Override
-    public String getHTML()
+    public String toDisplay()
     {
-        return removeSentence(decoratedOneLineString.getHTML());
+        return removeSentence(decoratedOneLineString.toDisplay());
     }
 
-    protected String removeSentence(String text)
+    private String removeSentence(String text)
     {
         String formattedText = replaceForUnification(text).toLowerCase();
 

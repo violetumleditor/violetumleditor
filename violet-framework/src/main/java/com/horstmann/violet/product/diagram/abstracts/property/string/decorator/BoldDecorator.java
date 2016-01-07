@@ -3,16 +3,16 @@ package com.horstmann.violet.product.diagram.abstracts.property.string.decorator
 /**
  * Created by Adrian Bobrowski on 12.12.2015.
  */
-public class BoldDecorator extends OneLineStringDecorator {
-
+public class BoldDecorator extends OneLineStringDecorator
+{
     public BoldDecorator(OneLineString decoratedOneLineString)
     {
         super(decoratedOneLineString);
     }
 
     @Override
-    public String getHTML()
+    public String toDisplay()
     {
-        return "<b>" + decoratedOneLineString.getHTML() + "</b>";
+        return "<b>" + decoratedOneLineString.toDisplay() + "</b>";
     }
 }
