@@ -9,10 +9,7 @@ import com.horstmann.violet.framework.graphics.content.VerticalGroupContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
-import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.LargeSizeDecorator;
-import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.OneLineString;
-import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.RemoveSentenceDecorator;
-import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.UnderlineDecorator;
+import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.*;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
@@ -46,6 +43,12 @@ public class ClassNode extends ColorableNode
                 {
                     lineString = new UnderlineDecorator(new RemoveSentenceDecorator(lineString, "<<static>>"));
                 }
+                lineString = new ReplaceSentenceDecorator(lineString, "public", "+");
+                lineString = new ReplaceSentenceDecorator(lineString, "package", "~");
+                lineString = new ReplaceSentenceDecorator(lineString, "protected", "#");
+                lineString = new ReplaceSentenceDecorator(lineString, "private", "-");
+                lineString = new ReplaceSentenceDecorator(lineString, "property", "/");
+
                 return lineString;
             }
         };

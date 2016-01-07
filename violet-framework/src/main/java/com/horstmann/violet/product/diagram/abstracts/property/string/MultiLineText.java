@@ -97,14 +97,14 @@ public class MultiLineText extends LineText
         @Override
         public String execute(OneLineString oneLineString)
         {
-            return oneLineString.toEdit();
+            return oneLineString.toDisplay();
         }
     };
     private final static Command TO_EDIT = new Command(){
         @Override
         public String execute(OneLineString oneLineString)
         {
-            return oneLineString.toDisplay();
+            return oneLineString.toEdit();
         }
     };
     private final static Command TO_STRING = new Command(){
