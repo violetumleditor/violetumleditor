@@ -7,6 +7,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * This ...
+ *
+ * @author Adrian Bobrowski
+ * @date 16.12.2015
+ */
 public class MultiLineText extends LineText
 {
     private interface Command

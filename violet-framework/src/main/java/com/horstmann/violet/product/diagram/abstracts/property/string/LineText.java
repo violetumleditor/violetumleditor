@@ -12,7 +12,10 @@ import java.util.*;
 import java.util.List;
 
 /**
- * Created by Adrian Bobrowski on 16.12.2015.
+ * This ...
+ *
+ * @author Adrian Bobrowski
+ * @date 16.12.2015
  */
 public abstract class LineText implements Serializable, Cloneable, EditableString
 {

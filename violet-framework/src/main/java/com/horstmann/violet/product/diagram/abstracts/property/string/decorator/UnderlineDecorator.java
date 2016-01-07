@@ -1,7 +1,10 @@
 package com.horstmann.violet.product.diagram.abstracts.property.string.decorator;
 
 /**
- * Created by Adrian Bobrowski on 12.12.2015.
+ * This class makes the underlined text
+ *
+ * @author Adrian Bobrowski
+ * @date 12.12.2015
  */
 public class UnderlineDecorator extends OneLineStringDecorator
 {

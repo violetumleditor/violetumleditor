@@ -1,7 +1,10 @@
 package com.horstmann.violet.product.diagram.abstracts.property.string.decorator;
 
 /**
- * Created by Adrian Bobrowski on 17.12.2015.
+ * This class adds a prefix
+ *
+ * @author Adrian Bobrowski
+ * @date 17.12.2015
  */
 public class PrefixDecorator extends OneLineStringDecorator
 {

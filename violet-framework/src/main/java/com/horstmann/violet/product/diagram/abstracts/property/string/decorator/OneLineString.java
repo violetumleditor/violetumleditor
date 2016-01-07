@@ -5,7 +5,10 @@ import com.horstmann.violet.product.diagram.abstracts.property.string.EditableSt
 import java.io.Serializable;
 
 /**
- * Created by Adrian Bobrowski on 12.12.2015.
+ * This ...
+ *
+ * @author Adrian Bobrowski
+ * @date 12.12.2015
  */
 public class OneLineString implements Serializable, Cloneable, EditableString
 {

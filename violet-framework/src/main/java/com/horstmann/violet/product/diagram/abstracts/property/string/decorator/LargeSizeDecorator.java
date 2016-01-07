@@ -1,7 +1,10 @@
 package com.horstmann.violet.product.diagram.abstracts.property.string.decorator;
 
 /**
- * Created by Adrian Bobrowski on 16.12.2015.
+ * This class increases text
+ *
+ * @author Adrian Bobrowski
+ * @date 16.12.2015
  */
 public class LargeSizeDecorator extends OneLineStringDecorator
 {

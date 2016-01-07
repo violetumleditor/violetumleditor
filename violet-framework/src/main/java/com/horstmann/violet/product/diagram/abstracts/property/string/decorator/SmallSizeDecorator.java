@@ -1,7 +1,10 @@
 package com.horstmann.violet.product.diagram.abstracts.property.string.decorator;
 
 /**
- * Created by Adrian Bobrowski on 16.12.2015.
+ * This class decreases text
+ *
+ * @author Adrian Bobrowski
+ * @date 16.12.2015
  */
 public class SmallSizeDecorator extends OneLineStringDecorator
 {
@@ -9,17 +12,17 @@ public class SmallSizeDecorator extends OneLineStringDecorator
     {
         this(decoratedOneLineString,1);
     }
-    public SmallSizeDecorator(OneLineString decoratedOneLineString, int increase)
+    public SmallSizeDecorator(OneLineString decoratedOneLineString, int decreases)
     {
         super(decoratedOneLineString);
-        this.reduction = increase;
+        this.decreases = decreases;
     }
 
     @Override
     public String toDisplay()
     {
-        return "<font size=-" + reduction + ">" + decoratedOneLineString.toDisplay() + "</font>";
+        return "<font size=-" + decreases + ">" + decoratedOneLineString.toDisplay() + "</font>";
     }
 
-    private int reduction;
+    private int decreases;
 }

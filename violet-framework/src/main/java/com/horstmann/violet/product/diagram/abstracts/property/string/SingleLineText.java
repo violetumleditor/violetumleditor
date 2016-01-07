@@ -2,7 +2,12 @@ package com.horstmann.violet.product.diagram.abstracts.property.string;
 
 import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.OneLineString;
 
-
+/**
+ * This ...
+ *
+ * @author Adrian Bobrowski
+ * @date 16.12.2015
+ */
 public class SingleLineText extends LineText
 {
     public SingleLineText()
