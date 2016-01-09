@@ -41,7 +41,7 @@ public class ScenarioStartNode extends ColorableNode
         createContentStructure();
     }
 
-    public ScenarioStartNode(ScenarioStartNode node) throws CloneNotSupportedException
+    protected ScenarioStartNode(ScenarioStartNode node) throws CloneNotSupportedException
     {
         super(node);
         createContentStructure();

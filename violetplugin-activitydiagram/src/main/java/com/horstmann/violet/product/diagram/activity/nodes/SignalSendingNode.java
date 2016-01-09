@@ -51,7 +51,7 @@ public class SignalSendingNode extends ColorableNode
         createContentStructure();
     }
 
-    public SignalSendingNode(SignalSendingNode node) throws CloneNotSupportedException
+    protected SignalSendingNode(SignalSendingNode node) throws CloneNotSupportedException
     {
         super(node);
         signal = node.signal.clone();

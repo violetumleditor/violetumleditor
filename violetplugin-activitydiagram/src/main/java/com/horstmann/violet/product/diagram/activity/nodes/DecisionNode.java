@@ -53,7 +53,7 @@ public class DecisionNode extends ColorableNode
         createContentStructure();
     }
 
-    public DecisionNode(DecisionNode node) throws CloneNotSupportedException
+    protected DecisionNode(DecisionNode node) throws CloneNotSupportedException
     {
         super(node);
         condition = node.condition.clone();

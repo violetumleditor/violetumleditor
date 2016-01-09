@@ -36,6 +36,7 @@ public abstract class LineText implements Serializable, Cloneable, EditableStrin
     {
         this.converter = converter;
     }
+
     protected LineText(LineText lineText) throws CloneNotSupportedException
     {
         label.setHorizontalAlignment(lineText.label.getHorizontalAlignment());
