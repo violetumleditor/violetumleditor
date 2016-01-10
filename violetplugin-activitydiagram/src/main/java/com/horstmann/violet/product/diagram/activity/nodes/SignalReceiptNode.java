@@ -59,7 +59,8 @@ public class SignalReceiptNode extends ColorableNode
     }
 
     @Override
-    protected INode copy() throws CloneNotSupportedException {
+    protected INode copy() throws CloneNotSupportedException
+    {
         return new SignalReceiptNode(this);
     }
 

@@ -38,7 +38,6 @@ import com.horstmann.violet.product.diagram.activity.edges.ActivityTransitionEdg
  */
 public class SynchronizationBarNode extends ColorableNode
 {
-
     @Override
     public boolean addConnection(IEdge e)
     {

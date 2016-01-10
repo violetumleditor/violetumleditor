@@ -68,7 +68,7 @@ public class FieldNode extends ColorableNode
         createContentStructure();
     }
 
-    public FieldNode(FieldNode node) throws CloneNotSupportedException
+    protected FieldNode(FieldNode node) throws CloneNotSupportedException
     {
         super(node);
         name = node.name.clone();
@@ -77,7 +77,8 @@ public class FieldNode extends ColorableNode
     }
 
     @Override
-    protected INode copy() throws CloneNotSupportedException {
+    protected INode copy() throws CloneNotSupportedException
+    {
         return new FieldNode(this);
     }
 

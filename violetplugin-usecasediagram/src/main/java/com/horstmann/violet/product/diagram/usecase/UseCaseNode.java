@@ -52,7 +52,7 @@ public class UseCaseNode extends ColorableNode
         createContentStructure();
     }
 
-    public UseCaseNode(UseCaseNode node) throws CloneNotSupportedException
+    protected UseCaseNode(UseCaseNode node) throws CloneNotSupportedException
     {
         super(node);
         name = node.name.clone();
@@ -60,7 +60,8 @@ public class UseCaseNode extends ColorableNode
     }
 
     @Override
-    protected INode copy() throws CloneNotSupportedException {
+    protected INode copy() throws CloneNotSupportedException
+    {
         return new UseCaseNode(this);
     }
 

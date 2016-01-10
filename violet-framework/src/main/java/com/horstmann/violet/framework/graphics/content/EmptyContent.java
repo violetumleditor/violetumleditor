@@ -9,4 +9,8 @@ import java.awt.geom.Point2D;
 public class EmptyContent extends Content {
     @Override
     public void draw(Graphics2D g2) {}
+
+    protected void setWidth(int width) {}
+    protected void setHeight(int height) {}
+
 }

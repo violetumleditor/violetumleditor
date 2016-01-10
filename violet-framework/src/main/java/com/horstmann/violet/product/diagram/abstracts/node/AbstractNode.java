@@ -72,6 +72,10 @@ public abstract class AbstractNode implements INode
      */
     protected AbstractNode(AbstractNode node) throws CloneNotSupportedException
     {
+        if(null == node)
+        {
+            throw new CloneNotSupportedException("node can't be null");
+        }
         this.id = node.getId().clone();
         this.revision = new Integer(0);
         this.children = new ArrayList<INode>();

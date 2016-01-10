@@ -47,14 +47,15 @@ public class CircularInitialStateNode extends ColorableNode
         createContentStructure();
     }
 
-    public CircularInitialStateNode(CircularInitialStateNode node) throws CloneNotSupportedException
+    protected CircularInitialStateNode(CircularInitialStateNode node) throws CloneNotSupportedException
     {
         super(node);
         createContentStructure();
     }
 
     @Override
-    protected INode copy() throws CloneNotSupportedException {
+    protected INode copy() throws CloneNotSupportedException
+    {
         return new CircularInitialStateNode(this);
     }
 

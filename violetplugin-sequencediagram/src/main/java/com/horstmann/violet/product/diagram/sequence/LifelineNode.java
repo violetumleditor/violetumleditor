@@ -65,7 +65,7 @@ public class LifelineNode extends ColorableNode
         createContentStructure();
     }
 
-    public LifelineNode(LifelineNode node) throws CloneNotSupportedException
+    protected LifelineNode(LifelineNode node) throws CloneNotSupportedException
     {
         super(node);
         name = node.name.clone();
@@ -73,7 +73,8 @@ public class LifelineNode extends ColorableNode
     }
 
     @Override
-    protected INode copy() throws CloneNotSupportedException {
+    protected INode copy() throws CloneNotSupportedException
+    {
         return new LifelineNode(this);
     }
 

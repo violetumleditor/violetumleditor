@@ -24,13 +24,15 @@ import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLine
  * A package nodes in a class diagram.
  */
 public class PackageNode extends ColorableNode{
-    static protected class PackageShape implements ContentInsideCustomShape.ShapeCreator {
+    static protected class PackageShape implements ContentInsideCustomShape.ShapeCreator
+    {
         PackageShape(TextContent nameContent) {
             this.nameContent = nameContent;
         }
 
         @Override
-        public Shape createShape(int contentWidth, int contentHeight) {
+        public Shape createShape(int contentWidth, int contentHeight)
+        {
             GeneralPath path = new GeneralPath();
             path.moveTo(nameContent.getWidth(), nameContent.getHeight());
             path.lineTo(nameContent.getWidth(), 0);
@@ -46,14 +48,16 @@ public class PackageNode extends ColorableNode{
         private TextContent nameContent;
     }
 
-    public PackageNode() {
+    public PackageNode()
+    {
         name = new SingleLineText();
         name.setAlignment(LineText.CENTER);
         text = new MultiLineText();
         createContentStructure();
     }
 
-    protected PackageNode(PackageNode node) throws CloneNotSupportedException {
+    protected PackageNode(PackageNode node) throws CloneNotSupportedException
+    {
         super(node);
         name = node.name.clone();
         text = node.text.clone();
@@ -61,14 +65,14 @@ public class PackageNode extends ColorableNode{
     }
 
     @Override
-    protected INode copy() throws CloneNotSupportedException {
+    protected INode copy() throws CloneNotSupportedException
+    {
         return new PackageNode(this);
     }
 
     @Override
     protected void createContentStructure() {
         RelativeGroupContent relativeGroupContent = new RelativeGroupContent();
-        HorizontalGroupContent horizontalGroupContent = new HorizontalGroupContent();
 
         nodesGroup = new RelativeGroupContent();
         nodesGroup.setMinHeight(DEFAULT_HEIGHT);
@@ -80,12 +84,24 @@ public class PackageNode extends ColorableNode{
         TextContent textContent = new TextContent(text);
         EmptyContent emptyContent = new EmptyContent();
         emptyContent.setMinWidth(CHILD_GAP);
+        EmptyContent emptyWidthContent = new EmptyContent();
+        emptyWidthContent.setMinWidth(CHILD_GAP);
+        EmptyContent emptyHeightContent = new EmptyContent();
+        emptyHeightContent.setMinHeight(CHILD_GAP);
 
+        HorizontalGroupContent horizontal = new HorizontalGroupContent();
+        horizontal.add(nodesGroup);
+        horizontal.add(emptyWidthContent);
+        VerticalGroupContent vertical = new VerticalGroupContent();
+        vertical.add(horizontal);
+        vertical.add(emptyHeightContent);
+
+        HorizontalGroupContent horizontalGroupContent = new HorizontalGroupContent();
         horizontalGroupContent.add(nameContent);
         horizontalGroupContent.add(emptyContent);
 
         relativeGroupContent.add(horizontalGroupContent);
-        relativeGroupContent.add(nodesGroup, new Point2D.Double(0, DEFAULT_TOP_HEIGHT));
+        relativeGroupContent.add(vertical, new Point2D.Double(0, DEFAULT_TOP_HEIGHT));
         relativeGroupContent.add(textContent, new Point2D.Double(0, DEFAULT_TOP_HEIGHT));
 
         ContentInsideShape contentInsideShape = new ContentInsideCustomShape(relativeGroupContent, new PackageShape(nameContent));
@@ -157,9 +173,9 @@ public class PackageNode extends ColorableNode{
     protected Point2D getChildRelativeLocation(INode child)
     {
         Point2D childLocation = child.getLocation();
-        if(DEFAULT_TOP_HEIGHT > childLocation.getY())
+        if(DEFAULT_TOP_HEIGHT+CHILD_GAP > childLocation.getY() || CHILD_GAP > childLocation.getX())
         {
-            childLocation.setLocation(childLocation.getX(), DEFAULT_TOP_HEIGHT);
+            childLocation.setLocation(Math.max(childLocation.getX(), CHILD_GAP), Math.max(childLocation.getY(), DEFAULT_TOP_HEIGHT+CHILD_GAP));
             child.setLocation(childLocation);
         }
 

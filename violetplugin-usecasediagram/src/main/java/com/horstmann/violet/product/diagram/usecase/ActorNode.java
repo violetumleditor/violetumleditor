@@ -50,7 +50,7 @@ public class ActorNode extends ColorableNode
         createContentStructure();
     }
 
-    public ActorNode(ActorNode node) throws CloneNotSupportedException
+    protected ActorNode(ActorNode node) throws CloneNotSupportedException
     {
         super(node);
         name = node.name.clone();
@@ -58,7 +58,8 @@ public class ActorNode extends ColorableNode
     }
 
     @Override
-    protected INode copy() throws CloneNotSupportedException {
+    protected INode copy() throws CloneNotSupportedException
+    {
         return new ActorNode(this);
     }
 

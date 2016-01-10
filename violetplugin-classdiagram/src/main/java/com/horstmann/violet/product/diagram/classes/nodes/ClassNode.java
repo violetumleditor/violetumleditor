@@ -58,7 +58,7 @@ public class ClassNode extends ColorableNode
         createContentStructure();
     }
 
-    public ClassNode(ClassNode node) throws CloneNotSupportedException
+    protected ClassNode(ClassNode node) throws CloneNotSupportedException
     {
         super(node);
         name = node.name.clone();
@@ -68,7 +68,8 @@ public class ClassNode extends ColorableNode
     }
 
     @Override
-    protected INode copy() throws CloneNotSupportedException {
+    protected INode copy() throws CloneNotSupportedException
+    {
         return new ClassNode(this);
     }
 

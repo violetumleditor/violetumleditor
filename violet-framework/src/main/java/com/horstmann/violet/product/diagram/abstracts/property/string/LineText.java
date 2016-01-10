@@ -135,14 +135,29 @@ public abstract class LineText implements Serializable, Cloneable, EditableStrin
 
     protected final void setLabelText(String text)
     {
-        label.setText("<html>"+text+"<html>");
+        if(text.isEmpty())
+        {
+            label.setText("");
+        }
+        else
+        {
+            label.setText("<html>"+text+"<html>");
+        }
+
         refresh();
     }
 
     private void refresh()
     {
-        Dimension dim = label.getPreferredSize();
-        this.bounds = new Rectangle2D.Double(0, 0, dim.getWidth(), dim.getHeight());
+        if(label.getText().isEmpty())
+        {
+            this.bounds = new Rectangle2D.Double(0, 0, 0, 0);
+        }
+        else
+        {
+            Dimension dim = label.getPreferredSize();
+            this.bounds = new Rectangle2D.Double(0, 0, dim.getWidth(), dim.getHeight());
+        }
     }
 
     public static final Converter DEFAULT_CONVERTER = new Converter(){

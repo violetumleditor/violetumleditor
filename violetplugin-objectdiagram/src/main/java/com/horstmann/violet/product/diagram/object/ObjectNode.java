@@ -49,13 +49,13 @@ public class ObjectNode extends ColorableNode
             @Override
             public OneLineString toLineString(String text)
             {
-            return new LargeSizeDecorator(new UnderlineDecorator(new OneLineString(text)));
+                return new LargeSizeDecorator(new UnderlineDecorator(new OneLineString(text)));
             }
         });
         createContentStructure();
     }
 
-    public ObjectNode(ObjectNode node) throws CloneNotSupportedException
+    protected ObjectNode(ObjectNode node) throws CloneNotSupportedException
     {
         super(node);
         name = node.name.clone();

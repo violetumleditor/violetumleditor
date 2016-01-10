@@ -41,14 +41,15 @@ public class CircularFinalStateNode extends ColorableNode
         createContentStructure();
     }
 
-    public CircularFinalStateNode(CircularFinalStateNode node) throws CloneNotSupportedException
+    protected CircularFinalStateNode(CircularFinalStateNode node) throws CloneNotSupportedException
     {
         super(node);
         createContentStructure();
     }
 
     @Override
-    protected INode copy() throws CloneNotSupportedException {
+    protected INode copy() throws CloneNotSupportedException
+    {
         return new CircularFinalStateNode(this);
     }
 

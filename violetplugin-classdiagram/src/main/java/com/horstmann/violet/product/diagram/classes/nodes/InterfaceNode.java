@@ -37,7 +37,7 @@ public class InterfaceNode extends ColorableNode
         createContentStructure();
     }
 
-    public InterfaceNode(InterfaceNode node) throws CloneNotSupportedException
+    protected InterfaceNode(InterfaceNode node) throws CloneNotSupportedException
     {
         super(node);
         name = node.name.clone();
@@ -46,7 +46,8 @@ public class InterfaceNode extends ColorableNode
     }
 
     @Override
-    protected INode copy() throws CloneNotSupportedException {
+    protected INode copy() throws CloneNotSupportedException
+    {
         return new InterfaceNode(this);
     }
 
