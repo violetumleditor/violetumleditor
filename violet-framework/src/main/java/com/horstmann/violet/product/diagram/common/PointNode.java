@@ -73,6 +73,11 @@ public class PointNode extends AbstractNode
     // We use the location set by setBounds until the first call to translate.
 
     @Override
+    protected void createContentStructure() {
+
+    }
+
+    @Override
     public void draw(Graphics2D g2)
     {
         // Invisible node_old

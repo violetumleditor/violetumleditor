@@ -23,7 +23,7 @@ public class TextContent extends Content implements LineText.ChangeListener
 
     @Override
     public void draw(Graphics2D g2) {
-        text.draw(g2);
+        text.draw(g2, getBounds());
     }
 
     @Override

@@ -21,12 +21,13 @@
 
 package com.horstmann.violet.product.diagram.abstracts.node;
 
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.horstmann.violet.framework.graphics.content.Content;
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.Id;
@@ -63,6 +64,7 @@ public abstract class AbstractNode implements INode
             }
         };
         this.toolTip = "";
+        this.content = null;
     }
 
     /**
@@ -80,6 +82,7 @@ public abstract class AbstractNode implements INode
             clonedChild.setParent(this);
             this.children.add(clonedChild);
         }
+        this.content = null;
     }
 
     @Override
@@ -92,8 +95,30 @@ public abstract class AbstractNode implements INode
         }
     }
 
-    protected INode copy() throws CloneNotSupportedException {
+    protected INode copy() throws CloneNotSupportedException
+    {
         return null;
+    }
+
+    protected abstract void createContentStructure();
+
+    @Override
+    public void draw(Graphics2D g2)
+    {
+        getContent().draw(g2, getLocationOnGraph());
+    }
+
+    @Override
+    public Rectangle2D getBounds()
+    {
+        Point2D location = getLocation();
+        Rectangle2D contentBounds = getContent().getBounds();
+        return new Rectangle2D.Double(location.getX(), location.getY(), contentBounds.getWidth(), contentBounds.getHeight());
+    }
+
+    public boolean contains(Point2D p)
+    {
+        return getContent().contains(p);
     }
 
     /**
@@ -144,7 +169,16 @@ public abstract class AbstractNode implements INode
             throw new NullPointerException("Location can't be null");
         }
         this.location = point;
+
+        if(null != parent)
+        {
+            if (parent instanceof AbstractNode)
+            {
+                ((AbstractNode)parent).onChildChangeLocation(this);
+            }
+        }
     }
+    protected void onChildChangeLocation(INode child){}
 
     @Override
     public Id getId()
@@ -304,7 +338,17 @@ public abstract class AbstractNode implements INode
     	return this.toolTip;
     }
 
+    public final Content getContent()
+    {
+        return content;
+    }
 
+    protected final void setContent(Content content)
+    {
+        this.content = content;
+    }
+
+    private Content content;
 
     private List<INode> children;
     private INode parent;

@@ -7,8 +7,12 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import com.horstmann.violet.framework.graphics.content.*;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.IResizableNode;
@@ -19,19 +23,37 @@ import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLine
 /**
  * A package nodes in a class diagram.
  */
-public class PackageNode extends ColorableNode implements IResizableNode
-{
-    //TODO przerobic na nowa wersje
-    public PackageNode()
-    {
+public class PackageNode extends ColorableNode{
+    static protected class PackageShape implements ContentInsideCustomShape.ShapeCreator {
+        PackageShape(TextContent nameContent) {
+            this.nameContent = nameContent;
+        }
+
+        @Override
+        public Shape createShape(int contentWidth, int contentHeight) {
+            GeneralPath path = new GeneralPath();
+            path.moveTo(nameContent.getWidth(), nameContent.getHeight());
+            path.lineTo(nameContent.getWidth(), 0);
+            path.lineTo(0, 0);
+            path.lineTo(0, contentHeight);
+            path.lineTo(contentWidth, contentHeight);
+            path.lineTo(contentWidth, nameContent.getHeight());
+            path.lineTo(0, nameContent.getHeight());
+            path.closePath();
+            return path;
+        }
+
+        private TextContent nameContent;
+    }
+
+    public PackageNode() {
         name = new SingleLineText();
         name.setAlignment(LineText.CENTER);
         text = new MultiLineText();
         createContentStructure();
     }
 
-    public PackageNode(PackageNode node) throws CloneNotSupportedException
-    {
+    protected PackageNode(PackageNode node) throws CloneNotSupportedException {
         super(node);
         name = node.name.clone();
         text = node.text.clone();
@@ -39,179 +61,119 @@ public class PackageNode extends ColorableNode implements IResizableNode
     }
 
     @Override
-    public INode copy() throws CloneNotSupportedException {
+    protected INode copy() throws CloneNotSupportedException {
         return new PackageNode(this);
     }
 
     @Override
-    public void setTextColor(Color textColor)
-    {
+    protected void createContentStructure() {
+        RelativeGroupContent relativeGroupContent = new RelativeGroupContent();
+        HorizontalGroupContent horizontalGroupContent = new HorizontalGroupContent();
+
+        nodesGroup = new RelativeGroupContent();
+        nodesGroup.setMinHeight(DEFAULT_HEIGHT);
+        nodesGroup.setMinWidth(DEFAULT_WIDTH);
+
+        TextContent nameContent = new TextContent(name);
+        nameContent.setMinHeight(DEFAULT_TOP_HEIGHT);
+        nameContent.setMinWidth(DEFAULT_TOP_WIDTH);
+        TextContent textContent = new TextContent(text);
+        EmptyContent emptyContent = new EmptyContent();
+        emptyContent.setMinWidth(CHILD_GAP);
+
+        horizontalGroupContent.add(nameContent);
+        horizontalGroupContent.add(emptyContent);
+
+        relativeGroupContent.add(horizontalGroupContent);
+        relativeGroupContent.add(nodesGroup, new Point2D.Double(0, DEFAULT_TOP_HEIGHT));
+        relativeGroupContent.add(textContent, new Point2D.Double(0, DEFAULT_TOP_HEIGHT));
+
+        ContentInsideShape contentInsideShape = new ContentInsideCustomShape(relativeGroupContent, new PackageShape(nameContent));
+
+        setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
+        setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
+        setContent(getBackground());
+    }
+
+    @Override
+    public void setTextColor(Color textColor) {
         name.setTextColor(textColor);
         text.setTextColor(textColor);
     }
 
     @Override
-    public Color getTextColor()
-    {
+    public Color getTextColor() {
         return name.getTextColor();
     }
 
+
     @Override
-    public Point2D getConnectionPoint(IEdge e)
-    {
+    public Point2D getConnectionPoint(IEdge e) {
         Point2D connectionPoint = super.getConnectionPoint(e);
 
         // Fix location to stick to shape (because of the top rectangle)
         Direction d = e.getDirection(this);
         Direction nearestCardinalDirection = d.getNearestCardinalDirection();
-        if (Direction.SOUTH.equals(nearestCardinalDirection))
-        {
-            Rectangle2D topRectangleBounds = getTopRectangleBounds();
-            if (!topRectangleBounds.contains(connectionPoint))
-            {
+        if (Direction.SOUTH.equals(nearestCardinalDirection)) {
+            Rectangle2D topRectangleBounds = name.getBounds();
+            if (!topRectangleBounds.contains(connectionPoint)) {
                 double x = connectionPoint.getX();
                 double y = connectionPoint.getY();
                 double h = topRectangleBounds.getHeight();
                 connectionPoint = new Point2D.Double(x, y + h);
             }
         }
-
         return connectionPoint;
     }
 
     @Override
-    public void setWantedSize(Rectangle2D size)
+    public void removeChild(INode node)
     {
-        this.wantedSize = size;
-    }
-
-    private Rectangle2D getTopRectangleBounds()
-    {
-        Rectangle2D globalBounds = new Rectangle2D.Double(0, 0, 0, 0);
-        Rectangle2D nameBounds = name.getBounds();
-        globalBounds.add(nameBounds);
-        globalBounds.add(new Rectangle2D.Double(0, 0, DEFAULT_TOP_WIDTH, DEFAULT_TOP_HEIGHT));
-        Point2D currentLocation = getLocation();
-        double x = currentLocation.getX();
-        double y = currentLocation.getY();
-        double w = globalBounds.getWidth();
-        double h = globalBounds.getHeight();
-        globalBounds.setFrame(x, y, w, h);
-        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(globalBounds);
-        return snappedBounds;
-    }
-
-    private Rectangle2D getBottomRectangleBounds()
-    {
-        Rectangle2D globalBounds = new Rectangle2D.Double(0, 0, 0, 0);
-        Rectangle2D contentsBounds = text.getBounds();
-        globalBounds.add(contentsBounds);
-        globalBounds.add(new Rectangle2D.Double(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT));
-        Rectangle2D childrenBounds = new Rectangle2D.Double(0, 0, 0, 0);
-        for (INode child : getChildren())
-        {
-            Rectangle2D childBounds = child.getBounds();
-            childrenBounds.add(childBounds);
-        }
-        childrenBounds.setFrame(childrenBounds.getX(), childrenBounds.getY(), childrenBounds.getWidth() + CHILD_GAP,
-                childrenBounds.getHeight() + CHILD_GAP);
-        globalBounds.add(childrenBounds);
-        Rectangle2D topBounds = getTopRectangleBounds();
-        double x = topBounds.getX();
-        double y = topBounds.getMaxY();
-        double w = Math.max(globalBounds.getWidth(), topBounds.getWidth() + 2 * NAME_GAP);
-        double h = globalBounds.getHeight();
-        globalBounds.setFrame(x, y, w, h);
-        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(globalBounds);
-        return snappedBounds;
-    }
-
-    @Override
-    public Rectangle2D getBounds()
-    {
-        Rectangle2D top = getTopRectangleBounds();
-        Rectangle2D bot = getBottomRectangleBounds();
-        top.add(bot);
-        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(top);
-        return snappedBounds;
-    }
-
-    @Override
-    public void draw(Graphics2D g2)
-    {
-        // Backup current color;
-        Color oldColor = g2.getColor();
-        // Translate g2 if node_old has parent
-        Point2D nodeLocationOnGraph = getLocationOnGraph();
-        Point2D nodeLocation = getLocation();
-        Point2D g2Location = new Point2D.Double(nodeLocationOnGraph.getX() - nodeLocation.getX(), nodeLocationOnGraph.getY()
-                - nodeLocation.getY());
-        g2.translate(g2Location.getX(), g2Location.getY());
-        // Perform drawing
-//        super.draw(g2);
-        Rectangle2D topBounds = getTopRectangleBounds();
-        Rectangle2D bottomBounds = getBottomRectangleBounds();
-        g2.setColor(getBackgroundColor());
-        g2.fill(topBounds);
-        g2.fill(bottomBounds);
-        g2.setColor(getBorderColor());
-        g2.draw(topBounds);
-        g2.draw(bottomBounds);
-        g2.setColor(getTextColor());
-        name.draw(g2, topBounds);
-        text.draw(g2, bottomBounds);
-        // Restore g2 original location
-        g2.translate(-g2Location.getX(), -g2Location.getY());
-        // Restore first color
-        g2.setColor(oldColor);
-        // Draw its children
-        for (INode node : getChildren())
-        {
-            fixChildLocation(topBounds, node);
-            node.draw(g2);
-        }
-    }
-
-    /**
-     * Ensure that child node_old respects the minimum gap with package borders
-     * 
-     * @param topBounds
-     * @param node
-     */
-    private void fixChildLocation(Rectangle2D topBounds, INode node)
-    {
-        Point2D childLocation = node.getLocation();
-        if (childLocation.getY() <= topBounds.getHeight() + CHILD_GAP)
-        {
-            node.translate(0, topBounds.getHeight() + CHILD_GAP - childLocation.getY());
-        }
-        if (childLocation.getX() < CHILD_GAP)
-        {
-            node.translate(CHILD_GAP - childLocation.getX(), 0);
-        }
-    }
-
-    @Override
-    public Shape getShape()
-    {
-        GeneralPath path = new GeneralPath();
-        path.append(getTopRectangleBounds(), false);
-        path.append(getBottomRectangleBounds(), false);
-        return path;
+        nodesGroup.remove(((AbstractNode) node).getContent());
+        super.removeChild(node);
     }
 
     @Override
     public boolean addChild(INode n, Point2D p)
     {
+        if(DEFAULT_TOP_HEIGHT > p.getY())
+        {
+            return false;
+        }
         if (n instanceof ClassNode || n instanceof InterfaceNode || n instanceof PackageNode)
         {
             n.setParent(this);
             n.setGraph(this.getGraph());
             n.setLocation(p);
             addChild(n, getChildren().size());
+
+            nodesGroup.add(((AbstractNode) n).getContent(), getChildRelativeLocation(n));
+
             return true;
         }
         return false;
+    }
+
+    protected Point2D getChildRelativeLocation(INode child)
+    {
+        Point2D childLocation = child.getLocation();
+        if(DEFAULT_TOP_HEIGHT > childLocation.getY())
+        {
+            childLocation.setLocation(childLocation.getX(), DEFAULT_TOP_HEIGHT);
+            child.setLocation(childLocation);
+        }
+
+        return new Point2D.Double(childLocation.getX(), childLocation.getY()-DEFAULT_TOP_HEIGHT);
+    }
+
+    /**
+     * Ensure that child node_old respects the minimum gap with package borders
+     *
+     * @param child
+     */
+    protected void onChildChangeLocation(INode child)
+    {
+        nodesGroup.setPosition(((AbstractNode) child).getContent(), getChildRelativeLocation(child));
     }
 
     /**
@@ -254,14 +216,17 @@ public class PackageNode extends ColorableNode implements IResizableNode
         return text;
     }
 
+
+
+    private RelativeGroupContent nodesGroup = null;
+
     private SingleLineText name;
     private MultiLineText text;
-    private Rectangle2D wantedSize;
 
     private static int DEFAULT_TOP_WIDTH = 60;
     private static int DEFAULT_TOP_HEIGHT = 20;
     private static int DEFAULT_WIDTH = 100;
-    private static int DEFAULT_HEIGHT = 80;
+    private static int DEFAULT_HEIGHT = 60;
     private static final int NAME_GAP = 3;
     private static final int CHILD_GAP = 20;
 

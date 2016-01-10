@@ -28,7 +28,7 @@ public abstract class GroupContent extends Content
         refresh();
     }
 
-    public final void remove(Content content)
+    public void remove(Content content)
     {
         if(null == content)
         {

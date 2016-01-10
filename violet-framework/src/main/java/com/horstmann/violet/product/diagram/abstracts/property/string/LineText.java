@@ -108,13 +108,13 @@ public abstract class LineText implements Serializable, Cloneable, EditableStrin
 
     public final void draw(Graphics2D g2, Point2D p) {
         g2.translate(p.getX(), p.getY());
-        draw(g2);
+        label.paint(g2);
         g2.translate(-p.getX(), -p.getY());
     }
 
     public final void draw(Graphics2D g2) {
         label.setBounds(0, 0, (int) bounds.getWidth(), (int) bounds.getHeight());
-        label.paint(g2);
+        draw(g2, new Point2D.Double(0, 0));
     }
 
     public final void addChangeListener(ChangeListener changeListener)

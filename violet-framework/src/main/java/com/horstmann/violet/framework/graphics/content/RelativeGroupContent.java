@@ -90,24 +90,40 @@ public class RelativeGroupContent extends GroupContent
     }
 
     @Override
+    public void remove(Content c)
+    {
+        if(null == c)
+        {
+            throw new NullPointerException("Content can't be null");
+        }
+        RelativeContent relativeContent = null;
+        for (Content content: getContents())
+        {
+            relativeContent = (RelativeContent)content;
+
+            if(relativeContent.content.equals(c))
+            {
+                super.remove(relativeContent);
+                break;
+            }
+        }
+    }
+
+    @Override
     public final void refreshUp() {
         Rectangle2D rect;
-        int minX = Integer.MAX_VALUE;
-        int minY = Integer.MAX_VALUE;
         int maxX = 0;
         int maxY = 0;
 
         for (Content content: getContents()) {
             rect = ((RelativeContent)content).getRect();
 
-            minX = Math.min(minX, (int)rect.getMinX());
-            minY = Math.min(minY, (int)rect.getMinY());
             maxX = Math.max(maxX, (int)rect.getMaxX());
             maxY = Math.max(maxY, (int)rect.getMaxY());
         }
 
-        setHeight(maxY-minY);
-        setWidth(maxX-minX);
+        setHeight(maxY);
+        setWidth(maxX);
 
         super.refreshUp();
     }

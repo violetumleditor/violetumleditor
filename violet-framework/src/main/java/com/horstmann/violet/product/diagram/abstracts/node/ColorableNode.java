@@ -64,20 +64,6 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
         setContent(getBackground());
     }
 
-    @Override
-    public void draw(Graphics2D g2)
-    {
-        getContent().draw(g2, getLocationOnGraph());
-    }
-
-    @Override
-    public Rectangle2D getBounds()
-    {
-        Point2D location = getLocation();
-        Rectangle2D contentBounds = getContent().getBounds();
-        return new Rectangle2D.Double(location.getX(), location.getY(), contentBounds.getWidth(), contentBounds.getHeight());
-    }
-
     public boolean contains(Point2D p)
     {
 //        return getContent().contains(p);
@@ -188,18 +174,6 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
         return getBounds();
     }
 
-
-    
-
-
-    public final Content getContent() {
-        return content;
-    }
-
-    protected final void setContent(Content content) {
-        this.content = content;
-    }
-
     protected final ContentBackground getBackground() {
         return background;
     }
@@ -259,7 +233,6 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
     }
 
 
-    private Content content = null;
     private ContentBackground background = null;
     private ContentBorder border = null;
 }
