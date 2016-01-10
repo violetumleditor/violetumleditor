@@ -5,7 +5,10 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 /**
- * Created by Adrian Bobrowski on 21.12.2015.
+ * This ...
+ *
+ * @author Adrian Bobrowski
+ * @date 21.12.2015
  */
 public class RelativeGroupContent extends GroupContent
 {
@@ -34,6 +37,23 @@ public class RelativeGroupContent extends GroupContent
         public Rectangle2D getRect()
         {
             return new Rectangle2D.Double(position.getX(), position.getY(), getWidth(), getHeight());
+        }
+
+        public Point2D getPosition()
+        {
+            return position;
+        }
+        public void setPosition(Point2D position)
+        {
+            if(null == position)
+            {
+                this.position.setLocation(0,0);
+            }
+            else
+            {
+                this.position.setLocation(Math.max(0, position.getX()),Math.max(0, position.getY()));
+            }
+            refreshUp();
         }
 
         private Point2D position;
@@ -90,5 +110,26 @@ public class RelativeGroupContent extends GroupContent
         setWidth(maxX-minX);
 
         super.refreshUp();
+    }
+
+    public final boolean setPosition(Content c, Point2D position)
+    {
+        if(null == c)
+        {
+            return false;
+        }
+
+        RelativeContent relativeContent = null;
+        for (Content content: getContents())
+        {
+            relativeContent = (RelativeContent)content;
+
+            if(relativeContent.content.equals(c))
+            {
+                relativeContent.setPosition(position);
+                return true;
+            }
+        }
+        return false;
     }
 }

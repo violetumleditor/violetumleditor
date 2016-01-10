@@ -1,5 +1,8 @@
 package com.horstmann.violet.framework.graphics.content;
 
+import com.horstmann.violet.framework.graphics.content.Content;
+import com.horstmann.violet.framework.graphics.content.GroupContent;
+
 import java.awt.geom.Point2D;
 
 /**
