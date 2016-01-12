@@ -3,18 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="b045ca67-d97d-484a-a2b3-c0026e4fee21" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/graphics/content/TextContent.java" afterPath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/graphics/content/TextContent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/property/string/LineText.java" afterPath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/property/string/LineText.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/violetplugin-activitydiagram/src/main/java/com/horstmann/violet/product/diagram/activity/nodes/ScenarioEndNode.java" afterPath="$PROJECT_DIR$/violetplugin-activitydiagram/src/main/java/com/horstmann/violet/product/diagram/activity/nodes/ScenarioEndNode.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/violetplugin-classdiagram/src/main/java/com/horstmann/violet/product/diagram/classes/nodes/ClassNode.java" afterPath="$PROJECT_DIR$/violetplugin-classdiagram/src/main/java/com/horstmann/violet/product/diagram/classes/nodes/ClassNode.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/violetplugin-classdiagram/src/main/java/com/horstmann/violet/product/diagram/classes/nodes/InterfaceNode.java" afterPath="$PROJECT_DIR$/violetplugin-classdiagram/src/main/java/com/horstmann/violet/product/diagram/classes/nodes/InterfaceNode.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/violetplugin-objectdiagram/src/main/java/com/horstmann/violet/product/diagram/object/FieldNode.java" afterPath="$PROJECT_DIR$/violetplugin-objectdiagram/src/main/java/com/horstmann/violet/product/diagram/object/FieldNode.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/violetplugin-objectdiagram/src/main/java/com/horstmann/violet/product/diagram/object/ObjectNode.java" afterPath="$PROJECT_DIR$/violetplugin-objectdiagram/src/main/java/com/horstmann/violet/product/diagram/object/ObjectNode.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/violetplugin-statediagram/src/main/java/com/horstmann/violet/product/diagram/state/CircularFinalStateNode.java" afterPath="$PROJECT_DIR$/violetplugin-statediagram/src/main/java/com/horstmann/violet/product/diagram/state/CircularFinalStateNode.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/violetplugin-usecasediagram/src/main/java/com/horstmann/violet/product/diagram/usecase/ActorNode.java" afterPath="$PROJECT_DIR$/violetplugin-usecasediagram/src/main/java/com/horstmann/violet/product/diagram/usecase/ActorNode.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/graphics/content/HorizontalGroupContent.java" afterPath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/graphics/content/group/HorizontalGroupContent.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/graphics/content/RelativeGroupContent.java" afterPath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/graphics/content/group/RelativeGroupContent.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/graphics/content/VerticalGroupContent.java" afterPath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/graphics/content/group/VerticalGroupContent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/graphics/content/ContentInsideShape.java" afterPath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/graphics/content/ContentInsideShape.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/property/ArrowHead.java" afterPath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/property/ArrowHead.java" />
     </list>
     <ignored path="parent.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -47,14 +37,98 @@
     <favorites_list name="parent" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="ContentInsideShape.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/graphics/content/ContentInsideShape.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="23" column="4" selection-start-line="23" selection-start-column="4" selection-end-line="40" selection-end-column="5" />
+              <folding>
+                <element signature="e#309#310#0" expanded="true" />
+                <element signature="e#359#360#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PackageNode.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/violetplugin-classdiagram/src/main/java/com/horstmann/violet/product/diagram/classes/nodes/PackageNode.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="244" column="40" selection-start-line="244" selection-start-column="40" selection-end-line="244" selection-end-column="40" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ArrowHead.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/property/ArrowHead.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="126" column="0" selection-start-line="126" selection-start-column="0" selection-end-line="126" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ClassNode.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/violetplugin-classdiagram/src/main/java/com/horstmann/violet/product/diagram/classes/nodes/ClassNode.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="71" column="4" selection-start-line="71" selection-start-column="4" selection-end-line="71" selection-end-column="4" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ActivityTransitionEdge.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/violetplugin-activitydiagram/src/main/java/com/horstmann/violet/product/diagram/activity/edges/ActivityTransitionEdge.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="34" column="13" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ActivityNode.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/violetplugin-activitydiagram/src/main/java/com/horstmann/violet/product/diagram/activity/nodes/ActivityNode.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="31" column="43" selection-start-line="31" selection-start-column="43" selection-end-line="31" selection-end-column="43" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ColorableNode.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/node/ColorableNode.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="46" column="49" selection-start-line="46" selection-start-column="49" selection-end-line="46" selection-end-column="49" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AbstractNode.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/node/AbstractNode.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.37458745">
+              <caret line="333" column="23" selection-start-line="333" selection-start-column="23" selection-end-line="333" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Singleton" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -74,13 +148,10 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/violetplugin-activitydiagram/src/main/java/com/horstmann/violet/product/diagram/activity/nodes/DecisionNodeBeanInfo.java" />
-        <option value="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/graphics/content/HorizontalGroupContent.java" />
         <option value="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/graphics/shape/ContentInsideEllipse.java" />
         <option value="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/graphics/shape/ContentInsideCustomShape.java" />
         <option value="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/graphics/shape/ContentInsideRectangle.java" />
         <option value="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/graphics/shape/ContentInsideRoundRectangle.java" />
-        <option value="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/graphics/content/ContentInsideShape.java" />
         <option value="$PROJECT_DIR$/violetplugin-activitydiagram/src/main/java/com/horstmann/violet/product/diagram/activity/nodes/ActivityNode.java" />
         <option value="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/edge/SegmentedLineEdge.java" />
         <option value="$PROJECT_DIR$/violetplugin-activitydiagram/src/main/java/com/horstmann/violet/product/diagram/activity/nodes/ActivityNodeBeanInfo.java" />
@@ -115,7 +186,6 @@
         <option value="$PROJECT_DIR$/violetplugin-activitydiagram/src/main/java/com/horstmann/violet/product/diagram/activity/nodes/SynchronizationBarNode.java" />
         <option value="$PROJECT_DIR$/violetplugin-classdiagram/src/main/java/com/horstmann/violet/product/diagram/classes/nodes/ClassNode.java" />
         <option value="$PROJECT_DIR$/violetplugin-classdiagram/src/main/java/com/horstmann/violet/product/diagram/classes/nodes/InterfaceNode.java" />
-        <option value="$PROJECT_DIR$/violetplugin-classdiagram/src/main/java/com/horstmann/violet/product/diagram/classes/nodes/PackageNode.java" />
         <option value="$PROJECT_DIR$/violetplugin-objectdiagram/src/main/java/com/horstmann/violet/product/diagram/object/FieldNode.java" />
         <option value="$PROJECT_DIR$/violetplugin-objectdiagram/src/main/java/com/horstmann/violet/product/diagram/object/ObjectNode.java" />
         <option value="$PROJECT_DIR$/violetplugin-sequencediagram/src/main/java/com/horstmann/violet/product/diagram/sequence/LifelineNode.java" />
@@ -125,6 +195,10 @@
         <option value="$PROJECT_DIR$/violetplugin-usecasediagram/src/main/java/com/horstmann/violet/product/diagram/usecase/ActorNode.java" />
         <option value="$PROJECT_DIR$/violetplugin-usecasediagram/src/main/java/com/horstmann/violet/product/diagram/usecase/UseCaseNode.java" />
         <option value="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/node/AbstractNode.java" />
+        <option value="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/graphics/content/ContentInsideShape.java" />
+        <option value="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/graphics/content/PaddingContent.java" />
+        <option value="$PROJECT_DIR$/violetplugin-classdiagram/src/main/java/com/horstmann/violet/product/diagram/classes/nodes/PackageNode.java" />
+        <option value="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/property/ArrowHead.java" />
       </list>
     </option>
   </component>
@@ -203,8 +277,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -379,9 +451,217 @@
               <option name="myItemId" value="diagram" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="abstracts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="parent" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="violetumleditor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="violet-framework" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="violet" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="diagram" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="abstracts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="property" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="parent" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="violetumleditor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="violet-framework" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="violet" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="diagram" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="abstracts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="property" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="string" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="parent" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="violetumleditor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="violet-framework" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="violet" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="framework" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="parent" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="violetumleditor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="violet-framework" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="violet" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="framework" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="graphics" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="parent" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="violetumleditor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="violet-framework" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="violet" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="framework" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="graphics" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="content" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -930,12 +1210,16 @@
       <workItem from="1452282144898" duration="624000" />
       <workItem from="1452331587834" duration="10000" />
       <workItem from="1452333559281" duration="10000" />
-      <workItem from="1452411267316" duration="25206000" />
+      <workItem from="1452411267316" duration="25800000" />
+      <workItem from="1452442198891" duration="92000" />
+      <workItem from="1452443566861" duration="33000" />
+      <workItem from="1452595359756" duration="3451000" />
+      <workItem from="1452602786130" duration="21000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="289935000" />
+    <option name="totallyTimeSpent" value="294126000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -947,18 +1231,16 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
-    <editor active="false" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32492113" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35015774" sideWeight="0.5058565" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980332" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29623568" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32843137" sideWeight="0.4956076" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31259152" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -968,12 +1250,14 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.43217665" sideWeight="0.4941435" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27444795" sideWeight="0.4941435" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32492113" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29623568" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.46845427" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -998,7 +1282,7 @@
           <option name="timeStamp" value="247" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="366" />
+      <option name="time" value="367" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1007,20 +1291,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/property/string/decorator/BoldDecorator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/property/string/decorator/ItalicsDecorator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="3" column="31" selection-start-line="3" selection-start-column="31" selection-end-line="3" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/property/string/decorator/OneLineStringDecorator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1074,7 +1344,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.30858085">
           <caret line="31" column="13" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1082,7 +1351,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.25247526">
           <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1090,7 +1358,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.18630137">
           <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1098,7 +1365,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="108" column="17" selection-start-line="108" selection-start-column="17" selection-end-line="108" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1106,7 +1372,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.58630955">
           <caret line="184" column="28" selection-start-line="184" selection-start-column="22" selection-end-line="184" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1114,7 +1379,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.04657534">
           <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1130,7 +1394,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33150685">
           <caret line="14" column="21" selection-start-line="14" selection-start-column="21" selection-end-line="14" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1138,7 +1401,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="2.4739726">
           <caret line="235" column="28" selection-start-line="235" selection-start-column="28" selection-end-line="235" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1146,7 +1408,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3325301">
           <caret line="151" column="11" selection-start-line="151" selection-start-column="4" selection-end-line="151" selection-end-column="11" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1154,34 +1415,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="22" column="5" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/graphics/content/RelativeGroupContent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="144" column="0" selection-start-line="144" selection-start-column="0" selection-end-line="144" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/graphics/content/ContentInsideShape.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.3108433">
-          <caret line="39" column="5" selection-start-line="39" selection-start-column="5" selection-end-line="39" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/property/string/LineText.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="151" column="0" selection-start-line="151" selection-start-column="0" selection-end-line="151" selection-end-column="0" />
-          <folding>
-            <element signature="e#1633#1634#0" expanded="true" />
-            <element signature="e#1667#1668#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1189,7 +1422,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.7258065">
           <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1197,7 +1429,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="76" column="0" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1205,7 +1436,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.08085809">
           <caret line="60" column="7" selection-start-line="60" selection-start-column="7" selection-end-line="60" selection-end-column="7" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1213,7 +1443,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.4108911">
           <caret line="32" column="32" selection-start-line="32" selection-start-column="32" selection-end-line="32" selection-end-column="32" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1221,7 +1450,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.28052804">
           <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1229,7 +1457,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.14851485">
           <caret line="78" column="4" selection-start-line="78" selection-start-column="4" selection-end-line="86" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1237,15 +1464,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.19636963">
           <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/violetplugin-activitydiagram/src/main/java/com/horstmann/violet/product/diagram/activity/nodes/ActivityNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="55" column="37" selection-start-line="55" selection-start-column="37" selection-end-line="55" selection-end-column="37" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1253,15 +1471,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="55" column="13" selection-start-line="55" selection-start-column="13" selection-end-line="55" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/violetplugin-activitydiagram/src/main/java/com/horstmann/violet/product/diagram/activity/nodes/ScenarioEndNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="52" column="4" selection-start-line="52" selection-start-column="4" selection-end-line="52" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1269,7 +1478,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="51" column="4" selection-start-line="51" selection-start-column="4" selection-end-line="51" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1277,7 +1485,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="62" column="4" selection-start-line="62" selection-start-column="4" selection-end-line="62" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1285,7 +1492,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="62" column="4" selection-start-line="62" selection-start-column="4" selection-end-line="62" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1293,6 +1499,118 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/violetplugin-classdiagram/src/main/java/com/horstmann/violet/product/diagram/classes/nodes/InterfaceNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="39" column="13" selection-start-line="39" selection-start-column="13" selection-end-line="39" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/violetplugin-objectdiagram/src/main/java/com/horstmann/violet/product/diagram/object/FieldNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="80" column="4" selection-start-line="80" selection-start-column="4" selection-end-line="80" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/violetplugin-sequencediagram/src/main/java/com/horstmann/violet/product/diagram/sequence/ActivationBarNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="11.445544">
+          <caret line="445" column="16" selection-start-line="445" selection-start-column="16" selection-end-line="445" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/violetplugin-objectdiagram/src/main/java/com/horstmann/violet/product/diagram/object/ObjectNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="57" column="13" selection-start-line="57" selection-start-column="13" selection-end-line="57" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/violetplugin-sequencediagram/src/main/java/com/horstmann/violet/product/diagram/sequence/LifelineNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="76" column="4" selection-start-line="76" selection-start-column="4" selection-end-line="76" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/violetplugin-statediagram/src/main/java/com/horstmann/violet/product/diagram/state/CircularInitialStateNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7013201">
+          <caret line="57" column="4" selection-start-line="57" selection-start-column="4" selection-end-line="57" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/violetplugin-statediagram/src/main/java/com/horstmann/violet/product/diagram/state/CircularFinalStateNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="51" column="4" selection-start-line="51" selection-start-column="4" selection-end-line="51" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/violetplugin-statediagram/src/main/java/com/horstmann/violet/product/diagram/state/StateNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="50" column="13" selection-start-line="50" selection-start-column="13" selection-end-line="50" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/violetplugin-usecasediagram/src/main/java/com/horstmann/violet/product/diagram/usecase/ActorNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="61" column="4" selection-start-line="61" selection-start-column="4" selection-end-line="61" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/violetplugin-usecasediagram/src/main/java/com/horstmann/violet/product/diagram/usecase/UseCaseNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="40" column="42" selection-start-line="40" selection-start-column="42" selection-end-line="40" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/property/string/LineText.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5792079">
+          <caret line="78" column="4" selection-start-line="78" selection-start-column="4" selection-end-line="90" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/graphics/content/RelativeGroupContent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="14" column="58" selection-start-line="14" selection-start-column="42" selection-end-line="14" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/framework/graphics/content/ContentInsideShape.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="23" column="4" selection-start-line="23" selection-start-column="4" selection-end-line="40" selection-end-column="5" />
+          <folding>
+            <element signature="e#309#310#0" expanded="true" />
+            <element signature="e#359#360#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/violetplugin-classdiagram/src/main/java/com/horstmann/violet/product/diagram/classes/nodes/PackageNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="244" column="40" selection-start-line="244" selection-start-column="40" selection-end-line="244" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/property/ArrowHead.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="126" column="0" selection-start-line="126" selection-start-column="0" selection-end-line="126" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1305,99 +1623,25 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/violetplugin-classdiagram/src/main/java/com/horstmann/violet/product/diagram/classes/nodes/InterfaceNode.java">
+    <entry file="file://$PROJECT_DIR$/violetplugin-activitydiagram/src/main/java/com/horstmann/violet/product/diagram/activity/edges/ActivityTransitionEdge.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="39" column="13" selection-start-line="39" selection-start-column="13" selection-end-line="39" selection-end-column="13" />
+          <caret line="34" column="13" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/violetplugin-classdiagram/src/main/java/com/horstmann/violet/product/diagram/classes/nodes/PackageNode.java">
+    <entry file="file://$PROJECT_DIR$/violetplugin-activitydiagram/src/main/java/com/horstmann/violet/product/diagram/activity/nodes/ScenarioEndNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.028052805">
+          <caret line="52" column="4" selection-start-line="52" selection-start-column="4" selection-end-line="52" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/violetplugin-activitydiagram/src/main/java/com/horstmann/violet/product/diagram/activity/nodes/ActivityNode.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="27" column="4" selection-start-line="27" selection-start-column="4" selection-end-line="27" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/violetplugin-objectdiagram/src/main/java/com/horstmann/violet/product/diagram/object/FieldNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="80" column="4" selection-start-line="80" selection-start-column="4" selection-end-line="80" selection-end-column="4" />
-          <folding>
-            <element signature="e#1884#2365#0" expanded="true" />
-            <element signature="e#2364#2365#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/violetplugin-sequencediagram/src/main/java/com/horstmann/violet/product/diagram/sequence/ActivationBarNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="11.445544">
-          <caret line="445" column="16" selection-start-line="445" selection-start-column="16" selection-end-line="445" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/violetplugin-objectdiagram/src/main/java/com/horstmann/violet/product/diagram/object/ObjectNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="57" column="13" selection-start-line="57" selection-start-column="13" selection-end-line="57" selection-end-column="13" />
-          <folding>
-            <element signature="e#2121#2361#0" expanded="true" />
-            <element signature="e#2360#2361#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/violetplugin-sequencediagram/src/main/java/com/horstmann/violet/product/diagram/sequence/LifelineNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="76" column="4" selection-start-line="76" selection-start-column="4" selection-end-line="76" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/violetplugin-statediagram/src/main/java/com/horstmann/violet/product/diagram/state/CircularInitialStateNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7013201">
-          <caret line="57" column="4" selection-start-line="57" selection-start-column="4" selection-end-line="57" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/violetplugin-statediagram/src/main/java/com/horstmann/violet/product/diagram/state/CircularFinalStateNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="51" column="4" selection-start-line="51" selection-start-column="4" selection-end-line="51" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/violetplugin-statediagram/src/main/java/com/horstmann/violet/product/diagram/state/StateNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="50" column="13" selection-start-line="50" selection-start-column="13" selection-end-line="50" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/violetplugin-usecasediagram/src/main/java/com/horstmann/violet/product/diagram/usecase/ActorNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="61" column="4" selection-start-line="61" selection-start-column="4" selection-end-line="61" selection-end-column="4" />
-          <folding>
-            <element signature="e#2564#4053#0" expanded="true" />
-            <element signature="e#4052#4053#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/violetplugin-usecasediagram/src/main/java/com/horstmann/violet/product/diagram/usecase/UseCaseNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="40" column="42" selection-start-line="40" selection-start-column="42" selection-end-line="40" selection-end-column="42" />
+          <caret line="31" column="43" selection-start-line="31" selection-start-column="43" selection-end-line="31" selection-end-column="43" />
           <folding />
         </state>
       </provider>
@@ -1405,15 +1649,15 @@
     <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/node/ColorableNode.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="46" column="50" selection-start-line="46" selection-start-column="50" selection-end-line="46" selection-end-column="50" />
+          <caret line="46" column="49" selection-start-line="46" selection-start-column="49" selection-end-line="46" selection-end-column="49" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/node/AbstractNode.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6452145">
-          <caret line="67" column="5" selection-start-line="67" selection-start-column="5" selection-end-line="67" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.37458745">
+          <caret line="333" column="23" selection-start-line="333" selection-start-column="23" selection-end-line="333" selection-end-column="23" />
           <folding />
         </state>
       </provider>

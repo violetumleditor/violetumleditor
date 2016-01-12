@@ -125,11 +125,6 @@ public class ArrowHead extends SerializableEnumeration
         double x = 0.75 * ARROW_LENGTH * Math.cos(CROSS_ANGLE);
         double y = 0.75 * ARROW_LENGTH * Math.sin(CROSS_ANGLE);
 
-//        path.moveTo((float) 2*x, (float) y);
-//        path.lineTo((float) 0, (float) -y);
-//        path.moveTo((float) 2*x, (float) -y);
-//        path.lineTo((float) 0, (float) y);
-
         path.moveTo((float) x, (float) y);
         path.lineTo((float) -x, (float) -y);
         path.moveTo((float) x, (float) -y);

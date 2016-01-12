@@ -10,7 +10,8 @@ import java.awt.geom.Rectangle2D;
 public abstract class ContentInsideShape extends Content
 {
     @Override
-    public void draw(Graphics2D g2) {
+    public void draw(Graphics2D g2)
+    {
         content.draw(g2, getShapeOffset());
     }
 
