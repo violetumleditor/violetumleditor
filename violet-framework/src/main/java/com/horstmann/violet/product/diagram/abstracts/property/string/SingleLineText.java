@@ -14,16 +14,18 @@ public class SingleLineText extends LineText
     {
         super();
         setPadding(0,10);
+        oneLineString = new OneLineString();
     }
     public SingleLineText(Converter converter)
     {
         super(converter);
         setPadding(0,10);
+        oneLineString = new OneLineString();
     }
     protected SingleLineText(SingleLineText lineText) throws CloneNotSupportedException
     {
         super(lineText);
-        oneLineString = oneLineString.clone();
+        oneLineString = lineText.oneLineString.clone();
     }
 
     @Override
@@ -64,5 +66,5 @@ public class SingleLineText extends LineText
         return oneLineString.toString();
     }
 
-    private OneLineString oneLineString = new OneLineString();
+    private OneLineString oneLineString;
 }

@@ -28,8 +28,23 @@ public class OneLineString implements Serializable, Cloneable, EditableString
      */
     public OneLineString clone()
     {
-        OneLineString cloned = new OneLineString();
+        OneLineString cloned = new OneLineString(text);
         return cloned;
+    }
+
+    /**
+     * Sets a new text
+     *
+     * @param text to be set
+     */
+    @Override
+    public final void setText(String text)
+    {
+        if(null == text)
+        {
+            text = "";
+        }
+        this.text = removeDuplicateWhitespace(text);
     }
 
     /**
@@ -52,21 +67,6 @@ public class OneLineString implements Serializable, Cloneable, EditableString
     public String toEdit()
     {
         return text;
-    }
-
-    /**
-     * Sets a new text
-     *
-     * @param text to be set
-     */
-    @Override
-    public final void setText(String text)
-    {
-        if(null == text)
-        {
-            text = "";
-        }
-        this.text = removeDuplicateWhitespace(text);
     }
 
     /**
