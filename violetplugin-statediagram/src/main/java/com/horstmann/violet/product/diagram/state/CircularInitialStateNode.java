@@ -31,6 +31,7 @@ import com.horstmann.violet.framework.graphics.content.ContentBackground;
 import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
 import com.horstmann.violet.framework.graphics.content.EmptyContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideEllipse;
+import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.EllipticalNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
@@ -39,7 +40,7 @@ import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 /**
  * An initial or final node_old (bull's eye) in a state or activity diagram.
  */
-public class CircularInitialStateNode extends ColorableNode
+public class CircularInitialStateNode extends AbstractNode
 {
     public CircularInitialStateNode()
     {
@@ -68,10 +69,8 @@ public class CircularInitialStateNode extends ColorableNode
 
         ContentInsideShape contentInsideShape = new ContentInsideEllipse(emptyContent, 1);
 
-        setBackground(new ContentBackground(contentInsideShape, getBackgroundColor()));
-        setContent(getBackground());
-
-        setBackgroundColor(ColorToolsBarPanel.PASTEL_GREY.getBorderColor());
+        ContentBackground contentBackground = new ContentBackground(contentInsideShape, ColorToolsBarPanel.PASTEL_GREY.getBorderColor());
+        setContent(contentBackground);
     }
 
     /**
@@ -85,6 +84,6 @@ public class CircularInitialStateNode extends ColorableNode
     }
 
     /** default node_old diameter */
-    private static int DEFAULT_DIAMETER = 14;
+    private static int DEFAULT_DIAMETER = 16;
 
 }

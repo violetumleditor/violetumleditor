@@ -1,11 +1,19 @@
 package com.horstmann.violet.framework.graphics.content;
 
+import com.horstmann.violet.product.diagram.abstracts.Direction;
+import javafx.util.Pair;
+
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.*;
+import java.util.List;
 
 /**
- * Created by Adrian Bobrowski on 28.12.2015.
+ * This ...
+ *
+ * @author Adrian Bobrowski
+ * @date 28.12.2015
  */
 public abstract class ContentInsideShape extends Content
 {

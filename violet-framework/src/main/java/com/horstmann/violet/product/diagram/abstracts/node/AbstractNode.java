@@ -25,10 +25,14 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.horstmann.violet.framework.graphics.content.Content;
+import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
+import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.Id;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
@@ -200,6 +204,92 @@ public abstract class AbstractNode implements INode
         this.id = id;
     }
 
+    /**
+     * List edges connected to the same side
+     *
+     * @param edge
+     * @return ordered list of edges
+     */
+    private List<IEdge> getEdgesOnSameSide(IEdge edge) {
+        // Step 1 : look for edges
+        List<IEdge> result = new ArrayList<IEdge>();
+        Direction d = edge.getDirection(this);
+
+        if (d == null) return result;
+        Direction cardinalDirectionToSearch = d.getNearestCardinalDirection();
+        for (IEdge anEdge : getConnectedEdges()) {
+            Direction edgeDirection = anEdge.getDirection(this);
+            Direction nearestCardinalDirection = edgeDirection.getNearestCardinalDirection();
+            if (cardinalDirectionToSearch.equals(nearestCardinalDirection)) {
+                result.add(anEdge);
+            }
+            if (anEdge.getStart().equals(anEdge.getEnd()) && anEdge.getStart().equals(this)) {
+                // self loop
+                result.add(anEdge);
+            }
+        }
+        // Step 2: sort them
+        if (Direction.NORTH.equals(cardinalDirectionToSearch) || Direction.SOUTH.equals(cardinalDirectionToSearch)) {
+            Collections.sort(result, new Comparator<IEdge>() {
+                @Override
+                public int compare(IEdge e1, IEdge e2) {
+                    Direction d1 = e1.getDirection(AbstractNode.this);
+                    Direction d2 = e2.getDirection(AbstractNode.this);
+                    double x1 = d1.getX();
+                    double x2 = d2.getX();
+                    return Double.compare(x1, x2);
+                }
+            });
+        }
+        if (Direction.EAST.equals(cardinalDirectionToSearch) || Direction.WEST.equals(cardinalDirectionToSearch)) {
+            Collections.sort(result, new Comparator<IEdge>() {
+                @Override
+                public int compare(IEdge e1, IEdge e2) {
+                    Direction d1 = e1.getDirection(AbstractNode.this);
+                    Direction d2 = e2.getDirection(AbstractNode.this);
+                    double y1 = d1.getY();
+                    double y2 = d2.getY();
+                    return Double.compare(y1, y2);
+                }
+            });
+        }
+        return result;
+    }
+
+
+
+    public Point2D getConnectionPoint(IEdge e)
+    {
+        List<IEdge> edgesOnSameSide = getEdgesOnSameSide(e);
+        int position = edgesOnSameSide.indexOf(e);
+        int size = edgesOnSameSide.size();
+        Rectangle2D b = getBounds();
+
+        double x = b.getCenterX();
+        double y = b.getCenterY();
+
+        Direction d = e.getDirection(this);
+        Direction nearestCardinalDirection = d.getNearestCardinalDirection();
+        if (Direction.NORTH.equals(nearestCardinalDirection)) {
+            x = b.getMaxX() - (b.getWidth() / (size + 1)) * (position + 1);
+            y = b.getMaxY();
+        }
+        if (Direction.SOUTH.equals(nearestCardinalDirection)) {
+            x = b.getMaxX() - (b.getWidth() / (size + 1)) * (position + 1);
+            y = b.getMinY();
+        }
+        if (Direction.EAST.equals(nearestCardinalDirection)) {
+            x = b.getMinX();
+            y = b.getMaxY() - (b.getHeight() / (size + 1)) * (position + 1);
+        }
+        if (Direction.WEST.equals(nearestCardinalDirection)) {
+            x = b.getMaxX();
+            y = b.getMaxY() - (b.getHeight() / (size + 1)) * (position + 1);
+        }
+        Point2D rawPoint = new Point2D.Double(x, y);
+        return rawPoint;
+    }
+
     @Override
     public Integer getRevision()
     {
@@ -342,17 +432,18 @@ public abstract class AbstractNode implements INode
     	return this.toolTip;
     }
 
-    public final Content getContent()
+    public final ContentInsideShape getContent()
     {
         return content;
     }
 
-    protected final void setContent(Content content)
+    protected final void setContent(ContentInsideShape content)
     {
         this.content = content;
     }
 
-    private Content content;
+//    private Content content;
+    private ContentInsideShape content;
 
     private List<INode> children;
     private INode parent;

@@ -23,10 +23,13 @@ package com.horstmann.violet.product.diagram.usecase;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.content.VerticalGroupContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
@@ -37,6 +40,47 @@ import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLine
  */
 public class ActorNode extends ColorableNode
 {
+    protected static class ActorShape implements ContentInsideCustomShape.ShapeCreator
+    {
+        public ActorShape(TextContent nameContent)
+        {
+            super();
+            this.nameContent = nameContent;
+        }
+
+        @Override
+        public Shape createShape(int contentWidth, int contentHeight) {
+            GeneralPath path = new GeneralPath();
+            float neckX = nameContent.getWidth() / 2;
+            float neckY = HEAD_SIZE + GAP_ABOVE;
+            // head
+            path.moveTo(neckX, neckY);
+            path.quadTo(neckX + HEAD_SIZE / 2, neckY, neckX + HEAD_SIZE / 2, neckY - HEAD_SIZE / 2);
+            path.quadTo(neckX + HEAD_SIZE / 2, neckY - HEAD_SIZE, neckX, neckY - HEAD_SIZE);
+            path.quadTo(neckX - HEAD_SIZE / 2, neckY - HEAD_SIZE, neckX - HEAD_SIZE / 2, neckY - HEAD_SIZE / 2);
+            path.quadTo(neckX - HEAD_SIZE / 2, neckY, neckX, neckY);
+            // body
+            float hipX = neckX;
+            float hipY = neckY + BODY_SIZE;
+            path.lineTo(hipX, hipY);
+            // arms
+            path.moveTo(neckX - ARMS_SIZE / 2, neckY + BODY_SIZE / 3);
+            path.lineTo(neckX + ARMS_SIZE / 2, neckY + BODY_SIZE / 3);
+            // legs
+            float dx = (float) (LEG_SIZE / Math.sqrt(2));
+            float feetX1 = hipX - dx + 5;
+            float feetX2 = hipX + dx - 5;
+            float feetY = hipY + dx + 1;
+            path.moveTo(hipX, hipY);
+            path.lineTo(feetX1, feetY);
+            path.moveTo(hipX, hipY);
+            path.lineTo(feetX2, feetY);
+            return path;
+        }
+
+        private TextContent nameContent;
+    }
+
     /**
      * Construct an actor node_old with a default size and name
      */
@@ -72,37 +116,17 @@ public class ActorNode extends ColorableNode
         emptyContent.setMinWidth(DEFAULT_WIDTH);
         nameContent.setMinWidth(DEFAULT_WIDTH);
 
-        ContentInsideShape stickPersonContent = new ContentInsideCustomShape(emptyContent, new ContentInsideCustomShape.ShapeCreator()
-        {
+        ContentInsideShape stickPersonContent = new ContentInsideCustomShape(emptyContent, new ActorShape(nameContent)){
             @Override
-            public Shape createShape(int contentWidth, int contentHeight) {
-                GeneralPath path = new GeneralPath();
-                float neckX = contentWidth / 2;
-                float neckY = HEAD_SIZE + GAP_ABOVE;
-                // head
-                path.moveTo(neckX, neckY);
-                path.quadTo(neckX + HEAD_SIZE / 2, neckY, neckX + HEAD_SIZE / 2, neckY - HEAD_SIZE / 2);
-                path.quadTo(neckX + HEAD_SIZE / 2, neckY - HEAD_SIZE, neckX, neckY - HEAD_SIZE);
-                path.quadTo(neckX - HEAD_SIZE / 2, neckY - HEAD_SIZE, neckX - HEAD_SIZE / 2, neckY - HEAD_SIZE / 2);
-                path.quadTo(neckX - HEAD_SIZE / 2, neckY, neckX, neckY);
-                // body
-                float hipX = neckX;
-                float hipY = neckY + BODY_SIZE;
-                path.lineTo(hipX, hipY);
-                // arms
-                path.moveTo(neckX - ARMS_SIZE / 2, neckY + BODY_SIZE / 3);
-                path.lineTo(neckX + ARMS_SIZE / 2, neckY + BODY_SIZE / 3);
-                // legs
-                float dx = (float) (LEG_SIZE / Math.sqrt(2));
-                float feetX1 = hipX - dx;
-                float feetX2 = hipX + dx + 1;
-                float feetY = hipY + dx + 1;
-                path.moveTo(feetX1, feetY);
-                path.lineTo(hipX, hipY);
-                path.lineTo(feetX2, feetY);
-                return path;
+            protected Point2D getShapeOffset()
+            {
+                Rectangle2D shapeBounds = getShape().getBounds();
+                return new Point2D.Double(
+                    (shapeBounds.getWidth() - getContent().getWidth()) / 2,
+                    (shapeBounds.getHeight())
+                );
             }
-        });
+        };
 
         setBorder(new ContentBorder(stickPersonContent, getBorderColor()));
         setBackground(new ContentBackground(getBorder(), null));
@@ -111,7 +135,7 @@ public class ActorNode extends ColorableNode
         verticalGroupContent.add(getBackground());
         verticalGroupContent.add(nameContent);
 
-        setContent(verticalGroupContent);
+        setContent(new ContentInsideRectangle(verticalGroupContent));
 
         setTextColor(super.getTextColor());
     }

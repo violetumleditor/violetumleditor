@@ -6,7 +6,10 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 /**
- * Created by Adrian Bobrowski on 21.12.2015.
+ * This ...
+ *
+ * @author Adrian Bobrowski
+ * @date 21.12.2015
  */
 public abstract class Content
 {

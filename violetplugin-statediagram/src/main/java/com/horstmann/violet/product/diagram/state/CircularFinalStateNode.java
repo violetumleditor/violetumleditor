@@ -22,10 +22,15 @@
 package com.horstmann.violet.product.diagram.state;
 
 import java.awt.*;
+import java.awt.geom.Area;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.GeneralPath;
 
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.content.RelativeGroupContent;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideEllipse;
+import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
@@ -33,7 +38,7 @@ import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 /**
  * An initial or final node_old (bull's eye) in a state or activity diagram.
  */
-public class CircularFinalStateNode extends ColorableNode
+public class CircularFinalStateNode extends AbstractNode
 {
     public CircularFinalStateNode()
     {
@@ -56,32 +61,30 @@ public class CircularFinalStateNode extends ColorableNode
     @Override
     protected void createContentStructure()
     {
-        EmptyContent outsideEmptyContent = new EmptyContent();
-        outsideEmptyContent.setMinHeight(DEFAULT_DIAMETER);
-        outsideEmptyContent.setMinWidth(DEFAULT_DIAMETER);
-        ContentInsideShape contentOutsideShape = new ContentInsideEllipse(outsideEmptyContent, 1);
-        setBackground(new ContentBackground(contentOutsideShape, getBackgroundColor()));
-        setBorder(new ContentBorder(getBackground(), getBorderColor()));
-
-        setBackgroundColor(ColorToolsBarPanel.PASTEL_GREY.getBackgroundColor());
-        setBorderColor(ColorToolsBarPanel.PASTEL_GREY.getBorderColor());
-
         EmptyContent insideEmptyContent = new EmptyContent();
-        insideEmptyContent.setMinHeight(DEFAULT_DIAMETER - 2*DEFAULT_GAP);
-        insideEmptyContent.setMinWidth(DEFAULT_DIAMETER - 2*DEFAULT_GAP);
+        insideEmptyContent.setMinHeight(DEFAULT_DIAMETER);
+        insideEmptyContent.setMinWidth(DEFAULT_DIAMETER);
+
         ContentInsideShape contentInsideShape = new ContentInsideEllipse(insideEmptyContent, 1);
+        ContentBackground contentBackground = new ContentBackground(contentInsideShape, ColorToolsBarPanel.PASTEL_GREY.getBorderColor());
 
-        RelativeGroupContent relativeGroupContent = new RelativeGroupContent();
-        relativeGroupContent.add(getBorder(), new Point(0,0));
-        relativeGroupContent.add(new ContentBackground(contentInsideShape, getBorderColor()), new Point.Double(DEFAULT_GAP*Math.sqrt(2),DEFAULT_GAP*Math.sqrt(2)));
+        ContentInsideShape contentOutsideShape = new ContentInsideCustomShape(contentBackground, new ContentInsideCustomShape.ShapeCreator() {
+            @Override
+            public Shape createShape(int contentWidth, int contentHeight) {
+                return new Ellipse2D.Double(0,0,contentWidth+DEFAULT_GAP, contentHeight+DEFAULT_GAP);
+            }
+        });
 
-        setContent(relativeGroupContent);
+        contentBackground = new ContentBackground(contentOutsideShape, ColorToolsBarPanel.PASTEL_GREY.getBackgroundColor());
+        ContentBorder contentBorder = new ContentBorder(contentBackground, ColorToolsBarPanel.PASTEL_GREY.getBorderColor());
+
+        setContent(contentBorder);
     }
 
     /** default node_old diameter */
-    private static int DEFAULT_DIAMETER = 14;
+    private static int DEFAULT_DIAMETER = 12;
 
     /** default gap between the main circle and the ring for a final node_old */
-    private static int DEFAULT_GAP = 2;
+    private static int DEFAULT_GAP = 6;
 
 }

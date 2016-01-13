@@ -6,7 +6,10 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 /**
- * Created by Adrian Bobrowski on 21.12.2015.
+ * This ...
+ *
+ * @author Adrian Bobrowski
+ * @date 21.12.2015
  */
 public class TextContent extends Content implements LineText.ChangeListener
 {
@@ -27,7 +30,7 @@ public class TextContent extends Content implements LineText.ChangeListener
     }
 
     @Override
-    public void refreshUp()
+    protected void refreshUp()
     {
         Rectangle2D textBounds = text.getBounds();
         setWidth((int)textBounds.getWidth());

@@ -9,7 +9,10 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Created by Adrian Bobrowski on 21.12.2015.
+ * This ...
+ *
+ * @author Adrian Bobrowski
+ * @date 21.12.2015
  */
 public abstract class GroupContent extends Content
 {

@@ -3,15 +3,21 @@ package com.horstmann.violet.framework.graphics.content;
 import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
 
 import java.awt.*;
+import java.awt.List;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.*;
 
 /**
- * Created by Adrian Bobrowski on 28.12.2015.
+ * This ...
+ *
+ * @author Adrian Bobrowski
+ * @date 28.12.2015
  */
 public class ContentBackground extends ContentInsideShape
 {
-    public ContentBackground(ContentInsideShape contentShape, Color color) {
+    public ContentBackground(ContentInsideShape contentShape, Color color)
+    {
         this.color = color;
         this.setContent(contentShape);
     }
