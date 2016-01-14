@@ -22,43 +22,37 @@
 package com.horstmann.violet.framework.propertyeditor.customeditor;
 
 import com.horstmann.violet.framework.propertyeditor.CustomPropertyEditorSupport;
-import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
+import com.horstmann.violet.product.diagram.abstracts.property.LineStyle;
+import com.horstmann.violet.product.diagram.abstracts.property.StretchStyle;
 
 /**
- * A property editor for the ArrowHead type.
+ * A property editor for the LineStyle type.
  */
-public class ArrowHeadEditor extends CustomPropertyEditorSupport
+public class StretchStyleEditor extends CustomPropertyEditorSupport
 {
-
     /**
      * Default constructor
      */
-    public ArrowHeadEditor()
+    public StretchStyleEditor()
     {
         super(NAMES, VALUES);
     }
 
-    /** Arrows labels */
+    /**
+     * Type names
+     */
     public static final String[] NAMES =
     {
-        "None",
-        "Triangle",
-        "Black Triangle",
-        "V",
-        "Diamond",
-        "Black Diamond",
-        "X"
+        "Horizontal",
+        "Vertical"
     };
 
-    /** Arrows technical values */
+    /**
+     * Corresponding objects
+     */
     public static final Object[] VALUES =
     {
-        ArrowHead.NONE,
-        ArrowHead.TRIANGLE,
-        ArrowHead.BLACK_TRIANGLE,
-        ArrowHead.V,
-        ArrowHead.DIAMOND,
-        ArrowHead.BLACK_DIAMOND,
-        ArrowHead.X
+        StretchStyle.HORIZONTAL,
+        StretchStyle.VERTICAL
     };
 }

@@ -47,13 +47,13 @@ public abstract class Content
     {
         return (int)getBounds().getHeight();
     }
-    public final void setMinWidth(int minWidth){
+    public void setMinWidth(int minWidth){
         if(0<=minWidth) {
             this.minWidth = minWidth;
             refreshUp();
         }
     }
-    public final void setMinHeight(int minHeight){
+    public void setMinHeight(int minHeight){
         if(0<=minHeight) {
             this.minHeight = minHeight;
             refreshUp();

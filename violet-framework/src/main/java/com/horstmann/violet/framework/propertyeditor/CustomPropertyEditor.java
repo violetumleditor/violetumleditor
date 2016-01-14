@@ -72,8 +72,7 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
     /**
      * Constructs a property sheet that shows the editable properties of a given object.
      * 
-     * @param object the object whose properties are being edited
-     * @param parent the parent component
+     * @param bean the object whose properties are being edited
      */
     public CustomPropertyEditor(Object bean)
     {
@@ -390,6 +389,7 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
         editors.put(java.awt.Color.class, ColorEditor.class);
         editors.put(DiagramLink.class, AbstractDiagramLinkEditor.class);
         editors.put(LineStyle.class, LineStyleEditor.class);
+        editors.put(StretchStyle.class, StretchStyleEditor.class);
         editors.put(MultiLineText.class, MultiLineTextEditor.class);
         editors.put(SingleLineText.class, SingleLineTextEditor.class);
         editors.put(String.class, SingleLineTextEditor.class);

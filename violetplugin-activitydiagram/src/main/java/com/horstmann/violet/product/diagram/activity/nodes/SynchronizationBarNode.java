@@ -33,6 +33,7 @@ import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.abstracts.property.StretchStyle;
 import com.horstmann.violet.product.diagram.activity.edges.ActivityTransitionEdge;
 
 /**
@@ -43,12 +44,14 @@ public class SynchronizationBarNode extends ColorableNode
     public SynchronizationBarNode()
     {
         super();
+        stretchStyle = StretchStyle.HORIZONTAL;
         createContentStructure();
     }
 
     protected SynchronizationBarNode(SynchronizationBarNode node) throws CloneNotSupportedException
     {
         super(node);
+        stretchStyle = node.stretchStyle;
         createContentStructure();
     }
 
@@ -126,17 +129,61 @@ public class SynchronizationBarNode extends ColorableNode
         if (connectedEdges.size() > 0)
         {
             int count = 0;
-            for (IEdge edge : connectedEdges)
+            if(StretchStyle.HORIZONTAL == stretchStyle)
             {
-                Direction direction = edge.getDirection(this);
-                if (Direction.NORTH.equals(direction.getNearestCardinalDirection())) {
-                    ++count;
+                for (IEdge edge : connectedEdges)
+                {
+                    Direction direction = edge.getDirection(this);
+                    if (Direction.NORTH.equals(direction.getNearestCardinalDirection())) {
+                        ++count;
+                    }
                 }
+
+                content.setMinWidth(DEFAULT_WIDTH + EXTRA_WIDTH * (Math.max(count, connectedEdges.size() - count) - 1));
+                content.setMinHeight(DEFAULT_HEIGHT);
             }
-            content.setMinWidth(DEFAULT_WIDTH + EXTRA_WIDTH*(Math.max(count,connectedEdges.size()-count)-1));
+            else
+            {
+                for (IEdge edge : connectedEdges)
+                {
+                    Direction direction = edge.getDirection(this);
+                    if (Direction.EAST.equals(direction.getNearestCardinalDirection())) {
+                        ++count;
+                    }
+                }
+
+                content.setMinHeight(DEFAULT_WIDTH + EXTRA_WIDTH * (Math.max(count, connectedEdges.size() - count) - 1));
+                content.setMinWidth(DEFAULT_HEIGHT);
+            }
         }
     }
 
+
+    public StretchStyle getStretchStyle()
+    {
+        return stretchStyle;
+    }
+
+    public void setStretchStyle(StretchStyle stretchStyle)
+    {
+        if(this.stretchStyle != stretchStyle)
+        {
+            if (StretchStyle.HORIZONTAL == stretchStyle)
+            {
+                content.setMinWidth(content.getHeight());
+                content.setMinHeight(DEFAULT_HEIGHT);
+            }
+            else
+            {
+                content.setMinHeight(content.getWidth());
+                content.setMinWidth(DEFAULT_HEIGHT);
+            }
+        }
+
+        this.stretchStyle = stretchStyle;
+    }
+
+    private StretchStyle stretchStyle;
     private Content content = null;
 
     private static int DEFAULT_WIDTH = 100;

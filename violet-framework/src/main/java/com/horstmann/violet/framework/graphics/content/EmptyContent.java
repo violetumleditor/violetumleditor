@@ -16,4 +16,20 @@ public class EmptyContent extends Content {
     protected void setWidth(int width) {}
     protected void setHeight(int height) {}
 
+    @Override
+    public void setMinWidth(int minWidth){
+        if(0<=minWidth) {
+            super.setMinWidth(minWidth);
+            super.setWidth(minWidth);
+            refreshUp();
+        }
+    }
+    @Override
+    public void setMinHeight(int minHeight){
+        if(0<=minHeight) {
+            super.setMinHeight(minHeight);
+            super.setHeight(minHeight);
+            refreshUp();
+        }
+    }
 }
