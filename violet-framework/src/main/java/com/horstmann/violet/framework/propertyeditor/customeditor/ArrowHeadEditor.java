@@ -41,13 +41,13 @@ public class ArrowHeadEditor extends CustomPropertyEditorSupport
     /** Arrows labels */
     public static final String[] NAMES =
     {
-        "None",
-        "Triangle",
-        "Black Triangle",
-        "V",
-        "Diamond",
-        "Black Diamond",
-        "X"
+        resourceBundle.getString("arrow_head.none"),
+        resourceBundle.getString("arrow_head.triangle"),
+        resourceBundle.getString("arrow_head.black_triangle"),
+        resourceBundle.getString("arrow_head.v"),
+        resourceBundle.getString("arrow_head.diamond"),
+        resourceBundle.getString("arrow_head.black_diamond"),
+        resourceBundle.getString("arrow_head.x")
     };
 
     /** Arrows technical values */
@@ -61,4 +61,5 @@ public class ArrowHeadEditor extends CustomPropertyEditorSupport
         ArrowHead.BLACK_DIAMOND,
         ArrowHead.X
     };
+
 }

@@ -43,8 +43,8 @@ public class StretchStyleEditor extends CustomPropertyEditorSupport
      */
     public static final String[] NAMES =
     {
-        "Horizontal",
-        "Vertical"
+        resourceBundle.getString("stretch_style.horizontal"),
+        resourceBundle.getString("stretch_style.vertical")
     };
 
     /**
