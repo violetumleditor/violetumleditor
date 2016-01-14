@@ -27,6 +27,7 @@ import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 import java.util.List;
 
+import com.horstmann.violet.product.diagram.abstracts.ConnectedEdgeListener;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.IIdentifiable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
@@ -37,7 +38,7 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
  * 
  * @author Cay Horstmann
  */
-public interface INode extends Serializable, Cloneable, IIdentifiable
+public interface INode extends Serializable, Cloneable, IIdentifiable, ConnectedEdgeListener
 {
     
     /**

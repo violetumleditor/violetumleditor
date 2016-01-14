@@ -81,7 +81,7 @@ public interface IEdge extends Serializable, Cloneable, IIdentifiable
      * 
      * @param endingLocation
      */
-    void setEndlocation(Point2D endingLocation);
+    void setEndLocation(Point2D endingLocation);
 
     /**
      * @return the point where this node_old ends (relative to the ending node_old)

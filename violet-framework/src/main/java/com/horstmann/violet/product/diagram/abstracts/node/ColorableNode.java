@@ -22,21 +22,13 @@
 package com.horstmann.violet.product.diagram.abstracts.node;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
-import com.horstmann.violet.framework.graphics.content.Content;
 import com.horstmann.violet.framework.graphics.content.ContentBackground;
 import com.horstmann.violet.framework.graphics.content.ContentBorder;
 import com.horstmann.violet.framework.graphics.content.EmptyContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRoundRectangle;
-import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.IColorable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
@@ -76,7 +68,7 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
     	INode endingNode = e.getEnd();
     	if (endingNode == null) {
     		e.setEnd(e.getStart());
-    		e.setEndlocation(e.getStartLocation());
+    		e.setEndLocation(e.getStartLocation());
     	}
     	// Back to default behavior
     	return super.addConnection(e);

@@ -76,7 +76,7 @@ public class GraphTool
                 e.setStart(p);
                 e.setStartLocation(new Point2D.Double(0, 0));
                 e.setEnd(q);
-                e.setEndlocation(new Point2D.Double(0, 0));
+                e.setEndLocation(new Point2D.Double(0, 0));
   
                 Rectangle2D bounds = new Rectangle2D.Double();
                 bounds.add(p.getBounds());

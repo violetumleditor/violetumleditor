@@ -78,7 +78,7 @@ public abstract class AbstractEdge implements IEdge
     }
 
     @Override
-    public void setEndlocation(Point2D endLocation)
+    public void setEndLocation(Point2D endLocation)
     {
         this.endLocation = endLocation;
     }

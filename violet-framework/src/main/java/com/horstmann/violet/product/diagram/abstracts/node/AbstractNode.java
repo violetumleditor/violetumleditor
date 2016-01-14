@@ -373,6 +373,9 @@ public abstract class AbstractNode implements INode
         return true;
     }
 
+    public void onConnectedEdge(IEdge connectedEdge)
+    {}
+
     /**
      * @return the shape to be used for computing the drop shadow
      */

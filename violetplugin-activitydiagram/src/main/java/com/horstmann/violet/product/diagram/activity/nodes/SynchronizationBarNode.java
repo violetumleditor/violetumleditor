@@ -21,13 +21,15 @@
 
 package com.horstmann.violet.product.diagram.activity.nodes;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 import java.util.List;
 
+import com.horstmann.violet.framework.graphics.content.Content;
+import com.horstmann.violet.framework.graphics.content.ContentBackground;
+import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
+import com.horstmann.violet.framework.graphics.content.EmptyContent;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
+import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
@@ -38,6 +40,49 @@ import com.horstmann.violet.product.diagram.activity.edges.ActivityTransitionEdg
  */
 public class SynchronizationBarNode extends ColorableNode
 {
+    public SynchronizationBarNode()
+    {
+        super();
+        createContentStructure();
+    }
+
+    protected SynchronizationBarNode(SynchronizationBarNode node) throws CloneNotSupportedException
+    {
+        super(node);
+        createContentStructure();
+    }
+
+    @Override
+    protected INode copy() throws CloneNotSupportedException
+    {
+        return new SynchronizationBarNode(this);
+    }
+
+    @Override
+    protected void createContentStructure()
+    {
+        content = new EmptyContent();
+        content.setMinWidth(DEFAULT_WIDTH);
+        content.setMinHeight(DEFAULT_HEIGHT);
+
+        ContentInsideShape contentInsideShape = new ContentInsideRectangle(content);
+        ContentBackground contentBackground = new ContentBackground(contentInsideShape, getBorderColor());
+
+        setContent(contentBackground);
+    }
+
+    @Override
+    public void onConnectedEdge(IEdge connectedEdge)
+    {
+        refresh();
+    }
+
+    @Override
+    public void removeConnection(IEdge e)
+    {
+        refresh();
+    }
+
     @Override
     public boolean addConnection(IEdge e)
     {
@@ -48,115 +93,53 @@ public class SynchronizationBarNode extends ColorableNode
     public Point2D getConnectionPoint(IEdge e)
     {
         Point2D defaultConnectionPoint = super.getConnectionPoint(e);
-        if (!ActivityTransitionEdge.class.isInstance(e))
-        {
-            return defaultConnectionPoint;
-        }
+        double x = defaultConnectionPoint.getX();
+        double y = defaultConnectionPoint.getY();
 
-        INode end = e.getEnd();
-        INode start = e.getStart();
-        if (this == start)
+        if (ActivityTransitionEdge.class.isInstance(e))
         {
-            Point2D endConnectionPoint = end.getConnectionPoint(e);
-            double y = defaultConnectionPoint.getY();
-            double x = endConnectionPoint.getX();
-            return new Point2D.Double(x, y);
-        }
-        if (this == end)
-        {
-            Point2D startConnectionPoint = start.getConnectionPoint(e);
-            double y = defaultConnectionPoint.getY();
-            double x = startConnectionPoint.getX();
-            return new Point2D.Double(x, y);
-        }
-
-        return defaultConnectionPoint;
-    }
-
-    @Override
-    public Rectangle2D getBounds()
-    {
-        Rectangle2D b = getDefaultBounds();
-        List<INode> connectedNodes = getConnectedNodes();
-        if (connectedNodes.size() > 0)
-        {
-            double minX = Double.MAX_VALUE;
-            double maxX = Double.MIN_VALUE;
-            for (INode n : connectedNodes)
+            if (this == e.getStart())
             {
-                Rectangle2D b2 = n.getBounds();
-                minX = Math.min(minX, b2.getMinX());
-                maxX = Math.max(maxX, b2.getMaxX());
+                x = e.getStart().getConnectionPoint(e).getX();
+            }
+            else if (this == e.getEnd())
+            {
+                x = e.getEnd().getConnectionPoint(e).getX();
             }
 
-            minX -= EXTRA_WIDTH;
-            maxX += EXTRA_WIDTH;
-            // calling translate() hare is a hack but this node_old (at the opposite of other nodes)
-            // can have its location changed when it is connected to other nodes.
-            // Other nodes are usually only moved with a drag and drop action.
-            translate(minX - b.getX(), 0);
-            b = new Rectangle2D.Double(minX, b.getY(), maxX - minX, DEFAULT_HEIGHT);
+            if(Direction.NORTH.equals(e.getDirection(this).getNearestCardinalDirection()))
+            {
+                y = defaultConnectionPoint.getY();
+            }
+            else if(Direction.SOUTH.equals(e.getDirection(this).getNearestCardinalDirection()))
+            {
+                y = defaultConnectionPoint.getY() + DEFAULT_HEIGHT;
+            }
         }
-        return b;
+
+        return new Point2D.Double(x, y);
     }
 
-    /**
-     * 
-     * @return minimal bounds (location + default width and default height
-     */
-    private Rectangle2D getDefaultBounds()
+    private void refresh()
     {
-        Point2D currentLocation = getLocation();
-        double x = currentLocation.getX();
-        double y = currentLocation.getY();
-        double w = DEFAULT_WIDTH;
-        double h = DEFAULT_HEIGHT;
-        Rectangle2D currentBounds = new Rectangle2D.Double(x, y, w, h);
-        return currentBounds;
-    }
-
-    /**
-     * 
-     * @return nodes which are connected (with edges) to this node_old
-     */
-    private List<INode> getConnectedNodes()
-    {
-        List<INode> connectedNodes = new ArrayList<INode>();
-        // needs to contain all incoming and outgoing edges
-        for (IEdge e : getGraph().getAllEdges())
+        List<IEdge> connectedEdges = getConnectedEdges();
+        if (connectedEdges.size() > 0)
         {
-            if (e.getStart() == this) connectedNodes.add(e.getEnd());
-            if (e.getEnd() == this) connectedNodes.add(e.getStart());
+            int count = 0;
+            for (IEdge edge : connectedEdges)
+            {
+                Direction direction = edge.getDirection(this);
+                if (Direction.NORTH.equals(direction.getNearestCardinalDirection())) {
+                    ++count;
+                }
+            }
+            content.setMinWidth(DEFAULT_WIDTH + EXTRA_WIDTH*(Math.max(count,connectedEdges.size()-count)-1));
         }
-        return connectedNodes;
     }
 
-    @Override
-    public void draw(Graphics2D g2)
-    {
-//        super.draw(g2);
-
-        // Backup current color;
-        Color oldColor = g2.getColor();
-
-        // Perform drawing
-        g2.setColor(getBorderColor());
-        g2.fill(getShape());
-
-        // Restore first color
-        g2.setColor(oldColor);
-    }
-
-//    /**
-//     * @see java.lang.Object#clone()
-//     */
-//    @Override
-//    public SynchronizationBarNode clone()
-//    {
-//        return (SynchronizationBarNode) super.clone();
-//    }
+    private Content content = null;
 
     private static int DEFAULT_WIDTH = 100;
-    private static int DEFAULT_HEIGHT = 4;
+    private static int DEFAULT_HEIGHT = 5;
     private static int EXTRA_WIDTH = 12;
 }
