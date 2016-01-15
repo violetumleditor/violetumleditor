@@ -41,17 +41,27 @@ import com.horstmann.violet.product.diagram.activity.edges.ActivityTransitionEdg
  */
 public class SynchronizationBarNode extends ColorableNode
 {
+    private interface Pattern
+    {
+        void setLength(Content content, int lenght);
+        int getLength(Content content);
+        void setThickness(Content content, int thickness);
+        int getThickness(Content content);
+        Direction getCountingDirection();
+        StretchStyle getStretchStyle();
+    }
+
     public SynchronizationBarNode()
     {
         super();
-        stretchStyle = StretchStyle.HORIZONTAL;
+        currentPattern = HORIZONTAL;
         createContentStructure();
     }
 
     protected SynchronizationBarNode(SynchronizationBarNode node) throws CloneNotSupportedException
     {
         super(node);
-        stretchStyle = node.stretchStyle;
+        currentPattern = node.currentPattern;
         createContentStructure();
     }
 
@@ -65,8 +75,8 @@ public class SynchronizationBarNode extends ColorableNode
     protected void createContentStructure()
     {
         content = new EmptyContent();
-        content.setMinWidth(DEFAULT_WIDTH);
-        content.setMinHeight(DEFAULT_HEIGHT);
+        currentPattern.setLength(content, DEFAULT_LENGHT);
+        currentPattern.setThickness(content, DEFAULT_THICKNESS);
 
         ContentInsideShape contentInsideShape = new ContentInsideRectangle(content);
         ContentBackground contentBackground = new ContentBackground(contentInsideShape, getBorderColor());
@@ -116,7 +126,7 @@ public class SynchronizationBarNode extends ColorableNode
             }
             else if(Direction.SOUTH.equals(e.getDirection(this).getNearestCardinalDirection()))
             {
-                y = defaultConnectionPoint.getY() + DEFAULT_HEIGHT;
+                y = defaultConnectionPoint.getY() + DEFAULT_THICKNESS;
             }
         }
 
@@ -129,64 +139,113 @@ public class SynchronizationBarNode extends ColorableNode
         if (connectedEdges.size() > 0)
         {
             int count = 0;
-            if(StretchStyle.HORIZONTAL == stretchStyle)
-            {
-                for (IEdge edge : connectedEdges)
-                {
-                    Direction direction = edge.getDirection(this);
-                    if (Direction.NORTH.equals(direction.getNearestCardinalDirection())) {
-                        ++count;
-                    }
-                }
 
-                content.setMinWidth(DEFAULT_WIDTH + EXTRA_WIDTH * (Math.max(count, connectedEdges.size() - count) - 1));
-                content.setMinHeight(DEFAULT_HEIGHT);
-            }
-            else
+            for (IEdge edge : connectedEdges)
             {
-                for (IEdge edge : connectedEdges)
-                {
-                    Direction direction = edge.getDirection(this);
-                    if (Direction.EAST.equals(direction.getNearestCardinalDirection())) {
-                        ++count;
-                    }
+                Direction direction = edge.getDirection(this);
+                if (currentPattern.getCountingDirection().equals(direction.getNearestCardinalDirection())) {
+                    ++count;
                 }
-
-                content.setMinHeight(DEFAULT_WIDTH + EXTRA_WIDTH * (Math.max(count, connectedEdges.size() - count) - 1));
-                content.setMinWidth(DEFAULT_HEIGHT);
             }
+
+            currentPattern.setLength(content, DEFAULT_LENGHT + EXTRA_LENGHT * (Math.max(count, connectedEdges.size() - count) - 1));
+            currentPattern.setThickness(content, DEFAULT_THICKNESS);
         }
     }
 
-
     public StretchStyle getStretchStyle()
     {
-        return stretchStyle;
+        return currentPattern.getStretchStyle();
     }
 
     public void setStretchStyle(StretchStyle stretchStyle)
     {
-        if(this.stretchStyle != stretchStyle)
+        if(currentPattern.getStretchStyle() != stretchStyle)
         {
+            int lenght = currentPattern.getLength(content);
+            int thickness = currentPattern.getThickness(content);
+
             if (StretchStyle.HORIZONTAL == stretchStyle)
             {
-                content.setMinWidth(content.getHeight());
-                content.setMinHeight(DEFAULT_HEIGHT);
+                currentPattern = HORIZONTAL;
             }
             else
             {
-                content.setMinHeight(content.getWidth());
-                content.setMinWidth(DEFAULT_HEIGHT);
+                currentPattern = VERTICAL;
             }
-        }
 
-        this.stretchStyle = stretchStyle;
+            currentPattern.setLength(content, lenght);
+            currentPattern.setThickness(content, thickness);
+        }
     }
 
-    private StretchStyle stretchStyle;
+    private Pattern currentPattern;
     private Content content = null;
 
-    private static int DEFAULT_WIDTH = 100;
-    private static int DEFAULT_HEIGHT = 5;
-    private static int EXTRA_WIDTH = 12;
+    private static int DEFAULT_LENGHT = 100;
+    private static int DEFAULT_THICKNESS = 5;
+    private static int EXTRA_LENGHT = 12;
+
+    private static Pattern HORIZONTAL = new Pattern() {
+        @Override
+        public void setLength(Content content, int lenght) {
+            content.setMinWidth(lenght);
+        }
+
+        @Override
+        public int getLength(Content content) {
+            return content.getWidth();
+        }
+
+        @Override
+        public void setThickness(Content content, int thickness) {
+            content.setMinHeight(thickness);
+        }
+
+        @Override
+        public int getThickness(Content content) {
+            return content.getHeight();
+        }
+
+        @Override
+        public Direction getCountingDirection() {
+            return Direction.NORTH;
+        }
+
+        @Override
+        public StretchStyle getStretchStyle() {
+            return StretchStyle.HORIZONTAL;
+        }
+    };
+    private static Pattern VERTICAL = new Pattern() {
+        @Override
+        public void setLength(Content content, int lenght) {
+            content.setMinHeight(lenght);
+        }
+
+        @Override
+        public int getLength(Content content) {
+            return content.getHeight();
+        }
+
+        @Override
+        public void setThickness(Content content, int thickness) {
+            content.setMinWidth(thickness);
+        }
+
+        @Override
+        public int getThickness(Content content) {
+            return content.getWidth();
+        }
+
+        @Override
+        public Direction getCountingDirection() {
+            return Direction.EAST;
+        }
+
+        @Override
+        public StretchStyle getStretchStyle() {
+            return StretchStyle.VERTICAL;
+        }
+    };
 }
