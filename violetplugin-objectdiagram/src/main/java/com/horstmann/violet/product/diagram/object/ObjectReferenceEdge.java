@@ -26,7 +26,6 @@ import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.ShapeEdge;
@@ -45,8 +44,8 @@ public class ObjectReferenceEdge extends ShapeEdge
         double x1;
         double x2 = line.getX2();
         double y = line.getY2();
-        if (isSShaped()) x1 = x2 - ENDSIZE;
-        else x1 = x2 + ENDSIZE;
+        if (isSShaped()) x1 = x2 - END_SIZE;
+        else x1 = x2 + END_SIZE;
         ArrowHead.BLACK_TRIANGLE.draw(g2, new Point2D.Double(x1, y), new Point2D.Double(x2, y));
     }
 
@@ -56,28 +55,29 @@ public class ObjectReferenceEdge extends ShapeEdge
 
         double y1 = line.getY1();
         double y2 = line.getY2();
-        double xmid = (line.getX1() + line.getX2()) / 2;
-        double ymid = (line.getY1() + line.getY2()) / 2;
+        double yMid = (line.getY1() + line.getY2()) / 2;
+
         GeneralPath p = new GeneralPath();
         if (isSShaped())
         {
-            double x1 = line.getX1() + ENDSIZE;
-            double x2 = line.getX2() - ENDSIZE;
+            double x1 = getStart().getBounds().getMaxX() + START_SIZE;
+            double x2 = line.getX2() - END_SIZE;
+            double xMid = (x1 + x2) / 2;
 
             p.moveTo((float) line.getX1(), (float) y1);
             p.lineTo((float) x1, (float) y1);
-            p.quadTo((float) ((x1 + xmid) / 2), (float) y1, (float) xmid, (float) ymid);
-            p.quadTo((float) ((x2 + xmid) / 2), (float) y2, (float) x2, (float) y2);
+            p.quadTo((float) ((x1 + xMid) / 2), (float) y1, (float) xMid, (float) yMid);
+            p.quadTo((float) ((x2 + xMid) / 2), (float) y2, (float) x2, (float) y2);
             p.lineTo((float) line.getX2(), (float) y2);
         }
         else
         // reverse C shaped
         {
-            double x1 = Math.max(line.getX1(), line.getX2()) + ENDSIZE;
-            double x2 = x1 + ENDSIZE;
+            double x1 = Math.max(getStart().getBounds().getMaxX(), line.getX2()) + START_SIZE;
+            double x2 = x1 + END_SIZE;
             p.moveTo((float) line.getX1(), (float) y1);
             p.lineTo((float) x1, (float) y1);
-            p.quadTo((float) x2, (float) y1, (float) x2, (float) ymid);
+            p.quadTo((float) x2, (float) y1, (float) x2, (float) yMid);
             p.quadTo((float) x2, (float) y2, (float) x1, (float) y2);
             p.lineTo((float) line.getX2(), (float) y2);
         }
@@ -105,11 +105,9 @@ public class ObjectReferenceEdge extends ShapeEdge
      */
     private boolean isSShaped()
     {
-        Rectangle2D b = getEnd().getBounds();
-        Point2D startLocationOnGraph = getStart().getLocationOnGraph();
-        Point2D startRelativeConnectionPoint = getStart().getConnectionPoint(this);
-        return b.getX() >= startLocationOnGraph.getX() + startRelativeConnectionPoint.getX() + 2 * ENDSIZE;
+        return (2 * END_SIZE) <= (getEnd().getBounds().getMinX() - getStart().getBounds().getMaxX());
     }
 
-    private static final int ENDSIZE = 10;
+    private static final int END_SIZE = 12;
+    private static final int START_SIZE = 2;
 }

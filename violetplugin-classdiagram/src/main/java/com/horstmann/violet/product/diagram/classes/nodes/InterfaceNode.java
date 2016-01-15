@@ -1,5 +1,6 @@
 package com.horstmann.violet.product.diagram.classes.nodes;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 import com.horstmann.violet.framework.graphics.Separator;
@@ -62,13 +63,31 @@ public class InterfaceNode extends ColorableNode
         VerticalGroupContent verticalGroupContent = new VerticalGroupContent();
         verticalGroupContent.add(nameContent);
         verticalGroupContent.add(methodsContent);
-        verticalGroupContent.setSeparator(new Separator.LineSeparator(getBorderColor()));
+        separator = new Separator.LineSeparator(getBorderColor());
+        verticalGroupContent.setSeparator(separator);
 
         ContentInsideShape contentInsideShape = new ContentInsideRectangle(verticalGroupContent);
 
         setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
         setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
         setContent(getBackground());
+    }
+
+    @Override
+    public void setBorderColor(Color borderColor)
+    {
+        if(null != separator)
+        {
+            separator.setColor(borderColor);
+        }
+        super.setBorderColor(borderColor);
+    }
+
+    @Override
+    public void setTextColor(Color textColor)
+    {
+        name.setTextColor(textColor);
+        methods.setTextColor(textColor);
     }
 
     @Override
@@ -123,7 +142,7 @@ public class InterfaceNode extends ColorableNode
 
 
 
-
+    private Separator separator = null;
 
     private SingleLineText name;
     private MultiLineText methods;

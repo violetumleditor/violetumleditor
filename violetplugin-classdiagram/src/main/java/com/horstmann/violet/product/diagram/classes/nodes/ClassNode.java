@@ -101,7 +101,10 @@ public class ClassNode extends ColorableNode
     @Override
     public void setBorderColor(Color borderColor)
     {
-        separator.setColor(borderColor);
+        if(null != separator)
+        {
+            separator.setColor(borderColor);
+        }
         super.setBorderColor(borderColor);
     }
 

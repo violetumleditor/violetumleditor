@@ -163,7 +163,11 @@ public class PackageNode extends ColorableNode{
             n.setLocation(p);
             addChild(n, getChildren().size());
 
-            nodesGroup.add(((AbstractNode) n).getContent(), getChildRelativeLocation(n));
+            ColorableNode colorableNode = (ColorableNode) n;
+            colorableNode.setTextColor(getTextColor());
+            colorableNode.setBackgroundColor(getBackgroundColor());
+            colorableNode.setBorderColor(getBorderColor());
+            nodesGroup.add(colorableNode.getContent(), getChildRelativeLocation(n));
 
             return true;
         }

@@ -74,13 +74,15 @@ public class ObjectNode extends ColorableNode
         nameContent.setMinHeight(DEFAULT_HEIGHT);
         nameContent.setMinWidth(DEFAULT_WIDTH);
 
+        separator = new Separator.LineSeparator(getBorderColor());
+
         fieldsGroup = new VerticalGroupContent();
         nameContent.setMinWidth(DEFAULT_WIDTH);
 
         VerticalGroupContent verticalGroupContent = new VerticalGroupContent();
         verticalGroupContent.add(nameContent);
         verticalGroupContent.add(fieldsGroup);
-        verticalGroupContent.setSeparator(new Separator.LineSeparator(getBorderColor()));
+        verticalGroupContent.setSeparator(separator);
 
         ContentInsideShape contentInsideShape = new ContentInsideRectangle(verticalGroupContent);
 
@@ -101,6 +103,15 @@ public class ObjectNode extends ColorableNode
         return name.getTextColor();
     }
 
+    @Override
+    public void setBorderColor(Color borderColor)
+    {
+        if(null != separator)
+        {
+            separator.setColor(borderColor);
+        }
+        super.setBorderColor(borderColor);
+    }
 
 
 
@@ -157,8 +168,11 @@ public class ObjectNode extends ColorableNode
         n.setGraph(getGraph());
         n.setParent(this);
 
-
-        fieldsGroup.add(((FieldNode) n).getContent());
+        FieldNode fieldNode = (FieldNode) n;
+        fieldNode.setTextColor(getTextColor());
+        fieldNode.setBackgroundColor(getBackgroundColor());
+        fieldNode.setBorderColor(getBorderColor());
+        fieldsGroup.add(fieldNode.getContent());
 
 
         return true;
@@ -172,6 +186,7 @@ public class ObjectNode extends ColorableNode
     }
 
     private VerticalGroupContent fieldsGroup = null;
+    private Separator separator = null;
 
     private SingleLineText name;
 
