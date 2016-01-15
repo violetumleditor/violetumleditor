@@ -6,7 +6,10 @@ import com.horstmann.violet.framework.graphics.content.GroupContent;
 import java.awt.geom.Point2D;
 
 /**
- * Created by Adrian Bobrowski on 21.12.2015.
+ * This ...
+ *
+ * @author Adrian Bobrowski
+ * @date 21.12.2015
  */
 public class HorizontalGroupContent extends GroupContent
 {

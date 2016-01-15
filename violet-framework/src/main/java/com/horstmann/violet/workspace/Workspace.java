@@ -24,6 +24,8 @@ package com.horstmann.violet.workspace;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import com.horstmann.violet.framework.file.IFile;
 import com.horstmann.violet.framework.file.IGraphFile;
@@ -133,7 +135,7 @@ public class Workspace implements IWorkspace
                return aDiagramPlugin.getName();
            }
        }
-       return "Unknown";
+       return resourceBundle.getString("workspace.unknown");
     }
     
     
@@ -232,7 +234,7 @@ public class Workspace implements IWorkspace
     private void updateTitle(boolean isSaveNeeded)
     {
         String aTitle = getTitle();
-        String prefix = "Unsaved ";
+        String prefix = resourceBundle.getString("workspace.unsaved") + " ";
         if (isSaveNeeded)
         {
             if (!aTitle.startsWith(prefix))
@@ -343,7 +345,9 @@ public class Workspace implements IWorkspace
     private String title;
     private List<IWorkspaceListener> listeners = new ArrayList<IWorkspaceListener>();
     private Id id;
-    
+
+    protected static ResourceBundle resourceBundle = ResourceBundle.getBundle("properties.OtherStrings", Locale.getDefault());
+
     @InjectedBean
     private PluginRegistry pluginRegistry;
 

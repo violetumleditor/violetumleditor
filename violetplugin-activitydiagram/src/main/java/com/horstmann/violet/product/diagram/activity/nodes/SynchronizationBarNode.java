@@ -41,7 +41,7 @@ import com.horstmann.violet.product.diagram.activity.edges.ActivityTransitionEdg
  */
 public class SynchronizationBarNode extends ColorableNode
 {
-    private interface Pattern
+    private interface Stretch
     {
         void setLength(Content content, int lenght);
         int getLength(Content content);
@@ -54,14 +54,14 @@ public class SynchronizationBarNode extends ColorableNode
     public SynchronizationBarNode()
     {
         super();
-        currentPattern = HORIZONTAL;
+        currentStretch = HORIZONTAL;
         createContentStructure();
     }
 
     protected SynchronizationBarNode(SynchronizationBarNode node) throws CloneNotSupportedException
     {
         super(node);
-        currentPattern = node.currentPattern;
+        currentStretch = node.currentStretch;
         createContentStructure();
     }
 
@@ -75,8 +75,8 @@ public class SynchronizationBarNode extends ColorableNode
     protected void createContentStructure()
     {
         content = new EmptyContent();
-        currentPattern.setLength(content, DEFAULT_LENGHT);
-        currentPattern.setThickness(content, DEFAULT_THICKNESS);
+        currentStretch.setLength(content, DEFAULT_LENGHT);
+        currentStretch.setThickness(content, DEFAULT_THICKNESS);
 
         ContentInsideShape contentInsideShape = new ContentInsideRectangle(content);
         ContentBackground contentBackground = new ContentBackground(contentInsideShape, getBorderColor());
@@ -143,50 +143,50 @@ public class SynchronizationBarNode extends ColorableNode
             for (IEdge edge : connectedEdges)
             {
                 Direction direction = edge.getDirection(this);
-                if (currentPattern.getCountingDirection().equals(direction.getNearestCardinalDirection())) {
+                if (currentStretch.getCountingDirection().equals(direction.getNearestCardinalDirection())) {
                     ++count;
                 }
             }
 
-            currentPattern.setLength(content, DEFAULT_LENGHT + EXTRA_LENGHT * (Math.max(count, connectedEdges.size() - count) - 1));
-            currentPattern.setThickness(content, DEFAULT_THICKNESS);
+            currentStretch.setLength(content, DEFAULT_LENGHT + EXTRA_LENGHT * (Math.max(count, connectedEdges.size() - count) - 1));
+            currentStretch.setThickness(content, DEFAULT_THICKNESS);
         }
     }
 
     public StretchStyle getStretchStyle()
     {
-        return currentPattern.getStretchStyle();
+        return currentStretch.getStretchStyle();
     }
 
     public void setStretchStyle(StretchStyle stretchStyle)
     {
-        if(currentPattern.getStretchStyle() != stretchStyle)
+        if(currentStretch.getStretchStyle() != stretchStyle)
         {
-            int lenght = currentPattern.getLength(content);
-            int thickness = currentPattern.getThickness(content);
+            int lenght = currentStretch.getLength(content);
+            int thickness = currentStretch.getThickness(content);
 
             if (StretchStyle.HORIZONTAL == stretchStyle)
             {
-                currentPattern = HORIZONTAL;
+                currentStretch = HORIZONTAL;
             }
             else
             {
-                currentPattern = VERTICAL;
+                currentStretch = VERTICAL;
             }
 
-            currentPattern.setLength(content, lenght);
-            currentPattern.setThickness(content, thickness);
+            currentStretch.setLength(content, lenght);
+            currentStretch.setThickness(content, thickness);
         }
     }
 
-    private Pattern currentPattern;
+    private Stretch currentStretch;
     private Content content = null;
 
     private static int DEFAULT_LENGHT = 100;
     private static int DEFAULT_THICKNESS = 5;
     private static int EXTRA_LENGHT = 12;
 
-    private static Pattern HORIZONTAL = new Pattern() {
+    private static Stretch HORIZONTAL = new Stretch() {
         @Override
         public void setLength(Content content, int lenght) {
             content.setMinWidth(lenght);
@@ -217,7 +217,7 @@ public class SynchronizationBarNode extends ColorableNode
             return StretchStyle.HORIZONTAL;
         }
     };
-    private static Pattern VERTICAL = new Pattern() {
+    private static Stretch VERTICAL = new Stretch() {
         @Override
         public void setLength(Content content, int lenght) {
             content.setMinHeight(lenght);

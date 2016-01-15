@@ -30,12 +30,24 @@ public class TextContent extends Content implements LineText.ChangeListener
     }
 
     @Override
+    protected void refreshDown()
+    {
+        setOptimalSize();
+        super.refreshDown();
+    }
+
+    @Override
     protected void refreshUp()
+    {
+        setOptimalSize();
+        super.refreshUp();
+    }
+
+    private void setOptimalSize()
     {
         Rectangle2D textBounds = text.getBounds();
         setWidth((int)textBounds.getWidth());
         setHeight((int)textBounds.getHeight());
-        super.refreshUp();
     }
 
     private LineText text;
