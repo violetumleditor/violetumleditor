@@ -41,6 +41,12 @@ public abstract class AbstractEdge implements IEdge
         // Nothing to do
     }
 
+    public void deserializeSupport()
+    {
+
+    }
+
+
     @Override
     public void setStart(INode startingNode)
     {

@@ -85,13 +85,9 @@ public class UseCaseNode extends ColorableNode
     public void setTextColor(Color textColor)
     {
         name.setTextColor(textColor);
+        super.setTextColor(textColor);
     }
 
-    @Override
-    public Color getTextColor()
-    {
-        return name.getTextColor();
-    }
 
     @Override
     public Point2D getConnectionPoint(IEdge e)

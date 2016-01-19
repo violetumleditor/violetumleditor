@@ -50,6 +50,19 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
     }
 
     @Override
+    public void deserializeSupport()
+    {
+        for(INode node : nodes)
+        {
+            node.deserializeSupport();
+        }
+        for(IEdge edge : edges)
+        {
+            edge.deserializeSupport();
+        }
+    }
+
+    @Override
     public INode findNode(Point2D p)
     {
         for (INode n : getAllNodes())

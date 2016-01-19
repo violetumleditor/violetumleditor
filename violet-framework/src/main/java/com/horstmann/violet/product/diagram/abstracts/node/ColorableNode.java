@@ -79,24 +79,37 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
         return getBounds();
     }
 
-    protected final ContentBackground getBackground() {
+    protected final ContentBackground getBackground()
+    {
+        if(null == background)
+        {
+            getContent();
+        }
         return background;
     }
 
-    protected final void setBackground(ContentBackground background) {
+    protected final void setBackground(ContentBackground background)
+    {
         this.background = background;
     }
 
-    protected final ContentBorder getBorder() {
+    protected final ContentBorder getBorder()
+    {
+        if(null == border)
+        {
+            getContent();
+        }
         return border;
     }
 
-    protected final void setBorder(ContentBorder border) {
+    protected final void setBorder(ContentBorder border)
+    {
         this.border = border;
     }
 
     public final void setBackgroundColor(Color bgColor)
     {
+        backgroundColor = bgColor;
         if(null != background)
         {
             background.setBackgroundColor(bgColor);
@@ -105,15 +118,16 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
 
     public final Color getBackgroundColor()
     {
-        if(null == background)
+        if(null == backgroundColor)
         {
             return ColorToolsBarPanel.DEFAULT_COLOR.getBackgroundColor();
         }
-        return background.getBackgroundColor();
+        return backgroundColor;
     }
 
     public void setBorderColor(Color borderColor)
     {
+        borderColor = borderColor;
         if(null != border)
         {
             border.setBorderColor(borderColor);
@@ -122,22 +136,31 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
 
     public final Color getBorderColor()
     {
-        if(null == border)
+        if(null == borderColor)
         {
             return ColorToolsBarPanel.DEFAULT_COLOR.getBorderColor();
         }
-        return border.getBorderColor();
+        return borderColor;
     }
 
     public void setTextColor(Color textColor)
-    {}
-
-    public Color getTextColor()
     {
-        return ColorToolsBarPanel.DEFAULT_COLOR.getTextColor();
+        this.textColor = textColor;
     }
 
+    public final Color getTextColor()
+    {
+        if(null == textColor)
+        {
+            return ColorToolsBarPanel.DEFAULT_COLOR.getTextColor();
+        }
+        return textColor;
+    }
 
-    private ContentBackground background = null;
-    private ContentBorder border = null;
+    private transient ContentBackground background = null;
+    private transient ContentBorder border = null;
+
+    private Color backgroundColor = ColorToolsBarPanel.DEFAULT_COLOR.getBackgroundColor();
+    private Color borderColor = ColorToolsBarPanel.DEFAULT_COLOR.getBorderColor();
+    private Color textColor;
 }

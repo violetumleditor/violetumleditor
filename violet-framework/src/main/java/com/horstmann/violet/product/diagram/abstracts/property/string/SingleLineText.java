@@ -25,7 +25,7 @@ public class SingleLineText extends LineText
     protected SingleLineText(SingleLineText lineText) throws CloneNotSupportedException
     {
         super(lineText);
-        oneLineString = lineText.oneLineString.clone();
+        oneLineString = lineText.getOneLineString().clone();
     }
 
     @Override
@@ -40,10 +40,19 @@ public class SingleLineText extends LineText
         return new SingleLineText(this);
     }
 
+    public void deserializeSupport()
+    {
+        super.deserializeSupport();
+        oneLineString = new OneLineString();
+        setPadding(0,10);
+        setText(text);
+    }
+
     @Override
     final public void setText(String text)
     {
-        oneLineString = converter.toLineString(text);
+        this.text = text;
+        oneLineString = converter.toLineString(this.text);
         setLabelText(toDisplay());
         notifyAboutChange();
     }
@@ -51,20 +60,30 @@ public class SingleLineText extends LineText
     @Override
     final public String toDisplay()
     {
-        return oneLineString.toDisplay();
+        return getOneLineString().toDisplay();
     }
 
     @Override
     final public String toEdit()
     {
-        return oneLineString.toEdit();
+        return getOneLineString().toEdit();
     }
 
     @Override
     final public String toString()
     {
-        return oneLineString.toString();
+        return getOneLineString().toString();
     }
 
-    private OneLineString oneLineString;
+    private OneLineString getOneLineString()
+    {
+        if(null == oneLineString)
+        {
+            oneLineString = new OneLineString();
+        }
+        return oneLineString;
+    }
+
+    private String text = "";
+    private transient OneLineString oneLineString;
 }

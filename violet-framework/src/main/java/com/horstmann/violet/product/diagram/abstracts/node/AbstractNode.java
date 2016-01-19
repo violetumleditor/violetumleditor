@@ -44,6 +44,21 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
  */
 public abstract class AbstractNode implements INode
 {
+    private static class NodeGraph extends AbstractGraph
+    {
+        @Override
+        public List<INode> getNodePrototypes()
+        {
+            return new ArrayList<INode>();
+        }
+
+        @Override
+        public List<IEdge> getEdgePrototypes()
+        {
+            return new ArrayList<IEdge>();
+        }
+    }
+
     /**
      * Constructs a node_old with no parents or children at location (0, 0).
      */
@@ -53,22 +68,6 @@ public abstract class AbstractNode implements INode
         this.revision = new Integer(0);
         this.location = new Point2D.Double(0, 0);
         this.children = new ArrayList<INode>();
-        this.graph = new AbstractGraph()
-        {
-            @Override
-            public List<INode> getNodePrototypes()
-            {
-                return new ArrayList<INode>();
-            }
-
-            @Override
-            public List<IEdge> getEdgePrototypes()
-            {
-                return new ArrayList<IEdge>();
-            }
-        };
-        this.toolTip = "";
-        this.content = null;
     }
 
     /**
@@ -90,7 +89,6 @@ public abstract class AbstractNode implements INode
             clonedChild.setParent(this);
             this.children.add(clonedChild);
         }
-        this.content = null;
     }
 
     @Override
@@ -106,6 +104,12 @@ public abstract class AbstractNode implements INode
     protected INode copy() throws CloneNotSupportedException
     {
         return null;
+    }
+
+    public void deserializeSupport()
+    {
+        createContentStructure();
+        getContent().refresh();
     }
 
     protected abstract void createContentStructure();
@@ -385,6 +389,18 @@ public abstract class AbstractNode implements INode
     }
 
     @Override
+    public int getZ()
+    {
+        return z;
+    }
+
+    @Override
+    public void setZ(int z)
+    {
+        this.z = z;
+    }
+
+    @Override
     public void setGraph(IGraph graph)
     {
         if(null == graph)
@@ -400,19 +416,11 @@ public abstract class AbstractNode implements INode
     @Override
     public IGraph getGraph()
     {
+        if(null == graph)
+        {
+            return new NodeGraph();
+        }
     	return this.graph;
-    }
-
-    @Override
-    public int getZ()
-    {
-        return z;
-    }
-
-    @Override
-    public void setZ(int z)
-    {
-        this.z = z;
     }
 
     /**
@@ -437,6 +445,10 @@ public abstract class AbstractNode implements INode
 
     public final ContentInsideShape getContent()
     {
+        if(null == content)
+        {
+            deserializeSupport();
+        }
         return content;
     }
 
@@ -445,13 +457,9 @@ public abstract class AbstractNode implements INode
         this.content = content;
     }
 
-//    private Content content;
-    private ContentInsideShape content;
+    private transient ContentInsideShape content;
 
-    private List<INode> children;
-    private INode parent;
     private transient IGraph graph;
-    private Point2D location;
     private transient String toolTip;
     private transient int z;
 
@@ -460,4 +468,9 @@ public abstract class AbstractNode implements INode
 
     /** Node's current revision */
     private Integer revision;
+
+    private List<INode> children;
+    private INode parent;
+
+    private Point2D location;
 }

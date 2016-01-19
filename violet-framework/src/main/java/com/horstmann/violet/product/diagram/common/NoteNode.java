@@ -126,14 +126,8 @@ public class NoteNode extends ColorableNode
     public void setTextColor(Color textColor)
     {
         text.setTextColor(textColor);
+        super.setTextColor(textColor);
     }
-
-    @Override
-    public Color getTextColor()
-    {
-        return text.getTextColor();
-    }
-
 
 
 

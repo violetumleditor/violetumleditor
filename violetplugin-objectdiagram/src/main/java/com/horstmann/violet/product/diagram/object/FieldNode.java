@@ -118,12 +118,7 @@ public class FieldNode extends ColorableNode
     {
         name.setTextColor(textColor);
         value.setTextColor(textColor);
-    }
-
-    @Override
-    public Color getTextColor()
-    {
-        return name.getTextColor();
+        super.setTextColor(textColor);
     }
 
 

@@ -28,6 +28,8 @@ public interface IGraph
     public abstract List<IEdge> getEdgePrototypes();
 
 
+    void deserializeSupport();
+
     /**
      * Gets ALL the nodes of this graph.
      * 

@@ -81,13 +81,9 @@ public class StateNode extends ColorableNode
     public void setTextColor(Color textColor)
     {
         name.setTextColor(textColor);
+        super.setTextColor(textColor);
     }
 
-    @Override
-    public Color getTextColor()
-    {
-        return name.getTextColor();
-    }
 
     @Override
     public boolean addConnection(IEdge e) {

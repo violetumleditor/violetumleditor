@@ -25,6 +25,8 @@ import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import com.horstmann.violet.framework.graphics.content.EmptyContent;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 
@@ -73,8 +75,9 @@ public class PointNode extends AbstractNode
     // We use the location set by setBounds until the first call to translate.
 
     @Override
-    protected void createContentStructure() {
-
+    protected void createContentStructure()
+    {
+        setContent(new ContentInsideRectangle(new EmptyContent()));
     }
 
     @Override

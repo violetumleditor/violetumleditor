@@ -23,38 +23,10 @@ public class ClassNode extends ColorableNode
     public ClassNode()
     {
         super();
-
-        name = new SingleLineText(new LineText.Converter(){
-            @Override
-            public OneLineString toLineString(String text)
-            {
-                return new LargeSizeDecorator(new OneLineString(text));
-            }
-        });
+        name = new SingleLineText(nameConverter);
         name.setAlignment(LineText.CENTER);
-
-        LineText.Converter converter = new LineText.Converter(){
-            @Override
-            public OneLineString toLineString(String text)
-            {
-                OneLineString lineString = new OneLineString(text);
-
-                if(lineString.contains("<<static>>"))
-                {
-                    lineString = new UnderlineDecorator(new RemoveSentenceDecorator(lineString, "<<static>>"));
-                }
-                lineString = new ReplaceSentenceDecorator(lineString, "public", "+");
-                lineString = new ReplaceSentenceDecorator(lineString, "package", "~");
-                lineString = new ReplaceSentenceDecorator(lineString, "protected", "#");
-                lineString = new ReplaceSentenceDecorator(lineString, "private", "-");
-                lineString = new ReplaceSentenceDecorator(lineString, "property", "/");
-
-                return lineString;
-            }
-        };
-
-        attributes = new MultiLineText(converter);
-        methods = new MultiLineText(converter);
+        attributes = new MultiLineText(propertyConverter);
+        methods = new MultiLineText(propertyConverter);
         createContentStructure();
     }
 
@@ -71,6 +43,15 @@ public class ClassNode extends ColorableNode
     protected INode copy() throws CloneNotSupportedException
     {
         return new ClassNode(this);
+    }
+
+    @Override
+    public void deserializeSupport()
+    {
+        super.deserializeSupport();
+        getName().deserializeSupport();
+        getAttributes().deserializeSupport();
+        getMethods().deserializeSupport();
     }
 
     @Override
@@ -114,16 +95,9 @@ public class ClassNode extends ColorableNode
         name.setTextColor(textColor);
         attributes.setTextColor(textColor);
         methods.setTextColor(textColor);
+        super.setTextColor(textColor);
     }
-
-    @Override
-    public Color getTextColor()
-    {
-        return name.getTextColor();
-    }
-
-
-    /*
+  /*
      * (non-Javadoc)
      * 
      * @see com.horstmann.violet.framework.Node#addNode(com.horstmann.violet.framework.Node, java.awt.geom.Point2D)
@@ -198,7 +172,6 @@ public class ClassNode extends ColorableNode
         return methods;
     }
 
-
     private Separator separator;
 
     private SingleLineText name;
@@ -208,4 +181,30 @@ public class ClassNode extends ColorableNode
     private static int DEFAULT_NAME_HEIGHT = 45;
     private static int DEFAULT_WIDTH = 100;
 
+    private static LineText.Converter nameConverter = new LineText.Converter(){
+        @Override
+        public OneLineString toLineString(String text)
+        {
+            return new LargeSizeDecorator(new OneLineString(text));
+        }
+    };
+    private static LineText.Converter propertyConverter= new LineText.Converter(){
+        @Override
+        public OneLineString toLineString(String text)
+        {
+            OneLineString lineString = new OneLineString(text);
+
+            if(lineString.contains("<<static>>"))
+            {
+                lineString = new UnderlineDecorator(new RemoveSentenceDecorator(lineString, "<<static>>"));
+            }
+            lineString = new ReplaceSentenceDecorator(lineString, "public", "+");
+            lineString = new ReplaceSentenceDecorator(lineString, "package", "~");
+            lineString = new ReplaceSentenceDecorator(lineString, "protected", "#");
+            lineString = new ReplaceSentenceDecorator(lineString, "private", "-");
+            lineString = new ReplaceSentenceDecorator(lineString, "property", "/");
+
+            return lineString;
+        }
+    };
 }

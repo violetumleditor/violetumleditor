@@ -4,7 +4,10 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
- * Created by Adrian Bobrowski on 03.01.2016.
+ * This ...
+ *
+ * @author Adrian Bobrowski
+ * @date 03.01.2016
  */
 public class ResourceManager
 {

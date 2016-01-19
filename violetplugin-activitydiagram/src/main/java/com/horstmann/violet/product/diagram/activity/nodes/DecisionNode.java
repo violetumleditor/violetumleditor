@@ -99,12 +99,7 @@ public class DecisionNode extends ColorableNode
     public void setTextColor(Color textColor)
     {
         condition.setTextColor(textColor);
-    }
-
-    @Override
-    public Color getTextColor()
-    {
-        return condition.getTextColor();
+        super.setTextColor(textColor);
     }
 
 

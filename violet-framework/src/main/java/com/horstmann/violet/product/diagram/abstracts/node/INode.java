@@ -40,6 +40,8 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
  */
 public interface INode extends Serializable, Cloneable, IIdentifiable, ConnectedEdgeListener
 {
+
+    void deserializeSupport();
     
     /**
      * Checks whether to add an edge that originates at this node_old.

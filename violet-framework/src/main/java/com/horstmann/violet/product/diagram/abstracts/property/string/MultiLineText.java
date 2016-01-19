@@ -33,7 +33,7 @@ public class MultiLineText extends LineText
     protected MultiLineText(MultiLineText lineText) throws CloneNotSupportedException
     {
         super(lineText);
-        rows = new ArrayList<OneLineString>(lineText.rows);
+        rows = new ArrayList<OneLineString>(lineText.getRows());
     }
 
     @Override
@@ -48,15 +48,24 @@ public class MultiLineText extends LineText
         return new MultiLineText(this);
     }
 
+    public void deserializeSupport()
+    {
+        super.deserializeSupport();
+        rows = new ArrayList<OneLineString>();
+        setText(text);
+        setPadding(1,8);
+    }
+
     @Override
     final public void setText(String text)
     {
-        rows.clear();
-        String[] array = text.split("\n", -1);
+        this.text = text;
+        getRows().clear();
+        String[] array = this.text.split("\n", -1);
 
         for (String rawRow: array)
         {
-            rows.add(converter.toLineString(rawRow));
+            getRows().add(converter.toLineString(rawRow));
         }
         setLabelText(toDisplay());
 
@@ -83,7 +92,7 @@ public class MultiLineText extends LineText
 
     private String implode(Command command, String glue)
     {
-        Iterator<OneLineString> iterator = rows.iterator();
+        Iterator<OneLineString> iterator = getRows().iterator();
         if(iterator.hasNext())
         {
             StringBuilder ret = new StringBuilder(command.execute(iterator.next()));
@@ -97,7 +106,18 @@ public class MultiLineText extends LineText
         return "";
     }
 
-    private List<OneLineString> rows = new ArrayList<OneLineString>();
+    private List<OneLineString> getRows()
+    {
+        if(null == rows)
+        {
+            rows = new ArrayList<OneLineString>();
+            setText(text);
+        }
+        return rows;
+    }
+
+    private String text = "";
+    private transient List<OneLineString> rows;
 
     private final static Command TO_DISPLAY = new Command(){
         @Override

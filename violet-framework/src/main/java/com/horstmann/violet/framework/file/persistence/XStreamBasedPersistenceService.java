@@ -45,6 +45,7 @@ public class XStreamBasedPersistenceService implements IFilePersistenceService {
 			aNode.setGraph(graph);
 		}
 		reader.close();
+		graph.deserializeSupport();
 		return graph;
 	}
 

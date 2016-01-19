@@ -95,12 +95,7 @@ public class ObjectNode extends ColorableNode
     public void setTextColor(Color textColor)
     {
         name.setTextColor(textColor);
-    }
-
-    @Override
-    public Color getTextColor()
-    {
-        return name.getTextColor();
+        super.setTextColor(textColor);
     }
 
     @Override

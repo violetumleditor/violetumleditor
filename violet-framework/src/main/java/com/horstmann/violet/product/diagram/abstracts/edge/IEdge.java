@@ -36,6 +36,9 @@ import com.horstmann.violet.product.diagram.abstracts.node.INode;
  */
 public interface IEdge extends Serializable, Cloneable, IIdentifiable
 {
+
+    void deserializeSupport();
+
     /**
      * Sets the starting node_old
      * 

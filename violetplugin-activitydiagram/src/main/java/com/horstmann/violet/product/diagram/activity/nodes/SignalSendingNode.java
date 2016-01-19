@@ -95,13 +95,9 @@ public class SignalSendingNode extends ColorableNode
     public void setTextColor(Color textColor)
     {
         signal.setTextColor(textColor);
+        super.setTextColor(textColor);
     }
 
-    @Override
-    public Color getTextColor()
-    {
-        return signal.getTextColor();
-    }
 
 
     @Override
