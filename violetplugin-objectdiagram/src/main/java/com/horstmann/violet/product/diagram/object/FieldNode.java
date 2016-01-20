@@ -42,15 +42,7 @@ import com.horstmann.violet.product.diagram.common.edge.BasePropertyEdge;
  */
 public class FieldNode extends ColorableNode
 {
-    protected final static Separator EQUAL_SEPARATOR = new Separator()
-    {
-        @Override
-        public void draw(Graphics2D g2, Point2D startPoint, Point2D endPoint)
-        {
-            g2.drawLine((int)startPoint.getX()-3, (int)startPoint.getY() + DEFAULT_HEIGHT/2 -1, (int)startPoint.getX()+3, (int)startPoint.getY() + DEFAULT_HEIGHT/2 -1);
-            g2.drawLine((int)startPoint.getX()-3, (int)startPoint.getY() + DEFAULT_HEIGHT/2 +2, (int)startPoint.getX()+3, (int)startPoint.getY() + DEFAULT_HEIGHT/2 +2);
-        }
-    };
+
 
     /**
      * Default constructor
@@ -74,6 +66,16 @@ public class FieldNode extends ColorableNode
         name = node.name.clone();
         value = node.value.clone();
         createContentStructure();
+    }
+
+    @Override
+    public void deserializeSupport()
+    {
+        super.deserializeSupport();
+        name.deserializeSupport();
+        name.setPadding(0, 10, 0, 15);
+        value.deserializeSupport();
+        value.setPadding(0, 15, 0, 10);
     }
 
     @Override
@@ -251,18 +253,23 @@ public class FieldNode extends ColorableNode
         return value;
     }
 
-    private HorizontalGroupContent horizontalGroupContent = null;
-
     private SingleLineText name;
     private SingleLineText value;
-//    private SingleLineText equalSeparator;
+
+    private transient HorizontalGroupContent horizontalGroupContent = null;
 
     private final static int DEFAULT_WIDTH = 80;
     private final static int DEFAULT_HEIGHT = 20;
     private final static int XGAP = 5;
     private final static int YGAP = 5;
 
-    private transient double verticalLocation = 0;
-    private transient double horizontalLocation = 0;
-
+    protected final static Separator EQUAL_SEPARATOR = new Separator()
+    {
+        @Override
+        public void draw(Graphics2D g2, Point2D startPoint, Point2D endPoint)
+        {
+            g2.drawLine((int)startPoint.getX()-3, (int)startPoint.getY() + DEFAULT_HEIGHT/2 -1, (int)startPoint.getX()+3, (int)startPoint.getY() + DEFAULT_HEIGHT/2 -1);
+            g2.drawLine((int)startPoint.getX()-3, (int)startPoint.getY() + DEFAULT_HEIGHT/2 +2, (int)startPoint.getX()+3, (int)startPoint.getY() + DEFAULT_HEIGHT/2 +2);
+        }
+    };
 }

@@ -73,7 +73,7 @@ public class ObjectReferenceEdge extends ShapeEdge
         else
         // reverse C shaped
         {
-            double x1 = Math.max(getStart().getBounds().getMaxX(), line.getX2()) + START_SIZE;
+            double x1 = Math.max(getStart().getBounds().getMaxX(), line.getX2()+END_SIZE) + START_SIZE;
             double x2 = x1 + END_SIZE;
             p.moveTo((float) line.getX1(), (float) y1);
             p.lineTo((float) x1, (float) y1);

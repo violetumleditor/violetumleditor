@@ -61,6 +61,13 @@ public class DecisionNode extends ColorableNode
     }
 
     @Override
+    public void deserializeSupport()
+    {
+        super.deserializeSupport();
+        condition.deserializeSupport();
+    }
+
+    @Override
     protected INode copy() throws CloneNotSupportedException {
         return new DecisionNode(this);
     }

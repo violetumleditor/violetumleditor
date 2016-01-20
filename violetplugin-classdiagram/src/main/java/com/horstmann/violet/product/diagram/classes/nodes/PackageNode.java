@@ -65,6 +65,23 @@ public class PackageNode extends ColorableNode{
     }
 
     @Override
+    public void deserializeSupport()
+    {
+        super.deserializeSupport();
+        name.deserializeSupport();
+        text.deserializeSupport();
+
+        for(INode child : getChildren())
+        {
+            if (child instanceof ClassNode || child instanceof InterfaceNode || child instanceof PackageNode)
+            {
+                nodesGroup.add(((ColorableNode) child).getContent(), getChildRelativeLocation(child));
+            }
+        }
+    }
+
+
+    @Override
     protected INode copy() throws CloneNotSupportedException
     {
         return new PackageNode(this);
@@ -233,10 +250,10 @@ public class PackageNode extends ColorableNode{
 
 
 
-    private RelativeGroupContent nodesGroup = null;
-
     private SingleLineText name;
     private MultiLineText text;
+
+    private transient RelativeGroupContent nodesGroup = null;
 
     private static int DEFAULT_TOP_WIDTH = 60;
     private static int DEFAULT_TOP_HEIGHT = 20;

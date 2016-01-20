@@ -40,19 +40,24 @@ public class ClassNode extends ColorableNode
     }
 
     @Override
+    public void deserializeSupport()
+    {
+        super.deserializeSupport();
+        name.setConverter(nameConverter);
+        name.deserializeSupport();
+        attributes.setConverter(propertyConverter);
+        attributes.deserializeSupport();
+        methods.setConverter(propertyConverter);
+        methods.deserializeSupport();
+    }
+
+    @Override
     protected INode copy() throws CloneNotSupportedException
     {
         return new ClassNode(this);
     }
 
-    @Override
-    public void deserializeSupport()
-    {
-        super.deserializeSupport();
-        getName().deserializeSupport();
-        getAttributes().deserializeSupport();
-        getMethods().deserializeSupport();
-    }
+
 
     @Override
     protected void createContentStructure()
@@ -172,11 +177,11 @@ public class ClassNode extends ColorableNode
         return methods;
     }
 
-    private Separator separator;
-
     private SingleLineText name;
     private MultiLineText attributes;
     private MultiLineText methods;
+
+    private transient Separator separator;
 
     private static int DEFAULT_NAME_HEIGHT = 45;
     private static int DEFAULT_WIDTH = 100;

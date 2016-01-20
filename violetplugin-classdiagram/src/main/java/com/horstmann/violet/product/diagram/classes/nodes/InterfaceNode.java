@@ -26,14 +26,7 @@ public class InterfaceNode extends ColorableNode
     {
         super();
 
-        name = new SingleLineText(new LineText.Converter(){
-            @Override
-            public OneLineString toLineString(String text)
-            {
-                return new PrefixDecorator( new LargeSizeDecorator(new OneLineString(text)), "\u00ABinterface\u00BB<br>");
-//                return new ItalicsDecorator( new LargeSizeDecorator(new OneLineString(text)));
-            }
-        });
+        name = new SingleLineText(nameConverter);
         methods = new MultiLineText();
         createContentStructure();
     }
@@ -44,6 +37,15 @@ public class InterfaceNode extends ColorableNode
         name = node.name.clone();
         methods = node.methods.clone();
         createContentStructure();
+    }
+
+    @Override
+    public void deserializeSupport()
+    {
+        super.deserializeSupport();
+        name.setConverter(nameConverter);
+        name.deserializeSupport();
+        methods.deserializeSupport();
     }
 
     @Override
@@ -142,11 +144,20 @@ public class InterfaceNode extends ColorableNode
 
 
 
-    private Separator separator = null;
-
     private SingleLineText name;
     private MultiLineText methods;
 
+    private transient Separator separator = null;
+
     private static int DEFAULT_NAME_HEIGHT = 45;
     private static int DEFAULT_WIDTH = 100;
+
+    private static LineText.Converter nameConverter = new LineText.Converter(){
+        @Override
+        public OneLineString toLineString(String text)
+        {
+            return new PrefixDecorator( new LargeSizeDecorator(new OneLineString(text)), "«interface»<br>");
+    //                return new ItalicsDecorator( new LargeSizeDecorator(new OneLineString(text)));
+        }
+    };
 }

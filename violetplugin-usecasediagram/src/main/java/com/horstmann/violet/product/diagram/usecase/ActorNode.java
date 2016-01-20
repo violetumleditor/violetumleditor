@@ -102,6 +102,13 @@ public class ActorNode extends ColorableNode
     }
 
     @Override
+    public void deserializeSupport()
+    {
+        super.deserializeSupport();
+        name.deserializeSupport();
+    }
+
+    @Override
     protected INode copy() throws CloneNotSupportedException
     {
         return new ActorNode(this);

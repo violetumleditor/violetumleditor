@@ -91,6 +91,12 @@ public abstract class AbstractNode implements INode
         }
     }
 
+    public void deserializeSupport()
+    {
+        createContentStructure();
+        getContent().refresh();
+    }
+
     @Override
 //    public AbstractNode clone(){
     public final AbstractNode clone(){
@@ -106,11 +112,7 @@ public abstract class AbstractNode implements INode
         return null;
     }
 
-    public void deserializeSupport()
-    {
-        createContentStructure();
-        getContent().refresh();
-    }
+
 
     protected abstract void createContentStructure();
 

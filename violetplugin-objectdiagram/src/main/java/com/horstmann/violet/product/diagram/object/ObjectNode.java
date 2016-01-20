@@ -45,13 +45,7 @@ public class ObjectNode extends ColorableNode
     {
         super();
 
-        name = new SingleLineText(new LineText.Converter(){
-            @Override
-            public OneLineString toLineString(String text)
-            {
-                return new LargeSizeDecorator(new UnderlineDecorator(new OneLineString(text)));
-            }
-        });
+        name = new SingleLineText(nameConverter);
         createContentStructure();
     }
 
@@ -60,6 +54,22 @@ public class ObjectNode extends ColorableNode
         super(node);
         name = node.name.clone();
         createContentStructure();
+    }
+
+    @Override
+    public void deserializeSupport()
+    {
+        super.deserializeSupport();
+        name.setConverter(nameConverter);
+        name.deserializeSupport();
+
+        for(INode child : getChildren())
+        {
+            if (child instanceof FieldNode)
+            {
+                fieldsGroup.add(((ColorableNode) child).getContent());
+            }
+        }
     }
 
     @Override
@@ -180,12 +190,20 @@ public class ObjectNode extends ColorableNode
         return fieldsGroup;
     }
 
-    private VerticalGroupContent fieldsGroup = null;
-    private Separator separator = null;
-
     private SingleLineText name;
+
+    private transient VerticalGroupContent fieldsGroup = null;
+    private transient Separator separator = null;
 
     private final static int DEFAULT_WIDTH = 80;
     private final static int DEFAULT_HEIGHT = 30;
     private final static int YGAP = 5;
+
+    private static LineText.Converter nameConverter = new LineText.Converter(){
+        @Override
+        public OneLineString toLineString(String text)
+        {
+            return new LargeSizeDecorator(new UnderlineDecorator(new OneLineString(text)));
+        }
+    };
 }

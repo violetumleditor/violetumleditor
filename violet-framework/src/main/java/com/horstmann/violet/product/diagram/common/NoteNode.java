@@ -68,6 +68,13 @@ public class NoteNode extends ColorableNode
     }
 
     @Override
+    public void deserializeSupport()
+    {
+        super.deserializeSupport();
+        text.deserializeSupport();
+    }
+
+    @Override
     protected INode copy() throws CloneNotSupportedException {
         return new NoteNode(this);
     }

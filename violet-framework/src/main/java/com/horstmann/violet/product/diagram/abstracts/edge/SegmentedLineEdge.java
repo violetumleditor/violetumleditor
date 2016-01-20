@@ -58,6 +58,14 @@ public abstract class SegmentedLineEdge extends ShapeEdge
         middleLabel = new SingleLineText();
         endLabel = new SingleLineText();
     }
+
+    public void deserializeSupport()
+    {
+        super.deserializeSupport();
+        startLabel.deserializeSupport();
+        middleLabel.deserializeSupport();
+        endLabel.deserializeSupport();
+    }
     
     @Override
     public boolean isTransitionPointsSupported()

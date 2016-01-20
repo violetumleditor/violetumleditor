@@ -59,6 +59,14 @@ public class SignalSendingNode extends ColorableNode
     }
 
     @Override
+    public void deserializeSupport()
+    {
+        super.deserializeSupport();
+        signal.deserializeSupport();
+        signal.setPadding(1,10,1,20);
+    }
+
+    @Override
     protected INode copy() throws CloneNotSupportedException
     {
         return new SignalSendingNode(this);

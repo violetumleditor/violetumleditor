@@ -180,7 +180,7 @@ public class SynchronizationBarNode extends ColorableNode
     }
 
     private Stretch currentStretch;
-    private Content content = null;
+    private transient Content content = null;
 
     private static int DEFAULT_LENGHT = 100;
     private static int DEFAULT_THICKNESS = 5;

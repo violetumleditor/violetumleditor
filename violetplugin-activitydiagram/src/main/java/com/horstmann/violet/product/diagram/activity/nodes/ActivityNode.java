@@ -47,6 +47,13 @@ public class ActivityNode extends ColorableNode
     }
 
     @Override
+    public void deserializeSupport()
+    {
+        super.deserializeSupport();
+        name.deserializeSupport();
+    }
+
+    @Override
     protected INode copy() throws CloneNotSupportedException
     {
         return new ActivityNode(this);

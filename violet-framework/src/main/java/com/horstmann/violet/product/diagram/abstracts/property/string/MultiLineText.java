@@ -23,7 +23,7 @@ public class MultiLineText extends LineText
     public MultiLineText()
     {
         super();
-        setPadding(1,8);
+        setPadding(2,8);
     }
     public MultiLineText(Converter converter)
     {
@@ -37,6 +37,15 @@ public class MultiLineText extends LineText
     }
 
     @Override
+    public void deserializeSupport()
+    {
+        super.deserializeSupport();
+        rows = new ArrayList<OneLineString>();
+        setPadding(2,8);
+        setText(text);
+    }
+
+    @Override
     public final MultiLineText clone()
     {
         return (MultiLineText)super.clone();
@@ -46,14 +55,6 @@ public class MultiLineText extends LineText
     protected MultiLineText copy() throws CloneNotSupportedException
     {
         return new MultiLineText(this);
-    }
-
-    public void deserializeSupport()
-    {
-        super.deserializeSupport();
-        rows = new ArrayList<OneLineString>();
-        setText(text);
-        setPadding(1,8);
     }
 
     @Override
@@ -111,6 +112,7 @@ public class MultiLineText extends LineText
         if(null == rows)
         {
             rows = new ArrayList<OneLineString>();
+            setPadding(2,8);
             setText(text);
         }
         return rows;

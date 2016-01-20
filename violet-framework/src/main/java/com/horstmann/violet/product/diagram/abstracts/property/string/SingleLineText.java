@@ -27,6 +27,14 @@ public class SingleLineText extends LineText
         super(lineText);
         oneLineString = lineText.getOneLineString().clone();
     }
+    @Override
+    public void deserializeSupport()
+    {
+        super.deserializeSupport();
+        oneLineString = new OneLineString();
+        setPadding(0,10);
+        setText(text);
+    }
 
     @Override
     public SingleLineText clone()
@@ -40,13 +48,7 @@ public class SingleLineText extends LineText
         return new SingleLineText(this);
     }
 
-    public void deserializeSupport()
-    {
-        super.deserializeSupport();
-        oneLineString = new OneLineString();
-        setPadding(0,10);
-        setText(text);
-    }
+
 
     @Override
     final public void setText(String text)
@@ -80,6 +82,8 @@ public class SingleLineText extends LineText
         if(null == oneLineString)
         {
             oneLineString = new OneLineString();
+            setPadding(0,10);
+            setText(text);
         }
         return oneLineString;
     }

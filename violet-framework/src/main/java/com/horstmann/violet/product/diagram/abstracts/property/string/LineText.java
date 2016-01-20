@@ -47,6 +47,11 @@ public abstract class LineText implements Serializable, Cloneable, EditableStrin
         converter = lineText.converter;
     }
 
+    public void deserializeSupport()
+    {
+        this.converter = DEFAULT_CONVERTER;
+    }
+
     @Override
     public LineText clone()
     {
@@ -62,10 +67,12 @@ public abstract class LineText implements Serializable, Cloneable, EditableStrin
         return null;
     }
 
-    public void deserializeSupport()
+    public final void setConverter(Converter converter)
     {
-
+        this.converter = converter;
     }
+
+
 
     public final Rectangle2D getBounds()
     {
@@ -199,7 +206,7 @@ public abstract class LineText implements Serializable, Cloneable, EditableStrin
     public static final int CENTER = SwingConstants.CENTER;
     public static final int RIGHT = SwingConstants.RIGHT;
 
-    protected Converter converter;
+    protected transient Converter converter;
     private transient JLabel label;
     private transient Rectangle2D bounds;
 

@@ -60,6 +60,14 @@ public class UseCaseNode extends ColorableNode
     }
 
     @Override
+    public void deserializeSupport()
+    {
+        super.deserializeSupport();
+        name.deserializeSupport();
+        name.setAlignment(LineText.CENTER);
+    }
+
+    @Override
     protected INode copy() throws CloneNotSupportedException
     {
         return new UseCaseNode(this);

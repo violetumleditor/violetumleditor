@@ -48,6 +48,7 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
         super(node);
     }
 
+    @Override
 //  protected abstract void createContentStructure();
     protected void createContentStructure()
     {
@@ -56,10 +57,14 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
         setContent(getBackground());
     }
 
+    @Override
     public boolean contains(Point2D p)
     {
-//        return getContent().contains(p);
-        return getBackground().contains(p);
+        if(null != getBackground())
+        {
+            return getBackground().contains(p);
+        }
+        return getContent().contains(p);
     }
     
     @Override
@@ -74,11 +79,16 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
     	return super.addConnection(e);
     }
 
+    @Override
     public Shape getShape()
     {
         return getBounds();
     }
 
+    protected final void setBackground(ContentBackground background)
+    {
+        this.background = background;
+    }
     protected final ContentBackground getBackground()
     {
         if(null == background)
@@ -88,11 +98,10 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
         return background;
     }
 
-    protected final void setBackground(ContentBackground background)
+    protected final void setBorder(ContentBorder border)
     {
-        this.background = background;
+        this.border = border;
     }
-
     protected final ContentBorder getBorder()
     {
         if(null == border)
@@ -102,11 +111,9 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
         return border;
     }
 
-    protected final void setBorder(ContentBorder border)
-    {
-        this.border = border;
-    }
 
+
+    @Override
     public final void setBackgroundColor(Color bgColor)
     {
         backgroundColor = bgColor;
@@ -116,6 +123,7 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
         }
     }
 
+    @Override
     public final Color getBackgroundColor()
     {
         if(null == backgroundColor)
@@ -125,15 +133,17 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
         return backgroundColor;
     }
 
+    @Override
     public void setBorderColor(Color borderColor)
     {
-        borderColor = borderColor;
+        this.borderColor = borderColor;
         if(null != border)
         {
             border.setBorderColor(borderColor);
         }
     }
 
+    @Override
     public final Color getBorderColor()
     {
         if(null == borderColor)
@@ -143,11 +153,13 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
         return borderColor;
     }
 
+    @Override
     public void setTextColor(Color textColor)
     {
         this.textColor = textColor;
     }
 
+    @Override
     public final Color getTextColor()
     {
         if(null == textColor)
@@ -160,7 +172,7 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
     private transient ContentBackground background = null;
     private transient ContentBorder border = null;
 
-    private Color backgroundColor = ColorToolsBarPanel.DEFAULT_COLOR.getBackgroundColor();
-    private Color borderColor = ColorToolsBarPanel.DEFAULT_COLOR.getBorderColor();
+    private Color backgroundColor;
+    private Color borderColor;
     private Color textColor;
 }
