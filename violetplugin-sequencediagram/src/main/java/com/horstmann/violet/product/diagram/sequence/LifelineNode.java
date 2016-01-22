@@ -35,6 +35,7 @@ import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
+import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.LargeSizeDecorator;
 import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.OneLineString;
 import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.UnderlineDecorator;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
@@ -73,6 +74,22 @@ public class LifelineNode extends ColorableNode
     }
 
     @Override
+    public void deserializeSupport()
+    {
+        super.deserializeSupport();
+        name.setConverter(nameConverter);
+        name.deserializeSupport();
+
+        for(INode child : getChildren())
+        {
+            if (child instanceof ActivationBarNode)
+            {
+                activationsGroup.add(((ActivationBarNode) child).getContent());
+            }
+        }
+    }
+
+    @Override
     protected INode copy() throws CloneNotSupportedException
     {
         return new LifelineNode(this);
@@ -91,7 +108,7 @@ public class LifelineNode extends ColorableNode
         setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
         setContent(getBackground());
 
-        setTextColor(super.getTextColor());
+        setTextColor(getTextColor());
     }
 
     @Override
@@ -101,6 +118,34 @@ public class LifelineNode extends ColorableNode
         super.setTextColor(textColor);
     }
 
+    @Override
+    public void removeChild(INode node)
+    {
+        activationsGroup.remove(((ActivationBarNode) node).getContent());
+        super.removeChild(node);
+    }
+
+    @Override
+    public boolean addChild(INode node, Point2D p)
+    {
+        List<INode> activations = getChildren();
+        if (!(node instanceof ActivationBarNode)) return false;
+        if (activations.contains(node)) return true;
+
+        addChild(node, activations.size());
+        node.setGraph(getGraph());
+        node.setParent(this);
+
+        node.setLocation(p);
+
+        ActivationBarNode activationBarNode = (ActivationBarNode) node;
+        activationBarNode.setTextColor(getTextColor());
+        activationBarNode.setBackgroundColor(getBackgroundColor());
+        activationBarNode.setBorderColor(getBorderColor());
+        activationsGroup.add(activationBarNode.getContent());
+
+        return true;
+    }
 
 
 
@@ -131,19 +176,6 @@ public class LifelineNode extends ColorableNode
         return false;
     }
 
-    @Override
-    public boolean addChild(INode n, Point2D p)
-    {
-        if (!n.getClass().isAssignableFrom(ActivationBarNode.class))
-        {
-            return false;
-        }
-        n.setParent(this);
-        n.setGraph(getGraph());
-        n.setLocation(p);
-        addChild(n, getChildren().size());
-        return true;
-    }
 
     /**
      * Looks for the node_old which is located just after the given point
@@ -383,8 +415,19 @@ public class LifelineNode extends ColorableNode
 
 
     private SingleLineText name;
+
+    private transient VerticalGroupContent activationsGroup = null;
+
     private transient double maxYOverAllLifeLineNodes = 0;
     private static int DEFAULT_TOP_HEIGHT = 60;
     private static int DEFAULT_WIDTH = 80;
     private static int DEFAULT_HEIGHT = 120;
+
+    private static LineText.Converter nameConverter = new LineText.Converter(){
+        @Override
+        public OneLineString toLineString(String text)
+        {
+            return new LargeSizeDecorator(new UnderlineDecorator(new OneLineString(text)));
+        }
+    };
 }

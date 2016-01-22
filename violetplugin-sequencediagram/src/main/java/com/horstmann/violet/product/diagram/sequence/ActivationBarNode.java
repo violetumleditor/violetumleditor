@@ -30,6 +30,11 @@ import java.util.List;
 
 import javax.lang.model.type.NullType;
 
+import com.horstmann.violet.framework.graphics.content.ContentBackground;
+import com.horstmann.violet.framework.graphics.content.ContentBorder;
+import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
+import com.horstmann.violet.framework.graphics.content.EmptyContent;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
@@ -40,27 +45,67 @@ import com.horstmann.violet.product.diagram.abstracts.node.INode;
  */
 public class ActivationBarNode extends ColorableNode
 {
+    public ActivationBarNode()
+    {
+        super();
+        createContentStructure();
+    }
+
+    protected ActivationBarNode(ActivationBarNode node) throws CloneNotSupportedException
+    {
+        super(node);
+        createContentStructure();
+    }
 
     @Override
-    public boolean addChild(INode n, Point2D p)
+    protected INode copy() throws CloneNotSupportedException
     {
-        if (!n.getClass().isAssignableFrom(ActivationBarNode.class))
+        return new ActivationBarNode(this);
+    }
+
+    @Override
+    protected void createContentStructure()
+    {
+        EmptyContent emptyContent = new EmptyContent();
+        emptyContent.setMinHeight(DEFAULT_HEIGHT);
+        emptyContent.setMinWidth(DEFAULT_WIDTH);
+
+        ContentInsideShape contentInsideShape = new ContentInsideRectangle(emptyContent);
+
+        setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
+        setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
+        setContent(getBackground());
+
+        setTextColor(getTextColor());
+    }
+
+    @Override
+    public boolean addChild(INode node, Point2D point)
+    {
+        if (!node.getClass().isAssignableFrom(ActivationBarNode.class))
         {
             return false;
         }
-        n.setParent(this);
-        n.setGraph(getGraph());
-        n.setLocation(p);
-        addChild(n, getChildren().size());
+        INode parent = getParent();
+        List<INode> parentChildren = parent.getChildren();
+        int currentPosition = parentChildren.indexOf(this);
+        parent.addChild(node, currentPosition + 1);
         return true;
     }
 
-
-    @Override
-    public void removeChild(INode node)
-    {
-        super.removeChild(node);
-    }
+//    @Override
+//    public boolean addChild(INode n, Point2D p)
+//    {
+//        if (!n.getClass().isAssignableFrom(ActivationBarNode.class))
+//        {
+//            return false;
+//        }
+//        n.setParent(this);
+//        n.setGraph(getGraph());
+//        n.setLocation(p);
+//        addChild(n, getChildren().size());
+//        return true;
+//    }
 
     @Override
     public boolean addConnection(IEdge edge)

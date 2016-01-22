@@ -168,7 +168,9 @@ public class ObjectNode extends ColorableNode
 
         int i = 0;
         while (i < fields.size() && fields.get(i).getLocation().getY() < p.getY())
+        {
             i++;
+        }
         addChild(n, i);
         n.setGraph(getGraph());
         n.setParent(this);
