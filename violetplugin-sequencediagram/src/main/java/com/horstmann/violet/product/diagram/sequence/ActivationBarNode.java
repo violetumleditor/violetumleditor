@@ -21,8 +21,7 @@
 
 package com.horstmann.violet.product.diagram.sequence;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -86,10 +85,8 @@ public class ActivationBarNode extends ColorableNode
         {
             return false;
         }
-        INode parent = getParent();
-        List<INode> parentChildren = parent.getChildren();
-        int currentPosition = parentChildren.indexOf(this);
-        parent.addChild(node, currentPosition + 1);
+        point.setLocation(getBounds().getX(),getBounds().getMaxY());
+        getParent().addChild(node, point);
         return true;
     }
 

@@ -145,7 +145,7 @@ public class ArrowHead extends SerializableEnumeration
         basePath.transform(af);
     }
 
-    protected void fillPath(Graphics2D g2, GeneralPath basePath){};
+    protected void fillPath(Graphics2D g2, GeneralPath basePath){}
 
     protected static final double ARROW_ANGLE = Math.PI / 6;
     protected static final double ARROW_LENGTH = 10;

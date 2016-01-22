@@ -34,6 +34,7 @@ import java.util.List;
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
+import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
 import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.LargeSizeDecorator;
 import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.OneLineString;
@@ -103,10 +104,12 @@ public class LifelineNode extends ColorableNode
         nameContent.setMinWidth(DEFAULT_WIDTH);
 
         ContentInsideShape contentInsideShape = new ContentInsideRectangle(nameContent);
-        activationsGroup = new VerticalGroupContent();
 
         setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
         setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
+
+        activationsGroup = new VerticalGroupContent();
+
         setContent(getBackground());
 
         setTextColor(getTextColor());
@@ -143,14 +146,35 @@ public class LifelineNode extends ColorableNode
         activationBarNode.setTextColor(getTextColor());
         activationBarNode.setBackgroundColor(getBackgroundColor());
         activationBarNode.setBorderColor(getBorderColor());
-        activationsGroup.add(activationBarNode.getContent());
 
         return true;
     }
 
 
 
+    public void draw(Graphics2D g2)
+    {
+        Rectangle2D bounds = getBounds();
+        Point2D startPoint = new Point2D.Double(bounds.getCenterX(), bounds.getMinY());
+        Point2D endPoint  = new Point2D.Double(bounds.getCenterX(), getMaxYOverAllLifeLineNodes());
 
+        Color oldColor = g2.getColor();
+        Stroke oldStroke = g2.getStroke();
+        g2.setColor(getBorderColor());
+        g2.setStroke(new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0.0f, new float[]{5.0f,5.0f}, 0.0f));
+        g2.draw(new Line2D.Double(startPoint, endPoint));
+        g2.setStroke(oldStroke);
+        ArrowHead.X.draw(g2, startPoint, endPoint);
+        g2.setColor(oldColor);
+
+        super.draw(g2);
+
+        // Draw its children
+        for (INode node : getChildren())
+        {
+            node.draw(g2);
+        }
+    }
 
     /**
      * Sets the name property value.
@@ -178,49 +202,6 @@ public class LifelineNode extends ColorableNode
     }
 
 
-    /**
-     * Looks for the node_old which is located just after the given point
-     * 
-     * @param p
-     * @return the node_old we found or null if there's no node_old after this point
-     */
-    private INode getNearestNodeAfterThisPoint(Point2D p)
-    {
-        double y = p.getY();
-        INode nearestNodeAfterThisPoint = null;
-        // Step 1 : we look for the closest node_old
-        for (INode childNode : getChildren())
-        {
-            if (nearestNodeAfterThisPoint == null)
-            {
-                nearestNodeAfterThisPoint = childNode;
-            }
-            Point2D childLocation = childNode.getLocation();
-            Point2D nearestNodeLocation = nearestNodeAfterThisPoint.getLocation();
-            double childY = childLocation.getY();
-            double nearestY = nearestNodeLocation.getY();
-            double currentNodeGap = childY - y;
-            double nearestNodeGap = nearestY - y;
-            if (currentNodeGap > 0 && Math.abs(currentNodeGap) < Math.abs(nearestNodeGap))
-            {
-                nearestNodeAfterThisPoint = childNode;
-            }
-        }
-        // Step 2 : if nothing found, we return null
-        if (nearestNodeAfterThisPoint == null)
-        {
-            return null;
-        }
-        // Step 3 : as by default we set the first child node_old as the nearest one
-        // We check if it is not before p
-        Point2D nearestChildLocation = nearestNodeAfterThisPoint.getLocation();
-        if (y > nearestChildLocation.getY())
-        {
-            return null;
-        }
-        // Step 4 : we return the closest node_old after p
-        return nearestNodeAfterThisPoint;
-    }
 
     @Override
     public Point2D getConnectionPoint(IEdge e)
@@ -294,18 +275,6 @@ public class LifelineNode extends ColorableNode
         return topWidth;
     }
 
-    @Override
-    public Rectangle2D getBounds()
-    {
-        double topRectWidth = getTopRectangle().getWidth();
-        double height = getLocalHeight();
-        Point2D nodeLocation = getLocation();
-        Rectangle2D bounds = new Rectangle2D.Double(nodeLocation.getX(), nodeLocation.getY(), topRectWidth, height);
-        Rectangle2D scaledBounds = getScaledBounds(bounds);
-        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(scaledBounds);
-        return snappedBounds;
-    }
-
     public double getLocalHeight()
     {
         double topRectHeight = getTopRectangle().getHeight();
@@ -321,68 +290,6 @@ public class LifelineNode extends ColorableNode
         }
         height = height + ActivationBarNode.CALL_YGAP * 2;
         return height;
-    }
-
-    private Rectangle2D getScaledBounds(Rectangle2D bounds)
-    {
-        double x = bounds.getX();
-        double y = bounds.getY();
-        double w = bounds.getWidth();
-        double h = bounds.getHeight();
-        double diffY = this.maxYOverAllLifeLineNodes - bounds.getMaxY();
-        if (diffY > 0)
-        {
-            h = h + diffY;
-        }
-        return new Rectangle2D.Double(x, y, w, h);
-    }
-
-    @Override
-    public Rectangle2D getShape()
-    {
-        Point2D currentLocation = getLocation();
-        Rectangle2D topRectangle = getTopRectangle();
-        double x = currentLocation.getX();
-        double y = currentLocation.getY();
-        double w = topRectangle.getWidth();
-        double h = topRectangle.getHeight();
-        return new Rectangle2D.Double(x, y, w, h);
-    }
-
-    public void draw(Graphics2D g2)
-    {
-        super.draw(g2);
-
-        // Backup current color;
-        Color oldColor = g2.getColor();
-
-        // Perform drawing
-        Rectangle2D top = getShape();
-        g2.setColor(getBackgroundColor());
-        g2.fill(top);
-        g2.setColor(getBorderColor());
-        g2.draw(top);
-        g2.setColor(getTextColor());
-        name.draw(g2, top);
-        double xmid = top.getCenterX();
-        Line2D line = new Line2D.Double(xmid, top.getMaxY(), xmid, getMaxYOverAllLifeLineNodes());
-        Stroke oldStroke = g2.getStroke();
-        g2.setStroke(new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0.0f, new float[]
-        {
-                5.0f,
-                5.0f
-        }, 0.0f));
-        g2.setColor(getBorderColor());
-        g2.draw(line);
-        g2.setStroke(oldStroke);
-
-        // Restore first color
-        g2.setColor(oldColor);
-        // Draw its children
-        for (INode node : getChildren())
-        {
-            node.draw(g2);
-        }
     }
 
     private double getMaxYOverAllLifeLineNodes()
@@ -411,7 +318,15 @@ public class LifelineNode extends ColorableNode
     public boolean contains(Point2D p)
     {
         Rectangle2D bounds = getBounds();
-        return bounds.getX() <= p.getX() && p.getX() <= bounds.getX() + bounds.getWidth();
+        if((maxYOverAllLifeLineNodes >= p.getY() &&
+            DEFAULT_LINE_CONTAINS_THICKNESS >= p.getX() - bounds.getCenterX() &&
+            DEFAULT_LINE_CONTAINS_THICKNESS >= bounds.getCenterX() - p.getX()) ||
+           (bounds.getX() <= p.getX() &&
+            p.getX() <= bounds.getX() + bounds.getWidth()))
+        {
+            return true;
+        }
+        return false;
     }
 
 
@@ -423,6 +338,7 @@ public class LifelineNode extends ColorableNode
     private static int DEFAULT_TOP_HEIGHT = 60;
     private static int DEFAULT_WIDTH = 80;
     private static int DEFAULT_HEIGHT = 120;
+    private static int DEFAULT_LINE_CONTAINS_THICKNESS = 5;
 
     private static LineText.Converter nameConverter = new LineText.Converter(){
         @Override
