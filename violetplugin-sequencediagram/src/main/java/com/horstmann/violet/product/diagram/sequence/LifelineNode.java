@@ -103,6 +103,7 @@ public class LifelineNode extends ColorableNode
         nameContent.setMinWidth(DEFAULT_WIDTH);
 
         ContentInsideShape contentInsideShape = new ContentInsideRectangle(nameContent);
+        activationsGroup = new VerticalGroupContent();
 
         setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
         setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
