@@ -1,5 +1,7 @@
 *.class
 
+.idea/
+
 # Package Files #
 *.war
 *.ear
