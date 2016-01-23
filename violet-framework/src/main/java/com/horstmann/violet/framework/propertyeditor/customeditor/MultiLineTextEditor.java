@@ -21,84 +21,31 @@
 
 package com.horstmann.violet.framework.propertyeditor.customeditor;
 
-import java.awt.Component;
-import java.awt.KeyboardFocusManager;
-import java.beans.PropertyEditorSupport;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.KeyStroke;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
+import javax.swing.text.JTextComponent;
 
+import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
 
 /**
  * A property editor for the MultiLineText type.
  */
-public class MultiLineTextEditor extends PropertyEditorSupport
+public class MultiLineTextEditor extends LineTextEditor
 {
-    public boolean supportsCustomEditor()
-    {
-        return true;
-    }
-
-    public Component getCustomEditor()
+    protected void setSourceEditor()
     {
         this.source = (MultiLineText) getValue();
-        final JPanel panel = new JPanel();
-        panel.add(getTextEditorComponent());
-        return panel;
     }
-
-    private JComponent getTextEditorComponent()
+    protected LineText getSourceEditor()
     {
-        if (this.textEditorComponent == null)
-        {
-            final JTextArea textArea = new JTextArea(ROWS, COLUMNS);
-
-            textArea.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, tab);
-            textArea.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, shiftTab);
-
-            textArea.setText(source.toEdit());
-            textArea.getDocument().addDocumentListener(new DocumentListener()
-            {
-                public void insertUpdate(DocumentEvent e)
-                {
-                    source.setText(textArea.getText());
-                    firePropertyChange();
-                }
-
-                public void removeUpdate(DocumentEvent e)
-                {
-                    source.setText(textArea.getText());
-                    firePropertyChange();
-                }
-
-                public void changedUpdate(DocumentEvent e)
-                {
-                }
-            });
-            this.textEditorComponent = new JScrollPane(textArea);
-        }
-        return this.textEditorComponent;
+        return this.source;
+    }
+    protected JTextComponent createTextComponent()
+    {
+        return new JTextArea(ROWS, COLUMNS);
     }
 
     private MultiLineText source;
-    private JComponent textEditorComponent;
 
     private static final int ROWS = 5;
-    private static final int COLUMNS = 30;
-
-    private static Set<KeyStroke> tab = new HashSet<KeyStroke>(1);
-    private static Set<KeyStroke> shiftTab = new HashSet<KeyStroke>(1);
-    static
-    {
-        tab.add(KeyStroke.getKeyStroke("TAB"));
-        shiftTab.add(KeyStroke.getKeyStroke("shift TAB"));
-    }
 }
