@@ -74,9 +74,8 @@ import com.thoughtworks.xstream.io.StreamException;
 
 /**
  * Represents the file menu on the editor frame
- * 
+ *
  * @author Alexandre de Pellegrin
- * 
  */
 @ResourceBundleBean(resourceReference = MenuFactory.class)
 public class FileMenu extends JMenu
@@ -84,7 +83,7 @@ public class FileMenu extends JMenu
 
     /**
      * Default constructor
-     * 
+     *
      * @param mainFrame
      */
     @ResourceBundleBean(key = "file")
@@ -176,11 +175,13 @@ public class FileMenu extends JMenu
     {
         initFileExportToImageItem();
         initFileExportToClipboardItem();
+        initFileExportToPdfItem();
         initFileExportToJavaItem();
         initFileExportToPythonItem();
 
         this.fileExportMenu.add(this.fileExportToImageItem);
         this.fileExportMenu.add(this.fileExportToClipBoardItem);
+        this.fileExportMenu.add(this.fileExportToPdfItem);
         // this.fileExportMenu.add(this.fileExportToJavaItem);
         // this.fileExportMenu.add(this.fileExportToPythonItem);
 
@@ -269,6 +270,36 @@ public class FileMenu extends JMenu
                                     break;
                                 }
                             }
+                        }
+                    }
+                    catch (Exception e1)
+                    {
+                        throw new RuntimeException(e1);
+                    }
+                }
+            }
+        });
+    }
+
+    private void initFileExportToPdfItem()
+    {
+        this.fileExportToPdfItem.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                IWorkspace workspace = (Workspace) mainFrame.getActiveWorkspace();
+                if (workspace != null)
+                {
+                    try
+                    {
+                        ExtensionFilter extensionFilter = fileNamingService.getPdfExtensionFilter();
+                        IFileWriter fileSaver = fileChooserService.chooseAndGetFileWriter(extensionFilter);
+                        OutputStream out = fileSaver.getOutputStream();
+                        if (out != null)
+                        {
+                            String filename = fileSaver.getFileDefinition().getFilename();
+                            workspace.getGraphFile().exportToPdf(out);
                         }
                     }
                     catch (Exception e1)
@@ -599,7 +630,8 @@ public class FileMenu extends JMenu
         {
             String sampleFilePath = diagramPlugin.getSampleFilePath();
             InputStream resourceAsStream = getClass().getResourceAsStream("/" + sampleFilePath);
-            if (resourceAsStream == null) {
+            if (resourceAsStream == null)
+            {
                 return null;
             }
             IGraph graph = this.filePersistenceService.read(resourceAsStream);
@@ -625,36 +657,52 @@ public class FileMenu extends JMenu
         }
     }
 
-    /** The file chooser to use with with menu */
+    /**
+     * The file chooser to use with with menu
+     */
     @InjectedBean
     private IFileChooserService fileChooserService;
 
-    /** Application stopper */
+    /**
+     * Application stopper
+     */
     private ApplicationStopper stopper = new ApplicationStopper();
 
-    /** Plugin registry */
+    /**
+     * Plugin registry
+     */
     @InjectedBean
     private PluginRegistry pluginRegistry;
 
-    /** DialogBox handler */
+    /**
+     * DialogBox handler
+     */
     @InjectedBean
     private DialogFactory dialogFactory;
 
-    /** Access to user preferences */
+    /**
+     * Access to user preferences
+     */
     @InjectedBean
     private UserPreferencesService userPreferencesService;
 
-    /** File services */
+    /**
+     * File services
+     */
     @InjectedBean
     private FileNamingService fileNamingService;
-    
-    /** Service to convert IGraph to XML content (and XML to IGraph of course) */
+
+    /**
+     * Service to convert IGraph to XML content (and XML to IGraph of course)
+     */
     @InjectedBean
     private IFilePersistenceService filePersistenceService;
 
-    /** Application main frame */
+    /**
+     * Application main frame
+     */
     private MainFrame mainFrame;
-    
+
     @ResourceBundleBean(key = "file.new")
     private JMenu fileNewMenu;
 
@@ -672,6 +720,9 @@ public class FileMenu extends JMenu
 
     @ResourceBundleBean(key = "file.save_as")
     private JMenuItem fileSaveAsItem;
+
+    @ResourceBundleBean(key = "file.export_to_pdf")
+    private JMenuItem fileExportToPdfItem;
 
     @ResourceBundleBean(key = "file.export_to_image")
     private JMenuItem fileExportToImageItem;

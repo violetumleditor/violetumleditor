@@ -21,47 +21,46 @@
 
 package com.horstmann.violet.framework.file.export;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.OutputStream;
+import java.util.Properties;
 
 import com.horstmann.violet.framework.util.ClipboardPipe;
+import com.horstmann.violet.framework.util.PDFGraphics2DStringWriter;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import org.freehep.graphicsio.PageConstants;
 
 public class FileExportService
 {
 
     /**
      * Return the image correspondiojng to the graph
-     * 
+     *
      * @param graph
-     * @author Alexandre de Pellegrin
      * @return bufferedImage. To convert it into an image, use the syntax :
-     *         Toolkit.getDefaultToolkit().createImage(bufferedImage.getSource());
+     * Toolkit.getDefaultToolkit().createImage(bufferedImage.getSource());
+     * @author Alexandre de Pellegrin
      */
     public static BufferedImage getImage(IGraph graph)
     {
         Rectangle2D bounds = graph.getClipBounds();
+
         BufferedImage image = new BufferedImage((int) bounds.getWidth() + 1, (int) bounds.getHeight() + 1,
                 BufferedImage.TYPE_INT_RGB);
         Graphics2D g2 = (Graphics2D) image.getGraphics();
-        g2.translate(-bounds.getX(), -bounds.getY());
-        g2.setColor(Color.WHITE);
-        g2.fill(new Rectangle2D.Double(bounds.getX(), bounds.getY(), bounds.getWidth() + 1, bounds.getHeight() + 1));
-        g2.setColor(Color.BLACK);
-        g2.setBackground(Color.WHITE);
-        graph.draw(g2);
+
+        renderIGraphToGraphics2D(graph, g2);
+
         return image;
     }
 
     /**
      * Export graph to clipboard (Do not merge with exportToClipBoard(). Used in Eclipse plugin)
-     * 
-     * @author Alexandre de Pellegrin
+     *
      * @param graph
+     * @author Alexandre de Pellegrin
      */
     public static void exportToclipBoard(IGraph graph)
     {
@@ -70,12 +69,45 @@ public class FileExportService
         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(pipe, null);
     }
 
+    public static void exportToPdf(IGraph graph, OutputStream out)
+    {
+        Rectangle2D bounds = graph.getClipBounds();
+
+        Properties p = new Properties();
+        p.setProperty(org.freehep.graphicsio.pdf.PDFGraphics2D.PAGE_SIZE, PageConstants.A4);
+        p.setProperty(org.freehep.graphicsio.pdf.PDFGraphics2D.VERSION, org.freehep.graphicsio.pdf.PDFGraphics2D.VERSION6);
+        p.setProperty(org.freehep.graphicsio.pdf.PDFGraphics2D.FIT_TO_PAGE, "false");
+        p.setProperty(org.freehep.graphicsio.pdf.PDFGraphics2D.EMBED_FONTS, "true");
+
+        org.freehep.graphicsio.pdf.PDFGraphics2D g = new PDFGraphics2DStringWriter(out, bounds.getBounds().getSize());
+        g.setProperties(p);
+        g.startExport();
+
+        renderIGraphToGraphics2D(graph, g);
+
+        g.endExport();
+    }
+
+    private static Graphics2D renderIGraphToGraphics2D(IGraph graph, Graphics2D g2) {
+        Rectangle2D bounds = graph.getClipBounds();
+
+        g2.translate(-bounds.getX(), -bounds.getY());
+        g2.setColor(Color.WHITE);
+        g2.fill(new Rectangle2D.Double(bounds.getX(), bounds.getY(), bounds.getWidth() + 1, bounds.getHeight() + 1));
+        g2.setColor(Color.BLACK);
+        g2.setBackground(Color.WHITE);
+
+        graph.draw(g2);
+
+        return g2;
+    }
+
     /**
      * Auteur : a.depellegrin<br>
      * D�finition : Exports class diagram graph to xmi <br>
-     * 
+     *
      * @param graph to export
-     * @param out to write result
+     * @param out   to write result
      */
     public static void exportToXMI(IGraph graph, OutputStream out)
     {
