@@ -3,30 +3,50 @@ package com.horstmann.violet.framework.injection.resources;
 import java.util.HashMap;
 
 /**
- * Created by piter on 02.01.16.
+ * A singleton class, where stores all shortcut, that was injected by ResourceFactory
  */
-public class ResourceShortcutProvider {
+public class ResourceShortcutProvider
+{
     private HashMap<String, String> shortcutsMap;
 
-    private ResourceShortcutProvider(){
+    private ResourceShortcutProvider()
+    {
         shortcutsMap = new HashMap<String, String>();
     }
 
-    private final static class SingletonHolder{
+    private final static class SingletonHolder
+    {
         private static ResourceShortcutProvider INSTANCE = new ResourceShortcutProvider();
     }
 
-    public static ResourceShortcutProvider getInstance(){
+    /**
+     * Return instance of ResourceShortcutProvider.
+     * @return instance of ResourceShortcutProvider
+     */
+    public static ResourceShortcutProvider getInstance()
+    {
         return SingletonHolder.INSTANCE;
     }
 
-    public void addShortcut(String behaviorName, String behaviorShortcut){
-        if(!shortcutsMap.containsKey(behaviorName)){
-            shortcutsMap.put(behaviorName, behaviorShortcut.replace(' ', '-').toUpperCase());
+    /**
+     * Adding shortcut to HashMap if behavior name didn't exist
+     * @param behaviorName shortcut name
+     * @param behaviorShortcut shortcut
+     */
+    public void addShortcut(String behaviorName, String behaviorShortcut)
+    {
+        if(!shortcutsMap.containsKey(behaviorName))
+        {
+            shortcutsMap.put(behaviorName, behaviorShortcut);
         }
     }
 
-    public HashMap<String, String> getAllShortcuts(){
+    /**
+     * Return HashMap of all register shortcuts
+     * @return HashMap of shortcuts
+     */
+    public HashMap<String, String> getAllShortcuts()
+    {
         return shortcutsMap;
     }
 }

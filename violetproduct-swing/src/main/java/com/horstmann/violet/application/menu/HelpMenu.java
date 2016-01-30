@@ -96,9 +96,11 @@ public class HelpMenu extends JMenu
         });
         this.add(aboutItem);
 
-        shortcutItem.addActionListener(new ActionListener() {
+        shortcutItem.addActionListener(new ActionListener()
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 ShortcutDialog dialog = new ShortcutDialog(mainFrame);
                 dialog.setVisible(true);
             }
@@ -108,9 +110,6 @@ public class HelpMenu extends JMenu
     }
 
     
-
-
-
 
     /**
      * Main app frame where this menu is attached to
