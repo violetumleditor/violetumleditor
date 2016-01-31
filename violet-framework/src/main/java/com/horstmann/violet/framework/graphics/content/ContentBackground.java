@@ -1,17 +1,13 @@
 package com.horstmann.violet.framework.graphics.content;
 
-import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
-
-import java.awt.*;
-import java.awt.List;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.util.*;
+import java.awt.Shape;
+import java.awt.Color;
+import java.awt.Graphics2D;
 
 /**
- * This ...
+ * This class fills in the background shape of the color
  *
- * @author Adrian Bobrowski
+ * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 28.12.2015
  */
 public class ContentBackground extends ContentInsideShape
@@ -22,26 +18,40 @@ public class ContentBackground extends ContentInsideShape
         this.setContent(contentShape);
     }
 
+    /**
+     * @return background color
+     */
     public final Color getBackgroundColor()
     {
         return color;
     }
+
+    /**
+     * sets the color, which want to filled shape
+     * @param color
+     */
     public final void setBackgroundColor(Color color)
     {
         this.color = color;
     }
 
+    /**
+     * @see Content#draw(Graphics2D)
+     */
     @Override
-    public void draw(Graphics2D g2) {
+    public void draw(Graphics2D graphics) {
         if(null!=color) {
-            Color oldColor = g2.getColor();
-            g2.setColor(color);
-            g2.fill(getShape());
-            g2.setColor(oldColor);
+            Color oldColor = graphics.getColor();
+            graphics.setColor(color);
+            graphics.fill(getShape());
+            graphics.setColor(oldColor);
         }
-        getContent().draw(g2);
+        getContent().draw(graphics);
     }
 
+    /**
+     * @see ContentInsideShape#getShape()
+     */
     protected Shape getShape()
     {
         return ((ContentInsideShape)getContent()).getShape();

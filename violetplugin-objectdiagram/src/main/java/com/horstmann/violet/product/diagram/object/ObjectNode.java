@@ -27,7 +27,7 @@ import java.util.List;
 
 import com.horstmann.violet.framework.graphics.Separator;
 import com.horstmann.violet.framework.graphics.content.*;
-import com.horstmann.violet.framework.graphics.content.VerticalGroupContent;
+import com.horstmann.violet.framework.graphics.content.VerticalLayout;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
@@ -86,10 +86,10 @@ public class ObjectNode extends ColorableNode
 
         separator = new Separator.LineSeparator(getBorderColor());
 
-        fieldsGroup = new VerticalGroupContent();
+        fieldsGroup = new VerticalLayout();
         nameContent.setMinWidth(DEFAULT_WIDTH);
 
-        VerticalGroupContent verticalGroupContent = new VerticalGroupContent();
+        VerticalLayout verticalGroupContent = new VerticalLayout();
         verticalGroupContent.add(nameContent);
         verticalGroupContent.add(fieldsGroup);
         verticalGroupContent.setSeparator(separator);
@@ -188,13 +188,13 @@ public class ObjectNode extends ColorableNode
     public int getFieldsTopOffset() {
         return DEFAULT_HEIGHT;
     }
-    public VerticalGroupContent getFieldsGroup() {
+    public VerticalLayout getFieldsGroup() {
         return fieldsGroup;
     }
 
     private SingleLineText name;
 
-    private transient VerticalGroupContent fieldsGroup = null;
+    private transient VerticalLayout fieldsGroup = null;
     private transient Separator separator = null;
 
     private final static int DEFAULT_WIDTH = 80;

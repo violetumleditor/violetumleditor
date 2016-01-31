@@ -1,17 +1,14 @@
 package com.horstmann.violet.framework.graphics.content;
 
-import com.horstmann.violet.framework.graphics.content.Content;
-import com.horstmann.violet.framework.graphics.content.GroupContent;
-
 import java.awt.geom.Point2D;
 
 /**
  * This ...
  *
- * @author Adrian Bobrowski
+ * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 21.12.2015
  */
-public class HorizontalGroupContent extends GroupContent
+public class HorizontalLayout extends Layout
 {
     @Override
     protected Point2D getNextOffset(Point2D beforeOffset, Content content) {

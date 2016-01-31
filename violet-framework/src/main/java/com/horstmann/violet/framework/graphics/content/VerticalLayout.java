@@ -1,14 +1,15 @@
 package com.horstmann.violet.framework.graphics.content;
 
-import com.horstmann.violet.framework.graphics.content.Content;
-import com.horstmann.violet.framework.graphics.content.GroupContent;
-
 import java.awt.geom.Point2D;
 
 /**
- * Created by Adrian Bobrowski on 21.12.2015.
+ * TODO javadoc
+ * This ...
+ *
+ * @author Adrian Bobrowski <adrian071993@gmail.com>
+ * @date 21.12.2015
  */
-public class VerticalGroupContent extends GroupContent
+public class VerticalLayout extends Layout
 {
     @Override
     protected Point2D getNextOffset(Point2D beforeOffset, Content content) {

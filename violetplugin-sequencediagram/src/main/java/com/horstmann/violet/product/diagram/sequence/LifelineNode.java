@@ -108,7 +108,7 @@ public class LifelineNode extends ColorableNode
         setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
         setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
 
-        activationsGroup = new VerticalGroupContent();
+        activationsGroup = new VerticalLayout();
 
         setContent(getBackground());
 
@@ -332,7 +332,7 @@ public class LifelineNode extends ColorableNode
 
     private SingleLineText name;
 
-    private transient VerticalGroupContent activationsGroup = null;
+    private transient VerticalLayout activationsGroup = null;
 
     private transient double maxYOverAllLifeLineNodes = 0;
     private static int DEFAULT_TOP_HEIGHT = 60;

@@ -41,7 +41,7 @@ import com.horstmann.violet.product.diagram.activity.edges.ActivityTransitionEdg
  */
 public class SynchronizationBarNode extends ColorableNode
 {
-    private interface Stretch
+    private interface StretchStrategy
     {
         void setLength(Content content, int lenght);
         int getLength(Content content);
@@ -179,14 +179,14 @@ public class SynchronizationBarNode extends ColorableNode
         }
     }
 
-    private Stretch currentStretch;
+    private StretchStrategy currentStretch;
     private transient Content content = null;
 
     private static int DEFAULT_LENGHT = 100;
     private static int DEFAULT_THICKNESS = 5;
     private static int EXTRA_LENGHT = 12;
 
-    private static Stretch HORIZONTAL = new Stretch() {
+    private static StretchStrategy HORIZONTAL = new StretchStrategy() {
         @Override
         public void setLength(Content content, int lenght) {
             content.setMinWidth(lenght);
@@ -217,7 +217,7 @@ public class SynchronizationBarNode extends ColorableNode
             return StretchStyle.HORIZONTAL;
         }
     };
-    private static Stretch VERTICAL = new Stretch() {
+    private static StretchStrategy VERTICAL = new StretchStrategy() {
         @Override
         public void setLength(Content content, int lenght) {
             content.setMinHeight(lenght);

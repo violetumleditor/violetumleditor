@@ -19,7 +19,7 @@ public class LargeSizeDecoratorTest {
     }
 
     @Test
-    public void testToDisplay1() throws Exception {
+    public void testToDisplay_should_incrase_font_size_to_specified_value() throws Exception {
         LargeSizeDecorator largeSizeDecorator = new LargeSizeDecorator(new OneLineString("test"), 1);
         assertEquals("<font size=+1>test</font>", largeSizeDecorator.toDisplay());
     }

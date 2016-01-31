@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
  * @author Adrian Bobrowski
  * @date 13.01.2016
  */
-public class GroupContentTest {
+public class LayoutTest {
 
     @Test
     public void testAdd() throws Exception {

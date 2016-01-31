@@ -28,7 +28,7 @@ import java.util.List;
 
 import com.horstmann.violet.framework.graphics.Separator;
 import com.horstmann.violet.framework.graphics.content.*;
-import com.horstmann.violet.framework.graphics.content.HorizontalGroupContent;
+import com.horstmann.violet.framework.graphics.content.HorizontalLayout;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
@@ -94,7 +94,7 @@ public class FieldNode extends ColorableNode
         valueContent.setMinHeight(DEFAULT_HEIGHT);
         valueContent.setMinWidth(DEFAULT_WIDTH/2);
 
-        horizontalGroupContent = new HorizontalGroupContent();
+        horizontalGroupContent = new HorizontalLayout();
         horizontalGroupContent.add(nameContent);
         horizontalGroupContent.add(valueContent);
         horizontalGroupContent.setSeparator(EQUAL_SEPARATOR);
@@ -256,7 +256,7 @@ public class FieldNode extends ColorableNode
     private SingleLineText name;
     private SingleLineText value;
 
-    private transient HorizontalGroupContent horizontalGroupContent = null;
+    private transient HorizontalLayout horizontalGroupContent = null;
 
     private final static int DEFAULT_WIDTH = 80;
     private final static int DEFAULT_HEIGHT = 20;

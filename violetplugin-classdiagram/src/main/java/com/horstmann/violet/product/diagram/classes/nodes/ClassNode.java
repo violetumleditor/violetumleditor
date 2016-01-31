@@ -5,7 +5,7 @@ import java.awt.geom.Point2D;
 
 import com.horstmann.violet.framework.graphics.Separator;
 import com.horstmann.violet.framework.graphics.content.*;
-import com.horstmann.violet.framework.graphics.content.VerticalGroupContent;
+import com.horstmann.violet.framework.graphics.content.VerticalLayout;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
@@ -68,7 +68,7 @@ public class ClassNode extends ColorableNode
         TextContent attributesContent = new TextContent(attributes);
         TextContent methodsContent = new TextContent(methods);
 
-        VerticalGroupContent verticalGroupContent = new VerticalGroupContent();
+        VerticalLayout verticalGroupContent = new VerticalLayout();
         verticalGroupContent.add(nameContent);
         verticalGroupContent.add(attributesContent);
         verticalGroupContent.add(methodsContent);
@@ -203,11 +203,11 @@ public class ClassNode extends ColorableNode
             {
                 lineString = new UnderlineDecorator(new RemoveSentenceDecorator(lineString, "<<static>>"));
             }
-            lineString = new ReplaceSentenceDecorator(lineString, "public", "+");
-            lineString = new ReplaceSentenceDecorator(lineString, "package", "~");
-            lineString = new ReplaceSentenceDecorator(lineString, "protected", "#");
-            lineString = new ReplaceSentenceDecorator(lineString, "private", "-");
-            lineString = new ReplaceSentenceDecorator(lineString, "property", "/");
+            lineString = new ReplaceSentenceDecorator(lineString, "public ", "+ ");
+            lineString = new ReplaceSentenceDecorator(lineString, "package ", "~ ");
+            lineString = new ReplaceSentenceDecorator(lineString, "protected ", "# ");
+            lineString = new ReplaceSentenceDecorator(lineString, "private ", "- ");
+            lineString = new ReplaceSentenceDecorator(lineString, "property ", "/ ");
 
             return lineString;
         }

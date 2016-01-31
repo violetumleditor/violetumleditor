@@ -10,7 +10,7 @@ import java.awt.*;
  */
 public class TestingRefreshContent extends Content {
     @Override
-    public void draw(Graphics2D g2) {}
+    public void draw(Graphics2D graphics) {}
 
     @Override
     protected void refreshUp()

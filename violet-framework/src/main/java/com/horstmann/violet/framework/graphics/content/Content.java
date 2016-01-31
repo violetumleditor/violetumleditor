@@ -1,93 +1,168 @@
 package com.horstmann.violet.framework.graphics.content;
 
-import java.awt.*;
+import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 /**
- * This ...
+ * This class defines the dimensions and manner of drawing element
  *
- * @author Adrian Bobrowski
+ * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 21.12.2015
  */
 public abstract class Content
 {
-    public abstract void draw(Graphics2D g2);
-
-    public boolean contains(Point2D p)
+    /**
+     * Checks whether a point contained in the element
+     * @param point
+     * @return true if the point contains in item otherwise false
+     */
+    public boolean contains(Point2D point)
     {
-        return getBounds().contains(p);
+        return getBounds().contains(point);
     }
 
-    public final void draw(Graphics2D g2, Point2D offset)
+    /**
+     * Defines how to draw element
+     * @param graphics
+     */
+    public abstract void draw(Graphics2D graphics);
+
+    /**
+     * Draws element shifted by offset
+     * @param graphics
+     * @param offset
+     */
+    public final void draw(Graphics2D graphics, Point2D offset)
     {
-        g2.translate(offset.getX(), offset.getY());
-        draw(g2);
-        g2.translate(-offset.getX(), -offset.getY());
+        graphics.translate(offset.getX(), offset.getY());
+        draw(graphics);
+        graphics.translate(-offset.getX(), -offset.getY());
     }
 
+    /**
+     * @return bounds of this element
+     */
     public final Rectangle2D getBounds()
     {
-        return bounds;
+        return new Rectangle2D.Double(getX(),getY(),getWidth(),getHeight());
     }
+
+    /**
+     * @return positions on the x-axis of this element
+     */
     public final int getX()
     {
-        return (int)getBounds().getX();
+        return 0;
     }
+
+    /**
+     * @return positions on the y-axis of this element
+     */
     public final int getY()
     {
-        return (int)getBounds().getY();
+        return 0;
     }
+
+    /**
+     * @return width of this element
+     */
     public final int getWidth()
     {
-        return (int)getBounds().getWidth();
+        return Math.max(width, minWidth);
     }
+
+    /**
+     * @return height of this element
+     */
     public final int getHeight()
     {
-        return (int)getBounds().getHeight();
+        return Math.max(height, minHeight);
     }
+
+    /**
+     * sets the min width of the element
+     * @param minWidth
+     */
     public void setMinWidth(int minWidth){
-        if(0<=minWidth) {
-            this.minWidth = minWidth;
-            refreshUp();
+        if(0 > minWidth)
+        {
+            throw new IllegalArgumentException("min width can only be a positive number");
         }
+        this.minWidth = minWidth;
+        refreshUp();
     }
+
+    /**
+     * sets the min height of the element
+     * @param minHeight
+     */
     public void setMinHeight(int minHeight){
-        if(0<=minHeight) {
-            this.minHeight = minHeight;
-            refreshUp();
+        if(0 > minHeight)
+        {
+            throw new IllegalArgumentException("min height can only be a positive number");
         }
+        this.minHeight = minHeight;
+        refreshUp();
     }
 
-
+    /**
+     * Recalculates all dimensions
+     */
     public final void refresh()
     {
         refreshUp();
         refreshDown();
     }
 
+    /**
+     * Recalculates dimensions of objects listening and self
+     */
     protected void refreshUp()
     {
-        bounds.setRect(getX(), getY(), Math.max(getWidth(), minWidth), Math.max(getHeight(), minHeight));
-
         for (Content parent: parents )
         {
             parent.refreshUp();
         }
     }
+
+    /**
+     * Recalculates dimensions of objects subordinate and self
+     */
     protected void refreshDown()
     {}
 
+    /**
+     * sets the width of the element
+     * @param width
+     */
     protected void setWidth(int width)
     {
-        bounds.setRect(getX(), getY(), Math.max(width, minWidth), getHeight());
-    }
-    protected void setHeight(int height)
-    {
-        bounds.setRect(getX(), getY(), getWidth(), Math.max(height, minHeight));
+        if(0 > width)
+        {
+            throw new IllegalArgumentException("width can only be a positive number");
+        }
+        this.width = width;
     }
 
+    /**
+     * sets the height of the element
+     * @param height
+     */
+    protected void setHeight(int height)
+    {
+        if(0 > height)
+        {
+            throw new IllegalArgumentException("height can only be a positive number");
+        }
+        this.height = height;
+    }
+
+    /**
+     * adds "Content" to the collection of objects listening
+     * @param parent the listener
+     */
     protected final void addParent(Content parent)
     {
         if(null == parent)
@@ -97,19 +172,19 @@ public abstract class Content
         parents.add(parent);
     }
 
+    /**
+     * removes "Content" from the collection of objects listening
+     * @param parent the listener
+     */
     protected final void removeParent(Content parent)
     {
-        if(null == parent)
-        {
-            throw new NullPointerException("parent can't be null");
-        }
         parents.remove(parent);
     }
 
     private ArrayList<Content> parents = new ArrayList<Content>();
 
-    private Rectangle2D bounds = new Rectangle2D.Double(0,0,0,0);
-
     private int minWidth = 0;
     private int minHeight = 0;
+    private int width = 0;
+    private int height = 0;
 }

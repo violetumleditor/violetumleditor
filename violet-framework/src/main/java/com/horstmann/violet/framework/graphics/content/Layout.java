@@ -11,10 +11,10 @@ import java.util.List;
 /**
  * This ...
  *
- * @author Adrian Bobrowski
+ * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 21.12.2015
  */
-public abstract class GroupContent extends Content
+public abstract class Layout extends Content
 {
     protected abstract Point2D getNextOffset(Point2D beforeOffset, Content content);
     protected abstract Point2D getStartPointSeparator(Point2D offset);
@@ -85,7 +85,7 @@ public abstract class GroupContent extends Content
     }
 
     @Override
-    public final void draw(Graphics2D g2)
+    public final void draw(Graphics2D graphics)
     {
         Content content = null;
         Point2D offset = new Point2D.Double(0,0);
@@ -94,15 +94,15 @@ public abstract class GroupContent extends Content
         if(iterator.hasNext())
         {
             content = iterator.next();
-            content.draw(g2, offset);
+            content.draw(graphics, offset);
         }
         while(iterator.hasNext())
         {
             offset = getNextOffset(offset, content);
 
             content = iterator.next();
-            content.draw(g2, offset);
-            separator.draw(g2, getStartPointSeparator(offset), getEndPointSeparator(offset));
+            content.draw(graphics, offset);
+            separator.draw(graphics, getStartPointSeparator(offset), getEndPointSeparator(offset));
         }
     }
 

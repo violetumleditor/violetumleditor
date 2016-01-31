@@ -5,7 +5,7 @@ import java.awt.geom.Point2D;
 
 import com.horstmann.violet.framework.graphics.Separator;
 import com.horstmann.violet.framework.graphics.content.*;
-import com.horstmann.violet.framework.graphics.content.VerticalGroupContent;
+import com.horstmann.violet.framework.graphics.content.VerticalLayout;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
@@ -62,7 +62,7 @@ public class InterfaceNode extends ColorableNode
         nameContent.setMinWidth(DEFAULT_WIDTH);
         TextContent methodsContent = new TextContent(methods);
 
-        VerticalGroupContent verticalGroupContent = new VerticalGroupContent();
+        VerticalLayout verticalGroupContent = new VerticalLayout();
         verticalGroupContent.add(nameContent);
         verticalGroupContent.add(methodsContent);
         separator = new Separator.LineSeparator(getBorderColor());

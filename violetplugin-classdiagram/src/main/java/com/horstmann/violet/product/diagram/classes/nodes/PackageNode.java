@@ -1,7 +1,6 @@
 package com.horstmann.violet.product.diagram.classes.nodes;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
@@ -9,13 +8,11 @@ import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
-import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.abstracts.node.IResizableNode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
@@ -89,9 +86,9 @@ public class PackageNode extends ColorableNode{
 
     @Override
     protected void createContentStructure() {
-        RelativeGroupContent relativeGroupContent = new RelativeGroupContent();
+        RelativeLayout relativeGroupContent = new RelativeLayout();
 
-        nodesGroup = new RelativeGroupContent();
+        nodesGroup = new RelativeLayout();
         nodesGroup.setMinHeight(DEFAULT_HEIGHT);
         nodesGroup.setMinWidth(DEFAULT_WIDTH);
 
@@ -106,14 +103,14 @@ public class PackageNode extends ColorableNode{
         EmptyContent emptyHeightContent = new EmptyContent();
         emptyHeightContent.setMinHeight(CHILD_GAP);
 
-        HorizontalGroupContent horizontal = new HorizontalGroupContent();
+        HorizontalLayout horizontal = new HorizontalLayout();
         horizontal.add(nodesGroup);
         horizontal.add(emptyWidthContent);
-        VerticalGroupContent vertical = new VerticalGroupContent();
+        VerticalLayout vertical = new VerticalLayout();
         vertical.add(horizontal);
         vertical.add(emptyHeightContent);
 
-        HorizontalGroupContent horizontalGroupContent = new HorizontalGroupContent();
+        HorizontalLayout horizontalGroupContent = new HorizontalLayout();
         horizontalGroupContent.add(nameContent);
         horizontalGroupContent.add(emptyContent);
 
@@ -253,7 +250,7 @@ public class PackageNode extends ColorableNode{
     private SingleLineText name;
     private MultiLineText text;
 
-    private transient RelativeGroupContent nodesGroup = null;
+    private transient RelativeLayout nodesGroup = null;
 
     private static int DEFAULT_TOP_WIDTH = 60;
     private static int DEFAULT_TOP_HEIGHT = 20;

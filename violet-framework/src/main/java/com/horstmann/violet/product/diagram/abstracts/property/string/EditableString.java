@@ -22,7 +22,7 @@ public interface EditableString
     String toEdit();
 
     /**
-     * Sets a new text
+     * Sets a new plain text
      *
      * @param text to be set
      */

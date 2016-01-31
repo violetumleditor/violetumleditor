@@ -7,10 +7,10 @@ import java.awt.geom.Rectangle2D;
 /**
  * This ...
  *
- * @author Adrian Bobrowski
+ * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 21.12.2015
  */
-public class RelativeGroupContent extends GroupContent
+public class RelativeLayout extends Layout
 {
     static protected class RelativeContent extends Content
     {
@@ -22,8 +22,8 @@ public class RelativeGroupContent extends GroupContent
         }
 
         @Override
-        public void draw(Graphics2D g2) {
-            content.draw(g2, position);
+        public void draw(Graphics2D graphics) {
+            content.draw(graphics, position);
         }
 
         @Override

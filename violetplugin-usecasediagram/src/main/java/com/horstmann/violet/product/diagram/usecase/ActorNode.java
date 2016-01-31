@@ -27,7 +27,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.framework.graphics.content.*;
-import com.horstmann.violet.framework.graphics.content.VerticalGroupContent;
+import com.horstmann.violet.framework.graphics.content.VerticalLayout;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
@@ -138,7 +138,7 @@ public class ActorNode extends ColorableNode
         setBorder(new ContentBorder(stickPersonContent, getBorderColor()));
         setBackground(new ContentBackground(getBorder(), null));
 
-        VerticalGroupContent verticalGroupContent = new VerticalGroupContent();
+        VerticalLayout verticalGroupContent = new VerticalLayout();
         verticalGroupContent.add(getBackground());
         verticalGroupContent.add(nameContent);
 

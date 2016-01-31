@@ -22,7 +22,7 @@ public class ContentTest
         }
 
         @Override
-        public void draw(Graphics2D g2) {
+        public void draw(Graphics2D graphics) {
 
         }
     }
