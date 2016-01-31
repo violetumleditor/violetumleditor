@@ -27,10 +27,13 @@ import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.util.Arrays;
+import java.util.List;
 
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
+import com.horstmann.violet.product.diagram.common.CompartmentBoundsManager;
 
 /**
  * A node in a state diagram.
@@ -43,6 +46,9 @@ public class StateNode extends RectangularNode
     public StateNode()
     {
         name = new MultiLineString();
+        onEntry = new MultiLineString();
+        onExit = new MultiLineString();
+        manager = new CompartmentBoundsManager(getFields(), DEFAULT_HEIGHT, DEFAULT_COMPARTMENT_HEIGHT, DEFAULT_WIDTH);
     }
     
     @Override
@@ -59,15 +65,25 @@ public class StateNode extends RectangularNode
     @Override
     public Rectangle2D getBounds()
     {
-        Rectangle2D b = name.getBounds();
-        Point2D currentLocation = getLocation();
-        double x = currentLocation.getX();
-        double y = currentLocation.getY();
-        double w = Math.max(b.getWidth(), DEFAULT_WIDTH);
-        double h = Math.max(b.getHeight(), DEFAULT_HEIGHT);
-        Rectangle2D currentBounds = new Rectangle2D.Double(x, y, w, h);
-        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(currentBounds);
+    	Rectangle2D top = getTopRectangleBounds();
+        Rectangle2D mid = getMiddleRectangleBounds();
+        Rectangle2D bot = getBottomRectangleBounds();
+        top.add(mid);
+        top.add(bot);
+        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(top);
         return snappedBounds;
+    }
+    
+    private Rectangle2D getTopRectangleBounds() {
+    	return manager.getFirstRectangleBounds(getLocation(), name, getGraph());
+    }
+       
+    private Rectangle2D getMiddleRectangleBounds() {
+    	return manager.getRectangleBounds(getTopRectangleBounds(), onEntry, getGraph());
+    }
+    
+    private Rectangle2D getBottomRectangleBounds() {
+    	return manager.getRectangleBounds(getMiddleRectangleBounds(), onExit, getGraph());
     }
 
     @Override
@@ -85,7 +101,9 @@ public class StateNode extends RectangularNode
         g2.setColor(getBorderColor());
         g2.draw(shape);
         g2.setColor(getTextColor());
-        name.draw(g2, getBounds());
+        name.draw(g2,  getTopRectangleBounds());
+        onEntry.draw(g2, getMiddleRectangleBounds());
+        onExit.draw(g2, getBottomRectangleBounds());
 
         // Restore first color
         g2.setColor(oldColor);
@@ -106,6 +124,7 @@ public class StateNode extends RectangularNode
     public void setName(MultiLineString newValue)
     {
         name = newValue;
+        update();
     }
 
     /**
@@ -117,17 +136,83 @@ public class StateNode extends RectangularNode
     {
         return name;
     }
+    
+    /**
+     * Sets the entry property value.
+     * 
+     * @param newValue the new entry action
+     */
+    public void setOnEntry(MultiLineString newValue)
+    {
+    	entryValue = newValue.getText().toString();
+        onEntry = new MultiLineString();
+        onEntry.setText(entryValue.isEmpty() ? "" : "entry / " + entryValue);
+        update();
+    }
+
+    /**
+     * Gets the entry property value.
+     * 
+     * @return the entry action
+     */
+    public MultiLineString getOnEntry()
+    {
+        MultiLineString result = new MultiLineString();
+        result.setText(entryValue == null ? "" : entryValue);
+		return result;
+    }
+    
+    /**
+     * Sets the exit property value.
+     * 
+     * @param newValue the new exit action
+     */
+    public void setOnExit(MultiLineString newValue)
+    {
+    	exitValue = newValue.getText().toString();
+        onExit = new MultiLineString();
+        onExit.setText(exitValue.isEmpty() ? "" : "exit / " + exitValue);
+        update();
+    }
+
+    /**
+     * Gets the exit action property value.
+     * 
+     * @return the exit action name
+     */
+    public MultiLineString getOnExit()
+    {
+    	MultiLineString result = new MultiLineString();
+        result.setText(exitValue == null ? "" : exitValue);
+ 		return result;
+    }
+    
+    private void update() {
+    	manager.setFields(getFields());
+    }
+    
+    private List<MultiLineString> getFields() {
+		return Arrays.asList(onEntry, onExit);
+	}
 
     public StateNode clone()
     {
         StateNode cloned = (StateNode) super.clone();
         cloned.name = name.clone();
+        cloned.onEntry = onEntry.clone();
+        cloned.onExit = onExit.clone();
         return cloned;
     }
 
     private MultiLineString name;
+    private MultiLineString onEntry;
+   	private MultiLineString onExit;
+   	private String entryValue;
+	private String exitValue;
+   	private CompartmentBoundsManager manager;
 
     private static int ARC_SIZE = 20;
     private static int DEFAULT_WIDTH = 80;
-    private static int DEFAULT_HEIGHT = 60;
+    private static int DEFAULT_HEIGHT = 40;
+    private final int DEFAULT_COMPARTMENT_HEIGHT = 5;
 }
