@@ -42,10 +42,13 @@ public class ArrowHead extends SerializableEnumeration
             this.color = color;
         }
 
+        /**
+         * @see ArrowHead#fillPath(Graphics2D, GeneralPath)
+         */
         @Override
-        protected void fillPath(Graphics2D g2, GeneralPath path) {
-            g2.setColor(color);
-            g2.fill(path);
+        protected void fillPath(Graphics2D graphics, GeneralPath path) {
+            graphics.setColor(color);
+            graphics.fill(path);
         }
 
         private Color color;
@@ -54,30 +57,36 @@ public class ArrowHead extends SerializableEnumeration
     /**
      * Draws the arrowhead.
      * 
-     * @param g2 the graphics context
+     * @param graphics the graphics context
      * @param p a point on the axis of the arrow head
      * @param q the end point of the arrow head
      */
-    public void draw(Graphics2D g2, Point2D p, Point2D q)
+    public void draw(Graphics2D graphics, Point2D p, Point2D q)
     {
-        Color oldColor = g2.getColor();
+        Color oldColor = graphics.getColor();
 
         GeneralPath path = getPath();
         rotatePath(path, calculateAngle(q, p));
 
-        g2.translate(q.getX(), q.getY());
-        fillPath(g2, path);
-        g2.setColor(Color.BLACK);
-        g2.draw(path);
-        g2.translate(-q.getX(), -q.getY());
-        g2.setColor(oldColor);
+        graphics.translate(q.getX(), q.getY());
+        fillPath(graphics, path);
+        graphics.setColor(Color.BLACK);
+        graphics.draw(path);
+        graphics.translate(-q.getX(), -q.getY());
+        graphics.setColor(oldColor);
     }
 
+    /**
+     * @return path type a empty/none
+     */
     public GeneralPath getPath()
     {
         return new GeneralPath();
     }
 
+    /**
+     * @return path type a V
+     */
     protected GeneralPath getPathTypeV()
     {
         GeneralPath path = new GeneralPath();
@@ -90,6 +99,10 @@ public class ArrowHead extends SerializableEnumeration
 
         return path;
     }
+
+    /**
+     * @return path type a diamond
+     */
     protected GeneralPath getPathTypeTriangle()
     {
         GeneralPath path = new GeneralPath();
@@ -103,6 +116,10 @@ public class ArrowHead extends SerializableEnumeration
 
         return path;
     }
+
+    /**
+     * @return path type a diamond
+     */
     protected GeneralPath getPathTypeDiamond()
     {
         GeneralPath path = new GeneralPath();
@@ -117,6 +134,10 @@ public class ArrowHead extends SerializableEnumeration
 
         return path;
     }
+
+    /**
+     * @return path type a X
+     */
     protected GeneralPath getPathTypeX()
     {
         final double CROSS_ANGLE = Math.PI / 4;
@@ -133,11 +154,22 @@ public class ArrowHead extends SerializableEnumeration
         return path;
     }
 
+    /**
+     * Calculates the angle between two points
+     * @param p
+     * @param q
+     * @return angle
+     */
     private double calculateAngle(Point2D p, Point2D q)
     {
         return Math.atan2(q.getY() - p.getY(), q.getX() - p.getX());
     }
 
+    /**
+     * The path is rotating on the angle
+     * @param basePath
+     * @param angle
+     */
     private void rotatePath(GeneralPath basePath, double angle)
     {
         AffineTransform af = new AffineTransform();
@@ -145,16 +177,27 @@ public class ArrowHead extends SerializableEnumeration
         basePath.transform(af);
     }
 
-    protected void fillPath(Graphics2D g2, GeneralPath basePath){}
+    /**
+     * fill path
+     * @param graphics
+     * @param basePath
+     */
+    protected void fillPath(Graphics2D graphics, GeneralPath basePath)
+    {}
 
     protected static final double ARROW_ANGLE = Math.PI / 6;
     protected static final double ARROW_LENGTH = 10;
 
-    /** Array head type : this head has no shape */
+    /**
+     * Array head type : this head has no shape
+     */
     public static final ArrowHead NONE = new ArrowHead();
 
-    /** Array head type : this head is a triangle */
-    public static final ArrowHead TRIANGLE = new FilledArrowHead(Color.WHITE){
+    /**
+     * Array head type : this head is a triangle
+     */
+    public static final ArrowHead TRIANGLE = new FilledArrowHead(Color.WHITE)
+    {
         @Override
         public GeneralPath getPath()
         {
@@ -162,8 +205,11 @@ public class ArrowHead extends SerializableEnumeration
         }
     };
 
-    /** Array head type : this head is a black filled triangle */
-    public static final ArrowHead BLACK_TRIANGLE = new FilledArrowHead(Color.BLACK){
+    /**
+     * Array head type : this head is a black filled triangle
+     */
+    public static final ArrowHead BLACK_TRIANGLE = new FilledArrowHead(Color.BLACK)
+    {
         @Override
         public GeneralPath getPath()
         {
@@ -171,8 +217,11 @@ public class ArrowHead extends SerializableEnumeration
         }
     };
 
-    /** Array head type : this head is a V */
-    public static final ArrowHead V = new ArrowHead(){
+    /**
+     * Array head type : this head is a V
+     */
+    public static final ArrowHead V = new ArrowHead()
+    {
         @Override
         public GeneralPath getPath()
         {
@@ -180,11 +229,16 @@ public class ArrowHead extends SerializableEnumeration
         }
     };
 
-    /** Array head type : this head is a half V */
+    /**
+     * Array head type : this head is a half V
+     */
 //    public static final ArrowHead HALF_V = new ArrowHead();
 
-    /** Array head type : this head is a diamond */
-    public static final ArrowHead DIAMOND = new FilledArrowHead(Color.WHITE){
+    /**
+     * Array head type : this head is a diamond
+     */
+    public static final ArrowHead DIAMOND = new FilledArrowHead(Color.WHITE)
+    {
         @Override
         public GeneralPath getPath()
         {
@@ -192,8 +246,11 @@ public class ArrowHead extends SerializableEnumeration
         }
     };
 
-    /** Array head type : this head is black filled diamond */
-    public static final ArrowHead BLACK_DIAMOND = new FilledArrowHead(Color.BLACK){
+    /**
+     * Array head type : this head is black filled diamond
+     */
+    public static final ArrowHead BLACK_DIAMOND = new FilledArrowHead(Color.BLACK)
+    {
         @Override
         public GeneralPath getPath()
         {
@@ -201,8 +258,11 @@ public class ArrowHead extends SerializableEnumeration
         }
     };
 
-    /** Array head type : this head is a X */
-    public static final ArrowHead X = new ArrowHead(){
+    /**
+     * Array head type : this head is a X
+     */
+    public static final ArrowHead X = new ArrowHead()
+    {
         @Override
         public GeneralPath getPath()
         {
