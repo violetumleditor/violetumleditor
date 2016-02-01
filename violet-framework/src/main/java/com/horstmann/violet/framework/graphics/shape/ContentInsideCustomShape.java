@@ -8,12 +8,20 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 /**
- * Created by Adrian Bobrowski on 28.12.2015.
+ * This class enters the "Content" in the custom shape
+ *
+ * @author Adrian Bobrowski <adrian071993@gmail.com>
+ * @date 28.12.2015
  */
 public class ContentInsideCustomShape extends ContentInsideShape
 {
     public interface ShapeCreator
     {
+        /**
+         * @param contentWidth width of rectangle
+         * @param contentHeight height of rectangle
+         * @return shape described in the rectangle
+         */
         Shape createShape(int contentWidth, int contentHeight);
     }
 
@@ -26,12 +34,19 @@ public class ContentInsideCustomShape extends ContentInsideShape
         setContent(content);
     }
 
+    /**
+     * @see Content#refreshUp()
+     */
     @Override
     public void refreshUp()
     {
         setShape(createCustomShape());
         super.refreshUp();
     }
+
+    /**
+     * @see Content#refreshDown()
+     */
     @Override
     protected void refreshDown()
     {
@@ -39,11 +54,17 @@ public class ContentInsideCustomShape extends ContentInsideShape
         super.refreshDown();
     }
 
+    /**
+     * @return custom shape described on content
+     */
     private Shape createCustomShape()
     {
         return customShapeCreator.createShape(getContent().getWidth(), getContent().getHeight());
     }
 
+    /**
+     * @see ContentInsideShape#getShapeOffset()
+     */
     protected Point2D getShapeOffset()
     {
         Rectangle2D shapeBounds = getShape().getBounds();

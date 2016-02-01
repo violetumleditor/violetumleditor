@@ -9,17 +9,36 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * This ...
+ * This class groups together elements of type Content
  *
  * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 21.12.2015
  */
 public abstract class Layout extends Content
 {
+    /**
+     * @param beforeOffset
+     * @param content
+     * @return point offset relation to the previous point
+     */
     protected abstract Point2D getNextOffset(Point2D beforeOffset, Content content);
+
+    /**
+     * @param offset
+     * @return the starting point for the separator
+     */
     protected abstract Point2D getStartPointSeparator(Point2D offset);
+
+    /**
+     * @param offset
+     * @return the ending point for the separator
+     */
     protected abstract Point2D getEndPointSeparator(Point2D offset);
 
+    /**
+     * add a content to layout
+     * @param content
+     */
     public void add(Content content)
     {
         if(null == content)
@@ -31,6 +50,10 @@ public abstract class Layout extends Content
         refresh();
     }
 
+    /**
+     * removes a content from layout
+     * @param content
+     */
     public void remove(Content content)
     {
         if(null == content)
@@ -42,10 +65,18 @@ public abstract class Layout extends Content
         refresh();
     }
 
+    /**
+     * @return separator which separates the components in layout
+     */
     public final Separator getSeparator()
     {
         return separator;
     }
+
+    /**
+     * sets a separator which separates the components in layout
+     * @param separator
+     */
     public final void setSeparator(Separator separator) {
         if(null==separator)
         {
@@ -54,11 +85,18 @@ public abstract class Layout extends Content
         this.separator = separator;
     }
 
+    /**
+     * @return a list of elements in layout
+     */
     protected final List<Content> getContents()
     {
         return contents;
     }
 
+    /**
+     * Set the same width for all elements in the layout
+     * @param width
+     */
     protected final void setContentsWidth(int width)
     {
         for (Content content: contents) {
@@ -66,6 +104,11 @@ public abstract class Layout extends Content
             content.refreshDown();
         }
     }
+
+    /**
+     * Set the same height for all elements in the layout
+     * @param height
+     */
     protected final void setContentsHeight(int height)
     {
         for (Content content: contents) {
@@ -74,16 +117,23 @@ public abstract class Layout extends Content
         }
     }
 
+    /**
+     * Refresh all the elements in layout
+     *
+     * @see Content#refreshDown()
+     */
     @Override
     protected void refreshDown()
     {
         for (Content content: getContents()) {
             content.refreshDown();
         }
-
         super.refreshDown();
     }
 
+    /**
+     * @see Content#draw(Graphics2D)
+     */
     @Override
     public final void draw(Graphics2D graphics)
     {
@@ -106,6 +156,10 @@ public abstract class Layout extends Content
         }
     }
 
+    /**
+     * @param content
+     * @return locations of the content relative to the inside layout
+     */
     public Point2D getLocation(Content content)
     {
         int index = contents.indexOf(content);

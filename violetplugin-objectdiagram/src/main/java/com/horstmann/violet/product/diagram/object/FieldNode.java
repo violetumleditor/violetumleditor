@@ -266,10 +266,10 @@ public class FieldNode extends ColorableNode
     protected final static Separator EQUAL_SEPARATOR = new Separator()
     {
         @Override
-        public void draw(Graphics2D g2, Point2D startPoint, Point2D endPoint)
+        public void draw(Graphics2D graphics, Point2D startPoint, Point2D endPoint)
         {
-            g2.drawLine((int)startPoint.getX()-3, (int)startPoint.getY() + DEFAULT_HEIGHT/2 -1, (int)startPoint.getX()+3, (int)startPoint.getY() + DEFAULT_HEIGHT/2 -1);
-            g2.drawLine((int)startPoint.getX()-3, (int)startPoint.getY() + DEFAULT_HEIGHT/2 +2, (int)startPoint.getX()+3, (int)startPoint.getY() + DEFAULT_HEIGHT/2 +2);
+            graphics.drawLine((int)startPoint.getX()-3, (int)startPoint.getY() + DEFAULT_HEIGHT/2 -1, (int)startPoint.getX()+3, (int)startPoint.getY() + DEFAULT_HEIGHT/2 -1);
+            graphics.drawLine((int)startPoint.getX()-3, (int)startPoint.getY() + DEFAULT_HEIGHT/2 +2, (int)startPoint.getX()+3, (int)startPoint.getY() + DEFAULT_HEIGHT/2 +2);
         }
     };
 }

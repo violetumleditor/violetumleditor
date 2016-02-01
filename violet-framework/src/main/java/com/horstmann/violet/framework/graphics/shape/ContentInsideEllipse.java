@@ -7,21 +7,30 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 /**
- * Created by Adrian Bobrowski on 28.12.2015.
+ * This class enters the "Content" in the ellipse
+ *
+ * @author Adrian Bobrowski <adrian071993@gmail.com>
+ * @date 28.12.2015
  */
 public class ContentInsideEllipse extends ContentInsideShape
 {
-    public ContentInsideEllipse(Content content, int width, int height) {
+    public ContentInsideEllipse(Content content, int width, int height)
+    {
         this(content, (double)width/height);
     }
-    public ContentInsideEllipse(Content content) {
+    public ContentInsideEllipse(Content content)
+    {
         this(content, (double)DEFAULT_WIDTH/DEFAULT_HEIGHT);
     }
-    public ContentInsideEllipse(Content content, double aspectRatio) {
+    public ContentInsideEllipse(Content content, double aspectRatio)
+    {
         this.aspectRatio = aspectRatio;
         setContent(content);
     }
 
+    /**
+     * @see Content#refreshUp()
+     */
     @Override
     public void refreshUp()
     {
@@ -29,6 +38,9 @@ public class ContentInsideEllipse extends ContentInsideShape
         super.refreshUp();
     }
 
+    /**
+     * @see Content#refreshDown()
+     */
     @Override
     protected void refreshDown()
     {
@@ -36,6 +48,9 @@ public class ContentInsideEllipse extends ContentInsideShape
         super.refreshDown();
     }
 
+    /**
+     * @return ellipse described on content
+     */
     private Ellipse2D createEllipse()
     {
         Rectangle2D contentBounds = getContent().getBounds();
