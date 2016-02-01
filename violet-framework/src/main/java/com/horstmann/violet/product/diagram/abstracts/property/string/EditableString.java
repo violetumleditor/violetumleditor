@@ -2,7 +2,7 @@ package com.horstmann.violet.product.diagram.abstracts.property.string;
 
 /**
  *
- * @author Adrian Bobrowski
+ * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 07.01.2016
  */
 public interface EditableString

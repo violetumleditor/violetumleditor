@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * This ...
  *
- * @author Adrian Bobrowski
+ * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 12.12.2015
  */
 public class OneLineString implements Serializable, Cloneable, EditableString

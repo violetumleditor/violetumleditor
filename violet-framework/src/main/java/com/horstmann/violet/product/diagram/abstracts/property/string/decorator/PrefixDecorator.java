@@ -3,7 +3,7 @@ package com.horstmann.violet.product.diagram.abstracts.property.string.decorator
 /**
  * This class adds a prefix
  *
- * @author Adrian Bobrowski
+ * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 17.12.2015
  */
 public class PrefixDecorator extends OneLineStringDecorator
@@ -14,6 +14,10 @@ public class PrefixDecorator extends OneLineStringDecorator
         this.setPrefix(prefix);
     }
 
+    /**
+     * sets prefix
+     * @param prefix
+     */
     public final void setPrefix(String prefix)
     {
         if(null == prefix)
@@ -23,6 +27,9 @@ public class PrefixDecorator extends OneLineStringDecorator
         this.prefix = prefix;
     }
 
+    /**
+     * @see OneLineString#toDisplay()
+     */
     @Override
     public String toDisplay()
     {

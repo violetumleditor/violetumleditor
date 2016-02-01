@@ -3,9 +3,9 @@ package com.horstmann.violet.product.diagram.abstracts.property.string;
 import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.OneLineString;
 
 /**
- * This ...
+ * This class is a container for a single line of text
  *
- * @author Adrian Bobrowski
+ * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 16.12.2015
  */
 public class SingleLineText extends LineText
@@ -48,8 +48,9 @@ public class SingleLineText extends LineText
         return new SingleLineText(this);
     }
 
-
-
+    /**
+     * @see EditableString#setText(String)
+     */
     @Override
     final public void setText(String text)
     {
@@ -59,24 +60,36 @@ public class SingleLineText extends LineText
         notifyAboutChange();
     }
 
+    /**
+     * @see EditableString#toDisplay()
+     */
     @Override
     final public String toDisplay()
     {
         return getOneLineString().toDisplay();
     }
 
+    /**
+     * @see EditableString#toEdit()
+     */
     @Override
     final public String toEdit()
     {
         return getOneLineString().toEdit();
     }
 
+    /**
+     * @see Object#toString()
+     */
     @Override
     final public String toString()
     {
         return getOneLineString().toString();
     }
 
+    /**
+     * @return one line string
+     */
     private OneLineString getOneLineString()
     {
         if(null == oneLineString)

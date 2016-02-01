@@ -1,6 +1,7 @@
 *.class
 
 .idea/
+JavaDoc/
 
 # Package Files #
 *.war

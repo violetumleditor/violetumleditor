@@ -8,9 +8,9 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * This ...
+ * This class is a container for multi lines of text
  *
- * @author Adrian Bobrowski
+ * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 16.12.2015
  */
 public class MultiLineText extends LineText
@@ -73,24 +73,39 @@ public class MultiLineText extends LineText
         notifyAboutChange();
     }
 
+    /**
+     * @see EditableString#toDisplay()
+     */
     @Override
     final public String toDisplay()
     {
         return implode(TO_DISPLAY, "<br>");
     }
 
+    /**
+     * @see EditableString#toEdit()
+     */
     @Override
     final public String toEdit()
     {
         return implode(TO_EDIT, "\n");
     }
 
+    /**
+     * @see Object#toString()
+     */
     @Override
     public String toString()
     {
         return implode(TO_STRING, "|");
     }
 
+    /**
+     * Join rows with a glue string
+     * @param command command to call
+     * @param glue string between each row
+     * @return a string containing a string representation of all rows, with the glue string between each row.
+     */
     private String implode(Command command, String glue)
     {
         Iterator<OneLineString> iterator = getRows().iterator();
@@ -107,6 +122,9 @@ public class MultiLineText extends LineText
         return "";
     }
 
+    /**
+     * @return list of rows
+     */
     private List<OneLineString> getRows()
     {
         if(null == rows)

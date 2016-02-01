@@ -3,7 +3,7 @@ package com.horstmann.violet.product.diagram.abstracts.property.string.decorator
 /**
  * This class decreases text
  *
- * @author Adrian Bobrowski
+ * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 16.12.2015
  */
 public class SmallSizeDecorator extends OneLineStringDecorator
@@ -18,6 +18,9 @@ public class SmallSizeDecorator extends OneLineStringDecorator
         this.decreases = decreases;
     }
 
+    /**
+     * @see OneLineString#toDisplay()
+     */
     @Override
     public String toDisplay()
     {

@@ -3,7 +3,7 @@ package com.horstmann.violet.product.diagram.abstracts.property.string.decorator
 /**
  * This ...
  *
- * @author Adrian Bobrowski
+ * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 12.12.2015
  */
 public class OneLineStringDecorator extends OneLineString
@@ -18,10 +18,16 @@ public class OneLineStringDecorator extends OneLineString
         return new OneLineStringDecorator(this.decoratedOneLineString.clone());
     }
 
+    /**
+     * @see OneLineString#toDisplay()
+     */
     public String toDisplay()
     {
         return decoratedOneLineString.toDisplay();
     }
+    /**
+     * @see OneLineString#toEdit()
+     */
     public String toEdit()
     {
         return decoratedOneLineString.toEdit();

@@ -3,7 +3,7 @@ package com.horstmann.violet.product.diagram.abstracts.property.string.decorator
 /**
  * This class makes the bold text
  *
- * @author Adrian Bobrowski
+ * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 12.12.2015
  */
 public class BoldDecorator extends OneLineStringDecorator
@@ -13,6 +13,9 @@ public class BoldDecorator extends OneLineStringDecorator
         super(decoratedOneLineString);
     }
 
+    /**
+     * @see OneLineString#toDisplay()
+     */
     @Override
     public String toDisplay()
     {

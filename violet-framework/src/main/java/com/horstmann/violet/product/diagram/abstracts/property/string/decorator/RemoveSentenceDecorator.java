@@ -3,7 +3,7 @@ package com.horstmann.violet.product.diagram.abstracts.property.string.decorator
 /**
  * This class remove a sentence from text
  *
- * @author Adrian Bobrowski
+ * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 17.12.2015
  */
 public class RemoveSentenceDecorator extends OneLineStringDecorator
@@ -14,12 +14,20 @@ public class RemoveSentenceDecorator extends OneLineStringDecorator
         this.sentence = replaceForUnification(sentence).toLowerCase();
     }
 
+    /**
+     * @see OneLineString#toDisplay()
+     */
     @Override
     public String toDisplay()
     {
         return removeSentence(decoratedOneLineString.toDisplay());
     }
 
+    /**
+     * remove sentence from text
+     * @param text
+     * @return text without removed sentence
+     */
     private String removeSentence(String text)
     {
         String formattedText = replaceForUnification(text).toLowerCase();

@@ -3,7 +3,7 @@ package com.horstmann.violet.product.diagram.abstracts.property.string.decorator
 /**
  * This class replace a sentence in the text
  *
- * @author Adrian Bobrowski
+ * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 17.12.2015
  */
 public class ReplaceSentenceDecorator extends OneLineStringDecorator
@@ -15,12 +15,20 @@ public class ReplaceSentenceDecorator extends OneLineStringDecorator
         this.newSentence = replaceForUnification(newSentence);
     }
 
+    /**
+     * @see OneLineString#toDisplay()
+     */
     @Override
     public String toDisplay()
     {
         return replaceSentence(decoratedOneLineString.toDisplay());
     }
 
+    /**
+     * replace sentence in text
+     * @param text
+     * @return text with replace sentence
+     */
     private String replaceSentence(String text)
     {
         String formattedText = replaceForUnification(text).toLowerCase();
