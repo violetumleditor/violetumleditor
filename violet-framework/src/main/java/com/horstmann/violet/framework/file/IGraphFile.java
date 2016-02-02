@@ -63,6 +63,11 @@ public interface IGraphFile extends IFile
      */
     public abstract void exportImage(OutputStream out, String format);
 
+    /**
+     * Exports the current graph to a PDF file.
+     *
+     * @param out the output stream
+     */
     public abstract void exportToPdf(OutputStream out);
 
     /**

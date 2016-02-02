@@ -21,16 +21,18 @@
 
 package com.horstmann.violet.framework.file.export;
 
+import com.horstmann.violet.framework.util.ClipboardPipe;
+import com.horstmann.violet.framework.util.PDFGraphics2DStringWriter;
+import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import org.freehep.graphicsbase.util.UserProperties;
+import org.freehep.graphicsio.pdf.PDFGraphics2D;
+
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.OutputStream;
-import java.util.Properties;
 
-import com.horstmann.violet.framework.util.ClipboardPipe;
-import com.horstmann.violet.framework.util.PDFGraphics2DStringWriter;
-import com.horstmann.violet.product.diagram.abstracts.IGraph;
-import org.freehep.graphicsio.PageConstants;
+l.Properties;
 
 public class FileExportService
 {
@@ -69,17 +71,25 @@ public class FileExportService
         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(pipe, null);
     }
 
+    /**
+     * Export graph to PDF file
+     *
+     * @param graph
+     * @param out   output stream to file
+     * @author Michał Leśniak
+     */
     public static void exportToPdf(IGraph graph, OutputStream out)
     {
         Rectangle2D bounds = graph.getClipBounds();
 
-        Properties p = new Properties();
-        p.setProperty(org.freehep.graphicsio.pdf.PDFGraphics2D.PAGE_SIZE, PageConstants.A4);
-        p.setProperty(org.freehep.graphicsio.pdf.PDFGraphics2D.VERSION, org.freehep.graphicsio.pdf.PDFGraphics2D.VERSION6);
-        p.setProperty(org.freehep.graphicsio.pdf.PDFGraphics2D.FIT_TO_PAGE, "false");
-        p.setProperty(org.freehep.graphicsio.pdf.PDFGraphics2D.EMBED_FONTS, "true");
+        UserProperties p = new UserProperties();
+        p.setProperty(PDFGraphics2D.PAGE_SIZE, PDFGraphics2D.CUSTOM_PAGE_SIZE);
+        p.setProperty(PDFGraphics2D.CUSTOM_PAGE_SIZE, new Dimension((int) bounds.getWidth(), (int) bounds.getHeight()));
+        p.setProperty(PDFGraphics2D.VERSION, PDFGraphics2D.VERSION6);
+        p.setProperty(PDFGraphics2D.FIT_TO_PAGE, "false");
+        p.setProperty(PDFGraphics2D.EMBED_FONTS, "true");
 
-        org.freehep.graphicsio.pdf.PDFGraphics2D g = new PDFGraphics2DStringWriter(out, bounds.getBounds().getSize());
+        PDFGraphics2D g = new PDFGraphics2DStringWriter(out, bounds.getBounds().getSize());
         g.setProperties(p);
         g.startExport();
 
@@ -88,12 +98,14 @@ public class FileExportService
         g.endExport();
     }
 
-    private static Graphics2D renderIGraphToGraphics2D(IGraph graph, Graphics2D g2) {
+    private static Graphics2D renderIGraphToGraphics2D(IGraph graph, Graphics2D g2)
+    {
         Rectangle2D bounds = graph.getClipBounds();
 
         g2.translate(-bounds.getX(), -bounds.getY());
         g2.setColor(Color.WHITE);
         g2.fill(new Rectangle2D.Double(bounds.getX(), bounds.getY(), bounds.getWidth() + 1, bounds.getHeight() + 1));
+
         g2.setColor(Color.BLACK);
         g2.setBackground(Color.WHITE);
 
