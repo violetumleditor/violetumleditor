@@ -102,11 +102,7 @@ public class ClassNode extends ColorableNode
         methods.setTextColor(textColor);
         super.setTextColor(textColor);
     }
-  /*
-     * (non-Javadoc)
-     * 
-     * @see com.horstmann.violet.framework.Node#addNode(com.horstmann.violet.framework.Node, java.awt.geom.Point2D)
-     */
+
     public boolean addChild(INode n, Point2D p)
     {
         // TODO : where is it added?

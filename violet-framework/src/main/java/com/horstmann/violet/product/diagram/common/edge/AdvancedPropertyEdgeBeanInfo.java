@@ -5,7 +5,8 @@ import java.beans.PropertyDescriptor;
 import java.beans.SimpleBeanInfo;
 
 /**
- * Created by Adrian Bobrowski on 27.12.2015.
+ * @author Adrian Bobrowski <adrian071993@gmail.com>
+ * @date 27.12.2015
  */
 public class AdvancedPropertyEdgeBeanInfo extends SimpleBeanInfo
 {
