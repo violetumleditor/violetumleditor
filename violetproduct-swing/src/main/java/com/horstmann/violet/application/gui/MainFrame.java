@@ -37,6 +37,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.horstmann.violet.application.autosave.AutoSave;
 import com.horstmann.violet.application.help.AboutDialog;
 import com.horstmann.violet.application.menu.MenuFactory;
 import com.horstmann.violet.framework.dialog.DialogFactory;
@@ -82,6 +83,7 @@ public class MainFrame extends JFrame
         setInitialSize();
         createMenuBar();
         getContentPane().add(this.getMainPanel());
+        startAutoSave();
     }
 
     /**
@@ -120,6 +122,11 @@ public class MainFrame extends JFrame
         menuBar.add(menuFactory.getDocumentMenu(this));
         menuBar.add(menuFactory.getHelpMenu(this));
         setJMenuBar(menuBar);
+    }
+    
+    private void startAutoSave()
+    {
+    	AutoSave autosave = new AutoSave(this);
     }
 
 
