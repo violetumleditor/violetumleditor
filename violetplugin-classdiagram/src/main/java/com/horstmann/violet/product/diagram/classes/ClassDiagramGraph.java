@@ -11,9 +11,11 @@ import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.classes.edges.AggregationEdge;
 import com.horstmann.violet.product.diagram.classes.edges.AssociationEdge;
 import com.horstmann.violet.product.diagram.classes.edges.CompositionEdge;
+import com.horstmann.violet.product.diagram.classes.edges.CreateEdge;
 import com.horstmann.violet.product.diagram.classes.edges.DependencyEdge;
 import com.horstmann.violet.product.diagram.classes.edges.InheritanceEdge;
 import com.horstmann.violet.product.diagram.classes.edges.InterfaceInheritanceEdge;
+import com.horstmann.violet.product.diagram.classes.edges.UseEdge;
 import com.horstmann.violet.product.diagram.classes.nodes.ClassNode;
 import com.horstmann.violet.product.diagram.classes.nodes.InterfaceNode;
 import com.horstmann.violet.product.diagram.classes.nodes.PackageNode;
@@ -68,6 +70,14 @@ public class ClassDiagramGraph extends AbstractGraph
         DependencyEdge dependency = new DependencyEdge();
         dependency.setToolTip(rs.getString("edge0.tooltip"));
         EDGE_PROTOTYPES.add(dependency);
+        
+        UseEdge use = new UseEdge();
+        use.setToolTip(rs.getString("edge7.tooltip"));
+        EDGE_PROTOTYPES.add(use);
+        
+        CreateEdge create = new CreateEdge();
+        create.setToolTip(rs.getString("edge8.tooltip"));
+        EDGE_PROTOTYPES.add(create);
 
         InheritanceEdge inheritance = new InheritanceEdge();
         inheritance.setToolTip(rs.getString("edge1.tooltip"));
