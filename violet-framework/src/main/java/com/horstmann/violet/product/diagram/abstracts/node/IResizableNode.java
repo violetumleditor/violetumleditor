@@ -4,5 +4,13 @@ import java.awt.geom.Rectangle2D;
 
 public interface IResizableNode
 {
-    public void setWantedSize(Rectangle2D size);
+    void setWantedSize(Rectangle2D size);
+
+    /**
+     * Methods returns point which allow to change size of node
+     *
+     * @return point which allow to change size of node
+     */
+    Rectangle2D getResizablePoint();
+
 }

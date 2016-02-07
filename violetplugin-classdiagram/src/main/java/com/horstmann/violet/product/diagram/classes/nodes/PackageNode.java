@@ -58,6 +58,11 @@ public class PackageNode extends RectangularNode implements IResizableNode
         this.wantedSize = size;
     }
 
+    @Override
+    public Rectangle2D getResizablePoint() {
+        return new Rectangle2D.Double(0, 0, 0, 0);
+    }
+
     private Rectangle2D getTopRectangleBounds()
     {
         Rectangle2D globalBounds = new Rectangle2D.Double(0, 0, 0, 0);
