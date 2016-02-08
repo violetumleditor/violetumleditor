@@ -32,6 +32,7 @@ import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
 
 /**
  * An actor node in a use case diagram.
+ * @author Alexandre de Pellegrin / Cays S. Horstmann
  */
 public class ActorNode extends RectangularNode
 {

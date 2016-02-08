@@ -3,7 +3,11 @@ package ratajczak.violet.product.diagram.classes.edges;
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.beans.SimpleBeanInfo;
-
+/**
+ * 
+ * @author Artur Ratajczak
+ *
+ */
 public class DirectionEdgeBeanInfo extends SimpleBeanInfo {
 	@Override
 	public PropertyDescriptor[] getPropertyDescriptors() {

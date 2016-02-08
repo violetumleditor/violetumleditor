@@ -12,7 +12,11 @@ import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import ratajczak.violet.product.diagram.classes.edges.DirectionEdge;
 import ratajczak.violet.product.diagram.classes.nodes.ActorNode;
 import ratajczak.violet.product.diagram.classes.nodes.ObjectNode;
-
+/**
+ * 
+ * @author Artur Ratajczak
+ *
+ */
 public class CommunicationDiagramGraph extends AbstractGraph {
 	
 	@Override

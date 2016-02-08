@@ -3,7 +3,11 @@ package ratajczak.violet.product.diagram.classes.nodes;
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.beans.SimpleBeanInfo;
-
+/**
+ * 
+ * @author Alexandre de Pellegrin / Cays S. Horstmann
+ *
+ */
 public class ObjectNodeBeanInfo extends SimpleBeanInfo {
 	 public PropertyDescriptor[] getPropertyDescriptors()
 	    {

@@ -7,7 +7,11 @@ import java.util.ResourceBundle;
 import com.horstmann.violet.framework.plugin.IDiagramPlugin;
 import com.horstmann.violet.framework.plugin.extensionpoint.Violet016FileFilterExtensionPoint;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
-
+/**
+ * 
+ * @author Artur Ratajczak
+ *
+ */
 public class CommunicationDiagramPlugin implements IDiagramPlugin {
 
 	@Override
@@ -17,15 +21,13 @@ public class CommunicationDiagramPlugin implements IDiagramPlugin {
 
 	@Override
 	public String getProvider() {
-		return "Artur Ratajczak";
+		return "Alexandre de Pellegrin / Cays S. Horstmann";
 	}
 
 	@Override
 	public String getVersion() {
 		return "1.0";
-	}
-
-	
+	}	
 
 	@Override
 	public String getName() {

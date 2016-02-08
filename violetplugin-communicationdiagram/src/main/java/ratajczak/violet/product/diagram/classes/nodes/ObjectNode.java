@@ -9,7 +9,11 @@ import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
 import com.horstmann.violet.product.diagram.common.PointNode;
-
+/**
+ * 
+ * @author Alexandre de Pellegrin / Cays S. Horstmann
+ *
+ */
 public class ObjectNode extends RectangularNode{
 
 	public ObjectNode(){
