@@ -3,6 +3,7 @@ package com.horstmann.violet.workspace.editorpart.behavior;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 
+import com.horstmann.violet.framework.util.KeyModifierUtil;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
 import com.horstmann.violet.product.diagram.abstracts.Id;
@@ -56,6 +57,13 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior
         if (added)
         {
             selectionHandler.setSelectedElement(newNode);
+            
+            if (!KeyModifierUtil.isCtrl(event)) {
+	            selectionHandler.setSelectedTool(GraphTool.SELECTION_TOOL);
+	            graphToolsBar.setSelectedTool(GraphTool.SELECTION_TOOL);
+	            graphToolsBar.getAWTComponent().invalidate();
+            }
+            
             editorPart.getSwingComponent().invalidate();
         }
     }

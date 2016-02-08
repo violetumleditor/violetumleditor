@@ -1,8 +1,8 @@
 package com.horstmann.violet.workspace.editorpart.behavior;
 
-import java.awt.event.InputEvent;
 import java.awt.event.MouseWheelEvent;
 
+import com.horstmann.violet.framework.util.KeyModifierUtil;
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBar;
 
 public class ChangeToolByWeelBehavior extends AbstractEditorPartBehavior
@@ -19,8 +19,7 @@ public class ChangeToolByWeelBehavior extends AbstractEditorPartBehavior
     @Override
     public void onMouseWheelMoved(MouseWheelEvent event)
     {
-        boolean isCtrl = (event.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0;
-        if (isCtrl) {
+        if (KeyModifierUtil.isCtrl(event)) {
             return;
         }
         int scroll = event.getUnitsToScroll();
