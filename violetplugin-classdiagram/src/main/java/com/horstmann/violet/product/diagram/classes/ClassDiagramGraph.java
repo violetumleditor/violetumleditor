@@ -1,5 +1,6 @@
 package com.horstmann.violet.product.diagram.classes;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -14,8 +15,11 @@ import com.horstmann.violet.product.diagram.classes.edges.CompositionEdge;
 import com.horstmann.violet.product.diagram.classes.edges.DependencyEdge;
 import com.horstmann.violet.product.diagram.classes.edges.InheritanceEdge;
 import com.horstmann.violet.product.diagram.classes.edges.InterfaceInheritanceEdge;
+import com.horstmann.violet.product.diagram.classes.edges.LollipopEdge;
 import com.horstmann.violet.product.diagram.classes.nodes.ClassNode;
 import com.horstmann.violet.product.diagram.classes.nodes.InterfaceNode;
+import com.horstmann.violet.product.diagram.classes.nodes.LollipopNode;
+import com.horstmann.violet.product.diagram.classes.nodes.LollipopSocketNode;
 import com.horstmann.violet.product.diagram.classes.nodes.PackageNode;
 import com.horstmann.violet.product.diagram.common.ImageNode;
 import com.horstmann.violet.product.diagram.common.NoteEdge;
@@ -61,6 +65,14 @@ public class ClassDiagramGraph extends AbstractGraph
         node3.setToolTip(rs.getString("node3.tooltip"));
         NODE_PROTOTYPES.add(node3);
 
+        LollipopNode node4 = new LollipopNode();
+        node4.setToolTip(rs.getString("node4.tooltip"));
+        NODE_PROTOTYPES.add(node4);
+        
+        LollipopSocketNode node5 = new LollipopSocketNode();
+        node5.setToolTip(rs.getString("node5.tooltip"));
+        NODE_PROTOTYPES.add(node5);
+
 //        ImageNode node4 = new ImageNode();
 //        node4.setToolTip(rs.getString("node4.tooltip"));
 //        NODE_PROTOTYPES.add(node4);
@@ -92,6 +104,15 @@ public class ClassDiagramGraph extends AbstractGraph
         NoteEdge noteEdge = new NoteEdge();
         noteEdge.setToolTip(rs.getString("edge6.tooltip"));
         EDGE_PROTOTYPES.add(noteEdge);
+        
+        LollipopEdge lollipopEdge = new LollipopEdge();
+        lollipopEdge.setToolTip(rs.getString("edge7.tooltip"));
+        EDGE_PROTOTYPES.add(lollipopEdge);
+  
+       
     }
+    
+ 
+    
 
 }
