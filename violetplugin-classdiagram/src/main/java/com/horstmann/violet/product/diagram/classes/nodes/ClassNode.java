@@ -20,6 +20,9 @@ import com.horstmann.violet.product.diagram.common.PointNode;
  */
 public class ClassNode extends ColorableNode
 {
+    /**
+     * Construct a class node with a default size
+     */
     public ClassNode()
     {
         super();

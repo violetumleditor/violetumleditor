@@ -22,6 +22,9 @@ import com.horstmann.violet.product.diagram.common.PointNode;
  */
 public class InterfaceNode extends ColorableNode
 {
+    /**
+     * Construct an interface node with a default size and the text <<interface>>.
+     */
     public InterfaceNode()
     {
         super();

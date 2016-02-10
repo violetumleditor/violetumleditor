@@ -1,5 +1,6 @@
 *.class
 
+.orig
 .idea/
 JavaDoc/
 
