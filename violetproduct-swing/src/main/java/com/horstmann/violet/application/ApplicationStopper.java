@@ -47,10 +47,10 @@ public class ApplicationStopper
     {
         List<IWorkspace> dirtyWorkspaceList = new ArrayList<IWorkspace>();
         List<IWorkspace> workspaceList = mainFrame.getWorkspaceList();
-        if (workspaceList.size() == 0) return true;
         for (IWorkspace aWorkspacel : workspaceList)
         {
             IGraphFile graphFile = aWorkspacel.getGraphFile();
+            graphFile.removeBackup();
         	if (graphFile.isSaveRequired())
             {
                 dirtyWorkspaceList.add(aWorkspacel);
