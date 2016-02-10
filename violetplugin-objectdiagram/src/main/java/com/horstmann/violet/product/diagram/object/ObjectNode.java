@@ -26,7 +26,6 @@ import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
-
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
@@ -36,18 +35,19 @@ import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
 /**
  * An object node in an object diagram.
  */
-public class ObjectNode extends RectangularNode
-{
-    /**
+public class ObjectNode extends RectangularNode {
+	private static final long serialVersionUID = 1183316420832671466L;
+	/**
      * Construct an object node with a default size
      */
     public ObjectNode()
     {
-        name = new MultiLineString();
-        name.setUnderlined(true);
-        name.setSize(MultiLineString.LARGE);
+        this.objectName = new MultiLineString();
+        this.className = new MultiLineString();
+        
+        this.fullName = new MultiLineString().useUnderline( true );       
     }
-
+    
     public void draw(Graphics2D g2)
     {
         super.draw(g2);
@@ -69,7 +69,10 @@ public class ObjectNode extends RectangularNode
         g2.setColor(getBorderColor());
         g2.draw(globalBounds);
         g2.setColor(getTextColor());
-        name.draw(g2, topBounds);
+        
+        fullName.useText( objectName.getText() + ":" + className.getText() );
+        fullName.draw(g2, topBounds);
+        
         g2.setColor(getBorderColor());
         g2.drawLine((int) globalBounds.getX(), (int) topBounds.getMaxY(), (int) globalBounds.getMaxX(), (int) topBounds.getMaxY());
 
@@ -90,7 +93,7 @@ public class ObjectNode extends RectangularNode
      */
     public Rectangle2D getTopRectangle()
     {
-        Rectangle2D b = name.getBounds();
+        Rectangle2D b = objectName.getBounds();
         double defaultHeight = DEFAULT_HEIGHT;
         boolean hasChildren = (getChildren().size() > 0);
         if (hasChildren)
@@ -170,9 +173,9 @@ public class ObjectNode extends RectangularNode
      * 
      * @param newValue the new object name
      */
-    public void setName(MultiLineString n)
+    public void setObjectName(MultiLineString name)
     {
-        name = n;
+        objectName = name;
     }
 
     /**
@@ -180,10 +183,21 @@ public class ObjectNode extends RectangularNode
      * 
      * @param the object name
      */
-    public MultiLineString getName()
+    public MultiLineString getObjectName()
     {
-        return name;
+        return objectName;
     }
+    
+    
+    
+    public MultiLineString getClassName() {
+		return className;
+	}
+	public void setClassName(MultiLineString className) {
+		this.className = className;
+	}
+    
+    
 
     @Override
     public boolean addChild(INode n, Point2D p)
@@ -203,13 +217,16 @@ public class ObjectNode extends RectangularNode
     public ObjectNode clone()
     {
         ObjectNode cloned = (ObjectNode) super.clone();
-        cloned.name = name.clone();
+        cloned.objectName = objectName.clone();
+        cloned.className = className.clone();
+        cloned.fullName = fullName.clone();
         return cloned;
     }
+    private MultiLineString className;
+	private MultiLineString objectName;
+	private MultiLineString fullName;
 
-    private MultiLineString name;
-
-    private static int DEFAULT_WIDTH = 80;
+	private static int DEFAULT_WIDTH = 80;
     private static int DEFAULT_HEIGHT = 30;
     private static int YGAP = 5;
 }
