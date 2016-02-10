@@ -74,11 +74,9 @@ public class ObjectDiagramGraph extends AbstractGraph
 
         FieldNode node1 = new FieldNode();
         node1.setToolTip(rs.getString("node1.tooltip"));
-        MultiLineString fn = new MultiLineString();
-        fn.setText("name");
+        MultiLineString fn = new MultiLineString( "name" );
         node1.setName(fn);
-        MultiLineString fv = new MultiLineString();
-        fv.setText("value");
+        MultiLineString fv = new MultiLineString( "value" );
         node1.setValue(fv);
         NODE_PROTOTYPES.add(node1);
 

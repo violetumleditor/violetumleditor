@@ -69,13 +69,13 @@ public class MultiLineStringEditor extends PropertyEditorSupport
             {
                 public void insertUpdate(DocumentEvent e)
                 {
-                    source.setText(textArea.getText());
+                    source.useText(textArea.getText());
                     firePropertyChange();
                 }
 
                 public void removeUpdate(DocumentEvent e)
                 {
-                    source.setText(textArea.getText());
+                    source.useText(textArea.getText());
                     firePropertyChange();
                 }
 

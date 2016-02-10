@@ -51,8 +51,7 @@ public class ImageNode extends RectangularNode
      */
     public ImageNode(Image img)
     {
-        text = new MultiLineString();
-        text.setJustification(MultiLineString.RIGHT);
+        text = new MultiLineString().useAlignment( MultiLineString.Alignment.RIGHT );
         this.setImage(img);
     }
 
@@ -63,7 +62,7 @@ public class ImageNode extends RectangularNode
     {
     	ResourceBundleInjector.getInjector().inject(this);
     	text = new MultiLineString();
-        text.setJustification(MultiLineString.RIGHT);
+        text.useAlignment(MultiLineString.Alignment.RIGHT);
     }
 
     /**

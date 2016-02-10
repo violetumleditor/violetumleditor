@@ -50,8 +50,7 @@ public class NoteNode extends RectangularNode
      */
     public NoteNode()
     {
-        text = new MultiLineString();
-        text.setJustification(MultiLineString.LEFT);
+        text = new MultiLineString().useAlignment(MultiLineString.Alignment.LEFT);
         setBackgroundColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getBackgroundColor());
         setBorderColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getBorderColor());
         setTextColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getTextColor());

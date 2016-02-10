@@ -42,11 +42,9 @@ public class FieldNode extends RectangularNode
      */
     public FieldNode()
     {
-        name = new MultiLineString();
-        name.setJustification(MultiLineString.RIGHT);
+        name = new MultiLineString().useAlignment( MultiLineString.Alignment.RIGHT );
         value = new MultiLineString();
-        equalSeparator = new MultiLineString();
-        equalSeparator.setText(" = ");
+        equalSeparator = new MultiLineString( " = " );
         setZ(1);
     }
 
@@ -152,7 +150,7 @@ public class FieldNode extends RectangularNode
         INode endingINode = e.getEnd();
         if (e.getClass().isAssignableFrom(ObjectReferenceEdge.class) && endingINode.getClass().isAssignableFrom(ObjectNode.class))
         {
-            value.setText("");
+            value.useText( "" );
             return true;
         }
         // Hack to allow drawing relationship edge over fields

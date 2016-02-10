@@ -24,8 +24,7 @@ public class PackageNode extends RectangularNode implements IResizableNode
      */
     public PackageNode()
     {
-        name = new MultiLineString();
-        name.setSize(MultiLineString.LARGE);
+        name = new MultiLineString().useFontStyle(MultiLineString.FontStyle.BOLD);
         content = new MultiLineString();
     }
 

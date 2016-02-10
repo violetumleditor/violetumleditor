@@ -144,7 +144,7 @@ public class DiagramLinkNode extends RectangularNode
                     .append(
                             ResourceBundle.getBundle(ResourceBundleConstant.OTHER_STRINGS, Locale.getDefault()).getString(
                                     "file.link.text")).append(" ").append(dl.getFile().getFilename());
-            this.label.setText(linktext.toString());
+            this.label.useText( linktext.toString() );
         }
         return this.label;
     }

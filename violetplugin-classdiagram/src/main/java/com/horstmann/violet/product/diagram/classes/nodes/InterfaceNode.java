@@ -20,11 +20,8 @@ public class InterfaceNode extends RectangularNode
      */
     public InterfaceNode()
     {
-        name = new MultiLineString();
-        name.setSize(MultiLineString.LARGE);
-        name.setText("\u00ABinterface\u00BB");
-        methods = new MultiLineString();
-        methods.setJustification(MultiLineString.LEFT);
+        name = new MultiLineString( "\u00ABinterface\u00BB" ).useFontStyle(MultiLineString.FontStyle.BOLD);
+        methods = new MultiLineString().useAlignment(MultiLineString.Alignment.LEFT);
     }
 
     private Rectangle2D getTopRectangleBounds()

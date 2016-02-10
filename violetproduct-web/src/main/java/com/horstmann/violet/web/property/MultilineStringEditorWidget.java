@@ -52,7 +52,7 @@ public class MultilineStringEditorWidget extends AbstractPropertyEditorWidget<Mu
 			this.textAreaComponent.changed().addListener(this, new Signal.Listener() {
 				public void trigger() {
 					MultiLineString currentValue = getValue();
-					currentValue.setText(getTextAreaComponent().getText());
+					currentValue.useText( getTextAreaComponent().getText() );
 					setValue(currentValue);
 				}
 			});

@@ -48,8 +48,7 @@ public class LifelineNode extends RectangularNode
      */
     public LifelineNode()
     {
-        name = new MultiLineString();
-        name.setUnderlined(true);
+        name = new MultiLineString().useUnderline( true );
     }
 
     /**

@@ -20,12 +20,9 @@ public class ClassNode extends RectangularNode
      */
     public ClassNode()
     {
-        name = new MultiLineString();
-        name.setSize(MultiLineString.LARGE);
-        attributes = new MultiLineString();
-        attributes.setJustification(MultiLineString.LEFT);
-        methods = new MultiLineString();
-        methods.setJustification(MultiLineString.LEFT);
+        name = new MultiLineString().useFontStyle(MultiLineString.FontStyle.BOLD);
+        attributes = new MultiLineString().useAlignment(MultiLineString.Alignment.LEFT);
+        methods = new MultiLineString().useAlignment(MultiLineString.Alignment.LEFT);
     }
     
     private Rectangle2D getTopRectangleBounds() {

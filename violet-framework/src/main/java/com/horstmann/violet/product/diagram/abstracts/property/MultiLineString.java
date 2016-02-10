@@ -24,40 +24,152 @@ package com.horstmann.violet.product.diagram.abstracts.property;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.font.TextAttribute;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
-
+import java.util.Map;
 import com.horstmann.violet.framework.swingextension.MultiLineLabel;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-
 /**
  * A string that can extend over multiple lines.
  */
 public class MultiLineString implements Serializable, Cloneable {
+	private static final long serialVersionUID = -1577465027960103788L;
+	private String text;
+	@XStreamAsAttribute
+	private Alignment alignment;
+	@XStreamAsAttribute
+	private FontStyle fontStyle;
+	@XStreamAsAttribute
+	private boolean underlined;
+	private transient MultiLineLabel label;
+	private transient boolean isBoundsDirty = true;
+	private transient Rectangle2D bounds;
+	
+	public static enum Alignment {
+		CENTER, LEFT, RIGHT;
+	}
+	public static enum FontStyle {
+		ITALIC, NORMAL, BOLD;
+		
+		public static final int MARGIN_WIDTH = 2;
+		public static final int SIZE = 12;
+	}
+	
+	
 	/**
 	 * Constructs an empty, centered, normal size multiline string that is not
 	 * underlined.
 	 */
 	public MultiLineString() {
-		text = "";
-		justification = CENTER;
-		size = NORMAL;
-		underlined = false;
+		this.initialize( "" );
+	}
+	/**
+	 * Constructs with text, centered, normal size multiline string that is not
+	 * underlined.
+	 * @param text
+	 */
+	public MultiLineString( String text ) {
+		this.initialize( text );
+	}
+	
+	
+	/**
+	 * Build basic multi line string.
+	 * @param text
+	 */
+	private void initialize( String text ) {
+		this.text = text;
+		this.alignment = Alignment.CENTER;
+		this.fontStyle = FontStyle.NORMAL;
+		this.underlined = false;
+	}
+	/**
+	 * Build font of label text;
+	 * @param fontStyle
+	 */
+	private void buildFontStyle( FontStyle fontStyle ) {
+		switch( fontStyle ) {
+			case BOLD:
+				this.label.setFont( new Font( Font.SANS_SERIF, Font.BOLD, FontStyle.SIZE ) );
+				break;
+			case ITALIC:
+				this.label.setFont( new Font( Font.SANS_SERIF, Font.ITALIC, FontStyle.SIZE ) );
+				break;
+			case NORMAL:
+				this.label.setFont( new Font( Font.SANS_SERIF, Font.PLAIN, FontStyle.SIZE ) );
+				break;
+			default:
+				this.label.setFont( new Font( Font.SANS_SERIF, Font.PLAIN, FontStyle.SIZE ) );
+				break;
+		}
+		this.label.setMarginWidth( FontStyle.MARGIN_WIDTH );
+	}
+	/**
+	 * Build alignment of label text.
+	 * @param alignment
+	 */
+	private void buildAlignment( Alignment alignment ) {
+		switch( alignment ) {
+			case CENTER:
+				this.label.setAlignment( MultiLineLabel.CENTER );
+				break;
+			case LEFT:
+				this.label.setAlignment( MultiLineLabel.LEFT );
+				break;
+			case RIGHT:
+				this.label.setAlignment( MultiLineLabel.RIGHT );
+				break;
+			default:
+				this.label.setAlignment( MultiLineLabel.CENTER );	
+		}
+	}
+	/**
+	 * Build underline of label text.
+	 * @param underlined
+	 */
+	@SuppressWarnings("unchecked")
+	private void buildUnderline( boolean underlined ) {
+		if( underlined ) {
+			@SuppressWarnings("rawtypes")
+			Map labelAttributes = this.label.getFont().getAttributes();
+			labelAttributes.put( TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON );
+			this.label.setFont( this.label.getFont().deriveFont( labelAttributes ) );
+		}
+	}
+	/**
+	 * Build label.
+	 * @return MultiLineLabel
+	 */
+	private MultiLineLabel buildLabel() {
+		if( this.label == null ) {
+			this.label = new MultiLineLabel( "" );
+		}
+		buildFontStyle( fontStyle );
+		buildAlignment( alignment );
+		buildUnderline( underlined );
+		return this.label;
+	}
+	/**
+	 * Build label with new functionality.
+	 */
+	private void buildLabelText() {
+		this.buildLabel().setLabel( this.text );
+		this.isBoundsDirty = true;
 	}
 
 	/**
 	 * Sets the value of the text property.
 	 * 
-	 * @param newValue
+	 * @param text
 	 *            the text of the multiline string
 	 */
-	public void setText(String newValue) {
-		text = newValue;
-		setLabelText();
-		isBoundsDirty = true;
+	public MultiLineString useText( String text ) {
+		this.text = text;
+		this.buildLabelText();
+		return this;
 	}
-
 	/**
 	 * Gets the value of the text property.
 	 * 
@@ -66,28 +178,25 @@ public class MultiLineString implements Serializable, Cloneable {
 	public String getText() {
 		return text;
 	}
-
 	/**
 	 * Sets the value of the justification property.
 	 * 
-	 * @param newValue
+	 * @param alignment
 	 *            the justification, one of LEFT, CENTER, RIGHT
 	 */
-	public void setJustification(int newValue) {
-		justification = newValue;
-		setLabelText();
-		isBoundsDirty = true;
+	public MultiLineString useAlignment( Alignment alignment ) {
+		this.alignment = alignment;
+		this.buildLabelText();
+		return this;
 	}
-
 	/**
 	 * Gets the value of the justification property.
 	 * 
 	 * @return the justification, one of LEFT, CENTER, RIGHT
 	 */
-	public int getJustification() {
-		return justification;
+	public Alignment getAlignment() {
+		return alignment;
 	}
-
 	/**
 	 * Gets the value of the underlined property.
 	 * 
@@ -96,55 +205,39 @@ public class MultiLineString implements Serializable, Cloneable {
 	public boolean isUnderlined() {
 		return underlined;
 	}
-
 	/**
 	 * Sets the value of the underlined property.
 	 * 
-	 * @param newValue
+	 * @param underline
 	 *            true to underline the text
 	 */
-	public void setUnderlined(boolean newValue) {
-		underlined = newValue;
-		setLabelText();
-		isBoundsDirty = true;
+	public MultiLineString useUnderline( boolean underline ) {
+		this.underlined = underline;	
+		this.buildLabelText();
+		return this;
 	}
-
 	/**
 	 * Sets the value of the size property.
 	 * 
-	 * @param newValue
+	 * @param fontStyle
 	 *            the size, one of SMALL, NORMAL, LARGE
 	 */
-	public void setSize(int newValue) {
-		size = newValue;
-		setLabelText();
-		isBoundsDirty = true;
+	public MultiLineString useFontStyle( FontStyle fontStyle ) {
+		this.fontStyle = fontStyle;
+		this.buildLabelText();
+		return this;
 	}
-
 	/**
 	 * Gets the value of the size property.
 	 * 
 	 * @return the size, one of SMALL, NORMAL, LARGE
 	 */
-	public int getSize() {
-		return size;
+	public FontStyle getFontStyle() {
+		return fontStyle;
 	}
-
 	public String toString() {
 		return text.replace('\n', '|');
 	}
-
-	private void setLabelText() {
-		getLabel().setLabel(text);
-		if (justification == LEFT)
-			getLabel().setAlignment(MultiLineLabel.LEFT);
-		else if (justification == CENTER)
-			getLabel().setAlignment(MultiLineLabel.CENTER);
-		else if (justification == RIGHT)
-			getLabel().setAlignment(MultiLineLabel.RIGHT);
-		
-	}
-
 	/**
 	 * Gets the bounding rectangle for this multiline string.
 	 * 
@@ -153,11 +246,11 @@ public class MultiLineString implements Serializable, Cloneable {
 	 * @return the bounding rectangle (with top left corner (0,0))
 	 */
 	private Rectangle2D getBounds(Graphics2D g2) {
-		setLabelText();
-		getLabel().validate();
+		buildLabelText();
+		buildLabel().validate();
 		if (text.length() == 0)
 			return new Rectangle2D.Double(0, 0, 0, 0);
-		Dimension dim = getLabel().getPreferredSize();
+		Dimension dim = buildLabel().getPreferredSize();
 		return new Rectangle2D.Double(0, 0, dim.getWidth(), dim.getHeight());
 	}
 
@@ -175,7 +268,6 @@ public class MultiLineString implements Serializable, Cloneable {
 		}
 		return this.bounds;
 	}
-
 	/**
 	 * Draws this multiline string inside a given rectangle
 	 * 
@@ -185,53 +277,18 @@ public class MultiLineString implements Serializable, Cloneable {
 	 *            the rectangle into which to place this multiline string
 	 */
 	public void draw(Graphics2D g2, Rectangle2D r) {
-		getLabel().setBounds(0, 0, (int) r.getWidth(), (int) r.getHeight());
+		buildLabel().setBounds(0, 0, (int) r.getWidth(), (int) r.getHeight());
 		g2.translate(r.getX(), r.getY());
-		getLabel().paint(g2);
+		buildLabel().paint(g2);
 		g2.translate(-r.getX(), -r.getY());
 	}
-
 	public MultiLineString clone() {
 		MultiLineString cloned = new MultiLineString();
 		cloned.text = text;
-		cloned.justification = justification;
-		cloned.size = size;
+		cloned.alignment = alignment;
+		cloned.fontStyle = fontStyle;
 		cloned.underlined = underlined;
-		cloned.setLabelText();
+		cloned.buildLabelText();
 		return cloned;
 	}
-
-	private MultiLineLabel getLabel() {
-		if (this.label == null) {
-			this.label = new MultiLineLabel("");
-			Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
-			if (size == LARGE) {
-				font = font.deriveFont(Font.BOLD);
-			}
-			if (size == SMALL) {
-				font = font.deriveFont(Font.PLAIN);
-			}
-			this.label.setFont(font);
-			this.label.setMarginWidth(2);
-		}
-		return this.label;
-	}
-
-	public static final int LEFT = 0;
-	public static final int CENTER = 1;
-	public static final int RIGHT = 2;
-	public static final int LARGE = 3;
-	public static final int NORMAL = 4;
-	public static final int SMALL = 5;
-
-	private String text;
-	@XStreamAsAttribute
-	private int justification;
-	@XStreamAsAttribute
-	private int size;
-	@XStreamAsAttribute
-	private boolean underlined;
-	private transient MultiLineLabel label;
-	private transient boolean isBoundsDirty = true;
-	private transient Rectangle2D bounds;
 }
