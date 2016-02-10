@@ -1,10 +1,18 @@
 app.name=Violet UML Editor
 app.icon=/icons/72x72/violet.png
+<<<<<<< HEAD
+app.version.text=Version ${version} (${date})
+dialog.title=O Violet UML Editor
+dialog.about.image=about-violet.png
+dialog.button.label=Zamknij
+dialog.button.show_authors=Autorzy i uznania >
+=======
 app.version.text=Wersja ${version} (${date})
 dialog.title=O Violet UML Editor
 dialog.about.image=about-violet.png
 dialog.button.label=Zamknij
 dialog.button.show_authors=Autorzy i podzi\u0119kowania >
+>>>>>>> PolishLanguage
 dialog.button.show_license=Licencja >
 dialog.button.show_systeminfo=Informacje systemowe >
 dialog.button.show_version=Wersja >

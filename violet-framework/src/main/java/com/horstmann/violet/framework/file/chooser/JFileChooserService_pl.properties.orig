@@ -1,0 +1,7 @@
+dialog.overwrite.title=Ostrze\u017Cenie
+<<<<<<< HEAD
+dialog.overwrite.ok=Ten plik ju\u017C istnieje.\nCzy chcesz go zast\u0105pi\u0107?
+=======
+dialog.overwrite.ok=Ten plik ju\u017C jest stworzony\nChcesz go nadpisa\u0107?
+>>>>>>> PolishLanguage
+dialog.overwrite.icon=/icons/64x64/save.png

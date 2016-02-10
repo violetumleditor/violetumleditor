@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+files.xmi.name=XMI Files
+=======
 files.xmi.name=Plik XMI
+>>>>>>> PolishLanguage
 files.xmi.extension=.xmi
 files.xmi.step1.xsl=/xsl/violet2xmi.xsl
 files.xmi.step2.xsl=/xsl/xmi2xmi.xsl

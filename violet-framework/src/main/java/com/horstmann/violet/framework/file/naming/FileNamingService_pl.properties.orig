@@ -1,5 +1,13 @@
 files.global.name=Wszystkie pliki Violet (.violet.html)
 files.global.extension=.violet.html
+<<<<<<< HEAD
+files.violet016.name=Stare pliki Violet - EKSPERIMETALNE (.violet)
+files.violet016.extension=.violet
+files.image.type1.name=Obrazy (JPEG)
+files.image.type1.extension=.jpg
+files.image.type2.name=Obrazy (PNG)
+files.image.type2.extension=.png
+=======
 files.violet016.name=Stare pliki Violet - EKSPERYMENTALNIE (.violet)
 files.violet016.extension=.violet
 files.image.type1.name=Pliki obrazów (JPEG)
@@ -8,3 +16,4 @@ files.image.type2.name=Pliki obrazów (PNG)
 files.image.type2.extension=.png
 files.image.type3.name=Pliki dokumentów (PDF)
 files.image.type3.extension=.pdf
+>>>>>>> PolishLanguage
