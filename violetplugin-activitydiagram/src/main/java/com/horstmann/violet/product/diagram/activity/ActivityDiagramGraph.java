@@ -83,47 +83,50 @@ public class ActivityDiagramGraph extends AbstractGraph
     static
     {
         ScenarioStartNode node5 = new ScenarioStartNode();
-        node5.setToolTip(ActivityResource.ACTIVITY.getString("scenario.start.tooltip"));
+        node5.setToolTip(ActivityResource.ACTIVITY.getString("node5.tooltip"));
         NODE_PROTOTYPES.add(node5);
-        
+
         ActivityNode node0 = new ActivityNode();
-        node0.setToolTip(ActivityResource.ACTIVITY.getString("activity.tooltip"));
+        node0.setToolTip(ActivityResource.ACTIVITY.getString("node0.tooltip"));
         NODE_PROTOTYPES.add(node0);
 
         DecisionNode node1 = new DecisionNode();
-        node1.setToolTip(ActivityResource.ACTIVITY.getString("decision.tooltip"));
+        node1.setToolTip(ActivityResource.ACTIVITY.getString("node1.tooltip"));
         NODE_PROTOTYPES.add(node1);
 
         SynchronizationBarNode node2 = new SynchronizationBarNode();
-        node2.setToolTip(ActivityResource.ACTIVITY.getString("synchronization.bar.tooltip"));
+        node2.setToolTip(ActivityResource.ACTIVITY.getString("node2.tooltip"));
         NODE_PROTOTYPES.add(node2);
 
         SignalSendingNode node3 = new SignalSendingNode();
-        node3.setToolTip(ActivityResource.ACTIVITY.getString("signal.sending.tooltip"));
+        node3.setToolTip(ActivityResource.ACTIVITY.getString("node3.tooltip"));
         NODE_PROTOTYPES.add(node3);
 
         SignalReceiptNode node4 = new SignalReceiptNode();
-        node4.setToolTip(ActivityResource.ACTIVITY.getString("signal.receipt.tooltip"));
+        node4.setToolTip(ActivityResource.ACTIVITY.getString("node4.tooltip"));
         NODE_PROTOTYPES.add(node4);
 
         ScenarioEndNode node6 = new ScenarioEndNode();
-        node6.setToolTip(ActivityResource.ACTIVITY.getString("scenario.end.tooltip"));
+        node6.setToolTip(ActivityResource.ACTIVITY.getString("node6.tooltip"));
         NODE_PROTOTYPES.add(node6);
 
         NoteNode node7 = new NoteNode();
-        node7.setToolTip(ActivityResource.ACTIVITY.getString("note.tooltip"));
+        node7.setToolTip(ActivityResource.ACTIVITY.getString("node7.tooltip"));
         NODE_PROTOTYPES.add(node7);
 
+        PageLinkNode node8 = new PageLinkNode();
+        node8.setToolTip(ActivityResource.ACTIVITY.getString("node8.tooltip"));
+        NODE_PROTOTYPES.add(node8);
+
         ActivityTransitionEdge transition = new ActivityTransitionEdge();
+        transition.setToolTip(ActivityResource.ACTIVITY.getString("edge0.tooltip"));
         transition.setEndArrowHead(ArrowHead.V);
         transition.setStartArrowHead(ArrowHead.NONE);
         transition.setLineStyle(LineStyle.SOLID);
-        transition.setToolTip(ActivityResource.ACTIVITY.getString("transition.tooltip"));
         EDGE_PROTOTYPES.add(transition);
 
         NoteEdge noteEdge = new NoteEdge();
-        noteEdge.setToolTip(ActivityResource.ACTIVITY.getString("note.connector.tooltip"));
+        noteEdge.setToolTip(ActivityResource.ACTIVITY.getString("edge1.tooltip"));
         EDGE_PROTOTYPES.add(noteEdge);
     }
-
 }
