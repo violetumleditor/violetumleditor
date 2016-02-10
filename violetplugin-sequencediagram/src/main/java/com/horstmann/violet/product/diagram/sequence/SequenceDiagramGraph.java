@@ -38,30 +38,24 @@ import com.horstmann.violet.product.diagram.common.NoteNode;
 /**
  * A UML sequence diagram.
  */
-public class SequenceDiagramGraph extends AbstractGraph
-{
+public class SequenceDiagramGraph extends AbstractGraph {
 
-    
-    
-    
+
     @Override
-    public boolean addNode(INode newNode, Point2D p)
-    {
-    	INode foundNode = findNode(p);
+    public boolean addNode(INode newNode, Point2D p) {
+        INode foundNode = findNode(p);
         if (foundNode == null && newNode.getClass().isAssignableFrom(ActivationBarNode.class)) {
             return false;
         }
         return super.addNode(newNode, p);
     }
 
-    
-    public List<INode> getNodePrototypes()
-    {
+
+    public List<INode> getNodePrototypes() {
         return NODE_PROTOTYPES;
     }
 
-    public List<IEdge> getEdgePrototypes()
-    {
+    public List<IEdge> getEdgePrototypes() {
         return EDGE_PROTOTYPES;
     }
 
@@ -69,21 +63,24 @@ public class SequenceDiagramGraph extends AbstractGraph
 
     private static final List<IEdge> EDGE_PROTOTYPES = new ArrayList<IEdge>();
 
-    static
-    {
+    static {
         ResourceBundle rs = ResourceBundle.getBundle(SequenceDiagramConstant.SEQUENCE_DIAGRAM_STRINGS, Locale.getDefault());
-        
+
         LifelineNode lifelineNode = new LifelineNode();
         lifelineNode.setToolTip(rs.getString("node0.tooltip"));
         NODE_PROTOTYPES.add(lifelineNode);
-        
+
         ActivationBarNode activationBarNode = new ActivationBarNode();
         activationBarNode.setToolTip(rs.getString("node1.tooltip"));
         NODE_PROTOTYPES.add(activationBarNode);
-        
+
         NoteNode noteNode = new NoteNode();
         noteNode.setToolTip(rs.getString("node2.tooltip"));
         NODE_PROTOTYPES.add(noteNode);
+
+        IntegrationFrameNode integrationFrameNode = new IntegrationFrameNode();
+        integrationFrameNode.setToolTip(rs.getString("node3.tooltip"));
+        NODE_PROTOTYPES.add(integrationFrameNode);
 
         CallEdge callEdge = new CallEdge();
         callEdge.setEndArrowHead(ArrowHead.BLACK_TRIANGLE);
@@ -98,14 +95,14 @@ public class SequenceDiagramGraph extends AbstractGraph
         createEdge.setLineStyle(LineStyle.SOLID);
         createEdge.setToolTip(rs.getString("edge1.tooltip"));
         EDGE_PROTOTYPES.add(createEdge);
-        
+
         ReturnEdge returnEdge = new ReturnEdge();
         returnEdge.setEndArrowHead(ArrowHead.V);
         returnEdge.setStartArrowHead(ArrowHead.NONE);
         returnEdge.setLineStyle(LineStyle.DOTTED);
         returnEdge.setToolTip(rs.getString("edge2.tooltip"));
         EDGE_PROTOTYPES.add(returnEdge);
-        
+
         NoteEdge noteEdge = new NoteEdge();
         noteEdge.setToolTip(rs.getString("edge3.tooltip"));
         EDGE_PROTOTYPES.add(noteEdge);

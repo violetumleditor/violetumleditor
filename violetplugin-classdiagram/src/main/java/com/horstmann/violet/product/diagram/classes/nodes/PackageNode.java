@@ -20,7 +20,8 @@ import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLine
 /**
  * A package nodes in a class diagram.
  */
-public class PackageNode extends ColorableNode{
+public class PackageNode extends ColorableNode
+{
     static protected class PackageShape implements ContentInsideCustomShape.ShapeCreator
     {
         PackageShape(TextContent nameContent) {
