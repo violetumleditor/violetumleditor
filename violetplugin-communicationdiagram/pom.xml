@@ -20,5 +20,4 @@
             <version>${applicationVersion}</version>
         </dependency>
     </dependencies>
-    <groupId>ratajczak.violet</groupId>
 </project>

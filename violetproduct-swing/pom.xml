@@ -24,7 +24,7 @@
 			<version>${applicationVersion}</version>
 		</dependency>
 		<dependency>
- 			<groupId>ratajczak.violet</groupId>
+ 			<groupId>com.horstmann.violet</groupId>
  			<artifactId>violetplugin-communicationdiagram</artifactId>
  			<version>${applicationVersion}</version>
  		</dependency>
