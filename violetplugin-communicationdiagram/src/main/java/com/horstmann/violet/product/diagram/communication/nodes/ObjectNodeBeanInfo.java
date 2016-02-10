@@ -1,4 +1,4 @@
-package ratajczak.violet.product.diagram.classes.nodes;
+package com.horstmann.violet.product.diagram.communication.nodes;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;

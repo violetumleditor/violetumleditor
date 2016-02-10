@@ -87,12 +87,20 @@
         <processorPath useClasspath="true" />
         <module name="violet-framework" />
       </profile>
+      <profile default="false" name="Annotation profile for violetplugin-communicationdiagram" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="violetplugin-communicationdiagram" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="parent" target="1.5" />
       <module name="violet-framework" target="1.6" />
       <module name="violetplugin-activitydiagram" target="1.6" />
       <module name="violetplugin-classdiagram" target="1.6" />
+      <module name="violetplugin-communicationdiagram" target="1.6" />
       <module name="violetplugin-objectdiagram" target="1.6" />
       <module name="violetplugin-sequencediagram" target="1.6" />
       <module name="violetplugin-statediagram" target="1.6" />

@@ -1,4 +1,4 @@
-package ratajczak.violet.product.diagram.classes.edges;
+package com.horstmann.violet.product.diagram.communication.edges;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;

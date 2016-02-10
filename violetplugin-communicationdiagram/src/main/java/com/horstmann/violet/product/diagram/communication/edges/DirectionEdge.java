@@ -1,4 +1,4 @@
-package ratajczak.violet.product.diagram.classes.edges;
+package com.horstmann.violet.product.diagram.communication.edges;
 
 import com.horstmann.violet.product.diagram.abstracts.edge.SegmentedLineEdge;
 import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;

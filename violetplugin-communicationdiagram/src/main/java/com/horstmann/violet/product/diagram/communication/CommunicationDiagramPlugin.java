@@ -1,11 +1,9 @@
-package ratajczak.violet.product.diagram.classes;
+package com.horstmann.violet.product.diagram.communication;
 
 import java.util.Locale;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 import com.horstmann.violet.framework.plugin.IDiagramPlugin;
-import com.horstmann.violet.framework.plugin.extensionpoint.Violet016FileFilterExtensionPoint;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 /**
  * 

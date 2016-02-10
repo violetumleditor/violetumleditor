@@ -1,4 +1,4 @@
-package ratajczak.violet.product.diagram.classes;
+package com.horstmann.violet.product.diagram.communication;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,9 +9,9 @@ import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 
-import ratajczak.violet.product.diagram.classes.edges.DirectionEdge;
-import ratajczak.violet.product.diagram.classes.nodes.ActorNode;
-import ratajczak.violet.product.diagram.classes.nodes.ObjectNode;
+import com.horstmann.violet.product.diagram.communication.edges.DirectionEdge;
+import com.horstmann.violet.product.diagram.communication.nodes.ActorNode;
+import com.horstmann.violet.product.diagram.communication.nodes.ObjectNode;
 /**
  * 
  * @author Artur Ratajczak

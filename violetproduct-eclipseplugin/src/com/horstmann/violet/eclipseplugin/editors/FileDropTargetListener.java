@@ -33,7 +33,7 @@ import com.horstmann.violet.eclipseplugin.tools.JavaFileModel;
 import com.horstmann.violet.framework.file.IFile;
 import com.horstmann.violet.framework.file.LocalFile;
 import com.horstmann.violet.product.diagram.abstracts.node_old.INode;
-import com.horstmann.violet.product.diagram.classes.ClassDiagramGraph;
+import com.horstmann.violet.product.diagram.communication.ClassDiagramGraph;
 import com.horstmann.violet.product.diagram.common.DiagramLink;
 import com.horstmann.violet.product.diagram.common.DiagramLinkNode;
 import com.horstmann.violet.product.diagram.sequence.SequenceDiagramGraph;

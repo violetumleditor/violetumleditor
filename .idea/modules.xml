@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/violet-framework/violet-framework.iml" filepath="$PROJECT_DIR$/violet-framework/violet-framework.iml" />
       <module fileurl="file://$PROJECT_DIR$/violetplugin-activitydiagram/violetplugin-activitydiagram.iml" filepath="$PROJECT_DIR$/violetplugin-activitydiagram/violetplugin-activitydiagram.iml" />
       <module fileurl="file://$PROJECT_DIR$/violetplugin-classdiagram/violetplugin-classdiagram.iml" filepath="$PROJECT_DIR$/violetplugin-classdiagram/violetplugin-classdiagram.iml" />
+      <module fileurl="file://$PROJECT_DIR$/violetplugin-communicationdiagram/violetplugin-communicationdiagram.iml" filepath="$PROJECT_DIR$/violetplugin-communicationdiagram/violetplugin-communicationdiagram.iml" />
       <module fileurl="file://$PROJECT_DIR$/violetplugin-objectdiagram/violetplugin-objectdiagram.iml" filepath="$PROJECT_DIR$/violetplugin-objectdiagram/violetplugin-objectdiagram.iml" />
       <module fileurl="file://$PROJECT_DIR$/violetplugin-sequencediagram/violetplugin-sequencediagram.iml" filepath="$PROJECT_DIR$/violetplugin-sequencediagram/violetplugin-sequencediagram.iml" />
       <module fileurl="file://$PROJECT_DIR$/violetplugin-statediagram/violetplugin-statediagram.iml" filepath="$PROJECT_DIR$/violetplugin-statediagram/violetplugin-statediagram.iml" />
