@@ -3,6 +3,7 @@ package com.horstmann.violet.product.diagram.communication.edges;
 import com.horstmann.violet.product.diagram.abstracts.edge.SegmentedLineEdge;
 import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
 import com.horstmann.violet.product.diagram.abstracts.property.LineStyle;
+import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 /**
  * 
  * @author Artur Ratajczak
@@ -11,10 +12,10 @@ import com.horstmann.violet.product.diagram.abstracts.property.LineStyle;
 public class DirectionEdge extends SegmentedLineEdge {
 
 	public DirectionEdge() {
-		SequenceNumber = "";
-		Message = "";
+		SequenceNumber = new SingleLineText();
+		Message = new SingleLineText();
 		ConcurrentLoop = false;
-		SequentialLoop = "";
+		SequentialLoop = new SingleLineText();
 	}
 
 	@Override
@@ -32,30 +33,30 @@ public class DirectionEdge extends SegmentedLineEdge {
 		return LineStyle.SOLID;
 	}
 
-	public void setSequenceNumber(String number) {
+	public void setSequenceNumber(SingleLineText number) {
 		this.SequenceNumber = number;
 		margeMessage();
 	}
 
-	public String getSequenceNumber() {
+	public SingleLineText getSequenceNumber() {
 		return SequenceNumber;
 	}
 
-	public void setMessage(String message) {
+	public void setMessage(SingleLineText message) {
 		this.Message = message;
 		margeMessage();
 		;
 	}
 
-	public String getMessage() {
+	public SingleLineText getMessage() {
 		return Message;
 	}
 
-	public String getSequentialLoop() {
+	public SingleLineText getSequentialLoop() {
 		return SequentialLoop;
 	}
 
-	public void setSequentialLoop(String sequentialLoop) {
+	public void setSequentialLoop(SingleLineText sequentialLoop) {
 		SequentialLoop = sequentialLoop;
 		margeMessage();
 	}
@@ -70,17 +71,17 @@ public class DirectionEdge extends SegmentedLineEdge {
 	}
 
 	private void margeMessage() {
-		if (isConcurrentLoop() && !SequentialLoop.isEmpty()) {
+		if (isConcurrentLoop() && !SequentialLoop.toString().isEmpty()) {
 			setMiddleLabel(SequenceNumber + " *|| " + SequentialLoop + " : " + Message);
-		} else if (!SequentialLoop.isEmpty())
+		} else if (!SequentialLoop.toString().isEmpty())
 			setMiddleLabel(SequenceNumber + " * " + SequentialLoop + " : " + Message);
 		else
 			setMiddleLabel(SequenceNumber + " : " + Message);
 	}
 
-	private String SequenceNumber;
-	private String Message;
-	private String SequentialLoop;
+	private SingleLineText SequenceNumber;
+	private SingleLineText Message;
+	private SingleLineText SequentialLoop;
 	private boolean ConcurrentLoop;
 
 }
