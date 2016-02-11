@@ -84,6 +84,6 @@ public class CircularInitialStateNode extends AbstractNode
     }
 
     /** default node_old diameter */
-    private static int DEFAULT_DIAMETER = 16;
+    private static int DEFAULT_DIAMETER = 12;
 
 }

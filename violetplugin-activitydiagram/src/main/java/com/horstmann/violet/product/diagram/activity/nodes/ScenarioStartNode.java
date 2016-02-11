@@ -27,7 +27,6 @@ import com.horstmann.violet.framework.graphics.content.EmptyContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideEllipse;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
-import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 
@@ -73,7 +72,6 @@ public class ScenarioStartNode extends AbstractNode
         return e.getEnd() != null && this != e.getEnd();
     }
 
-
     /** default node_old diameter */
-    private static int DEFAULT_DIAMETER = 16;
+    private static int DEFAULT_DIAMETER = 12;
 }

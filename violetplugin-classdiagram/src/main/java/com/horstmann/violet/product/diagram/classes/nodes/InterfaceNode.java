@@ -9,9 +9,7 @@ import com.horstmann.violet.framework.graphics.content.VerticalLayout;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
-import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.LargeSizeDecorator;
-import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.OneLineString;
-import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.PrefixDecorator;
+import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.*;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
@@ -30,7 +28,7 @@ public class InterfaceNode extends ColorableNode
         super();
 
         name = new SingleLineText(nameConverter);
-        methods = new MultiLineText();
+        methods = new MultiLineText(methodsConverter);
         createContentStructure();
     }
 
@@ -46,9 +44,8 @@ public class InterfaceNode extends ColorableNode
     public void deserializeSupport()
     {
         super.deserializeSupport();
-        name.setConverter(nameConverter);
-        name.deserializeSupport();
-        methods.deserializeSupport();
+        name.deserializeSupport(nameConverter);
+        methods.deserializeSupport(methodsConverter);
     }
 
     @Override
@@ -161,6 +158,19 @@ public class InterfaceNode extends ColorableNode
         {
             return new PrefixDecorator( new LargeSizeDecorator(new OneLineString(text)), "«interface»<br>");
     //                return new ItalicsDecorator( new LargeSizeDecorator(new OneLineString(text)));
+        }
+    };
+    private final static LineText.Converter methodsConverter = new LineText.Converter(){
+        @Override
+        public OneLineString toLineString(String text)
+        {
+            OneLineString lineString = new OneLineString(text);
+
+            if(lineString.contains("<<static>>"))
+            {
+                lineString = new UnderlineDecorator(new RemoveSentenceDecorator(lineString, "<<static>>"));
+            }
+            return lineString;
         }
     };
 }

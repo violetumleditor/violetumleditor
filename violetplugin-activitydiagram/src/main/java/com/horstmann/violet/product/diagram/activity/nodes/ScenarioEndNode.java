@@ -21,11 +21,9 @@
 
 package com.horstmann.violet.product.diagram.activity.nodes;
 
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 
 import com.horstmann.violet.framework.graphics.content.*;
-import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideEllipse;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
@@ -58,24 +56,26 @@ public class ScenarioEndNode extends AbstractNode
     @Override
     protected void createContentStructure()
     {
+        RelativeLayout relativeLayout = new RelativeLayout();
+
         EmptyContent insideEmptyContent = new EmptyContent();
         insideEmptyContent.setMinHeight(DEFAULT_DIAMETER);
         insideEmptyContent.setMinWidth(DEFAULT_DIAMETER);
 
         ContentInsideShape contentInsideShape = new ContentInsideEllipse(insideEmptyContent, 1);
-        ContentBackground contentBackground = new ContentBackground(contentInsideShape, ColorToolsBarPanel.PASTEL_GREY.getBorderColor());
-
-        ContentInsideShape contentOutsideShape = new ContentInsideCustomShape(contentBackground, new ContentInsideCustomShape.ShapeCreator() {
-            @Override
-            public Shape createShape(int contentWidth, int contentHeight) {
-                return new Ellipse2D.Double(0,0,contentWidth+DEFAULT_GAP, contentHeight+DEFAULT_GAP);
-            }
-        });
-
-        contentBackground = new ContentBackground(contentOutsideShape, ColorToolsBarPanel.PASTEL_GREY.getBackgroundColor());
+        ContentBackground contentBackground = new ContentBackground(contentInsideShape, ColorToolsBarPanel.PASTEL_GREY.getBackgroundColor());
         ContentBorder contentBorder = new ContentBorder(contentBackground, ColorToolsBarPanel.PASTEL_GREY.getBorderColor());
+        relativeLayout.add(contentBorder);
 
-        setContent(contentBorder);
+        insideEmptyContent = new EmptyContent();
+        insideEmptyContent.setMinHeight(DEFAULT_DIAMETER-DEFAULT_GAP);
+        insideEmptyContent.setMinWidth(DEFAULT_DIAMETER-DEFAULT_GAP);
+
+        contentInsideShape = new ContentInsideEllipse(insideEmptyContent, 1);
+        contentBackground = new ContentBackground(contentInsideShape, ColorToolsBarPanel.PASTEL_GREY.getBorderColor());
+        relativeLayout.add(contentBackground, new Point2D.Double(DEFAULT_GAP/ Math.sqrt(2),DEFAULT_GAP/ Math.sqrt(2)));
+
+        setContent(relativeLayout);
     }
 
 
@@ -85,10 +85,9 @@ public class ScenarioEndNode extends AbstractNode
         return e.getEnd() != null && this != e.getEnd();
     }
 
-
     /** default node_old diameter */
-    private static int DEFAULT_DIAMETER = 12;
+    private final static int DEFAULT_DIAMETER = 12;
 
     /** default gap between the main circle and the ring for a final node_old */
-    private static int DEFAULT_GAP = 6;
+    private final static int DEFAULT_GAP = 4;
 }

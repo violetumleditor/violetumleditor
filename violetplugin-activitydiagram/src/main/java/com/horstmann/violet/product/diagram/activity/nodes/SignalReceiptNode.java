@@ -139,7 +139,7 @@ public class SignalReceiptNode extends ColorableNode
 
     private SingleLineText signal;
 
-    private static int DEFAULT_WIDTH = 80;
-    private static int DEFAULT_HEIGHT = 40;
-    private static int EDGE_WIDTH = 20;
+    private final static int DEFAULT_WIDTH = 80;
+    private final static int DEFAULT_HEIGHT = 40;
+    private final static int EDGE_WIDTH = 20;
 }

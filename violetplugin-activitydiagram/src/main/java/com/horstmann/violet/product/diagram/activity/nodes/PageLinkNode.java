@@ -31,7 +31,6 @@ import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
 
 /**
  * An activity node in an activity diagram.
@@ -92,12 +91,6 @@ public class PageLinkNode extends ColorableNode
         super.setTextColor(textColor);
     }
 
-    @Override
-    public Shape getShape()
-    {
-        return new Ellipse2D.Double(getBounds().getX(), getBounds().getY(), getBounds().getWidth(), getBounds().getHeight());
-    }
-
     /**
      * Sets the name property value.
      * 
@@ -105,7 +98,7 @@ public class PageLinkNode extends ColorableNode
      */
     public void setName(SingleLineText newValue)
     {
-        name = newValue;
+        name.setText(newValue.toEdit());
     }
 
     /**

@@ -55,9 +55,13 @@ public abstract class LineText implements Serializable, Cloneable, EditableStrin
         converter = lineText.converter;
     }
 
-    public void deserializeSupport()
+    public final void deserializeSupport()
     {
-        this.converter = DEFAULT_CONVERTER;
+        this.deserializeSupport(DEFAULT_CONVERTER);
+    }
+    public void deserializeSupport(Converter converter)
+    {
+        this.converter = converter;
     }
 
     @Override
