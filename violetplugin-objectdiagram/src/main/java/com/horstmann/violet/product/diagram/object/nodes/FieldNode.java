@@ -19,7 +19,7 @@
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package com.horstmann.violet.product.diagram.object;
+package com.horstmann.violet.product.diagram.object.nodes;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -36,6 +36,7 @@ import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 import com.horstmann.violet.product.diagram.common.edge.BasePropertyEdge;
+import com.horstmann.violet.product.diagram.object.edges.ObjectReferenceEdge;
 
 /**
  * A field node_old in an object diagram.
