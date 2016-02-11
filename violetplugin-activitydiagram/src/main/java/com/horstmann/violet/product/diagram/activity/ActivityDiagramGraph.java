@@ -110,13 +110,13 @@ public class ActivityDiagramGraph extends AbstractGraph
         node6.setToolTip(ActivityResource.ACTIVITY.getString("node6.tooltip"));
         NODE_PROTOTYPES.add(node6);
 
-        NoteNode node7 = new NoteNode();
-        node7.setToolTip(ActivityResource.ACTIVITY.getString("node7.tooltip"));
-        NODE_PROTOTYPES.add(node7);
-
         PageLinkNode node8 = new PageLinkNode();
         node8.setToolTip(ActivityResource.ACTIVITY.getString("node8.tooltip"));
         NODE_PROTOTYPES.add(node8);
+
+        NoteNode node7 = new NoteNode();
+        node7.setToolTip(ActivityResource.ACTIVITY.getString("node7.tooltip"));
+        NODE_PROTOTYPES.add(node7);
 
         ActivityTransitionEdge transition = new ActivityTransitionEdge();
         transition.setToolTip(ActivityResource.ACTIVITY.getString("edge0.tooltip"));

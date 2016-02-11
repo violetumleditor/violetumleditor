@@ -445,7 +445,7 @@ public abstract class AbstractNode implements INode
     	return this.toolTip;
     }
 
-    public final ContentInsideShape getContent()
+    public final Content getContent()
     {
         if(null == content)
         {
@@ -454,12 +454,12 @@ public abstract class AbstractNode implements INode
         return content;
     }
 
-    protected final void setContent(ContentInsideShape content)
+    protected final void setContent(Content content)
     {
         this.content = content;
     }
 
-    private transient ContentInsideShape content;
+    private transient Content content;
 
     private transient IGraph graph;
     private transient String toolTip;
