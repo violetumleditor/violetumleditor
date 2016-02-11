@@ -22,6 +22,9 @@ import com.horstmann.violet.product.diagram.common.PointNode;
  */
 public class InterfaceNode extends ColorableNode
 {
+    /**
+     * Construct an interface node with a default size and the text <<interface>>.
+     */
     public InterfaceNode()
     {
         super();
@@ -156,7 +159,7 @@ public class InterfaceNode extends ColorableNode
         @Override
         public OneLineString toLineString(String text)
         {
-            return new PrefixDecorator( new LargeSizeDecorator(new OneLineString(text)), "Â«interfaceÂ»<br>");
+            return new PrefixDecorator( new LargeSizeDecorator(new OneLineString(text)), "«interface»<br>");
     //                return new ItalicsDecorator( new LargeSizeDecorator(new OneLineString(text)));
         }
     };

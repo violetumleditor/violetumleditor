@@ -14,12 +14,15 @@ import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 import com.horstmann.violet.product.diagram.common.PointNode;
-
+//test
 /**
  * A class nodes in a class diagram.
  */
 public class ClassNode extends ColorableNode
 {
+    /**
+     * Construct a class node with a default size
+     */
     public ClassNode()
     {
         super();
@@ -43,12 +46,12 @@ public class ClassNode extends ColorableNode
     public void deserializeSupport()
     {
         super.deserializeSupport();
-        name.setConverter(nameConverter);
         name.deserializeSupport();
-        attributes.setConverter(propertyConverter);
+        name.setConverter(nameConverter);
         attributes.deserializeSupport();
-        methods.setConverter(propertyConverter);
+        attributes.setConverter(propertyConverter);
         methods.deserializeSupport();
+        methods.setConverter(propertyConverter);
     }
 
     @Override
@@ -182,14 +185,14 @@ public class ClassNode extends ColorableNode
     private static int DEFAULT_NAME_HEIGHT = 45;
     private static int DEFAULT_WIDTH = 100;
 
-    private static LineText.Converter nameConverter = new LineText.Converter(){
+    private final static LineText.Converter nameConverter = new LineText.Converter(){
         @Override
         public OneLineString toLineString(String text)
         {
             return new LargeSizeDecorator(new OneLineString(text));
         }
     };
-    private static LineText.Converter propertyConverter= new LineText.Converter(){
+    private final static LineText.Converter propertyConverter= new LineText.Converter(){
         @Override
         public OneLineString toLineString(String text)
         {

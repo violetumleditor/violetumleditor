@@ -1,0 +1,26 @@
+node0.tooltip=Aktor
+<<<<<<< HEAD
+node1.tooltip=Przypadek u\u017Cucia
+node2.tooltip=Note
+edge0.tooltip=Interakcja
+edge1.tooltip=\u00ABextend\u00BB : precises the behaviour of
+edge2.tooltip=\u00ABinclude\u00BB : includes call to
+edge3.tooltip=Generalization : bardziej specyficzny
+edge4.tooltip=\u0141\u0105cznik notatki
+menu.usecase_diagram.name=1.Diagram przypadk\u00F3w u\u017Cycia
+menu.usecase_diagram.category=2.Widok dynamiczny
+files.usecase.name=Diagram przypadk\u00F3w u\u017Cycia (.ucase.violet.html)
+=======
+node1.tooltip=Przypadek u\u017Cycia
+node2.tooltip=Notatka
+edge0.tooltip=Interakcja
+edge1.tooltip=\u00ABrozszerz\u00BB : wstaw dodatkowe czynno\u015Bci do
+edge2.tooltip=\u00ABzawieranie\u00BB : zawiera wezwanie do
+edge3.tooltip=Dziedziczenie : jeden przypadek zast\u0119puje drugi
+edge4.tooltip=\u0141\u0105cznik notatki
+menu.usecase_diagram.name=1.Diagram przypadków u\u017Cycia
+menu.usecase_diagram.category=2.Widok dynamiczny
+files.usecase.name=Pliki diagramu przypadków u\u017Cycia (.ucase.violet.html)
+>>>>>>> PolishLanguage
+files.usecase.extension=.ucase.violet.html
+sample.file.path=sample.ucase.violet.html

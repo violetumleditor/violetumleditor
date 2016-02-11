@@ -151,7 +151,7 @@ public class FieldNode extends ColorableNode
         INode endingINode = e.getEnd();
         if (e.getClass().isAssignableFrom(ObjectReferenceEdge.class) && endingINode.getClass().isAssignableFrom(ObjectNode.class))
         {
-            value.setText("");
+            value.setText( "" );
             return true;
         }
         // Hack to allow drawing relationship edge over fields

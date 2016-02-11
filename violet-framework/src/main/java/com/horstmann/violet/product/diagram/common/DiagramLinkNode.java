@@ -144,7 +144,7 @@ public class DiagramLinkNode extends ColorableNode
                     .append(
                             ResourceBundle.getBundle(ResourceBundleConstant.OTHER_STRINGS, Locale.getDefault()).getString(
                                     "file.link.text")).append(" ").append(dl.getFile().getFilename());
-            this.label.setText(linktext.toString());
+            this.label.setText( linktext.toString() );
         }
         return this.label;
     }
