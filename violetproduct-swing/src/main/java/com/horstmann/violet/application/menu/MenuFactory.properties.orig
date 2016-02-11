@@ -151,7 +151,10 @@ help.userguide.url=http://violet.sourceforge.net/help.php?lang=en
 help.homepage.text=Home Page
 help.homepage.mnemonic=H
 help.homepage.url=http://violet.sourceforge.net/index.php?lang=en
+<<<<<<< HEAD
 workspace.unsaved_prefix=Unsaved
+=======
 help.shortcutkeys.text=Key Assist.
 help.shortcutkeys.mnemonic=J
 help.shortcutkeys.accelerator=ctrl J
+>>>>>>> origin/mMucha_KeyAssist

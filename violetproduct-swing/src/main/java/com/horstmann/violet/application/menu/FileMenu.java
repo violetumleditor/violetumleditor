@@ -46,6 +46,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 
 import com.horstmann.violet.application.ApplicationStopper;
 import com.horstmann.violet.application.gui.MainFrame;
@@ -488,8 +489,8 @@ public class FileMenu extends JMenu
             SortedSet<IDiagramPlugin> aSortedSet = diagramPluginsSortedByCategory.get(category);
             aSortedSet.add(aDiagramPlugin);
         }
-
         // Step 2 : populate menu entry
+		int numberOfCurrentDiagram = 0;
         for (String aCategory : diagramPluginsSortedByCategory.keySet())
         {
             String categoryName = aCategory.replaceFirst("[0-9]*\\.", "");
@@ -521,13 +522,39 @@ public class FileMenu extends JMenu
                         name = unsavedPrefix + " " + name.toLowerCase();
                         diagramPanel.setTitle(name);
                         mainFrame.addWorkspace(diagramPanel);
-                    }
-                });
-                categorySubMenu.add(item);
-            }
-        }
-    }
+					}
+				});
+				item.setAccelerator( getKeyStroke( numberOfCurrentDiagram ) );
+				categorySubMenu.add( item );
+				numberOfCurrentDiagram++;
+			}
+		}
+	}
 
+    /**
+     * Method return specific key stroke using to set acceleration for specific diagram
+     * @author Mateusz Mucha
+     * @param index of diagram
+     * @return specific key stroke 
+     */
+	private KeyStroke getKeyStroke( int index ) {
+		int[] keys = { java.awt.event.KeyEvent.VK_0,
+				java.awt.event.KeyEvent.VK_1, java.awt.event.KeyEvent.VK_2,
+				java.awt.event.KeyEvent.VK_3, java.awt.event.KeyEvent.VK_4,
+				java.awt.event.KeyEvent.VK_5, java.awt.event.KeyEvent.VK_6,
+				java.awt.event.KeyEvent.VK_7, java.awt.event.KeyEvent.VK_8,
+				java.awt.event.KeyEvent.VK_9,
+				java.awt.event.KeyEvent.VK_NUMPAD0, java.awt.event.KeyEvent.VK_NUMPAD1,
+				java.awt.event.KeyEvent.VK_NUMPAD2, java.awt.event.KeyEvent.VK_NUMPAD3,
+				java.awt.event.KeyEvent.VK_NUMPAD4, java.awt.event.KeyEvent.VK_NUMPAD5,
+				java.awt.event.KeyEvent.VK_NUMPAD6, java.awt.event.KeyEvent.VK_NUMPAD7,
+				java.awt.event.KeyEvent.VK_NUMPAD8, java.awt.event.KeyEvent.VK_NUMPAD9, 
+		};
+		
+		return KeyStroke.getKeyStroke( keys[ index ], java.awt.Event.CTRL_MASK );
+	}
+    
+    
     /**
      * Init recent menu entry
      */

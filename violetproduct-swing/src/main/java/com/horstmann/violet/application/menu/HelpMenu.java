@@ -31,6 +31,7 @@ import javax.swing.JMenuItem;
 import com.horstmann.violet.application.gui.MainFrame;
 import com.horstmann.violet.application.help.AboutDialog;
 import com.horstmann.violet.application.help.HelpManager;
+import com.horstmann.violet.application.help.KeyAssist;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 
@@ -84,6 +85,14 @@ public class HelpMenu extends JMenu
         });
         this.add(homepageItem);
 
+		keyAssistItem.addActionListener( new ActionListener() {
+			public void actionPerformed( ActionEvent e ) {
+				KeyAssist keyAssist = new KeyAssist( mainFrame );
+				keyAssist.setVisible( true );
+			}
+		});
+		this.add( keyAssistItem );
+        
         aboutItem.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
@@ -94,14 +103,8 @@ public class HelpMenu extends JMenu
 
         });
         this.add(aboutItem);
-
     }
-
     
-
-
-
-
     /**
      * Main app frame where this menu is attached to
      */
@@ -116,6 +119,6 @@ public class HelpMenu extends JMenu
     @ResourceBundleBean(key = "help.about")
     private JMenuItem aboutItem;
 
-
-
+	@ResourceBundleBean(key = "help.shortcutkeys")
+	private JMenuItem keyAssistItem;
 }
