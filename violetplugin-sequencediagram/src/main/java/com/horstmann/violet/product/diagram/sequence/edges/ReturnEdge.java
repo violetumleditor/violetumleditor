@@ -19,7 +19,7 @@
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package com.horstmann.violet.product.diagram.sequence;
+package com.horstmann.violet.product.diagram.sequence.edges;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;

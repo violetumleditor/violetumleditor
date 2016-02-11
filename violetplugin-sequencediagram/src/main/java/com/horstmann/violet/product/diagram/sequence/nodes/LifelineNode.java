@@ -19,7 +19,7 @@
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package com.horstmann.violet.product.diagram.sequence;
+package com.horstmann.violet.product.diagram.sequence.nodes;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -44,6 +44,7 @@ import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
+import com.horstmann.violet.product.diagram.sequence.edges.CallEdge;
 
 /**
  * An object node_old in a scenario diagram.
@@ -57,13 +58,7 @@ public class LifelineNode extends ColorableNode
     {
         super();
 
-        name = new SingleLineText(new LineText.Converter(){
-            @Override
-            public OneLineString toLineString(String text)
-            {
-            return new UnderlineDecorator(new OneLineString(text));
-            }
-        });
+        name = new SingleLineText(nameConverter);
         createContentStructure();
     }
 
@@ -78,8 +73,7 @@ public class LifelineNode extends ColorableNode
     public void deserializeSupport()
     {
         super.deserializeSupport();
-        name.setConverter(nameConverter);
-        name.deserializeSupport();
+        name.deserializeSupport(nameConverter);
 
         for(INode child : getChildren())
         {
@@ -335,12 +329,12 @@ public class LifelineNode extends ColorableNode
     private transient VerticalLayout activationsGroup = null;
 
     private transient double maxYOverAllLifeLineNodes = 0;
-    private static int DEFAULT_TOP_HEIGHT = 60;
-    private static int DEFAULT_WIDTH = 80;
-    private static int DEFAULT_HEIGHT = 120;
-    private static int DEFAULT_LINE_CONTAINS_THICKNESS = 5;
+    private final static int DEFAULT_TOP_HEIGHT = 60;
+    private final static int DEFAULT_WIDTH = 80;
+    private final static int DEFAULT_HEIGHT = 120;
+    private final static int DEFAULT_LINE_CONTAINS_THICKNESS = 5;
 
-    private static LineText.Converter nameConverter = new LineText.Converter(){
+    private final static LineText.Converter nameConverter = new LineText.Converter(){
         @Override
         public OneLineString toLineString(String text)
         {

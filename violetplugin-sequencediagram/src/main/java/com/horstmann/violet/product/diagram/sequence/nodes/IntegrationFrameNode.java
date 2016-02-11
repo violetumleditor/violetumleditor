@@ -1,4 +1,4 @@
-package com.horstmann.violet.product.diagram.sequence;
+package com.horstmann.violet.product.diagram.sequence.nodes;
 
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
@@ -44,7 +44,7 @@ public class IntegrationFrameNode extends ColorableNode
     public void deserializeSupport()
     {
         super.deserializeSupport();
-        name.deserializeSupport();
+        name.deserializeSupport(nameConverter);
         context.deserializeSupport();
     }
 
@@ -125,8 +125,9 @@ public class IntegrationFrameNode extends ColorableNode
      *
      * @param newValue the contents of this class
      */
-    public void setContext(MultiLineText newValue) {
-        context = newValue;
+    public void setContext(MultiLineText newValue)
+    {
+        context.setText(newValue.toEdit());
     }
 
     /**
@@ -159,22 +160,20 @@ public class IntegrationFrameNode extends ColorableNode
         name.setText(type.getName());
     }
 
-    private static LineText.Converter nameConverter = new LineText.Converter(){
+    private IntegrationFrameType type;
+    private SingleLineText name;
+    private MultiLineText context;
+
+    private final static int DEFAULT_TYPE_WIDTH = 60;
+    private final static int DEFAULT_TYPE_HEIGHT = 20;
+    private final static int DEFAULT_WIDTH = 200;
+    private final static int DEFAULT_HEIGHT = 150;
+
+    private final static LineText.Converter nameConverter = new LineText.Converter(){
         @Override
         public OneLineString toLineString(String text)
         {
             return new LargeSizeDecorator(new OneLineString(text));
         }
     };
-
-    private IntegrationFrameType type;
-    private SingleLineText name;
-    private MultiLineText context;
-    private Rectangle2D wantedSize = new Rectangle2D.Double(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT);
-
-    private static int DEFAULT_TYPE_WIDTH = 60;
-    private static int DEFAULT_TYPE_HEIGHT = 20;
-    private static int DEFAULT_WIDTH = 200;
-    private static int DEFAULT_HEIGHT = 150;
-
 }

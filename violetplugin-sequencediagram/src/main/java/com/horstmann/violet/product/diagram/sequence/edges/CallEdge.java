@@ -19,7 +19,7 @@
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package com.horstmann.violet.product.diagram.sequence;
+package com.horstmann.violet.product.diagram.sequence.edges;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -27,6 +27,7 @@ import java.util.ArrayList;
 
 import com.horstmann.violet.product.diagram.abstracts.edge.SegmentedLineEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.sequence.nodes.ActivationBarNode;
 
 /**
  * An edge that joins two call nodes. Typically, call edges are used in sequence diagram to represent calls between entities (call

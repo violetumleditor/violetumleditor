@@ -1,4 +1,4 @@
-package com.horstmann.violet.product.diagram.sequence;
+package com.horstmann.violet.product.diagram.sequence.nodes;
 
 
 import java.beans.IntrospectionException;

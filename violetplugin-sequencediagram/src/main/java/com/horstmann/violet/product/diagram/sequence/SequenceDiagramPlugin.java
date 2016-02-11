@@ -8,6 +8,10 @@ import java.util.ResourceBundle;
 import com.horstmann.violet.framework.plugin.IDiagramPlugin;
 import com.horstmann.violet.framework.plugin.extensionpoint.Violet016FileFilterExtensionPoint;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.sequence.edges.CallEdge;
+import com.horstmann.violet.product.diagram.sequence.edges.ReturnEdge;
+import com.horstmann.violet.product.diagram.sequence.nodes.ActivationBarNode;
+import com.horstmann.violet.product.diagram.sequence.nodes.LifelineNode;
 
 /**
  * Describes sequence diagram graph type

@@ -8,6 +8,9 @@ import java.util.ResourceBundle;
 import com.horstmann.violet.framework.plugin.IDiagramPlugin;
 import com.horstmann.violet.framework.plugin.extensionpoint.Violet016FileFilterExtensionPoint;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.state.edges.StateTransitionEdge;
+import com.horstmann.violet.product.diagram.state.nodes.CircularInitialStateNode;
+import com.horstmann.violet.product.diagram.state.nodes.StateNode;
 
 /**
  * Describes state diagram graph type

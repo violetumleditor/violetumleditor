@@ -34,6 +34,11 @@ import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
 import com.horstmann.violet.product.diagram.abstracts.property.LineStyle;
 import com.horstmann.violet.product.diagram.common.edge.NoteEdge;
 import com.horstmann.violet.product.diagram.common.NoteNode;
+import com.horstmann.violet.product.diagram.sequence.edges.CallEdge;
+import com.horstmann.violet.product.diagram.sequence.edges.ReturnEdge;
+import com.horstmann.violet.product.diagram.sequence.nodes.ActivationBarNode;
+import com.horstmann.violet.product.diagram.sequence.nodes.IntegrationFrameNode;
+import com.horstmann.violet.product.diagram.sequence.nodes.LifelineNode;
 
 /**
  * A UML sequence diagram.
