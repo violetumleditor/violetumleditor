@@ -44,8 +44,8 @@ public class ShortcutDialog extends JDialog
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.getContentPane().setLayout(new BorderLayout());
         this.getContentPane().add(buildShortcutPanel(), BorderLayout.CENTER);
-        this.setSize(400,300);
         setCenterLocation(parent);
+        pack();
     }
 
     private JPanel buildShortcutPanel()
@@ -60,7 +60,10 @@ public class ShortcutDialog extends JDialog
             table.setEnabled(false);
             table.setCellSelectionEnabled(false);
             table.setShowGrid(true);
-            table.setGridColor(Color.black);
+            table.setGridColor(new Color(220, 220, 220));
+            table.setRowHeight(30);
+            table.setIntercellSpacing(new Dimension(15, 0));
+            table.getTableHeader().setFont(new Font("Times New Roman", Font.BOLD, 14));
             
             JScrollPane scrollPane = new JScrollPane(table);
             shortcutPanel.add(scrollPane, BorderLayout.CENTER);
