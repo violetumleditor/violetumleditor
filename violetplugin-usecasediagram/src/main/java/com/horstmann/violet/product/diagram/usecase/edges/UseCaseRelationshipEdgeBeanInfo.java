@@ -19,7 +19,7 @@
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package com.horstmann.violet.product.diagram.usecase;
+package com.horstmann.violet.product.diagram.usecase.edges;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;

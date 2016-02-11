@@ -19,7 +19,7 @@
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package com.horstmann.violet.product.diagram.usecase;
+package com.horstmann.violet.product.diagram.usecase.nodes;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
@@ -88,9 +88,8 @@ public class ActorNode extends ColorableNode
     {
         super();
         name = new SingleLineText();
-        name.setPadding(10,5,5,5);
         name.setAlignment(LineText.CENTER);
-//        name.setText("Actor");
+        name.setPadding(10,5,5,5);
         createContentStructure();
     }
 
@@ -106,6 +105,8 @@ public class ActorNode extends ColorableNode
     {
         super.deserializeSupport();
         name.deserializeSupport();
+        name.setAlignment(LineText.CENTER);
+        name.setPadding(10,5,5,5);
     }
 
     @Override
