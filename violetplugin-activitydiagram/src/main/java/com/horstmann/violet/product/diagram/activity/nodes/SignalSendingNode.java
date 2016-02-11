@@ -106,8 +106,6 @@ public class SignalSendingNode extends ColorableNode
         super.setTextColor(textColor);
     }
 
-
-
     @Override
     public boolean addConnection(IEdge e)
     {
@@ -130,8 +128,6 @@ public class SignalSendingNode extends ColorableNode
 
     /**
      * Gets the signal property value.
-     * 
-     * @param the signal description
      */
     public SingleLineText getSignal()
     {

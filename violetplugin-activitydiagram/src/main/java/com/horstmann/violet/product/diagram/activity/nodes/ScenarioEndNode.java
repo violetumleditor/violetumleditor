@@ -21,12 +21,9 @@
 
 package com.horstmann.violet.product.diagram.activity.nodes;
 
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
 import com.horstmann.violet.framework.graphics.content.*;
-import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideEllipse;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;

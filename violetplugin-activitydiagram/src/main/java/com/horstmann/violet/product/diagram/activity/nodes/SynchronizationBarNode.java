@@ -182,11 +182,11 @@ public class SynchronizationBarNode extends ColorableNode
     private StretchStrategy currentStretch;
     private transient Content content = null;
 
-    private static int DEFAULT_LENGHT = 100;
-    private static int DEFAULT_THICKNESS = 5;
-    private static int EXTRA_LENGHT = 12;
+    private final static int DEFAULT_LENGHT = 100;
+    private final static int DEFAULT_THICKNESS = 5;
+    private final static int EXTRA_LENGHT = 12;
 
-    private static StretchStrategy HORIZONTAL = new StretchStrategy() {
+    private final static StretchStrategy HORIZONTAL = new StretchStrategy() {
         @Override
         public void setLength(Content content, int lenght) {
             content.setMinWidth(lenght);
@@ -217,7 +217,7 @@ public class SynchronizationBarNode extends ColorableNode
             return StretchStyle.HORIZONTAL;
         }
     };
-    private static StretchStrategy VERTICAL = new StretchStrategy() {
+    private final static StretchStrategy VERTICAL = new StretchStrategy() {
         @Override
         public void setLength(Content content, int lenght) {
             content.setMinHeight(lenght);

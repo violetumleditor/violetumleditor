@@ -178,6 +178,6 @@ public class DecisionNode extends ColorableNode
 
     private SingleLineText condition;
 
-    private static int DEFAULT_WIDTH = 30;
-    private static int DEFAULT_HEIGHT = 20;
+    private final static int DEFAULT_WIDTH = 30;
+    private final static int DEFAULT_HEIGHT = 20;
 }

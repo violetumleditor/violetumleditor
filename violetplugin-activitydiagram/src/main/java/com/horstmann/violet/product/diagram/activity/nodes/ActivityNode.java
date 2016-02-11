@@ -82,10 +82,9 @@ public class ActivityNode extends ColorableNode
         super.setTextColor(textColor);
     }
 
-
     public void setName(SingleLineText newValue)
     {
-        name = newValue;
+        name.setText(newValue.toEdit());
     }
 
     public SingleLineText getName()
