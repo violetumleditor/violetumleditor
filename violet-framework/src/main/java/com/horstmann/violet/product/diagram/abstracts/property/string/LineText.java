@@ -176,7 +176,8 @@ public abstract class LineText implements Serializable, Cloneable, EditableStrin
      * @param graphics
      * @param rect
      */
-    public final void draw(Graphics2D graphics, Rectangle2D rect) {
+    public final void draw(Graphics2D graphics, Rectangle2D rect)
+    {
         getLabel().setBounds(0, 0, (int) rect.getWidth(), (int) rect.getHeight());
         draw(graphics, new Point2D.Double(rect.getX(), rect.getY()));
     }
