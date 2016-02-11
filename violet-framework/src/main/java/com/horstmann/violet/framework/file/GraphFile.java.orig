@@ -16,7 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 =======
->>>>>>> mLesniak_exportToPDF
+>>>>>>> origin/mLesniak_exportToPDF
 import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.file.chooser.IFileChooserService;
 import com.horstmann.violet.framework.file.export.FileExportService;

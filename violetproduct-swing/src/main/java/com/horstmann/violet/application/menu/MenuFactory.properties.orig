@@ -29,7 +29,11 @@ file.export.icon=/icons/16x16/export.png
 file.export_to_image.text=Image file
 file.export_to_image.accelerator=ctrl I
 file.export_to_clipboard.text=Clipboard
+<<<<<<< HEAD
 file.export_to_clipboard.accelerator=ctrl B
+=======
+file.export_to_pdf.text=PDF file
+>>>>>>> origin/mLesniak_exportToPDF
 file.export_to_xmi.text=XMI exchange format
 file.export_to_java.text=Java code
 file.export_to_python.text=Python code
@@ -151,10 +155,7 @@ help.userguide.url=http://violet.sourceforge.net/help.php?lang=en
 help.homepage.text=Home Page
 help.homepage.mnemonic=H
 help.homepage.url=http://violet.sourceforge.net/index.php?lang=en
-<<<<<<< HEAD
 workspace.unsaved_prefix=Unsaved
-=======
 help.shortcutkeys.text=Key Assist.
 help.shortcutkeys.mnemonic=J
 help.shortcutkeys.accelerator=ctrl J
->>>>>>> origin/mMucha_KeyAssist
