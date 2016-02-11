@@ -12,6 +12,7 @@
 		<module>violet-framework</module>
 		<module>violetplugin-activitydiagram</module>
 		<module>violetplugin-classdiagram</module>
+		<module>violetplugin-communicationdiagram</module>
 		<module>violetplugin-objectdiagram</module>
 		<module>violetplugin-sequencediagram</module>
 		<module>violetplugin-statediagram</module>

@@ -169,7 +169,7 @@ public class ManiocFramework {
                 }
 
                 /**
-                 * Takes an objet and returns its class and all its inherited classes
+                 * Takes an objet and returns its class and all its inherited communication
                  * 
                  * @param o
                  * @return
@@ -695,7 +695,7 @@ public class ManiocFramework {
                 }
 
                 /**
-                 * Takes an array of classes + a context and return an array containing
+                 * Takes an array of communication + a context and return an array containing
                  * beans from this context. <br/>
                  * Useful to get beans to inject in a constructor or a method. <br/>
                  * 

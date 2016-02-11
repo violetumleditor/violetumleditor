@@ -36,6 +36,7 @@ import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.ShapeEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
+import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 
 /**
  * A curved edge for a state transition in a state diagram.
@@ -47,7 +48,7 @@ public class StateTransitionEdge extends ShapeEdge
      * 
      * @param newValue the new value
      */
-    public void setLabel(String newValue)
+    public void setLabel(SingleLineText newValue)
     {
         labelText = newValue;
     }
@@ -57,7 +58,7 @@ public class StateTransitionEdge extends ShapeEdge
      * 
      * @return the current value
      */
-    public String getLabel()
+    public SingleLineText getLabel()
     {
         return labelText;
     }
@@ -174,7 +175,7 @@ public class StateTransitionEdge extends ShapeEdge
 
 
     private double angle;
-    private String labelText = "";
+    private SingleLineText labelText = new SingleLineText();
 
     private static JLabel label = new JLabel();
 }

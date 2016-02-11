@@ -30,6 +30,7 @@
     <orderEntry type="library" name="Maven: org.freehep:freehep-graphicsio-pdf:2.4" level="project" />
     <orderEntry type="library" name="Maven: org.freehep:freehep-graphicsio-tests:2.4" level="project" />
     <orderEntry type="module" module-name="violetplugin-classdiagram" />
+    <orderEntry type="module" module-name="violetplugin-communicationdiagram" />
     <orderEntry type="module" module-name="violetplugin-sequencediagram" />
     <orderEntry type="module" module-name="violetplugin-statediagram" />
     <orderEntry type="module" module-name="violetplugin-usecasediagram" />

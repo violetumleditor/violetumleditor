@@ -49,7 +49,7 @@ import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBea
 import com.horstmann.violet.framework.theme.ITheme;
 import com.horstmann.violet.framework.theme.ThemeManager;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
-import com.horstmann.violet.product.diagram.classes.ClassDiagramGraph;
+import com.horstmann.violet.product.diagram.communication.ClassDiagramGraph;
 
 /**
  * Generic diagram creation wizard

@@ -82,8 +82,14 @@ public class IntegrationFrameNode extends ColorableNode
         ContentBackground nameBackground = new ContentBackground(new ContentBorder(nameInsideShape, getBorderColor()), new Color(255, 255, 153, 255));
         relativeGroupContent.add(nameBackground);
 
+        TextContent contextContent = new TextContent(context);
+        contextContent.setMinHeight(DEFAULT_TYPE_HEIGHT+DEFAULT_TYPE_WIDTH);
+        contextContent.setMinWidth(DEFAULT_TYPE_WIDTH);
+        ContentInsideShape contentRectangle = new ContentInsideRectangle(contextContent);
+        relativeGroupContent.add(contentRectangle);
+        
         ContentInsideShape contentInsideShape = new ContentInsideRectangle(relativeGroupContent);
-
+        
         setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
         setContent(getBorder());
     }

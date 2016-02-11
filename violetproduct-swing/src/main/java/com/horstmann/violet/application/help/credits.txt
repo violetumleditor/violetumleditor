@@ -35,7 +35,7 @@ Avi Bercovich
 Andrew Brandt
 Lars Arne Brekken
 Chandler Burgess
-Jørgen Cederberg
+Jorgen Cederberg
 Robert Colburn
 Piyush Devnani
 Jeremy Driver
@@ -46,7 +46,7 @@ Igor Garcia
 Mark George
 Mike Godfrey
 Daniel Guerrero
-Stefan Gründel
+Stefan Gr�ndel
 Wee Jin Goh
 Laurent Hayoun
 Graham King
@@ -58,14 +58,14 @@ Matijs Moest
 Tri Nguyen
 Evelyn Obaid
 Norbert Oertel
-Johannes Päivinen
+Johannes P�ivinen
 Bill Pine
 Bruce Raggett
 Zack Rubinstein
 Grant Talarico
 Jordan Thompson
 Simon Tokumine
-Jesper Trägårdh
+Jesper Tr�gardh
 Trygve Utstumo
 Glenn Vanmarcke
 Sam Watkins
@@ -84,9 +84,10 @@ Michał Leśniak
 Piotr Janik
 Bartosz Boguniewicz
 Wojtek Pazio
-Maciej Knihał
+Maciej Knichał
 Paweł Majka
 Jacek Piątek
+Mateusz Mucha
 [Your name must be here] <- contribute!
 
 

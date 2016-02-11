@@ -24,7 +24,7 @@ package com.horstmann.violet.eclipseplugin.wizards;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbench;
 
-import com.horstmann.violet.product.diagram.classes.ClassDiagramGraph;
+import com.horstmann.violet.product.diagram.communication.ClassDiagramGraph;
 
 /**
  * Class diagram wizard

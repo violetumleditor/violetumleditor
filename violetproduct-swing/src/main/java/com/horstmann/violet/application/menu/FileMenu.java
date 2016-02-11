@@ -519,8 +519,8 @@ public class FileMenu extends JMenu
             SortedSet<IDiagramPlugin> aSortedSet = diagramPluginsSortedByCategory.get(category);
             aSortedSet.add(aDiagramPlugin);
         }
-
         // Step 2 : populate menu entry
+		
         for (String aCategory : diagramPluginsSortedByCategory.keySet())
         {
             String categoryName = aCategory.replaceFirst("[0-9]*\\.", "");
@@ -552,13 +552,14 @@ public class FileMenu extends JMenu
                         name = unsavedPrefix + " " + name.toLowerCase();
                         diagramPanel.setTitle(name);
                         mainFrame.addWorkspace(diagramPanel);
-                    }
-                });
-                categorySubMenu.add(item);
-            }
-        }
-    }
+					}
+				});
+				categorySubMenu.add( item );
+			}
+		}
+	}
 
+   
     /**
      * Init recent menu entry
      */

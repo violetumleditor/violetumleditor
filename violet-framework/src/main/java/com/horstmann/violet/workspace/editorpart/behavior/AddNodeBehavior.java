@@ -6,7 +6,6 @@ import java.awt.geom.Point2D;
 
 import javax.swing.SwingUtilities;
 import com.horstmann.violet.framework.util.KeyModifierUtil;
-
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
 import com.horstmann.violet.product.diagram.abstracts.Id;

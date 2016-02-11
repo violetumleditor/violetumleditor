@@ -66,6 +66,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/violetplugin-communicationdiagram/pom.xml" />
       </list>
     </option>
   </component>

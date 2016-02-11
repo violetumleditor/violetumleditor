@@ -84,7 +84,7 @@ public class HelpMenu extends JMenu
 
         });
         this.add(homepageItem);
-
+        
         aboutItem.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)

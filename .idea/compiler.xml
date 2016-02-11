@@ -22,70 +22,67 @@
         <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="violetproduct-web" />
       </profile>
       <profile default="false" name="Annotation profile for violetplugin-sequencediagram" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="violetplugin-sequencediagram" />
       </profile>
       <profile default="false" name="Annotation profile for violetplugin-activitydiagram" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="violetplugin-activitydiagram" />
       </profile>
       <profile default="false" name="Annotation profile for violetplugin-usecasediagram" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="violetplugin-usecasediagram" />
       </profile>
       <profile default="false" name="Annotation profile for violetproduct-exe" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="violetproduct-exe" />
       </profile>
       <profile default="false" name="Annotation profile for violetplugin-objectdiagram" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="violetplugin-objectdiagram" />
       </profile>
       <profile default="false" name="Annotation profile for violetplugin-statediagram" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="violetplugin-statediagram" />
       </profile>
       <profile default="false" name="Annotation profile for violetplugin-classdiagram" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="violetplugin-classdiagram" />
       </profile>
       <profile default="false" name="Annotation profile for violetproduct-swing" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="violetproduct-swing" />
       </profile>
       <profile default="false" name="Annotation profile for violet-framework" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="violet-framework" />
+      </profile>
+      <profile default="false" name="Annotation profile for violetplugin-communicationdiagram" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="violetplugin-communicationdiagram" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -93,6 +90,7 @@
       <module name="violet-framework" target="1.6" />
       <module name="violetplugin-activitydiagram" target="1.6" />
       <module name="violetplugin-classdiagram" target="1.6" />
+      <module name="violetplugin-communicationdiagram" target="1.6" />
       <module name="violetplugin-objectdiagram" target="1.6" />
       <module name="violetplugin-sequencediagram" target="1.6" />
       <module name="violetplugin-statediagram" target="1.6" />
