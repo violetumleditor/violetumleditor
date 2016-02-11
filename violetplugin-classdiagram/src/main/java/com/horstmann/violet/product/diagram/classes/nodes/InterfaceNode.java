@@ -156,7 +156,7 @@ public class InterfaceNode extends ColorableNode
         @Override
         public OneLineString toLineString(String text)
         {
-            return new PrefixDecorator( new LargeSizeDecorator(new OneLineString(text)), "«interface»<br>");
+            return new PrefixDecorator( new LargeSizeDecorator(new OneLineString(text)), "Â«interfaceÂ»<br>");
     //                return new ItalicsDecorator( new LargeSizeDecorator(new OneLineString(text)));
         }
     };
