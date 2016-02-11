@@ -14,7 +14,6 @@ import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 import com.horstmann.violet.product.diagram.common.PointNode;
-//test
 /**
  * A class nodes in a class diagram.
  */
@@ -46,12 +45,9 @@ public class ClassNode extends ColorableNode
     public void deserializeSupport()
     {
         super.deserializeSupport();
-        name.deserializeSupport();
-        name.setConverter(nameConverter);
-        attributes.deserializeSupport();
-        attributes.setConverter(propertyConverter);
-        methods.deserializeSupport();
-        methods.setConverter(propertyConverter);
+        name.deserializeSupport(nameConverter);
+        attributes.deserializeSupport(propertyConverter);
+        methods.deserializeSupport(propertyConverter);
     }
 
     @Override
@@ -59,8 +55,6 @@ public class ClassNode extends ColorableNode
     {
         return new ClassNode(this);
     }
-
-
 
     @Override
     protected void createContentStructure()
@@ -143,7 +137,7 @@ public class ClassNode extends ColorableNode
      */
     public void setAttributes(MultiLineText newValue)
     {
-        attributes = newValue;
+        attributes.setText(newValue.toEdit());
     }
 
     /**
@@ -163,7 +157,7 @@ public class ClassNode extends ColorableNode
      */
     public void setMethods(MultiLineText newValue)
     {
-        methods = newValue;
+        methods.setText(newValue.toEdit());
     }
 
     /**
@@ -182,8 +176,8 @@ public class ClassNode extends ColorableNode
 
     private transient Separator separator;
 
-    private static int DEFAULT_NAME_HEIGHT = 45;
-    private static int DEFAULT_WIDTH = 100;
+    private final static int DEFAULT_NAME_HEIGHT = 45;
+    private final static int DEFAULT_WIDTH = 100;
 
     private final static LineText.Converter nameConverter = new LineText.Converter(){
         @Override

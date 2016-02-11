@@ -37,9 +37,9 @@ public class MultiLineText extends LineText
     }
 
     @Override
-    public void deserializeSupport()
+    public void deserializeSupport(Converter converter)
     {
-        super.deserializeSupport();
+        super.deserializeSupport(converter);
         rows = new ArrayList<OneLineString>();
         setPadding(2,8);
         setText(text);

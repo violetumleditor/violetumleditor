@@ -78,7 +78,6 @@ public class PackageNode extends ColorableNode
         }
     }
 
-
     @Override
     protected INode copy() throws CloneNotSupportedException
     {
@@ -246,8 +245,6 @@ public class PackageNode extends ColorableNode
         return text;
     }
 
-
-
     private SingleLineText name;
     private MultiLineText text;
 
@@ -259,5 +256,4 @@ public class PackageNode extends ColorableNode
     private static int DEFAULT_HEIGHT = 60;
     private static final int NAME_GAP = 3;
     private static final int CHILD_GAP = 20;
-
 }
