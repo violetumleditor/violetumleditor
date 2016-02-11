@@ -43,8 +43,6 @@ import com.horstmann.violet.product.diagram.object.edges.ObjectReferenceEdge;
  */
 public class FieldNode extends ColorableNode
 {
-
-
     /**
      * Default constructor
      */
@@ -72,11 +70,11 @@ public class FieldNode extends ColorableNode
     @Override
     public void deserializeSupport()
     {
-        super.deserializeSupport();
         name.deserializeSupport();
-        name.setPadding(0, 10, 0, 15);
         value.deserializeSupport();
+        name.setPadding(0, 10, 0, 15);
         value.setPadding(0, 15, 0, 10);
+        super.deserializeSupport();
     }
 
     @Override

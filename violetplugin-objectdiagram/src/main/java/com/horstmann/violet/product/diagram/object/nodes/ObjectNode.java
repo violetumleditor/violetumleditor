@@ -44,7 +44,6 @@ public class ObjectNode extends ColorableNode
     public ObjectNode()
     {
         super();
-
         name = new SingleLineText(nameConverter);
         createContentStructure();
     }
@@ -60,8 +59,7 @@ public class ObjectNode extends ColorableNode
     public void deserializeSupport()
     {
         super.deserializeSupport();
-        name.setConverter(nameConverter);
-        name.deserializeSupport();
+        name.deserializeSupport(nameConverter);
 
         for(INode child : getChildren())
         {
@@ -181,7 +179,6 @@ public class ObjectNode extends ColorableNode
         fieldNode.setBorderColor(getBorderColor());
         fieldsGroup.add(fieldNode.getContent());
 
-
         return true;
     }
 
@@ -201,7 +198,7 @@ public class ObjectNode extends ColorableNode
     private final static int DEFAULT_HEIGHT = 30;
     private final static int YGAP = 5;
 
-    private static LineText.Converter nameConverter = new LineText.Converter(){
+    private final static LineText.Converter nameConverter = new LineText.Converter(){
         @Override
         public OneLineString toLineString(String text)
         {
