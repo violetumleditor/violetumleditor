@@ -70,6 +70,10 @@ public class StateDiagramGraph extends AbstractGraph
         NoteNode noteNode = new NoteNode();
         noteNode.setToolTip(rs.getString("node3.tooltip"));
         NODE_PROTOTYPES.add(noteNode);
+        
+        DecisionNode decisionNode = new DecisionNode();
+        decisionNode.setToolTip(rs.getString("node4.tooltip"));
+        NODE_PROTOTYPES.add(decisionNode);
 
         StateTransitionEdge stateTransitionEdge = new StateTransitionEdge();
         stateTransitionEdge.setToolTip(rs.getString("edge0.tooltip"));
