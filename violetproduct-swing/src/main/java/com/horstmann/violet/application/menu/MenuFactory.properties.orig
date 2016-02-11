@@ -145,7 +145,8 @@ help.homepage.text=Home Page
 help.homepage.mnemonic=H
 help.homepage.url=http://violet.sourceforge.net/index.php?lang=en
 <<<<<<< HEAD
+help.shortcut.text=Shortcuts
 workspace.unsaved_prefix=Unsaved
 =======
 help.shortcut.text=Shortcuts
->>>>>>> origin/pJanik_shortcutHelper
+>>>>>>> pJanik_shortcutHelper

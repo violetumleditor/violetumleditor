@@ -44,8 +44,13 @@ public class ShortcutDialog extends JDialog
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.getContentPane().setLayout(new BorderLayout());
         this.getContentPane().add(buildShortcutPanel(), BorderLayout.CENTER);
-        pack();
+<<<<<<< HEAD
+        this.setSize(400,300);
         setCenterLocation(parent);
+=======
+        setCenterLocation(parent);
+        pack();
+>>>>>>> pJanik_shortcutHelper
     }
 
     private JPanel buildShortcutPanel()
@@ -60,10 +65,14 @@ public class ShortcutDialog extends JDialog
             table.setEnabled(false);
             table.setCellSelectionEnabled(false);
             table.setShowGrid(true);
+<<<<<<< HEAD
+            table.setGridColor(Color.black);
+=======
             table.setGridColor(new Color(220, 220, 220));
             table.setRowHeight(30);
             table.setIntercellSpacing(new Dimension(15, 0));
             table.getTableHeader().setFont(new Font("Times New Roman", Font.BOLD, 14));
+>>>>>>> pJanik_shortcutHelper
             
             JScrollPane scrollPane = new JScrollPane(table);
             shortcutPanel.add(scrollPane, BorderLayout.CENTER);
@@ -98,6 +107,9 @@ public class ShortcutDialog extends JDialog
     
     private void setCenterLocation(JFrame parent)
     {
-        setLocation((parent.getWidth() - getWidth()) / 2, (parent.getHeight() - getHeight()) / 2);
+        Point point = parent.getLocationOnScreen();
+        int x = (int) point.getX() + parent.getWidth() / 2;
+        int y = (int) point.getY() + parent.getHeight() / 2;
+        setLocation(x - getWidth() / 2, y - getHeight() / 2);
     }
 }
