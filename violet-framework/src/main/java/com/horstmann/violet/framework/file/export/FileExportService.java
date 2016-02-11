@@ -32,10 +32,8 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.OutputStream;
 
-
 public class FileExportService
 {
-
     /**
      * Return the image correspondiojng to the graph
      *
@@ -115,7 +113,7 @@ public class FileExportService
 
     /**
      * Auteur : a.depellegrin<br>
-     * D�finition : Exports class diagram graph to xmi <br>
+     * Definition : Exports class diagram graph to xmi <br>
      *
      * @param graph to export
      * @param out   to write result

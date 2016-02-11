@@ -86,10 +86,13 @@ public class ResourceFactory
 
     private void updateMenuItem(JMenuItem menuItem, String prefix)
     {
+        String text = null;
+        String accelerator = null;
+
         menuItem.setName(prefix);
         try
         {
-            String text = bundle.getString(prefix + ".text");
+            text = bundle.getString(prefix + ".text");;
             menuItem.setText(text);
         }
         catch (MissingResourceException exception)
@@ -108,7 +111,7 @@ public class ResourceFactory
 
         try
         {
-            String accelerator = bundle.getString(prefix + ".accelerator");
+            accelerator = bundle.getString(prefix + ".accelerator");
             menuItem.setAccelerator(KeyStroke.getKeyStroke(accelerator));
         }
         catch (MissingResourceException exception)
@@ -138,6 +141,10 @@ public class ResourceFactory
         catch (MissingResourceException exception)
         {
             // ok not to set tooltip
+        }
+
+        if(text != null && accelerator != null) {
+            ResourceShortcutProvider.getInstance().addShortcut(text, accelerator.replace(' ', '-').toUpperCase());
         }
     }
 

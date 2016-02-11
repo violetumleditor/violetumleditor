@@ -34,6 +34,9 @@ import com.horstmann.violet.product.diagram.abstracts.property.BentStyle;
 import com.horstmann.violet.product.diagram.abstracts.property.LineStyle;
 import com.horstmann.violet.product.diagram.common.edge.NoteEdge;
 import com.horstmann.violet.product.diagram.common.NoteNode;
+import com.horstmann.violet.product.diagram.usecase.edges.UseCaseRelationshipEdge;
+import com.horstmann.violet.product.diagram.usecase.nodes.ActorNode;
+import com.horstmann.violet.product.diagram.usecase.nodes.UseCaseNode;
 
 /**
  * A UML use case diagram.
