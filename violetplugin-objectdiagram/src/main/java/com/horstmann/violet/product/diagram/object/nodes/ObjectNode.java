@@ -44,14 +44,18 @@ public class ObjectNode extends ColorableNode
     public ObjectNode()
     {
         super();
-        name = new SingleLineText(nameConverter);
+        objectName = new SingleLineText();
+        className = new SingleLineText();
+        fullName = new SingleLineText(nameConverter);
         createContentStructure();
     }
 
     protected ObjectNode(ObjectNode node) throws CloneNotSupportedException
     {
         super(node);
-        name = node.name.clone();
+        objectName = node.objectName.clone();
+        className = node.className.clone();
+        fullName = node.fullName.clone();
         createContentStructure();
     }
 
@@ -59,7 +63,9 @@ public class ObjectNode extends ColorableNode
     public void deserializeSupport()
     {
         super.deserializeSupport();
-        name.deserializeSupport(nameConverter);
+        objectName.deserializeSupport();
+        className.deserializeSupport();
+        fullName.deserializeSupport(nameConverter);
 
         for(INode child : getChildren())
         {
@@ -78,7 +84,7 @@ public class ObjectNode extends ColorableNode
     @Override
     protected void createContentStructure()
     {
-        TextContent nameContent = new TextContent(name);
+        TextContent nameContent = new TextContent(fullName);
         nameContent.setMinHeight(DEFAULT_HEIGHT);
         nameContent.setMinWidth(DEFAULT_WIDTH);
 
@@ -102,7 +108,7 @@ public class ObjectNode extends ColorableNode
     @Override
     public void setTextColor(Color textColor)
     {
-        name.setTextColor(textColor);
+        fullName.setTextColor(textColor);
         super.setTextColor(textColor);
     }
 
@@ -140,14 +146,31 @@ public class ObjectNode extends ColorableNode
     }
 
 
-    public void setName(SingleLineText n)
+    public void setObjectName(SingleLineText n)
     {
-        name.setText(n.toEdit());
+        objectName.setText(n.toEdit());
+        updateFullName();
     }
 
-    public SingleLineText getName()
+    public SingleLineText getObjectName()
     {
-        return name;
+        return objectName;
+    }
+
+    public void setClassName(SingleLineText n)
+    {
+        className.setText(n.toEdit());
+        updateFullName();
+    }
+
+    public SingleLineText getClassName()
+    {
+        return className;
+    }
+
+    private void updateFullName()
+    {
+        fullName.setText(objectName.toEdit() + ":" + className.toEdit());
     }
 
     @Override
@@ -189,7 +212,9 @@ public class ObjectNode extends ColorableNode
         return fieldsGroup;
     }
 
-    private SingleLineText name;
+    private SingleLineText objectName;
+    private SingleLineText className;
+    private SingleLineText fullName;
 
     private transient VerticalLayout fieldsGroup = null;
     private transient Separator separator = null;
