@@ -4,9 +4,12 @@ import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 
+<<<<<<< HEAD
 import javax.swing.SwingUtilities;
-import com.horstmann.violet.framework.util.KeyModifierUtil;
 
+=======
+import com.horstmann.violet.framework.util.KeyModifierUtil;
+>>>>>>> CtrlContinueTool
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
 import com.horstmann.violet.product.diagram.abstracts.Id;
