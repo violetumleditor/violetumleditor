@@ -11,7 +11,7 @@ import com.horstmann.violet.product.diagram.abstracts.node.INode;
 
 import com.horstmann.violet.product.diagram.communication.edges.DirectionEdge;
 import com.horstmann.violet.product.diagram.communication.nodes.ActorNode;
-import com.horstmann.violet.product.diagram.communication.nodes.ObjectNode;
+import com.horstmann.violet.product.diagram.communication.nodes.ObjectNodeCommu;
 /**
  * 
  * @author Artur Ratajczak
@@ -35,7 +35,7 @@ public class CommunicationDiagramGraph extends AbstractGraph {
 	 static{
 		 ResourceBundle rs = ResourceBundle.getBundle(CommunicationDiagramConstant.COMMUNICATION_DIAGRAM_STRINGS, Locale.getDefault());
 		 
-		 	ObjectNode node0 = new ObjectNode();
+		 	ObjectNodeCommu node0 = new ObjectNodeCommu();
 	        node0.setToolTip(rs.getString("node0.tooltip"));
 	        NODE_PROTOTYPES.add(node0);
 	        
