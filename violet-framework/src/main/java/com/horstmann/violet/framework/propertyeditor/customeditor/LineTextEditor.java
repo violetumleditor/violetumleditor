@@ -62,9 +62,14 @@ public abstract class LineTextEditor extends PropertyEditorSupport
                 {
                 }
             });
-            this.textEditorComponent = textComponent;
+            this.textEditorComponent = createScrollPanel(textComponent);
         }
         return this.textEditorComponent;
+    }
+
+    protected JComponent createScrollPanel(JTextComponent textComponent)
+    {
+        return textComponent;
     }
 
     protected JComponent textEditorComponent;

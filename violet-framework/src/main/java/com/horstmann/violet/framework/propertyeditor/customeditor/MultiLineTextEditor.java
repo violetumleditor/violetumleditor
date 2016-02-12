@@ -21,7 +21,7 @@
 
 package com.horstmann.violet.framework.propertyeditor.customeditor;
 
-import javax.swing.JTextArea;
+import javax.swing.*;
 import javax.swing.text.JTextComponent;
 
 import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
@@ -43,6 +43,11 @@ public class MultiLineTextEditor extends LineTextEditor
     protected JTextComponent createTextComponent()
     {
         return new JTextArea(ROWS, COLUMNS);
+    }
+
+    protected JComponent createScrollPanel(JTextComponent textComponent)
+    {
+        return new JScrollPane(textComponent);
     }
 
     private MultiLineText source;
