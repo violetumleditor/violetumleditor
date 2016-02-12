@@ -11,14 +11,10 @@ import com.horstmann.violet.product.diagram.abstracts.node.INode;
 
 import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
 import com.horstmann.violet.product.diagram.abstracts.property.LineStyle;
-import com.horstmann.violet.product.diagram.classes.nodes.ClassNode;
+import com.horstmann.violet.product.diagram.classes.nodes.*;
 
 import com.horstmann.violet.product.diagram.classes.edges.LollipopEdge;
-import com.horstmann.violet.product.diagram.classes.nodes.InterfaceNode;
-import com.horstmann.violet.product.diagram.classes.nodes.LollipopNode;
-import com.horstmann.violet.product.diagram.classes.nodes.LollipopSocketNode;
 
-import com.horstmann.violet.product.diagram.classes.nodes.PackageNode;
 import com.horstmann.violet.product.diagram.common.edge.AdvancedPropertyEdge;
 import com.horstmann.violet.product.diagram.common.edge.BasePropertyEdge;
 import com.horstmann.violet.product.diagram.common.edge.NoteEdge;
@@ -56,21 +52,25 @@ public class ClassDiagramGraph extends AbstractGraph
         node1.setToolTip(rs.getString("node1.tooltip"));
         NODE_PROTOTYPES.add(node1);
 
-        PackageNode node2 = new PackageNode();
+        EnumNode node2 = new EnumNode();
         node2.setToolTip(rs.getString("node2.tooltip"));
         NODE_PROTOTYPES.add(node2);
 
-        NoteNode node3 = new NoteNode();
+        PackageNode node3 = new PackageNode();
         node3.setToolTip(rs.getString("node3.tooltip"));
         NODE_PROTOTYPES.add(node3);
 
-        LollipopNode node4 = new LollipopNode();
+        NoteNode node4 = new NoteNode();
         node4.setToolTip(rs.getString("node4.tooltip"));
         NODE_PROTOTYPES.add(node4);
-        
-        LollipopSocketNode node5 = new LollipopSocketNode();
+
+        LollipopNode node5 = new LollipopNode();
         node5.setToolTip(rs.getString("node5.tooltip"));
         NODE_PROTOTYPES.add(node5);
+        
+        LollipopSocketNode node6 = new LollipopSocketNode();
+        node6.setToolTip(rs.getString("node6.tooltip"));
+        NODE_PROTOTYPES.add(node6);
 
         BasePropertyEdge dependency = new BasePropertyEdge();
         dependency.setEndArrowHead(ArrowHead.V);

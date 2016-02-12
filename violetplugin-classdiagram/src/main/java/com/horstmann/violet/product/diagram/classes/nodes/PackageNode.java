@@ -71,7 +71,7 @@ public class PackageNode extends ColorableNode
 
         for(INode child : getChildren())
         {
-            if (child instanceof ClassNode || child instanceof InterfaceNode || child instanceof PackageNode)
+            if (child instanceof ClassNode || child instanceof InterfaceNode || child instanceof PackageNode || child instanceof EnumNode || child instanceof LollipopNode || child instanceof LollipopSocketNode)
             {
                 nodesGroup.add(((ColorableNode) child).getContent(), getChildRelativeLocation(child));
             }
