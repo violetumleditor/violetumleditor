@@ -87,6 +87,16 @@ public class StateDiagramGraph extends AbstractGraph
         NoteEdge noteEdge = new NoteEdge();
         noteEdge.setToolTip(rs.getString("edge1.tooltip"));
         EDGE_PROTOTYPES.add(noteEdge);
+        
+
+        ExternalSystemEntryPointNode entryPointNode = new ExternalSystemEntryPointNode();
+        entryPointNode.setToolTip(rs.getString("node4.tooltip"));
+        NODE_PROTOTYPES.add(entryPointNode);
+        
+        ExternalSystemExitPointNode exitPointNode = new ExternalSystemExitPointNode();
+        exitPointNode.setToolTip(rs.getString("node5.tooltip"));
+        NODE_PROTOTYPES.add(exitPointNode);
+        
     }
 
 }
