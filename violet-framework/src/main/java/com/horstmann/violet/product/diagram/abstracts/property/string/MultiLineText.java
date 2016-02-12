@@ -60,7 +60,7 @@ public class MultiLineText extends LineText
     @Override
     final public void setText(String text)
     {
-        this.text = text;
+        this.text = removeDuplicateEnter(text);
         getRows().clear();
         String[] array = this.text.split("\n", -1);
 
@@ -98,6 +98,12 @@ public class MultiLineText extends LineText
     public String toString()
     {
         return implode(TO_STRING, "|");
+    }
+
+
+    private String removeDuplicateEnter(String sentence)
+    {
+        return sentence.replaceAll("\\n+", "\n");
     }
 
     /**
