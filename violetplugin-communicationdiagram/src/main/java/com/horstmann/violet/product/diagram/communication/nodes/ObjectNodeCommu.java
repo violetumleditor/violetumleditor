@@ -17,16 +17,16 @@ import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.
  * @author Alexandre de Pellegrin / Cays S. Horstmann
  *
  */
-public class ObjectNode extends ColorableNode
+public class ObjectNodeCommu extends ColorableNode
 {
-	public ObjectNode()
+	public ObjectNodeCommu()
 	{
 		super();
 		name = new SingleLineText(nameConverter);
 		createContentStructure();
 	}
 
-	protected ObjectNode(ObjectNode node) throws CloneNotSupportedException
+	protected ObjectNodeCommu(ObjectNodeCommu node) throws CloneNotSupportedException
 	{
 		super(node);
 		name = node.name.clone();
@@ -44,7 +44,7 @@ public class ObjectNode extends ColorableNode
 	@Override
 	protected INode copy() throws CloneNotSupportedException
 	{
-		return new ObjectNode(this);
+		return new ObjectNodeCommu(this);
 	}
 
 	@Override

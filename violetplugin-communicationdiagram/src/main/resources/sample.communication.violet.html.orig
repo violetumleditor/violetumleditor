@@ -12,7 +12,11 @@
 </SCRIPT>
 </HEAD>
 <BODY>
+<<<<<<< HEAD
+	This file was generated with Violet UML Editor 2.3.5.
+=======
 	This file was generated with Violet UML Editor 2.3.0.
+>>>>>>> dlaArtura
 	&nbsp;&nbsp;(&nbsp;<A href=# onclick="switchVisibility()">View Source</A>&nbsp;/&nbsp;<A href="http://sourceforge.net/projects/violet/files/violetumleditor/" target="_blank">Download Violet</A>&nbsp;)
 	<BR />
 	<BR />

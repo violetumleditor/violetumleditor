@@ -5,8 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b045ca67-d97d-484a-a2b3-c0026e4fee21" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/property/string/MultiLineText.java" afterPath="$PROJECT_DIR$/violet-framework/src/main/java/com/horstmann/violet/product/diagram/abstracts/property/string/MultiLineText.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/violetplugin-communicationdiagram/src/main/java/com/horstmann/violet/product/diagram/communication/CommunicationDiagramGraph.java" afterPath="$PROJECT_DIR$/violetplugin-communicationdiagram/src/main/java/com/horstmann/violet/product/diagram/communication/CommunicationDiagramGraph.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/violetplugin-communicationdiagram/src/main/resources/sample.communication.violet.html" afterPath="$PROJECT_DIR$/violetplugin-communicationdiagram/src/main/resources/sample.communication.violet.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/violetplugin-communicationdiagram/src/main/java/com/horstmann/violet/product/diagram/communication/nodes/ObjectNode.java" afterPath="$PROJECT_DIR$/violetplugin-communicationdiagram/src/main/java/com/horstmann/violet/product/diagram/communication/nodes/ObjectNodeCommu.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/violetplugin-communicationdiagram/src/main/java/com/horstmann/violet/product/diagram/communication/nodes/ObjectNodeBeanInfo.java" afterPath="$PROJECT_DIR$/violetplugin-communicationdiagram/src/main/java/com/horstmann/violet/product/diagram/communication/nodes/ObjectNodeCommuBeanInfo.java" />
     </list>
     <ignored path="parent.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -1743,7 +1745,7 @@
       <workItem from="1455225329591" duration="857000" />
       <workItem from="1455227011588" duration="1175000" />
       <workItem from="1455231123460" duration="3462000" />
-      <workItem from="1455237613408" duration="2891000" />
+      <workItem from="1455237613408" duration="3107000" />
     </task>
     <servers />
   </component>
@@ -1780,7 +1782,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="457288000" />
+    <option name="totallyTimeSpent" value="457504000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1792,7 +1794,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -2065,6 +2067,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-3.4615386">
           <caret line="14" column="51" selection-start-line="14" selection-start-column="51" selection-end-line="14" selection-end-column="51" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2093,6 +2096,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-3.8076923">
           <caret line="14" column="51" selection-start-line="14" selection-start-column="51" selection-end-line="14" selection-end-column="51" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2170,8 +2174,8 @@
         <state vertical-scroll-proportion="0.914557">
           <caret line="49" column="45" selection-start-line="49" selection-start-column="45" selection-end-line="49" selection-end-column="45" />
           <folding>
-            <element signature="e#1631#1632#0" expanded="true" />
-            <element signature="e#1684#1685#0" expanded="true" />
+            <element signature="e#1631#1632#0" expanded="false" />
+            <element signature="e#1684#1685#0" expanded="false" />
           </folding>
         </state>
       </provider>
