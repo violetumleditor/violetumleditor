@@ -27,65 +27,90 @@ package com.horstmann.violet.product.diagram.abstracts.property;
  * @author Alexandre de Pellegrin
  * 
  */
-public class ChoiceList
-{
-    /**
-     * Default constructor
-     * 
-     * @param list items to select
-     */
-    public ChoiceList(String[] list)
-    {
-        this.list = list;
-        this.selectedPos = DEFAULT_SELECT;
-    }
+public class ChoiceList {
+	/**
+	 * Default constructor
+	 * 
+	 * @param list
+	 *            items to select
+	 */
+	public ChoiceList(String[] list) {
+		this.list = list;
+		this.selectedPos = DEFAULT_SELECT;
+		this.selectedItem = list[DEFAULT_SELECT];
+	}
 
-    /**
-     * @return the item list
-     */
-    public String[] getList()
-    {
-        return list;
-    }
+	/**
+	 * @return the item list
+	 */
+	public String[] getList() {
+		return list;
+	}
 
-    /**
-     * Selects an item in the list
-     * 
-     * @param selected
-     */
-    public void setSelectedItem(String selected)
-    {
-        for (int i = 0; i < list.length; i++)
-        {
-            if (list[i].equals(selected))
-            {
-                selectedPos = i;
-                return;
-            }
-        }
-    }
+	/**
+	 * Selects an item in the list
+	 * 
+	 * @param selected
+	 */
+	public void setSelectedItem(String selected) {
+		this.selectedItem = selected;
 
-    /**
-     * @return current selected item
-     */
-    public String getSelectedItem()
-    {
-        return list[selectedPos];
-    }
 
-    /**
-     * Item list for selection
-     */
-    private String[] list;
+		for (int i = 0; i < list.length; i++) {
+			if (list[i].equals(selected)) {
+				selectedPos = i;
+				return;
+			}
+		}
+	}
 
-    /**
-     * Index for current selected item
-     */
-    private int selectedPos;
+	/**
+	 * @return current selected item
+	 */
 
-    /**
-     * Default selected item index
-     */
-    private static final int DEFAULT_SELECT = 0;
+	public String getSelectedItem() {
+
+		for (String item : list) {
+			if (item.equals(selectedItem)) {
+				return item;
+			}
+		}
+
+		return list[0];
+	}
+
+	/**
+	 * Item list for selection
+	 */
+	private String[] list;
+
+	/**
+	 * Index for current selected item
+	 */
+	private int selectedPos;
+
+	/*
+	 * Current string of selected item
+	 */
+	private String selectedItem;
+
+	/**
+	 * Default selected item index
+	 */
+	private int DEFAULT_SELECT = 0;
+
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 * 
+	 */
+	public ChoiceList clone() {
+		String[] newList = list.clone();
+		ChoiceList cloned = new ChoiceList(newList);
+		cloned.selectedPos = selectedPos;
+		cloned.selectedItem = new String(selectedItem);
+
+		return cloned;
+	}
 
 }
