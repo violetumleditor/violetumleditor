@@ -16,7 +16,7 @@ public class ExternalSystemExitPointNode extends ExternalSystemNode {
 	 */
 	public void draw(Graphics2D g2) {
 		super.draw(g2);
-
+//
 		Color oldColor = g2.getColor();
 		double radius = getBounds().getWidth() / 2;
 		double lineLength = radius * 0.7;
