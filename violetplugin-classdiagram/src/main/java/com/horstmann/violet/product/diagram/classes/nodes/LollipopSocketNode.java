@@ -31,15 +31,11 @@ public class LollipopSocketNode extends ColorableNode {
         public Shape createShape(int contentWidth, int contentHeight)
         {
             final int size = DEFAULT_DIAMETER + 2 * DEFAULT_GAP;
+            int degrees = this.owner.getDegrees();
 
-            double x = (this.nameContent.getBounds().getWidth() / 2);
+            double x = (this.nameContent.getWidth() / 2);
 
-            if(this.nameContent.getBounds().getWidth() > 0)
-            {
-                x -= (size / 2);
-            }
-
-            return new Arc2D.Double(x, 0, RADIUS, RADIUS, this.owner.getDegrees(), 180, Arc2D.OPEN);
+            return new Arc2D.Double(x, 0, RADIUS, RADIUS, degrees, 180, Arc2D.OPEN);
         }
 
         private LollipopSocketNode owner;

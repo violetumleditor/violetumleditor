@@ -26,11 +26,7 @@ public class ExternalSystemEntryPointNode extends ColorableNode
 		public Shape createShape(int contentWidth, int contentHeight)
 		{
 			GeneralPath path = new GeneralPath();
-			path.append(new Ellipse2D.Float(0,0,DEFAULT_DIAMETER,DEFAULT_DIAMETER), false);
-
-//			AffineTransform af = new AffineTransform();
-//			af.translate(((double)(contentWidth - nameContent.getWidth()) / 2), 0);
-//			shape.transform(af);
+			path.append(new Ellipse2D.Float((nameContent.getWidth() - DEFAULT_DIAMETER)/2,0,DEFAULT_DIAMETER,DEFAULT_DIAMETER), false);
 
 			return path;
 		}
@@ -46,7 +42,7 @@ public class ExternalSystemEntryPointNode extends ColorableNode
 		super();
 		name = new SingleLineText();
 		name.setAlignment(LineText.CENTER);
-		name.setPadding(10,5,5,5);
+		name.setPadding(5,5,5,5);
 		createContentStructure();
 	}
 
@@ -63,7 +59,7 @@ public class ExternalSystemEntryPointNode extends ColorableNode
 		super.deserializeSupport();
 		name.deserializeSupport();
 		name.setAlignment(LineText.CENTER);
-		name.setPadding(10,5,5,5);
+		name.setPadding(5,5,5,5);
 	}
 
 	@Override
@@ -71,6 +67,7 @@ public class ExternalSystemEntryPointNode extends ColorableNode
 	{
 		EmptyContent emptyContent = new EmptyContent();
 		TextContent nameContent = new TextContent(name);
+		nameContent.setMinWidth(DEFAULT_DIAMETER);
 
 		emptyContent.setMinWidth(DEFAULT_DIAMETER);
 		emptyContent.setMinHeight(DEFAULT_DIAMETER);
@@ -92,6 +89,26 @@ public class ExternalSystemEntryPointNode extends ColorableNode
 	protected INode copy() throws CloneNotSupportedException
 	{
 		return new ExternalSystemEntryPointNode(this);
+	}
+
+	/**
+	 * Sets the name property value.
+	 *
+	 * @param newValue the class name
+	 */
+	public void setName(SingleLineText newValue)
+	{
+		name.setText(newValue.toEdit());
+	}
+
+	/**
+	 * Gets the name property value.
+	 *
+	 * @return the class name
+	 */
+	public SingleLineText getName()
+	{
+		return name;
 	}
 
 	/**
