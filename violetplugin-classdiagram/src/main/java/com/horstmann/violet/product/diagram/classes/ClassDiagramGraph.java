@@ -8,11 +8,17 @@ import java.util.ResourceBundle;
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+
 import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
 import com.horstmann.violet.product.diagram.abstracts.property.LineStyle;
 import com.horstmann.violet.product.diagram.classes.nodes.ClassNode;
-import com.horstmann.violet.product.diagram.classes.nodes.PackageNode;
+
+import com.horstmann.violet.product.diagram.classes.edges.LollipopEdge;
 import com.horstmann.violet.product.diagram.classes.nodes.InterfaceNode;
+import com.horstmann.violet.product.diagram.classes.nodes.LollipopNode;
+import com.horstmann.violet.product.diagram.classes.nodes.LollipopSocketNode;
+
+import com.horstmann.violet.product.diagram.classes.nodes.PackageNode;
 import com.horstmann.violet.product.diagram.common.edge.AdvancedPropertyEdge;
 import com.horstmann.violet.product.diagram.common.edge.BasePropertyEdge;
 import com.horstmann.violet.product.diagram.common.edge.NoteEdge;
@@ -58,9 +64,13 @@ public class ClassDiagramGraph extends AbstractGraph
         node3.setToolTip(rs.getString("node3.tooltip"));
         NODE_PROTOTYPES.add(node3);
 
-//        ImageNode node4 = new ImageNode();
-//        node4.setToolTip(rs.getString("node4.tooltip"));
-//        NODE_PROTOTYPES.add(node4);
+        LollipopNode node4 = new LollipopNode();
+        node4.setToolTip(rs.getString("node4.tooltip"));
+        NODE_PROTOTYPES.add(node4);
+        
+        LollipopSocketNode node5 = new LollipopSocketNode();
+        node5.setToolTip(rs.getString("node5.tooltip"));
+        NODE_PROTOTYPES.add(node5);
 
         BasePropertyEdge dependency = new BasePropertyEdge();
         dependency.setEndArrowHead(ArrowHead.V);
@@ -108,9 +118,16 @@ public class ClassDiagramGraph extends AbstractGraph
         noteEdge.setToolTip(rs.getString("edge6.tooltip"));
         EDGE_PROTOTYPES.add(noteEdge);
 
+        LollipopEdge lollipopEdge = new LollipopEdge();
+        lollipopEdge.setToolTip(rs.getString("edge7.tooltip"));
+        EDGE_PROTOTYPES.add(lollipopEdge);
+
         AdvancedPropertyEdge customEdge = new AdvancedPropertyEdge();
-        customEdge.setToolTip(rs.getString("edge7.tooltip"));
+        customEdge.setToolTip(rs.getString("edge8.tooltip"));
         EDGE_PROTOTYPES.add(customEdge);
     }
+    
+ 
+    
 
 }

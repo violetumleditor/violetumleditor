@@ -256,4 +256,5 @@ public class PackageNode extends ColorableNode
     private static int DEFAULT_HEIGHT = 60;
     private static final int NAME_GAP = 3;
     private static final int CHILD_GAP = 20;
+
 }

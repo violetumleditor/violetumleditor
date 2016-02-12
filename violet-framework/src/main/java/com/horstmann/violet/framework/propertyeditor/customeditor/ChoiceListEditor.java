@@ -26,7 +26,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyEditorSupport;
 
-import javax.swing.JComboBox;
+import javax.swing.*;
 
 import com.horstmann.violet.product.diagram.abstracts.property.ChoiceList;
 
@@ -61,6 +61,7 @@ public class ChoiceListEditor extends PropertyEditorSupport
                 String selected = (String) comboBox.getSelectedItem();
                 ChoiceList list = (ChoiceList) getValue();
                 list.setSelectedItem(selected);
+                setValue(list);
             }
 
         });
