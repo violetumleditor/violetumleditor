@@ -34,6 +34,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.MessageFormat;
 import java.util.Comparator;
 import java.util.List;
 import java.util.SortedMap;
@@ -291,21 +292,24 @@ public class FileMenu extends JMenu
                 IWorkspace workspace = (Workspace) mainFrame.getActiveWorkspace();
                 if (workspace != null)
                 {
-                    try
-                    {
+                    try {
                         ExtensionFilter extensionFilter = fileNamingService.getPdfExtensionFilter();
                         IFileWriter fileSaver = fileChooserService.chooseAndGetFileWriter(extensionFilter);
                         OutputStream out = fileSaver.getOutputStream();
-                        if (out != null)
+                        if(null == out)
                         {
-                            String filename = fileSaver.getFileDefinition().getFilename();
-                            workspace.getGraphFile().exportToPdf(out);
+                            throw new IOException("Unable to get output stream for extension "
+                                                    + extensionFilter.getExtension());
                         }
+                        String filename = fileSaver.getFileDefinition().getFilename();
+                        workspace.getGraphFile().exportToPdf(out);
                     }
-                    catch (Exception e1)
+                    catch (IOException e1)
                     {
-                        throw new RuntimeException(e1);
+                        String message = MessageFormat.format(fileExportErrorMessage, e1.getMessage());
+                        JOptionPane.showMessageDialog(null, message, fileExportError, JOptionPane.ERROR_MESSAGE);
                     }
+
                 }
             }
         });
@@ -764,5 +768,11 @@ public class FileMenu extends JMenu
 
     @ResourceBundleBean(key = "workspace.unsaved_prefix")
     private String unsavedPrefix;
+
+    @ResourceBundleBean(key = "file.export.error")
+    private String fileExportError;
+
+    @ResourceBundleBean(key = "file.export.error.message")
+    private String fileExportErrorMessage;
 
 }

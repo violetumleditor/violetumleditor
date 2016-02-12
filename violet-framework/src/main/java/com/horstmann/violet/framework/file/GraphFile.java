@@ -194,9 +194,10 @@ public class GraphFile implements IGraphFile
             this.currentDirectory = fileSaver.getFileDefinition().getDirectory();
             fireGraphSaved();
         }
-        catch (Exception e)
+        catch (IOException e1)
         {
-            throw new RuntimeException(e);
+            String message = MessageFormat.format(fileExportErrorMessage, e1.getMessage());
+            JOptionPane.showMessageDialog(null, message, fileExportError, JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -218,16 +219,18 @@ public class GraphFile implements IGraphFile
             {
                 ExtensionFilter extensionFilter = this.fileNamingService.getExtensionFilter(this.graph);
                 ExtensionFilter[] array =
-                        {
-                                extensionFilter
-                        };
+                {
+                    extensionFilter
+                };
                 return this.fileChooserService.chooseAndGetFileWriter(array);
             }
             return this.fileChooserService.getFileWriter(this);
         }
-        catch (Exception e)
+        catch (IOException e1)
         {
-            throw new RuntimeException(e);
+            String message = MessageFormat.format(fileExportErrorMessage, e1.getMessage());
+            JOptionPane.showMessageDialog(null, message, fileExportError, JOptionPane.ERROR_MESSAGE);
+            return null;
         }
     }
 
@@ -373,6 +376,12 @@ public class GraphFile implements IGraphFile
 
     @InjectedBean
     private IFilePersistenceService filePersistenceService;
+
+    @ResourceBundleBean(key = "file.export.error.message")
+    private String fileExportErrorMessage;
+
+    @ResourceBundleBean(key = "file.export.error")
+    private String fileExportError;
 
     @InjectedBean
     private DialogFactory dialogFactory;
