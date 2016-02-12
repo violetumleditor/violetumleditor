@@ -83,7 +83,7 @@ public class ClassDiagramGraph extends AbstractGraph
         interfaceInheritance.setToolTip(rs.getString("edge2.tooltip"));
         EDGE_PROTOTYPES.add(interfaceInheritance);
 
-        BasePropertyEdge association = new BasePropertyEdge();
+        AdvancedPropertyEdge association = new AdvancedPropertyEdge();
         association.setEndArrowHead(ArrowHead.V);
         association.setStartArrowHead(ArrowHead.NONE);
         association.setLineStyle(LineStyle.SOLID);
