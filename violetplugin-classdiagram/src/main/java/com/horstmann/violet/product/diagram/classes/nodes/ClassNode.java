@@ -13,13 +13,15 @@ import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
+
 import com.horstmann.violet.product.diagram.common.PointNode;
+
 /**
  * A class nodes in a class diagram.
  */
 public class ClassNode extends ColorableNode
 {
-    /**
+	/**
      * Construct a class node with a default size
      */
     public ClassNode()
@@ -56,6 +58,7 @@ public class ClassNode extends ColorableNode
         return new ClassNode(this);
     }
 
+    
     @Override
     protected void createContentStructure()
     {

@@ -52,10 +52,13 @@ public abstract class Separator
         @Override
         public void draw(Graphics2D graphics, Point2D startPoint, Point2D endPoint)
         {
-            Color oldColor = graphics.getColor();
-            graphics.setColor(color);
-            graphics.drawLine((int)startPoint.getX(), (int)startPoint.getY(), (int)endPoint.getX(), (int)endPoint.getY());
-            graphics.setColor(oldColor);
+            if(null != color)
+            {
+                Color oldColor = graphics.getColor();
+                graphics.setColor(color);
+                graphics.drawLine((int) startPoint.getX(), (int) startPoint.getY(), (int) endPoint.getX(), (int) endPoint.getY());
+                graphics.setColor(oldColor);
+            }
         }
 
         /**

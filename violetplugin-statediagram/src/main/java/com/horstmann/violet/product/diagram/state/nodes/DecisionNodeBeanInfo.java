@@ -1,4 +1,4 @@
-package com.horstmann.violet.product.diagram.state;
+package com.horstmann.violet.product.diagram.state.nodes;
 
 
 

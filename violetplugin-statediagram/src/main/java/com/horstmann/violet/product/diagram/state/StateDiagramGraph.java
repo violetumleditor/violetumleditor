@@ -34,6 +34,7 @@ import com.horstmann.violet.product.diagram.common.NoteNode;
 import com.horstmann.violet.product.diagram.state.edges.StateTransitionEdge;
 import com.horstmann.violet.product.diagram.state.nodes.CircularFinalStateNode;
 import com.horstmann.violet.product.diagram.state.nodes.CircularInitialStateNode;
+import com.horstmann.violet.product.diagram.state.nodes.DecisionNode;
 import com.horstmann.violet.product.diagram.state.nodes.StateNode;
 
 /**
