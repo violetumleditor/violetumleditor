@@ -118,10 +118,6 @@ public class ClassDiagramGraph extends AbstractGraph
         noteEdge.setToolTip(rs.getString("edge6.tooltip"));
         EDGE_PROTOTYPES.add(noteEdge);
 
-        LollipopEdge lollipopEdge = new LollipopEdge();
-        lollipopEdge.setToolTip(rs.getString("edge7.tooltip"));
-        EDGE_PROTOTYPES.add(lollipopEdge);
-
         AdvancedPropertyEdge customEdge = new AdvancedPropertyEdge();
         customEdge.setToolTip(rs.getString("edge8.tooltip"));
         EDGE_PROTOTYPES.add(customEdge);

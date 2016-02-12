@@ -26,8 +26,8 @@ public class EnumNode extends ColorableNode
     {
         super();
         name = new SingleLineText(nameConverter);
-//        name.setAlignment(LineText.CENTER);
         attributes = new MultiLineText();
+//        name.setAlignment(LineText.CENTER);
         createContentStructure();
     }
 
@@ -57,6 +57,8 @@ public class EnumNode extends ColorableNode
     @Override
     protected void createContentStructure()
     {
+        name.setText(name.toEdit());
+
         TextContent nameContent = new TextContent(name);
         nameContent.setMinHeight(DEFAULT_NAME_HEIGHT);
         nameContent.setMinWidth(DEFAULT_WIDTH);
@@ -152,10 +154,6 @@ public class EnumNode extends ColorableNode
         @Override
         public OneLineString toLineString(String text)
         {
-            if(text.isEmpty())
-            {
-                return new OneLineString(text);
-            }
             return new PrefixDecorator( new LargeSizeDecorator(new OneLineString(text)), "<center>«enum»</center>");
         }
     };

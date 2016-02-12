@@ -57,6 +57,8 @@ public class InterfaceNode extends ColorableNode
     @Override
     protected void createContentStructure()
     {
+        name.setText(name.toEdit());
+
         TextContent nameContent = new TextContent(name);
         nameContent.setMinHeight(DEFAULT_NAME_HEIGHT);
         nameContent.setMinWidth(DEFAULT_WIDTH);

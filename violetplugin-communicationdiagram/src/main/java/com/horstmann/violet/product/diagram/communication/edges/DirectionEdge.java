@@ -4,6 +4,8 @@ import com.horstmann.violet.product.diagram.abstracts.edge.SegmentedLineEdge;
 import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
 import com.horstmann.violet.product.diagram.abstracts.property.LineStyle;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
+import com.horstmann.violet.product.diagram.common.edge.BasePropertyEdge;
+
 /**
  * 
  * @author Artur Ratajczak
@@ -16,6 +18,29 @@ public class DirectionEdge extends SegmentedLineEdge {
 		Message = new SingleLineText();
 		ConcurrentLoop = false;
 		SequentialLoop = new SingleLineText();
+	}
+
+	@Override
+	public DirectionEdge clone() {
+		return new DirectionEdge(this);
+	}
+
+	@Override
+	public void deserializeSupport()
+	{
+		super.deserializeSupport();
+		SequenceNumber.deserializeSupport();
+		Message.deserializeSupport();
+		SequentialLoop.deserializeSupport();
+	}
+
+	protected DirectionEdge(DirectionEdge directionEdge)
+	{
+		super();
+		this.ConcurrentLoop = directionEdge.ConcurrentLoop;
+		this.SequenceNumber = directionEdge.SequenceNumber.clone();
+		this.Message = directionEdge.Message.clone();
+		this.SequentialLoop = directionEdge.SequentialLoop.clone();
 	}
 
 	@Override
