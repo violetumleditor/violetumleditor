@@ -71,7 +71,7 @@ public class PackageNode extends ColorableNode
 
         for(INode child : getChildren())
         {
-            if (child instanceof ClassNode || child instanceof InterfaceNode || child instanceof PackageNode || child instanceof EnumNode || child instanceof LollipopNode || child instanceof LollipopSocketNode)
+            if (isSupportetNode(child))
             {
                 nodesGroup.add(((ColorableNode) child).getContent(), getChildRelativeLocation(child));
             }
@@ -165,7 +165,7 @@ public class PackageNode extends ColorableNode
         {
             return false;
         }
-        if (n instanceof ClassNode || n instanceof InterfaceNode || n instanceof PackageNode)
+        if (isSupportetNode(n))
         {
             n.setParent(this);
             n.setGraph(this.getGraph());
@@ -203,6 +203,11 @@ public class PackageNode extends ColorableNode
     protected void onChildChangeLocation(INode child)
     {
         nodesGroup.setPosition(((AbstractNode) child).getContent(), getChildRelativeLocation(child));
+    }
+
+    private boolean isSupportetNode(INode node)
+    {
+        return (node instanceof ClassNode || node instanceof InterfaceNode || node instanceof PackageNode || node instanceof EnumNode || node instanceof LollipopNode || node instanceof LollipopSocketNode);
     }
 
     /**

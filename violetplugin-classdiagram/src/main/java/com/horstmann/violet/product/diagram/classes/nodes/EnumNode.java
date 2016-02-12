@@ -152,6 +152,10 @@ public class EnumNode extends ColorableNode
         @Override
         public OneLineString toLineString(String text)
         {
+            if(text.isEmpty())
+            {
+                return new OneLineString(text);
+            }
             return new PrefixDecorator( new LargeSizeDecorator(new OneLineString(text)), "<center>«enum»</center>");
         }
     };
