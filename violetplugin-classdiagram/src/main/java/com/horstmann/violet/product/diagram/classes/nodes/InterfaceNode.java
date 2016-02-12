@@ -151,12 +151,13 @@ public class InterfaceNode extends ColorableNode
 
     private static int DEFAULT_NAME_HEIGHT = 45;
     private static int DEFAULT_WIDTH = 100;
+    public static final String STATIC = "<<static>>";
 
     private static LineText.Converter nameConverter = new LineText.Converter(){
         @Override
         public OneLineString toLineString(String text)
         {
-            return new PrefixDecorator( new LargeSizeDecorator(new OneLineString(text)), "«interface»<br>");
+            return new PrefixDecorator( new LargeSizeDecorator(new OneLineString(text)), "<center>«interface»</center>");
     //                return new ItalicsDecorator( new LargeSizeDecorator(new OneLineString(text)));
         }
     };
@@ -166,9 +167,9 @@ public class InterfaceNode extends ColorableNode
         {
             OneLineString lineString = new OneLineString(text);
 
-            if(lineString.contains("<<static>>"))
+            if(lineString.contains(STATIC))
             {
-                lineString = new UnderlineDecorator(new RemoveSentenceDecorator(lineString, "<<static>>"));
+                lineString = new UnderlineDecorator(new RemoveSentenceDecorator(lineString, STATIC));
             }
             return lineString;
         }

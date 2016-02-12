@@ -178,11 +178,19 @@ public class ClassNode extends ColorableNode
 
     private final static int DEFAULT_NAME_HEIGHT = 45;
     private final static int DEFAULT_WIDTH = 100;
+    public static final String ABSTRACT = "<<abstract>>";
+    public static final String STATIC = "<<static>>";
 
     private final static LineText.Converter nameConverter = new LineText.Converter(){
         @Override
         public OneLineString toLineString(String text)
         {
+            OneLineString lineString = new OneLineString(text);
+            if(lineString.contains(ABSTRACT))
+            {
+                return new PrefixDecorator( new LargeSizeDecorator(new RemoveSentenceDecorator(lineString, ABSTRACT)), "<center>«abstract»</center>");
+            }
+
             return new LargeSizeDecorator(new OneLineString(text));
         }
     };
@@ -192,9 +200,9 @@ public class ClassNode extends ColorableNode
         {
             OneLineString lineString = new OneLineString(text);
 
-            if(lineString.contains("<<static>>"))
+            if(lineString.contains(STATIC))
             {
-                lineString = new UnderlineDecorator(new RemoveSentenceDecorator(lineString, "<<static>>"));
+                lineString = new UnderlineDecorator(new RemoveSentenceDecorator(lineString, STATIC));
             }
             lineString = new ReplaceSentenceDecorator(lineString, "public ", "+ ");
             lineString = new ReplaceSentenceDecorator(lineString, "package ", "~ ");
