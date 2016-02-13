@@ -80,20 +80,6 @@ public class AutoSave implements ActionListener {
 			if (files.length == 0)
 				return;
 
-			JOptionPane optionPane = new JOptionPane();
-			optionPane.setMessage(lostFilesFoundMessage + "\n" + lostFilesFoundQuestion);
-			optionPane.setOptionType(JOptionPane.YES_NO_OPTION);
-			this.dialogFactory.showDialog(optionPane, "Auto Save", true);
-
-			int result = JOptionPane.NO_OPTION;
-			if (!JOptionPane.UNINITIALIZED_VALUE.equals(optionPane.getValue()))
-			{
-				result = ((Integer) optionPane.getValue()).intValue();
-			}
-
-			if (result == JOptionPane.NO_OPTION)
-				return;
-
 			for (File file: files)
 			{
 				try {
@@ -111,12 +97,8 @@ public class AutoSave implements ActionListener {
 						file.delete();
 					}
 				} catch (IOException e) {
-					String message = MessageFormat.format(fileImportErrorMessage + " " + file.getName(), e.getMessage());
-					JOptionPane.showMessageDialog(null, message, fileImportError, JOptionPane.ERROR_MESSAGE);
 					file.delete();
 				} catch (Exception e) {
-					String message = MessageFormat.format(fileImportErrorMessage + " " + file.getName(), e.getMessage());
-					JOptionPane.showMessageDialog(null, message, fileImportError, JOptionPane.ERROR_MESSAGE);
 					file.delete();
 				}
 			}
@@ -147,16 +129,4 @@ public class AutoSave implements ActionListener {
 
 	@InjectedBean
 	private IFilePersistenceService filePersistenceService;
-
-	@ResourceBundleBean(key = "autosave.import.error")
-	private String fileImportError;
-
-	@ResourceBundleBean(key = "autosave.import.error.message")
-	private String fileImportErrorMessage;
-
-	@ResourceBundleBean(key = "autosave.found.message")
-	private String lostFilesFoundMessage;
-
-	@ResourceBundleBean(key = "autosave.found.question")
-	private String lostFilesFoundQuestion;
 }
