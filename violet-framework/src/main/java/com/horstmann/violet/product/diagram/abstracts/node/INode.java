@@ -99,6 +99,13 @@ public interface INode extends Serializable, Cloneable, IIdentifiable, Connected
     INode getParent();
 
     /**
+     * Gets the three parents of this node_old.
+     *
+     * @return the three parents node_old, or null if the node_old has no parent
+     */
+    List<INode> getParents();
+
+    /**
      * Sets node_old's parent (for decoder)
      * 
      * @param parentNode p

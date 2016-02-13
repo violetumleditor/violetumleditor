@@ -126,6 +126,13 @@ public class LifelineNode extends ColorableNode
     }
 
     @Override
+    public Rectangle2D getBounds()
+    {
+        Rectangle2D bounds = super.getBounds();
+        return new Rectangle2D.Double(bounds.getX(), bounds.getY(), bounds.getWidth(), getMaxYOverAllLifeLineNodes());
+    }
+
+    @Override
     public void removeChild(INode node)
     {
         activationsGroup.remove(((ActivationBarNode) node).getContent());
@@ -176,11 +183,11 @@ public class LifelineNode extends ColorableNode
         double relativeCenteredX = getRelativeCenteredPositionX();
         if(DEFAULT_TOP_HEIGHT + ACTIVATIONS_PADDING > nodeLocation.getY() || relativeCenteredX != nodeLocation.getX())
         {
-            nodeLocation.setLocation( relativeCenteredX, Math.max(nodeLocation.getY(), DEFAULT_TOP_HEIGHT));
+            nodeLocation.setLocation(relativeCenteredX, Math.max(nodeLocation.getY(), DEFAULT_TOP_HEIGHT + ACTIVATIONS_PADDING));
             node.setLocation(nodeLocation);
         }
 
-        return new Point2D.Double(nodeLocation.getX(), nodeLocation.getY()-DEFAULT_TOP_HEIGHT - ACTIVATIONS_PADDING);
+        return new Point2D.Double(nodeLocation.getX(), nodeLocation.getY() - DEFAULT_TOP_HEIGHT - ACTIVATIONS_PADDING);
     }
 
     @Override

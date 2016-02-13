@@ -113,10 +113,10 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
 
 
     @Override
-    public void draw(Graphics2D g2)
+    public void draw(Graphics2D graphics)
     {
-        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         List<INode> specialNodes = new ArrayList<INode>();
 
@@ -125,18 +125,20 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
         Collection<INode> nodes = getAllNodes();
         while (count < nodes.size())
         {
-            for (INode n : nodes)
+            for (INode node : nodes)
             {
-
-                if (n.getZ() == z)
+                if (node.getZ() == z)
                 {
-                    if (n instanceof NoteNode)
+                    if (node instanceof NoteNode)
                     {
-                        specialNodes.add(n);
+                        specialNodes.add(node);
                     }
                     else
                     {
-                        n.draw(g2);
+                        if(null == node.getParent())
+                        {
+                            node.draw(graphics);
+                        }
                     }
                     count++;
                 }
@@ -147,20 +149,20 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
         for (int i = 0; i < edges.size(); i++)
         {
             IEdge e = (IEdge) edges.get(i);
-            e.draw(g2);
+            e.draw(graphics);
         }
         // Special nodes are always drawn upon other elements
         for (INode n : specialNodes)
         {
-            // Translate g2 if node_old has parent
+            // Translate graphics if node_old has parent
             Point2D nodeLocationOnGraph = n.getLocationOnGraph();
             Point2D nodeLocation = n.getLocation();
             Point2D g2Location = new Point2D.Double(nodeLocationOnGraph.getX() - nodeLocation.getX(), nodeLocationOnGraph.getY()
                     - nodeLocation.getY());
-            g2.translate(g2Location.getX(), g2Location.getY());
-            n.draw(g2);
-            // Restore g2 original location
-            g2.translate(-g2Location.getX(), -g2Location.getY());
+            graphics.translate(g2Location.getX(), g2Location.getY());
+            n.draw(graphics);
+            // Restore graphics original location
+            graphics.translate(-g2Location.getX(), -g2Location.getY());
         }
 
     }

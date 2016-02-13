@@ -42,19 +42,15 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
  * 
  * @author Cay Horstmann
  */
-public abstract class AbstractNode implements INode
-{
-    private static class NodeGraph extends AbstractGraph
-    {
+public abstract class AbstractNode implements INode {
+    private static class NodeGraph extends AbstractGraph {
         @Override
-        public List<INode> getNodePrototypes()
-        {
+        public List<INode> getNodePrototypes() {
             return new ArrayList<INode>();
         }
 
         @Override
-        public List<IEdge> getEdgePrototypes()
-        {
+        public List<IEdge> getEdgePrototypes() {
             return new ArrayList<IEdge>();
         }
     }
@@ -62,8 +58,7 @@ public abstract class AbstractNode implements INode
     /**
      * Constructs a node_old with no parents or children at location (0, 0).
      */
-    public AbstractNode()
-    {
+    public AbstractNode() {
         this.id = new Id();
         this.revision = new Integer(0);
         this.location = new Point2D.Double(0, 0);
@@ -73,33 +68,29 @@ public abstract class AbstractNode implements INode
     /**
      * copy Constructs
      */
-    protected AbstractNode(AbstractNode node) throws CloneNotSupportedException
-    {
-        if(null == node)
-        {
+    protected AbstractNode(AbstractNode node) throws CloneNotSupportedException {
+        if (null == node) {
             throw new CloneNotSupportedException("node can't be null");
         }
         this.id = node.getId().clone();
         this.revision = new Integer(0);
         this.children = new ArrayList<INode>();
         this.location = (Point2D.Double) node.getLocation().clone();
-        for (INode child : node.getChildren())
-        {
+        for (INode child : node.getChildren()) {
             INode clonedChild = child.clone();
             clonedChild.setParent(this);
             this.children.add(clonedChild);
         }
     }
 
-    public void deserializeSupport()
-    {
+    public void deserializeSupport() {
         createContentStructure();
         getContent().refresh();
     }
 
     @Override
 //    public AbstractNode clone(){
-    public final AbstractNode clone(){
+    public final AbstractNode clone() {
         try {
             return (AbstractNode) copy();
         } catch (CloneNotSupportedException e) {
@@ -107,47 +98,39 @@ public abstract class AbstractNode implements INode
         }
     }
 
-    protected INode copy() throws CloneNotSupportedException
-    {
+    protected INode copy() throws CloneNotSupportedException {
         return null;
     }
-
 
 
     protected abstract void createContentStructure();
 
     @Override
-    public void draw(Graphics2D g2)
-    {
+    public void draw(Graphics2D g2) {
         getContent().draw(g2, getLocationOnGraph());
     }
 
     @Override
-    public Rectangle2D getBounds()
-    {
+    public Rectangle2D getBounds() {
         Point2D location = getLocation();
         Rectangle2D contentBounds = getContent().getBounds();
         return new Rectangle2D.Double(location.getX(), location.getY(), contentBounds.getWidth(), contentBounds.getHeight());
     }
 
-    public boolean contains(Point2D p)
-    {
+    public boolean contains(Point2D p) {
         return getContent().contains(p);
     }
 
     /**
      * @return currently connected edges
      */
-    protected List<IEdge> getConnectedEdges()
-    {
+    protected List<IEdge> getConnectedEdges() {
         List<IEdge> connectedEdges = new ArrayList<IEdge>();
         IGraph currentGraph = getGraph();
-        for (IEdge anEdge : currentGraph.getAllEdges())
-        {
+        for (IEdge anEdge : currentGraph.getAllEdges()) {
             INode start = anEdge.getStart();
             INode end = anEdge.getEnd();
-            if (this.equals(start) || this.equals(end))
-            {
+            if (this.equals(start) || this.equals(end)) {
                 connectedEdges.add(anEdge);
             }
         }
@@ -155,17 +138,14 @@ public abstract class AbstractNode implements INode
     }
 
     @Override
-    public Point2D getLocation()
-    {
-    	return this.location;
+    public Point2D getLocation() {
+        return this.location;
     }
 
     @Override
-    public Point2D getLocationOnGraph()
-    {
+    public Point2D getLocationOnGraph() {
         INode parentNode = getParent();
-        if (parentNode == null)
-        {
+        if (parentNode == null) {
             return getLocation();
         }
         Point2D parentLocationOnGraph = parentNode.getLocationOnGraph();
@@ -176,35 +156,30 @@ public abstract class AbstractNode implements INode
     }
 
     @Override
-    public void setLocation(Point2D point)
-    {
-        if(null == point)
-        {
+    public void setLocation(Point2D point) {
+        if (null == point) {
             throw new NullPointerException("Location can't be null");
         }
         this.location = point;
 
-        if(null != parent)
-        {
-            if (parent instanceof AbstractNode)
-            {
-                ((AbstractNode)parent).onChildChangeLocation(this);
+        if (null != parent) {
+            if (parent instanceof AbstractNode) {
+                ((AbstractNode) parent).onChildChangeLocation(this);
             }
         }
     }
-    protected void onChildChangeLocation(INode child){}
 
-    @Override
-    public Id getId()
-    {
-    	return this.id;
+    protected void onChildChangeLocation(INode child) {
     }
 
     @Override
-    public void setId(Id id)
-    {
-        if(null == id)
-        {
+    public Id getId() {
+        return this.id;
+    }
+
+    @Override
+    public void setId(Id id) {
+        if (null == id) {
             throw new NullPointerException("Id can't be null");
         }
         this.id = id;
@@ -263,9 +238,7 @@ public abstract class AbstractNode implements INode
     }
 
 
-
-    public Point2D getConnectionPoint(IEdge e)
-    {
+    public Point2D getConnectionPoint(IEdge e) {
         List<IEdge> edgesOnSameSide = getEdgesOnSameSide(e);
         int position = edgesOnSameSide.indexOf(e);
         int size = edgesOnSameSide.size();
@@ -297,63 +270,68 @@ public abstract class AbstractNode implements INode
     }
 
     @Override
-    public Integer getRevision()
-    {
-    	return this.revision;
+    public Integer getRevision() {
+        return this.revision;
     }
 
     @Override
-    public void setRevision(Integer newRevisionNumber)
-    {
-        if(null == newRevisionNumber)
-        {
+    public void setRevision(Integer newRevisionNumber) {
+        if (null == newRevisionNumber) {
             throw new NullPointerException("Integer can't be null");
         }
         this.revision = newRevisionNumber;
     }
 
     @Override
-    public void incrementRevision()
-    {
-        int i = getRevision().intValue() +1;
+    public void incrementRevision() {
+        int i = getRevision().intValue() + 1;
         this.revision = new Integer(i);
     }
 
     @Override
-    public void translate(double dx, double dy)
-    {
+    public void translate(double dx, double dy) {
         Point2D newLocation = new Point2D.Double(getLocation().getX() + dx, getLocation().getY() + dy);
         setLocation(newLocation);
     }
 
     @Override
-    public boolean addConnection(IEdge e)
-    {
+    public boolean addConnection(IEdge e) {
         return e.getEnd() != null;
     }
 
     @Override
-    public void removeConnection(IEdge e)
-    {
+    public void removeConnection(IEdge e) {
     }
 
     @Override
-    public void removeChild(INode node)
-    {
+    public void removeChild(INode node) {
         if (node.getParent() != this) return;
         getChildren().remove(node);
     }
 
     @Override
-    public boolean addChild(INode n, Point2D p)
-    {
+    public boolean addChild(INode n, Point2D p) {
         return false;
     }
 
     @Override
-    public INode getParent()
-    {
+    public INode getParent() {
         return parent;
+    }
+
+    @Override
+    public List<INode> getParents()
+    {
+        List<INode> parents = new ArrayList<INode>();
+        if(null != getParent())
+        {
+            parents.add(getParent());
+            while (null != parents.get(0).getParent())
+            {
+                parents.add(0, parents.get(0).getParent());
+            }
+        }
+        return parents;
     }
 
     @Override

@@ -40,13 +40,13 @@ public class ContentBorder extends ContentInsideShape
      */
     @Override
     public void draw(Graphics2D graphics) {
-        getContent().draw(graphics);
         if(null!=color) {
             Color oldColor = graphics.getColor();
             graphics.setColor(color);
             graphics.draw(getShape());
             graphics.setColor(oldColor);
         }
+        getContent().draw(graphics);
     }
 
     /**
