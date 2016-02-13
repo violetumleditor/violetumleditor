@@ -96,7 +96,7 @@ public class ActivationBarNode extends ColorableNode
         activationsGroup.setMinWidth(DEFAULT_WIDTH);
 
         EmptyContent padding = new EmptyContent();
-        padding.setMinHeight(DEFAULT_CHILD_MARGIN);
+        padding.setMinHeight(DEFAULT_CHILD__VERTICAL_MARGIN);
 
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.add(padding);
@@ -151,13 +151,13 @@ public class ActivationBarNode extends ColorableNode
     protected Point2D getChildRelativeLocation(INode node)
     {
         Point2D nodeLocation = node.getLocation();
-        if(DEFAULT_CHILD_MARGIN > nodeLocation.getY() || DEFAULT_CHILD_MARGIN != nodeLocation.getX())
+        if(DEFAULT_CHILD__VERTICAL_MARGIN > nodeLocation.getY() || DEFAULT_CHILD_LEFT_MARGIN != nodeLocation.getX())
         {
-            nodeLocation.setLocation(DEFAULT_CHILD_MARGIN, Math.max(nodeLocation.getY(), DEFAULT_CHILD_MARGIN));
+            nodeLocation.setLocation(DEFAULT_CHILD_LEFT_MARGIN, Math.max(nodeLocation.getY(), DEFAULT_CHILD__VERTICAL_MARGIN));
             node.setLocation(nodeLocation);
         }
 
-        return new Point2D.Double(nodeLocation.getX()+DEFAULT_CHILD_MARGIN, nodeLocation.getY()-DEFAULT_CHILD_MARGIN);
+        return new Point2D.Double(nodeLocation.getX()+DEFAULT_CHILD_LEFT_MARGIN, nodeLocation.getY()-DEFAULT_CHILD__VERTICAL_MARGIN);
     }
 
     @Override
@@ -794,10 +794,11 @@ public class ActivationBarNode extends ColorableNode
     
     /** Default with */
     public final static int DEFAULT_WIDTH = 16;
-    public final static int DEFAULT_CHILD_MARGIN = 5;
+    public final static int DEFAULT_CHILD_LEFT_MARGIN = 5;
+    public final static int DEFAULT_CHILD__VERTICAL_MARGIN = 10;
 
     /** Default height */
-    private final static int DEFAULT_HEIGHT = 30;
+    private final static int DEFAULT_HEIGHT = 20;
 
     /** Default vertical gap between two call nodes and a call node_old and an implicit node_old */
     public final static int CALL_YGAP = 20;
