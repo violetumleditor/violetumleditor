@@ -39,7 +39,7 @@ public class AutoSave implements ActionListener {
 	private Timer saveTimer;
 
     private final int second = 1000;
-    private final int saveInterval = 30 * second;
+    private final int saveInterval = 60 * second;
     private final String autoSaveDirectory = System.getProperty("user.home") + File.separator + "VioletUML";
 
 	public AutoSave(MainFrame mainFrame)
@@ -126,7 +126,7 @@ public class AutoSave implements ActionListener {
 	private void initializeTimer()
 	{
 		saveTimer = new Timer(saveInterval, (ActionListener) this);
-		saveTimer.setInitialDelay(5000);
+		saveTimer.setInitialDelay(0);
 		saveTimer.start();
 	}
 
