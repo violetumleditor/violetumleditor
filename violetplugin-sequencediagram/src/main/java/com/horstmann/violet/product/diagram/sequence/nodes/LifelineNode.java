@@ -158,7 +158,10 @@ public class LifelineNode extends ColorableNode
         g2.setStroke(new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0.0f, new float[]{5.0f,5.0f}, 0.0f));
         g2.draw(new Line2D.Double(startPoint, endPoint));
         g2.setStroke(oldStroke);
-        ArrowHead.X.draw(g2, startPoint, endPoint);
+        if(endOfLife)
+        {
+            ArrowHead.X.draw(g2, startPoint, endPoint);
+        }
         g2.setColor(oldColor);
 
         super.draw(g2);
@@ -189,6 +192,28 @@ public class LifelineNode extends ColorableNode
     {
         return name;
     }
+
+    /**
+     * Sets the  end of life property value.
+     *
+     * @param newValue the end of life of this object
+     */
+    public void setEndOfLife(boolean newValue)
+    {
+        endOfLife = newValue;
+    }
+
+    /**
+     * Gets the end of life property value.
+     *
+     * @return the end of life of this object
+     */
+    public boolean isEndOfLife()
+    {
+        return endOfLife;
+    }
+
+
 
     public boolean addConnection(IEdge e)
     {
@@ -325,6 +350,8 @@ public class LifelineNode extends ColorableNode
 
 
     private SingleLineText name;
+    private boolean endOfLife;
+
 
     private transient VerticalLayout activationsGroup = null;
 
