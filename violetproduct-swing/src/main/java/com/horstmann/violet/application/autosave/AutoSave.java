@@ -44,7 +44,6 @@ public class AutoSave implements ActionListener {
 
 	public AutoSave(MainFrame mainFrame)
 	{
-		ResourceBundleInjector.getInjector().inject(this);
 		BeanInjector.getInjector().inject(this);
 
 		if (mainFrame != null)
@@ -123,9 +122,6 @@ public class AutoSave implements ActionListener {
 	    	}
 	    }
 	}
-
-	@InjectedBean
-	private DialogFactory dialogFactory;
 
 	@InjectedBean
 	private IFilePersistenceService filePersistenceService;
