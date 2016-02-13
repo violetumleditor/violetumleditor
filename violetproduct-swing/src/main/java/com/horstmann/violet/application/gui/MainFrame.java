@@ -126,7 +126,7 @@ public class MainFrame extends JFrame
     
     private void startAutoSave()
     {
-    	AutoSave autosave = new AutoSave(this);
+    	new AutoSave(this);
     }
 
 
@@ -164,11 +164,6 @@ public class MainFrame extends JFrame
             }
         });
     }
-
-
-    
-    
-
 
     /**
      * Removes a diagram panel from this editor frame

@@ -46,7 +46,6 @@ public class GraphFile implements IGraphFile
         {
 			this.graph = graphClass.newInstance();
 			this.autoSaveFilename = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime()) + ".html";
-			this.autoSaveDirectory = System.getProperty("user.home") + "/VioletUML/";
 
 			this.autoSaveFile = new File(this.autoSaveDirectory + this.autoSaveFilename);
 			this.autoSaveFile.createNewFile();
@@ -77,7 +76,6 @@ public class GraphFile implements IGraphFile
         {
 			this.graph = this.filePersistenceService.read(in);
 			this.autoSaveFilename = file.getFilename();
-			this.autoSaveDirectory = System.getProperty("user.home") + "/VioletUML/";
 
 			this.autoSaveFile = new File(this.autoSaveDirectory + this.autoSaveFilename);
 			this.autoSaveFile.createNewFile();
@@ -349,7 +347,7 @@ public class GraphFile implements IGraphFile
      * Needed to identify the physical file used to save the graph
      */
     private String currentDirectory;
-    private String autoSaveDirectory;
+    private final String autoSaveDirectory = System.getProperty("user.home") + File.separator + "VioletUML" + File.separator;
 
     private boolean isSaveRequired = false;
 
