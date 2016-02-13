@@ -34,6 +34,10 @@ public class ApplicationStopper
         boolean ok = isItReadyToExit(mainFrame);
         if (ok)
         {
+        	for (IWorkspace workspace: mainFrame.getWorkspaceList())
+        	{
+        		workspace.getGraphFile().removeBackup();
+        	}
             System.exit(0);
         }
     }
@@ -47,13 +51,12 @@ public class ApplicationStopper
     {
         List<IWorkspace> dirtyWorkspaceList = new ArrayList<IWorkspace>();
         List<IWorkspace> workspaceList = mainFrame.getWorkspaceList();
-        for (IWorkspace aWorkspacel : workspaceList)
+        for (IWorkspace workspace: workspaceList)
         {
-            IGraphFile graphFile = aWorkspacel.getGraphFile();
-            graphFile.removeBackup();
+            IGraphFile graphFile = workspace.getGraphFile();
         	if (graphFile.isSaveRequired())
             {
-                dirtyWorkspaceList.add(aWorkspacel);
+                dirtyWorkspaceList.add(workspace);
             }
         }
         int unsavedCount = dirtyWorkspaceList.size();
