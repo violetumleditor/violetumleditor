@@ -43,6 +43,8 @@ import com.horstmann.violet.product.diagram.sequence.edges.CallEdge;
 
 /**
  * An object node_old in a scenario diagram.
+ *
+ * @author Adrian Bobrowski <adrian071993@gmail.com>
  */
 public class LifelineNode extends ColorableNode
 {
@@ -131,7 +133,7 @@ public class LifelineNode extends ColorableNode
     }
 
     @Override
-    public boolean addChild(INode node, Point2D p)
+    public boolean addChild(INode node, Point2D point)
     {
         List<INode> activations = getChildren();
         if (!(node instanceof ActivationBarNode))
@@ -151,7 +153,7 @@ public class LifelineNode extends ColorableNode
 
         activationsGroup.add(activationBarNode.getContent());
 
-        activationBarNode.setLocation(p);
+        activationBarNode.setLocation(point);
         activationBarNode.setGraph(getGraph());
         activationBarNode.setParent(this);
 

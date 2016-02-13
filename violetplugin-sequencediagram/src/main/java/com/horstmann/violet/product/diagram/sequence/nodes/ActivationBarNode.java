@@ -22,6 +22,7 @@
 package com.horstmann.violet.product.diagram.sequence.nodes;
 
 import java.awt.*;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -29,10 +30,8 @@ import java.util.List;
 
 import javax.lang.model.type.NullType;
 
-import com.horstmann.violet.framework.graphics.content.ContentBackground;
-import com.horstmann.violet.framework.graphics.content.ContentBorder;
-import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
-import com.horstmann.violet.framework.graphics.content.EmptyContent;
+import com.horstmann.violet.framework.graphics.content.*;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
@@ -43,9 +42,20 @@ import com.horstmann.violet.product.diagram.sequence.edges.ReturnEdge;
 
 /**
  * An activation bar in a sequence diagram. This activation bar is hang on a lifeline (implicit parameter)
+ *
+ * @author Adrian Bobrowski <adrian071993@gmail.com>
  */
 public class ActivationBarNode extends ColorableNode
 {
+    protected static class ActivationBarShape implements ContentInsideCustomShape.ShapeCreator
+    {
+        @Override
+        public Shape createShape(int contentWidth, int contentHeight)
+        {
+            return new Rectangle2D.Double(0,0, DEFAULT_WIDTH, contentHeight);
+        }
+    }
+
     public ActivationBarNode()
     {
         super();
@@ -59,6 +69,19 @@ public class ActivationBarNode extends ColorableNode
     }
 
     @Override
+    public void deserializeSupport()
+    {
+        super.deserializeSupport();
+        for(INode child : getChildren())
+        {
+            if (child instanceof ActivationBarNode)
+            {
+                activationsGroup.add(((ActivationBarNode) child).getContent());
+            }
+        }
+    }
+
+    @Override
     protected INode copy() throws CloneNotSupportedException
     {
         return new ActivationBarNode(this);
@@ -67,11 +90,11 @@ public class ActivationBarNode extends ColorableNode
     @Override
     protected void createContentStructure()
     {
-        EmptyContent emptyContent = new EmptyContent();
-        emptyContent.setMinHeight(DEFAULT_HEIGHT);
-        emptyContent.setMinWidth(DEFAULT_WIDTH);
+        activationsGroup = new RelativeLayout();
+        activationsGroup.setMinHeight(DEFAULT_HEIGHT);
+        activationsGroup.setMinWidth(DEFAULT_WIDTH);
 
-        ContentInsideShape contentInsideShape = new ContentInsideRectangle(emptyContent);
+        ContentInsideShape contentInsideShape = new ContentInsideCustomShape(activationsGroup, new ActivationBarShape());
 
         setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
         setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
@@ -83,10 +106,24 @@ public class ActivationBarNode extends ColorableNode
     @Override
     public boolean addChild(INode node, Point2D point)
     {
-        if (!node.getClass().isAssignableFrom(ActivationBarNode.class))
+        if (! (node instanceof ActivationBarNode))
         {
             return false;
         }
+
+        addChild(node, getChildren().size());
+
+        ActivationBarNode activationBarNode = (ActivationBarNode) node;
+        activationBarNode.setTextColor(getTextColor());
+        activationBarNode.setBackgroundColor(getBackgroundColor());
+        activationBarNode.setBorderColor(getBorderColor());
+
+        activationsGroup.add(activationBarNode.getContent());
+
+        activationBarNode.setLocation(point);
+        activationBarNode.setGraph(getGraph());
+        activationBarNode.setParent(this);
+
         point.setLocation(getBounds().getX(),getBounds().getMaxY());
         getParent().addChild(node, point);
         return true;
@@ -769,7 +806,6 @@ public class ActivationBarNode extends ColorableNode
     /**
      * Finds an edge in the graph connected to start and end nodes
      * 
-     * @param g the graph
      * @param start the start node_old
      * @param end the end node_old
      * @return the edge or null if no one is found
@@ -809,15 +845,16 @@ public class ActivationBarNode extends ColorableNode
 
     /** The lifeline that embeds this activation bar in the sequence diagram */
     private transient LifelineNode lifeline;
-    
-    private transient Point2D locationCache;
+
+    private transient RelativeLayout activationsGroup = null;
     
     /** Default with */
-    public static int DEFAULT_WIDTH = 16;
+    public final static int DEFAULT_WIDTH = 16;
+    public final static int DEFAULT_CHILD_MARGIN = 5;
 
     /** Default height */
-    private static int DEFAULT_HEIGHT = 30;
+    private final static int DEFAULT_HEIGHT = 30;
 
     /** Default vertical gap between two call nodes and a call node_old and an implicit node_old */
-    public static int CALL_YGAP = 20;
+    public final static int CALL_YGAP = 20;
 }
