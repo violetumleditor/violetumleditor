@@ -505,109 +505,111 @@ public class ActivationBarNode extends ColorableNode
     @Override
     public Point2D getLocation()
     {
-        if (this.locationCache != null) {
-        	return this.locationCache;
-        }
-    	INode parentNode = getParent();
-        if (parentNode == null) {
-        	this.locationCache = super.getLocation();
-            return this.locationCache;
-        }
-        List<IEdge> connectedEdges = getConnectedEdges();
-        boolean isChildOfActivationBarNode = (parentNode.getClass().isAssignableFrom(ActivationBarNode.class));
-        boolean isChildOfLifelineNode = (parentNode.getClass().isAssignableFrom(LifelineNode.class));
-        // Case 1 : just attached to a lifeline
-        if (isChildOfLifelineNode && connectedEdges.isEmpty()) {
-            Point2D rawLocation = super.getLocation();
-            double horizontalLocation = getHorizontalLocation();
-            double verticalLocation = rawLocation.getY();
-            Point2D adjustedLocation = new Point2D.Double(horizontalLocation, verticalLocation);
-            adjustedLocation = getGraph().getGridSticker().snap(adjustedLocation);
-            super.setLocation(adjustedLocation);
-            this.locationCache = adjustedLocation;
-            return adjustedLocation;
-        }
-        // Case 2 : is child of another activation bar
-        if (isChildOfActivationBarNode && connectedEdges.isEmpty()) {
-            Point2D rawLocation = super.getLocation();
-            double horizontalLocation = getHorizontalLocation();
-            double verticalLocation = rawLocation.getY();
-            verticalLocation = Math.max(verticalLocation, CALL_YGAP);
-            Point2D adjustedLocation = new Point2D.Double(horizontalLocation, verticalLocation);
-            adjustedLocation = getGraph().getGridSticker().snap(adjustedLocation);
-            super.setLocation(adjustedLocation);
-            this.locationCache = adjustedLocation;
-            return adjustedLocation;
-        }
-        // Case 3 : is connected
-        if (!connectedEdges.isEmpty()) {
-            Point2D rawLocation = super.getLocation();
-            for (IEdge edge : getConnectedEdges()) {
-                if (!edge.getClass().isAssignableFrom(CallEdge.class))
-                {
-                    continue;
-                }
-                if (edge.getEnd() == this)
-                {
-                    INode startingNode = edge.getStart();
-                    Point2D startingNodeLocationOnGraph = startingNode.getLocationOnGraph();
-                    Point2D endingNodeParentLocationOnGraph = getParent().getLocationOnGraph();
-                    double yGap = rawLocation.getY() - startingNodeLocationOnGraph.getY() + endingNodeParentLocationOnGraph.getY();
-                    if (yGap < CALL_YGAP / 2) {
-                        double horizontalLocation = getHorizontalLocation();
-                        double minY = startingNodeLocationOnGraph.getY() - endingNodeParentLocationOnGraph.getY() + CALL_YGAP / 2;
-                        Point2D adjustedLocation = new Point2D.Double(horizontalLocation, minY);
-                        adjustedLocation = getGraph().getGridSticker().snap(adjustedLocation);
-                        super.setLocation(adjustedLocation);
-                        this.locationCache = adjustedLocation;
-                        return adjustedLocation;
-                    }
-                    break;
-                }
-            }
-        }
-        // Case 4 : default case
-        Point2D rawLocation = super.getLocation();
-        double horizontalLocation = getHorizontalLocation();
-        double verticalLocation = rawLocation.getY();
-        Point2D adjustedLocation = new Point2D.Double(horizontalLocation, verticalLocation);
-        adjustedLocation = getGraph().getGridSticker().snap(adjustedLocation);
-        super.setLocation(adjustedLocation);
-        this.locationCache = adjustedLocation;
-        return adjustedLocation;
+        return super.getLocation();
+
+//        if (this.locationCache != null) {
+//        	return this.locationCache;
+//        }
+//    	INode parentNode = getParent();
+//        if (parentNode == null) {
+//        	this.locationCache = super.getLocation();
+//            return this.locationCache;
+//        }
+//        List<IEdge> connectedEdges = getConnectedEdges();
+//        boolean isChildOfActivationBarNode = (parentNode.getClass().isAssignableFrom(ActivationBarNode.class));
+//        boolean isChildOfLifelineNode = (parentNode.getClass().isAssignableFrom(LifelineNode.class));
+//        // Case 1 : just attached to a lifeline
+//        if (isChildOfLifelineNode && connectedEdges.isEmpty()) {
+//            Point2D rawLocation = super.getLocation();
+//            double horizontalLocation = getHorizontalLocation();
+//            double verticalLocation = rawLocation.getY();
+//            Point2D adjustedLocation = new Point2D.Double(horizontalLocation, verticalLocation);
+//            adjustedLocation = getGraph().getGridSticker().snap(adjustedLocation);
+//            super.setLocation(adjustedLocation);
+//            this.locationCache = adjustedLocation;
+//            return adjustedLocation;
+//        }
+//        // Case 2 : is child of another activation bar
+//        if (isChildOfActivationBarNode && connectedEdges.isEmpty()) {
+//            Point2D rawLocation = super.getLocation();
+//            double horizontalLocation = getHorizontalLocation();
+//            double verticalLocation = rawLocation.getY();
+//            verticalLocation = Math.max(verticalLocation, CALL_YGAP);
+//            Point2D adjustedLocation = new Point2D.Double(horizontalLocation, verticalLocation);
+//            adjustedLocation = getGraph().getGridSticker().snap(adjustedLocation);
+//            super.setLocation(adjustedLocation);
+//            this.locationCache = adjustedLocation;
+//            return adjustedLocation;
+//        }
+//        // Case 3 : is connected
+//        if (!connectedEdges.isEmpty()) {
+//            Point2D rawLocation = super.getLocation();
+//            for (IEdge edge : getConnectedEdges()) {
+//                if (!edge.getClass().isAssignableFrom(CallEdge.class))
+//                {
+//                    continue;
+//                }
+//                if (edge.getEnd() == this)
+//                {
+//                    INode startingNode = edge.getStart();
+//                    Point2D startingNodeLocationOnGraph = startingNode.getLocationOnGraph();
+//                    Point2D endingNodeParentLocationOnGraph = getParent().getLocationOnGraph();
+//                    double yGap = rawLocation.getY() - startingNodeLocationOnGraph.getY() + endingNodeParentLocationOnGraph.getY();
+//                    if (yGap < CALL_YGAP / 2) {
+//                        double horizontalLocation = getHorizontalLocation();
+//                        double minY = startingNodeLocationOnGraph.getY() - endingNodeParentLocationOnGraph.getY() + CALL_YGAP / 2;
+//                        Point2D adjustedLocation = new Point2D.Double(horizontalLocation, minY);
+//                        adjustedLocation = getGraph().getGridSticker().snap(adjustedLocation);
+//                        super.setLocation(adjustedLocation);
+//                        this.locationCache = adjustedLocation;
+//                        return adjustedLocation;
+//                    }
+//                    break;
+//                }
+//            }
+//        }
+//        // Case 4 : default case
+//        Point2D rawLocation = super.getLocation();
+//        double horizontalLocation = getHorizontalLocation();
+//        double verticalLocation = rawLocation.getY();
+//        Point2D adjustedLocation = new Point2D.Double(horizontalLocation, verticalLocation);
+//        adjustedLocation = getGraph().getGridSticker().snap(adjustedLocation);
+//        super.setLocation(adjustedLocation);
+//        this.locationCache = adjustedLocation;
+//        return adjustedLocation;
     }
 
-    @Override
-    public void draw(Graphics2D g2)
-    {
-        // Reset location cache;
-    	this.locationCache = null;
-    	// Backup current color;
-        Color oldColor = g2.getColor();
-        // Translate g2 if node_old has parent
-        Point2D nodeLocationOnGraph = getLocationOnGraph();
-        Point2D nodeLocation = getLocation();
-        Rectangle2D b = getBounds();
-        Point2D g2Location = new Point2D.Double(nodeLocationOnGraph.getX() - nodeLocation.getX(), nodeLocationOnGraph.getY()
-                - nodeLocation.getY());
-        g2.translate(g2Location.getX(), g2Location.getY());
-        // Perform painting
-//        super.draw(g2);
-        g2.setColor(getBackgroundColor());
-        g2.fill(b);
-        g2.setColor(getBorderColor());
-        g2.draw(b);
-        // Restore g2 original location
-        g2.translate(-g2Location.getX(), -g2Location.getY());
-        // Restore first color
-        g2.setColor(oldColor);
-        // Reset location for next draw
-        // Draw its children
-        for (INode node : getChildren())
-        {
-            node.draw(g2);
-        }
-    }
+//    @Override
+//    public void draw(Graphics2D g2)
+//    {
+//        // Reset location cache;
+//    	this.locationCache = null;
+//    	// Backup current color;
+//        Color oldColor = g2.getColor();
+//        // Translate g2 if node_old has parent
+//        Point2D nodeLocationOnGraph = getLocationOnGraph();
+//        Point2D nodeLocation = getLocation();
+//        Rectangle2D b = getBounds();
+//        Point2D g2Location = new Point2D.Double(nodeLocationOnGraph.getX() - nodeLocation.getX(), nodeLocationOnGraph.getY()
+//                - nodeLocation.getY());
+//        g2.translate(g2Location.getX(), g2Location.getY());
+//        // Perform painting
+////        super.draw(g2);
+//        g2.setColor(getBackgroundColor());
+//        g2.fill(b);
+//        g2.setColor(getBorderColor());
+//        g2.draw(b);
+//        // Restore g2 original location
+//        g2.translate(-g2Location.getX(), -g2Location.getY());
+//        // Restore first color
+//        g2.setColor(oldColor);
+//        // Reset location for next draw
+//        // Draw its children
+//        for (INode node : getChildren())
+//        {
+//            node.draw(g2);
+//        }
+//    }
 
     /**
      * Gets the participant's life line of this call. Note : method's name is ot set to getLifeLine to keep compatibility with older
@@ -811,7 +813,7 @@ public class ActivationBarNode extends ColorableNode
     private transient Point2D locationCache;
     
     /** Default with */
-    private static int DEFAULT_WIDTH = 16;
+    public static int DEFAULT_WIDTH = 16;
 
     /** Default height */
     private static int DEFAULT_HEIGHT = 30;

@@ -71,7 +71,7 @@ public class PackageNode extends ColorableNode
 
         for(INode child : getChildren())
         {
-            if (isSupportetNode(child))
+            if (isSupportedNode(child))
             {
                 nodesGroup.add(((ColorableNode) child).getContent(), getChildRelativeLocation(child));
             }
@@ -159,24 +159,24 @@ public class PackageNode extends ColorableNode
     }
 
     @Override
-    public boolean addChild(INode n, Point2D p)
+    public boolean addChild(INode node, Point2D p)
     {
         if(DEFAULT_TOP_HEIGHT > p.getY())
         {
             return false;
         }
-        if (isSupportetNode(n))
+        if (isSupportedNode(node))
         {
-            n.setParent(this);
-            n.setGraph(this.getGraph());
-            n.setLocation(p);
-            addChild(n, getChildren().size());
+            node.setParent(this);
+            node.setGraph(this.getGraph());
+            node.setLocation(p);
+            addChild(node, getChildren().size());
 
-            ColorableNode colorableNode = (ColorableNode) n;
+            ColorableNode colorableNode = (ColorableNode) node;
             colorableNode.setTextColor(getTextColor());
             colorableNode.setBackgroundColor(getBackgroundColor());
             colorableNode.setBorderColor(getBorderColor());
-            nodesGroup.add(colorableNode.getContent(), getChildRelativeLocation(n));
+            nodesGroup.add(colorableNode.getContent(), getChildRelativeLocation(node));
 
             return true;
         }
@@ -205,7 +205,7 @@ public class PackageNode extends ColorableNode
         nodesGroup.setPosition(((AbstractNode) child).getContent(), getChildRelativeLocation(child));
     }
 
-    private boolean isSupportetNode(INode node)
+    private boolean isSupportedNode(INode node)
     {
         return (node instanceof ClassNode || node instanceof InterfaceNode || node instanceof PackageNode || node instanceof EnumNode || node instanceof LollipopNode || node instanceof LollipopSocketNode);
     }

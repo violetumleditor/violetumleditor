@@ -46,7 +46,7 @@ Igor Garcia
 Mark George
 Mike Godfrey
 Daniel Guerrero
-Stefan Grï¿½ndel
+Stefan Gründel
 Wee Jin Goh
 Laurent Hayoun
 Graham King
@@ -58,14 +58,14 @@ Matijs Moest
 Tri Nguyen
 Evelyn Obaid
 Norbert Oertel
-Johannes Pï¿½ivinen
+Johannes Päivinen
 Bill Pine
 Bruce Raggett
 Zack Rubinstein
 Grant Talarico
 Jordan Thompson
 Simon Tokumine
-Jesper Trï¿½gardh
+Jesper Trägardh
 Trygve Utstumo
 Glenn Vanmarcke
 Sam Watkins
@@ -79,14 +79,14 @@ Martin Schleyer
 Adrian Bobrowski
 Artur Ratajczak
 Dawid Pohling
-Piotr FediÃ³w
-MichaÅ‚ LeÅ›niak
+Piotr Fediów
+Micha³ Leœniak
 Piotr Janik
 Bartosz Boguniewicz
 Wojtek Pazio
-Maciej KnichaÅ‚
-PaweÅ‚ Majka
-Jacek PiÄ…tek
+Maciej Knicha³
+Pawe³ Majka
+Jacek Pi¹tek
 Mateusz Mucha
 [Your name must be here] <- contribute!
 
