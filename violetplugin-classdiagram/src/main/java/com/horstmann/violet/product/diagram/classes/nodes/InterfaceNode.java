@@ -43,9 +43,10 @@ public class InterfaceNode extends ColorableNode
     @Override
     public void deserializeSupport()
     {
-        super.deserializeSupport();
         name.deserializeSupport(nameConverter);
         methods.deserializeSupport(methodsConverter);
+
+        super.deserializeSupport();
     }
 
     @Override

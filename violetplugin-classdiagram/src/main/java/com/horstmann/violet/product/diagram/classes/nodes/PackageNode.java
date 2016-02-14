@@ -65,9 +65,10 @@ public class PackageNode extends ColorableNode
     @Override
     public void deserializeSupport()
     {
-        super.deserializeSupport();
         name.deserializeSupport();
         text.deserializeSupport();
+
+        super.deserializeSupport();
 
         for(INode child : getChildren())
         {

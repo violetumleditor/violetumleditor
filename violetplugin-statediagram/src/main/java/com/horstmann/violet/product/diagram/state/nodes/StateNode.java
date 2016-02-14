@@ -67,10 +67,11 @@ public class StateNode extends ColorableNode
     @Override
     public void deserializeSupport()
     {
-        super.deserializeSupport();
         name.deserializeSupport(nameConverter);
         onEntry.deserializeSupport(entryConverter);
         onExit.deserializeSupport(exitConverter);
+
+        super.deserializeSupport();
     }
 
     @Override

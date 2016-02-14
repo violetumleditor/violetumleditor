@@ -62,10 +62,11 @@ public class ObjectNode extends ColorableNode
     @Override
     public void deserializeSupport()
     {
-        super.deserializeSupport();
         objectName.deserializeSupport();
         className.deserializeSupport();
         fullName.deserializeSupport(nameConverter);
+
+        super.deserializeSupport();
 
         for(INode child : getChildren())
         {

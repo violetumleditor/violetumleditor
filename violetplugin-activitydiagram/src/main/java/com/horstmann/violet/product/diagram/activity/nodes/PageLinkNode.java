@@ -58,8 +58,9 @@ public class PageLinkNode extends ColorableNode
     @Override
     public void deserializeSupport()
     {
-        super.deserializeSupport();
         name.deserializeSupport();
+
+        super.deserializeSupport();
     }
 
     @Override

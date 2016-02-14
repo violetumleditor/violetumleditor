@@ -43,11 +43,12 @@ public class ClassNode extends ColorableNode
     @Override
     public void deserializeSupport()
     {
-        super.deserializeSupport();
         name.deserializeSupport(nameConverter);
         attributes.deserializeSupport(propertyConverter);
         methods.deserializeSupport(propertyConverter);
         name.setAlignment(LineText.CENTER);
+
+        super.deserializeSupport();
     }
 
     @Override

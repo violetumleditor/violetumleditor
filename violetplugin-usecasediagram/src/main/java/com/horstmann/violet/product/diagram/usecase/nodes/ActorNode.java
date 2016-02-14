@@ -103,10 +103,11 @@ public class ActorNode extends ColorableNode
     @Override
     public void deserializeSupport()
     {
-        super.deserializeSupport();
         name.deserializeSupport();
         name.setAlignment(LineText.CENTER);
         name.setPadding(10,5,5,5);
+
+        super.deserializeSupport();
     }
 
     @Override

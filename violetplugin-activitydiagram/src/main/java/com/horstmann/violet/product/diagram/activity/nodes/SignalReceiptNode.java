@@ -61,9 +61,10 @@ public class SignalReceiptNode extends ColorableNode
     @Override
     public void deserializeSupport()
     {
-        super.deserializeSupport();
         signal.deserializeSupport();
         signal.setPadding(1,25,1,10);
+
+        super.deserializeSupport();
     }
 
     @Override

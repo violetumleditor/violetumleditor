@@ -36,9 +36,10 @@ public class ObjectNodeCommu extends ColorableNode
 	@Override
 	public void deserializeSupport()
 	{
-		super.deserializeSupport();
 		name.setConverter(nameConverter);
 		name.deserializeSupport();
+
+		super.deserializeSupport();
 	}
 
 	@Override

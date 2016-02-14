@@ -39,9 +39,10 @@ public class EnumNode extends ColorableNode
     @Override
     public void deserializeSupport()
     {
-        super.deserializeSupport();
         name.deserializeSupport(nameConverter);
         attributes.deserializeSupport();
+
+        super.deserializeSupport();
     }
 
     @Override

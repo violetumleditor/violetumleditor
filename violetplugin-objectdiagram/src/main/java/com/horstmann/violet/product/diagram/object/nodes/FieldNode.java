@@ -74,6 +74,7 @@ public class FieldNode extends ColorableNode
         value.deserializeSupport();
         name.setPadding(0, 10, 0, 15);
         value.setPadding(0, 15, 0, 10);
+
         super.deserializeSupport();
     }
 

@@ -65,9 +65,10 @@ public class WaitTimeActionNode  extends ColorableNode
     @Override
     public void deserializeSupport()
     {
-        super.deserializeSupport();
         waitTimeAction.deserializeSupport();
         waitTimeAction.setPadding(5,5,5,5);
+
+        super.deserializeSupport();
     }
 
     @Override

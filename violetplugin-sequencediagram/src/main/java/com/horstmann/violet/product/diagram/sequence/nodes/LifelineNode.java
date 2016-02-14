@@ -69,8 +69,9 @@ public class LifelineNode extends ColorableNode
     @Override
     public void deserializeSupport()
     {
-        super.deserializeSupport();
         name.deserializeSupport(nameConverter);
+
+        super.deserializeSupport();
 
         for(INode child : getChildren())
         {
