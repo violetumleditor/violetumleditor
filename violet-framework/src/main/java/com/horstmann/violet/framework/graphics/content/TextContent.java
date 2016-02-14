@@ -65,8 +65,8 @@ public class TextContent extends Content implements LineText.ChangeListener
     private void setOptimalSize()
     {
         Rectangle2D textBounds = text.getBounds();
-        setWidth((int)textBounds.getWidth());
-        setHeight((int)textBounds.getHeight());
+        setWidth(textBounds.getWidth());
+        setHeight(textBounds.getHeight());
     }
 
     private LineText text;

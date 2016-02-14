@@ -26,7 +26,7 @@ public class LollipopNode extends ColorableNode {
         }
 
         @Override
-        public Shape createShape(int contentWidth, int contentHeight)
+        public Shape createShape(double contentWidth, double contentHeight)
         {
             final int radius = DEFAULT_DIAMETER + 2 * DEFAULT_GAP;
 

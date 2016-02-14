@@ -81,7 +81,7 @@ public class SignalReceiptNode extends ColorableNode
 
         ContentInsideShape contentInsideShape = new ContentInsideCustomShape(signalContent, new ContentInsideCustomShape.ShapeCreator() {
             @Override
-            public Shape createShape(int contentWidth, int contentHeight) {
+            public Shape createShape(double contentWidth, double contentHeight) {
                 GeneralPath path = new GeneralPath();
                 path.moveTo(0, 0);
                 path.lineTo(contentWidth, 0);
@@ -139,7 +139,7 @@ public class SignalReceiptNode extends ColorableNode
 
     private SingleLineText signal;
 
-    private final static int DEFAULT_WIDTH = 80;
-    private final static int DEFAULT_HEIGHT = 40;
-    private final static int EDGE_WIDTH = 20;
+    private static final int DEFAULT_WIDTH = 80;
+    private static final int DEFAULT_HEIGHT = 40;
+    private static final int EDGE_WIDTH = 20;
 }

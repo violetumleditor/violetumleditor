@@ -27,10 +27,10 @@ public class WaitTimeActionNode  extends ColorableNode
         }
 
         @Override
-        public Shape createShape(int contentWidth, int contentHeight) {
+        public Shape createShape(double contentWidth, double contentHeight) {
             GeneralPath path = new GeneralPath();
 
-            float startX = (nameContent.getWidth() - DEFAULT_WIDTH) /2;
+            double startX = (nameContent.getWidth() - DEFAULT_WIDTH) /2;
 
             path.moveTo(startX, 0);
             path.lineTo(startX + DEFAULT_WIDTH, 0);
@@ -138,9 +138,9 @@ public class WaitTimeActionNode  extends ColorableNode
     }
 
 
-    private final static int DEFAULT_WIDTH = 40;
-    private final static int DEFAULT_HEIGHT = 40;
-    private final static int EDGE_WIDTH = 20;
+    private static final int DEFAULT_WIDTH = 40;
+    private static final int DEFAULT_HEIGHT = 40;
+    private static final int EDGE_WIDTH = 20;
 
     private SingleLineText waitTimeAction;
 }

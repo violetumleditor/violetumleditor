@@ -14,9 +14,9 @@ import java.awt.geom.Rectangle2D;
  */
 public class ContentInsideEllipse extends ContentInsideShape
 {
-    public ContentInsideEllipse(Content content, int width, int height)
+    public ContentInsideEllipse(Content content, double width, double height)
     {
-        this(content, (double)width/height);
+        this(content, width/height);
     }
     public ContentInsideEllipse(Content content)
     {
@@ -57,7 +57,7 @@ public class ContentInsideEllipse extends ContentInsideShape
         double width = Math.sqrt(contentBounds.getWidth() * contentBounds.getWidth() + aspectRatio * aspectRatio * contentBounds.getHeight() * contentBounds.getHeight());
         double height = width / aspectRatio;
 
-        return new Ellipse2D.Double(0,0,(int)width, (int)height);
+        return new Ellipse2D.Double(0,0,width, height);
     }
 
     private double aspectRatio;

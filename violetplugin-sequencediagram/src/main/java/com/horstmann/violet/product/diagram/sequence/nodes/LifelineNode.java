@@ -342,12 +342,12 @@ public class LifelineNode extends ColorableNode
 
     private transient RelativeLayout activationsGroup = null;
 
-    public final static int DEFAULT_TOP_HEIGHT = 60;
-    private final static int DEFAULT_WIDTH = 80;
-    private final static int DEFAULT_HEIGHT = 80;
-    private final static int ACTIVATIONS_PADDING = 10;
+    public static final int DEFAULT_TOP_HEIGHT = 60;
+    private static final int DEFAULT_WIDTH = 80;
+    private static final int DEFAULT_HEIGHT = 80;
+    private static final int ACTIVATIONS_PADDING = 10;
 
-    private final static LineText.Converter nameConverter = new LineText.Converter(){
+    private static final LineText.Converter nameConverter = new LineText.Converter(){
         @Override
         public OneLineString toLineString(String text)
         {

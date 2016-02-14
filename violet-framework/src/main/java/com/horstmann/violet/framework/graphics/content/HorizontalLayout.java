@@ -43,8 +43,8 @@ public class HorizontalLayout extends Layout
     @Override
     public final void refreshUp()
     {
-        int height = 0;
-        int width = 0;
+        double height = 0;
+        double width = 0;
 
         for (Content content: getContents()) {
             width += content.getWidth();

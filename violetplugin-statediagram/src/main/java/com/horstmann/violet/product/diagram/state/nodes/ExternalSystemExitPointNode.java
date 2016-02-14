@@ -23,13 +23,13 @@ public class ExternalSystemExitPointNode extends ColorableNode
 		}
 
 		@Override
-		public Shape createShape(int contentWidth, int contentHeight)
+		public Shape createShape(double contentWidth, double contentHeight)
 		{
 			GeneralPath path = new GeneralPath();
-			path.append(new Ellipse2D.Float((nameContent.getWidth() - DEFAULT_DIAMETER)/2,0,DEFAULT_DIAMETER,DEFAULT_DIAMETER), false);
+			path.append(new Ellipse2D.Double((nameContent.getWidth() - DEFAULT_DIAMETER)/2,0,DEFAULT_DIAMETER,DEFAULT_DIAMETER), false);
 
-			float p = (float) (0.5+(DEFAULT_DIAMETER/2) - ((DEFAULT_DIAMETER/2)/(Math.sqrt(2))));
-			float center = (nameContent.getWidth() - DEFAULT_DIAMETER)/2;
+			double p = (0.5+(DEFAULT_DIAMETER/2) - ((DEFAULT_DIAMETER/2)/(Math.sqrt(2))));
+			double center = (nameContent.getWidth() - DEFAULT_DIAMETER)/2;
 
 			path.moveTo(center+p,p);
 			path.lineTo(center+DEFAULT_DIAMETER-p,DEFAULT_DIAMETER-p);

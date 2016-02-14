@@ -52,7 +52,7 @@ public abstract class Content
     /**
      * @return positions on the x-axis of this element
      */
-    public final int getX()
+    public final double getX()
     {
         return 0;
     }
@@ -60,7 +60,7 @@ public abstract class Content
     /**
      * @return positions on the y-axis of this element
      */
-    public final int getY()
+    public final double getY()
     {
         return 0;
     }
@@ -68,7 +68,7 @@ public abstract class Content
     /**
      * @return width of this element
      */
-    public final int getWidth()
+    public final double getWidth()
     {
         return Math.max(width, minWidth);
     }
@@ -76,7 +76,7 @@ public abstract class Content
     /**
      * @return height of this element
      */
-    public final int getHeight()
+    public final double getHeight()
     {
         return Math.max(height, minHeight);
     }
@@ -85,7 +85,7 @@ public abstract class Content
      * sets the min width of the element
      * @param minWidth
      */
-    public void setMinWidth(int minWidth){
+    public void setMinWidth(double minWidth){
         if(0 > minWidth)
         {
             throw new IllegalArgumentException("min width can only be a positive number");
@@ -98,7 +98,7 @@ public abstract class Content
      * sets the min height of the element
      * @param minHeight
      */
-    public void setMinHeight(int minHeight){
+    public void setMinHeight(double minHeight){
         if(0 > minHeight)
         {
             throw new IllegalArgumentException("min height can only be a positive number");
@@ -137,7 +137,7 @@ public abstract class Content
      * sets the width of the element
      * @param width
      */
-    protected void setWidth(int width)
+    protected void setWidth(double width)
     {
         if(0 > width)
         {
@@ -150,7 +150,7 @@ public abstract class Content
      * sets the height of the element
      * @param height
      */
-    protected void setHeight(int height)
+    protected void setHeight(double height)
     {
         if(0 > height)
         {
@@ -183,8 +183,8 @@ public abstract class Content
 
     private ArrayList<Content> parents = new ArrayList<Content>();
 
-    private int minWidth = 0;
-    private int minHeight = 0;
-    private int width = 0;
-    private int height = 0;
+    private double minWidth = 0;
+    private double minHeight = 0;
+    private double width = 0;
+    private double height = 0;
 }

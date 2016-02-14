@@ -14,5 +14,5 @@ public class ActivityResource extends ResourceManager
         super(baseName);
     }
 
-    public final static ResourceManager ACTIVITY = new ActivityResource("properties.ActivityDiagramGraphStrings");
+    public static final ResourceManager ACTIVITY = new ActivityResource("properties.ActivityDiagramGraphStrings");
 }

@@ -257,12 +257,12 @@ public class FieldNode extends ColorableNode
 
     private transient HorizontalLayout horizontalGroupContent = null;
 
-    private final static int DEFAULT_WIDTH = 80;
-    private final static int DEFAULT_HEIGHT = 20;
-    private final static int XGAP = 5;
-    private final static int YGAP = 5;
+    private static final int DEFAULT_WIDTH = 80;
+    private static final int DEFAULT_HEIGHT = 20;
+    private static final int XGAP = 5;
+    private static final int YGAP = 5;
 
-    protected final static Separator EQUAL_SEPARATOR = new Separator()
+    protected static final Separator EQUAL_SEPARATOR = new Separator()
     {
         @Override
         public void draw(Graphics2D graphics, Point2D startPoint, Point2D endPoint)

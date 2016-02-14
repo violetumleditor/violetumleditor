@@ -25,13 +25,10 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import com.horstmann.violet.framework.graphics.Separator;
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
-import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.framework.theme.ThemeManager;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
@@ -89,7 +86,7 @@ public class NoteNode extends ColorableNode
         ContentInsideShape contentInsideShape = new ContentInsideCustomShape(textContent, new ContentInsideCustomShape.ShapeCreator()
         {
             @Override
-            public Shape createShape(int contentWidth, int contentHeight) {
+            public Shape createShape(double contentWidth, double contentHeight) {
                 GeneralPath path = new GeneralPath();
                 path.moveTo(0, 0);
                 path.lineTo(contentWidth - FOLD_X, 0);

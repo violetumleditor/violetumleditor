@@ -49,10 +49,10 @@ public class ActorNode extends ColorableNode
         }
 
         @Override
-        public Shape createShape(int contentWidth, int contentHeight) {
+        public Shape createShape(double contentWidth, double contentHeight) {
             GeneralPath path = new GeneralPath();
-            float neckX = nameContent.getWidth() / 2;
-            float neckY = HEAD_SIZE + GAP_ABOVE;
+            double neckX = nameContent.getWidth() / 2;
+            double neckY = HEAD_SIZE + GAP_ABOVE;
             // head
             path.moveTo(neckX, neckY);
             path.quadTo(neckX + HEAD_SIZE / 2, neckY, neckX + HEAD_SIZE / 2, neckY - HEAD_SIZE / 2);
@@ -60,17 +60,17 @@ public class ActorNode extends ColorableNode
             path.quadTo(neckX - HEAD_SIZE / 2, neckY - HEAD_SIZE, neckX - HEAD_SIZE / 2, neckY - HEAD_SIZE / 2);
             path.quadTo(neckX - HEAD_SIZE / 2, neckY, neckX, neckY);
             // body
-            float hipX = neckX;
-            float hipY = neckY + BODY_SIZE;
+            double hipX = neckX;
+            double hipY = neckY + BODY_SIZE;
             path.lineTo(hipX, hipY);
             // arms
             path.moveTo(neckX - ARMS_SIZE / 2, neckY + BODY_SIZE / 3);
             path.lineTo(neckX + ARMS_SIZE / 2, neckY + BODY_SIZE / 3);
             // legs
-            float dx = (float) (LEG_SIZE / Math.sqrt(2));
-            float feetX1 = hipX - dx + 5;
-            float feetX2 = hipX + dx - 5;
-            float feetY = hipY + dx + 1;
+            double dx = (LEG_SIZE / Math.sqrt(2));
+            double feetX1 = hipX - dx + 5;
+            double feetX2 = hipX + dx - 5;
+            double feetY = hipY + dx + 1;
             path.moveTo(hipX, hipY);
             path.lineTo(feetX1, feetY);
             path.moveTo(hipX, hipY);

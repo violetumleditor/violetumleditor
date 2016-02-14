@@ -9,10 +9,8 @@ import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.*;
-import com.horstmann.violet.product.diagram.common.PointNode;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * A class nodes in a class diagram.
@@ -27,7 +25,6 @@ public class EnumNode extends ColorableNode
         super();
         name = new SingleLineText(nameConverter);
         attributes = new MultiLineText();
-//        name.setAlignment(LineText.CENTER);
         createContentStructure();
     }
 
@@ -53,15 +50,14 @@ public class EnumNode extends ColorableNode
         return new EnumNode(this);
     }
 
-    
     @Override
     protected void createContentStructure()
     {
         name.setText(name.toEdit());
 
         TextContent nameContent = new TextContent(name);
-        nameContent.setMinHeight(DEFAULT_NAME_HEIGHT);
-        nameContent.setMinWidth(DEFAULT_WIDTH);
+        nameContent.setMinHeight(MIN_NAME_HEIGHT);
+        nameContent.setMinWidth(MIN_WIDTH);
         TextContent attributesContent = new TextContent(attributes);
 
         VerticalLayout verticalGroupContent = new VerticalLayout();
@@ -95,11 +91,6 @@ public class EnumNode extends ColorableNode
         name.setTextColor(textColor);
         attributes.setTextColor(textColor);
         super.setTextColor(textColor);
-    }
-
-    public boolean addChild(INode n, Point2D p)
-    {
-        return false;
     }
 
     /**
@@ -147,10 +138,11 @@ public class EnumNode extends ColorableNode
 
     private transient Separator separator;
 
-    private final static int DEFAULT_NAME_HEIGHT = 45;
-    private final static int DEFAULT_WIDTH = 100;
+    private static final int MIN_NAME_HEIGHT = 45;
+    private static final int MIN_WIDTH = 100;
 
-    private final static LineText.Converter nameConverter = new LineText.Converter(){
+    private static final LineText.Converter nameConverter = new LineText.Converter()
+    {
         @Override
         public OneLineString toLineString(String text)
         {

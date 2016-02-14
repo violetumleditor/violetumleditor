@@ -145,21 +145,21 @@ public class MultiLineText extends LineText
     private String text = "";
     private transient List<OneLineString> rows;
 
-    private final static Command TO_DISPLAY = new Command(){
+    private static final Command TO_DISPLAY = new Command(){
         @Override
         public String execute(OneLineString oneLineString)
         {
             return oneLineString.toDisplay();
         }
     };
-    private final static Command TO_EDIT = new Command(){
+    private static final Command TO_EDIT = new Command(){
         @Override
         public String execute(OneLineString oneLineString)
         {
             return oneLineString.toEdit();
         }
     };
-    private final static Command TO_STRING = new Command(){
+    private static final Command TO_STRING = new Command(){
         @Override
         public String execute(OneLineString oneLineString)
         {

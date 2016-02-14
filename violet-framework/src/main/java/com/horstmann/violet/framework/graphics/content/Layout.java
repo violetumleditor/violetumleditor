@@ -97,7 +97,7 @@ public abstract class Layout extends Content
      * Set the same width for all elements in the layout
      * @param width
      */
-    protected final void setContentsWidth(int width)
+    protected final void setContentsWidth(double width)
     {
         for (Content content: contents) {
             content.setWidth(width);
@@ -109,7 +109,7 @@ public abstract class Layout extends Content
      * Set the same height for all elements in the layout
      * @param height
      */
-    protected final void setContentsHeight(int height)
+    protected final void setContentsHeight(double height)
     {
         for (Content content: contents) {
             content.setHeight(height);

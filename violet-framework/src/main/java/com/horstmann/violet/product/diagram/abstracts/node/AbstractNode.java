@@ -241,34 +241,37 @@ public abstract class AbstractNode implements INode {
 
 
     public Point2D getConnectionPoint(IEdge e) {
+
         List<IEdge> edgesOnSameSide = getEdgesOnSameSide(e);
         int position = edgesOnSameSide.indexOf(e);
         int size = edgesOnSameSide.size();
-        Rectangle2D b = getBounds();
 
-        double x = b.getCenterX();
-        double y = b.getCenterY();
+        Direction edgeDirection = e.getDirection(this);
+        Point2D startingNodeLocation = getLocationOnGraph();
 
-        Direction d = e.getDirection(this);
-        Direction nearestCardinalDirection = d.getNearestCardinalDirection();
-        if (Direction.NORTH.equals(nearestCardinalDirection)) {
-            x = b.getMaxX() - (b.getWidth() / (size + 1)) * (position + 1);
-            y = b.getMaxY();
+        double x = startingNodeLocation.getX();
+        double y = startingNodeLocation.getY();
+
+        Direction nearestCardinalDirection = edgeDirection.getNearestCardinalDirection();
+        if (Direction.NORTH.equals(nearestCardinalDirection))
+        {
+            x += getContent().getWidth() - (getContent().getWidth() / (size + 1)) * (position + 1);
+            y += getContent().getHeight();
         }
-        if (Direction.SOUTH.equals(nearestCardinalDirection)) {
-            x = b.getMaxX() - (b.getWidth() / (size + 1)) * (position + 1);
-            y = b.getMinY();
+        else if (Direction.SOUTH.equals(nearestCardinalDirection))
+        {
+            x += getContent().getWidth() - (getContent().getWidth() / (size + 1)) * (position + 1);
         }
-        if (Direction.EAST.equals(nearestCardinalDirection)) {
-            x = b.getMinX();
-            y = b.getMaxY() - (b.getHeight() / (size + 1)) * (position + 1);
+        else if (Direction.EAST.equals(nearestCardinalDirection))
+        {
+            y += getContent().getHeight() - (getContent().getHeight() / (size + 1)) * (position + 1);
         }
-        if (Direction.WEST.equals(nearestCardinalDirection)) {
-            x = b.getMaxX();
-            y = b.getMaxY() - (b.getHeight() / (size + 1)) * (position + 1);
+        else if (Direction.WEST.equals(nearestCardinalDirection))
+        {
+            x += getContent().getWidth();
+            y += getContent().getHeight() - (getContent().getHeight() / (size + 1)) * (position + 1);
         }
-        Point2D rawPoint = new Point2D.Double(x, y);
-        return rawPoint;
+        return new Point2D.Double(x, y);
     }
 
     @Override
@@ -306,13 +309,15 @@ public abstract class AbstractNode implements INode {
     }
 
     @Override
-    public void removeChild(INode node) {
+    public void removeChild(INode node)
+    {
         if (node.getParent() != this) return;
         getChildren().remove(node);
     }
 
     @Override
-    public boolean addChild(INode n, Point2D p) {
+    public boolean addChild(INode n, Point2D p)
+    {
         return false;
     }
 

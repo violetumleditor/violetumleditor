@@ -94,7 +94,7 @@ public class ActivityNode extends ColorableNode
 
     private SingleLineText name;
 
-    private final static int ARC_SIZE = 20;
-    private final static int DEFAULT_WIDTH = 60;
-    private final static int DEFAULT_HEIGHT = 40;
+    private static final int ARC_SIZE = 20;
+    private static final int DEFAULT_WIDTH = 60;
+    private static final int DEFAULT_HEIGHT = 40;
 }

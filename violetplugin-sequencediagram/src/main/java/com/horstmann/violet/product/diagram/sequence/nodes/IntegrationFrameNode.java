@@ -15,7 +15,6 @@ import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  * A package node in a UML diagram.
@@ -67,7 +66,7 @@ public class IntegrationFrameNode extends ColorableNode
 
         ContentInsideShape nameInsideShape = new ContentInsideCustomShape(nameContent, new ContentInsideCustomShape.ShapeCreator() {
             @Override
-            public Shape createShape(int contentWidth, int contentHeight) {
+            public Shape createShape(double contentWidth, double contentHeight) {
                 GeneralPath path = new GeneralPath();
                 path.moveTo(0, 0);
                 path.lineTo(contentWidth, 0);
@@ -170,12 +169,12 @@ public class IntegrationFrameNode extends ColorableNode
     private SingleLineText name;
     private MultiLineText context;
 
-    private final static int DEFAULT_TYPE_WIDTH = 60;
-    private final static int DEFAULT_TYPE_HEIGHT = 20;
-    private final static int DEFAULT_WIDTH = 200;
-    private final static int DEFAULT_HEIGHT = 150;
+    private static final int DEFAULT_TYPE_WIDTH = 60;
+    private static final int DEFAULT_TYPE_HEIGHT = 20;
+    private static final int DEFAULT_WIDTH = 200;
+    private static final int DEFAULT_HEIGHT = 150;
 
-    private final static LineText.Converter nameConverter = new LineText.Converter(){
+    private static final LineText.Converter nameConverter = new LineText.Converter(){
         @Override
         public OneLineString toLineString(String text)
         {

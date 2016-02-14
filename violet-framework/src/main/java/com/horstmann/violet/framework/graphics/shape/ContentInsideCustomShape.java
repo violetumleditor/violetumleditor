@@ -22,7 +22,7 @@ public class ContentInsideCustomShape extends ContentInsideShape
          * @param contentHeight height of rectangle
          * @return shape described in the rectangle
          */
-        Shape createShape(int contentWidth, int contentHeight);
+        Shape createShape(double contentWidth, double contentHeight);
     }
 
     public ContentInsideCustomShape(Content content, ShapeCreator customShapeCreator) {

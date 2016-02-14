@@ -24,10 +24,6 @@ package com.horstmann.violet.product.diagram.sequence.nodes;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.lang.model.type.NullType;
 
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
@@ -49,7 +45,7 @@ public class ActivationBarNode extends ColorableNode
     protected static class ActivationBarShape implements ContentInsideCustomShape.ShapeCreator
     {
         @Override
-        public Shape createShape(int contentWidth, int contentHeight)
+        public Shape createShape(double contentWidth, double contentHeight)
         {
             return new Rectangle2D.Double(0,0, DEFAULT_WIDTH, contentHeight);
         }
@@ -367,13 +363,13 @@ public class ActivationBarNode extends ColorableNode
     private transient RelativeLayout activationsGroup = null;
     
     /** Default with */
-    public final static int DEFAULT_WIDTH = 16;
-    public final static int DEFAULT_CHILD_LEFT_MARGIN = 5;
-    public final static int DEFAULT_CHILD_VERTICAL_MARGIN = 10;
+    public static final int DEFAULT_WIDTH = 16;
+    public static final int DEFAULT_CHILD_LEFT_MARGIN = 5;
+    public static final int DEFAULT_CHILD_VERTICAL_MARGIN = 10;
 
     /** Default height */
-    private final static int DEFAULT_HEIGHT = 20;
+    private static final int DEFAULT_HEIGHT = 20;
 
     /** Default vertical gap between two call nodes and a call node_old and an implicit node_old */
-    public final static int CALL_YGAP = 20;
+    public static final int CALL_YGAP = 20;
 }

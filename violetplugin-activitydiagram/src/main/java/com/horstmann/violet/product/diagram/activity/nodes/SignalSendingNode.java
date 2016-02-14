@@ -81,7 +81,7 @@ public class SignalSendingNode extends ColorableNode
 
         ContentInsideShape contentInsideShape = new ContentInsideCustomShape(signalContent, new ContentInsideCustomShape.ShapeCreator() {
             @Override
-            public Shape createShape(int contentWidth, int contentHeight) {
+            public Shape createShape(double contentWidth, double contentHeight) {
                 GeneralPath path = new GeneralPath();
                 path.moveTo(0, 0);
                 path.lineTo(contentWidth - DEFAULT_HEIGHT / 2, 0);

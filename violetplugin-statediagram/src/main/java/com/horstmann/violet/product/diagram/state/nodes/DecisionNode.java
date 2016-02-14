@@ -81,7 +81,7 @@ public class DecisionNode extends ColorableNode
 
         ContentInsideShape contentInsideShape = new ContentInsideCustomShape(conditionContent, new ContentInsideCustomShape.ShapeCreator() {
             @Override
-            public Shape createShape(int contentWidth, int contentHeight) {
+            public Shape createShape(double contentWidth, double contentHeight) {
                 double width = contentWidth + contentHeight * Math.sqrt(3);
                 double height = contentHeight + contentWidth / Math.sqrt(3);
 

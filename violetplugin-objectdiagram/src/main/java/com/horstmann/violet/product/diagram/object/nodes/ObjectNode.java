@@ -219,11 +219,11 @@ public class ObjectNode extends ColorableNode
     private transient VerticalLayout fieldsGroup = null;
     private transient Separator separator = null;
 
-    private final static int DEFAULT_WIDTH = 80;
-    private final static int DEFAULT_HEIGHT = 30;
-    private final static int YGAP = 5;
+    private static final int DEFAULT_WIDTH = 80;
+    private static final int DEFAULT_HEIGHT = 30;
+    private static final int YGAP = 5;
 
-    private final static LineText.Converter nameConverter = new LineText.Converter(){
+    private static final LineText.Converter nameConverter = new LineText.Converter(){
         @Override
         public OneLineString toLineString(String text)
         {

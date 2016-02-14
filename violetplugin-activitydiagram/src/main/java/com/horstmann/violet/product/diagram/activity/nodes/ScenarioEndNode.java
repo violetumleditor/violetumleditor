@@ -86,8 +86,8 @@ public class ScenarioEndNode extends AbstractNode
     }
 
     /** default node_old diameter */
-    private final static int DEFAULT_DIAMETER = 12;
+    private static final int DEFAULT_DIAMETER = 12;
 
     /** default gap between the main circle and the ring for a final node_old */
-    private final static int DEFAULT_GAP = 4;
+    private static final int DEFAULT_GAP = 4;
 }

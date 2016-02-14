@@ -3,7 +3,7 @@ package com.horstmann.violet.framework.graphics.shape;
 import com.horstmann.violet.framework.graphics.content.Content;
 import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
 
-import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 /**
  * This class enters the "Content" in the rectangle
@@ -41,8 +41,8 @@ public class ContentInsideRectangle extends ContentInsideShape
     /**
      * @return rectangle described on content
      */
-    private Rectangle createRectangle()
+    private Rectangle2D createRectangle()
     {
-        return new Rectangle(getContent().getWidth(), getContent().getHeight());
+        return new Rectangle2D.Double(0,0,getContent().getWidth(), getContent().getHeight());
     }
 }

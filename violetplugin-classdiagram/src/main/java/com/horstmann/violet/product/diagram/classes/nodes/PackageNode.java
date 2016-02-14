@@ -29,7 +29,7 @@ public class PackageNode extends ColorableNode
         }
 
         @Override
-        public Shape createShape(int contentWidth, int contentHeight)
+        public Shape createShape(double contentWidth, double contentHeight)
         {
             GeneralPath path = new GeneralPath();
             path.moveTo(nameContent.getWidth(), nameContent.getHeight());

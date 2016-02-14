@@ -14,7 +14,7 @@ public class ResourceShortcutProvider
         shortcutsMap = new HashMap<String, String>();
     }
 
-    private final static class SingletonHolder
+    private static final class SingletonHolder
     {
         private static ResourceShortcutProvider INSTANCE = new ResourceShortcutProvider();
     }

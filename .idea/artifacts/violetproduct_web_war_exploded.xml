@@ -1,13 +1,13 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="violetproduct-web:war exploded">
-    <output-path>$PROJECT_DIR$/violetproduct-web/target/violetumleditor-2.3.5</output-path>
+    <output-path>$PROJECT_DIR$/violetproduct-web/target/violetumleditor-2.3.6</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="violetproduct-web" />
         </element>
         <element id="directory" name="lib">
-          <element id="archive" name="violet-framework-2.3.5.jar">
+          <element id="archive" name="violet-framework-2.3.6.jar">
             <element id="module-output" name="violet-framework" />
           </element>
           <element id="library" level="project" name="Maven: antlr:antlr:2.7.5" />
@@ -28,7 +28,7 @@
           <element id="library" level="project" name="Maven: org.freehep:freehep-graphicsbase:2.4" />
           <element id="library" level="project" name="Maven: org.freehep:freehep-graphicsio-pdf:2.4" />
           <element id="library" level="project" name="Maven: org.freehep:freehep-graphicsio-tests:2.4" />
-          <element id="archive" name="violetplugin-classdiagram-2.3.5.jar">
+          <element id="archive" name="violetplugin-classdiagram-2.3.6.jar">
             <element id="module-output" name="violetplugin-classdiagram" />
           </element>
           <element id="library" level="project" name="Maven: eu.webtoolkit:jwt:3.3.3" />
@@ -59,7 +59,7 @@
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/violetproduct-web/target/violetumleditor-2.3.5/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/violetproduct-web/target/violetumleditor-2.3.6/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="violetproduct-web/web/Web" />
     </root>

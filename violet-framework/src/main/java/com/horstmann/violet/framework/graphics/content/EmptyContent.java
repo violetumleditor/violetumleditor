@@ -1,7 +1,6 @@
 package com.horstmann.violet.framework.graphics.content;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * @see Content
@@ -19,33 +18,33 @@ public class EmptyContent extends Content
     {}
 
     /**
-     * @see Content#setWidth(int)
+     * @see Content#setWidth(double)
      */
     @Override
-    protected void setWidth(int width)
+    protected void setWidth(double width)
     {}
 
     /**
-     * @see Content#setHeight(int)
+     * @see Content#setHeight(double)
      */
     @Override
-    protected void setHeight(int height) {}
+    protected void setHeight(double height) {}
 
     /**
-     * @see Content#setMinWidth(int)
+     * @see Content#setMinWidth(double)
      */
     @Override
-    public void setMinWidth(int minWidth){
+    public void setMinWidth(double minWidth){
         super.setMinWidth(minWidth);
         super.setWidth(minWidth);
         refreshUp();
     }
 
     /**
-     * @see Content#setMinHeight(int)
+     * @see Content#setMinHeight(double)
      */
     @Override
-    public void setMinHeight(int minHeight){
+    public void setMinHeight(double minHeight){
         super.setMinHeight(minHeight);
         super.setHeight(minHeight);
         refreshUp();

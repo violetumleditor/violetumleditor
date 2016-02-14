@@ -28,7 +28,7 @@ public class LollipopSocketNode extends ColorableNode {
         }
 
         @Override
-        public Shape createShape(int contentWidth, int contentHeight)
+        public Shape createShape(double contentWidth, double contentHeight)
         {
             final int size = DEFAULT_DIAMETER + 2 * DEFAULT_GAP;
             int degrees = this.owner.getDegrees();

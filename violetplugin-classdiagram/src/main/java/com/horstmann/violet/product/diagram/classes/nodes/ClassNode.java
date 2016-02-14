@@ -1,7 +1,6 @@
 package com.horstmann.violet.product.diagram.classes.nodes;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 
 import com.horstmann.violet.framework.graphics.Separator;
 import com.horstmann.violet.framework.graphics.content.*;
@@ -13,8 +12,6 @@ import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
-
-import com.horstmann.violet.product.diagram.common.PointNode;
 
 /**
  * A class nodes in a class diagram.
@@ -59,13 +56,12 @@ public class ClassNode extends ColorableNode
         return new ClassNode(this);
     }
 
-    
     @Override
     protected void createContentStructure()
     {
         TextContent nameContent = new TextContent(name);
-        nameContent.setMinHeight(DEFAULT_NAME_HEIGHT);
-        nameContent.setMinWidth(DEFAULT_WIDTH);
+        nameContent.setMinHeight(MIN_NAME_HEIGHT);
+        nameContent.setMinWidth(MIN_WIDTH);
         TextContent attributesContent = new TextContent(attributes);
         TextContent methodsContent = new TextContent(methods);
 
@@ -102,16 +98,6 @@ public class ClassNode extends ColorableNode
         attributes.setTextColor(textColor);
         methods.setTextColor(textColor);
         super.setTextColor(textColor);
-    }
-
-    public boolean addChild(INode n, Point2D p)
-    {
-        // TODO : where is it added?
-        if (n instanceof PointNode)
-        {
-            return true;
-        }
-        return false;
     }
 
     /**
@@ -180,12 +166,20 @@ public class ClassNode extends ColorableNode
 
     private transient Separator separator;
 
-    private final static int DEFAULT_NAME_HEIGHT = 45;
-    private final static int DEFAULT_WIDTH = 100;
-    public static final String ABSTRACT = "<<abstract>>";
-    public static final String STATIC = "<<static>>";
+    private static final int MIN_NAME_HEIGHT = 45;
+    private static final int MIN_WIDTH = 100;
+    private static final String ABSTRACT = "<<abstract>>";
+    private static final String STATIC = "<<static>>";
+    private static final String[][] SIGNATURE_REPLACE_KEYS = {
+            { "public ", "+ " },
+            { "package ", "~ " },
+            { "protected ", "# " },
+            { "private ", "- " },
+            { "property ", "/ " }
+    };
 
-    private final static LineText.Converter nameConverter = new LineText.Converter(){
+    private static final LineText.Converter nameConverter = new LineText.Converter()
+    {
         @Override
         public OneLineString toLineString(String text)
         {
@@ -198,7 +192,8 @@ public class ClassNode extends ColorableNode
             return new LargeSizeDecorator(new OneLineString(text));
         }
     };
-    private final static LineText.Converter propertyConverter= new LineText.Converter(){
+    private static final LineText.Converter propertyConverter= new LineText.Converter()
+    {
         @Override
         public OneLineString toLineString(String text)
         {
@@ -208,11 +203,10 @@ public class ClassNode extends ColorableNode
             {
                 lineString = new UnderlineDecorator(new RemoveSentenceDecorator(lineString, STATIC));
             }
-            lineString = new ReplaceSentenceDecorator(lineString, "public ", "+ ");
-            lineString = new ReplaceSentenceDecorator(lineString, "package ", "~ ");
-            lineString = new ReplaceSentenceDecorator(lineString, "protected ", "# ");
-            lineString = new ReplaceSentenceDecorator(lineString, "private ", "- ");
-            lineString = new ReplaceSentenceDecorator(lineString, "property ", "/ ");
+            for(String[] signature : SIGNATURE_REPLACE_KEYS)
+            {
+                lineString = new ReplaceSentenceDecorator(lineString, signature[0], signature[1]);
+            }
 
             return lineString;
         }

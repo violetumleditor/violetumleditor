@@ -43,10 +43,10 @@ public class SynchronizationBarNode extends ColorableNode
 {
     private interface StretchStrategy
     {
-        void setLength(Content content, int lenght);
-        int getLength(Content content);
-        void setThickness(Content content, int thickness);
-        int getThickness(Content content);
+        void setLength(Content content, double lenght);
+        double getLength(Content content);
+        void setThickness(Content content, double thickness);
+        double getThickness(Content content);
         Direction getCountingDirection();
         StretchStyle getStretchStyle();
     }
@@ -162,8 +162,8 @@ public class SynchronizationBarNode extends ColorableNode
     {
         if(currentStretch.getStretchStyle() != stretchStyle)
         {
-            int lenght = currentStretch.getLength(content);
-            int thickness = currentStretch.getThickness(content);
+            double lenght = currentStretch.getLength(content);
+            double thickness = currentStretch.getThickness(content);
 
             if (StretchStyle.HORIZONTAL == stretchStyle)
             {
@@ -182,28 +182,28 @@ public class SynchronizationBarNode extends ColorableNode
     private StretchStrategy currentStretch;
     private transient Content content = null;
 
-    private final static int DEFAULT_LENGHT = 100;
-    private final static int DEFAULT_THICKNESS = 5;
-    private final static int EXTRA_LENGHT = 12;
+    private static final int DEFAULT_LENGHT = 100;
+    private static final int DEFAULT_THICKNESS = 5;
+    private static final int EXTRA_LENGHT = 12;
 
-    private final static StretchStrategy HORIZONTAL = new StretchStrategy() {
+    private static final StretchStrategy HORIZONTAL = new StretchStrategy() {
         @Override
-        public void setLength(Content content, int lenght) {
+        public void setLength(Content content, double lenght) {
             content.setMinWidth(lenght);
         }
 
         @Override
-        public int getLength(Content content) {
+        public double getLength(Content content) {
             return content.getWidth();
         }
 
         @Override
-        public void setThickness(Content content, int thickness) {
+        public void setThickness(Content content, double thickness) {
             content.setMinHeight(thickness);
         }
 
         @Override
-        public int getThickness(Content content) {
+        public double getThickness(Content content) {
             return content.getHeight();
         }
 
@@ -217,24 +217,24 @@ public class SynchronizationBarNode extends ColorableNode
             return StretchStyle.HORIZONTAL;
         }
     };
-    private final static StretchStrategy VERTICAL = new StretchStrategy() {
+    private static final StretchStrategy VERTICAL = new StretchStrategy() {
         @Override
-        public void setLength(Content content, int lenght) {
+        public void setLength(Content content, double lenght) {
             content.setMinHeight(lenght);
         }
 
         @Override
-        public int getLength(Content content) {
+        public double getLength(Content content) {
             return content.getHeight();
         }
 
         @Override
-        public void setThickness(Content content, int thickness) {
+        public void setThickness(Content content, double thickness) {
             content.setMinWidth(thickness);
         }
 
         @Override
-        public int getThickness(Content content) {
+        public double getThickness(Content content) {
             return content.getWidth();
         }
 

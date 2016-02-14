@@ -33,6 +33,7 @@
     <orderEntry type="module" module-name="violetplugin-communicationdiagram" />
     <orderEntry type="module" module-name="violetplugin-sequencediagram" />
     <orderEntry type="module" module-name="violetplugin-statediagram" />
+    <orderEntry type="library" name="Maven: org.mockito:mockito-all:2.0.2-beta" level="project" />
     <orderEntry type="module" module-name="violetplugin-usecasediagram" />
     <orderEntry type="module" module-name="violetplugin-activitydiagram" />
     <orderEntry type="module" module-name="violetplugin-objectdiagram" />

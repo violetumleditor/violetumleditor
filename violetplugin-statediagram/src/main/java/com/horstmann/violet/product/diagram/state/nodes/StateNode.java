@@ -230,7 +230,7 @@ public class StateNode extends ColorableNode
     public static final String ENTRY = "entry / ";
     public static final String EXIT = "exit / ";
 
-    private final static LineText.Converter nameConverter = new LineText.Converter(){
+    private static final LineText.Converter nameConverter = new LineText.Converter(){
         @Override
         public OneLineString toLineString(String text)
         {
@@ -238,7 +238,7 @@ public class StateNode extends ColorableNode
         }
     };
 
-    private final static LineText.Converter entryConverter = new LineText.Converter(){
+    private static final LineText.Converter entryConverter = new LineText.Converter(){
         @Override
         public OneLineString toLineString(String text)
         {
@@ -250,7 +250,7 @@ public class StateNode extends ColorableNode
         }
     };
 
-    private final static LineText.Converter exitConverter = new LineText.Converter(){
+    private static final LineText.Converter exitConverter = new LineText.Converter(){
         @Override
         public OneLineString toLineString(String text)
         {

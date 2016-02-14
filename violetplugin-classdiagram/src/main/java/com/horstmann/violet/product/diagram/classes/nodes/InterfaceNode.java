@@ -60,8 +60,8 @@ public class InterfaceNode extends ColorableNode
         name.setText(name.toEdit());
 
         TextContent nameContent = new TextContent(name);
-        nameContent.setMinHeight(DEFAULT_NAME_HEIGHT);
-        nameContent.setMinWidth(DEFAULT_WIDTH);
+        nameContent.setMinHeight(MIN_NAME_HEIGHT);
+        nameContent.setMinWidth(MIN_WIDTH);
         TextContent methodsContent = new TextContent(methods);
 
         VerticalLayout verticalGroupContent = new VerticalLayout();
@@ -151,19 +151,20 @@ public class InterfaceNode extends ColorableNode
 
     private transient Separator separator = null;
 
-    private static int DEFAULT_NAME_HEIGHT = 45;
-    private static int DEFAULT_WIDTH = 100;
-    public static final String STATIC = "<<static>>";
+    private static final int MIN_NAME_HEIGHT = 45;
+    private static final int MIN_WIDTH = 100;
+    private static final String STATIC = "<<static>>";
 
-    private static LineText.Converter nameConverter = new LineText.Converter(){
+    private static LineText.Converter nameConverter = new LineText.Converter()
+    {
         @Override
         public OneLineString toLineString(String text)
         {
             return new PrefixDecorator( new LargeSizeDecorator(new OneLineString(text)), "<center>«interface»</center>");
-    //                return new ItalicsDecorator( new LargeSizeDecorator(new OneLineString(text)));
         }
     };
-    private final static LineText.Converter methodsConverter = new LineText.Converter(){
+    private static final LineText.Converter methodsConverter = new LineText.Converter()
+    {
         @Override
         public OneLineString toLineString(String text)
         {

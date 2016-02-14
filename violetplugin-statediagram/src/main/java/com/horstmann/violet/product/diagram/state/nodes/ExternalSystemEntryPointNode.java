@@ -23,10 +23,10 @@ public class ExternalSystemEntryPointNode extends ColorableNode
 		}
 
 		@Override
-		public Shape createShape(int contentWidth, int contentHeight)
+		public Shape createShape(double contentWidth, double contentHeight)
 		{
 			GeneralPath path = new GeneralPath();
-			path.append(new Ellipse2D.Float((nameContent.getWidth() - DEFAULT_DIAMETER)/2,0,DEFAULT_DIAMETER,DEFAULT_DIAMETER), false);
+			path.append(new Ellipse2D.Double((nameContent.getWidth() - DEFAULT_DIAMETER)/2,0,DEFAULT_DIAMETER,DEFAULT_DIAMETER), false);
 
 			return path;
 		}

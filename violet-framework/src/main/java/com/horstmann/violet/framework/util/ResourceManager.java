@@ -21,7 +21,7 @@ public class ResourceManager
         return resourceBundle.getString(key);
     }
 
-    public final static ResourceManager NODE_AND_EDGE = new ResourceManager("properties.NodeAndEdgeStrings");
+    public static final ResourceManager NODE_AND_EDGE = new ResourceManager("properties.NodeAndEdgeStrings");
 
     private ResourceBundle resourceBundle;
 }

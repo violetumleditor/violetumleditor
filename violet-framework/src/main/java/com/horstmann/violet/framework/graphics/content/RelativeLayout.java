@@ -82,7 +82,8 @@ public class RelativeLayout extends Layout
      * @see Layout#getNextOffset(Point2D, Content)
      */
     @Override
-    protected Point2D getNextOffset(Point2D beforeOffset, Content content) {
+    protected Point2D getNextOffset(Point2D beforeOffset, Content content)
+    {
         return new Point2D.Double(0,0);
     }
 
@@ -90,7 +91,8 @@ public class RelativeLayout extends Layout
      * @see Layout#getStartPointSeparator(Point2D)
      */
     @Override
-    protected Point2D getStartPointSeparator(Point2D offset) {
+    protected Point2D getStartPointSeparator(Point2D offset)
+    {
         return new Point2D.Double(0,0);
     }
 
@@ -98,7 +100,8 @@ public class RelativeLayout extends Layout
      * @see Layout#getEndPointSeparator(Point2D)
      */
     @Override
-    protected Point2D getEndPointSeparator(Point2D offset) {
+    protected Point2D getEndPointSeparator(Point2D offset)
+    {
         return new Point2D.Double(0,0);
     }
 
@@ -154,14 +157,14 @@ public class RelativeLayout extends Layout
     @Override
     public final void refreshUp() {
         Rectangle2D rect;
-        int maxX = 0;
-        int maxY = 0;
+        double maxX = 0;
+        double maxY = 0;
 
         for (Content content: getContents()) {
             rect = ((RelativeContent)content).getRect();
 
-            maxX = Math.max(maxX, (int)rect.getMaxX());
-            maxY = Math.max(maxY, (int)rect.getMaxY());
+            maxX = Math.max(maxX, rect.getMaxX());
+            maxY = Math.max(maxY, rect.getMaxY());
         }
 
         setHeight(maxY);

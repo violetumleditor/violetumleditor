@@ -111,6 +111,6 @@ public class PageLinkNode extends ColorableNode
 
     private SingleLineText name;
 
-    private final static int DEFAULT_WIDTH = 30;
-    private final static int DEFAULT_HEIGHT = 20;
+    private static final int DEFAULT_WIDTH = 30;
+    private static final int DEFAULT_HEIGHT = 20;
 }
