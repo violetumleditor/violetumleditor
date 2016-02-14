@@ -22,7 +22,6 @@
 package com.horstmann.violet.product.diagram.sequence.nodes;
 
 import java.awt.*;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -32,7 +31,6 @@ import javax.lang.model.type.NullType;
 
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
-import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
@@ -96,7 +94,7 @@ public class ActivationBarNode extends ColorableNode
         activationsGroup.setMinWidth(DEFAULT_WIDTH);
 
         EmptyContent padding = new EmptyContent();
-        padding.setMinHeight(DEFAULT_CHILD__VERTICAL_MARGIN);
+        padding.setMinHeight(DEFAULT_CHILD_VERTICAL_MARGIN);
 
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.add(padding);
@@ -151,13 +149,13 @@ public class ActivationBarNode extends ColorableNode
     protected Point2D getChildRelativeLocation(INode node)
     {
         Point2D nodeLocation = node.getLocation();
-        if(DEFAULT_CHILD__VERTICAL_MARGIN > nodeLocation.getY() || DEFAULT_CHILD_LEFT_MARGIN != nodeLocation.getX())
+        if(DEFAULT_CHILD_VERTICAL_MARGIN > nodeLocation.getY() || DEFAULT_CHILD_LEFT_MARGIN != nodeLocation.getX())
         {
-            nodeLocation.setLocation(DEFAULT_CHILD_LEFT_MARGIN, Math.max(nodeLocation.getY(), DEFAULT_CHILD__VERTICAL_MARGIN));
+            nodeLocation.setLocation(DEFAULT_CHILD_LEFT_MARGIN, Math.max(nodeLocation.getY(), DEFAULT_CHILD_VERTICAL_MARGIN));
             node.setLocation(nodeLocation);
         }
 
-        return new Point2D.Double(nodeLocation.getX()+DEFAULT_CHILD_LEFT_MARGIN, nodeLocation.getY()-DEFAULT_CHILD__VERTICAL_MARGIN);
+        return new Point2D.Double(nodeLocation.getX()+DEFAULT_CHILD_LEFT_MARGIN, nodeLocation.getY()- DEFAULT_CHILD_VERTICAL_MARGIN);
     }
 
     @Override
@@ -170,15 +168,21 @@ public class ActivationBarNode extends ColorableNode
         {
             return false;
         }
-//        if (startingNode == endingNode)
-//        {
-//            return addChild(new ActivationBarNode(), startingNode.getLocation());
-//        }
+        if (startingNode instanceof ActivationBarNode && endingNode instanceof ActivationBarNode)
+        {
+            if(startingNode.getParents().get(0) == endingNode.getParents().get(0))
+            {
+                if (edge instanceof CallEdge)
+                {
+                    return (startingNode == endingNode.getParent());
+                }
+            }
+        }
         if (edge instanceof CallEdge)
         {
             return isCallEdgeAcceptable((CallEdge) edge);
         }
-        else if (edge instanceof ReturnEdge)
+        if (edge instanceof ReturnEdge)
         {
             return isReturnEdgeAcceptable((ReturnEdge) edge);
         }
@@ -186,208 +190,55 @@ public class ActivationBarNode extends ColorableNode
     }
 
     @Override
-    public Point2D getConnectionPoint(IEdge e)
+    public Point2D getConnectionPoint(IEdge edge)
     {
-        boolean isCallEdge = e.getClass().isAssignableFrom(CallEdge.class);
-        boolean isReturnEdge = e.getClass().isAssignableFrom(ReturnEdge.class);
-        boolean isActivationBarNodeOnStart = e.getStart() != null
-                && e.getStart().getClass().isAssignableFrom(ActivationBarNode.class);
-        boolean isActivationBarNodeOnEnd = e.getEnd() != null && e.getEnd().getClass().isAssignableFrom(ActivationBarNode.class);
-        boolean isLifelineNodeOnEnd = e.getEnd() != null && e.getEnd().getClass().isAssignableFrom(LifelineNode.class);
-        if (isCallEdge)
+        Direction edgeDirection = edge.getDirection(this);
+        Point2D startingNodeLocation = getLocationOnGraph();
+
+        double x = startingNodeLocation.getX();
+        double y = startingNodeLocation.getY();
+
+        if (0 >= edgeDirection.getX())
         {
-            if (isActivationBarNodeOnStart && isActivationBarNodeOnEnd)
-            {
-                ActivationBarNode startingNode = (ActivationBarNode) e.getStart();
-                ActivationBarNode endingNode = (ActivationBarNode) e.getEnd();
-                LifelineNode startingLifelineNode = startingNode.getImplicitParameter();
-                LifelineNode endingLifelineNode = endingNode.getImplicitParameter();
-                boolean isSameLifelineNode = startingLifelineNode != null && endingLifelineNode != null
-                        && startingLifelineNode.equals(endingLifelineNode);
-                boolean isDifferentLifelineNodes = startingLifelineNode != null && endingLifelineNode != null
-                        && !startingLifelineNode.equals(endingLifelineNode);
-                // Case 1 : two activation bars connected on differents
-                // LifeLines
-                if (isDifferentLifelineNodes && isActivationBarNodeOnStart && isActivationBarNodeOnEnd)
-                {
-                    boolean isStartingNode = this.equals(e.getStart());
-                    boolean isEndingNode = this.equals(e.getEnd());
-                    if (isStartingNode)
-                    {
-                        Point2D startingNodeLocation = getLocationOnGraph();
-                        Point2D endingNodeLocation = e.getEnd().getLocationOnGraph();
-                        Direction d = e.getDirection(this);
-                        if (d.getX() > 0)
-                        {
-                            double x = startingNodeLocation.getX();
-                            double y = endingNodeLocation.getY();
-                            Point2D p = new Point2D.Double(x, y);
-                            p = getGraph().getGridSticker().snap(p);
-                            return p;
-                        }
-                        else
-                        {
-                            double x = startingNodeLocation.getX() + DEFAULT_WIDTH;
-                            double y = endingNodeLocation.getY();
-                            Point2D p = new Point2D.Double(x, y);
-                            p = getGraph().getGridSticker().snap(p);
-                            return p;
-                        }
-                    }
-                    if (isEndingNode)
-                    {
-                        Point2D endingNodeLocation = getLocationOnGraph();
-                        Direction d = e.getDirection(this);
-                        if (d.getX() > 0)
-                        {
-                            double x = endingNodeLocation.getX();
-                            double y = endingNodeLocation.getY();
-                            Point2D p = new Point2D.Double(x, y);
-                            p = getGraph().getGridSticker().snap(p);
-                            return p;
-                        }
-                        else
-                        {
-                            double x = endingNodeLocation.getX() + DEFAULT_WIDTH;
-                            double y = endingNodeLocation.getY();
-                            Point2D p = new Point2D.Double(x, y);
-                            p = getGraph().getGridSticker().snap(p);
-                            return p;
-                        }
-                    }
-                }
-                // Case 2 : two activation bars connected on same lifeline (self
-                // call)
-                if (isSameLifelineNode && isActivationBarNodeOnStart && isActivationBarNodeOnEnd)
-                {
-                	boolean isStartingNode = this.equals(e.getStart());
-                    boolean isEndingNode = this.equals(e.getEnd());
-                    if (isStartingNode)
-                    {
-                        Point2D startingNodeLocation = getLocationOnGraph();
-                        Point2D endingNodeLocation = e.getEnd().getLocation();
-                        double x = startingNodeLocation.getX() + DEFAULT_WIDTH;
-                        double y = startingNodeLocation.getY() + endingNodeLocation.getY() - CALL_YGAP / 2;
-                        Point2D p = new Point2D.Double(x, y);
-                        p = getGraph().getGridSticker().snap(p);
-                        return p;
-                    }
-                    if (isEndingNode)
-                    {
-                        Point2D endingNodeLocation = getLocationOnGraph();
-                        double x = endingNodeLocation.getX() + DEFAULT_WIDTH;
-                        double y = endingNodeLocation.getY();
-                        Point2D p = new Point2D.Double(x, y);
-                        p = getGraph().getGridSticker().snap(p);
-                        return p;
-                    }
-                }
-            }
-            if (isActivationBarNodeOnStart && isLifelineNodeOnEnd)
-            {
-                Direction d = e.getDirection(this);
-                Point2D startingNodeLocation = getLocationOnGraph();
-                if (d.getX() > 0)
-                {
-                    double x = startingNodeLocation.getX();
-                    double y = startingNodeLocation.getY() + CALL_YGAP / 2;
-                    Point2D p = new Point2D.Double(x, y);
-                    p = getGraph().getGridSticker().snap(p);
-                    return p;
-                }
-                else
-                {
-                    double x = startingNodeLocation.getX() + DEFAULT_WIDTH;
-                    double y = startingNodeLocation.getY() + CALL_YGAP / 2;
-                    Point2D p = new Point2D.Double(x, y);
-                    p = getGraph().getGridSticker().snap(p);
-                    return p;
-                }
-            }
-        }
-        if (isReturnEdge)
-        {
-            if (isActivationBarNodeOnStart && isActivationBarNodeOnEnd)
-            {
-                ActivationBarNode startingNode = (ActivationBarNode) e.getStart();
-                ActivationBarNode endingNode = (ActivationBarNode) e.getEnd();
-                LifelineNode startingLifelineNode = startingNode.getImplicitParameter();
-                LifelineNode endingLifelineNode = endingNode.getImplicitParameter();
-                boolean isDifferentLifelineNodes = startingLifelineNode != null && endingLifelineNode != null
-                        && !startingLifelineNode.equals(endingLifelineNode);
-                // Case 1 : two activation bars connected on differents
-                // LifeLines
-                if (isDifferentLifelineNodes && isActivationBarNodeOnStart && isActivationBarNodeOnEnd)
-                {
-                    boolean isStartingNode = this.equals(e.getStart());
-                    boolean isEndingNode = this.equals(e.getEnd());
-                    if (isStartingNode)
-                    {
-                        Point2D startingNodeLocation = getLocationOnGraph();
-                        Rectangle2D startingNodeBounds = getBounds();
-                        Direction d = e.getDirection(this);
-                        if (d.getX() > 0)
-                        {
-                            double x = startingNodeLocation.getX();
-                            double y = startingNodeLocation.getY() + startingNodeBounds.getHeight();
-                            Point2D p = new Point2D.Double(x, y);
-                            p = getGraph().getGridSticker().snap(p);
-                            return p;
-                        }
-                        else
-                        {
-                            double x = startingNodeLocation.getX() + DEFAULT_WIDTH;
-                            double y = startingNodeLocation.getY() + startingNodeBounds.getHeight();
-                            Point2D p = new Point2D.Double(x, y);
-                            p = getGraph().getGridSticker().snap(p);
-                            return p;
-                        }
-                    }
-                    if (isEndingNode)
-                    {
-                        Point2D startingNodeLocation = e.getStart().getLocationOnGraph();
-                        Rectangle2D startingNodeBounds = e.getStart().getBounds();
-                        Point2D endingNodeLocation = getLocationOnGraph();
-                        Direction d = e.getDirection(this);
-                        if (d.getX() > 0)
-                        {
-                            double x = endingNodeLocation.getX();
-                            double y = startingNodeLocation.getY() + startingNodeBounds.getHeight();
-                            Point2D p = new Point2D.Double(x, y);
-                            p = getGraph().getGridSticker().snap(p);
-                            return p;
-                        }
-                        else
-                        {
-                            double x = endingNodeLocation.getX() + DEFAULT_WIDTH;
-                            double y = startingNodeLocation.getY() + startingNodeBounds.getHeight();
-                            Point2D p = new Point2D.Double(x, y);
-                            p = getGraph().getGridSticker().snap(p);
-                            return p;
-                        }
-                    }
-                }
-            }
-        }
-        // Default case
-        Direction d = e.getDirection(this);
-        if (d.getX() > 0)
-        {
-            double y = getBounds().getMinY();
-            double x = getBounds().getMaxX();
-            Point2D p = new Point2D.Double(x, y);
-            p = getGraph().getGridSticker().snap(p);
-            return p;
-        }
-        else
-        {
-            double y = getBounds().getMinY();
-            double x = getBounds().getX();
-            Point2D p = new Point2D.Double(x, y);
-            p = getGraph().getGridSticker().snap(p);
-            return p;
+            x+=DEFAULT_WIDTH;
         }
 
+        if(edge instanceof CallEdge)
+        {
+            if (edge.getEnd() instanceof LifelineNode)
+            {
+                y += CALL_YGAP / 2;
+            }
+            else if (null != edge.getStart().getParent() &&
+                     null != edge.getEnd().getParent() &&
+                     edge.getStart().getParents().get(0) == edge.getEnd().getParents().get(0))
+            {
+                if (0 < edgeDirection.getX())
+                {
+                    x += DEFAULT_WIDTH;
+                }
+                if(this == edge.getStart())
+                {
+                    y += edge.getEnd().getLocation().getY() - CALL_YGAP/2;
+                }
+            }
+            else if(this == edge.getStart())
+            {
+                y = edge.getEnd().getLocationOnGraph().getY();
+            }
+        }
+        else if(edge instanceof ReturnEdge)
+        {
+            if(this == edge.getStart())
+            {
+                y += getContent().getHeight();
+            }
+            else if(this == edge.getEnd())
+            {
+                y = edge.getStart().getLocationOnGraph().getY() + edge.getStart().getBounds().getHeight();
+            }
+        }
+        return new Point2D.Double(x, y);
     }
 
     /**
@@ -474,38 +325,6 @@ public class ActivationBarNode extends ColorableNode
         return Math.max(DEFAULT_HEIGHT, height);
     }
 
-    /**
-     * 
-     * @return
-     */
-//    private double getHeightWhenHasChildren()
-//    {
-//        double height = DEFAULT_HEIGHT;
-//        int childVisibleNodesCounter = 0;
-//        for (INode aNode : getChildren())
-//        {
-//            if (aNode instanceof ActivationBarNode)
-//            {
-//                childVisibleNodesCounter++;
-//            }
-//        }
-//        if (childVisibleNodesCounter > 0)
-//        {
-//            for (INode aNode : getChildren())
-//            {
-//                if (aNode instanceof ActivationBarNode)
-//                {
-//                	ActivationBarNode anActivationBarNode = (ActivationBarNode) aNode;
-//                	double h = anActivationBarNode.getHeight();
-//                	double v = anActivationBarNode.getLocation().getY();
-//                	double maxY = v + h;
-//                    height = Math.max(height, maxY);
-//                }
-//            }
-//            height = height + CALL_YGAP;
-//        }
-//        return height;
-//    }
 
     @Override
     public Point2D getLocation()
@@ -646,6 +465,10 @@ public class ActivationBarNode extends ColorableNode
     {
         INode endingNode = edge.getEnd();
         INode startingNode = edge.getStart();
+
+
+
+
         Point2D endingNodePoint = edge.getEndLocation();
         Class<?> startingNodeClass = (startingNode != null ? startingNode.getClass() : NullType.class);
         Class<?> endingNodeClass = (endingNode != null ? endingNode.getClass() : NullType.class);
@@ -759,7 +582,7 @@ public class ActivationBarNode extends ColorableNode
     /** Default with */
     public final static int DEFAULT_WIDTH = 16;
     public final static int DEFAULT_CHILD_LEFT_MARGIN = 5;
-    public final static int DEFAULT_CHILD__VERTICAL_MARGIN = 10;
+    public final static int DEFAULT_CHILD_VERTICAL_MARGIN = 10;
 
     /** Default height */
     private final static int DEFAULT_HEIGHT = 20;

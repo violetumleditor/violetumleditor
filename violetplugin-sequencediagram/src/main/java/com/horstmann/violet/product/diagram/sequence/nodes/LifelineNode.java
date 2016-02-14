@@ -129,7 +129,7 @@ public class LifelineNode extends ColorableNode
     public Rectangle2D getBounds()
     {
         Rectangle2D bounds = super.getBounds();
-        return new Rectangle2D.Double(bounds.getX(), bounds.getY(), bounds.getWidth(), getMaxYOverAllLifeLineNodes());
+        return new Rectangle2D.Double(bounds.getX(), bounds.getY(), bounds.getWidth(), getMaxYOverAllLifeLineNodes()-bounds.getY());
     }
 
     @Override
@@ -200,7 +200,7 @@ public class LifelineNode extends ColorableNode
             {
                 if (this == edge.getEnd())
                 {
-                    y = getLocationOnGraph().getY() - DEFAULT_TOP_HEIGHT / 2 + ActivationBarNode.CALL_YGAP / 2;
+                    y = edge.getStart().getLocationOnGraph().getY() - DEFAULT_TOP_HEIGHT/2 + ActivationBarNode.CALL_YGAP / 2;
                 }
             }
         }

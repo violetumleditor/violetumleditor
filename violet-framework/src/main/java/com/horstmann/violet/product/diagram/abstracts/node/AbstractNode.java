@@ -142,6 +142,8 @@ public abstract class AbstractNode implements INode {
         return this.location;
     }
 
+
+
     @Override
     public Point2D getLocationOnGraph() {
         INode parentNode = getParent();
