@@ -263,6 +263,7 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
         }
         else if (tags != null)
         {
+            // TODO: 14.02.2016 tlanslation for tags
             // make a combo box that shows all tags
             final JComboBox comboBox = new JComboBox(tags);
             comboBox.setSelectedItem(text);
