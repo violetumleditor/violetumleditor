@@ -36,19 +36,17 @@ public class ResizeNodeBehavior extends AbstractEditorPartBehavior {
     public void onMouseMoved(MouseEvent event) {
         zoom = editorPart.getZoomFactor();
 
-        if(!isResizingNodeToolSelected()){
-            return;
-        }
-
         List<INode> sNodes = selectionHandler.getSelectedNodes();
-        if(sNodes.size() == 1){
+        if (sNodes.size() == 1) {
             INode sNode = sNodes.get(0);
-            if(((sNode != null) && (sNode instanceof IResizableNode) && isCursorOnResizePoint((IResizableNode) sNode, event)) || isResizing) {
+            if (((sNode != null) && (sNode instanceof IResizableNode) && isCursorOnResizePoint((IResizableNode) sNode, event)) || isResizing) {
                 editorPart.getSwingComponent().setCursor(Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR));
                 isReadyForResizing = true;
+                DragSelectedBehavior.lock();
             } else {
                 editorPart.getSwingComponent().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 isReadyForResizing = false;
+                DragSelectedBehavior.unlock();
             }
         }
     }
@@ -59,16 +57,16 @@ public class ResizeNodeBehavior extends AbstractEditorPartBehavior {
         lastMousePoint = new Point2D.Double(point.getX(), point.getY());
 
         List<INode> selectedNodes = editorPart.getSelectedNodes();
-        if(isReadyForResizing){
+        if (isReadyForResizing) {
             INode node0 = selectedNodes.get(0);
             Rectangle2D bounds = node0.getBounds();
             isResizing = true;
             editorPart.getSwingComponent().setCursor(Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR));
             IResizableNode resizableNode = (IResizableNode) node0;
-            Dimension evaluated = evaluate(event.getPoint(), bounds);
-            resizableNode.setWantedSize(new Rectangle2D.Double(bounds.getX(), bounds.getY(), evaluated.getWidth(), evaluated.getHeight()));
+            Dimension snapped = snap(evaluate(event.getPoint(), bounds));
+            resizableNode.setWantedSize(new Rectangle2D.Double(bounds.getX(), bounds.getY(), snapped.getWidth(), snapped.getHeight()));
             editorPart.getSwingComponent().repaint();
-        }else {
+        } else {
             isResizing = false;
         }
     }
@@ -77,37 +75,42 @@ public class ResizeNodeBehavior extends AbstractEditorPartBehavior {
     public void onMouseReleased(MouseEvent event) {
         isResizing = false;
         isReadyForResizing = false;
+        DragSelectedBehavior.unlock();
     }
 
-    private Dimension evaluate(Point current, Rectangle2D bounds){
-        int width = (int) Math.abs((current.getX() - bounds.getMinX())/zoom);
-        int height = (int) Math.abs((current.getY() - bounds.getMinY())/zoom);
+    private Dimension snap(Dimension dimension) {
+        double snappingWidth = editorPart.getGrid().getSnappingWidth();
+        double snappingHeight = editorPart.getGrid().getSnappingHeight();
+
+        int width = (int) (dimension.getWidth() / snappingWidth);
+        width = (int) (width * snappingWidth);
+
+        int height = (int) (dimension.getHeight() / snappingHeight);
+        height = (int) (height * snappingHeight);
 
         return new Dimension(width, height);
     }
 
-    private boolean isCursorOnResizePoint(IResizableNode node, MouseEvent event){
+    private Dimension evaluate(Point current, Rectangle2D bounds) {
+        int width = (int) Math.abs((current.getX() - bounds.getMinX()) / zoom);
+        int height = (int) Math.abs((current.getY() - bounds.getMinY()) / zoom);
+
+        return new Dimension(width, height);
+    }
+
+    private boolean isCursorOnResizePoint(IResizableNode node, MouseEvent event) {
         Point currentLocation = event.getPoint();
-        double x = currentLocation.getX()/zoom;
-        double y = currentLocation.getY()/zoom;
+        double x = currentLocation.getX() / zoom;
+        double y = currentLocation.getY() / zoom;
         currentLocation.setLocation(x, y);
 
         return getResizablePoint(node).contains(currentLocation);
 
     }
 
-    private Rectangle2D getResizablePoint(IResizableNode node){
+    private Rectangle2D getResizablePoint(IResizableNode node) {
         return node.getResizablePoint();
     }
-
-    private boolean isResizingNodeToolSelected() {
-        if (graphToolsBar.getSelectedTool().getNodeOrEdge() instanceof IResizableNode) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
 
 
     private IGraph graph;

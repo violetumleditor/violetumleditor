@@ -16,7 +16,7 @@ public class IntegrationFrameNodeBeanInfo extends SimpleBeanInfo {
             PropertyDescriptor typeDescriptor = new PropertyDescriptor("type", IntegrationFrameNode.class);
             typeDescriptor.setValue("priority", new Integer(1));
 
-            PropertyDescriptor contentDescriptor = new PropertyDescriptor("content", IntegrationFrameNode.class);
+            PropertyDescriptor contentDescriptor = new PropertyDescriptor("frameContent", IntegrationFrameNode.class);
             contentDescriptor.setValue("priority", new Integer(2));
 
             return new PropertyDescriptor[]{
