@@ -421,50 +421,53 @@ public class ActivationBarNode extends ColorableNode
         return false;
     }
 
-//    @Override
-//    public Rectangle2D getBounds()
-//    {
-//        Point2D nodeLocation = getLocation();
-//        // Height
-//        double height = getHeight();
-//        // TODO : manage openbottom
-//        Rectangle2D currentBounds = new Rectangle2D.Double(nodeLocation.getX(), nodeLocation.getY(), DEFAULT_WIDTH, height);
-//        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(currentBounds);
-//        return snappedBounds;
-//    }
-
-    public double getHeight()
+    @Override
+    public Rectangle2D getBounds()
     {
-        double height = DEFAULT_HEIGHT;
-        height = Math.max(height, getHeightWhenLinked());
-        height = Math.max(height, getHeightWhenHasChildren());
-        return height;
+        refreshPositionAndSize();
+
+        return super.getBounds();
     }
 
-    /**
-     * If this activation bar calls another activation bar on another life line, its height must be greater than the activation bar
-     * which is called
-     * 
-     * @return h
-     */
-    private double getHeightWhenLinked()
+    private void refreshPositionAndSize()
     {
-    	double height = 0;
-    	for (IEdge edge : getGraph().getAllEdges())
+        setLocation(calculateLocation());
+        activationsGroup.setMinHeight((int)Math.max(calculateHeight(), DEFAULT_HEIGHT ));
+    }
+
+    private Point2D calculateLocation()
+    {
+        double y = this.getLocation().getY();
+
+        for (IEdge edge : getGraph().getAllEdges())
         {
-            if (!edge.getClass().isAssignableFrom(CallEdge.class))
+            if (edge instanceof CallEdge)
             {
-                continue;
-            }
-            if (edge.getStart() == this)
-            {
-                INode endingNode = edge.getEnd();
-                boolean isActivationBarNode = endingNode instanceof ActivationBarNode;
-				if (isActivationBarNode)
+                if (edge.getStart() == this && edge.getStart() != getParent())
                 {
-					Rectangle2D endingNodeBounds = endingNode.getBounds();
-					double newHeight = CALL_YGAP / 2 + endingNodeBounds.getHeight() + (endingNode.getLocationOnGraph().getY() - this.getLocationOnGraph().getY()) + CALL_YGAP / 2;
-					height = Math.max(height,  newHeight);
+                    y = Math.min(y, edge.getEnd().getLocationOnGraph().getY()-5);
+                }
+            }
+        }
+        return new Point.Double(this.getLocation().getX(), y);
+    }
+
+    private double calculateHeight()
+    {
+        double height = 0;
+        for (IEdge edge : getGraph().getAllEdges())
+        {
+            if (edge instanceof CallEdge)
+            {
+                if (edge.getStart() == this && edge.getStart() != getParent())
+                {
+                    INode endingNode = edge.getEnd();
+                    if (endingNode instanceof ActivationBarNode)
+                    {
+                        Rectangle2D endingNodeBounds = endingNode.getBounds();
+                        double newHeight = endingNodeBounds.getHeight() + (endingNode.getLocationOnGraph().getY() - this.getLocationOnGraph().getY());
+                        height = Math.max(height, newHeight);
+                    }
                 }
             }
         }
@@ -475,35 +478,35 @@ public class ActivationBarNode extends ColorableNode
      * 
      * @return
      */
-    private double getHeightWhenHasChildren()
-    {
-        double height = DEFAULT_HEIGHT;
-        int childVisibleNodesCounter = 0;
-        for (INode aNode : getChildren())
-        {
-            if (aNode instanceof ActivationBarNode)
-            {
-                childVisibleNodesCounter++;
-            }
-        }
-        if (childVisibleNodesCounter > 0)
-        {
-            for (INode aNode : getChildren())
-            {
-                if (aNode instanceof ActivationBarNode)
-                {
-                	ActivationBarNode anActivationBarNode = (ActivationBarNode) aNode;
-                	double h = anActivationBarNode.getHeight();
-                	double v = anActivationBarNode.getLocation().getY();
-                	double maxY = v + h;
-                    height = Math.max(height, maxY);
-                }
-            }
-            height = height + CALL_YGAP;
-        }
-        return height;
-    }
-    
+//    private double getHeightWhenHasChildren()
+//    {
+//        double height = DEFAULT_HEIGHT;
+//        int childVisibleNodesCounter = 0;
+//        for (INode aNode : getChildren())
+//        {
+//            if (aNode instanceof ActivationBarNode)
+//            {
+//                childVisibleNodesCounter++;
+//            }
+//        }
+//        if (childVisibleNodesCounter > 0)
+//        {
+//            for (INode aNode : getChildren())
+//            {
+//                if (aNode instanceof ActivationBarNode)
+//                {
+//                	ActivationBarNode anActivationBarNode = (ActivationBarNode) aNode;
+//                	double h = anActivationBarNode.getHeight();
+//                	double v = anActivationBarNode.getLocation().getY();
+//                	double maxY = v + h;
+//                    height = Math.max(height, maxY);
+//                }
+//            }
+//            height = height + CALL_YGAP;
+//        }
+//        return height;
+//    }
+
     @Override
     public Point2D getLocation()
     {
@@ -581,38 +584,6 @@ public class ActivationBarNode extends ColorableNode
 //        return adjustedLocation;
     }
 
-//    @Override
-//    public void draw(Graphics2D g2)
-//    {
-//        // Reset location cache;
-//    	this.locationCache = null;
-//    	// Backup current color;
-//        Color oldColor = g2.getColor();
-//        // Translate g2 if node_old has parent
-//        Point2D nodeLocationOnGraph = getLocationOnGraph();
-//        Point2D nodeLocation = getLocation();
-//        Rectangle2D b = getBounds();
-//        Point2D g2Location = new Point2D.Double(nodeLocationOnGraph.getX() - nodeLocation.getX(), nodeLocationOnGraph.getY()
-//                - nodeLocation.getY());
-//        g2.translate(g2Location.getX(), g2Location.getY());
-//        // Perform painting
-////        super.draw(g2);
-//        g2.setColor(getBackgroundColor());
-//        g2.fill(b);
-//        g2.setColor(getBorderColor());
-//        g2.draw(b);
-//        // Restore g2 original location
-//        g2.translate(-g2Location.getX(), -g2Location.getY());
-//        // Restore first color
-//        g2.setColor(oldColor);
-//        // Reset location for next draw
-//        // Draw its children
-//        for (INode node : getChildren())
-//        {
-//            node.draw(g2);
-//        }
-//    }
-
     /**
      * Gets the participant's life line of this call. Note : method's name is ot set to getLifeLine to keep compatibility with older
      * versions
@@ -653,20 +624,13 @@ public class ActivationBarNode extends ColorableNode
 
     private boolean isReturnEdgeAcceptable(ReturnEdge edge)
     {
-        INode endingNode = edge.getEnd();
-        INode startingNode = edge.getStart();
-        if (startingNode == null || endingNode == null) {
-        	return false;
-        }
-        Class<? extends INode> startingNodeClass = startingNode.getClass();
-        Class<? extends INode> endingNodeClass = endingNode.getClass();
-        if (!startingNodeClass.isAssignableFrom(ActivationBarNode.class)
-                || !endingNodeClass.isAssignableFrom(ActivationBarNode.class))
+        if(!(edge.getEnd() instanceof ActivationBarNode && edge.getStart() instanceof ActivationBarNode))
         {
             return false;
         }
-        ActivationBarNode startingActivationBarNode = (ActivationBarNode) startingNode;
-        ActivationBarNode endingActivationBarNode = (ActivationBarNode) endingNode;
+
+        ActivationBarNode startingActivationBarNode = (ActivationBarNode) edge.getStart();
+        ActivationBarNode endingActivationBarNode = (ActivationBarNode) edge.getEnd();
         if (startingActivationBarNode.getImplicitParameter() == endingActivationBarNode.getImplicitParameter())
         {
             return false;
@@ -788,7 +752,7 @@ public class ActivationBarNode extends ColorableNode
 
 
     /** The lifeline that embeds this activation bar in the sequence diagram */
-    private transient LifelineNode lifeline;
+    private transient LifelineNode lifeline; //TODO remove
 
     private transient RelativeLayout activationsGroup = null;
     
