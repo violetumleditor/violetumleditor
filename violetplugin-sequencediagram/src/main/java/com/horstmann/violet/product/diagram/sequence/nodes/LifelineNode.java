@@ -243,18 +243,11 @@ public class LifelineNode extends ColorableNode
         return false;
     }
 
-
-
-
-
+    @Override
     public boolean addConnection(IEdge e)
     {
         return false;
     }
-
-
-
-
 
     @Override
     public Point2D getConnectionPoint(IEdge e)
@@ -342,11 +335,6 @@ public class LifelineNode extends ColorableNode
     public boolean isEndOfLife()
     {
         return endOfLife;
-    }
-
-    public Rectangle2D getTopRectangle()
-    {
-        return new Rectangle2D.Double(0, 0, DEFAULT_TOP_HEIGHT, getContent().getWidth());
     }
 
     private SingleLineText name;

@@ -38,16 +38,19 @@ public class CallEdge extends SegmentedLineEdge
     public CallEdge() {}
 
     @Override
-    public CallEdge clone() {
+    public CallEdge clone()
+    {
         return new CallEdge(this);
     }
 
-    protected CallEdge(SegmentedLineEdge clone) {
+    protected CallEdge(SegmentedLineEdge clone)
+    {
         super(clone);
     }
 
 	@Override
-	public boolean isTransitionPointsSupported() {
+	public boolean isTransitionPointsSupported()
+    {
 		return false;
 	}
 
@@ -80,7 +83,7 @@ public class CallEdge extends SegmentedLineEdge
         {
             ActivationBarNode startingActivationBarNode = (ActivationBarNode) startingNode;
             ActivationBarNode endingActivationBarNode = (ActivationBarNode) endingNode;
-            if (startingActivationBarNode.getImplicitParameter() == endingActivationBarNode.getImplicitParameter())
+            if (startingActivationBarNode.getParents().get(0) == endingActivationBarNode.getParents().get(0))
             {
                 return true;
             }
