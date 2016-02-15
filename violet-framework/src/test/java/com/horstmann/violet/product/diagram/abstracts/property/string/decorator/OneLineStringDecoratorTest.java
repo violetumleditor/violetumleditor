@@ -13,7 +13,8 @@ import static org.junit.Assert.*;
 public class OneLineStringDecoratorTest {
 
     @Test
-    public void testClone() throws Exception {
+    public void testClone() throws Exception
+    {
         OneLineStringDecorator oneLineStringDecorator = new OneLineStringDecorator(new OneLineString("test"));
 
         OneLineStringDecorator cloned = oneLineStringDecorator.clone();
@@ -23,14 +24,16 @@ public class OneLineStringDecoratorTest {
     }
 
     @Test
-    public void testToDisplay() throws Exception {
+    public void testToDisplay() throws Exception
+    {
         OneLineStringDecorator oneLineStringDecorator = new OneLineStringDecorator(new OneLineString("test"));
         assertEquals("test", oneLineStringDecorator.toEdit());
 
     }
 
     @Test
-    public void testToEdit() throws Exception {
+    public void testToEdit() throws Exception
+    {
         OneLineStringDecorator oneLineStringDecorator = new OneLineStringDecorator(new OneLineString("test"));
         assertEquals("test", oneLineStringDecorator.toEdit());
     }

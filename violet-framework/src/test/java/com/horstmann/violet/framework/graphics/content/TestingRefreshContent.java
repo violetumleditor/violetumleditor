@@ -8,7 +8,8 @@ import java.awt.*;
  * @author Adrian Bobrowski
  * @date 12.01.2016
  */
-public class TestingRefreshContent extends Content {
+public class TestingRefreshContent extends Content
+{
     @Override
     public void draw(Graphics2D graphics) {}
 
@@ -25,7 +26,7 @@ public class TestingRefreshContent extends Content {
         super.refreshDown();
     }
 
-    public void setAsParrent(Content child)
+    public void setAsParent(Content child)
     {
         child.addParent(this);
     }

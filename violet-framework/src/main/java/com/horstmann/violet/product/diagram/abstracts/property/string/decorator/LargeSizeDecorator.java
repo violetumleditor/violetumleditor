@@ -15,6 +15,11 @@ public class LargeSizeDecorator extends OneLineStringDecorator
     public LargeSizeDecorator(OneLineString decoratedOneLineString, int increase)
     {
         super(decoratedOneLineString);
+
+        if(0>=increase)
+        {
+            throw new IllegalArgumentException("increase have to positive number");
+        }
         this.increase = increase;
     }
 

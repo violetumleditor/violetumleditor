@@ -10,23 +10,26 @@ import static org.junit.Assert.*;
  * @author Adrian Bobrowski
  * @date 12.01.2016
  */
-public class SmallSizeDecoratorTest {
-
+public class SmallSizeDecoratorTest
+{
     @Test
-    public void testToDisplay() throws Exception {
+    public void testToDisplay() throws Exception
+    {
         SmallSizeDecorator smallSizeDecorator = new SmallSizeDecorator(new OneLineString("test"));
         assertEquals("<font size=-1>test</font>", smallSizeDecorator.toDisplay());
     }
 
     @Test
-    public void testToDisplay1() throws Exception {
+    public void testToDisplay_should_decrease_font_size_to_specified_value() throws Exception
+    {
         SmallSizeDecorator smallSizeDecorator = new SmallSizeDecorator(new OneLineString("test"), 1);
         assertEquals("<font size=-1>test</font>", smallSizeDecorator.toDisplay());
     }
 
-    @Test
-    public void testToDisplay3() throws Exception {
-        SmallSizeDecorator smallSizeDecorator = new SmallSizeDecorator(new OneLineString("test"), 3);
-        assertEquals("<font size=-3>test</font>", smallSizeDecorator.toDisplay());
+    @Test(expected=IllegalArgumentException.class)
+    public void testToDisplay_should_decrease_font_size_be_negative_value() throws Exception
+    {
+        SmallSizeDecorator smallSizeDecorator = new SmallSizeDecorator(new OneLineString("test"), -3);
+        assertEquals("<font size=+3>test</font>", smallSizeDecorator.toDisplay());
     }
 }

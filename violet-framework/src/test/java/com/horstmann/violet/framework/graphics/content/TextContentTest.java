@@ -11,14 +11,15 @@ import static org.junit.Assert.*;
  * @author Adrian Bobrowski
  * @date 12.01.2016
  */
-public class TextContentTest {
-
+public class TextContentTest
+{
     @Test
-    public void testOnChange() throws Exception {
+    public void testOnChange() throws Exception
+    {
         SingleLineText singleLineText = new SingleLineText();
         TextContent textContent = new TextContent(singleLineText);
         TestingRefreshContent testingRefreshContent = new TestingRefreshContent();
-        testingRefreshContent.setAsParrent(textContent);
+        testingRefreshContent.setAsParent(textContent);
 
         assertEquals(0, testingRefreshContent.refreshUpCount);
         assertEquals(0, testingRefreshContent.refreshDownCount);

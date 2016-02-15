@@ -15,6 +15,10 @@ public class SmallSizeDecorator extends OneLineStringDecorator
     public SmallSizeDecorator(OneLineString decoratedOneLineString, int decreases)
     {
         super(decoratedOneLineString);
+        if(0>=decreases)
+        {
+            throw new IllegalArgumentException("decreases have to positive number");
+        }
         this.decreases = decreases;
     }
 

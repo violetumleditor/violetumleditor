@@ -10,8 +10,8 @@ import static org.junit.Assert.*;
  * @author Adrian Bobrowski
  * @date 12.01.2016
  */
-public class ItalicsDecoratorTest {
-
+public class ItalicsDecoratorTest
+{
     @Test
     public void testToDisplay() throws Exception {
         ItalicsDecorator italicsDecorator = new ItalicsDecorator(new OneLineString("test"));

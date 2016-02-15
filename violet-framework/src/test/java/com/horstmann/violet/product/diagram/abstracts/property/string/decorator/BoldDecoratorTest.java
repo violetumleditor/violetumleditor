@@ -11,10 +11,11 @@ import static org.junit.Assert.*;
  * @author Adrian Bobrowski
  * @date 12.01.2016
  */
-public class BoldDecoratorTest {
-
+public class BoldDecoratorTest
+{
     @Test
-    public void testToDisplay() throws Exception {
+    public void testToDisplay() throws Exception
+    {
         BoldDecorator boldDecorator = new BoldDecorator(new OneLineString("test"));
         assertEquals("<b>test</b>", boldDecorator.toDisplay());
     }

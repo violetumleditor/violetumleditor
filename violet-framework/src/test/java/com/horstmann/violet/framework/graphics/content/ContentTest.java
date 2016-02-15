@@ -118,7 +118,7 @@ public class ContentTest
         assertEquals(0, testingRefreshContent.refreshDownCount);
 
         Content content = new TestContent();
-        testingRefreshContent.setAsParrent(content);
+        testingRefreshContent.setAsParent(content);
 
         content.refresh();
         assertEquals(1, testingRefreshContent.refreshUpCount);

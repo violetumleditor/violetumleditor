@@ -10,10 +10,11 @@ import static org.junit.Assert.*;
  * @author Adrian Bobrowski
  * @date 12.01.2016
  */
-public class UnderlineDecoratorTest {
-
+public class UnderlineDecoratorTest
+{
     @Test
-    public void testToDisplay() throws Exception {
+    public void testToDisplay() throws Exception
+    {
         UnderlineDecorator underlineDecorator = new UnderlineDecorator(new OneLineString("test"));
         assertEquals("<u>test</u>", underlineDecorator.toDisplay());
     }
