@@ -348,6 +348,11 @@ public class ActivationBarNode extends ColorableNode
         {
             if(start instanceof ActivationBarNode && end != start.getParents().get(0))
             {
+                if(edge.getEndLocation().getY() < end.getBounds().getY() + LifelineNode.DEFAULT_TOP_HEIGHT)
+                {
+                    return true;
+                }
+
                 ActivationBarNode newActivationBar = new ActivationBarNode();
                 Point2D location = edge.getEndLocation();
                 Point2D newActivationBarLocation = new Point2D.Double(location.getX(), location.getY());

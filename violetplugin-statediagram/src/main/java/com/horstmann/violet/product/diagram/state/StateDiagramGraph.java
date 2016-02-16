@@ -68,14 +68,23 @@ public class StateDiagramGraph extends AbstractGraph
         CircularFinalStateNode circularFinalStateNode = new CircularFinalStateNode();
         circularFinalStateNode.setToolTip(rs.getString("node2.tooltip"));
         NODE_PROTOTYPES.add(circularFinalStateNode);
+
+        DecisionNode decisionNode = new DecisionNode();
+        decisionNode.setToolTip(rs.getString("node4.tooltip"));
+        NODE_PROTOTYPES.add(decisionNode);
+
+        ExternalSystemEntryPointNode entryPointNode = new ExternalSystemEntryPointNode();
+        entryPointNode.setToolTip(rs.getString("node5.tooltip"));
+        NODE_PROTOTYPES.add(entryPointNode);
+
+        ExternalSystemExitPointNode exitPointNode = new ExternalSystemExitPointNode();
+        exitPointNode.setToolTip(rs.getString("node6.tooltip"));
+        NODE_PROTOTYPES.add(exitPointNode);
         
         NoteNode noteNode = new NoteNode();
         noteNode.setToolTip(rs.getString("node3.tooltip"));
         NODE_PROTOTYPES.add(noteNode);
-        
-        DecisionNode decisionNode = new DecisionNode();
-        decisionNode.setToolTip(rs.getString("node4.tooltip"));
-        NODE_PROTOTYPES.add(decisionNode);
+
 
         StateTransitionEdge stateTransitionEdge = new StateTransitionEdge();
         stateTransitionEdge.setToolTip(rs.getString("edge0.tooltip"));
@@ -84,16 +93,6 @@ public class StateDiagramGraph extends AbstractGraph
         NoteEdge noteEdge = new NoteEdge();
         noteEdge.setToolTip(rs.getString("edge1.tooltip"));
         EDGE_PROTOTYPES.add(noteEdge);
-        
-
-        ExternalSystemEntryPointNode entryPointNode = new ExternalSystemEntryPointNode();
-        entryPointNode.setToolTip(rs.getString("node4.tooltip"));
-        NODE_PROTOTYPES.add(entryPointNode);
-        
-        ExternalSystemExitPointNode exitPointNode = new ExternalSystemExitPointNode();
-        exitPointNode.setToolTip(rs.getString("node5.tooltip"));
-        NODE_PROTOTYPES.add(exitPointNode);
-        
     }
 
 }

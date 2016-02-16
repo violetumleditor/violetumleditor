@@ -64,7 +64,8 @@ public class ScenarioEndNode extends AbstractNode
 
         ContentInsideShape contentInsideShape = new ContentInsideEllipse(insideEmptyContent, 1);
         ContentBackground contentBackground = new ContentBackground(contentInsideShape, ColorToolsBarPanel.PASTEL_GREY.getBackgroundColor());
-        ContentBorder contentBorder = new ContentBorder(contentBackground, ColorToolsBarPanel.PASTEL_GREY.getBorderColor());
+        ContentBorder contentBorder = new ContentBorder(contentInsideShape, ColorToolsBarPanel.PASTEL_GREY.getBorderColor());
+        relativeLayout.add(contentBackground);
         relativeLayout.add(contentBorder);
 
         insideEmptyContent = new EmptyContent();

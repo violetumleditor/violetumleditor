@@ -247,7 +247,7 @@ public abstract class AbstractNode implements INode {
         int size = edgesOnSameSide.size();
 
         Direction edgeDirection = e.getDirection(this);
-        Point2D startingNodeLocation = getLocationOnGraph();
+        Point2D startingNodeLocation = getLocation();
 
         double x = startingNodeLocation.getX();
         double y = startingNodeLocation.getY();

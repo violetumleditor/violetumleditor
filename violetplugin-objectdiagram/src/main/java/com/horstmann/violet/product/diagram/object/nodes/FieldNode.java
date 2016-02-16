@@ -104,7 +104,10 @@ public class FieldNode extends ColorableNode
         setBorder(new ContentBorder(contentInsideShape, null));
         setBackground(new ContentBackground(contentInsideShape, getBackgroundColor()));
 
-        setContent(getBackground());
+        RelativeLayout relativeLayout =new RelativeLayout();
+        relativeLayout.add(getBackground(), new Point2D.Double(1,0));
+
+        setContent(new ContentInsideRectangle(relativeLayout));
     }
 
     @Override
