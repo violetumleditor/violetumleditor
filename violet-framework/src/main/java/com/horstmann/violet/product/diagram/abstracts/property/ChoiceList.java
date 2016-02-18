@@ -114,6 +114,11 @@ public class ChoiceList
     }
 
     /**
+     * Index for current selected item
+     */
+    private int selectedPos;
+
+    /**
      * Item keys list for selection
      */
     private final String[] keys;
@@ -122,10 +127,4 @@ public class ChoiceList
      * Item values list for selection
      */
     private final Object[] values;
-
-	/**
-	 * Index for current selected item
-	 */
-	private int selectedPos;
-
 }

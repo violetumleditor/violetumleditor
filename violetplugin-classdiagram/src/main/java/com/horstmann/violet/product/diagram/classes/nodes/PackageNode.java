@@ -208,7 +208,7 @@ public class PackageNode extends ColorableNode
 
     private boolean isSupportedNode(INode node)
     {
-        return (node instanceof ClassNode || node instanceof InterfaceNode || node instanceof PackageNode || node instanceof EnumNode || node instanceof LollipopNode || node instanceof BallAndSocketNode);
+        return (node instanceof ClassNode || node instanceof InterfaceNode || node instanceof PackageNode || node instanceof EnumNode ||  node instanceof BallAndSocketNode);
     }
 
     /**

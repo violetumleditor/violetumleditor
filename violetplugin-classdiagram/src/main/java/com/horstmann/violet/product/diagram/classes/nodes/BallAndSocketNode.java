@@ -7,41 +7,67 @@ import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.ChoiceList;
 import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 import com.horstmann.violet.product.diagram.common.PointNode;
-import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 
 import java.awt.*;
-import java.awt.geom.Arc2D;
-import java.awt.geom.Point2D;
+import java.awt.geom.*;
+
+import static com.horstmann.violet.product.diagram.classes.nodes.BallAndSocketNode.Types.BALL;
 
 /**
  * @author Jakub Homlala This class represents ball and socket (Ball and Socket interface notification)
  */
 public class BallAndSocketNode extends ColorableNode
 {
-
-    public static final String[] ORIENTATION_ARRAY = new String[]{"top", "bottom", "left", "right"};
-
-    protected static class BallAndSocketShape implements ContentInsideCustomShape.ShapeCreator
+    protected enum Types
     {
-        public BallAndSocketShape(TextContent nameContent, BallAndSocketNode owner )
+        BALL,
+        SOCKET,
+        BALL_AND_SOCKET
+    }
+
+    protected class BallAndSocketShape implements ContentInsideCustomShape.ShapeCreator
+    {
+        public BallAndSocketShape(TextContent nameContent)
         {
             super();
-
-            this.owner = owner;
             this.nameContent = nameContent;
         }
 
         @Override
         public Shape createShape(double contentWidth, double contentHeight)
         {
-            int degrees = this.owner.getDegrees();
+            GeneralPath path = new GeneralPath();
 
-            double x = (this.nameContent.getWidth() / 2);
+            switch ((Types)type.getSelectedValue())
+            {
+                case BALL:
+                {
+                    return new Ellipse2D.Double((nameContent.getWidth() - DEFAULT_DIAMETER)/2+DEFAULT_GAP,DEFAULT_GAP,DEFAULT_DIAMETER-2*DEFAULT_GAP,DEFAULT_DIAMETER-2*DEFAULT_GAP);
+                }
 
-            return new Arc2D.Double(x, 0, RADIUS, RADIUS, degrees, 180, Arc2D.OPEN);
+                case SOCKET:
+                {
+                    path.append(new Arc2D.Double((nameContent.getWidth() - DEFAULT_DIAMETER)/2, DEFAULT_GAP, DEFAULT_DIAMETER, DEFAULT_DIAMETER, 0, 180, Arc2D.OPEN),false);
+                }break;
+
+                case BALL_AND_SOCKET:
+                {
+                    path.append(new Arc2D.Double((nameContent.getWidth() - DEFAULT_DIAMETER)/2, 0, DEFAULT_DIAMETER, DEFAULT_DIAMETER, 0, 180, Arc2D.OPEN),false);
+                    path.append(new Ellipse2D.Double((nameContent.getWidth() - DEFAULT_DIAMETER)/2+DEFAULT_GAP,DEFAULT_GAP,DEFAULT_DIAMETER-2*DEFAULT_GAP,DEFAULT_DIAMETER-2*DEFAULT_GAP),false);
+                }break;
+            }
+
+            AffineTransform af = new AffineTransform();
+            af.rotate(
+                    Math.toRadians((Integer)orientation.getSelectedValue()),
+                    path.getBounds().getX() + path.getBounds().width/2,
+                    path.getBounds().getY() + path.getBounds().height/2
+            );
+            path.transform(af);
+
+            return path;
         }
 
-        private BallAndSocketNode owner;
         private TextContent nameContent;
     }
 
@@ -53,11 +79,8 @@ public class BallAndSocketNode extends ColorableNode
     {
         super();
         name = new SingleLineText();
-        type = new ChoiceList(ORIENTATION_ARRAY);
-
-        setBackgroundColor(ColorToolsBarPanel.PASTEL_GREY.getBackgroundColor());
-        setBorderColor(ColorToolsBarPanel.PASTEL_GREY.getBorderColor());
-        setTextColor(ColorToolsBarPanel.PASTEL_GREY.getTextColor());
+        type = new ChoiceList(TYPE_KEYS, TYPE_VALUES);
+        orientation = new ChoiceList(ORIENTATION_KEYS, ORIENTATION_VALUES);
     }
 
     protected BallAndSocketNode(BallAndSocketNode node) throws CloneNotSupportedException
@@ -65,6 +88,7 @@ public class BallAndSocketNode extends ColorableNode
         super(node);
         name = node.name.clone();
         type = node.type.clone();
+        orientation = node.orientation.clone();
         createContentStructure();
     }
 
@@ -82,22 +106,17 @@ public class BallAndSocketNode extends ColorableNode
         return new BallAndSocketNode(this);
     }
 
-    /*
-	 * (non-Javadoc) This method is used for drawing half of circle and text below.
-	 *
-	 * @see
-	 * com.horstmann.violet.product.diagram.abstracts.node.RectangularNode#draw(
-	 * java.awt.Graphics2D)
-	 */
     @Override
     public void createContentStructure() {
 
         TextContent nameContent = new TextContent(this.name);
         EmptyContent empty = new EmptyContent();
+        nameContent.setMinWidth(DEFAULT_DIAMETER);
 
-        ContentInsideShape contentInsideShape = new ContentInsideCustomShape(empty, new BallAndSocketShape(nameContent, this));
+        ContentInsideShape contentInsideShape = new ContentInsideCustomShape(empty, new BallAndSocketShape(nameContent));
 
         setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
+//        setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
 
         setTextColor(super.getTextColor());
 
@@ -125,29 +144,6 @@ public class BallAndSocketNode extends ColorableNode
         return false;
     }
 
-    /**
-     * This method returns degree based on socket type selected in properties
-     *
-     * @return degree of socket node
-     */
-    private int getDegrees() {
-        int degrees = 0;
-        if (type != null) {
-            String selected = (String)type.getSelectedValue();
-            if (selected != null) {
-                if (selected.equals("top"))
-                    degrees = 180;
-                else if (selected.equals("bottom"))
-                    degrees = 0;
-                else if (selected.equals("right"))
-                    degrees = 90;
-                else if (selected.equals("left"))
-                    degrees = 270;
-            }
-        }
-
-        return degrees;
-    }
 
     /**
      * Sets the name property value.
@@ -172,36 +168,53 @@ public class BallAndSocketNode extends ColorableNode
      * This getter is used for violet framework in order to make type property
      * visible in property editor. Get choice type list used in node.
      *
-     * @return type choice list
+     * @return orientation choice list
      */
-    public ChoiceList getType() {
-        return type;
+    public ChoiceList getOrientation()
+    {
+        return orientation;
     }
 
     /**
      * This setter is used for violet framework in order to make type property
      * visible in property editor. Set node type choice list.
      *
-     * @param type
-     *            -
+     * @param orientation
      */
-    public void setType(ChoiceList type) {
+    public void setOrientation(ChoiceList orientation)
+    {
+        this.orientation = orientation;
+        getContent().refresh();
+    }
+
+    public ChoiceList getType()
+    {
+        return type;
+    }
+
+    public void setType(ChoiceList type)
+    {
         this.type = type;
         getContent().refresh();
     }
 
+
     private SingleLineText name;
+    private ChoiceList orientation;
     private ChoiceList type;
 
     /**
      * Diameter of circle used for creating bounds
      */
-    private static int DEFAULT_DIAMETER = 31;
+    private static final int DEFAULT_DIAMETER = 30;
 
     /**
      * Gap of circle used for creating bounds
      */
-    private static int DEFAULT_GAP = 3;
+    private static final int DEFAULT_GAP = 5;
 
-    private static int RADIUS = DEFAULT_DIAMETER + 4 * DEFAULT_GAP;
+    public static final String[] ORIENTATION_KEYS = new String[]{"top", "bottom", "left", "right"};
+    public static final Integer[] ORIENTATION_VALUES = new Integer[]{0, 180, 270, 90};
+    public static final String[] TYPE_KEYS = new String[]{"Ball and Socket", "Only ball", "Only socket" };
+    public static final Types[] TYPE_VALUES = new Types[]{Types.BALL_AND_SOCKET, BALL, Types.SOCKET};
 }

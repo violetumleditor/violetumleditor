@@ -62,13 +62,9 @@ public class ClassDiagramGraph extends AbstractGraph
         node4.setToolTip(rs.getString("node4.tooltip"));
         NODE_PROTOTYPES.add(node4);
 
-        LollipopNode node5 = new LollipopNode();
+        BallAndSocketNode node5 = new BallAndSocketNode();
         node5.setToolTip(rs.getString("node5.tooltip"));
         NODE_PROTOTYPES.add(node5);
-        
-        BallAndSocketNode node6 = new BallAndSocketNode();
-        node6.setToolTip(rs.getString("node6.tooltip"));
-        NODE_PROTOTYPES.add(node6);
 
         BasePropertyEdge dependency = new BasePropertyEdge();
         dependency.setEndArrowHead(ArrowHead.V);
