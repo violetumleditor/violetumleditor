@@ -14,13 +14,17 @@ import java.awt.geom.Arc2D;
 import java.awt.geom.Point2D;
 
 /**
- * @author Jakub Homlala This class represents Lollipop socket (Socket interface
- *         notification).
+ * @author Jakub Homlala This class represents ball and socket (Ball and Socket interface notification)
  */
-public class LollipopSocketNode extends ColorableNode {
+public class BallAndSocketNode extends ColorableNode
+{
 
-    protected static class LollipopSocket implements ContentInsideCustomShape.ShapeCreator {
-        public LollipopSocket(TextContent nameContent, LollipopSocketNode owner ) {
+    public static final String[] ORIENTATION_ARRAY = new String[]{"top", "bottom", "left", "right"};
+
+    protected static class BallAndSocketShape implements ContentInsideCustomShape.ShapeCreator
+    {
+        public BallAndSocketShape(TextContent nameContent, BallAndSocketNode owner )
+        {
             super();
 
             this.owner = owner;
@@ -30,7 +34,6 @@ public class LollipopSocketNode extends ColorableNode {
         @Override
         public Shape createShape(double contentWidth, double contentHeight)
         {
-            final int size = DEFAULT_DIAMETER + 2 * DEFAULT_GAP;
             int degrees = this.owner.getDegrees();
 
             double x = (this.nameContent.getWidth() / 2);
@@ -38,7 +41,7 @@ public class LollipopSocketNode extends ColorableNode {
             return new Arc2D.Double(x, 0, RADIUS, RADIUS, degrees, 180, Arc2D.OPEN);
         }
 
-        private LollipopSocketNode owner;
+        private BallAndSocketNode owner;
         private TextContent nameContent;
     }
 
@@ -46,19 +49,18 @@ public class LollipopSocketNode extends ColorableNode {
      * Constructor, setting default values for properties, setting colors of
      * node.
      */
-    public LollipopSocketNode()
+    public BallAndSocketNode()
     {
         super();
         name = new SingleLineText();
-        String[] typesArray = { "top", "bottom", "left", "right" };
-        type = new ChoiceList(typesArray);
+        type = new ChoiceList(ORIENTATION_ARRAY);
 
         setBackgroundColor(ColorToolsBarPanel.PASTEL_GREY.getBackgroundColor());
         setBorderColor(ColorToolsBarPanel.PASTEL_GREY.getBorderColor());
         setTextColor(ColorToolsBarPanel.PASTEL_GREY.getTextColor());
     }
 
-    protected LollipopSocketNode(LollipopSocketNode node) throws CloneNotSupportedException
+    protected BallAndSocketNode(BallAndSocketNode node) throws CloneNotSupportedException
     {
         super(node);
         name = node.name.clone();
@@ -77,7 +79,7 @@ public class LollipopSocketNode extends ColorableNode {
     @Override
     protected INode copy() throws CloneNotSupportedException
     {
-        return new LollipopSocketNode(this);
+        return new BallAndSocketNode(this);
     }
 
     /*
@@ -93,7 +95,7 @@ public class LollipopSocketNode extends ColorableNode {
         TextContent nameContent = new TextContent(this.name);
         EmptyContent empty = new EmptyContent();
 
-        ContentInsideShape contentInsideShape = new ContentInsideCustomShape(empty, new LollipopSocket(nameContent, this));
+        ContentInsideShape contentInsideShape = new ContentInsideCustomShape(empty, new BallAndSocketShape(nameContent, this));
 
         setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
 
@@ -131,7 +133,7 @@ public class LollipopSocketNode extends ColorableNode {
     private int getDegrees() {
         int degrees = 0;
         if (type != null) {
-            String selected = type.getSelectedItem();
+            String selected = (String)type.getSelectedValue();
             if (selected != null) {
                 if (selected.equals("top"))
                     degrees = 180;

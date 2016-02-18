@@ -13,8 +13,6 @@ import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
 import com.horstmann.violet.product.diagram.abstracts.property.LineStyle;
 import com.horstmann.violet.product.diagram.classes.nodes.*;
 
-import com.horstmann.violet.product.diagram.classes.edges.LollipopEdge;
-
 import com.horstmann.violet.product.diagram.common.edge.AdvancedPropertyEdge;
 import com.horstmann.violet.product.diagram.common.edge.BasePropertyEdge;
 import com.horstmann.violet.product.diagram.common.edge.NoteEdge;
@@ -68,7 +66,7 @@ public class ClassDiagramGraph extends AbstractGraph
         node5.setToolTip(rs.getString("node5.tooltip"));
         NODE_PROTOTYPES.add(node5);
         
-        LollipopSocketNode node6 = new LollipopSocketNode();
+        BallAndSocketNode node6 = new BallAndSocketNode();
         node6.setToolTip(rs.getString("node6.tooltip"));
         NODE_PROTOTYPES.add(node6);
 

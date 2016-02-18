@@ -27,91 +27,105 @@ package com.horstmann.violet.product.diagram.abstracts.property;
  * @author Alexandre de Pellegrin
  * 
  */
-public class ChoiceList {
+public class ChoiceList
+{
+    /**
+     * Default constructor
+     *
+     * @param keys items to select
+     */
+    public ChoiceList(String[] keys)
+    {
+        this(keys,keys);
+    }
+
+    /**
+     * Default constructor
+     *
+     * @param keys items to select
+     * @param values items to select
+     * @throws IllegalArgumentException
+     */
+    public ChoiceList(String[] keys, Object[] values)
+    {
+        if(keys.length != values.length || keys.length < 1)
+        {
+            throw new IllegalArgumentException("keys and values must have the same length of");
+        }
+
+        this.values = values;
+        this.keys = keys;
+        this.selectedPos = 0;
+    }
+
+    /**
+     * (non-Javadoc)
+     * @see java.lang.Object#clone()
+     *
+     */
+    public ChoiceList clone()
+    {
+        ChoiceList cloned = new ChoiceList(keys, values);
+        cloned.selectedPos = selectedPos;
+
+        return cloned;
+    }
+
 	/**
-	 * Default constructor
-	 * 
-	 * @param list
-	 *            items to select
+	 * @return the key list
 	 */
-	public ChoiceList(String[] list) {
-		this.list = list;
-		this.selectedPos = DEFAULT_SELECT;
-		this.selectedItem = list[DEFAULT_SELECT];
+	public String[] getKeys()
+    {
+		return keys;
 	}
 
-	/**
-	 * @return the item list
-	 */
-	public String[] getList() {
-		return list;
-	}
+    /**
+     * Selects an index in the list
+     *
+     * @param index
+     */
+    public void setSelectedIndex(int index)
+    {
+        selectedPos = index;
+    }
 
-	/**
-	 * Selects an item in the list
-	 * 
-	 * @param selected
-	 */
-	public void setSelectedItem(String selected) {
-		this.selectedItem = selected;
+    /**
+     * @return current selected value
+     */
+    public Object getSelectedValue()
+    {
+        return values[selectedPos];
+    }
 
+    /**
+     * @return current selected key
+     */
+    public String getSelectedKey()
+    {
+        return keys[selectedPos];
+    }
 
-		for (int i = 0; i < list.length; i++) {
-			if (list[i].equals(selected)) {
-				selectedPos = i;
-				return;
-			}
-		}
+    /**
+     * @return current selected position
+     */
+    public int getSelectedPos()
+    {
+        return selectedPos;
+    }
 
-	}
+    /**
+     * Item keys list for selection
+     */
+    private final String[] keys;
 
-	/**
-	 * @return current selected item
-	 */
-
-	public String getSelectedItem() {
-
-		for (String item : list) {
-			if (item.equals(selectedItem)) {
-				return item;
-			}
-		}
-
-		return list[0];
-	}
-
-	/**
-	 * Item list for selection
-	 */
-	private String[] list;
+    /**
+     * Item values list for selection
+     */
+    private final Object[] values;
 
 	/**
 	 * Index for current selected item
 	 */
 	private int selectedPos;
-
-	/*
-	 * Current string of selected item
-	 */
-	private String selectedItem;
-
-	/**
-	 * Default selected item index
-	 */
-	private int DEFAULT_SELECT = 0;
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#clone()
-	 * 
-	 */
-	public ChoiceList clone() {
-		String[] newList = list.clone();
-		ChoiceList cloned = new ChoiceList(newList);
-		cloned.selectedPos = selectedPos;
-		cloned.selectedItem = new String(selectedItem);
-
-		return cloned;
-	}
 
 }
