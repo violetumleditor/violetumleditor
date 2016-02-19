@@ -1,6 +1,7 @@
 package com.horstmann.violet.framework.graphics.content;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * This class groups together all the component vertically
@@ -43,21 +44,48 @@ public class VerticalLayout extends Layout
     @Override
     public final void refreshUp()
     {
+        Rectangle2D minimalBounds = getMinimalBounds();
+
+        setHeight(minimalBounds.getHeight());
+        setWidth(minimalBounds.getWidth());
+        setContentsWidth(minimalBounds.getWidth());
+
+        super.refreshUp();
+    }
+
+    /**
+     * @return minimal bounds of this element
+     */
+    @Override
+    public Rectangle2D getMinimalBounds()
+    {
         double height = 0;
         double width = 0;
 
-        for (Content content: getContents()) {
-            height += content.getHeight();
-            if(width < content.getWidth())
+        for (Content content: getContents())
+        {
+            Rectangle2D contentMinimalBounds = content.getMinimalBounds();
+
+            height += contentMinimalBounds.getHeight();
+            if(width < contentMinimalBounds.getWidth())
             {
-                width = content.getWidth();
+                width = contentMinimalBounds.getWidth();
             }
         }
 
-        setHeight(height);
-        setWidth(width);
-        setContentsWidth(width);
+        return new Rectangle2D.Double(getX(),getY(),width,height);
+    }
 
-        super.refreshUp();
+    /**
+     * Set the same width for all elements in the layout
+     * @param width
+     */
+    protected final void setContentsWidth(double width)
+    {
+        for (Content content: getContents())
+        {
+            content.setWidth(width);
+            content.refreshDown();
+        }
     }
 }

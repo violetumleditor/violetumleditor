@@ -26,7 +26,8 @@ public class TextContent extends Content implements LineText.ChangeListener
      * @see LineText.ChangeListener#onChange()
      */
     @Override
-    public void onChange() {
+    public void onChange()
+    {
         refresh();
     }
 
@@ -60,13 +61,21 @@ public class TextContent extends Content implements LineText.ChangeListener
     }
 
     /**
+     * @return minimal bounds of this element
+     */
+    public Rectangle2D getMinimalBounds()
+    {
+        return text.getBounds();
+    }
+
+    /**
      * Sets the optimal size adapted to the contained text
      */
     private void setOptimalSize()
     {
-        Rectangle2D textBounds = text.getBounds();
-        setWidth(textBounds.getWidth());
-        setHeight(textBounds.getHeight());
+        Rectangle2D minimalBounds = getMinimalBounds();
+        setWidth(minimalBounds.getWidth());
+        setHeight(minimalBounds.getHeight());
     }
 
     private LineText text;

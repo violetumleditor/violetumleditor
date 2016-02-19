@@ -39,10 +39,10 @@ public abstract class ContentInsideShape extends Content
     @Override
     protected void refreshUp()
     {
-        Rectangle2D shapeBounds = getShape().getBounds();
+        Rectangle2D minimalBounds = getMinimalBounds();
 
-        setWidth((int)shapeBounds.getWidth());
-        setHeight((int)shapeBounds.getHeight());
+        setWidth(minimalBounds.getWidth());
+        setHeight(minimalBounds.getHeight());
 
         super.refreshUp();
     }
@@ -53,11 +53,17 @@ public abstract class ContentInsideShape extends Content
     @Override
     protected void refreshDown()
     {
-        //TODO rethink if you really need to set the height and width
-        content.setWidth(getWidth());
-        content.setHeight(getHeight());
         content.refreshDown();
         super.refreshDown();
+    }
+
+    /**
+     * @return minimal bounds of this element
+     */
+    @Override
+    public Rectangle2D getMinimalBounds()
+    {
+        return getShape().getBounds();
     }
 
     /**
@@ -66,6 +72,20 @@ public abstract class ContentInsideShape extends Content
     protected Shape getShape()
     {
         return shape;
+    }
+
+    /**
+     * Calculates the offset of content to make it in the center of the shape
+     * @return offset
+     */
+    protected Point2D getShapeOffset()
+    {
+        Rectangle2D shapeBounds = getShape().getBounds();
+
+        return new Point2D.Double(
+                (shapeBounds.getWidth() - content.getWidth()) / 2,
+                (shapeBounds.getHeight() - content.getHeight()) / 2
+        );
     }
 
     /**
@@ -109,19 +129,7 @@ public abstract class ContentInsideShape extends Content
         refreshUp();
     }
 
-    /**
-     * Calculates the offset of content to make it in the center of the shape
-     * @return offset
-     */
-    protected Point2D getShapeOffset()
-    {
-        Rectangle2D shapeBounds = getShape().getBounds();
 
-        return new Point2D.Double(
-            (shapeBounds.getWidth() - content.getWidth()) / 2,
-            (shapeBounds.getHeight() - content.getHeight()) / 2
-        );
-    }
 
     private Content content;
     private Shape shape;

@@ -93,29 +93,9 @@ public abstract class Layout extends Content
         return contents;
     }
 
-    /**
-     * Set the same width for all elements in the layout
-     * @param width
-     */
-    protected final void setContentsWidth(double width)
-    {
-        for (Content content: contents) {
-            content.setWidth(width);
-            content.refreshDown();
-        }
-    }
 
-    /**
-     * Set the same height for all elements in the layout
-     * @param height
-     */
-    protected final void setContentsHeight(double height)
-    {
-        for (Content content: contents) {
-            content.setHeight(height);
-            content.refreshDown();
-        }
-    }
+
+
 
     /**
      * Refresh all the elements in layout

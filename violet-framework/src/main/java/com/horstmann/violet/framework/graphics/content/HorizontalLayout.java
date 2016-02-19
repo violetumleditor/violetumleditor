@@ -1,6 +1,7 @@
 package com.horstmann.violet.framework.graphics.content;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * This class groups together all the component horizontally
@@ -43,21 +44,48 @@ public class HorizontalLayout extends Layout
     @Override
     public final void refreshUp()
     {
+        Rectangle2D minimalBounds = getMinimalBounds();
+
+        setHeight(minimalBounds.getHeight());
+        setWidth(minimalBounds.getWidth());
+        setContentsHeight(minimalBounds.getWidth());
+
+        super.refreshUp();
+    }
+
+    /**
+     * @return minimal bounds of this element
+     */
+    @Override
+    public Rectangle2D getMinimalBounds()
+    {
         double height = 0;
         double width = 0;
 
-        for (Content content: getContents()) {
-            width += content.getWidth();
-            if(height < content.getHeight())
+        for (Content content: getContents())
+        {
+            Rectangle2D contentMinimalBounds = content.getMinimalBounds();
+
+            width += contentMinimalBounds.getWidth();
+            if(height < contentMinimalBounds.getHeight())
             {
-                height = content.getHeight();
+                height = contentMinimalBounds.getHeight();
             }
         }
 
-        setHeight(height);
-        setWidth(width);
-        setContentsHeight(height);
+        return new Rectangle2D.Double(getX(),getY(),width,height);
+    }
 
-        super.refreshUp();
+    /**
+     * Set the same height for all elements in the layout
+     * @param height
+     */
+    protected final void setContentsHeight(double height)
+    {
+        for (Content content: getContents())
+        {
+            content.setHeight(height);
+            content.refreshDown();
+        }
     }
 }

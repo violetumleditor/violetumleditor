@@ -50,6 +50,14 @@ public abstract class Content
     }
 
     /**
+     * @return minimal bounds of this element
+     */
+    public Rectangle2D getMinimalBounds()
+    {
+        return new Rectangle2D.Double(getX(),getY(),minWidth,minHeight);
+    }
+
+    /**
      * @return positions on the x-axis of this element
      */
     public final double getX()
@@ -179,6 +187,7 @@ public abstract class Content
     protected final void removeParent(Content parent)
     {
         parents.remove(parent);
+        refresh();
     }
 
     private ArrayList<Content> parents = new ArrayList<Content>();

@@ -12,7 +12,8 @@ import java.awt.Graphics2D;
  */
 public class ContentBorder extends ContentInsideShape
 {
-    public ContentBorder(ContentInsideShape contentShape, Color color) {
+    public ContentBorder(ContentInsideShape contentShape, Color color)
+    {
         contentShape.addParent(this);
         this.setBorderColor(color);
         this.setContent(contentShape);
@@ -39,8 +40,10 @@ public class ContentBorder extends ContentInsideShape
      * @see Content#draw(Graphics2D)
      */
     @Override
-    public void draw(Graphics2D graphics) {
-        if(null!=color) {
+    public void draw(Graphics2D graphics)
+    {
+        if(null!=color)
+        {
             Color oldColor = graphics.getColor();
             graphics.setColor(color);
             graphics.draw(getShape());

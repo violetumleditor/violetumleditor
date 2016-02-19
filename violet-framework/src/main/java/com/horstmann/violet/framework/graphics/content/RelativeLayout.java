@@ -14,7 +14,8 @@ public class RelativeLayout extends Layout
 {
     static protected class RelativeContent extends Content
     {
-        public RelativeContent(Content content, Point2D position) {
+        public RelativeContent(Content content, Point2D position)
+        {
             content.addParent(this);
             this.content = content;
             this.position = position;
@@ -156,21 +157,32 @@ public class RelativeLayout extends Layout
      */
     @Override
     public final void refreshUp() {
-        Rectangle2D rect;
+        Rectangle2D minimalBounds = getMinimalBounds();
+
+        setWidth(minimalBounds.getWidth());
+        setHeight(minimalBounds.getHeight());
+
+        super.refreshUp();
+    }
+
+    /**
+     * @return minimal bounds of this element
+     */
+    @Override
+    public Rectangle2D getMinimalBounds()
+    {
         double maxX = 0;
         double maxY = 0;
 
-        for (Content content: getContents()) {
-            rect = ((RelativeContent)content).getRect();
+        for (Content content: getContents())
+        {
+            Rectangle2D rect = ((RelativeContent)content).getRect();
 
             maxX = Math.max(maxX, rect.getMaxX());
             maxY = Math.max(maxY, rect.getMaxY());
         }
 
-        setHeight(maxY);
-        setWidth(maxX);
-
-        super.refreshUp();
+        return new Rectangle2D.Double(getX(),getY(),maxX,maxY);
     }
 
     public final boolean setPosition(Content content, Point2D position)

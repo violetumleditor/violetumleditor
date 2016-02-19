@@ -18,30 +18,7 @@ import java.awt.geom.Rectangle2D;
  */
 public class WaitTimeActionNode  extends ColorableNode
 {
-    protected static class WaitTimeShape implements ContentInsideCustomShape.ShapeCreator
-    {
-        public WaitTimeShape(TextContent nameContent)
-        {
-            super();
-            this.nameContent = nameContent;
-        }
 
-        @Override
-        public Shape createShape(double contentWidth, double contentHeight) {
-            GeneralPath path = new GeneralPath();
-
-            double startX = (nameContent.getWidth() - DEFAULT_WIDTH) /2;
-
-            path.moveTo(startX, 0);
-            path.lineTo(startX + DEFAULT_WIDTH, 0);
-            path.lineTo(startX, DEFAULT_HEIGHT);
-            path.lineTo(startX + DEFAULT_WIDTH, DEFAULT_HEIGHT);
-            path.closePath();
-            return path;
-        }
-
-        private TextContent nameContent;
-    }
 
     /**
      * Construct an receive event node with a default size
@@ -80,29 +57,20 @@ public class WaitTimeActionNode  extends ColorableNode
     @Override
     protected void createContentStructure()
     {
-        EmptyContent emptyContent = new EmptyContent();
         TextContent nameContent = new TextContent(waitTimeAction);
-
-        emptyContent.setMinWidth(DEFAULT_WIDTH);
         nameContent.setMinWidth(DEFAULT_WIDTH);
 
-        ContentInsideShape stickPersonContent = new ContentInsideCustomShape(emptyContent, new WaitTimeShape(nameContent)){
-            @Override
-            protected Point2D getShapeOffset()
-            {
-                Rectangle2D shapeBounds = getShape().getBounds();
-                return new Point2D.Double(
-                        (shapeBounds.getWidth() - getContent().getWidth()) / 2,
-                        (shapeBounds.getHeight())
-                );
-            }
-        };
+        ContentInsideCustomShape shape = new ContentInsideCustomShape(null, new WaitTimeShape());
+        shape.setMinWidth(SHAPE_WIDTH);
+        shape.setMinHeight(SHAPE_HEIGHT);
 
-        setBorder(new ContentBorder(stickPersonContent, getBorderColor()));
+        setBorder(new ContentBorder(shape, getBorderColor()));
         setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
 
+        CenterContent centeredShape = new CenterContent(getBackground());
+
         VerticalLayout verticalGroupContent = new VerticalLayout();
-        verticalGroupContent.add(getBackground());
+        verticalGroupContent.add(centeredShape);
         verticalGroupContent.add(nameContent);
 
         setContent(new ContentInsideRectangle(verticalGroupContent));
@@ -138,10 +106,29 @@ public class WaitTimeActionNode  extends ColorableNode
         return waitTimeAction;
     }
 
+    private SingleLineText waitTimeAction;
+
+
+
 
     private static final int DEFAULT_WIDTH = 40;
     private static final int DEFAULT_HEIGHT = 40;
-    private static final int EDGE_WIDTH = 20;
 
-    private SingleLineText waitTimeAction;
+    private static final int SHAPE_WIDTH = 40;
+    private static final int SHAPE_HEIGHT = 40;
+
+    private static final class WaitTimeShape implements ContentInsideCustomShape.ShapeCreator
+    {
+        @Override
+        public Shape createShape(double contentWidth, double contentHeight) {
+            GeneralPath path = new GeneralPath();
+
+            path.moveTo(0, 0);
+            path.lineTo(SHAPE_WIDTH, 0);
+            path.lineTo(0, SHAPE_HEIGHT);
+            path.lineTo(SHAPE_WIDTH, SHAPE_HEIGHT);
+            path.closePath();
+            return path;
+        }
+    }
 }
