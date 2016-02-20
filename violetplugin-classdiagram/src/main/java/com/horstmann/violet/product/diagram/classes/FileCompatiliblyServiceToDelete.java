@@ -33,8 +33,8 @@ import java.util.Map;
 import java.util.Set;
 
 import com.horstmann.violet.framework.property.ArrowheadChoiceList;
+import com.horstmann.violet.framework.property.BentStyleChoiceList;
 import com.horstmann.violet.framework.util.StringFilterOutputStream;
-import com.horstmann.violet.framework.property.BentStyle;
 import com.horstmann.violet.framework.property.LineStyleChoiceList;
 import com.horstmann.violet.product.diagram.classes.nodes.ClassNode;
 import com.horstmann.violet.product.diagram.classes.nodes.PackageNode;
@@ -66,7 +66,7 @@ public class FileCompatiliblyServiceToDelete
         Map<String, String> replaceMap = new Hashtable<String, String>();
 
         // fix framework elements
-        replaceMap.put("com.horstmann.violet.BentStyle", BentStyle.class.getName());
+        replaceMap.put("com.horstmann.violet.BentStyleChoiceList", BentStyleChoiceList.class.getName());
         replaceMap.put("com.horstmann.violet.LineStyleChoiceList", LineStyleChoiceList.class.getName());
         replaceMap.put("com.horstmann.violet.ArrowheadChoiceList", ArrowheadChoiceList.class.getName());
 
@@ -155,7 +155,7 @@ public class FileCompatiliblyServiceToDelete
         Map<String, String> replaceMap = new Hashtable<String, String>();
 
         // fix framework elements
-        replaceMap.put(BentStyle.class.getName(), "com.horstmann.violet.BentStyle");
+        replaceMap.put(BentStyleChoiceList.class.getName(), "com.horstmann.violet.BentStyleChoiceList");
         replaceMap.put(LineStyleChoiceList.class.getName(), "com.horstmann.violet.LineStyleChoiceList");
         replaceMap.put(ArrowheadChoiceList.class.getName(), "com.horstmann.violet.ArrowheadChoiceList");
 

@@ -1,40 +1,18 @@
-/*
- Violet - A program for editing UML diagrams.
-
- Copyright (C) 2007 Cay S. Horstmann (http://horstmann.com)
- Alexandre de Pellegrin (http://alexdp.free.fr);
-
- This program is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- */
-
-package com.horstmann.violet.framework.property;
+package com.horstmann.violet.product.diagram.abstracts.edge.bentstyle;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import com.horstmann.violet.framework.util.SerializableEnumeration;
-
 /**
  * A style for a segmented line that indicates the number and sequence of bends.
+ *
+ * @author Adrian Bobrowski <adrian071993@gmail.com>
+ * @date 20.02.2016
  */
-public class BentStyle extends SerializableEnumeration
+public class BentStyle
 {
-
-
     /**
      * Default constructor
      */
@@ -57,7 +35,7 @@ public class BentStyle extends SerializableEnumeration
 
     /**
      * Gets the points at which a line joining two rectangles is bent according to a bent style.
-     * 
+     *
      * @param connectionPoints the points to use (starting point, optional middle points and ending points merged in an array of
      *            points)
      * @return an array list of points at which to bend the segmented line joining the two rectangles
@@ -66,7 +44,7 @@ public class BentStyle extends SerializableEnumeration
     {
         if (connectionPoints.length < 2)
         {
-            throw new RuntimeException("BentStyle need at least two points to process the path of an edge");
+            throw new RuntimeException("BentStyleChoiceList need at least two points to process the path of an edge");
         }
 
         Point2D startingPoint = connectionPoints[0];
@@ -98,7 +76,7 @@ public class BentStyle extends SerializableEnumeration
 
     /**
      * Gets an Vertical-Horizontal-Vertival path
-     * 
+     *
      * @param startingRectangle
      * @param endingRectangle
      * @return an array list of points
@@ -140,7 +118,7 @@ public class BentStyle extends SerializableEnumeration
 
     /**
      * Gets an Horizontal-Vertical-Horizontal path
-     * 
+     *
      * @param startingRectangle
      * @param endingRectangle
      * @return an array list of points
@@ -180,7 +158,7 @@ public class BentStyle extends SerializableEnumeration
 
     /**
      * Gets a Vertical-Horizontal path
-     * 
+     *
      * @param startingRectangle
      * @param endingRectangle
      * @return an array list of points
@@ -206,7 +184,7 @@ public class BentStyle extends SerializableEnumeration
 
     /**
      * Gets an Horizontal-Vertical path
-     * 
+     *
      * @param startingRectangle
      * @param endingRectangle
      * @return an array list of points
@@ -232,7 +210,7 @@ public class BentStyle extends SerializableEnumeration
 
     /**
      * Gets a straight path
-     * 
+     *
      * @param startingRectangle
      * @param endingRectangle
      * @return an array list of points
@@ -247,7 +225,7 @@ public class BentStyle extends SerializableEnumeration
 
     /**
      * Gets a free path
-     * 
+     *
      * @param connectionPoints
      * @return
      */
@@ -260,7 +238,7 @@ public class BentStyle extends SerializableEnumeration
 
     /**
      * Gets the points at which a line joining two rectangles is bent according to a bent style.
-     * 
+     *
      * @param s the starting and ending rectangle
      */
     private ArrayList<Point2D> getSelfPath(Point2D p)

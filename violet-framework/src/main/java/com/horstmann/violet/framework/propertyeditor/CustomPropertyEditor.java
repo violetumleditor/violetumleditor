@@ -390,7 +390,7 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
     {
         editors = new HashMap<Class<?>, Class<? extends PropertyEditor>>();
 //        editors.put(ArrowheadChoiceList.class, ArrowHeadEditor.class);
-        editors.put(BentStyle.class, BentStyleEditor.class);
+//        editors.put(BentStyleChoiceList.class, BentStyleEditor.class);
         editors.put(ChoiceList.class, ChoiceListEditor.class);
         editors.put(java.awt.Color.class, ColorEditor.class);
         editors.put(DiagramLink.class, AbstractDiagramLinkEditor.class);

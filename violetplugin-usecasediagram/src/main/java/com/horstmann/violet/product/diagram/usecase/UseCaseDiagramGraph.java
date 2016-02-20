@@ -26,11 +26,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import com.horstmann.violet.framework.property.LineStyleChoiceList;
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.framework.property.BentStyle;
+import com.horstmann.violet.framework.property.BentStyleChoiceList;
 import com.horstmann.violet.product.diagram.common.edge.NoteEdge;
 import com.horstmann.violet.product.diagram.common.NoteNode;
 import com.horstmann.violet.product.diagram.usecase.edges.UseCaseRelationshipEdge;
@@ -74,14 +73,14 @@ public class UseCaseDiagramGraph extends AbstractGraph
         NODE_PROTOTYPES.add(noteNode);
 
         UseCaseRelationshipEdge communication = new UseCaseRelationshipEdge();
-        communication.setBentStyle(BentStyle.STRAIGHT);
+//        communication.setBentStyle(BentStyleChoiceList.STRAIGHT);
 //        communication.setLineStyle(LineStyleChoiceList.SOLID);
 //        communication.setEndArrowHead(ArrowheadChoiceList.NONE);
         communication.setToolTip(rs.getString("edge0.tooltip"));
         EDGE_PROTOTYPES.add(communication);
 
         UseCaseRelationshipEdge extendRel = new UseCaseRelationshipEdge();
-        extendRel.setBentStyle(BentStyle.STRAIGHT);
+//        extendRel.setBentStyle(BentStyleChoiceList.STRAIGHT);
 //        extendRel.setLineStyle(LineStyleChoiceList.DOTTED);
 //        extendRel.setEndArrowHead(ArrowheadChoiceList.V);
         extendRel.setMiddleLabel("\u00ABextend\u00BB");
@@ -89,7 +88,7 @@ public class UseCaseDiagramGraph extends AbstractGraph
         EDGE_PROTOTYPES.add(extendRel);
 
         UseCaseRelationshipEdge includeRel = new UseCaseRelationshipEdge();
-        includeRel.setBentStyle(BentStyle.STRAIGHT);
+//        includeRel.setBentStyle(BentStyleChoiceList.STRAIGHT);
 //        includeRel.setLineStyle(LineStyleChoiceList.DOTTED);
 //        includeRel.setEndArrowHead(ArrowheadChoiceList.V);
         includeRel.setMiddleLabel("\u00ABinclude\u00BB");
@@ -97,7 +96,7 @@ public class UseCaseDiagramGraph extends AbstractGraph
         EDGE_PROTOTYPES.add(includeRel);
 
         UseCaseRelationshipEdge generalization = new UseCaseRelationshipEdge();
-        generalization.setBentStyle(BentStyle.STRAIGHT);
+//        generalization.setBentStyle(BentStyleChoiceList.STRAIGHT);
 //        generalization.setLineStyle(LineStyleChoiceList.SOLID);
 //        generalization.setEndArrowHead(ArrowheadChoiceList.TRIANGLE);
         generalization.setToolTip(rs.getString("edge3.tooltip"));

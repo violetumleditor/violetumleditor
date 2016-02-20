@@ -142,27 +142,6 @@ public class EnumNode extends ColorableNode
     private SingleLineText name;
     private MultiLineText attributes;
 
-    public ChoiceList getArrowheadChoiceList()
-    {
-        return arrowheadChoiceList;
-    }
-
-    public void setArrowheadChoiceList(ChoiceList arrowheadChoiceList) {
-        this.arrowheadChoiceList = (ArrowheadChoiceList)arrowheadChoiceList;
-    }
-
-    public ChoiceList getLineStyleChoiceList()
-    {
-        return lineStyleChoiceList;
-    }
-
-    public void setLineStyleChoiceList(ChoiceList lineStyleChoiceList) {
-        this.lineStyleChoiceList = (LineStyleChoiceList)lineStyleChoiceList;
-    }
-
-    private ArrowheadChoiceList arrowheadChoiceList = new ArrowheadChoiceList();
-    private LineStyleChoiceList lineStyleChoiceList = new LineStyleChoiceList();
-
     private transient Separator separator;
 
     private static final int MIN_NAME_HEIGHT = 45;

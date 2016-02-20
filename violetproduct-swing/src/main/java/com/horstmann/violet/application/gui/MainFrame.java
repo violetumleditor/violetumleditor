@@ -54,7 +54,7 @@ import com.horstmann.violet.framework.theme.ITheme;
 import com.horstmann.violet.framework.theme.ThemeManager;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
-import com.horstmann.violet.framework.property.BentStyle;
+import com.horstmann.violet.framework.property.BentStyleChoiceList;
 import com.horstmann.violet.framework.property.LineStyleChoiceList;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.IWorkspaceListener;
@@ -351,7 +351,7 @@ public class MainFrame extends JFrame
         Class<?>[] cls = new Class<?>[]
         {
                 Point2D.Double.class,
-                BentStyle.class,
+                BentStyleChoiceList.class,
                 ArrowheadChoiceList.class,
                 LineStyleChoiceList.class,
                 IGraph.class,

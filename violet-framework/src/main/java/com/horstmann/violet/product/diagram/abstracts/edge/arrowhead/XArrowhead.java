@@ -1,4 +1,4 @@
-package com.horstmann.violet.product.diagram.common.edge.arrowhead;
+package com.horstmann.violet.product.diagram.abstracts.edge.arrowhead;
 
 import java.awt.geom.GeneralPath;
 

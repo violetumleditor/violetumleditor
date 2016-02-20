@@ -22,13 +22,10 @@
 package com.horstmann.violet.framework.property;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
-import java.util.Arrays;
 
 import com.horstmann.violet.framework.property.choiceList.IconChoiceList;
-import com.horstmann.violet.product.diagram.common.edge.arrowhead.*;
+import com.horstmann.violet.product.diagram.abstracts.edge.arrowhead.*;
 
 import javax.swing.*;
 
@@ -52,7 +49,7 @@ public class ArrowheadChoiceList extends IconChoiceList<Arrowhead>
      *
      * @param copyElement
      */
-    protected ArrowheadChoiceList(IconChoiceList<Arrowhead> copyElement)
+    protected ArrowheadChoiceList(ArrowheadChoiceList copyElement)
     {
         super(copyElement);
     }

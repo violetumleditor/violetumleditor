@@ -1,4 +1,4 @@
-package com.horstmann.violet.product.diagram.common.edge.linestyle;
+package com.horstmann.violet.product.diagram.abstracts.edge.linestyle;
 
 import java.awt.*;
 

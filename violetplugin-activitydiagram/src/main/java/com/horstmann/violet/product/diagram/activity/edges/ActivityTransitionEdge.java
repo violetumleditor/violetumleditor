@@ -23,9 +23,9 @@ package com.horstmann.violet.product.diagram.activity.edges;
 
 import java.awt.geom.Point2D;
 
+import com.horstmann.violet.framework.property.BentStyleChoiceList;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.framework.property.BentStyle;
 import com.horstmann.violet.product.diagram.activity.nodes.SynchronizationBarNode;
 import com.horstmann.violet.product.diagram.common.edge.BasePropertyEdge;
 
@@ -37,28 +37,28 @@ public class ActivityTransitionEdge extends BasePropertyEdge
     @Override
     public Direction getDirection(INode node)
     {
-        BentStyle bStyle = getBentStyle();
+        BentStyleChoiceList bStyle = (BentStyleChoiceList)getBentStyle();
         Direction straightDirection = super.getDirection(node);
         double x = straightDirection.getX();
         double y = straightDirection.getY();
         if (node.equals(getStart()))
         {
-            if (BentStyle.HV.equals(bStyle) || BentStyle.HVH.equals(bStyle))
+            if (BentStyleChoiceList.HV.equals(bStyle) || BentStyleChoiceList.HVH.equals(bStyle))
             {
                 return (x >= 0) ? Direction.EAST : Direction.WEST;
             }
-            if (BentStyle.VH.equals(bStyle) || BentStyle.VHV.equals(bStyle))
+            if (BentStyleChoiceList.VH.equals(bStyle) || BentStyleChoiceList.VHV.equals(bStyle))
             {
                 return (y >= 0) ? Direction.SOUTH : Direction.NORTH;
             }
         }
         if (node.equals(getEnd()))
         {
-            if (BentStyle.HV.equals(bStyle) || BentStyle.VHV.equals(bStyle))
+            if (BentStyleChoiceList.HV.equals(bStyle) || BentStyleChoiceList.VHV.equals(bStyle))
             {
                 return (y >= 0) ? Direction.SOUTH : Direction.NORTH;
             }
-            if (BentStyle.VH.equals(bStyle) || BentStyle.HVH.equals(bStyle))
+            if (BentStyleChoiceList.VH.equals(bStyle) || BentStyleChoiceList.HVH.equals(bStyle))
             {
                 return (x >= 0) ? Direction.EAST : Direction.WEST;
             }

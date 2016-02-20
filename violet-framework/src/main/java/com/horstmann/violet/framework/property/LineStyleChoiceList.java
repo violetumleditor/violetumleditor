@@ -25,7 +25,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 
 import com.horstmann.violet.framework.property.choiceList.IconChoiceList;
-import com.horstmann.violet.product.diagram.common.edge.linestyle.LineStyle;
+import com.horstmann.violet.product.diagram.abstracts.edge.linestyle.LineStyle;
 
 import javax.swing.*;
 
@@ -49,7 +49,7 @@ public class LineStyleChoiceList extends IconChoiceList<Stroke>
      *
      * @param copyElement
      */
-    protected LineStyleChoiceList(IconChoiceList<Stroke> copyElement)
+    protected LineStyleChoiceList(LineStyleChoiceList copyElement)
     {
         super(copyElement);
     }

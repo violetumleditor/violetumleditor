@@ -25,11 +25,10 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.horstmann.violet.framework.property.BentStyleChoiceList;
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.framework.property.BentStyle;
-import com.horstmann.violet.framework.property.LineStyleChoiceList;
 import com.horstmann.violet.product.diagram.activity.edges.ActivityTransitionEdge;
 import com.horstmann.violet.product.diagram.activity.nodes.*;
 import com.horstmann.violet.product.diagram.common.edge.NoteEdge;
@@ -64,12 +63,12 @@ public class ActivityDiagramGraph extends AbstractGraph
             if (isSyncBarAtEnd)
             {
                 // For syn bar, we want to connect edge to north or south points
-                transitionEdge.setBentStyle(BentStyle.AUTO);
+                transitionEdge.getBentStyle().setSelectedValue(BentStyleChoiceList.AUTO);
             }
             if (!isSyncBarAtEnd)
             {
                 // For all the other cases, decision node_old are connected from east or west
-                transitionEdge.setBentStyle(BentStyle.HV);
+                transitionEdge.getBentStyle().setSelectedValue(BentStyleChoiceList.HV);
             }
         }
         return super.connect(e, start, startLocation, end, endLocation, transitionPoints);

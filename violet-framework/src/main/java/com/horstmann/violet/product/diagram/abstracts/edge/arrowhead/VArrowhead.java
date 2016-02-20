@@ -1,19 +1,18 @@
-package com.horstmann.violet.product.diagram.common.edge.arrowhead;
+package com.horstmann.violet.product.diagram.abstracts.edge.arrowhead;
 
-import java.awt.*;
 import java.awt.geom.GeneralPath;
 
 /**
- * Array head type : this head is a triangle
+ * Array head type : this head is a V
  *
  * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 20.02.2016
  */
-public class TriangleArrowhead extends Arrowhead
+public class VArrowhead extends Arrowhead
 {
-    public TriangleArrowhead(Color filledColor)
+    public VArrowhead()
     {
-        super(filledColor);
+        super();
     }
 
     @Override
@@ -23,10 +22,9 @@ public class TriangleArrowhead extends Arrowhead
         double x = ARROW_LENGTH * Math.cos(ARROW_ANGLE);
         double y = ARROW_LENGTH * Math.sin(ARROW_ANGLE);
 
-        path.moveTo((float) 0, (float) 0);
-        path.lineTo((float) x, (float) y);
-        path.lineTo((float) x, (float) -y);
+        path.moveTo((float) x, (float) y);
         path.lineTo((float) 0, (float) 0);
+        path.lineTo((float) x, (float) -y);
 
         return path;
     }
