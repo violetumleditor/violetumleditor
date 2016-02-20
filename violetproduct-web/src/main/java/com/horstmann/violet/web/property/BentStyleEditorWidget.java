@@ -4,7 +4,7 @@ import java.beans.PropertyDescriptor;
 import java.util.EnumSet;
 
 import com.horstmann.violet.framework.propertyeditor.customeditor.BentStyleEditor;
-import com.horstmann.violet.product.diagram.abstracts.property.BentStyle;
+import com.horstmann.violet.framework.property.BentStyle;
 
 import eu.webtoolkit.jwt.Side;
 import eu.webtoolkit.jwt.Signal;

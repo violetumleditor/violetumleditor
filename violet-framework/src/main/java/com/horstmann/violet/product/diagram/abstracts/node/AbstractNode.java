@@ -106,7 +106,8 @@ public abstract class AbstractNode implements INode {
     protected abstract void createContentStructure();
 
     @Override
-    public void draw(Graphics2D g2) {
+    public void draw(Graphics2D g2)
+    {
         getContent().draw(g2, getLocationOnGraph());
     }
 

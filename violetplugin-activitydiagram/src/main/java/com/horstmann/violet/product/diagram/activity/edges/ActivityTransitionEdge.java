@@ -25,7 +25,7 @@ import java.awt.geom.Point2D;
 
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.abstracts.property.BentStyle;
+import com.horstmann.violet.framework.property.BentStyle;
 import com.horstmann.violet.product.diagram.activity.nodes.SynchronizationBarNode;
 import com.horstmann.violet.product.diagram.common.edge.BasePropertyEdge;
 

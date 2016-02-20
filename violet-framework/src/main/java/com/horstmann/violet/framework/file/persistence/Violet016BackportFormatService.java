@@ -33,10 +33,10 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import com.horstmann.violet.framework.property.ArrowheadChoiceList;
+import com.horstmann.violet.framework.property.LineStyleChoiceList;
 import com.horstmann.violet.framework.util.StringFilterOutputStream;
-import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
-import com.horstmann.violet.product.diagram.abstracts.property.BentStyle;
-import com.horstmann.violet.product.diagram.abstracts.property.LineStyle;
+import com.horstmann.violet.framework.property.BentStyle;
 import com.horstmann.violet.product.diagram.common.DiagramLinkNode;
 import com.horstmann.violet.product.diagram.common.edge.NoteEdge;
 import com.horstmann.violet.product.diagram.common.NoteNode;
@@ -65,8 +65,8 @@ public class Violet016BackportFormatService
 
         // fix framework elements
         replaceMap.put("com.horstmann.violet.BentStyle", BentStyle.class.getName());
-        replaceMap.put("com.horstmann.violet.LineStyle", LineStyle.class.getName());
-        replaceMap.put("com.horstmann.violet.ArrowHead", ArrowHead.class.getName());
+        replaceMap.put("com.horstmann.violet.LineStyleChoiceList", LineStyleChoiceList.class.getName());
+        replaceMap.put("com.horstmann.violet.ArrowheadChoiceList", ArrowheadChoiceList.class.getName());
 
         // fix common elements package
         replaceMap.put("com.horstmann.violet.DiagramLinkNode", DiagramLinkNode.class.getName());
@@ -148,8 +148,8 @@ public class Violet016BackportFormatService
 
         // fix framework elements
         replaceMap.put(BentStyle.class.getName(), "com.horstmann.violet.BentStyle");
-        replaceMap.put(LineStyle.class.getName(), "com.horstmann.violet.LineStyle");
-        replaceMap.put(ArrowHead.class.getName(), "com.horstmann.violet.ArrowHead");
+        replaceMap.put(LineStyleChoiceList.class.getName(), "com.horstmann.violet.LineStyleChoiceList");
+        replaceMap.put(ArrowheadChoiceList.class.getName(), "com.horstmann.violet.ArrowheadChoiceList");
         // fix common elements package
         replaceMap.put(DiagramLinkNode.class.getName(), "com.horstmann.violet.DiagramLinkNode");
         replaceMap.put(NoteEdge.class.getName(), "com.horstmann.violet.NoteEdge");

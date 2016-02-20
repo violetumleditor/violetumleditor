@@ -31,14 +31,14 @@ import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
-import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
-import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
-import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.LargeSizeDecorator;
-import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.OneLineString;
-import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.UnderlineDecorator;
+import com.horstmann.violet.framework.property.ArrowheadChoiceList;
+import com.horstmann.violet.framework.property.string.LineText;
+import com.horstmann.violet.framework.property.string.decorator.LargeSizeDecorator;
+import com.horstmann.violet.framework.property.string.decorator.OneLineString;
+import com.horstmann.violet.framework.property.string.decorator.UnderlineDecorator;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
+import com.horstmann.violet.framework.property.string.SingleLineText;
 import com.horstmann.violet.product.diagram.sequence.edges.CallEdge;
 
 /**
@@ -222,7 +222,7 @@ public class LifelineNode extends ColorableNode
         g2.setStroke(oldStroke);
         if(endOfLife)
         {
-            ArrowHead.X.draw(g2, startPoint, endPoint);
+            ArrowheadChoiceList.X.draw(g2, startPoint, endPoint);
         }
         g2.setColor(oldColor);
 

@@ -49,13 +49,13 @@ import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjecto
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
+import com.horstmann.violet.framework.property.ArrowheadChoiceList;
 import com.horstmann.violet.framework.theme.ITheme;
 import com.horstmann.violet.framework.theme.ThemeManager;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
-import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
-import com.horstmann.violet.product.diagram.abstracts.property.BentStyle;
-import com.horstmann.violet.product.diagram.abstracts.property.LineStyle;
+import com.horstmann.violet.framework.property.BentStyle;
+import com.horstmann.violet.framework.property.LineStyleChoiceList;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.IWorkspaceListener;
 import com.horstmann.violet.workspace.Workspace;
@@ -352,8 +352,8 @@ public class MainFrame extends JFrame
         {
                 Point2D.Double.class,
                 BentStyle.class,
-                ArrowHead.class,
-                LineStyle.class,
+                ArrowheadChoiceList.class,
+                LineStyleChoiceList.class,
                 IGraph.class,
                 AbstractNode.class,
         };

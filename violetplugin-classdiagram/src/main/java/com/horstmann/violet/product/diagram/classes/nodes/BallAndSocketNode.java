@@ -2,11 +2,11 @@ package com.horstmann.violet.product.diagram.classes.nodes;
 
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
-import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.abstracts.property.ChoiceList;
-import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
+import com.horstmann.violet.framework.property.choiceList.ChoiceList;
+import com.horstmann.violet.framework.property.choiceList.TextChoiceList;
+import com.horstmann.violet.framework.property.string.SingleLineText;
 import com.horstmann.violet.product.diagram.common.PointNode;
 
 import java.awt.*;
@@ -72,8 +72,8 @@ public class BallAndSocketNode extends ColorableNode
     {
         super();
         name = new SingleLineText();
-        type = new ChoiceList(TYPE_KEYS, TYPE_VALUES);
-        orientation = new ChoiceList(ORIENTATION_KEYS, ORIENTATION_VALUES);
+        type = new TextChoiceList<Types>(TYPE_KEYS, TYPE_VALUES);
+        orientation = new TextChoiceList<Integer>(ORIENTATION_KEYS, ORIENTATION_VALUES);
     }
 
     protected BallAndSocketNode(BallAndSocketNode node) throws CloneNotSupportedException

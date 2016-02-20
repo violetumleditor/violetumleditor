@@ -13,9 +13,9 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
-import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
-import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
+import com.horstmann.violet.framework.property.string.LineText;
+import com.horstmann.violet.framework.property.string.MultiLineText;
+import com.horstmann.violet.framework.property.string.SingleLineText;
 
 /**
  * A package nodes in a class diagram.

@@ -6,12 +6,12 @@ import com.horstmann.violet.framework.graphics.Separator;
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.content.VerticalLayout;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
+import com.horstmann.violet.framework.property.string.decorator.*;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
-import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
-import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.*;
+import com.horstmann.violet.framework.property.string.LineText;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
-import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
+import com.horstmann.violet.framework.property.string.MultiLineText;
+import com.horstmann.violet.framework.property.string.SingleLineText;
 
 /**
  * A class nodes in a class diagram.

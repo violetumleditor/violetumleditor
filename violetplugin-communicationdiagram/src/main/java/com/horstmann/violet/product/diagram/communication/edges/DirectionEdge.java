@@ -1,10 +1,8 @@
 package com.horstmann.violet.product.diagram.communication.edges;
 
 import com.horstmann.violet.product.diagram.abstracts.edge.SegmentedLineEdge;
-import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
-import com.horstmann.violet.product.diagram.abstracts.property.LineStyle;
-import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
-import com.horstmann.violet.product.diagram.common.edge.BasePropertyEdge;
+import com.horstmann.violet.framework.property.LineStyleChoiceList;
+import com.horstmann.violet.framework.property.string.SingleLineText;
 
 /**
  * 
@@ -41,21 +39,6 @@ public class DirectionEdge extends SegmentedLineEdge {
 		this.SequenceNumber = directionEdge.SequenceNumber.clone();
 		this.Message = directionEdge.Message.clone();
 		this.SequentialLoop = directionEdge.SequentialLoop.clone();
-	}
-
-	@Override
-	public ArrowHead getStartArrowHead() {
-		return ArrowHead.NONE;
-	}
-
-	@Override
-	public ArrowHead getEndArrowHead() {
-		return ArrowHead.TRIANGLE;
-	}
-
-	@Override
-	public LineStyle getLineStyle() {
-		return LineStyle.SOLID;
 	}
 
 	public void setSequenceNumber(SingleLineText number) {

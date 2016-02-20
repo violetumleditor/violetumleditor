@@ -22,11 +22,10 @@
 package com.horstmann.violet.framework.propertyeditor.customeditor;
 
 import com.horstmann.violet.framework.propertyeditor.CustomPropertyEditorSupport;
-import com.horstmann.violet.product.diagram.abstracts.property.LineStyle;
-import com.horstmann.violet.product.diagram.abstracts.property.StretchStyle;
+import com.horstmann.violet.framework.property.StretchStyle;
 
 /**
- * A property editor for the LineStyle type.
+ * A property editor for the LineStyleChoiceList type.
  */
 public class StretchStyleEditor extends CustomPropertyEditorSupport
 {

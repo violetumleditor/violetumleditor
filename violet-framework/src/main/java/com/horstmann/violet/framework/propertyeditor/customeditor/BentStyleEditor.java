@@ -22,7 +22,7 @@
 package com.horstmann.violet.framework.propertyeditor.customeditor;
 
 import com.horstmann.violet.framework.propertyeditor.CustomPropertyEditorSupport;
-import com.horstmann.violet.product.diagram.abstracts.property.BentStyle;
+import com.horstmann.violet.framework.property.BentStyle;
 
 /**
  * A property editor for the BentStyle type.

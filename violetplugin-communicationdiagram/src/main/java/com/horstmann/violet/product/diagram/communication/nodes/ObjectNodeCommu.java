@@ -6,11 +6,11 @@ import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
-import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
-import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.LargeSizeDecorator;
-import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.OneLineString;
-import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.UnderlineDecorator;
+import com.horstmann.violet.framework.property.string.LineText;
+import com.horstmann.violet.framework.property.string.SingleLineText;
+import com.horstmann.violet.framework.property.string.decorator.LargeSizeDecorator;
+import com.horstmann.violet.framework.property.string.decorator.OneLineString;
+import com.horstmann.violet.framework.property.string.decorator.UnderlineDecorator;
 
 /**
  * 

@@ -1,6 +1,7 @@
 package com.horstmann.violet.product.diagram.abstracts.property.string.decorator;
 
-import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
+import com.horstmann.violet.framework.property.string.decorator.BoldDecorator;
+import com.horstmann.violet.framework.property.string.decorator.OneLineString;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

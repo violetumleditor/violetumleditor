@@ -27,11 +27,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import com.horstmann.violet.framework.property.LineStyleChoiceList;
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
-import com.horstmann.violet.product.diagram.abstracts.property.LineStyle;
 import com.horstmann.violet.product.diagram.common.edge.NoteEdge;
 import com.horstmann.violet.product.diagram.common.NoteNode;
 import com.horstmann.violet.product.diagram.sequence.edges.CallEdge;
@@ -88,23 +87,23 @@ public class SequenceDiagramGraph extends AbstractGraph {
         NODE_PROTOTYPES.add(integrationFrameNode);
 
         CallEdge callEdge = new CallEdge();
-        callEdge.setEndArrowHead(ArrowHead.BLACK_TRIANGLE);
-        callEdge.setStartArrowHead(ArrowHead.NONE);
-        callEdge.setLineStyle(LineStyle.SOLID);
+//        callEdge.setEndArrowHead(ArrowheadChoiceList.BLACK_TRIANGLE);
+//        callEdge.setStartArrowHead(ArrowheadChoiceList.NONE);
+//        callEdge.setLineStyle(LineStyleChoiceList.SOLID);
         callEdge.setToolTip(rs.getString("edge0.tooltip"));
         EDGE_PROTOTYPES.add(callEdge);
 
         CallEdge createEdge = new CallEdge();
-        createEdge.setEndArrowHead(ArrowHead.V);
-        createEdge.setStartArrowHead(ArrowHead.NONE);
-        createEdge.setLineStyle(LineStyle.SOLID);
+//        createEdge.setEndArrowHead(ArrowheadChoiceList.V);
+//        createEdge.setStartArrowHead(ArrowheadChoiceList.NONE);
+//        createEdge.setLineStyle(LineStyleChoiceList.SOLID);
         createEdge.setToolTip(rs.getString("edge1.tooltip"));
         EDGE_PROTOTYPES.add(createEdge);
 
         ReturnEdge returnEdge = new ReturnEdge();
-        returnEdge.setEndArrowHead(ArrowHead.V);
-        returnEdge.setStartArrowHead(ArrowHead.NONE);
-        returnEdge.setLineStyle(LineStyle.DOTTED);
+//        returnEdge.setEndArrowHead(ArrowheadChoiceList.V);
+//        returnEdge.setStartArrowHead(ArrowheadChoiceList.NONE);
+//        returnEdge.setLineStyle(LineStyleChoiceList.DOTTED);
         returnEdge.setToolTip(rs.getString("edge2.tooltip"));
         EDGE_PROTOTYPES.add(returnEdge);
 

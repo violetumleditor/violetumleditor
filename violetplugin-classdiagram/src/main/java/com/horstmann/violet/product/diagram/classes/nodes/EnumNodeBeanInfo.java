@@ -23,10 +23,16 @@ public class EnumNodeBeanInfo extends SimpleBeanInfo
             nameDescriptor.setValue("priority", new Integer(1));
             PropertyDescriptor attributesDescriptor = new PropertyDescriptor("attributes", EnumNode.class);
             attributesDescriptor.setValue("priority", new Integer(2));
+            PropertyDescriptor testDescriptor = new PropertyDescriptor("arrowheadChoiceList", EnumNode.class);
+            testDescriptor.setValue("priority", new Integer(3));
+            PropertyDescriptor test2Descriptor = new PropertyDescriptor("lineStyleChoiceList", EnumNode.class);
+            test2Descriptor.setValue("priority", new Integer(4));
             return new PropertyDescriptor[]
             {
                     nameDescriptor,
-                    attributesDescriptor
+                    attributesDescriptor,
+                    testDescriptor,
+                    test2Descriptor,
             };
         }
         catch (IntrospectionException exception)

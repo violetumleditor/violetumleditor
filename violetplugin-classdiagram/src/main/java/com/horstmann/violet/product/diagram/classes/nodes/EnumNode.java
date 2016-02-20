@@ -3,12 +3,17 @@ package com.horstmann.violet.product.diagram.classes.nodes;
 import com.horstmann.violet.framework.graphics.Separator;
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
+import com.horstmann.violet.framework.property.ArrowheadChoiceList;
+import com.horstmann.violet.framework.property.LineStyleChoiceList;
+import com.horstmann.violet.framework.property.choiceList.ChoiceList;
+import com.horstmann.violet.framework.property.string.decorator.LargeSizeDecorator;
+import com.horstmann.violet.framework.property.string.decorator.OneLineString;
+import com.horstmann.violet.framework.property.string.decorator.PrefixDecorator;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
-import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
-import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
-import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.*;
+import com.horstmann.violet.framework.property.string.LineText;
+import com.horstmann.violet.framework.property.string.MultiLineText;
+import com.horstmann.violet.framework.property.string.SingleLineText;
 
 import java.awt.*;
 
@@ -136,6 +141,27 @@ public class EnumNode extends ColorableNode
 
     private SingleLineText name;
     private MultiLineText attributes;
+
+    public ChoiceList getArrowheadChoiceList()
+    {
+        return arrowheadChoiceList;
+    }
+
+    public void setArrowheadChoiceList(ChoiceList arrowheadChoiceList) {
+        this.arrowheadChoiceList = (ArrowheadChoiceList)arrowheadChoiceList;
+    }
+
+    public ChoiceList getLineStyleChoiceList()
+    {
+        return lineStyleChoiceList;
+    }
+
+    public void setLineStyleChoiceList(ChoiceList lineStyleChoiceList) {
+        this.lineStyleChoiceList = (LineStyleChoiceList)lineStyleChoiceList;
+    }
+
+    private ArrowheadChoiceList arrowheadChoiceList = new ArrowheadChoiceList();
+    private LineStyleChoiceList lineStyleChoiceList = new LineStyleChoiceList();
 
     private transient Separator separator;
 

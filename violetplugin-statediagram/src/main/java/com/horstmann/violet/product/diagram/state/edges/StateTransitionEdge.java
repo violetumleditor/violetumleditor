@@ -35,8 +35,8 @@ import javax.swing.JLabel;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.ShapeEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
-import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
+import com.horstmann.violet.framework.property.ArrowheadChoiceList;
+import com.horstmann.violet.framework.property.string.SingleLineText;
 
 /**
  * A curved edge for a state transition in a state diagram.
@@ -67,7 +67,7 @@ public class StateTransitionEdge extends ShapeEdge
     {
         g2.draw(getShape());
         drawLabel(g2);
-        ArrowHead.V.draw(g2, getControlPoint(), getConnectionPoints().getP2());
+        ArrowheadChoiceList.V.draw(g2, getControlPoint(), getConnectionPoints().getP2());
     }
 
     /**

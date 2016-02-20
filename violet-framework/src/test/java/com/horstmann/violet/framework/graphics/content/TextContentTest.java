@@ -1,6 +1,6 @@
 package com.horstmann.violet.framework.graphics.content;
 
-import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
+import com.horstmann.violet.framework.property.string.SingleLineText;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

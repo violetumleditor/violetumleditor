@@ -19,15 +19,15 @@ import java.util.List;
 import java.util.Map;
 
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.ManagedBean;
+import com.horstmann.violet.framework.property.LineStyleChoiceList;
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.Id;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
-import com.horstmann.violet.product.diagram.abstracts.property.BentStyle;
-import com.horstmann.violet.product.diagram.abstracts.property.LineStyle;
+import com.horstmann.violet.framework.property.ArrowheadChoiceList;
+import com.horstmann.violet.framework.property.BentStyle;
 import com.horstmann.violet.product.diagram.common.ImageNode;
 
 /**
@@ -137,8 +137,8 @@ public class StandardJavaFilePersistenceService implements IFilePersistenceServi
         });
     
         encoder.setPersistenceDelegate(BentStyle.class, new CustomPersistenceDelegate());
-        encoder.setPersistenceDelegate(LineStyle.class, new CustomPersistenceDelegate());
-        encoder.setPersistenceDelegate(ArrowHead.class, new CustomPersistenceDelegate());
+        encoder.setPersistenceDelegate(LineStyleChoiceList.class, new CustomPersistenceDelegate());
+        encoder.setPersistenceDelegate(ArrowheadChoiceList.class, new CustomPersistenceDelegate());
         encoder.setPersistenceDelegate(URL.class, new DefaultPersistenceDelegate(new String[]
         {
                 "protocol",

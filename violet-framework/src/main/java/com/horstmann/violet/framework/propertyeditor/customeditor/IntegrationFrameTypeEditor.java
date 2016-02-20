@@ -1,7 +1,7 @@
 package com.horstmann.violet.framework.propertyeditor.customeditor;
 
 import com.horstmann.violet.framework.propertyeditor.CustomPropertyEditorSupport;
-import com.horstmann.violet.product.diagram.abstracts.property.IntegrationFrameType;
+import com.horstmann.violet.framework.property.IntegrationFrameType;
 
 /**
  * A property editor for the integration frame type.

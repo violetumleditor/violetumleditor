@@ -1,5 +1,6 @@
 package com.horstmann.violet.product.diagram.abstracts.property.string;
 
+import com.horstmann.violet.framework.property.string.SingleLineText;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

@@ -1,6 +1,6 @@
 package com.horstmann.violet.framework.graphics.content;
 
-import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
+import com.horstmann.violet.framework.property.string.LineText;
 
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;

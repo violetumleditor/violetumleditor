@@ -3,8 +3,7 @@ package com.horstmann.violet.web.property;
 import java.beans.PropertyDescriptor;
 import java.util.EnumSet;
 
-import com.horstmann.violet.framework.propertyeditor.customeditor.LineStyleEditor;
-import com.horstmann.violet.product.diagram.abstracts.property.LineStyle;
+import com.horstmann.violet.framework.property.LineStyleChoiceList;
 
 import eu.webtoolkit.jwt.Side;
 import eu.webtoolkit.jwt.Signal;
@@ -12,7 +11,7 @@ import eu.webtoolkit.jwt.WComboBox;
 import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WWidget;
 
-public class LineStyleEditorWidget extends AbstractPropertyEditorWidget<LineStyle> {
+public class LineStyleEditorWidget extends AbstractPropertyEditorWidget<LineStyleChoiceList> {
 
 	private WComboBox comboBoxComponent;
 
@@ -27,14 +26,14 @@ public class LineStyleEditorWidget extends AbstractPropertyEditorWidget<LineStyl
 
 	@Override
 	protected void updateCustomEditor() {
-		LineStyle selectedLineStyle = getValue();
+		LineStyleChoiceList selectedLineStyle = getValue();
 		int newIndex = 0;
-		for (int i = 0; i < LineStyleEditor.VALUES.length; i++) {
-			if (LineStyleEditor.VALUES[i].equals(selectedLineStyle)) {
-				newIndex = i;
-				break;
-			}
-		}
+//		for (int i = 0; i < LineStyleEditor.VALUES.length; i++) {
+//			if (LineStyleEditor.VALUES[i].equals(selectedLineStyle)) {
+//				newIndex = i;
+//				break;
+//			}
+//		}
 		getComboBoxComponent().setCurrentIndex(newIndex);
 	}
 
@@ -43,16 +42,16 @@ public class LineStyleEditorWidget extends AbstractPropertyEditorWidget<LineStyl
 		if (this.comboBoxComponent == null) {
 			this.comboBoxComponent = new WComboBox();
 			this.comboBoxComponent.setMargin(new WLength(10), EnumSet.of(Side.Right));
-			for (int i = 0; i < LineStyleEditor.NAMES.length; i++) {
-				this.comboBoxComponent.addItem(LineStyleEditor.NAMES[i]);
-			}
-			this.comboBoxComponent.changed().addListener(this, new Signal.Listener() {
-				public void trigger() {
-					int row = getComboBoxComponent().getCurrentIndex();
-					LineStyle selectedLineStyle = (LineStyle) LineStyleEditor.VALUES[row];
-					setValue(selectedLineStyle);
-				}
-			});
+//			for (int i = 0; i < LineStyleEditor.NAMES.length; i++) {
+//				this.comboBoxComponent.addItem(LineStyleEditor.NAMES[i]);
+//			}
+//			this.comboBoxComponent.changed().addListener(this, new Signal.Listener() {
+//				public void trigger() {
+//					int row = getComboBoxComponent().getCurrentIndex();
+//					LineStyleChoiceList selectedLineStyle = (LineStyleChoiceList) LineStyleEditor.VALUES[row];
+//					setValue(selectedLineStyle);
+//				}
+//			});
 		}
 		return this.comboBoxComponent;
 	}

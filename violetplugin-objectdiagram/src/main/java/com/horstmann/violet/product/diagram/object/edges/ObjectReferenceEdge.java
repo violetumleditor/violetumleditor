@@ -30,7 +30,7 @@ import java.awt.geom.Point2D;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.ShapeEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
+import com.horstmann.violet.framework.property.ArrowheadChoiceList;
 
 /**
  * An S- or C-shaped edge with an arrowhead.
@@ -46,7 +46,7 @@ public class ObjectReferenceEdge extends ShapeEdge
         double y = line.getY2();
         if (isSShaped()) x1 = x2 - END_SIZE;
         else x1 = x2 + END_SIZE;
-        ArrowHead.BLACK_TRIANGLE.draw(g2, new Point2D.Double(x1, y), new Point2D.Double(x2, y));
+        ArrowheadChoiceList.TRIANGLE_BLACK.draw(g2, new Point2D.Double(x1, y), new Point2D.Double(x2, y));
     }
 
     public Shape getShape()

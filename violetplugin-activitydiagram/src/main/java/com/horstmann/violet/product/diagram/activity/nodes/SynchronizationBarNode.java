@@ -33,8 +33,9 @@ import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.abstracts.property.ChoiceList;
-import com.horstmann.violet.product.diagram.abstracts.property.StretchStyle;
+import com.horstmann.violet.framework.property.choiceList.ChoiceList;
+import com.horstmann.violet.framework.property.StretchStyle;
+import com.horstmann.violet.framework.property.choiceList.TextChoiceList;
 import com.horstmann.violet.product.diagram.activity.edges.ActivityTransitionEdge;
 
 /**
@@ -45,9 +46,9 @@ public class SynchronizationBarNode extends ColorableNode
     public SynchronizationBarNode()
     {
         super();
-        orientation = new ChoiceList(
+        orientation = new TextChoiceList<StretchStrategy>(
                 new String[]{"HORIZONTAL","VERTICAL"},
-                new Object[]{HORIZONTAL, VERTICAL}
+                new StretchStrategy[]{HORIZONTAL, VERTICAL}
         );
         orientation.setSelectedValue(HORIZONTAL);
         createContentStructure();
@@ -56,7 +57,6 @@ public class SynchronizationBarNode extends ColorableNode
     protected SynchronizationBarNode(SynchronizationBarNode node) throws CloneNotSupportedException
     {
         super(node);
-        orientation = node.orientation.clone();
         createContentStructure();
     }
 
@@ -185,7 +185,7 @@ public class SynchronizationBarNode extends ColorableNode
 
     private interface StretchStrategy
     {
-        void setLength(Content content, double lenght);
+        void setLength(Content content, double length);
         double getLength(Content content);
         void setThickness(Content content, double thickness);
         double getThickness(Content content);
