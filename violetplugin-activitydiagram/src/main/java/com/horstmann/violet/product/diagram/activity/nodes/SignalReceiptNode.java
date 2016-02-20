@@ -77,8 +77,8 @@ public class SignalReceiptNode extends ColorableNode
     protected void createContentStructure()
     {
         TextContent signalContent = new TextContent(signal);
-        signalContent.setMinHeight(DEFAULT_HEIGHT);
-        signalContent.setMinWidth(DEFAULT_WIDTH);
+        signalContent.setMinHeight(MIN_HEIGHT);
+        signalContent.setMinWidth(MIN_WIDTH);
 
         ContentInsideShape contentInsideShape = new ContentInsideCustomShape(signalContent, new ContentInsideCustomShape.ShapeCreator() {
             @Override
@@ -88,7 +88,7 @@ public class SignalReceiptNode extends ColorableNode
                 path.lineTo(contentWidth, 0);
                 path.lineTo(contentWidth, contentHeight);
                 path.lineTo(0, contentHeight);
-                path.lineTo(DEFAULT_HEIGHT / 2, contentHeight - contentHeight / 2);
+                path.lineTo(MIN_HEIGHT / 2, contentHeight - contentHeight / 2);
                 path.lineTo(0, 0);
                 return path;
             }
@@ -140,7 +140,6 @@ public class SignalReceiptNode extends ColorableNode
 
     private SingleLineText signal;
 
-    private static final int DEFAULT_WIDTH = 80;
-    private static final int DEFAULT_HEIGHT = 40;
-    private static final int EDGE_WIDTH = 20;
+    private static final int MIN_WIDTH = 80;
+    private static final int MIN_HEIGHT = 40;
 }

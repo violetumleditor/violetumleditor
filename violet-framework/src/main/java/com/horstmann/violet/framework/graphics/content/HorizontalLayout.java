@@ -59,8 +59,10 @@ public class HorizontalLayout extends Layout
     @Override
     public Rectangle2D getMinimalBounds()
     {
-        double height = 0;
-        double width = 0;
+        Rectangle2D selfMinimalBounds = super.getMinimalBounds();
+
+        double height = selfMinimalBounds.getWidth();
+        double width = selfMinimalBounds.getHeight();
 
         for (Content content: getContents())
         {

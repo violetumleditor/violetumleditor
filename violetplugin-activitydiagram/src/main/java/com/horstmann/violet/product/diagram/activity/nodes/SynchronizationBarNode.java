@@ -33,6 +33,7 @@ import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.abstracts.property.ChoiceList;
 import com.horstmann.violet.product.diagram.abstracts.property.StretchStyle;
 import com.horstmann.violet.product.diagram.activity.edges.ActivityTransitionEdge;
 
@@ -41,27 +42,21 @@ import com.horstmann.violet.product.diagram.activity.edges.ActivityTransitionEdg
  */
 public class SynchronizationBarNode extends ColorableNode
 {
-    private interface StretchStrategy
-    {
-        void setLength(Content content, double lenght);
-        double getLength(Content content);
-        void setThickness(Content content, double thickness);
-        double getThickness(Content content);
-        Direction getCountingDirection();
-        StretchStyle getStretchStyle();
-    }
-
     public SynchronizationBarNode()
     {
         super();
-        currentStretch = HORIZONTAL;
+        orientation = new ChoiceList(
+                new String[]{"HORIZONTAL","VERTICAL"},
+                new Object[]{HORIZONTAL, VERTICAL}
+        );
+        orientation.setSelectedValue(HORIZONTAL);
         createContentStructure();
     }
 
     protected SynchronizationBarNode(SynchronizationBarNode node) throws CloneNotSupportedException
     {
         super(node);
-        currentStretch = node.currentStretch;
+        orientation = node.orientation.clone();
         createContentStructure();
     }
 
@@ -74,9 +69,11 @@ public class SynchronizationBarNode extends ColorableNode
     @Override
     protected void createContentStructure()
     {
+        currentStretch = ((StretchStrategy)this.orientation.getSelectedValue());
+
         content = new EmptyContent();
-        currentStretch.setLength(content, DEFAULT_LENGHT);
-        currentStretch.setThickness(content, DEFAULT_THICKNESS);
+        currentStretch.setLength(content, LENGTH);
+        currentStretch.setThickness(content, THICKNESS);
 
         ContentInsideShape contentInsideShape = new ContentInsideRectangle(content);
         ContentBackground contentBackground = new ContentBackground(contentInsideShape, getBorderColor());
@@ -126,7 +123,7 @@ public class SynchronizationBarNode extends ColorableNode
             }
             else if(Direction.SOUTH.equals(e.getDirection(this).getNearestCardinalDirection()))
             {
-                y = defaultConnectionPoint.getY() + DEFAULT_THICKNESS;
+                y = defaultConnectionPoint.getY() + THICKNESS;
             }
         }
 
@@ -148,8 +145,8 @@ public class SynchronizationBarNode extends ColorableNode
                 }
             }
 
-            currentStretch.setLength(content, DEFAULT_LENGHT + EXTRA_LENGHT * (Math.max(count, connectedEdges.size() - count) - 1));
-            currentStretch.setThickness(content, DEFAULT_THICKNESS);
+            currentStretch.setLength(content, LENGTH + EXTRA_LENGTH * (Math.max(count, connectedEdges.size() - count) - 1));
+            currentStretch.setThickness(content, THICKNESS);
         }
     }
 
@@ -158,38 +155,48 @@ public class SynchronizationBarNode extends ColorableNode
         return currentStretch.getStretchStyle();
     }
 
-    public void setStretchStyle(StretchStyle stretchStyle)
+    public ChoiceList getOrientation()
     {
-        if(currentStretch.getStretchStyle() != stretchStyle)
-        {
-            double lenght = currentStretch.getLength(content);
-            double thickness = currentStretch.getThickness(content);
-
-            if (StretchStyle.HORIZONTAL == stretchStyle)
-            {
-                currentStretch = HORIZONTAL;
-            }
-            else
-            {
-                currentStretch = VERTICAL;
-            }
-
-            currentStretch.setLength(content, lenght);
-            currentStretch.setThickness(content, thickness);
-        }
+        return orientation;
     }
 
-    private StretchStrategy currentStretch;
+    public void setOrientation(ChoiceList orientation)
+    {
+        double length = currentStretch.getLength(content);
+        double thickness = currentStretch.getThickness(content);
+
+        currentStretch = ((StretchStrategy)this.orientation.getSelectedValue());
+
+        currentStretch.setLength(content, length);
+        currentStretch.setThickness(content, thickness);
+
+        this.orientation = orientation;
+        getContent().refresh();
+    }
+
+    private ChoiceList orientation;
+
+    private transient StretchStrategy currentStretch;
     private transient Content content = null;
 
-    private static final int DEFAULT_LENGHT = 100;
-    private static final int DEFAULT_THICKNESS = 5;
-    private static final int EXTRA_LENGHT = 12;
+    private static final int LENGTH = 100;
+    private static final int THICKNESS = 5;
+    private static final int EXTRA_LENGTH = 12;
+
+    private interface StretchStrategy
+    {
+        void setLength(Content content, double lenght);
+        double getLength(Content content);
+        void setThickness(Content content, double thickness);
+        double getThickness(Content content);
+        Direction getCountingDirection();
+        StretchStyle getStretchStyle();
+    }
 
     private static final StretchStrategy HORIZONTAL = new StretchStrategy() {
         @Override
-        public void setLength(Content content, double lenght) {
-            content.setMinWidth(lenght);
+        public void setLength(Content content, double length) {
+            content.setMinWidth(length);
         }
 
         @Override
@@ -198,7 +205,8 @@ public class SynchronizationBarNode extends ColorableNode
         }
 
         @Override
-        public void setThickness(Content content, double thickness) {
+        public void setThickness(Content content, double thickness)
+        {
             content.setMinHeight(thickness);
         }
 
@@ -219,8 +227,8 @@ public class SynchronizationBarNode extends ColorableNode
     };
     private static final StretchStrategy VERTICAL = new StretchStrategy() {
         @Override
-        public void setLength(Content content, double lenght) {
-            content.setMinHeight(lenght);
+        public void setLength(Content content, double length) {
+            content.setMinHeight(length);
         }
 
         @Override

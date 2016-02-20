@@ -73,10 +73,10 @@ public class PageLinkNode extends ColorableNode
     protected void createContentStructure()
     {
         TextContent nameContent = new TextContent(name);
-        nameContent.setMinHeight(DEFAULT_HEIGHT);
-        nameContent.setMinWidth(DEFAULT_WIDTH);
+        nameContent.setMinHeight(MIN_HEIGHT);
+        nameContent.setMinWidth(MIN_WIDTH);
 
-        ContentInsideShape contentInsideShape = new ContentInsideEllipse(nameContent, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        ContentInsideShape contentInsideShape = new ContentInsideEllipse(nameContent, MIN_WIDTH, MIN_HEIGHT);
 
         setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
         setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
@@ -112,6 +112,6 @@ public class PageLinkNode extends ColorableNode
 
     private SingleLineText name;
 
-    private static final int DEFAULT_WIDTH = 30;
-    private static final int DEFAULT_HEIGHT = 20;
+    private static final int MIN_WIDTH = 30;
+    private static final int MIN_HEIGHT = 20;
 }

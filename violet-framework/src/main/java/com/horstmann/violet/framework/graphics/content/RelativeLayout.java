@@ -34,20 +34,30 @@ public class RelativeLayout extends Layout
          * @see Content#refreshUp()
          */
         @Override
-        public void refreshUp()
-        {
-            setHeight(content.getHeight());
-            setWidth(content.getWidth());
+        public final void refreshUp() {
+            Rectangle2D minimalBounds = getMinimalBounds();
+
+            setWidth(minimalBounds.getWidth());
+            setHeight(minimalBounds.getHeight());
+
             super.refreshUp();
         }
 
         /**
-         * @return the same as bounds
-         * @see Content#getBounds()
+         * @return minimal bounds of this element
          */
-        public Rectangle2D getRect()
+        @Override
+        public Rectangle2D getMinimalBounds()
         {
-            return new Rectangle2D.Double(position.getX(), position.getY(), getWidth(), getHeight());
+            Rectangle2D contentMinimalBounds = content.getMinimalBounds();
+            Rectangle2D selfMinimalBounds = super.getMinimalBounds();
+
+            return new Rectangle2D.Double(
+                    position.getX(),
+                    position.getY(),
+                    Math.max(selfMinimalBounds.getWidth(), contentMinimalBounds.getWidth()),
+                    Math.max(selfMinimalBounds.getHeight(), contentMinimalBounds.getHeight())
+            );
         }
 
         /**
@@ -171,12 +181,14 @@ public class RelativeLayout extends Layout
     @Override
     public Rectangle2D getMinimalBounds()
     {
-        double maxX = 0;
-        double maxY = 0;
+        Rectangle2D selfMinimalBounds = super.getMinimalBounds();
+
+        double maxX = selfMinimalBounds.getWidth();
+        double maxY = selfMinimalBounds.getHeight();
 
         for (Content content: getContents())
         {
-            Rectangle2D rect = ((RelativeContent)content).getRect();
+            Rectangle2D rect = content.getMinimalBounds();
 
             maxX = Math.max(maxX, rect.getMaxX());
             maxY = Math.max(maxY, rect.getMaxY());

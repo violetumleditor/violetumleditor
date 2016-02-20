@@ -2,6 +2,7 @@ package com.horstmann.violet.product.diagram.classes.nodes;
 
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.ChoiceList;
@@ -27,12 +28,6 @@ public class BallAndSocketNode extends ColorableNode
 
     protected class BallAndSocketShape implements ContentInsideCustomShape.ShapeCreator
     {
-        public BallAndSocketShape(TextContent nameContent)
-        {
-            super();
-            this.nameContent = nameContent;
-        }
-
         @Override
         public Shape createShape(double contentWidth, double contentHeight)
         {
@@ -42,18 +37,18 @@ public class BallAndSocketNode extends ColorableNode
             {
                 case BALL:
                 {
-                    return new Ellipse2D.Double((nameContent.getWidth() - DEFAULT_DIAMETER)/2+DEFAULT_GAP,DEFAULT_GAP,DEFAULT_DIAMETER-2*DEFAULT_GAP,DEFAULT_DIAMETER-2*DEFAULT_GAP);
+                    return new Ellipse2D.Double(DEFAULT_GAP,DEFAULT_GAP,DEFAULT_DIAMETER-2*DEFAULT_GAP,DEFAULT_DIAMETER-2*DEFAULT_GAP);
                 }
 
                 case SOCKET:
                 {
-                    path.append(new Arc2D.Double((nameContent.getWidth() - DEFAULT_DIAMETER)/2, DEFAULT_GAP, DEFAULT_DIAMETER, DEFAULT_DIAMETER, 0, 180, Arc2D.OPEN),false);
+                    path.append(new Arc2D.Double(0, DEFAULT_GAP, DEFAULT_DIAMETER, DEFAULT_DIAMETER, 0, 180, Arc2D.OPEN),false);
                 }break;
 
                 case BALL_AND_SOCKET:
                 {
-                    path.append(new Arc2D.Double((nameContent.getWidth() - DEFAULT_DIAMETER)/2, 0, DEFAULT_DIAMETER, DEFAULT_DIAMETER, 0, 180, Arc2D.OPEN),false);
-                    path.append(new Ellipse2D.Double((nameContent.getWidth() - DEFAULT_DIAMETER)/2+DEFAULT_GAP,DEFAULT_GAP,DEFAULT_DIAMETER-2*DEFAULT_GAP,DEFAULT_DIAMETER-2*DEFAULT_GAP),false);
+                    path.append(new Arc2D.Double(0, 0, DEFAULT_DIAMETER, DEFAULT_DIAMETER, 0, 180, Arc2D.OPEN),false);
+                    path.append(new Ellipse2D.Double(DEFAULT_GAP,DEFAULT_GAP,DEFAULT_DIAMETER-2*DEFAULT_GAP,DEFAULT_DIAMETER-2*DEFAULT_GAP),false);
                 }break;
             }
 
@@ -67,8 +62,6 @@ public class BallAndSocketNode extends ColorableNode
 
             return path;
         }
-
-        private TextContent nameContent;
     }
 
     /**
@@ -107,24 +100,26 @@ public class BallAndSocketNode extends ColorableNode
     }
 
     @Override
-    public void createContentStructure() {
+    public void createContentStructure()
+    {
+        TextContent nameContent = new TextContent(name);
 
-        TextContent nameContent = new TextContent(this.name);
-        EmptyContent empty = new EmptyContent();
-        nameContent.setMinWidth(DEFAULT_DIAMETER);
+        ContentInsideCustomShape shape = new ContentInsideCustomShape(null, new BallAndSocketShape());
+        shape.setMinWidth(DEFAULT_DIAMETER);
+        shape.setMinHeight(DEFAULT_DIAMETER);
 
-        ContentInsideShape contentInsideShape = new ContentInsideCustomShape(empty, new BallAndSocketShape(nameContent));
-
-        setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
+        setBorder(new ContentBorder(shape, getBorderColor()));
 //        setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
 
-        setTextColor(super.getTextColor());
+        CenterContent centeredShape = new CenterContent(getBorder());
 
         VerticalLayout verticalGroupContent = new VerticalLayout();
-        verticalGroupContent.add(getBorder());
+        verticalGroupContent.add(centeredShape);
         verticalGroupContent.add(nameContent);
 
         setContent(verticalGroupContent);
+
+        setTextColor(super.getTextColor());
     }
 
     /*

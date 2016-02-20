@@ -77,24 +77,10 @@ public class DecisionNode extends ColorableNode
     protected void createContentStructure()
     {
         TextContent conditionContent = new TextContent(condition);
-        conditionContent.setMinHeight(DEFAULT_HEIGHT);
-        conditionContent.setMinWidth(DEFAULT_WIDTH);
+        conditionContent.setMinHeight(MIN_HEIGHT);
+        conditionContent.setMinWidth(MIN_WIDTH);
 
-        ContentInsideShape contentInsideShape = new ContentInsideCustomShape(conditionContent, new ContentInsideCustomShape.ShapeCreator() {
-            @Override
-            public Shape createShape(double contentWidth, double contentHeight) {
-                double width = contentWidth + contentHeight * Math.sqrt(3);
-                double height = contentHeight + contentWidth / Math.sqrt(3);
-
-                GeneralPath diamond = new GeneralPath();
-                diamond.moveTo(0, height/2);
-                diamond.lineTo(width/2, 0);
-                diamond.lineTo(width, height/2);
-                diamond.lineTo(width/2, height);
-                diamond.lineTo(0, height/2);
-                return diamond;
-            }
-        });
+        ContentInsideShape contentInsideShape = new ContentInsideCustomShape(conditionContent, new DecisionShape());
 
         setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
         setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
@@ -112,36 +98,29 @@ public class DecisionNode extends ColorableNode
 
 
     @Override
-    public Point2D getConnectionPoint(IEdge e)
+    public Point2D getConnectionPoint(IEdge edge)
     {
         Rectangle2D b = getBounds();
 
         double x = b.getCenterX();
         double y = b.getCenterY();
 
-        Direction d = e.getDirection(this);
-
-        Direction nearestCardinalDirection = d.getNearestCardinalDirection();
-
-        if (Direction.NORTH.equals(nearestCardinalDirection))
+        Direction direction = edge.getDirection(this).getNearestCardinalDirection();
+        if(direction.equals(Direction.NORTH))
         {
-            x = b.getCenterX();
             y = b.getMaxY();
         }
-        if (Direction.SOUTH.equals(nearestCardinalDirection))
+        else if(direction.equals(Direction.SOUTH))
         {
-            x = b.getCenterX();
             y = b.getY();
         }
-        if (Direction.EAST.equals(nearestCardinalDirection))
+        else if(direction.equals(Direction.EAST))
         {
             x = b.getX();
-            y = b.getCenterY();
         }
-        if (Direction.WEST.equals(nearestCardinalDirection))
+        else
         {
             x = b.getMaxX();
-            y = b.getCenterY();
         }
         return new Point2D.Double(x, y);
     }
@@ -151,7 +130,6 @@ public class DecisionNode extends ColorableNode
     {
         return e.getEnd() != null && this != e.getEnd();
     }
-
 
     /**
      * Sets the condition property value.
@@ -173,12 +151,30 @@ public class DecisionNode extends ColorableNode
         return condition;
     }
 
-    /**
-     * @see java.lang.Object#clone()
-     */
-
     private SingleLineText condition;
 
-    private static final int DEFAULT_WIDTH = 30;
-    private static final int DEFAULT_HEIGHT = 20;
+    private static final int MIN_WIDTH = 30;
+    private static final int MIN_HEIGHT = 20;
+
+    private static final class DecisionShape implements ContentInsideCustomShape.ShapeCreator
+    {
+        /**
+         * @param contentWidth  width of rectangle
+         * @param contentHeight height of rectangle
+         * @return shape described in the rectangle
+         */
+        @Override
+        public Shape createShape(double contentWidth, double contentHeight) {
+            double width = contentWidth + contentHeight * Math.sqrt(3);
+            double height = contentHeight + contentWidth / Math.sqrt(3);
+
+            GeneralPath diamond = new GeneralPath();
+            diamond.moveTo(0, height/2);
+            diamond.lineTo(width/2, 0);
+            diamond.lineTo(width, height/2);
+            diamond.lineTo(width/2, height);
+            diamond.lineTo(0, height/2);
+            return diamond;
+        }
+    }
 }

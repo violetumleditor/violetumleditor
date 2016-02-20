@@ -93,10 +93,6 @@ public abstract class Layout extends Content
         return contents;
     }
 
-
-
-
-
     /**
      * Refresh all the elements in layout
      *
@@ -105,7 +101,8 @@ public abstract class Layout extends Content
     @Override
     protected void refreshDown()
     {
-        for (Content content: getContents()) {
+        for (Content content: getContents())
+        {
             content.refreshDown();
         }
         super.refreshDown();

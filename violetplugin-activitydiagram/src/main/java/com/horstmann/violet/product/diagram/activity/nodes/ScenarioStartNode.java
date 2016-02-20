@@ -57,8 +57,8 @@ public class ScenarioStartNode extends AbstractNode
     protected void createContentStructure()
     {
         EmptyContent emptyContent = new EmptyContent();
-        emptyContent.setMinHeight(DEFAULT_DIAMETER);
-        emptyContent.setMinWidth(DEFAULT_DIAMETER);
+        emptyContent.setMinHeight(DIAMETER);
+        emptyContent.setMinWidth(DIAMETER);
 
         ContentInsideShape contentInsideShape = new ContentInsideEllipse(emptyContent, 1);
 
@@ -73,5 +73,5 @@ public class ScenarioStartNode extends AbstractNode
     }
 
     /** default node_old diameter */
-    private static int DEFAULT_DIAMETER = 12;
+    private static int DIAMETER = 12;
 }

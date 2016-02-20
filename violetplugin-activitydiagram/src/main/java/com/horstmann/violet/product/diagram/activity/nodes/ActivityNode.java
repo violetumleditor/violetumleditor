@@ -64,8 +64,8 @@ public class ActivityNode extends ColorableNode
     protected void createContentStructure()
     {
         TextContent nameContent = new TextContent(name);
-        nameContent.setMinHeight(DEFAULT_HEIGHT);
-        nameContent.setMinWidth(DEFAULT_WIDTH);
+        nameContent.setMinHeight(MIN_HEIGHT);
+        nameContent.setMinWidth(MIN_WIDTH);
 
         ContentInsideShape contentInsideShape = new ContentInsideRoundRectangle(nameContent, ARC_SIZE);
 
@@ -96,6 +96,6 @@ public class ActivityNode extends ColorableNode
     private SingleLineText name;
 
     private static final int ARC_SIZE = 20;
-    private static final int DEFAULT_WIDTH = 60;
-    private static final int DEFAULT_HEIGHT = 40;
+    private static final int MIN_WIDTH = 60;
+    private static final int MIN_HEIGHT = 40;
 }

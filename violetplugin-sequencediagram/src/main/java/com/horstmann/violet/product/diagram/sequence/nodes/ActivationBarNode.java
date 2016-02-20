@@ -47,7 +47,7 @@ public class ActivationBarNode extends ColorableNode
         @Override
         public Shape createShape(double contentWidth, double contentHeight)
         {
-            return new Rectangle2D.Double(0,0, DEFAULT_WIDTH, contentHeight);
+            return new Rectangle2D.Double(0,0, WIDTH, contentHeight);
         }
     }
 
@@ -86,16 +86,16 @@ public class ActivationBarNode extends ColorableNode
     protected void createContentStructure()
     {
         activationsGroup = new RelativeLayout();
-        activationsGroup.setMinHeight(DEFAULT_HEIGHT);
-        activationsGroup.setMinWidth(DEFAULT_WIDTH);
 
         EmptyContent padding = new EmptyContent();
-        padding.setMinHeight(DEFAULT_CHILD_VERTICAL_MARGIN);
+        padding.setMinHeight(CHILD_VERTICAL_MARGIN);
 
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.add(padding);
         verticalLayout.add(activationsGroup);
         verticalLayout.add(padding);
+        verticalLayout.setMinHeight(MIN_HEIGHT);
+        verticalLayout.setMinWidth(WIDTH);
 
         ContentInsideShape contentInsideShape = new ContentInsideCustomShape(verticalLayout, new ActivationBarShape());
 
@@ -104,6 +104,7 @@ public class ActivationBarNode extends ColorableNode
         setContent(getBackground());
 
         setTextColor(getTextColor());
+        refreshPositionAndSize();
     }
 
     @Override
@@ -133,6 +134,7 @@ public class ActivationBarNode extends ColorableNode
         activationBarNode.setLocation(point);
         activationBarNode.setGraph(getGraph());
         activationBarNode.setParent(this);
+        refreshPositionAndSize();
 
         return true;
     }
@@ -145,13 +147,13 @@ public class ActivationBarNode extends ColorableNode
     protected Point2D getChildRelativeLocation(INode node)
     {
         Point2D nodeLocation = node.getLocation();
-        if(DEFAULT_CHILD_VERTICAL_MARGIN > nodeLocation.getY() || DEFAULT_CHILD_LEFT_MARGIN != nodeLocation.getX())
+        if(CHILD_VERTICAL_MARGIN > nodeLocation.getY() || CHILD_LEFT_MARGIN != nodeLocation.getX())
         {
-            nodeLocation.setLocation(DEFAULT_CHILD_LEFT_MARGIN, Math.max(nodeLocation.getY(), DEFAULT_CHILD_VERTICAL_MARGIN));
+            nodeLocation.setLocation(CHILD_LEFT_MARGIN, Math.max(nodeLocation.getY(), CHILD_VERTICAL_MARGIN));
             node.setLocation(nodeLocation);
         }
 
-        return new Point2D.Double(nodeLocation.getX()+DEFAULT_CHILD_LEFT_MARGIN, nodeLocation.getY()- DEFAULT_CHILD_VERTICAL_MARGIN);
+        return new Point2D.Double(nodeLocation.getX()+ CHILD_LEFT_MARGIN, nodeLocation.getY()- CHILD_VERTICAL_MARGIN);
     }
 
     @Override
@@ -201,14 +203,14 @@ public class ActivationBarNode extends ColorableNode
 
         if (0 >= edgeDirection.getX())
         {
-            x+=DEFAULT_WIDTH;
+            x+= WIDTH;
         }
 
         if(edge instanceof CallEdge)
         {
             if (edge.getEnd() instanceof LifelineNode)
             {
-                y += CALL_YGAP / 2;
+                y += CALL_Y_GAP / 2;
             }
             else if (null != edge.getStart().getParent() &&
                      null != edge.getEnd().getParent() &&
@@ -216,11 +218,11 @@ public class ActivationBarNode extends ColorableNode
             {
                 if (0 < edgeDirection.getX())
                 {
-                    x += DEFAULT_WIDTH;
+                    x += WIDTH;
                 }
                 if(this == edge.getStart())
                 {
-                    y += edge.getEnd().getLocation().getY() - CALL_YGAP/2;
+                    y += edge.getEnd().getLocation().getY() - CALL_Y_GAP /2;
                 }
             }
             else if(this == edge.getStart())
@@ -253,7 +255,7 @@ public class ActivationBarNode extends ColorableNode
     private void refreshPositionAndSize()
     {
         setLocation(calculateLocation());
-        activationsGroup.setMinHeight((int)Math.max(calculateHeight(), DEFAULT_HEIGHT ));
+        activationsGroup.setMinHeight((int)Math.max(calculateHeight(), MIN_HEIGHT));
     }
 
     private Point2D calculateLocation()
@@ -292,7 +294,7 @@ public class ActivationBarNode extends ColorableNode
                 }
             }
         }
-        return Math.max(DEFAULT_HEIGHT, height);
+        return Math.max(MIN_HEIGHT, height);
     }
 
     private boolean isReturnEdgeAcceptable(ReturnEdge edge)
@@ -336,7 +338,7 @@ public class ActivationBarNode extends ColorableNode
             {
                 ActivationBarNode newActivationBar = new ActivationBarNode();
                 Point2D location = edge.getStartLocation();
-                Point2D newActivationBarLocation = new Point2D.Double(location.getX(), location.getY() + CALL_YGAP / 2);
+                Point2D newActivationBarLocation = new Point2D.Double(location.getX(), location.getY() + CALL_Y_GAP / 2);
                 start.addChild(newActivationBar, newActivationBarLocation);
                 edge.setEnd(newActivationBar);
                 return true;
@@ -348,7 +350,7 @@ public class ActivationBarNode extends ColorableNode
         {
             if(start instanceof ActivationBarNode && end != start.getParents().get(0))
             {
-                if(edge.getEndLocation().getY() < end.getBounds().getY() + LifelineNode.DEFAULT_TOP_HEIGHT)
+                if(edge.getEndLocation().getY() < end.getBounds().getY() + LifelineNode.TOP_HEIGHT)
                 {
                     return true;
                 }
@@ -367,14 +369,9 @@ public class ActivationBarNode extends ColorableNode
 
     private transient RelativeLayout activationsGroup = null;
     
-    /** Default with */
-    public static final int DEFAULT_WIDTH = 16;
-    public static final int DEFAULT_CHILD_LEFT_MARGIN = 5;
-    public static final int DEFAULT_CHILD_VERTICAL_MARGIN = 10;
-
-    /** Default height */
-    private static final int DEFAULT_HEIGHT = 20;
-
-    /** Default vertical gap between two call nodes and a call node_old and an implicit node_old */
-    public static final int CALL_YGAP = 20;
+    public static final int WIDTH = 16;
+    public static final int MIN_HEIGHT = 20;
+    public static final int CHILD_LEFT_MARGIN = 5;
+    public static final int CHILD_VERTICAL_MARGIN = 10;
+    public static final int CALL_Y_GAP = 20;
 }

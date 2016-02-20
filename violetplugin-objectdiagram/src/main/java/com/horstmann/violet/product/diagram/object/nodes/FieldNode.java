@@ -94,7 +94,7 @@ public class FieldNode extends ColorableNode
         valueContent.setMinHeight(DEFAULT_HEIGHT);
         valueContent.setMinWidth(DEFAULT_WIDTH/2);
 
-        horizontalGroupContent = new HorizontalLayout();
+        HorizontalLayout horizontalGroupContent = new HorizontalLayout();
         horizontalGroupContent.add(nameContent);
         horizontalGroupContent.add(valueContent);
         horizontalGroupContent.setSeparator(EQUAL_SEPARATOR);
@@ -259,14 +259,12 @@ public class FieldNode extends ColorableNode
     private SingleLineText name;
     private SingleLineText value;
 
-    private transient HorizontalLayout horizontalGroupContent = null;
-
     private static final int DEFAULT_WIDTH = 80;
     private static final int DEFAULT_HEIGHT = 20;
     private static final int XGAP = 5;
     private static final int YGAP = 5;
 
-    protected static final Separator EQUAL_SEPARATOR = new Separator()
+    private static final Separator EQUAL_SEPARATOR = new Separator()
     {
         @Override
         public void draw(Graphics2D graphics, Point2D startPoint, Point2D endPoint)

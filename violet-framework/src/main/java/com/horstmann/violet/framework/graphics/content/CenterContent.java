@@ -39,6 +39,7 @@ public class CenterContent extends Content
     {
         updateOffsetPoint();
         super.refreshDown();
+        content.refreshDown();
     }
 
     @Override

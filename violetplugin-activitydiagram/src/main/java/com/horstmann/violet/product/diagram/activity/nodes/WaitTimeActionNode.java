@@ -18,8 +18,6 @@ import java.awt.geom.Rectangle2D;
  */
 public class WaitTimeActionNode  extends ColorableNode
 {
-
-
     /**
      * Construct an receive event node with a default size
      */
@@ -58,9 +56,8 @@ public class WaitTimeActionNode  extends ColorableNode
     protected void createContentStructure()
     {
         TextContent nameContent = new TextContent(waitTimeAction);
-        nameContent.setMinWidth(DEFAULT_WIDTH);
 
-        ContentInsideCustomShape shape = new ContentInsideCustomShape(null, new WaitTimeShape());
+        ContentInsideCustomShape shape = new ContentInsideCustomShape(null, WAIT_SHAPE);
         shape.setMinWidth(SHAPE_WIDTH);
         shape.setMinHeight(SHAPE_HEIGHT);
 
@@ -73,7 +70,7 @@ public class WaitTimeActionNode  extends ColorableNode
         verticalGroupContent.add(centeredShape);
         verticalGroupContent.add(nameContent);
 
-        setContent(new ContentInsideRectangle(verticalGroupContent));
+        setContent(verticalGroupContent);
 
         setTextColor(super.getTextColor());
     }
@@ -108,16 +105,10 @@ public class WaitTimeActionNode  extends ColorableNode
 
     private SingleLineText waitTimeAction;
 
-
-
-
-    private static final int DEFAULT_WIDTH = 40;
-    private static final int DEFAULT_HEIGHT = 40;
-
     private static final int SHAPE_WIDTH = 40;
     private static final int SHAPE_HEIGHT = 40;
 
-    private static final class WaitTimeShape implements ContentInsideCustomShape.ShapeCreator
+    private static final ContentInsideCustomShape.ShapeCreator WAIT_SHAPE = new ContentInsideCustomShape.ShapeCreator()
     {
         @Override
         public Shape createShape(double contentWidth, double contentHeight) {
@@ -130,5 +121,5 @@ public class WaitTimeActionNode  extends ColorableNode
             path.closePath();
             return path;
         }
-    }
+    };
 }

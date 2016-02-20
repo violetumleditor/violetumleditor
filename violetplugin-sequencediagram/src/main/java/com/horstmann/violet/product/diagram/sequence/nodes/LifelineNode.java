@@ -92,8 +92,8 @@ public class LifelineNode extends ColorableNode
     protected void createContentStructure()
     {
         TextContent nameContent = new TextContent(name);
-        nameContent.setMinHeight(DEFAULT_TOP_HEIGHT);
-        nameContent.setMinWidth(DEFAULT_WIDTH);
+        nameContent.setMinHeight(TOP_HEIGHT);
+        nameContent.setMinWidth(MIN_WIDTH);
 
         ContentInsideShape contentInsideShape = new ContentInsideRectangle(nameContent);
 
@@ -101,8 +101,7 @@ public class LifelineNode extends ColorableNode
         setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
 
         activationsGroup = new RelativeLayout();
-        activationsGroup.setMinWidth(ActivationBarNode.DEFAULT_WIDTH);
-        activationsGroup.setMinHeight(DEFAULT_HEIGHT - DEFAULT_TOP_HEIGHT);
+        activationsGroup.setMinWidth(ActivationBarNode.WIDTH);
 
         EmptyContent padding = new EmptyContent();
         padding.setMinHeight(ACTIVATIONS_PADDING);
@@ -112,6 +111,7 @@ public class LifelineNode extends ColorableNode
         verticalLayout.add(padding);
         verticalLayout.add(activationsGroup);
         verticalLayout.add(padding);
+        verticalLayout.setMinHeight(MIN_HEIGHT);
 
         setContent(verticalLayout);
 
@@ -182,13 +182,13 @@ public class LifelineNode extends ColorableNode
     {
         Point2D nodeLocation = node.getLocation();
         double relativeCenteredX = getRelativeCenteredPositionX();
-        if(DEFAULT_TOP_HEIGHT + ACTIVATIONS_PADDING > nodeLocation.getY() || relativeCenteredX != nodeLocation.getX())
+        if(TOP_HEIGHT + ACTIVATIONS_PADDING > nodeLocation.getY() || relativeCenteredX != nodeLocation.getX())
         {
-            nodeLocation.setLocation(relativeCenteredX, Math.max(nodeLocation.getY(), DEFAULT_TOP_HEIGHT + ACTIVATIONS_PADDING));
+            nodeLocation.setLocation(relativeCenteredX, Math.max(nodeLocation.getY(), TOP_HEIGHT + ACTIVATIONS_PADDING));
             node.setLocation(nodeLocation);
         }
 
-        return new Point2D.Double(nodeLocation.getX(), nodeLocation.getY() - DEFAULT_TOP_HEIGHT - ACTIVATIONS_PADDING);
+        return new Point2D.Double(nodeLocation.getX(), nodeLocation.getY() - TOP_HEIGHT - ACTIVATIONS_PADDING);
     }
 
     @Override
@@ -201,7 +201,7 @@ public class LifelineNode extends ColorableNode
             {
                 if (this == edge.getEnd())
                 {
-                    y = edge.getStart().getLocationOnGraph().getY() - DEFAULT_TOP_HEIGHT/2 + ActivationBarNode.CALL_YGAP / 2;
+                    y = edge.getStart().getLocationOnGraph().getY() - TOP_HEIGHT /2 + ActivationBarNode.CALL_Y_GAP / 2;
                 }
             }
         }
@@ -234,8 +234,8 @@ public class LifelineNode extends ColorableNode
         double maxYOverAllLifeLineNodes = getMaxYOverAllLifeLineNodes();
         Rectangle2D bounds = getBounds();
         if((maxYOverAllLifeLineNodes >= p.getY() &&
-                ActivationBarNode.DEFAULT_WIDTH/2 >= p.getX() - bounds.getCenterX() &&
-                ActivationBarNode.DEFAULT_WIDTH/2 >= bounds.getCenterX() - p.getX()) ||
+                ActivationBarNode.WIDTH /2 >= p.getX() - bounds.getCenterX() &&
+                ActivationBarNode.WIDTH /2 >= bounds.getCenterX() - p.getX()) ||
                 (bounds.getX() <= p.getX() &&
                         p.getX() <= bounds.getX() + bounds.getWidth()))
         {
@@ -259,7 +259,7 @@ public class LifelineNode extends ColorableNode
         {
             x += getContent().getWidth();
         }
-        return new Point2D.Double(x, locationOnGraph.getY() + DEFAULT_TOP_HEIGHT / 2);
+        return new Point2D.Double(x, locationOnGraph.getY() + TOP_HEIGHT / 2);
     }
 
     private double getMaxY()
@@ -294,7 +294,7 @@ public class LifelineNode extends ColorableNode
     }
     private double getRelativeCenteredPositionX()
     {
-        return (getContent().getWidth()- ActivationBarNode.DEFAULT_WIDTH)/2;
+        return (getContent().getWidth()- ActivationBarNode.WIDTH)/2;
     }
 
     /**
@@ -343,9 +343,9 @@ public class LifelineNode extends ColorableNode
 
     private transient RelativeLayout activationsGroup = null;
 
-    public static final int DEFAULT_TOP_HEIGHT = 60;
-    private static final int DEFAULT_WIDTH = 80;
-    private static final int DEFAULT_HEIGHT = 80;
+    public static final int TOP_HEIGHT = 60;
+    private static final int MIN_WIDTH = 100;
+    private static final int MIN_HEIGHT = 100;
     private static final int ACTIVATIONS_PADDING = 10;
 
     private static final LineText.Converter nameConverter = new LineText.Converter(){

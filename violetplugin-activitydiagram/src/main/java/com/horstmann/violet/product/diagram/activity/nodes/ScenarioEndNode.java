@@ -59,8 +59,8 @@ public class ScenarioEndNode extends AbstractNode
         RelativeLayout relativeLayout = new RelativeLayout();
 
         EmptyContent insideEmptyContent = new EmptyContent();
-        insideEmptyContent.setMinHeight(DEFAULT_DIAMETER);
-        insideEmptyContent.setMinWidth(DEFAULT_DIAMETER);
+        insideEmptyContent.setMinHeight(DIAMETER);
+        insideEmptyContent.setMinWidth(DIAMETER);
 
         ContentInsideShape contentInsideShape = new ContentInsideEllipse(insideEmptyContent, 1);
         ContentBackground contentBackground = new ContentBackground(contentInsideShape, ColorToolsBarPanel.PASTEL_GREY.getBackgroundColor());
@@ -69,12 +69,12 @@ public class ScenarioEndNode extends AbstractNode
         relativeLayout.add(contentBorder);
 
         insideEmptyContent = new EmptyContent();
-        insideEmptyContent.setMinHeight(DEFAULT_DIAMETER-DEFAULT_GAP);
-        insideEmptyContent.setMinWidth(DEFAULT_DIAMETER-DEFAULT_GAP);
+        insideEmptyContent.setMinHeight(DIAMETER - GAP);
+        insideEmptyContent.setMinWidth(DIAMETER - GAP);
 
         contentInsideShape = new ContentInsideEllipse(insideEmptyContent, 1);
         contentBackground = new ContentBackground(contentInsideShape, ColorToolsBarPanel.PASTEL_GREY.getBorderColor());
-        relativeLayout.add(contentBackground, new Point2D.Double(DEFAULT_GAP/ Math.sqrt(2),DEFAULT_GAP/ Math.sqrt(2)));
+        relativeLayout.add(contentBackground, new Point2D.Double(GAP / Math.sqrt(2), GAP / Math.sqrt(2)));
 
         setContent(relativeLayout);
     }
@@ -87,8 +87,8 @@ public class ScenarioEndNode extends AbstractNode
     }
 
     /** default node_old diameter */
-    private static final int DEFAULT_DIAMETER = 12;
+    private static final int DIAMETER = 12;
 
     /** default gap between the main circle and the ring for a final node_old */
-    private static final int DEFAULT_GAP = 4;
+    private static final int GAP = 4;
 }

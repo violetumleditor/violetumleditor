@@ -11,12 +11,12 @@ public class SynchronizationBarNodeBeanInfo extends SimpleBeanInfo
     {
         try
         {
-            PropertyDescriptor stretchStyleDescriptor = new PropertyDescriptor("stretchStyle", SynchronizationBarNode.class);
-            stretchStyleDescriptor.setValue("priority", new Integer(0));
+            PropertyDescriptor orientationDescriptor = new PropertyDescriptor("orientation", SynchronizationBarNode.class);
+            orientationDescriptor.setValue("priority", new Integer(0));
 
             return new PropertyDescriptor[]
             {
-                    stretchStyleDescriptor,
+                    orientationDescriptor,
             };
         }
         catch (IntrospectionException exception)

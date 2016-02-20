@@ -65,7 +65,14 @@ public class TextContent extends Content implements LineText.ChangeListener
      */
     public Rectangle2D getMinimalBounds()
     {
-        return text.getBounds();
+        Rectangle2D textMinimalBounds = text.getBounds();
+        Rectangle2D contentMinimalBounds = super.getMinimalBounds();
+        return new Rectangle2D.Double(
+                contentMinimalBounds.getX(),
+                contentMinimalBounds.getY(),
+                Math.max(contentMinimalBounds.getWidth(), textMinimalBounds.getWidth()),
+                Math.max(contentMinimalBounds.getHeight(), textMinimalBounds.getHeight())
+        );
     }
 
     /**

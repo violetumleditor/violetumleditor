@@ -84,9 +84,50 @@ public class ChoiceList
      *
      * @param index
      */
-    public void setSelectedIndex(int index)
+    public boolean setSelectedIndex(int index)
     {
+        if(0>index || keys.length <= index)
+        {
+            return false;
+        }
         selectedPos = index;
+        return true;
+    }
+
+    /**
+     * Selects an key in the list
+     *
+     * @param key
+     */
+    public boolean setSelectedKey(String key)
+    {
+        for(int i = 0; i<keys.length; ++i)
+        {
+            if(key.equals(keys[i]))
+            {
+                selectedPos = i;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Selects an value in the list
+     *
+     * @param value
+     */
+    public boolean setSelectedValue(Object value)
+    {
+        for(int i = 0; i<values.length; ++i)
+        {
+            if(value.equals(values[i]))
+            {
+                selectedPos = i;
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
