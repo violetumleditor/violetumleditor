@@ -3,7 +3,7 @@
  */
 package com.horstmann.violet.framework.propertyeditor.baseeditors;
 
-import com.horstmann.violet.framework.property.string.LineText;
+import com.horstmann.violet.framework.property.text.LineText;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;

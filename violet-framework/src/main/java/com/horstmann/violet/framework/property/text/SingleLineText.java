@@ -1,6 +1,6 @@
-package com.horstmann.violet.framework.property.string;
+package com.horstmann.violet.framework.property.text;
 
-import com.horstmann.violet.framework.property.string.decorator.OneLineString;
+import com.horstmann.violet.framework.property.text.decorator.OneLineText;
 
 /**
  * This class is a container for a single line of text
@@ -14,13 +14,13 @@ public class SingleLineText extends LineText
     {
         super();
         setPadding(0,10);
-        oneLineString = new OneLineString();
+        oneLineString = new OneLineText();
     }
     public SingleLineText(Converter converter)
     {
         super(converter);
         setPadding(0,10);
-        oneLineString = new OneLineString();
+        oneLineString = new OneLineText();
     }
     protected SingleLineText(SingleLineText lineText) throws CloneNotSupportedException
     {
@@ -31,7 +31,7 @@ public class SingleLineText extends LineText
     public void deserializeSupport(Converter converter)
     {
         super.deserializeSupport(converter);
-        oneLineString = new OneLineString();
+        oneLineString = new OneLineText();
         setPadding(0,10);
         setText(text);
     }
@@ -49,7 +49,7 @@ public class SingleLineText extends LineText
     }
 
     /**
-     * @see EditableString#setText(String)
+     * @see EditableText#setText(String)
      */
     @Override
     final public void setText(String text)
@@ -61,7 +61,7 @@ public class SingleLineText extends LineText
     }
 
     /**
-     * @see EditableString#toDisplay()
+     * @see EditableText#toDisplay()
      */
     @Override
     final public String toDisplay()
@@ -70,7 +70,7 @@ public class SingleLineText extends LineText
     }
 
     /**
-     * @see EditableString#toEdit()
+     * @see EditableText#toEdit()
      */
     @Override
     final public String toEdit()
@@ -88,13 +88,13 @@ public class SingleLineText extends LineText
     }
 
     /**
-     * @return one line string
+     * @return one line text
      */
-    private OneLineString getOneLineString()
+    private OneLineText getOneLineString()
     {
         if(null == oneLineString)
         {
-            oneLineString = new OneLineString();
+            oneLineString = new OneLineText();
             setPadding(0,10);
             setText(text);
         }
@@ -102,5 +102,5 @@ public class SingleLineText extends LineText
     }
 
     private String text = "";
-    private transient OneLineString oneLineString;
+    private transient OneLineText oneLineString;
 }

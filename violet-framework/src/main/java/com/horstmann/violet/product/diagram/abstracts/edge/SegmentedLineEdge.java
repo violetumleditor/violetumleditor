@@ -40,21 +40,23 @@ import com.horstmann.violet.framework.property.ArrowheadChoiceList;
 import com.horstmann.violet.framework.property.LineStyleChoiceList;
 import com.horstmann.violet.framework.property.choiceList.ChoiceList;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
+import com.horstmann.violet.product.diagram.abstracts.edge.arrowhead.Arrowhead;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.framework.property.BentStyleChoiceList;
-import com.horstmann.violet.framework.property.string.SingleLineText;
+import com.horstmann.violet.framework.property.text.SingleLineText;
 
 /**
  * An edge that is composed of multiple line segments
  */
 //public abstract class SegmentedLineEdge extends ShapeEdge
-public abstract class SegmentedLineEdge extends ShapeEdge
+public abstract class SegmentedLineEdge extends ArrowheadEdge
 {
     /**
      * Constructs an edge with no adornments.
      */
     public SegmentedLineEdge()
     {
+        super();
         startLabel = new SingleLineText();
         middleLabel = new SingleLineText();
         endLabel = new SingleLineText();
@@ -78,107 +80,11 @@ public abstract class SegmentedLineEdge extends ShapeEdge
     public void setTransitionPoints(Point2D[] transitionPoints)
     {
         super.setTransitionPoints(transitionPoints);
-        if (transitionPoints.length > 0) {
-//            setBentStyle(BentStyleChoiceList.FREE);
-        }
-    }
-
-    /**
-     * Sets the bentStyle property
-     * 
-     * @param newValue the bent style
-     */
-    public void setBentStyle(ChoiceList newValue)
-    {
-        this.bentStyle = (BentStyleChoiceList)newValue;
-    }
-
-    /**
-     * Gets the bentStyle property
-     * 
-     * @return the bent style
-     */
-    public ChoiceList getBentStyle()
-    {
-        if (this.bentStyle == null)
+        if (transitionPoints.length > 0)
         {
-            this.bentStyle = new BentStyleChoiceList();
+            setBentStyle(BentStyleChoiceList.FREE);
         }
-        return bentStyle;
     }
-
-    /**
-     * Sets the line style property.
-     * 
-     * @param newValue the new value
-     */
-    public void setLineStyle(ChoiceList newValue)
-    {
-        this.lineStyle = (LineStyleChoiceList)newValue;
-    }
-
-    /**
-     * Gets the line style property.
-     * 
-     * @return the line style
-     */
-    public ChoiceList getLineStyle()
-    {
-        if (this.lineStyle == null)
-        {
-            this.lineStyle = new LineStyleChoiceList();
-        }
-        return this.lineStyle;
-    }
-
-    /**
-     * Sets the start arrow head property
-     * 
-     * @param newValue the new value
-     */
-    public void setStartArrowHead(ChoiceList newValue)
-    {
-        this.startArrowHead = (ArrowheadChoiceList)newValue;
-    }
-
-    /**
-     * Gets the start arrow head property
-     *
-     * @return the end arrow head style
-     */
-    public ChoiceList getStartArrowHead()
-    {
-        if (this.startArrowHead == null)
-        {
-            this.startArrowHead = new ArrowheadChoiceList();
-        }
-        return this.startArrowHead;
-    }
-
-    /**
-     * Sets the end arrow head property
-     *
-     * @param newValue the new value
-     */
-    public void setEndArrowHead(ChoiceList newValue)
-    {
-        this.endArrowHead = (ArrowheadChoiceList)newValue;
-    }
-
-    /**
-     * Gets the end arrow head property
-     *
-     * @return the end arrow head style
-     */
-    public ChoiceList getEndArrowHead()
-    {
-        if (this.endArrowHead == null)
-        {
-            this.endArrowHead = new ArrowheadChoiceList();
-        }
-        return this.endArrowHead;
-    }
-
 
     /**
      * Sets the start label property
@@ -263,16 +169,16 @@ public abstract class SegmentedLineEdge extends ShapeEdge
     	g2.setColor(Color.BLACK);
     	ArrayList<Point2D> points = getPoints();
         Stroke oldStroke = g2.getStroke();
-        g2.setStroke(((LineStyleChoiceList)getLineStyle()).getSelectedValue());
+        g2.setStroke(getLineStyle());
         g2.draw(getSegmentPath());
         g2.setStroke(oldStroke);
-        ((ArrowheadChoiceList)getStartArrowHead()).getSelectedValue().draw(g2, (Point2D) points.get(1), (Point2D) points.get(0));
-        ((ArrowheadChoiceList)getEndArrowHead()).getSelectedValue().draw(g2, (Point2D) points.get(points.size() - 2), (Point2D) points.get(points.size() - 1));
+        getStartArrowhead().draw(g2, (Point2D) points.get(1), (Point2D) points.get(0));
+        getEndArrowhead().draw(g2, (Point2D) points.get(points.size() - 2), (Point2D) points.get(points.size() - 1));
 
-        drawString(g2, (Point2D) points.get(1), (Point2D) points.get(0), ((ArrowheadChoiceList)getStartArrowHead()), startLabel.toDisplay(), false);
+        drawString(g2, (Point2D) points.get(1), (Point2D) points.get(0), getStartArrowhead(), startLabel.toDisplay(), false);
         drawString(g2, (Point2D) points.get(points.size() / 2 - 1), (Point2D) points.get(points.size() / 2), null, middleLabel.toDisplay(),
                 true);
-        drawString(g2, (Point2D) points.get(points.size() - 2), (Point2D) points.get(points.size() - 1), ((ArrowheadChoiceList)getEndArrowHead()),
+        drawString(g2, (Point2D) points.get(points.size() - 2), (Point2D) points.get(points.size() - 1), getEndArrowhead(),
                 endLabel.toDisplay(), false);
         g2.setColor(oldColor);
     }
@@ -286,7 +192,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      * @param s the string to draw
      * @param center true if the string should be centered along the segment
      */
-    private void drawString(Graphics2D g2, Point2D p, Point2D q, ArrowheadChoiceList arrow, String s, boolean center)
+    private void drawString(Graphics2D g2, Point2D p, Point2D q, Arrowhead arrow, String s, boolean center)
     {
         if (s == null || s.length() == 0) return;
         label.setText(s);
@@ -310,7 +216,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      * @param center true if the string should be centered along the segment
      * @return the point at which to draw the string
      */
-    private static Point2D getAttachmentPoint(Point2D p, Point2D q, ArrowheadChoiceList arrow, Dimension d, boolean center)
+    private static Point2D getAttachmentPoint(Point2D p, Point2D q, Arrowhead arrow, Dimension d, boolean center)
     {
         final int GAP = 3;
         double xoff = GAP;
@@ -339,7 +245,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge
             }
             if (arrow != null)
             {
-                Rectangle2D arrowBounds = arrow.getSelectedValue().getPath().getBounds2D();
+                Rectangle2D arrowBounds = arrow.getPath().getBounds2D();
                 if (p.getX() < q.getX())
                 {
                     xoff -= arrowBounds.getWidth();
@@ -363,7 +269,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      * @param center true if the string should be centered along the segment
      * @return the rectangle enclosing the string
      */
-    private static Rectangle2D getStringBounds(Point2D p, Point2D q, ArrowheadChoiceList arrow, String s, boolean center)
+    private static Rectangle2D getStringBounds(Point2D p, Point2D q, Arrowhead arrow, String s, boolean center)
     {
         BufferedImage dummy = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
         // need a dummy image to get a Graphics to
@@ -382,10 +288,10 @@ public abstract class SegmentedLineEdge extends ShapeEdge
     {
         ArrayList<Point2D> points = getPoints();
         Rectangle2D r = super.getBounds();
-        r.add(getStringBounds((Point2D) points.get(1), (Point2D) points.get(0), ((ArrowheadChoiceList)getStartArrowHead()), startLabel.toDisplay(), false));
+        r.add(getStringBounds((Point2D) points.get(1), (Point2D) points.get(0), getStartArrowhead(), startLabel.toDisplay(), false));
         r.add(getStringBounds((Point2D) points.get(points.size() / 2 - 1), (Point2D) points.get(points.size() / 2), null,
                 middleLabel.toDisplay(), true));
-        r.add(getStringBounds((Point2D) points.get(points.size() - 2), (Point2D) points.get(points.size() - 1), ((ArrowheadChoiceList)getEndArrowHead()),
+        r.add(getStringBounds((Point2D) points.get(points.size() - 2), (Point2D) points.get(points.size() - 1), getEndArrowhead(),
                 endLabel.toDisplay(), false));
         return r;
     }
@@ -394,10 +300,8 @@ public abstract class SegmentedLineEdge extends ShapeEdge
     public Shape getShape()
     {
         GeneralPath path = getSegmentPath();
-        ArrayList<Point2D> points = getPoints();
-        path.append(((ArrowheadChoiceList)getStartArrowHead()).getSelectedValue().getPath(), false);
-        path.append(((ArrowheadChoiceList)getEndArrowHead()).getSelectedValue().getPath(),
-                false);
+        path.append(getStartArrowhead().getPath(), false);
+        path.append(getEndArrowhead().getPath(), false);
         return path;
     }
 
@@ -457,7 +361,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge
             bentStylePoints.add(endingPoint);
 
             Point2D[] bentStylePointsAsArray = bentStylePoints.toArray(new Point2D[bentStylePoints.size()]);
-            return ((BentStyleChoiceList)getBentStyle()).getSelectedValue().getPath(bentStylePointsAsArray);
+            return getBentStyle().getPath(bentStylePointsAsArray);
         }
 
         // User choice based path
@@ -519,19 +423,12 @@ public abstract class SegmentedLineEdge extends ShapeEdge
 
     protected SegmentedLineEdge(SegmentedLineEdge segmentedLineEdge)
     {
-        this.lineStyle = segmentedLineEdge.lineStyle;
-        this.startArrowHead = segmentedLineEdge.startArrowHead.clone();
-        this.endArrowHead = segmentedLineEdge.endArrowHead.clone();
-        this.bentStyle = segmentedLineEdge.bentStyle;
+        super(segmentedLineEdge);
         this.startLabel = segmentedLineEdge.startLabel.clone();
         this.middleLabel = segmentedLineEdge.middleLabel.clone();
         this.endLabel = segmentedLineEdge.endLabel.clone();
     }
 
-    private LineStyleChoiceList lineStyle;
-    private ArrowheadChoiceList startArrowHead;
-    private ArrowheadChoiceList endArrowHead;
-    private BentStyleChoiceList bentStyle;
     private SingleLineText startLabel;
     private SingleLineText middleLabel;
     private SingleLineText endLabel;

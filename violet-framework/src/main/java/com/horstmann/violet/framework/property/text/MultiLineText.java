@@ -1,7 +1,7 @@
 
-package com.horstmann.violet.framework.property.string;
+package com.horstmann.violet.framework.property.text;
 
-import com.horstmann.violet.framework.property.string.decorator.OneLineString;
+import com.horstmann.violet.framework.property.text.decorator.OneLineText;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,7 +17,7 @@ public class MultiLineText extends LineText
 {
     private interface Command
     {
-        String execute(OneLineString oneLineString);
+        String execute(OneLineText oneLineString);
     }
 
     public MultiLineText()
@@ -33,14 +33,14 @@ public class MultiLineText extends LineText
     protected MultiLineText(MultiLineText lineText) throws CloneNotSupportedException
     {
         super(lineText);
-        rows = new ArrayList<OneLineString>(lineText.getRows());
+        rows = new ArrayList<OneLineText>(lineText.getRows());
     }
 
     @Override
     public void deserializeSupport(Converter converter)
     {
         super.deserializeSupport(converter);
-        rows = new ArrayList<OneLineString>();
+        rows = new ArrayList<OneLineText>();
         setPadding(2,8);
         setText(text);
     }
@@ -74,7 +74,7 @@ public class MultiLineText extends LineText
     }
 
     /**
-     * @see EditableString#toDisplay()
+     * @see EditableText#toDisplay()
      */
     @Override
     final public String toDisplay()
@@ -83,7 +83,7 @@ public class MultiLineText extends LineText
     }
 
     /**
-     * @see EditableString#toEdit()
+     * @see EditableText#toEdit()
      */
     @Override
     final public String toEdit()
@@ -114,7 +114,7 @@ public class MultiLineText extends LineText
      */
     private String implode(Command command, String glue)
     {
-        Iterator<OneLineString> iterator = getRows().iterator();
+        Iterator<OneLineText> iterator = getRows().iterator();
         if(iterator.hasNext())
         {
             StringBuilder ret = new StringBuilder(command.execute(iterator.next()));
@@ -131,11 +131,11 @@ public class MultiLineText extends LineText
     /**
      * @return list of rows
      */
-    private List<OneLineString> getRows()
+    private List<OneLineText> getRows()
     {
         if(null == rows)
         {
-            rows = new ArrayList<OneLineString>();
+            rows = new ArrayList<OneLineText>();
             setPadding(2,8);
             setText(text);
         }
@@ -143,25 +143,25 @@ public class MultiLineText extends LineText
     }
 
     private String text = "";
-    private transient List<OneLineString> rows;
+    private transient List<OneLineText> rows;
 
     private static final Command TO_DISPLAY = new Command(){
         @Override
-        public String execute(OneLineString oneLineString)
+        public String execute(OneLineText oneLineString)
         {
             return oneLineString.toDisplay();
         }
     };
     private static final Command TO_EDIT = new Command(){
         @Override
-        public String execute(OneLineString oneLineString)
+        public String execute(OneLineText oneLineString)
         {
             return oneLineString.toEdit();
         }
     };
     private static final Command TO_STRING = new Command(){
         @Override
-        public String execute(OneLineString oneLineString)
+        public String execute(OneLineText oneLineString)
         {
             return oneLineString.toString();
         }

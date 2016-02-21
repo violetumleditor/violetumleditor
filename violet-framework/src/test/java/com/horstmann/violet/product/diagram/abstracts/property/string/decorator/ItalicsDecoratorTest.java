@@ -1,7 +1,7 @@
 package com.horstmann.violet.product.diagram.abstracts.property.string.decorator;
 
-import com.horstmann.violet.framework.property.string.decorator.ItalicsDecorator;
-import com.horstmann.violet.framework.property.string.decorator.OneLineString;
+import com.horstmann.violet.framework.property.text.decorator.ItalicsDecorator;
+import com.horstmann.violet.framework.property.text.decorator.OneLineText;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -16,7 +16,7 @@ public class ItalicsDecoratorTest
 {
     @Test
     public void testToDisplay() throws Exception {
-        ItalicsDecorator italicsDecorator = new ItalicsDecorator(new OneLineString("test"));
+        ItalicsDecorator italicsDecorator = new ItalicsDecorator(new OneLineText("test"));
         assertEquals("<i>test</i>", italicsDecorator.toDisplay());
     }
 }

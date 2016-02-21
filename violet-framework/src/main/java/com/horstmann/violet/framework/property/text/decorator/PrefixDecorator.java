@@ -1,4 +1,4 @@
-package com.horstmann.violet.framework.property.string.decorator;
+package com.horstmann.violet.framework.property.text.decorator;
 
 /**
  * This class adds a prefix
@@ -6,9 +6,9 @@ package com.horstmann.violet.framework.property.string.decorator;
  * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 17.12.2015
  */
-public class PrefixDecorator extends OneLineStringDecorator
+public class PrefixDecorator extends OneLineTextDecorator
 {
-    public PrefixDecorator(OneLineString decoratedOneLineString, String prefix)
+    public PrefixDecorator(OneLineText decoratedOneLineString, String prefix)
     {
         super(decoratedOneLineString);
         this.setPrefix(prefix);
@@ -28,7 +28,7 @@ public class PrefixDecorator extends OneLineStringDecorator
     }
 
     /**
-     * @see OneLineString#toDisplay()
+     * @see OneLineText#toDisplay()
      */
     @Override
     public String toDisplay()

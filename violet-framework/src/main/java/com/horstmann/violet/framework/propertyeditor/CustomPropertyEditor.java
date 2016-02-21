@@ -64,8 +64,8 @@ import com.horstmann.violet.framework.propertyeditor.customeditor.*;
 import com.horstmann.violet.framework.propertyeditor.baseeditors.SingleLineTextEditor;
 import com.horstmann.violet.framework.util.SerializableEnumeration;
 import com.horstmann.violet.framework.property.choiceList.ChoiceList;
-import com.horstmann.violet.framework.property.string.MultiLineText;
-import com.horstmann.violet.framework.property.string.SingleLineText;
+import com.horstmann.violet.framework.property.text.MultiLineText;
+import com.horstmann.violet.framework.property.text.SingleLineText;
 
 import com.horstmann.violet.product.diagram.common.DiagramLink;
 

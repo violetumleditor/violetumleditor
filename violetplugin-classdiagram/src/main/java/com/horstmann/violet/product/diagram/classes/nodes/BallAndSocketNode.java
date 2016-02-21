@@ -6,7 +6,7 @@ import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.framework.property.choiceList.ChoiceList;
 import com.horstmann.violet.framework.property.choiceList.TextChoiceList;
-import com.horstmann.violet.framework.property.string.SingleLineText;
+import com.horstmann.violet.framework.property.text.SingleLineText;
 import com.horstmann.violet.product.diagram.common.PointNode;
 
 import java.awt.*;

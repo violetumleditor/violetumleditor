@@ -9,8 +9,8 @@ import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.framework.property.string.LineText;
-import com.horstmann.violet.framework.property.string.SingleLineText;
+import com.horstmann.violet.framework.property.text.LineText;
+import com.horstmann.violet.framework.property.text.SingleLineText;
 
 public class ExternalSystemExitPointNode extends ColorableNode
 {

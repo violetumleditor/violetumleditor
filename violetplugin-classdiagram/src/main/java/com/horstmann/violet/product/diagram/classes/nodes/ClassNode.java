@@ -6,12 +6,12 @@ import com.horstmann.violet.framework.graphics.Separator;
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.content.VerticalLayout;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
-import com.horstmann.violet.framework.property.string.decorator.*;
+import com.horstmann.violet.framework.property.text.decorator.*;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
-import com.horstmann.violet.framework.property.string.LineText;
+import com.horstmann.violet.framework.property.text.LineText;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.framework.property.string.MultiLineText;
-import com.horstmann.violet.framework.property.string.SingleLineText;
+import com.horstmann.violet.framework.property.text.MultiLineText;
+import com.horstmann.violet.framework.property.text.SingleLineText;
 
 /**
  * A class nodes in a class diagram.
@@ -182,23 +182,23 @@ public class ClassNode extends ColorableNode
     private static final LineText.Converter nameConverter = new LineText.Converter()
     {
         @Override
-        public OneLineString toLineString(String text)
+        public OneLineText toLineString(String text)
         {
-            OneLineString lineString = new OneLineString(text);
+            OneLineText lineString = new OneLineText(text);
             if(lineString.contains(ABSTRACT))
             {
                 return new PrefixDecorator( new LargeSizeDecorator(new RemoveSentenceDecorator(lineString, ABSTRACT)), "<center>«abstract»</center>");
             }
 
-            return new LargeSizeDecorator(new OneLineString(text));
+            return new LargeSizeDecorator(new OneLineText(text));
         }
     };
     private static final LineText.Converter propertyConverter= new LineText.Converter()
     {
         @Override
-        public OneLineString toLineString(String text)
+        public OneLineText toLineString(String text)
         {
-            OneLineString lineString = new OneLineString(text);
+            OneLineText lineString = new OneLineText(text);
 
             if(lineString.contains(STATIC))
             {

@@ -7,11 +7,11 @@ import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.IResizableNode;
 import com.horstmann.violet.framework.property.IntegrationFrameType;
-import com.horstmann.violet.framework.property.string.LineText;
-import com.horstmann.violet.framework.property.string.MultiLineText;
-import com.horstmann.violet.framework.property.string.SingleLineText;
-import com.horstmann.violet.framework.property.string.decorator.LargeSizeDecorator;
-import com.horstmann.violet.framework.property.string.decorator.OneLineString;
+import com.horstmann.violet.framework.property.text.LineText;
+import com.horstmann.violet.framework.property.text.MultiLineText;
+import com.horstmann.violet.framework.property.text.SingleLineText;
+import com.horstmann.violet.framework.property.text.decorator.LargeSizeDecorator;
+import com.horstmann.violet.framework.property.text.decorator.OneLineText;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
@@ -201,9 +201,9 @@ public class IntegrationFrameNode extends ColorableNode implements IResizableNod
     private static final LineText.Converter nameConverter = new LineText.Converter()
     {
         @Override
-        public OneLineString toLineString(String text)
+        public OneLineText toLineString(String text)
         {
-            return new LargeSizeDecorator(new OneLineString(text));
+            return new LargeSizeDecorator(new OneLineText(text));
         }
     };
 

@@ -194,7 +194,7 @@ public class Violet016BackportFormatService
 
     /**
      * Violet 0.16 compatibility map . Keys are Violet 0.16 strings. Map values are real values corresponding to their old Violet
-     * 0.16 string.
+     * 0.16 text.
      */
     private static Map<String, String> violet016CompatibilityMap = new HashMap<String, String>();
 

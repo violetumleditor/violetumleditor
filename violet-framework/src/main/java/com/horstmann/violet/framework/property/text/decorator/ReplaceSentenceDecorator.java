@@ -1,4 +1,4 @@
-package com.horstmann.violet.framework.property.string.decorator;
+package com.horstmann.violet.framework.property.text.decorator;
 
 /**
  * This class replace a sentence in the text
@@ -6,9 +6,9 @@ package com.horstmann.violet.framework.property.string.decorator;
  * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 17.12.2015
  */
-public class ReplaceSentenceDecorator extends OneLineStringDecorator
+public class ReplaceSentenceDecorator extends OneLineTextDecorator
 {
-    public ReplaceSentenceDecorator(OneLineString decoratedOneLineString, String oldSentence, String newSentence)
+    public ReplaceSentenceDecorator(OneLineText decoratedOneLineString, String oldSentence, String newSentence)
     {
         super(decoratedOneLineString);
         this.oldSentence = replaceForUnification(oldSentence).toLowerCase();
@@ -16,7 +16,7 @@ public class ReplaceSentenceDecorator extends OneLineStringDecorator
     }
 
     /**
-     * @see OneLineString#toDisplay()
+     * @see OneLineText#toDisplay()
      */
     @Override
     public String toDisplay()

@@ -4,13 +4,13 @@ import java.awt.Color;
 
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
+import com.horstmann.violet.framework.property.text.decorator.OneLineText;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.framework.property.string.LineText;
-import com.horstmann.violet.framework.property.string.SingleLineText;
-import com.horstmann.violet.framework.property.string.decorator.LargeSizeDecorator;
-import com.horstmann.violet.framework.property.string.decorator.OneLineString;
-import com.horstmann.violet.framework.property.string.decorator.UnderlineDecorator;
+import com.horstmann.violet.framework.property.text.LineText;
+import com.horstmann.violet.framework.property.text.SingleLineText;
+import com.horstmann.violet.framework.property.text.decorator.LargeSizeDecorator;
+import com.horstmann.violet.framework.property.text.decorator.UnderlineDecorator;
 
 /**
  * 
@@ -95,9 +95,9 @@ public class ObjectNodeCommu extends ColorableNode
 
 	private static LineText.Converter nameConverter = new LineText.Converter(){
 		@Override
-		public OneLineString toLineString(String text)
+		public OneLineText toLineString(String text)
 		{
-			return new LargeSizeDecorator(new UnderlineDecorator(new OneLineString(text)));
+			return new LargeSizeDecorator(new UnderlineDecorator(new OneLineText(text)));
 		}
 	};
 	

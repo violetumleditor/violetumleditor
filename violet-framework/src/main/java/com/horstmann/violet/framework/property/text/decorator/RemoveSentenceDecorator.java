@@ -1,4 +1,4 @@
-package com.horstmann.violet.framework.property.string.decorator;
+package com.horstmann.violet.framework.property.text.decorator;
 
 /**
  * This class remove a sentence from text
@@ -6,16 +6,16 @@ package com.horstmann.violet.framework.property.string.decorator;
  * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 17.12.2015
  */
-public class RemoveSentenceDecorator extends OneLineStringDecorator
+public class RemoveSentenceDecorator extends OneLineTextDecorator
 {
-    public RemoveSentenceDecorator(OneLineString decoratedOneLineString, String sentence)
+    public RemoveSentenceDecorator(OneLineText decoratedOneLineString, String sentence)
     {
         super(decoratedOneLineString);
         this.sentence = replaceForUnification(sentence).toLowerCase();
     }
 
     /**
-     * @see OneLineString#toDisplay()
+     * @see OneLineText#toDisplay()
      */
     @Override
     public String toDisplay()

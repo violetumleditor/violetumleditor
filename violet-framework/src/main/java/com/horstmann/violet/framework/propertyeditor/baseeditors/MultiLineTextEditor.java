@@ -24,8 +24,8 @@ package com.horstmann.violet.framework.propertyeditor.baseeditors;
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
 
-import com.horstmann.violet.framework.property.string.LineText;
-import com.horstmann.violet.framework.property.string.MultiLineText;
+import com.horstmann.violet.framework.property.text.LineText;
+import com.horstmann.violet.framework.property.text.MultiLineText;
 
 /**
  * A property editor for the MultiLineText type.

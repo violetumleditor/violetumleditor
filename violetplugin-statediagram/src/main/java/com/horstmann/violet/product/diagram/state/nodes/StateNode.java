@@ -26,15 +26,15 @@ import java.awt.Color;
 import com.horstmann.violet.framework.graphics.Separator;
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRoundRectangle;
+import com.horstmann.violet.framework.property.text.decorator.OneLineText;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.framework.property.string.LineText;
-import com.horstmann.violet.framework.property.string.MultiLineText;
-import com.horstmann.violet.framework.property.string.SingleLineText;
-import com.horstmann.violet.framework.property.string.decorator.BoldDecorator;
-import com.horstmann.violet.framework.property.string.decorator.OneLineString;
-import com.horstmann.violet.framework.property.string.decorator.PrefixDecorator;
+import com.horstmann.violet.framework.property.text.LineText;
+import com.horstmann.violet.framework.property.text.MultiLineText;
+import com.horstmann.violet.framework.property.text.SingleLineText;
+import com.horstmann.violet.framework.property.text.decorator.BoldDecorator;
+import com.horstmann.violet.framework.property.text.decorator.PrefixDecorator;
 
 /**
  * A node_old in a state diagram.
@@ -232,33 +232,33 @@ public class StateNode extends ColorableNode
 
     private static final LineText.Converter nameConverter = new LineText.Converter(){
         @Override
-        public OneLineString toLineString(String text)
+        public OneLineText toLineString(String text)
         {
-            return new BoldDecorator(new OneLineString(text));
+            return new BoldDecorator(new OneLineText(text));
         }
     };
 
     private static final LineText.Converter entryConverter = new LineText.Converter(){
         @Override
-        public OneLineString toLineString(String text)
+        public OneLineText toLineString(String text)
         {
             if(false == text.isEmpty())
             {
-                return new PrefixDecorator(new OneLineString(text), ENTRY);
+                return new PrefixDecorator(new OneLineText(text), ENTRY);
             }
-            return new OneLineString(text);
+            return new OneLineText(text);
         }
     };
 
     private static final LineText.Converter exitConverter = new LineText.Converter(){
         @Override
-        public OneLineString toLineString(String text)
+        public OneLineText toLineString(String text)
         {
             if(false == text.isEmpty())
             {
-                return new PrefixDecorator(new OneLineString(text), EXIT);
+                return new PrefixDecorator(new OneLineText(text), EXIT);
             }
-            return new OneLineString(text);
+            return new OneLineText(text);
         }
     };
 }

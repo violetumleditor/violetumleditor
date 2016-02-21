@@ -7,12 +7,12 @@ import com.horstmann.violet.framework.graphics.Separator;
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.content.VerticalLayout;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
-import com.horstmann.violet.framework.property.string.decorator.*;
+import com.horstmann.violet.framework.property.text.decorator.*;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
-import com.horstmann.violet.framework.property.string.LineText;
+import com.horstmann.violet.framework.property.text.LineText;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.framework.property.string.MultiLineText;
-import com.horstmann.violet.framework.property.string.SingleLineText;
+import com.horstmann.violet.framework.property.text.MultiLineText;
+import com.horstmann.violet.framework.property.text.SingleLineText;
 import com.horstmann.violet.product.diagram.common.PointNode;
 
 /**
@@ -159,17 +159,17 @@ public class InterfaceNode extends ColorableNode
     private static LineText.Converter nameConverter = new LineText.Converter()
     {
         @Override
-        public OneLineString toLineString(String text)
+        public OneLineText toLineString(String text)
         {
-            return new PrefixDecorator( new LargeSizeDecorator(new OneLineString(text)), "<center>«interface»</center>");
+            return new PrefixDecorator( new LargeSizeDecorator(new OneLineText(text)), "<center>«interface»</center>");
         }
     };
     private static final LineText.Converter methodsConverter = new LineText.Converter()
     {
         @Override
-        public OneLineString toLineString(String text)
+        public OneLineText toLineString(String text)
         {
-            OneLineString lineString = new OneLineString(text);
+            OneLineText lineString = new OneLineText(text);
 
             if(lineString.contains(STATIC))
             {

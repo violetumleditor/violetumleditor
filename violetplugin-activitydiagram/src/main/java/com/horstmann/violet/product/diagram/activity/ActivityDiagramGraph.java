@@ -63,12 +63,12 @@ public class ActivityDiagramGraph extends AbstractGraph
             if (isSyncBarAtEnd)
             {
                 // For syn bar, we want to connect edge to north or south points
-                transitionEdge.getBentStyle().setSelectedValue(BentStyleChoiceList.AUTO);
+                transitionEdge.getBentStyleChoiceList().setSelectedValue(BentStyleChoiceList.AUTO);
             }
             if (!isSyncBarAtEnd)
             {
                 // For all the other cases, decision node_old are connected from east or west
-                transitionEdge.getBentStyle().setSelectedValue(BentStyleChoiceList.HV);
+                transitionEdge.getBentStyleChoiceList().setSelectedValue(BentStyleChoiceList.HV);
             }
         }
         return super.connect(e, start, startLocation, end, endLocation, transitionPoints);

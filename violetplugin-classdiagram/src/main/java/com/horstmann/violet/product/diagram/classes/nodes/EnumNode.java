@@ -3,17 +3,14 @@ package com.horstmann.violet.product.diagram.classes.nodes;
 import com.horstmann.violet.framework.graphics.Separator;
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
-import com.horstmann.violet.framework.property.ArrowheadChoiceList;
-import com.horstmann.violet.framework.property.LineStyleChoiceList;
-import com.horstmann.violet.framework.property.choiceList.ChoiceList;
-import com.horstmann.violet.framework.property.string.decorator.LargeSizeDecorator;
-import com.horstmann.violet.framework.property.string.decorator.OneLineString;
-import com.horstmann.violet.framework.property.string.decorator.PrefixDecorator;
+import com.horstmann.violet.framework.property.text.decorator.LargeSizeDecorator;
+import com.horstmann.violet.framework.property.text.decorator.OneLineText;
+import com.horstmann.violet.framework.property.text.decorator.PrefixDecorator;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.framework.property.string.LineText;
-import com.horstmann.violet.framework.property.string.MultiLineText;
-import com.horstmann.violet.framework.property.string.SingleLineText;
+import com.horstmann.violet.framework.property.text.LineText;
+import com.horstmann.violet.framework.property.text.MultiLineText;
+import com.horstmann.violet.framework.property.text.SingleLineText;
 
 import java.awt.*;
 
@@ -150,9 +147,9 @@ public class EnumNode extends ColorableNode
     private static final LineText.Converter nameConverter = new LineText.Converter()
     {
         @Override
-        public OneLineString toLineString(String text)
+        public OneLineText toLineString(String text)
         {
-            return new PrefixDecorator( new LargeSizeDecorator(new OneLineString(text)), "<center>«enum»</center>");
+            return new PrefixDecorator( new LargeSizeDecorator(new OneLineText(text)), "<center>«enum»</center>");
         }
     };
 }

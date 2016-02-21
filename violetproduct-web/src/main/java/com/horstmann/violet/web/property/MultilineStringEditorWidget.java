@@ -2,7 +2,7 @@ package com.horstmann.violet.web.property;
 
 import java.beans.PropertyDescriptor;
 
-import com.horstmann.violet.framework.property.string.MultiLineText;
+import com.horstmann.violet.framework.property.text.MultiLineText;
 
 import eu.webtoolkit.jwt.Signal;
 import eu.webtoolkit.jwt.WContainerWidget;

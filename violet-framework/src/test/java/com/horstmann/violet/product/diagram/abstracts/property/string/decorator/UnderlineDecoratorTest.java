@@ -1,7 +1,7 @@
 package com.horstmann.violet.product.diagram.abstracts.property.string.decorator;
 
-import com.horstmann.violet.framework.property.string.decorator.OneLineString;
-import com.horstmann.violet.framework.property.string.decorator.UnderlineDecorator;
+import com.horstmann.violet.framework.property.text.decorator.OneLineText;
+import com.horstmann.violet.framework.property.text.decorator.UnderlineDecorator;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -17,7 +17,7 @@ public class UnderlineDecoratorTest
     @Test
     public void testToDisplay() throws Exception
     {
-        UnderlineDecorator underlineDecorator = new UnderlineDecorator(new OneLineString("test"));
+        UnderlineDecorator underlineDecorator = new UnderlineDecorator(new OneLineText("test"));
         assertEquals("<u>test</u>", underlineDecorator.toDisplay());
     }
 }

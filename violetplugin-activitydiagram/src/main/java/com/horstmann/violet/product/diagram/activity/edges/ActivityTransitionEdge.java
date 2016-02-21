@@ -37,7 +37,7 @@ public class ActivityTransitionEdge extends BasePropertyEdge
     @Override
     public Direction getDirection(INode node)
     {
-        BentStyleChoiceList bStyle = (BentStyleChoiceList)getBentStyle();
+        BentStyleChoiceList bStyle = (BentStyleChoiceList)getBentStyleChoiceList();
         Direction straightDirection = super.getDirection(node);
         double x = straightDirection.getX();
         double y = straightDirection.getY();

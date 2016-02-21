@@ -1,4 +1,4 @@
-package com.horstmann.violet.framework.property.string.decorator;
+package com.horstmann.violet.framework.property.text.decorator;
 
 /**
  * This class increases text
@@ -6,13 +6,13 @@ package com.horstmann.violet.framework.property.string.decorator;
  * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 16.12.2015
  */
-public class LargeSizeDecorator extends OneLineStringDecorator
+public class LargeSizeDecorator extends OneLineTextDecorator
 {
-    public LargeSizeDecorator(OneLineString decoratedOneLineString)
+    public LargeSizeDecorator(OneLineText decoratedOneLineString)
     {
         this(decoratedOneLineString,1);
     }
-    public LargeSizeDecorator(OneLineString decoratedOneLineString, int increase)
+    public LargeSizeDecorator(OneLineText decoratedOneLineString, int increase)
     {
         super(decoratedOneLineString);
 
@@ -24,7 +24,7 @@ public class LargeSizeDecorator extends OneLineStringDecorator
     }
 
     /**
-     * @see OneLineString#toDisplay()
+     * @see OneLineText#toDisplay()
      */
     @Override
     public String toDisplay()

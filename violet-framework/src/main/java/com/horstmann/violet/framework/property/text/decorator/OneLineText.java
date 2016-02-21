@@ -1,6 +1,6 @@
-package com.horstmann.violet.framework.property.string.decorator;
+package com.horstmann.violet.framework.property.text.decorator;
 
-import com.horstmann.violet.framework.property.string.EditableString;
+import com.horstmann.violet.framework.property.text.EditableText;
 
 import java.io.Serializable;
 
@@ -10,25 +10,25 @@ import java.io.Serializable;
  * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 12.12.2015
  */
-public class OneLineString implements Serializable, Cloneable, EditableString
+public class OneLineText implements Serializable, Cloneable, EditableText
 {
-    public OneLineString()
+    public OneLineText()
     {
         this("");
     }
-    public OneLineString(String text)
+    public OneLineText(String text)
     {
         setText(text);
     }
 
     /**
-     * Creates and returns a copy of OneLineString.
+     * Creates and returns a copy of OneLineText.
      *
      * @return
      */
-    public OneLineString clone()
+    public OneLineText clone()
     {
-        OneLineString cloned = new OneLineString(text);
+        OneLineText cloned = new OneLineText(text);
         return cloned;
     }
 

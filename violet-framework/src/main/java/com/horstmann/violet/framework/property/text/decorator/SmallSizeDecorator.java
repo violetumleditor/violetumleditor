@@ -1,4 +1,4 @@
-package com.horstmann.violet.framework.property.string.decorator;
+package com.horstmann.violet.framework.property.text.decorator;
 
 /**
  * This class decreases text
@@ -6,13 +6,13 @@ package com.horstmann.violet.framework.property.string.decorator;
  * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 16.12.2015
  */
-public class SmallSizeDecorator extends OneLineStringDecorator
+public class SmallSizeDecorator extends OneLineTextDecorator
 {
-    public SmallSizeDecorator(OneLineString decoratedOneLineString)
+    public SmallSizeDecorator(OneLineText decoratedOneLineString)
     {
         this(decoratedOneLineString,1);
     }
-    public SmallSizeDecorator(OneLineString decoratedOneLineString, int decreases)
+    public SmallSizeDecorator(OneLineText decoratedOneLineString, int decreases)
     {
         super(decoratedOneLineString);
         if(0>=decreases)
@@ -23,7 +23,7 @@ public class SmallSizeDecorator extends OneLineStringDecorator
     }
 
     /**
-     * @see OneLineString#toDisplay()
+     * @see OneLineText#toDisplay()
      */
     @Override
     public String toDisplay()

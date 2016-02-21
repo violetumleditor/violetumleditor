@@ -36,7 +36,7 @@ import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.ShapeEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.framework.property.ArrowheadChoiceList;
-import com.horstmann.violet.framework.property.string.SingleLineText;
+import com.horstmann.violet.framework.property.text.SingleLineText;
 
 /**
  * A curved edge for a state transition in a state diagram.

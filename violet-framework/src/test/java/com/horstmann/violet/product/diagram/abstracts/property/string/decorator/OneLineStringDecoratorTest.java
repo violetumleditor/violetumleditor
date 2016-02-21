@@ -1,7 +1,7 @@
 package com.horstmann.violet.product.diagram.abstracts.property.string.decorator;
 
-import com.horstmann.violet.framework.property.string.decorator.OneLineString;
-import com.horstmann.violet.framework.property.string.decorator.OneLineStringDecorator;
+import com.horstmann.violet.framework.property.text.decorator.OneLineText;
+import com.horstmann.violet.framework.property.text.decorator.OneLineTextDecorator;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -17,9 +17,9 @@ public class OneLineStringDecoratorTest {
     @Test
     public void testClone() throws Exception
     {
-        OneLineStringDecorator oneLineStringDecorator = new OneLineStringDecorator(new OneLineString("test"));
+        OneLineTextDecorator oneLineStringDecorator = new OneLineTextDecorator(new OneLineText("test"));
 
-        OneLineStringDecorator cloned = oneLineStringDecorator.clone();
+        OneLineTextDecorator cloned = oneLineStringDecorator.clone();
         assertEquals(oneLineStringDecorator.toDisplay(), cloned.toDisplay());
         assertEquals(oneLineStringDecorator.toEdit(), cloned.toEdit());
         assertEquals(oneLineStringDecorator.toString(), cloned.toString());
@@ -28,7 +28,7 @@ public class OneLineStringDecoratorTest {
     @Test
     public void testToDisplay() throws Exception
     {
-        OneLineStringDecorator oneLineStringDecorator = new OneLineStringDecorator(new OneLineString("test"));
+        OneLineTextDecorator oneLineStringDecorator = new OneLineTextDecorator(new OneLineText("test"));
         assertEquals("test", oneLineStringDecorator.toEdit());
 
     }
@@ -36,7 +36,7 @@ public class OneLineStringDecoratorTest {
     @Test
     public void testToEdit() throws Exception
     {
-        OneLineStringDecorator oneLineStringDecorator = new OneLineStringDecorator(new OneLineString("test"));
+        OneLineTextDecorator oneLineStringDecorator = new OneLineTextDecorator(new OneLineText("test"));
         assertEquals("test", oneLineStringDecorator.toEdit());
     }
 }

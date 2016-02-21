@@ -1,8 +1,7 @@
 package com.horstmann.violet.product.diagram.communication.edges;
 
 import com.horstmann.violet.product.diagram.abstracts.edge.SegmentedLineEdge;
-import com.horstmann.violet.framework.property.LineStyleChoiceList;
-import com.horstmann.violet.framework.property.string.SingleLineText;
+import com.horstmann.violet.framework.property.text.SingleLineText;
 
 /**
  * 

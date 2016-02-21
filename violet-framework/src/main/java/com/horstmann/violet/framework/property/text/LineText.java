@@ -1,6 +1,6 @@
-package com.horstmann.violet.framework.property.string;
+package com.horstmann.violet.framework.property.text;
 
-import com.horstmann.violet.framework.property.string.decorator.OneLineString;
+import com.horstmann.violet.framework.property.text.decorator.OneLineText;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -17,7 +17,7 @@ import java.util.List;
  * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 16.12.2015
  */
-public abstract class LineText implements Serializable, Cloneable, EditableString
+public abstract class LineText implements Serializable, Cloneable, EditableText
 {
     public interface Converter
     {
@@ -26,7 +26,7 @@ public abstract class LineText implements Serializable, Cloneable, EditableStrin
          * @param text
          * @return
          */
-        OneLineString toLineString(String text);
+        OneLineText toLineString(String text);
     }
     public interface ChangeListener
     {
@@ -290,9 +290,9 @@ public abstract class LineText implements Serializable, Cloneable, EditableStrin
     public static final Converter DEFAULT_CONVERTER = new Converter()
     {
         @Override
-        public OneLineString toLineString(String text)
+        public OneLineText toLineString(String text)
         {
-            return new OneLineString(text);
+            return new OneLineText(text);
         }
     };
 

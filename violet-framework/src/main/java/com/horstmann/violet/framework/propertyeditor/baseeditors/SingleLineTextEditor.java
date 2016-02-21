@@ -3,8 +3,8 @@
  */
 package com.horstmann.violet.framework.propertyeditor.baseeditors;
 
-import com.horstmann.violet.framework.property.string.LineText;
-import com.horstmann.violet.framework.property.string.SingleLineText;
+import com.horstmann.violet.framework.property.text.LineText;
+import com.horstmann.violet.framework.property.text.SingleLineText;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
