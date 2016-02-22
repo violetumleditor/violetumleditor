@@ -360,7 +360,7 @@ public class ActivationBarNode extends ColorableNode
                 Point2D newActivationBarLocation = new Point2D.Double(location.getX(), location.getY());
                 end.addChild(newActivationBar, newActivationBarLocation);
                 edge.setEndNode(newActivationBar);
-                edge.setMiddleLabel("«create»");
+                edge.setCenterLabel("«create»");
                 return true;
             }
         }

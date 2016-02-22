@@ -29,6 +29,13 @@ public abstract class BeanInfo extends SimpleBeanInfo
     public final PropertyDescriptor[] getPropertyDescriptors()
     {
         List<PropertyDescriptor> propertyDescriptorList = createPropertyDescriptorList();
+        while(true)
+        {
+            if (!(propertyDescriptorList.remove(null)))
+            {
+                break;
+            }
+        }
         return propertyDescriptorList.toArray(new PropertyDescriptor[propertyDescriptorList.size()]);
     }
 

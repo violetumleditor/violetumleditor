@@ -25,7 +25,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import com.horstmann.violet.product.diagram.abstracts.edge.SegmentedLineEdge;
+import com.horstmann.violet.product.diagram.abstracts.edge.LabeledLineEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.sequence.nodes.ActivationBarNode;
 
@@ -33,7 +33,7 @@ import com.horstmann.violet.product.diagram.sequence.nodes.ActivationBarNode;
  * An edge that joins two call nodes. Typically, call edges are used in sequence diagram to represent calls between entities (call
  * nodes).
  */
-public class CallEdge extends SegmentedLineEdge
+public class CallEdge extends LabeledLineEdge
 {
     public CallEdge() {}
 
@@ -43,7 +43,7 @@ public class CallEdge extends SegmentedLineEdge
         return new CallEdge(this);
     }
 
-    protected CallEdge(SegmentedLineEdge clone)
+    protected CallEdge(LabeledLineEdge clone)
     {
         super(clone);
     }

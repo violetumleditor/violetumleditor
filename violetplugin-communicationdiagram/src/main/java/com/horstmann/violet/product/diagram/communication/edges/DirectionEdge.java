@@ -1,6 +1,6 @@
 package com.horstmann.violet.product.diagram.communication.edges;
 
-import com.horstmann.violet.product.diagram.abstracts.edge.SegmentedLineEdge;
+import com.horstmann.violet.product.diagram.abstracts.edge.LabeledLineEdge;
 import com.horstmann.violet.framework.property.text.SingleLineText;
 
 /**
@@ -8,7 +8,7 @@ import com.horstmann.violet.framework.property.text.SingleLineText;
  * @author Artur Ratajczak
  *
  */
-public class DirectionEdge extends SegmentedLineEdge {
+public class DirectionEdge extends LabeledLineEdge {
 
 	public DirectionEdge() {
 		SequenceNumber = new SingleLineText();
@@ -79,11 +79,11 @@ public class DirectionEdge extends SegmentedLineEdge {
 
 	private void margeMessage() {
 		if (isConcurrentLoop() && !SequentialLoop.toString().isEmpty()) {
-			setMiddleLabel(SequenceNumber + " *|| " + SequentialLoop + " : " + Message);
+			setCenterLabel(SequenceNumber + " *|| " + SequentialLoop + " : " + Message);
 		} else if (!SequentialLoop.toString().isEmpty())
-			setMiddleLabel(SequenceNumber + " * " + SequentialLoop + " : " + Message);
+			setCenterLabel(SequenceNumber + " * " + SequentialLoop + " : " + Message);
 		else
-			setMiddleLabel(SequenceNumber + " : " + Message);
+			setCenterLabel(SequenceNumber + " : " + Message);
 	}
 
 	private SingleLineText SequenceNumber;

@@ -61,7 +61,7 @@ public abstract class ChoiceList<K, V> implements Cloneable
     {
         this.values = copyElement.values;
         this.keys = copyElement.keys;
-        this.selectedPos = 0;
+        this.selectedPos = copyElement.selectedPos;
     }
 
     public abstract ChoiceList clone();

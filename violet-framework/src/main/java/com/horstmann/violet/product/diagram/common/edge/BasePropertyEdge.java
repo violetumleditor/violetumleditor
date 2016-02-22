@@ -1,6 +1,6 @@
 package com.horstmann.violet.product.diagram.common.edge;
 
-import com.horstmann.violet.product.diagram.abstracts.edge.SegmentedLineEdge;
+import com.horstmann.violet.product.diagram.abstracts.edge.LabeledLineEdge;
 
 /**
  * TODO javadoc
@@ -8,7 +8,7 @@ import com.horstmann.violet.product.diagram.abstracts.edge.SegmentedLineEdge;
  * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 27.12.2015
  */
-public class BasePropertyEdge extends SegmentedLineEdge{
+public class BasePropertyEdge extends LabeledLineEdge {
     public BasePropertyEdge() {}
 
     @Override
@@ -16,7 +16,7 @@ public class BasePropertyEdge extends SegmentedLineEdge{
         return new BasePropertyEdge(this);
     }
 
-    protected BasePropertyEdge(SegmentedLineEdge clone) {
+    protected BasePropertyEdge(LabeledLineEdge clone) {
         super(clone);
     }
 }

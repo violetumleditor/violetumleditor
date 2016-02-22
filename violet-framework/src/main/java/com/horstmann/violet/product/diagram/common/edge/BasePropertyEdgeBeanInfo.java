@@ -1,16 +1,13 @@
 package com.horstmann.violet.product.diagram.common.edge;
 
-import com.horstmann.violet.product.diagram.abstracts.edge.ArrowheadEdgeBeanInfo;
+import com.horstmann.violet.product.diagram.abstracts.edge.LabeledLineEdgeBeanInfo;
 
-import java.beans.IntrospectionException;
-import java.beans.PropertyDescriptor;
-import java.beans.SimpleBeanInfo;
 
 /**
  * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 27.12.2015
  */
-public class BasePropertyEdgeBeanInfo extends ArrowheadEdgeBeanInfo
+public class BasePropertyEdgeBeanInfo extends LabeledLineEdgeBeanInfo
 {
     public BasePropertyEdgeBeanInfo()
     {

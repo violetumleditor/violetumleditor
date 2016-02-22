@@ -25,13 +25,13 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import com.horstmann.violet.product.diagram.abstracts.edge.SegmentedLineEdge;
+import com.horstmann.violet.product.diagram.abstracts.edge.LabeledLineEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 
 /**
  * An edge that joins two call nodes.
  */
-public class ReturnEdge extends SegmentedLineEdge
+public class ReturnEdge extends LabeledLineEdge
 {
 	@Override
 	public boolean isTransitionPointsSupported() {

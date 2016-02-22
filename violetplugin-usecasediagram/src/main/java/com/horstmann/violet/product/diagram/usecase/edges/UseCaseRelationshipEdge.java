@@ -21,12 +21,12 @@
 
 package com.horstmann.violet.product.diagram.usecase.edges;
 
-import com.horstmann.violet.product.diagram.abstracts.edge.SegmentedLineEdge;
+import com.horstmann.violet.product.diagram.abstracts.edge.LabeledLineEdge;
 
 /**
  * An edge that is shaped like a line with up to three segments with an arrowhead
  */
-public class UseCaseRelationshipEdge extends SegmentedLineEdge
+public class UseCaseRelationshipEdge extends LabeledLineEdge
 {
     public UseCaseRelationshipEdge() {}
 
@@ -35,7 +35,7 @@ public class UseCaseRelationshipEdge extends SegmentedLineEdge
         return new UseCaseRelationshipEdge(this);
     }
 
-    protected UseCaseRelationshipEdge(SegmentedLineEdge clone) {
+    protected UseCaseRelationshipEdge(LabeledLineEdge clone) {
         super(clone);
     }
 }
