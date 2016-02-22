@@ -215,9 +215,9 @@ public class StandardJavaFilePersistenceService implements IFilePersistenceServi
                     out.writeStatement(new Statement(oldInstance, "connect", new Object[]
                     {
                             e,
-                            e.getStart(),
+                            e.getStartNode(),
                             e.getStartLocation(),
-                            e.getEnd(),
+                            e.getEndNode(),
                             e.getEndLocation()
                     }));
                 }
@@ -231,8 +231,8 @@ public class StandardJavaFilePersistenceService implements IFilePersistenceServi
 //                IEdge e = (IEdge) oldInstance;
 //                out.writeStatement(new Statement(oldInstance, "connect", new Object[]
 //                {
-//                        e.getStart(),
-//                        e.getEnd()
+//                        e.getStartNode(),
+//                        e.getEndNode()
 //                }));
 //            }
 //        });

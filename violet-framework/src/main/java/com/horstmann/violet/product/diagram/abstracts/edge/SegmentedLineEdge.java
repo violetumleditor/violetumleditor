@@ -21,27 +21,15 @@
 
 package com.horstmann.violet.product.diagram.abstracts.edge;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Shape;
-import java.awt.Stroke;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JLabel;
 
-import com.horstmann.violet.framework.property.ArrowheadChoiceList;
-import com.horstmann.violet.framework.property.LineStyleChoiceList;
-import com.horstmann.violet.framework.property.choiceList.ChoiceList;
-import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.arrowhead.Arrowhead;
-import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.framework.property.BentStyleChoiceList;
 import com.horstmann.violet.framework.property.text.SingleLineText;
 
@@ -158,30 +146,7 @@ public abstract class SegmentedLineEdge extends ArrowheadEdge
         return endLabel;
     }
 
-    /**
-     * Draws the edge.
-     * 
-     * @param g2 the graphics context
-     */
-    public void draw(Graphics2D g2)
-    {
-    	Color oldColor = g2.getColor();
-    	g2.setColor(Color.BLACK);
-    	ArrayList<Point2D> points = getPoints();
-        Stroke oldStroke = g2.getStroke();
-        g2.setStroke(getLineStyle());
-        g2.draw(getSegmentPath());
-        g2.setStroke(oldStroke);
-        getStartArrowhead().draw(g2, (Point2D) points.get(1), (Point2D) points.get(0));
-        getEndArrowhead().draw(g2, (Point2D) points.get(points.size() - 2), (Point2D) points.get(points.size() - 1));
 
-        drawString(g2, (Point2D) points.get(1), (Point2D) points.get(0), getStartArrowhead(), startLabel.toDisplay(), false);
-        drawString(g2, (Point2D) points.get(points.size() / 2 - 1), (Point2D) points.get(points.size() / 2), null, middleLabel.toDisplay(),
-                true);
-        drawString(g2, (Point2D) points.get(points.size() - 2), (Point2D) points.get(points.size() - 1), getEndArrowhead(),
-                endLabel.toDisplay(), false);
-        g2.setColor(oldColor);
-    }
 
     /**
      * Draws a string.
@@ -283,143 +248,31 @@ public abstract class SegmentedLineEdge extends ArrowheadEdge
         return new Rectangle2D.Double(a.getX(), a.getY(), d.getWidth(), d.getHeight());
     }
 
-    @Override
-    public Rectangle2D getBounds()
-    {
-        ArrayList<Point2D> points = getPoints();
-        Rectangle2D r = super.getBounds();
-        r.add(getStringBounds((Point2D) points.get(1), (Point2D) points.get(0), getStartArrowhead(), startLabel.toDisplay(), false));
-        r.add(getStringBounds((Point2D) points.get(points.size() / 2 - 1), (Point2D) points.get(points.size() / 2), null,
-                middleLabel.toDisplay(), true));
-        r.add(getStringBounds((Point2D) points.get(points.size() - 2), (Point2D) points.get(points.size() - 1), getEndArrowhead(),
-                endLabel.toDisplay(), false));
-        return r;
-    }
+//    @Override
+//    public Rectangle2D getBounds()
+//    {
+//        ArrayList<Point2D> points = new ArrayList<Point2D>();
+//        points.addAll(Arrays.asList(getTransitionPoints()));
+//
+//        Rectangle2D r = super.getBounds();
+//        r.add(getStringBounds((Point2D) points.get(1), (Point2D) points.get(0), getStartArrowhead(), startLabel.toDisplay(), false));
+//        r.add(getStringBounds((Point2D) points.get(points.size() / 2 - 1), (Point2D) points.get(points.size() / 2), null,
+//                middleLabel.toDisplay(), true));
+//        r.add(getStringBounds((Point2D) points.get(points.size() - 2), (Point2D) points.get(points.size() - 1), getEndArrowhead(),
+//                endLabel.toDisplay(), false));
+//        return r;
+//    }
 
-    @Override
-    public Shape getShape()
-    {
-        GeneralPath path = getSegmentPath();
-        path.append(getStartArrowhead().getPath(), false);
-        path.append(getEndArrowhead().getPath(), false);
-        return path;
-    }
+//    @Override
+//    public Shape getShape()
+//    {
+//        GeneralPath path = getSegmentPath();
+//        path.append(getStartArrowhead().getPath(), false);
+//        path.append(getEndArrowhead().getPath(), false);
+//        return path;
+//    }
 
-    private GeneralPath getSegmentPath()
-    {
-        ArrayList<Point2D> points = getPoints();
 
-        GeneralPath path = new GeneralPath();
-        Point2D p = (Point2D) points.get(points.size() - 1);
-        path.moveTo((float) p.getX(), (float) p.getY());
-        for (int i = points.size() - 2; i >= 0; i--)
-        {
-            p = (Point2D) points.get(i);
-            path.lineTo((float) p.getX(), (float) p.getY());
-        }
-        return path;
-    }
-
-    /**
-     * Gets the corner points of this segmented line edge
-     * 
-     * @return an array list of Point2D objects, containing the corner points
-     */
-    public ArrayList<Point2D> getPoints()
-    {
-        Line2D connectionPoints = getConnectionPoints();
-        Point2D startingPoint = connectionPoints.getP1();
-        Point2D endingPoint = connectionPoints.getP2();
-        
-        // Path for self loop
-        if (getStart().equals(getEnd())) {
-        	int gapX = 20;
-        	int gapY = 20;
-        	Point2D p1 = new Point2D.Double(getStart().getBounds().getMaxX(), startingPoint.getY());
-        	Point2D p5 = new Point2D.Double(endingPoint.getX(), getEnd().getBounds().getMaxY());
-        	Point2D p2 = new Point2D.Double(p1.getX() + gapX, p1.getY());
-        	Point2D p4 = new Point2D.Double(p5.getX(), p5.getY() + gapY);
-        	Point2D p3 = new Point2D.Double(p2.getX(), p4.getY());
-        	ArrayList<Point2D> path = new ArrayList<Point2D>();
-        	path.add(p1);
-        	path.add(p2);
-        	path.add(p3);
-        	path.add(p4);
-        	path.add(p5);
-        	return path;
-        }
-        
-
-        // Automatic based path
-        if (!BentStyleChoiceList.AUTO.equals(getBentStyle()))
-        {
-            List<Point2D> bentStylePoints = new ArrayList<Point2D>();
-            bentStylePoints.add(startingPoint);
-            for (Point2D aTransitionPoint : getTransitionPoints()) {
-                bentStylePoints.add(aTransitionPoint);
-            }
-            bentStylePoints.add(endingPoint);
-
-            Point2D[] bentStylePointsAsArray = bentStylePoints.toArray(new Point2D[bentStylePoints.size()]);
-            return getBentStyle().getPath(bentStylePointsAsArray);
-        }
-
-        // User choice based path
-        Direction startingCardinalDirection = getDirection(getStart()).getNearestCardinalDirection();
-        Direction endingCardinalDirection = getDirection(getEnd()).getNearestCardinalDirection();
-        if ((Direction.NORTH.equals(startingCardinalDirection) || Direction.SOUTH.equals(startingCardinalDirection))
-                && (Direction.NORTH.equals(endingCardinalDirection) || Direction.SOUTH.equals(endingCardinalDirection)))
-        {
-            return BentStyleChoiceList.VHV.getPath(startingPoint, endingPoint);
-        }
-        if ((Direction.NORTH.equals(startingCardinalDirection) || Direction.SOUTH.equals(startingCardinalDirection))
-                && (Direction.EAST.equals(endingCardinalDirection) || Direction.WEST.equals(endingCardinalDirection)))
-        {
-            return BentStyleChoiceList.VH.getPath(startingPoint, endingPoint);
-        }
-        if ((Direction.EAST.equals(startingCardinalDirection) || Direction.WEST.equals(startingCardinalDirection))
-                && (Direction.NORTH.equals(endingCardinalDirection) || Direction.SOUTH.equals(endingCardinalDirection)))
-        {
-            return BentStyleChoiceList.HV.getPath(startingPoint, endingPoint);
-        }
-        if ((Direction.EAST.equals(startingCardinalDirection) || Direction.WEST.equals(startingCardinalDirection))
-                && (Direction.EAST.equals(endingCardinalDirection) || Direction.WEST.equals(endingCardinalDirection)))
-        {
-            return BentStyleChoiceList.HVH.getPath(startingPoint, endingPoint);
-        }
-        return BentStyleChoiceList.STRAIGHT.getPath(startingPoint, endingPoint);
-    }
-
-    @Override
-    public Direction getDirection(INode node)
-    {
-        Direction straightDirection = super.getDirection(node);
-        double x = straightDirection.getX();
-        double y = straightDirection.getY();
-        if (!getStart().equals(getEnd()) && node.equals(getStart()))
-        {
-            if (BentStyleChoiceList.HV.equals(getBentStyle()) || BentStyleChoiceList.HVH.equals(getBentStyle()))
-            {
-                return (x >= 0) ? Direction.EAST : Direction.WEST;
-            }
-            if (BentStyleChoiceList.VH.equals(getBentStyle()) || BentStyleChoiceList.VHV.equals(getBentStyle()))
-            {
-                return (y >= 0) ? Direction.SOUTH : Direction.NORTH;
-            }
-        }
-        if (!getStart().equals(getEnd()) && node.equals(getEnd()))
-        {
-            if (BentStyleChoiceList.HV.equals(getBentStyle()) || BentStyleChoiceList.VHV.equals(getBentStyle()))
-            {
-                return (y >= 0) ? Direction.SOUTH : Direction.NORTH;
-            }
-            if (BentStyleChoiceList.VH.equals(getBentStyle()) || BentStyleChoiceList.HVH.equals(getBentStyle()))
-            {
-                return (x >= 0) ? Direction.EAST : Direction.WEST;
-            }
-        }
-        return straightDirection;
-    }
 
     protected SegmentedLineEdge(SegmentedLineEdge segmentedLineEdge)
     {

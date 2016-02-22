@@ -170,12 +170,24 @@ public class BentStyle
         double x2;
         double y1;
         double y2 = endingPoint.getY();
-        if (x1 + MIN_SEGMENT <= endingPoint.getX()) x2 = endingPoint.getX();
-        else if (x1 - MIN_SEGMENT >= endingPoint.getX()) x2 = endingPoint.getX();
-        else return null;
-        if (y2 + MIN_SEGMENT <= startingPoint.getY()) y1 = startingPoint.getY();
-        else if (y2 - MIN_SEGMENT >= startingPoint.getY()) y1 = startingPoint.getY();
-        else return null;
+        if (x1 + MIN_SEGMENT <= endingPoint.getX() || x1 - MIN_SEGMENT >= endingPoint.getX())
+        {
+            x2 = endingPoint.getX();
+        }
+        else
+        {
+            return null;
+        }
+
+        if (y2 + MIN_SEGMENT <= startingPoint.getY() || y2 - MIN_SEGMENT >= startingPoint.getY())
+        {
+            y1 = startingPoint.getY();
+        }
+        else
+        {
+            return null;
+        }
+
         r.add(new Point2D.Double(x1, y1));
         r.add(new Point2D.Double(x1, y2));
         r.add(new Point2D.Double(x2, y2));
@@ -259,7 +271,7 @@ public class BentStyle
     }
 
     /** minimum segment size */
-    private static final int MIN_SEGMENT = 10;
+    private static final int MIN_SEGMENT = 15;
     /** width on self path */
     private static final int SELF_WIDTH = 30;
     /** height on self path */

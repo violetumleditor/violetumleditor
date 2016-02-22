@@ -105,8 +105,8 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior {
         Iterator<IEdge> iterOnEdges = graph.getAllEdges().iterator();
         while (iterOnEdges.hasNext()) {
             IEdge e = (IEdge) iterOnEdges.next();
-            INode startingNode = e.getStart();
-            INode endinNode = e.getEnd();
+            INode startingNode = e.getStartNode();
+            INode endinNode = e.getEndNode();
             if (selectedNodes.contains(startingNode) && selectedNodes.contains(endinNode)) {
                 Point2D[] transitionPoints = e.getTransitionPoints();
                 for (Point2D aTransitionPoint : transitionPoints) {

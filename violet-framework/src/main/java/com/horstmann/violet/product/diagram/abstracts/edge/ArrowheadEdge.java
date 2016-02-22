@@ -8,6 +8,8 @@ import com.horstmann.violet.product.diagram.abstracts.edge.arrowhead.Arrowhead;
 import com.horstmann.violet.product.diagram.abstracts.edge.bentstyle.BentStyle;
 
 import java.awt.*;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
 
 /**
  * TODO javadoc
@@ -49,6 +51,28 @@ public abstract class ArrowheadEdge extends LineEdge
         startArrowheadChoiceList.setSelectedIndex(selectedStartArrowhead);
         endArrowheadChoiceList.setSelectedIndex(selectedEndArrowhead);
     }
+
+    /**
+     * Draws the edge.
+     *
+     * @param graphics the graphics context
+     */
+    public void draw(Graphics2D graphics)
+    {
+        super.draw(graphics);
+
+        getStartArrowhead().draw(graphics, contactPoints[1], contactPoints[0]);
+        getEndArrowhead().draw(graphics, contactPoints[contactPoints.length-2], contactPoints[contactPoints.length-1]);
+    }
+
+//    @Override
+//    public Shape getShape()
+//    {
+//        GeneralPath path = getPath();
+//        path.append(getStartArrowhead().getPath(), false);
+//        path.append(getEndArrowhead().getPath(), false);
+//        return path;
+//    }
 
     /**
      * Gets the start arrow head property

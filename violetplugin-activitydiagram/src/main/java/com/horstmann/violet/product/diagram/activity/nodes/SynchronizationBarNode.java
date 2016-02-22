@@ -96,7 +96,7 @@ public class SynchronizationBarNode extends ColorableNode
     @Override
     public boolean addConnection(IEdge e)
     {
-        return e.getEnd() != null && this != e.getEnd();
+        return e.getEndNode() != null && this != e.getEndNode();
     }
 
     @Override
@@ -108,13 +108,13 @@ public class SynchronizationBarNode extends ColorableNode
 
         if (ActivityTransitionEdge.class.isInstance(e))
         {
-            if (this == e.getStart())
+            if (this == e.getStartNode())
             {
-                x = e.getStart().getConnectionPoint(e).getX();
+                x = e.getStartNode().getConnectionPoint(e).getX();
             }
-            else if (this == e.getEnd())
+            else if (this == e.getEndNode())
             {
-                x = e.getEnd().getConnectionPoint(e).getX();
+                x = e.getEndNode().getConnectionPoint(e).getX();
             }
 
             if(Direction.NORTH.equals(e.getDirection(this).getNearestCardinalDirection()))

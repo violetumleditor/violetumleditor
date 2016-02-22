@@ -199,9 +199,9 @@ public class LifelineNode extends ColorableNode
         {
             if (edge instanceof CallEdge)
             {
-                if (this == edge.getEnd())
+                if (this == edge.getEndNode())
                 {
-                    y = edge.getStart().getLocationOnGraph().getY() - TOP_HEIGHT /2 + ActivationBarNode.CALL_Y_GAP / 2;
+                    y = edge.getStartNode().getLocationOnGraph().getY() - TOP_HEIGHT /2 + ActivationBarNode.CALL_Y_GAP / 2;
                 }
             }
         }

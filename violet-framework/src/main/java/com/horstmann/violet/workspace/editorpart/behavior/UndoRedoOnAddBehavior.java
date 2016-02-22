@@ -128,7 +128,7 @@ public class UndoRedoOnAddBehavior extends AbstractEditorPartBehavior
                 {
                     super.redo();
                     IGraph graph = editorPart.getGraph();
-                    graph.connect(aSelectedEdge, aSelectedEdge.getStart(), aSelectedEdge.getStartLocation(), aSelectedEdge.getEnd(), aSelectedEdge.getEndLocation(), aSelectedEdge.getTransitionPoints());
+                    graph.connect(aSelectedEdge, aSelectedEdge.getStartNode(), aSelectedEdge.getStartLocation(), aSelectedEdge.getEndNode(), aSelectedEdge.getEndLocation(), aSelectedEdge.getTransitionPoints());
                 }
             };
             capturedEdit.addEdit(edit);
@@ -209,7 +209,7 @@ public class UndoRedoOnAddBehavior extends AbstractEditorPartBehavior
                 {
                     super.redo();
                     IGraph graph = editorPart.getGraph();
-                    graph.connect(aSelectedEdge, aSelectedEdge.getStart(), aSelectedEdge.getStartLocation(), aSelectedEdge.getEnd(), aSelectedEdge.getEndLocation(), aSelectedEdge.getTransitionPoints());
+                    graph.connect(aSelectedEdge, aSelectedEdge.getStartNode(), aSelectedEdge.getStartLocation(), aSelectedEdge.getEndNode(), aSelectedEdge.getEndLocation(), aSelectedEdge.getTransitionPoints());
                 }
             };
             capturedEdit.addEdit(edit);

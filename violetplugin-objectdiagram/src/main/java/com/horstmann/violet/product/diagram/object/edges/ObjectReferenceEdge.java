@@ -60,7 +60,7 @@ public class ObjectReferenceEdge extends ShapeEdge
         GeneralPath p = new GeneralPath();
         if (isSShaped())
         {
-            double x1 = getStart().getBounds().getMaxX() + START_SIZE;
+            double x1 = getStartNode().getBounds().getMaxX() + START_SIZE;
             double x2 = line.getX2() - END_SIZE;
             double xMid = (x1 + x2) / 2;
 
@@ -73,7 +73,7 @@ public class ObjectReferenceEdge extends ShapeEdge
         else
         // reverse C shaped
         {
-            double x1 = Math.max(getStart().getBounds().getMaxX(), line.getX2()+END_SIZE) + START_SIZE;
+            double x1 = Math.max(getStartNode().getBounds().getMaxX(), line.getX2()+END_SIZE) + START_SIZE;
             double x2 = x1 + END_SIZE;
             p.moveTo((float) line.getX1(), (float) y1);
             p.lineTo((float) x1, (float) y1);
@@ -88,7 +88,7 @@ public class ObjectReferenceEdge extends ShapeEdge
     @Override
     public Direction getDirection(INode node) {
         // Case 1 : start node_old
-        if (node.equals(getStart())) {
+        if (node.equals(getStartNode())) {
             return Direction.WEST;
         }
         // Case 2 : end node_old
@@ -105,7 +105,7 @@ public class ObjectReferenceEdge extends ShapeEdge
      */
     private boolean isSShaped()
     {
-        return (2 * END_SIZE) <= (getEnd().getBounds().getMinX() - getStart().getBounds().getMaxX());
+        return (2 * END_SIZE) <= (getEndNode().getBounds().getMinX() - getStartNode().getBounds().getMaxX());
     }
 
     private static final int END_SIZE = 12;

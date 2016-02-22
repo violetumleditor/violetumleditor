@@ -12,7 +12,7 @@ public class BasePropertyEdge extends SegmentedLineEdge{
     public BasePropertyEdge() {}
 
     @Override
-    public BasePropertyEdge clone() {
+    public BasePropertyEdge copy() {
         return new BasePropertyEdge(this);
     }
 

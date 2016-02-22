@@ -41,7 +41,7 @@ public class ActivityTransitionEdge extends BasePropertyEdge
         Direction straightDirection = super.getDirection(node);
         double x = straightDirection.getX();
         double y = straightDirection.getY();
-        if (node.equals(getStart()))
+        if (node.equals(getStartNode()))
         {
             if (BentStyleChoiceList.HV.equals(bStyle) || BentStyleChoiceList.HVH.equals(bStyle))
             {
@@ -52,7 +52,7 @@ public class ActivityTransitionEdge extends BasePropertyEdge
                 return (y >= 0) ? Direction.SOUTH : Direction.NORTH;
             }
         }
-        if (node.equals(getEnd()))
+        if (node.equals(getEndNode()))
         {
             if (BentStyleChoiceList.HV.equals(bStyle) || BentStyleChoiceList.VHV.equals(bStyle))
             {
@@ -63,10 +63,10 @@ public class ActivityTransitionEdge extends BasePropertyEdge
                 return (x >= 0) ? Direction.EAST : Direction.WEST;
             }
         }
-        if (SynchronizationBarNode.class.isInstance(getStart()) || SynchronizationBarNode.class.isInstance(getEnd())) {
-        	if (node.equals(getStart())) {
+        if (SynchronizationBarNode.class.isInstance(getStartNode()) || SynchronizationBarNode.class.isInstance(getEndNode())) {
+        	if (node.equals(getStartNode())) {
         		Point2D p1 = node.getLocationOnGraph();
-        		Point2D p2 = getEnd().getLocationOnGraph();
+        		Point2D p2 = getEndNode().getLocationOnGraph();
         		if (p1.getY() < p2.getY()) {
         			return Direction.NORTH;
         		}
@@ -74,9 +74,9 @@ public class ActivityTransitionEdge extends BasePropertyEdge
         			return Direction.SOUTH;
         		}
         	}
-        	if (node.equals(getEnd())) {
+        	if (node.equals(getEndNode())) {
         		Point2D p1 = node.getLocationOnGraph();
-        		Point2D p2 = getStart().getLocationOnGraph();
+        		Point2D p2 = getStartNode().getLocationOnGraph();
         		if (p1.getY() < p2.getY()) {
         			return Direction.NORTH;
         		}

@@ -110,7 +110,7 @@ public class SignalSendingNode extends ColorableNode
     @Override
     public boolean addConnection(IEdge e)
     {
-        if (e.getEnd() != null && this != e.getEnd())
+        if (e.getEndNode() != null && this != e.getEndNode())
         {
             return true;
         }

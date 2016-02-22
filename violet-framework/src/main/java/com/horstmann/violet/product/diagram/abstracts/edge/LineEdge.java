@@ -3,9 +3,15 @@ package com.horstmann.violet.product.diagram.abstracts.edge;
 import com.horstmann.violet.framework.property.BentStyleChoiceList;
 import com.horstmann.violet.framework.property.LineStyleChoiceList;
 import com.horstmann.violet.framework.property.choiceList.ChoiceList;
+import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.bentstyle.BentStyle;
 
 import java.awt.*;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.util.*;
+import java.util.List;
 
 /**
  * An edge that is composed of multiple line segments
@@ -42,6 +48,74 @@ public abstract class LineEdge extends ShapeEdge
 
         bentStyleChoiceList.setSelectedIndex(selectedBentStyle);
         lineStyleChoiceList.setSelectedIndex(selectedLineStyle);
+    }
+
+    /**
+     * Draws the edge.
+     *
+     * @param graphics the graphics context
+     */
+    public void draw(Graphics2D graphics)
+    {
+        updateContactPoints();
+
+        Color oldColor = graphics.getColor();
+        Stroke oldStroke = graphics.getStroke();
+
+        graphics.setColor(Color.BLACK);
+        graphics.setStroke(getLineStyle());
+        graphics.draw(getPath());
+        graphics.setStroke(oldStroke);
+        graphics.setColor(oldColor);
+    }
+
+    @Override
+    public Shape getShape()
+    {
+        return getPath();
+    }
+
+    protected GeneralPath getPath()
+    {
+        GeneralPath path = new GeneralPath();
+        path.moveTo(contactPoints[0].getX(), contactPoints[0].getY());
+
+        for (int i = 1; i < contactPoints.length; ++i)
+        {
+            path.lineTo(contactPoints[i].getX(), contactPoints[i].getY());
+        }
+        return path;
+    }
+
+    protected void updateContactPoints()
+    {
+        Line2D connectionPoints = getConnectionPoints();
+
+        Point2D startingPoint = connectionPoints.getP1();
+        Point2D endingPoint = connectionPoints.getP2();
+
+        if (getStartNode().equals(getEndNode()))
+        {
+            contactPoints = new Point2D[5];
+            contactPoints[0] = new Point2D.Double(getStartNode().getBounds().getMaxX(), startingPoint.getY());
+            contactPoints[1] = new Point2D.Double(contactPoints[0].getX() + SELF_LOOP_GAP_X, contactPoints[0].getY());
+            contactPoints[4] = new Point2D.Double(endingPoint.getX(), getEndNode().getBounds().getMaxY());
+            contactPoints[3] = new Point2D.Double(contactPoints[4].getX(), contactPoints[4].getY() + SELF_LOOP_GAP_Y);
+            contactPoints[2] = new Point2D.Double(contactPoints[1].getX(), contactPoints[3].getY());
+
+            return;
+        }
+
+        List<Point2D> points = new ArrayList<Point2D>();
+
+        points.add(startingPoint);
+        points.addAll(Arrays.asList(getTransitionPoints()));
+        points.add(endingPoint);
+
+        Point2D[] bentStylePointsAsArray = points.toArray(new Point2D[points.size()]);
+        points = getBentStyle().getPath(bentStylePointsAsArray);
+        contactPoints = new Point2D[points.size()];
+        points.toArray(contactPoints);
     }
 
     /**
@@ -111,7 +185,35 @@ public abstract class LineEdge extends ShapeEdge
      */
     public final BentStyle getBentStyle()
     {
-        return bentStyleChoiceList.getSelectedValue();
+        if (!bentStyleChoiceList.getSelectedValue().equals(BentStyleChoiceList.AUTO))
+        {
+            return bentStyleChoiceList.getSelectedValue();
+        }
+
+        Direction startDirection = getDirection(getStartNode()).getNearestCardinalDirection();
+        Direction endDirection = getDirection(getEndNode()).getNearestCardinalDirection();
+
+        if ((Direction.NORTH.equals(startDirection) || Direction.SOUTH.equals(startDirection)) &&
+            (Direction.NORTH.equals(endDirection)   || Direction.SOUTH.equals(endDirection)))
+        {
+            return BentStyleChoiceList.VHV;
+        }
+        else if ((Direction.NORTH.equals(startDirection) || Direction.SOUTH.equals(startDirection)) &&
+                 (Direction.EAST.equals(endDirection)    || Direction.WEST.equals(endDirection)))
+        {
+            return BentStyleChoiceList.VH;
+        }
+        else if ((Direction.EAST.equals(startDirection) || Direction.WEST.equals(startDirection)) &&
+                 (Direction.NORTH.equals(endDirection)  || Direction.SOUTH.equals(endDirection)))
+        {
+            return BentStyleChoiceList.HV;
+        }
+        else if ((Direction.EAST.equals(startDirection) || Direction.WEST.equals(startDirection)) &&
+                 (Direction.EAST.equals(endDirection)   || Direction.WEST.equals(endDirection)))
+        {
+            return BentStyleChoiceList.HVH;
+        }
+        return BentStyleChoiceList.STRAIGHT;
     }
 
     protected final void setBentStyle(BentStyle bentStyle)
@@ -127,4 +229,7 @@ public abstract class LineEdge extends ShapeEdge
 
     private int selectedBentStyle;
     private int selectedLineStyle;
+
+    public static final int SELF_LOOP_GAP_X = 20;
+    public static final int SELF_LOOP_GAP_Y = 20;
 }

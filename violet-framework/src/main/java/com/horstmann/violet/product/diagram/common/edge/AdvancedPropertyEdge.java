@@ -9,7 +9,8 @@ public class AdvancedPropertyEdge extends SegmentedLineEdge{
     public AdvancedPropertyEdge() {}
 
     @Override
-    public AdvancedPropertyEdge clone() {
+    protected AdvancedPropertyEdge copy()
+    {
         return new AdvancedPropertyEdge(this);
     }
 

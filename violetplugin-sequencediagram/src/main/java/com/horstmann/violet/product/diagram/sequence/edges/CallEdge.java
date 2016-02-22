@@ -38,7 +38,7 @@ public class CallEdge extends SegmentedLineEdge
     public CallEdge() {}
 
     @Override
-    public CallEdge clone()
+    public CallEdge copy()
     {
         return new CallEdge(this);
     }
@@ -64,11 +64,11 @@ public class CallEdge extends SegmentedLineEdge
         return new Line2D.Double(p1, p2);
     }
 
-    @Override
+//    @Override
     public ArrayList<Point2D> getPoints()
     {
-        INode endingNode = getEnd();
-        INode startingNode = getStart();
+        INode endingNode = getEndNode();
+        INode startingNode = getStartNode();
         if (isActivationBarsOnSameLifeline(startingNode, endingNode))
         {
             return getPointsForLoopOnActivationBarNode(startingNode, endingNode);

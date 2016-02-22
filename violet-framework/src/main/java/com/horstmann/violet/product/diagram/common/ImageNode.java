@@ -100,7 +100,7 @@ public class ImageNode extends ColorableNode
      */
     public void removeConnection(IEdge e)
     {
-        if (e.getStart() == this) getGraph().removeNode(e.getEnd());
+        if (e.getStartNode() == this) getGraph().removeNode(e.getEndNode());
     }
 
     /**

@@ -151,7 +151,7 @@ public class FieldNode extends ColorableNode
     @Override
     public boolean addConnection(IEdge e)
     {
-        INode endingINode = e.getEnd();
+        INode endingINode = e.getEndNode();
         if (e.getClass().isAssignableFrom(ObjectReferenceEdge.class) && endingINode.getClass().isAssignableFrom(ObjectNode.class))
         {
             value.setText( "" );
@@ -160,8 +160,8 @@ public class FieldNode extends ColorableNode
         // Hack to allow drawing relationship edge over fields
         if (e.getClass().isAssignableFrom(BasePropertyEdge.class))
         {
-            INode startingNode = e.getStart();
-            INode endingNode = e.getEnd();
+            INode startingNode = e.getStartNode();
+            INode endingNode = e.getEndNode();
             if (startingNode.getClass().isAssignableFrom(FieldNode.class))
             {
                 startingNode = startingNode.getParent();
@@ -170,8 +170,8 @@ public class FieldNode extends ColorableNode
             {
                 endingNode = endingNode.getParent();
             }
-            e.setStart(startingNode);
-            e.setEnd(endingNode);
+            e.setStartNode(startingNode);
+            e.setEndNode(endingNode);
             return getParent().addConnection(e);
         }
         return false;

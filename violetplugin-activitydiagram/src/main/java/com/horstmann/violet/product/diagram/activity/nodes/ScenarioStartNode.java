@@ -69,7 +69,7 @@ public class ScenarioStartNode extends AbstractNode
     @Override
     public boolean addConnection(IEdge e)
     {
-        return e.getEnd() != null && this != e.getEnd();
+        return e.getEndNode() != null && this != e.getEndNode();
     }
 
     /** default node_old diameter */

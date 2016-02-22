@@ -163,11 +163,11 @@ public class StateTransitionEdge extends ShapeEdge
     @Override
     public Direction getDirection(INode node)
     {
-        if (getStart() == getEnd())
+        if (getStartNode() == getEndNode())
         {
             angle = 60;
-            if (node.equals(getStart())) return Direction.EAST.turn(-30);
-            if (node.equals(getEnd())) return Direction.EAST.turn(30);
+            if (node.equals(getStartNode())) return Direction.EAST.turn(-30);
+            if (node.equals(getEndNode())) return Direction.EAST.turn(30);
         }
         angle = 10;
         return super.getDirection(node);

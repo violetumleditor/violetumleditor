@@ -47,8 +47,8 @@ public class BallAndSocketNode extends ColorableNode
 
                 case BALL_AND_SOCKET:
                 {
-                    path.append(new Arc2D.Double(0, 0, DEFAULT_DIAMETER, DEFAULT_DIAMETER, 0, 180, Arc2D.OPEN),false);
                     path.append(new Ellipse2D.Double(DEFAULT_GAP,DEFAULT_GAP,DEFAULT_DIAMETER-2*DEFAULT_GAP,DEFAULT_DIAMETER-2*DEFAULT_GAP),false);
+                    path.append(new Arc2D.Double(0, 0, DEFAULT_DIAMETER, DEFAULT_DIAMETER, 0, 180, Arc2D.OPEN),false);
                 }break;
             }
 

@@ -18,7 +18,7 @@ public class DirectionEdge extends SegmentedLineEdge {
 	}
 
 	@Override
-	public DirectionEdge clone() {
+	public DirectionEdge copy() {
 		return new DirectionEdge(this);
 	}
 

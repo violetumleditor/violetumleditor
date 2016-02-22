@@ -31,7 +31,7 @@ public class UseCaseRelationshipEdge extends SegmentedLineEdge
     public UseCaseRelationshipEdge() {}
 
     @Override
-    public UseCaseRelationshipEdge clone() {
+    public UseCaseRelationshipEdge copy() {
         return new UseCaseRelationshipEdge(this);
     }
 

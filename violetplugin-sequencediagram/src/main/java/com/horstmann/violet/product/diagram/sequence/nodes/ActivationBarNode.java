@@ -159,7 +159,7 @@ public class ActivationBarNode extends ColorableNode
     @Override
     public boolean addConnection(IEdge edge)
     {
-        if(null == edge.getEnd())
+        if(null == edge.getEndNode())
         {
             return false;
         }
@@ -182,8 +182,8 @@ public class ActivationBarNode extends ColorableNode
             for(IEdge connectedEdge : getConnectedEdges())
             {
                 if(connectedEdge instanceof ReturnEdge &&
-                   edge.getStart() == connectedEdge.getEnd() &&
-                   edge.getEnd() == connectedEdge.getStart())
+                   edge.getStartNode() == connectedEdge.getEndNode() &&
+                   edge.getEndNode() == connectedEdge.getStartNode())
                 {
                     getGraph().removeEdge(connectedEdge);
                     break;
@@ -208,37 +208,37 @@ public class ActivationBarNode extends ColorableNode
 
         if(edge instanceof CallEdge)
         {
-            if (edge.getEnd() instanceof LifelineNode)
+            if (edge.getEndNode() instanceof LifelineNode)
             {
                 y += CALL_Y_GAP / 2;
             }
-            else if (null != edge.getStart().getParent() &&
-                     null != edge.getEnd().getParent() &&
-                     edge.getStart().getParents().get(0) == edge.getEnd().getParents().get(0))
+            else if (null != edge.getStartNode().getParent() &&
+                     null != edge.getEndNode().getParent() &&
+                     edge.getStartNode().getParents().get(0) == edge.getEndNode().getParents().get(0))
             {
                 if (0 < edgeDirection.getX())
                 {
                     x += WIDTH;
                 }
-                if(this == edge.getStart())
+                if(this == edge.getStartNode())
                 {
-                    y += edge.getEnd().getLocation().getY() - CALL_Y_GAP /2;
+                    y += edge.getEndNode().getLocation().getY() - CALL_Y_GAP /2;
                 }
             }
-            else if(this == edge.getStart())
+            else if(this == edge.getStartNode())
             {
-                y = edge.getEnd().getLocationOnGraph().getY();
+                y = edge.getEndNode().getLocationOnGraph().getY();
             }
         }
         else if(edge instanceof ReturnEdge)
         {
-            if(this == edge.getStart())
+            if(this == edge.getStartNode())
             {
                 y += getContent().getHeight();
             }
-            else if(this == edge.getEnd())
+            else if(this == edge.getEndNode())
             {
-                y = edge.getStart().getLocationOnGraph().getY() + edge.getStart().getBounds().getHeight();
+                y = edge.getStartNode().getLocationOnGraph().getY() + edge.getStartNode().getBounds().getHeight();
             }
         }
         return new Point2D.Double(x, y);
@@ -266,9 +266,9 @@ public class ActivationBarNode extends ColorableNode
         {
             if (edge instanceof CallEdge)
             {
-                if (edge.getStart() == this && edge.getStart() != getParent())
+                if (edge.getStartNode() == this && edge.getStartNode() != getParent())
                 {
-                    y = Math.min(y, edge.getEnd().getLocationOnGraph().getY()-5);
+                    y = Math.min(y, edge.getEndNode().getLocationOnGraph().getY()-5);
                 }
             }
         }
@@ -282,9 +282,9 @@ public class ActivationBarNode extends ColorableNode
         {
             if (edge instanceof CallEdge)
             {
-                if (edge.getStart() == this && edge.getStart() != getParent())
+                if (edge.getStartNode() == this && edge.getStartNode() != getParent())
                 {
-                    INode endingNode = edge.getEnd();
+                    INode endingNode = edge.getEndNode();
                     if (endingNode instanceof ActivationBarNode)
                     {
                         Rectangle2D endingNodeBounds = endingNode.getBounds();
@@ -299,8 +299,8 @@ public class ActivationBarNode extends ColorableNode
 
     private boolean isReturnEdgeAcceptable(ReturnEdge edge)
     {
-        INode start = edge.getStart();
-        INode end = edge.getEnd();
+        INode start = edge.getStartNode();
+        INode end = edge.getEndNode();
 
         if (null != start.getParent() &&
             null != end.getParent() &&
@@ -311,7 +311,7 @@ public class ActivationBarNode extends ColorableNode
 
         for (IEdge connectedEdge : getConnectedEdges())
         {
-            if(start == connectedEdge.getEnd() && end == connectedEdge.getStart())
+            if(start == connectedEdge.getEndNode() && end == connectedEdge.getStartNode())
             {
                 return true;
             }
@@ -321,13 +321,13 @@ public class ActivationBarNode extends ColorableNode
 
     private boolean isCallEdgeAcceptable(CallEdge edge)
     {
-        INode start = edge.getStart();
-        INode end = edge.getEnd();
+        INode start = edge.getStartNode();
+        INode end = edge.getEndNode();
 
         for (IEdge connectedEdge : getConnectedEdges())
         {
-            if(start == connectedEdge.getStart() && end == connectedEdge.getEnd() ||
-               end == connectedEdge.getStart() && start == connectedEdge.getEnd() )
+            if(start == connectedEdge.getStartNode() && end == connectedEdge.getEndNode() ||
+               end == connectedEdge.getStartNode() && start == connectedEdge.getEndNode() )
             {
                 return false;
             }
@@ -340,7 +340,7 @@ public class ActivationBarNode extends ColorableNode
                 Point2D location = edge.getStartLocation();
                 Point2D newActivationBarLocation = new Point2D.Double(location.getX(), location.getY() + CALL_Y_GAP / 2);
                 start.addChild(newActivationBar, newActivationBarLocation);
-                edge.setEnd(newActivationBar);
+                edge.setEndNode(newActivationBar);
                 return true;
             }
             return ((start.getParents().get(0) != end.getParents().get(0)) || (start == end.getParent()));
@@ -359,7 +359,7 @@ public class ActivationBarNode extends ColorableNode
                 Point2D location = edge.getEndLocation();
                 Point2D newActivationBarLocation = new Point2D.Double(location.getX(), location.getY());
                 end.addChild(newActivationBar, newActivationBarLocation);
-                edge.setEnd(newActivationBar);
+                edge.setEndNode(newActivationBar);
                 return true;
             }
         }

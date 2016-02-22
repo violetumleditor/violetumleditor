@@ -30,7 +30,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.horstmann.violet.framework.graphics.content.Content;
-import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
@@ -42,8 +41,10 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
  * 
  * @author Cay Horstmann
  */
-public abstract class AbstractNode implements INode {
-    private static class NodeGraph extends AbstractGraph {
+public abstract class AbstractNode implements INode
+{
+    private static class NodeGraph extends AbstractGraph
+    {
         @Override
         public List<INode> getNodePrototypes() {
             return new ArrayList<INode>();
@@ -68,8 +69,10 @@ public abstract class AbstractNode implements INode {
     /**
      * copy Constructs
      */
-    protected AbstractNode(AbstractNode node) throws CloneNotSupportedException {
-        if (null == node) {
+    protected AbstractNode(AbstractNode node) throws CloneNotSupportedException
+    {
+        if (null == node)
+        {
             throw new CloneNotSupportedException("node can't be null");
         }
         this.id = node.getId().clone();
@@ -90,7 +93,8 @@ public abstract class AbstractNode implements INode {
 
     @Override
 //    public AbstractNode clone(){
-    public final AbstractNode clone() {
+    public final AbstractNode clone()
+    {
         try {
             return (AbstractNode) copy();
         } catch (CloneNotSupportedException e) {
@@ -98,8 +102,9 @@ public abstract class AbstractNode implements INode {
         }
     }
 
-    protected INode copy() throws CloneNotSupportedException {
-        return null;
+    protected INode copy() throws CloneNotSupportedException
+    {
+        throw new CloneNotSupportedException("You can't clone abstract class");
     }
 
 
@@ -129,8 +134,8 @@ public abstract class AbstractNode implements INode {
         List<IEdge> connectedEdges = new ArrayList<IEdge>();
         IGraph currentGraph = getGraph();
         for (IEdge anEdge : currentGraph.getAllEdges()) {
-            INode start = anEdge.getStart();
-            INode end = anEdge.getEnd();
+            INode start = anEdge.getStartNode();
+            INode end = anEdge.getEndNode();
             if (this.equals(start) || this.equals(end)) {
                 connectedEdges.add(anEdge);
             }
@@ -207,7 +212,7 @@ public abstract class AbstractNode implements INode {
             if (cardinalDirectionToSearch.equals(nearestCardinalDirection)) {
                 result.add(anEdge);
             }
-            if (anEdge.getStart().equals(anEdge.getEnd()) && anEdge.getStart().equals(this)) {
+            if (anEdge.getStartNode().equals(anEdge.getEndNode()) && anEdge.getStartNode().equals(this)) {
                 // self loop
                 result.add(anEdge);
             }
@@ -302,7 +307,7 @@ public abstract class AbstractNode implements INode {
 
     @Override
     public boolean addConnection(IEdge e) {
-        return e.getEnd() != null;
+        return e.getEndNode() != null;
     }
 
     @Override

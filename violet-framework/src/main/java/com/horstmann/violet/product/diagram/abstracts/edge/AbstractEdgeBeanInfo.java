@@ -31,7 +31,7 @@ import java.beans.SimpleBeanInfo;
  */
 public class AbstractEdgeBeanInfo extends SimpleBeanInfo
 {
-    /*
+    /**
      * (non-Javadoc)
      * 
      * @see java.beans.BeanInfo#getPropertyDescriptors()

@@ -41,7 +41,7 @@ import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
  * 
  * FIXME : manage Z order
  * 
- * for (IEdge e : getGraph().getEdges()) { if (e.getStart() == this) { INode end = e.getEnd(); Point2D endPoint = end.getLocation();
+ * for (IEdge e : getGraph().getEdges()) { if (e.getStartNode() == this) { INode end = e.getEndNode(); Point2D endPoint = end.getLocation();
  * INode n = getGraph().findNode(endPoint); if (n != end) end.setZ(n.getZ() + 1); } }
  * 
  */
@@ -151,7 +151,7 @@ public class NoteNode extends ColorableNode
     @Override
     public boolean addConnection(IEdge e)
     {
-        if (e.getStart() == e.getEnd())
+        if (e.getStartNode() == e.getEndNode())
         {
             return false;
         }
