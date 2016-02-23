@@ -29,12 +29,11 @@ import java.util.ResourceBundle;
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.framework.property.BentStyleChoiceList;
 import com.horstmann.violet.product.diagram.common.edge.NoteEdge;
-import com.horstmann.violet.product.diagram.common.NoteNode;
-import com.horstmann.violet.product.diagram.usecase.edges.UseCaseRelationshipEdge;
-import com.horstmann.violet.product.diagram.usecase.nodes.ActorNode;
-import com.horstmann.violet.product.diagram.usecase.nodes.UseCaseNode;
+import com.horstmann.violet.product.diagram.common.node.NoteNode;
+import com.horstmann.violet.product.diagram.usecase.edge.UseCaseRelationshipEdge;
+import com.horstmann.violet.product.diagram.usecase.node.ActorNode;
+import com.horstmann.violet.product.diagram.usecase.node.UseCaseNode;
 
 /**
  * A UML use case diagram.

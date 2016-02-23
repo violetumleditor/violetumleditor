@@ -16,7 +16,7 @@ import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 
 /**
- * Undo/Redo behavior triggered when nodes and edges are added
+ * Undo/Redo behavior triggered when node and edges are added
  * 
  * @author Alexandre de Pellegrin
  *
@@ -35,7 +35,7 @@ public class UndoRedoOnAddBehavior extends AbstractEditorPartBehavior
     private UndoRedoCompoundBehavior compoundBehavior;
    
     /**
-     * Keeps all the nodes attached to the graph before the add action
+     * Keeps all the node attached to the graph before the add action
      */
     private List<INode> nodesOnGraphBeforeAdd = new ArrayList<INode>();
     

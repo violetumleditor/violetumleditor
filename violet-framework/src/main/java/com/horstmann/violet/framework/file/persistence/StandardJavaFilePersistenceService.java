@@ -28,7 +28,7 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.framework.property.ArrowheadChoiceList;
-import com.horstmann.violet.product.diagram.common.ImageNode;
+import com.horstmann.violet.product.diagram.common.node.ImageNode;
 
 /**
  * Standard Java implementation of IFilePersistenceService

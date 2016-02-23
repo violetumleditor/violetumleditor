@@ -36,14 +36,14 @@ import com.horstmann.violet.framework.property.ArrowheadChoiceList;
 import com.horstmann.violet.framework.property.BentStyleChoiceList;
 import com.horstmann.violet.framework.util.StringFilterOutputStream;
 import com.horstmann.violet.framework.property.LineStyleChoiceList;
-import com.horstmann.violet.product.diagram.classes.nodes.ClassNode;
-import com.horstmann.violet.product.diagram.classes.nodes.PackageNode;
+import com.horstmann.violet.product.diagram.classes.node.ClassNode;
+import com.horstmann.violet.product.diagram.classes.node.PackageNode;
 import com.horstmann.violet.product.diagram.common.edge.BasePropertyEdge;
-import com.horstmann.violet.product.diagram.classes.nodes.InterfaceNode;
-import com.horstmann.violet.product.diagram.common.DiagramLinkNode;
+import com.horstmann.violet.product.diagram.classes.node.InterfaceNode;
+import com.horstmann.violet.product.diagram.common.node.DiagramLinkNode;
 import com.horstmann.violet.product.diagram.common.edge.NoteEdge;
-import com.horstmann.violet.product.diagram.common.NoteNode;
-import com.horstmann.violet.product.diagram.common.PointNode;
+import com.horstmann.violet.product.diagram.common.node.NoteNode;
+import com.horstmann.violet.product.diagram.common.node.PointNode;
 
 /**
  * This class provides file format services

@@ -38,7 +38,7 @@ import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant
 import com.horstmann.violet.framework.util.GrabberUtils;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.common.PointNode;
+import com.horstmann.violet.product.diagram.common.node.PointNode;
 
 public class GraphTool
 {

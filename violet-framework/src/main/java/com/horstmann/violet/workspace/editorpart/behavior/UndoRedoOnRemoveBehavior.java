@@ -15,7 +15,7 @@ import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 
 /**
- * Undo/Redo behavior triggered when nodes and edges are removed
+ * Undo/Redo behavior triggered when node and edges are removed
  * 
  * @author Alexandre de Pellegrin
  *
@@ -34,7 +34,7 @@ public class UndoRedoOnRemoveBehavior extends AbstractEditorPartBehavior
     private UndoRedoCompoundBehavior compoundBehavior;
 
     /**
-     * Keeps all the nodes attached to the graph before the remove action
+     * Keeps all the node attached to the graph before the remove action
      */
     private List<INode> nodesOnGraphBeforeRemove = new ArrayList<INode>();
 
@@ -169,7 +169,7 @@ public class UndoRedoOnRemoveBehavior extends AbstractEditorPartBehavior
     }
 
     /**
-     * Takes a list of nodes and removes from this list all nodes which have ancestors node_old in this list.<br/>
+     * Takes a list of node and removes from this list all node which have ancestors node_old in this list.<br/>
      * 
      * @param nodes the list to filter
      * @return the filtered list

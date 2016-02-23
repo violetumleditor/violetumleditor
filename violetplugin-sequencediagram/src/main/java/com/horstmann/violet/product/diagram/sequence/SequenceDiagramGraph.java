@@ -27,17 +27,16 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import com.horstmann.violet.framework.property.LineStyleChoiceList;
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.common.edge.NoteEdge;
-import com.horstmann.violet.product.diagram.common.NoteNode;
-import com.horstmann.violet.product.diagram.sequence.edges.CallEdge;
-import com.horstmann.violet.product.diagram.sequence.edges.ReturnEdge;
-import com.horstmann.violet.product.diagram.sequence.nodes.ActivationBarNode;
-import com.horstmann.violet.product.diagram.sequence.nodes.IntegrationFrameNode;
-import com.horstmann.violet.product.diagram.sequence.nodes.LifelineNode;
+import com.horstmann.violet.product.diagram.common.node.NoteNode;
+import com.horstmann.violet.product.diagram.sequence.edge.CallEdge;
+import com.horstmann.violet.product.diagram.sequence.edge.ReturnEdge;
+import com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode;
+import com.horstmann.violet.product.diagram.sequence.node.IntegrationFrameNode;
+import com.horstmann.violet.product.diagram.sequence.node.LifelineNode;
 
 /**
  * A UML sequence diagram.

@@ -286,7 +286,7 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
      * As we can copy/paste on many diagrams, we ensure that we paste only node_old types acceptable for the current diagram
      * 
      * @param nodes from clipboard
-     * @return nodes acceptable for the current diagram
+     * @return node acceptable for the current diagram
      */
     private List<INode> filterOnNodePrototypes(Collection<INode> nodes)
     {
@@ -339,7 +339,7 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
     }
 
     /**
-     * Moves all the nodes of a graph to a location
+     * Moves all the node of a graph to a location
      * 
      * @param graph
      * @param mouseLocation

@@ -8,9 +8,9 @@ import java.util.ResourceBundle;
 import com.horstmann.violet.framework.plugin.IDiagramPlugin;
 import com.horstmann.violet.framework.plugin.extensionpoint.Violet016FileFilterExtensionPoint;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
-import com.horstmann.violet.product.diagram.usecase.edges.UseCaseRelationshipEdge;
-import com.horstmann.violet.product.diagram.usecase.nodes.ActorNode;
-import com.horstmann.violet.product.diagram.usecase.nodes.UseCaseNode;
+import com.horstmann.violet.product.diagram.usecase.edge.UseCaseRelationshipEdge;
+import com.horstmann.violet.product.diagram.usecase.node.ActorNode;
+import com.horstmann.violet.product.diagram.usecase.node.UseCaseNode;
 
 /**
  * Describes use case diagram graph type

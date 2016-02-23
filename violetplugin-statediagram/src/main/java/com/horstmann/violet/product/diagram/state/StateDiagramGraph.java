@@ -30,9 +30,9 @@ import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.common.edge.NoteEdge;
-import com.horstmann.violet.product.diagram.common.NoteNode;
-import com.horstmann.violet.product.diagram.state.edges.StateTransitionEdge;
-import com.horstmann.violet.product.diagram.state.nodes.*;
+import com.horstmann.violet.product.diagram.common.node.NoteNode;
+import com.horstmann.violet.product.diagram.state.edge.StateTransitionEdge;
+import com.horstmann.violet.product.diagram.state.node.*;
 
 /**
  * An UML state diagram.

@@ -9,9 +9,9 @@ import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 
-import com.horstmann.violet.product.diagram.communication.edges.DirectionEdge;
-import com.horstmann.violet.product.diagram.communication.nodes.ActorNode;
-import com.horstmann.violet.product.diagram.communication.nodes.ObjectNodeCommu;
+import com.horstmann.violet.product.diagram.communication.edge.DirectionEdge;
+import com.horstmann.violet.product.diagram.communication.node.ActorNode;
+import com.horstmann.violet.product.diagram.communication.node.ObjectNodeCommu;
 /**
  * 
  * @author Artur Ratajczak

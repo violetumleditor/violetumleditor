@@ -9,9 +9,9 @@ import com.horstmann.violet.framework.plugin.IDiagramPlugin;
 import com.horstmann.violet.framework.plugin.extensionpoint.Violet016FileFilterExtensionPoint;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.common.edge.BasePropertyEdge;
-import com.horstmann.violet.product.diagram.object.edges.ObjectReferenceEdge;
-import com.horstmann.violet.product.diagram.object.nodes.FieldNode;
-import com.horstmann.violet.product.diagram.object.nodes.ObjectNode;
+import com.horstmann.violet.product.diagram.object.edge.ObjectReferenceEdge;
+import com.horstmann.violet.product.diagram.object.node.FieldNode;
+import com.horstmann.violet.product.diagram.object.node.ObjectNode;
 
 /**
  * Describes object diagram graph type

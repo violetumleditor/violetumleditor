@@ -78,7 +78,7 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior {
         double dx = mousePoint.getX() - lastMousePoint.getX();
         double dy = mousePoint.getY() - lastMousePoint.getY();
 
-        // we don't want to drag nodes into negative coordinates
+        // we don't want to drag node into negative coordinates
         // particularly with multiple selection, we might never be
         // able to get them back.
         List<INode> selectedNodes = selectionHandler.getSelectedNodes();

@@ -33,10 +33,10 @@ import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.framework.property.text.SingleLineText;
 import com.horstmann.violet.product.diagram.common.edge.BasePropertyEdge;
 import com.horstmann.violet.product.diagram.common.edge.NoteEdge;
-import com.horstmann.violet.product.diagram.common.NoteNode;
-import com.horstmann.violet.product.diagram.object.edges.ObjectReferenceEdge;
-import com.horstmann.violet.product.diagram.object.nodes.FieldNode;
-import com.horstmann.violet.product.diagram.object.nodes.ObjectNode;
+import com.horstmann.violet.product.diagram.common.node.NoteNode;
+import com.horstmann.violet.product.diagram.object.edge.ObjectReferenceEdge;
+import com.horstmann.violet.product.diagram.object.node.FieldNode;
+import com.horstmann.violet.product.diagram.object.node.ObjectNode;
 
 /**
  * An UML-style object diagram that shows object references.

@@ -17,8 +17,6 @@ import java.awt.geom.Rectangle2D;
  */
 public class LabeledLineEdge extends ArrowheadEdge
 {
-
-
     public LabeledLineEdge()
     {
         super();
@@ -49,13 +47,19 @@ public class LabeledLineEdge extends ArrowheadEdge
     {
         super.deserializeSupport();
 
-        startLabel.deserializeSupport();
-        centerLabel.deserializeSupport();
-        endLabel.deserializeSupport();
-
         startTextContent = new TextContent(startLabel);
         centerTextContent = new TextContent(centerLabel);
         endTextContent = new TextContent(endLabel);
+
+        startLabel.deserializeSupport();
+        centerLabel.deserializeSupport();
+        endLabel.deserializeSupport();
+    }
+
+    @Override
+    protected IEdge copy() throws CloneNotSupportedException
+    {
+        return new LabeledLineEdge(this);
     }
 
     /**

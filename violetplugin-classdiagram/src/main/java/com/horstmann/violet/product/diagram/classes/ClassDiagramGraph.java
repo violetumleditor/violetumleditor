@@ -5,24 +5,21 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import com.horstmann.violet.framework.property.LineStyleChoiceList;
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 
-import com.horstmann.violet.product.diagram.classes.nodes.*;
+import com.horstmann.violet.product.diagram.classes.edge.*;
+import com.horstmann.violet.product.diagram.classes.node.*;
 
-import com.horstmann.violet.product.diagram.common.edge.AdvancedPropertyEdge;
-import com.horstmann.violet.product.diagram.common.edge.BasePropertyEdge;
 import com.horstmann.violet.product.diagram.common.edge.NoteEdge;
-import com.horstmann.violet.product.diagram.common.NoteNode;
+import com.horstmann.violet.product.diagram.common.node.NoteNode;
 
 /**
  * A UML class diagram.
  */
 public class ClassDiagramGraph extends AbstractGraph
 {
-
     public List<INode> getNodePrototypes()
     {
         return NODE_PROTOTYPES;
@@ -65,58 +62,32 @@ public class ClassDiagramGraph extends AbstractGraph
         node5.setToolTip(rs.getString("node5.tooltip"));
         NODE_PROTOTYPES.add(node5);
 
-        BasePropertyEdge dependency = new BasePropertyEdge();
-//        dependency.setEndArrowHead(ArrowheadChoiceList.V);
-//        dependency.setStartArrowHead(ArrowheadChoiceList.NONE);
-//        dependency.setLineStyle(LineStyleChoiceList.DOTTED);
+        DependencyEdge dependency = new DependencyEdge();
         dependency.setToolTip(rs.getString("edge0.tooltip"));
         EDGE_PROTOTYPES.add(dependency);
 
-        BasePropertyEdge inheritance = new BasePropertyEdge();
-//        inheritance.setEndArrowHead(ArrowheadChoiceList.TRIANGLE);
-//        inheritance.setStartArrowHead(ArrowheadChoiceList.NONE);
-//        inheritance.setLineStyle(LineStyleChoiceList.SOLID);
+        InheritanceEdge inheritance = new InheritanceEdge();
         inheritance.setToolTip(rs.getString("edge1.tooltip"));
         EDGE_PROTOTYPES.add(inheritance);
 
-        BasePropertyEdge interfaceInheritance = new BasePropertyEdge();
-//        interfaceInheritance.setEndArrowHead(ArrowheadChoiceList.TRIANGLE);
-//        interfaceInheritance.setStartArrowHead(ArrowheadChoiceList.NONE);
-//        interfaceInheritance.setLineStyle(LineStyleChoiceList.DOTTED);
+        InterfaceInheritanceEdge interfaceInheritance = new InterfaceInheritanceEdge();
         interfaceInheritance.setToolTip(rs.getString("edge2.tooltip"));
         EDGE_PROTOTYPES.add(interfaceInheritance);
 
-        AdvancedPropertyEdge association = new AdvancedPropertyEdge();
-//        association.setEndArrowHead(ArrowheadChoiceList.V);
-//        association.setStartArrowHead(ArrowheadChoiceList.NONE);
-//        association.setLineStyle(LineStyleChoiceList.SOLID);
+        AssociationEdge association = new AssociationEdge();
         association.setToolTip(rs.getString("edge3.tooltip"));
         EDGE_PROTOTYPES.add(association);
 
-        BasePropertyEdge aggregation = new BasePropertyEdge();
-//        aggregation.setEndArrowHead(ArrowheadChoiceList.DIAMOND);
-//        aggregation.setStartArrowHead(ArrowheadChoiceList.NONE);
-//        aggregation.setLineStyle(LineStyleChoiceList.SOLID);
+        AggregationEdge aggregation = new AggregationEdge();
         aggregation.setToolTip(rs.getString("edge4.tooltip"));
         EDGE_PROTOTYPES.add(aggregation);
 
-        BasePropertyEdge composition = new BasePropertyEdge();
-//        composition.setEndArrowHead(ArrowheadChoiceList.BLACK_DIAMOND);
-//        composition.setStartArrowHead(ArrowheadChoiceList.NONE);
-//        composition.setLineStyle(LineStyleChoiceList.SOLID);
+        CompositionEdge composition = new CompositionEdge();
         composition.setToolTip(rs.getString("edge5.tooltip"));
         EDGE_PROTOTYPES.add(composition);
 
         NoteEdge noteEdge = new NoteEdge();
         noteEdge.setToolTip(rs.getString("edge6.tooltip"));
         EDGE_PROTOTYPES.add(noteEdge);
-
-        AdvancedPropertyEdge customEdge = new AdvancedPropertyEdge();
-        customEdge.setToolTip(rs.getString("edge8.tooltip"));
-        EDGE_PROTOTYPES.add(customEdge);
     }
-    
- 
-    
-
 }

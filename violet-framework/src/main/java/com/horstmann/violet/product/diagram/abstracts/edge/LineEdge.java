@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.*;
 import java.util.List;
 
@@ -96,26 +97,28 @@ public abstract class LineEdge extends ShapeEdge
 
         if (getStartNode().equals(getEndNode()))
         {
+            Rectangle2D nodeBounds = getStartNode().getBounds();
+            Point2D nodeLocation = getStartNode().getLocationOnGraph();
             contactPoints = new Point2D[5];
-            contactPoints[0] = new Point2D.Double(getStartNode().getBounds().getMaxX(), startingPoint.getY());
-            contactPoints[1] = new Point2D.Double(contactPoints[0].getX() + SELF_LOOP_GAP_X, contactPoints[0].getY());
-            contactPoints[4] = new Point2D.Double(endingPoint.getX(), getEndNode().getBounds().getMaxY());
-            contactPoints[3] = new Point2D.Double(contactPoints[4].getX(), contactPoints[4].getY() + SELF_LOOP_GAP_Y);
-            contactPoints[2] = new Point2D.Double(contactPoints[1].getX(), contactPoints[3].getY());
-
-            return;
+            contactPoints[0] = new Point2D.Double(nodeLocation.getX() + nodeBounds.getWidth(), nodeLocation.getY() + nodeBounds.getHeight()/2);
+            contactPoints[1] = new Point2D.Double(contactPoints[0].getX()+SELF_LOOP_GAP_X, contactPoints[0].getY());
+            contactPoints[2] = new Point2D.Double(contactPoints[1].getX(), nodeLocation.getY() + nodeBounds.getHeight() + SELF_LOOP_GAP_Y);
+            contactPoints[3] = new Point2D.Double(contactPoints[0].getX()- nodeBounds.getWidth()/2, contactPoints[2].getY());
+            contactPoints[4] = new Point2D.Double(contactPoints[3].getX(), contactPoints[2].getY()-SELF_LOOP_GAP_Y);
         }
+        else
+        {
+            List<Point2D> points = new ArrayList<Point2D>();
 
-        List<Point2D> points = new ArrayList<Point2D>();
+            points.add(startingPoint);
+            points.addAll(Arrays.asList(getTransitionPoints()));
+            points.add(endingPoint);
 
-        points.add(startingPoint);
-        points.addAll(Arrays.asList(getTransitionPoints()));
-        points.add(endingPoint);
-
-        Point2D[] bentStylePointsAsArray = points.toArray(new Point2D[points.size()]);
-        points = getBentStyle().getPath(bentStylePointsAsArray);
-        contactPoints = new Point2D[points.size()];
-        points.toArray(contactPoints);
+            Point2D[] bentStylePointsAsArray = points.toArray(new Point2D[points.size()]);
+            points = getBentStyle().getPath(bentStylePointsAsArray);
+            contactPoints = new Point2D[points.size()];
+            points.toArray(contactPoints);
+        }
     }
 
     /**
@@ -231,5 +234,5 @@ public abstract class LineEdge extends ShapeEdge
     private int selectedLineStyle;
 
     public static final int SELF_LOOP_GAP_X = 20;
-    public static final int SELF_LOOP_GAP_Y = 20;
+    public static final int SELF_LOOP_GAP_Y = 22;
 }

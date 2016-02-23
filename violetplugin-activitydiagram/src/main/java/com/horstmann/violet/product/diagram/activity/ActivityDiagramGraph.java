@@ -29,10 +29,10 @@ import com.horstmann.violet.framework.property.BentStyleChoiceList;
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.activity.edges.ActivityTransitionEdge;
-import com.horstmann.violet.product.diagram.activity.nodes.*;
+import com.horstmann.violet.product.diagram.activity.edge.ActivityTransitionEdge;
+import com.horstmann.violet.product.diagram.activity.node.*;
 import com.horstmann.violet.product.diagram.common.edge.NoteEdge;
-import com.horstmann.violet.product.diagram.common.NoteNode;
+import com.horstmann.violet.product.diagram.common.node.NoteNode;
 
 /**
  * An UML activity diagram.

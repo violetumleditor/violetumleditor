@@ -33,15 +33,15 @@ import java.util.List;
 
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.common.NoteNode;
+import com.horstmann.violet.product.diagram.common.node.NoteNode;
 
 /**
- * A graph consisting of selectable nodes and edges.
+ * A graph consisting of selectable node and edges.
  */
 public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
 {
     /**
-     * Constructs a graph with no nodes or edges.
+     * Constructs a graph with no node or edges.
      */
     public AbstractGraph()
     {
@@ -151,7 +151,7 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
             IEdge e = (IEdge) edges.get(i);
             e.draw(graphics);
         }
-        // Special nodes are always drawn upon other elements
+        // Special node are always drawn upon other elements
         for (INode n : specialNodes)
         {
             // Translate graphics if node_old has parent
@@ -256,7 +256,7 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
     @Override
     public void removeNode(INode... nodesToRemove)
     {
-        // Step 1a : Remove nodes directly attach to the graph
+        // Step 1a : Remove node directly attach to the graph
         for (INode aNodeToRemove : nodesToRemove)
         {
             if (this.nodes.contains(aNodeToRemove))
@@ -264,7 +264,7 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
                 this.nodes.remove(aNodeToRemove);
             }
         }
-        // Step 1b : Remove nodes attach to other nodes as children
+        // Step 1b : Remove node attach to other node as children
         for (INode aNode : getAllNodes())
         {
             for (INode aNodeToRemove : nodesToRemove)
@@ -296,7 +296,7 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
     @Override
     public boolean connect(IEdge e, INode start, Point2D startLocation, INode end, Point2D endLocation, Point2D[] transitionPoints)
     {
-        // Step 1 : find if nodes exist
+        // Step 1 : find if node exist
         Collection<INode> allNodes = getAllNodes();
         if (start != null && !allNodes.contains(start))
         {

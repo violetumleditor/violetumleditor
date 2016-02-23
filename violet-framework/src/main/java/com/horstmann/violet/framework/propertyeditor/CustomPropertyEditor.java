@@ -57,6 +57,7 @@ import javax.swing.event.DocumentListener;
 
 import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
 import com.horstmann.violet.framework.property.*;
+import com.horstmann.violet.framework.propertyeditor.baseeditors.BooleanEditor;
 import com.horstmann.violet.framework.propertyeditor.baseeditors.ChoiceListEditor;
 import com.horstmann.violet.framework.propertyeditor.baseeditors.MultiLineTextEditor;
 import com.horstmann.violet.framework.propertyeditor.customeditor.*;
@@ -389,18 +390,15 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
     static
     {
         editors = new HashMap<Class<?>, Class<? extends PropertyEditor>>();
-//        editors.put(ArrowheadChoiceList.class, ArrowHeadEditor.class);
-//        editors.put(BentStyleChoiceList.class, BentStyleEditor.class);
+        editors.put(boolean.class, BooleanEditor.class);
+        editors.put(String.class, SingleLineTextEditor.class);
+        editors.put(SingleLineText.class, SingleLineTextEditor.class);
+        editors.put(MultiLineText.class, MultiLineTextEditor.class);
         editors.put(ChoiceList.class, ChoiceListEditor.class);
         editors.put(java.awt.Color.class, ColorEditor.class);
         editors.put(DiagramLink.class, AbstractDiagramLinkEditor.class);
-//        editors.put(LineStyleChoiceList.class, LineStyleEditor.class);
         editors.put(StretchStyle.class, StretchStyleEditor.class);
-        editors.put(MultiLineText.class, MultiLineTextEditor.class);
-        editors.put(SingleLineText.class, SingleLineTextEditor.class);
-        editors.put(String.class, SingleLineTextEditor.class);
         editors.put(ImageIcon.class, ImageIconEditor.class);
-        editors.put(IntegrationFrameType.class, IntegrationFrameTypeEditor.class);
     }
 
     private static Set<Class<?>> knownImmutables = new HashSet<Class<?>>();

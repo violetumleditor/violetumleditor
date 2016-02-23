@@ -19,7 +19,7 @@ import com.horstmann.violet.framework.propertyeditor.ICustomPropertyEditor;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.common.DiagramLinkNode;
+import com.horstmann.violet.product.diagram.common.node.DiagramLinkNode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;

@@ -118,7 +118,7 @@ public interface IEdge extends Serializable, Cloneable, IIdentifiable
     boolean isTransitionPointsSupported();
 
     /**
-     * Gets the points at which this edge is connected to its nodes.
+     * Gets the points at which this edge is connected to its node.
      * 
      * @return a line joining the two connection points
      */
