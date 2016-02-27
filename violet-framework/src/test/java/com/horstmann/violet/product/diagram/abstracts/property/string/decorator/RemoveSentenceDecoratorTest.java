@@ -1,7 +1,7 @@
 package com.horstmann.violet.product.diagram.abstracts.property.string.decorator;
 
-import com.horstmann.violet.framework.property.text.decorator.OneLineText;
-import com.horstmann.violet.framework.property.text.decorator.RemoveSentenceDecorator;
+import com.horstmann.violet.product.diagram.property.text.decorator.OneLineText;
+import com.horstmann.violet.product.diagram.property.text.decorator.RemoveSentenceDecorator;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

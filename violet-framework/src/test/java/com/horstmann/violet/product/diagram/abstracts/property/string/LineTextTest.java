@@ -1,6 +1,6 @@
 package com.horstmann.violet.product.diagram.abstracts.property.string;
 
-import com.horstmann.violet.framework.property.text.LineText;
+import com.horstmann.violet.product.diagram.property.text.LineText;
 import org.junit.Test;
 
 import java.awt.*;

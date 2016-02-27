@@ -72,32 +72,32 @@ public class UseCaseDiagramGraph extends AbstractGraph
         NODE_PROTOTYPES.add(noteNode);
 
         UseCaseRelationshipEdge communication = new UseCaseRelationshipEdge();
-//        communication.setBentStyle(BentStyleChoiceList.STRAIGHT);
-//        communication.setLineStyle(LineStyleChoiceList.SOLID);
-//        communication.setEndArrowHead(ArrowheadChoiceList.NONE);
+//        communication.setBentStyle(BentStyle.STRAIGHT);
+//        communication.setLineStyle(LineStyle.SOLID);
+//        communication.setEndArrowHead(ArrowHead.NONE);
         communication.setToolTip(rs.getString("edge0.tooltip"));
         EDGE_PROTOTYPES.add(communication);
 
         UseCaseRelationshipEdge extendRel = new UseCaseRelationshipEdge();
-//        extendRel.setBentStyle(BentStyleChoiceList.STRAIGHT);
-//        extendRel.setLineStyle(LineStyleChoiceList.DOTTED);
-//        extendRel.setEndArrowHead(ArrowheadChoiceList.V);
-        extendRel.setCenterLabel("\u00ABextend\u00BB");
+//        extendRel.setBentStyle(BentStyle.STRAIGHT);
+//        extendRel.setLineStyle(LineStyle.DOTTED);
+//        extendRel.setEndArrowHead(ArrowHead.V);
+//        extendRel.setMiddleLabel("\u00ABextend\u00BB");
         extendRel.setToolTip(rs.getString("edge1.tooltip"));
         EDGE_PROTOTYPES.add(extendRel);
 
         UseCaseRelationshipEdge includeRel = new UseCaseRelationshipEdge();
-//        includeRel.setBentStyle(BentStyleChoiceList.STRAIGHT);
-//        includeRel.setLineStyle(LineStyleChoiceList.DOTTED);
-//        includeRel.setEndArrowHead(ArrowheadChoiceList.V);
-        includeRel.setCenterLabel("\u00ABinclude\u00BB");
+//        includeRel.setBentStyle(BentStyle.STRAIGHT);
+//        includeRel.setLineStyle(LineStyle.DOTTED);
+//        includeRel.setEndArrowHead(ArrowHead.V);
+//        includeRel.setMiddleLabel("\u00ABinclude\u00BB");
         includeRel.setToolTip(rs.getString("edge2.tooltip"));
         EDGE_PROTOTYPES.add(includeRel);
 
         UseCaseRelationshipEdge generalization = new UseCaseRelationshipEdge();
-//        generalization.setBentStyle(BentStyleChoiceList.STRAIGHT);
-//        generalization.setLineStyle(LineStyleChoiceList.SOLID);
-//        generalization.setEndArrowHead(ArrowheadChoiceList.TRIANGLE);
+//        generalization.setBentStyle(BentStyle.STRAIGHT);
+//        generalization.setLineStyle(LineStyle.SOLID);
+//        generalization.setEndArrowHead(ArrowHead.TRIANGLE);
         generalization.setToolTip(rs.getString("edge3.tooltip"));
         EDGE_PROTOTYPES.add(generalization);
 
@@ -105,5 +105,4 @@ public class UseCaseDiagramGraph extends AbstractGraph
         noteEdge.setToolTip(rs.getString("edge4.tooltip"));
         EDGE_PROTOTYPES.add(noteEdge);
     }
-
 }

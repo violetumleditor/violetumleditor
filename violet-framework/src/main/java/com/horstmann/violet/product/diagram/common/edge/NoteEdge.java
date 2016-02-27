@@ -21,8 +21,9 @@
 
 package com.horstmann.violet.product.diagram.common.edge;
 
-import com.horstmann.violet.framework.property.BentStyleChoiceList;
-import com.horstmann.violet.framework.property.LineStyleChoiceList;
+import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
+import com.horstmann.violet.product.diagram.property.BentStyleChoiceList;
+import com.horstmann.violet.product.diagram.property.LineStyleChoiceList;
 import com.horstmann.violet.product.diagram.abstracts.edge.LineEdge;
 
 /**
@@ -33,6 +34,7 @@ public class NoteEdge extends LineEdge
     public NoteEdge()
     {
         super();
+        setToolTip(ResourceBundleConstant.NODE_AND_EDGE_RESOURCE.getString("note_edge.tooltip"));
         setLineStyle(LineStyleChoiceList.DOTTED);
         setBentStyle(BentStyleChoiceList.STRAIGHT);
     }

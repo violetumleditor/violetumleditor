@@ -1,7 +1,7 @@
 package com.horstmann.violet.product.diagram.abstracts.property.string.decorator;
 
-import com.horstmann.violet.framework.property.text.decorator.OneLineText;
-import com.horstmann.violet.framework.property.text.decorator.SmallSizeDecorator;
+import com.horstmann.violet.product.diagram.property.text.decorator.OneLineText;
+import com.horstmann.violet.product.diagram.property.text.decorator.SmallSizeDecorator;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

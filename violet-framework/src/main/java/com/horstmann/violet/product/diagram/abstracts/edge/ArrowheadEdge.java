@@ -1,15 +1,10 @@
 package com.horstmann.violet.product.diagram.abstracts.edge;
 
-import com.horstmann.violet.framework.property.ArrowheadChoiceList;
-import com.horstmann.violet.framework.property.BentStyleChoiceList;
-import com.horstmann.violet.framework.property.LineStyleChoiceList;
-import com.horstmann.violet.framework.property.choiceList.ChoiceList;
+import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
+import com.horstmann.violet.product.diagram.property.choiceList.ChoiceList;
 import com.horstmann.violet.product.diagram.abstracts.edge.arrowhead.Arrowhead;
-import com.horstmann.violet.product.diagram.abstracts.edge.bentstyle.BentStyle;
 
 import java.awt.*;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
 
 /**
  * TODO javadoc

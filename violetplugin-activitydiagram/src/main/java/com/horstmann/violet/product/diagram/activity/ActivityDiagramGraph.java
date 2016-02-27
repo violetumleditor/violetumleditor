@@ -23,9 +23,10 @@ package com.horstmann.violet.product.diagram.activity;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import com.horstmann.violet.framework.property.BentStyleChoiceList;
+import com.horstmann.violet.product.diagram.property.BentStyleChoiceList;
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
@@ -74,61 +75,21 @@ public class ActivityDiagramGraph extends AbstractGraph
         return super.connect(e, start, startLocation, end, endLocation, transitionPoints);
     }
 
-    private static final List<INode> NODE_PROTOTYPES = new ArrayList<INode>();
+    private static final List<INode> NODE_PROTOTYPES = new ArrayList<INode>(Arrays.asList(
+            new ScenarioStartNode(),
+            new ActivityNode(),
+            new DecisionNode(),
+            new SynchronizationBarNode(),
+            new SignalSendingNode(),
+            new SignalReceiptNode(),
+            new ScenarioEndNode(),
+            new WaitTimeActionNode(),
+            new PageLinkNode(),
+            new NoteNode()
+    ));
 
-    private static final List<IEdge> EDGE_PROTOTYPES = new ArrayList<IEdge>();
-
-    static
-    {
-        ScenarioStartNode node5 = new ScenarioStartNode();
-        node5.setToolTip(ActivityResource.ACTIVITY.getString("node5.tooltip"));
-        NODE_PROTOTYPES.add(node5);
-
-        ActivityNode node0 = new ActivityNode();
-        node0.setToolTip(ActivityResource.ACTIVITY.getString("node0.tooltip"));
-        NODE_PROTOTYPES.add(node0);
-
-        DecisionNode node1 = new DecisionNode();
-        node1.setToolTip(ActivityResource.ACTIVITY.getString("node1.tooltip"));
-        NODE_PROTOTYPES.add(node1);
-
-        SynchronizationBarNode node2 = new SynchronizationBarNode();
-        node2.setToolTip(ActivityResource.ACTIVITY.getString("node2.tooltip"));
-        NODE_PROTOTYPES.add(node2);
-
-        SignalSendingNode node3 = new SignalSendingNode();
-        node3.setToolTip(ActivityResource.ACTIVITY.getString("node3.tooltip"));
-        NODE_PROTOTYPES.add(node3);
-
-        SignalReceiptNode node4 = new SignalReceiptNode();
-        node4.setToolTip(ActivityResource.ACTIVITY.getString("node4.tooltip"));
-        NODE_PROTOTYPES.add(node4);
-
-        ScenarioEndNode node6 = new ScenarioEndNode();
-        node6.setToolTip(ActivityResource.ACTIVITY.getString("node6.tooltip"));
-        NODE_PROTOTYPES.add(node6);
-
-        WaitTimeActionNode node8 = new WaitTimeActionNode();
-        node8.setToolTip(ActivityResource.ACTIVITY.getString("node8.tooltip"));
-        NODE_PROTOTYPES.add(node8);
-
-        PageLinkNode node9 = new PageLinkNode();
-        node9.setToolTip(ActivityResource.ACTIVITY.getString("node9.tooltip"));
-        NODE_PROTOTYPES.add(node9);
-
-        NoteNode node7 = new NoteNode();
-        node7.setToolTip(ActivityResource.ACTIVITY.getString("node7.tooltip"));
-        NODE_PROTOTYPES.add(node7);
-
-        ActivityTransitionEdge transition = new ActivityTransitionEdge();
-        transition.setToolTip(ActivityResource.ACTIVITY.getString("edge0.tooltip"));
-//        transition.setEndArrowHead(ArrowheadChoiceList.V);
-//        transition.setStartArrowHead(ArrowheadChoiceList.NONE);
-//        transition.setLineStyle(LineStyleChoiceList.SOLID);
-        EDGE_PROTOTYPES.add(transition);
-
-        NoteEdge noteEdge = new NoteEdge();
-        noteEdge.setToolTip(ActivityResource.ACTIVITY.getString("edge1.tooltip"));
-        EDGE_PROTOTYPES.add(noteEdge);
-    }
+    private static final List<IEdge> EDGE_PROTOTYPES = new ArrayList<IEdge>(Arrays.asList(
+            new ActivityTransitionEdge(),
+            new NoteEdge()
+    ));
 }

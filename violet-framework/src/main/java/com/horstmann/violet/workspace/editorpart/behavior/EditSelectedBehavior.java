@@ -14,8 +14,8 @@ import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjecto
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
-import com.horstmann.violet.framework.propertyeditor.CustomPropertyEditor;
-import com.horstmann.violet.framework.propertyeditor.ICustomPropertyEditor;
+import com.horstmann.violet.product.diagram.propertyeditor.CustomPropertyEditor;
+import com.horstmann.violet.product.diagram.propertyeditor.ICustomPropertyEditor;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;

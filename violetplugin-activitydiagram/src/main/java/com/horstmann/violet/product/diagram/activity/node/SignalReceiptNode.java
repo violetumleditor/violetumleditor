@@ -33,7 +33,8 @@ import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.framework.property.text.SingleLineText;
+import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
+import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 
 /**
  * An receive event node_old in an activity diagram.
@@ -46,6 +47,7 @@ public class SignalReceiptNode extends ColorableNode
     public SignalReceiptNode()
     {
         super();
+        setToolTip(ActivityDiagramConstant.ACTIVITY_DIAGRAM.getString("signal_receipt_node.tooltip"));
         signal = new SingleLineText();
         signal.setPadding(1,25,1,10);
         createContentStructure();
@@ -68,7 +70,7 @@ public class SignalReceiptNode extends ColorableNode
     }
 
     @Override
-    protected INode copy() throws CloneNotSupportedException
+    protected SignalReceiptNode copy() throws CloneNotSupportedException
     {
         return new SignalReceiptNode(this);
     }
@@ -107,8 +109,6 @@ public class SignalReceiptNode extends ColorableNode
         signal.setTextColor(textColor);
         super.setTextColor(textColor);
     }
-
-
 
     @Override
     public boolean addConnection(IEdge e)

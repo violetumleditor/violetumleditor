@@ -33,9 +33,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import com.horstmann.violet.framework.property.ArrowheadChoiceList;
-import com.horstmann.violet.framework.property.BentStyleChoiceList;
-import com.horstmann.violet.framework.property.LineStyleChoiceList;
+import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
+import com.horstmann.violet.product.diagram.property.BentStyleChoiceList;
+import com.horstmann.violet.product.diagram.property.LineStyleChoiceList;
 import com.horstmann.violet.framework.util.StringFilterOutputStream;
 import com.horstmann.violet.product.diagram.common.node.DiagramLinkNode;
 import com.horstmann.violet.product.diagram.common.edge.NoteEdge;

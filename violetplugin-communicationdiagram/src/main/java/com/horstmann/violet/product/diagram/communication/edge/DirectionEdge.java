@@ -1,7 +1,7 @@
 package com.horstmann.violet.product.diagram.communication.edge;
 
 import com.horstmann.violet.product.diagram.abstracts.edge.LabeledLineEdge;
-import com.horstmann.violet.framework.property.text.SingleLineText;
+import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 
 /**
  * 

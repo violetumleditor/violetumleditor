@@ -21,22 +21,21 @@
 
 package com.horstmann.violet.product.diagram.activity.node;
 
-import java.awt.geom.Point2D;
 import java.util.List;
+import java.util.MissingResourceException;
 
 import com.horstmann.violet.framework.graphics.content.Content;
 import com.horstmann.violet.framework.graphics.content.ContentBackground;
 import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
 import com.horstmann.violet.framework.graphics.content.EmptyContent;
-import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideRoundRectangle;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.framework.property.choiceList.ChoiceList;
-import com.horstmann.violet.framework.property.StretchStyle;
-import com.horstmann.violet.framework.property.choiceList.TextChoiceList;
-import com.horstmann.violet.product.diagram.activity.edge.ActivityTransitionEdge;
+import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
+import com.horstmann.violet.product.diagram.property.choiceList.ChoiceList;
+import com.horstmann.violet.product.diagram.property.choiceList.TextChoiceList;
 
 /**
  * A synchronization bar node_old in an activity diagram.
@@ -46,22 +45,37 @@ public class SynchronizationBarNode extends ColorableNode
     public SynchronizationBarNode()
     {
         super();
+        setToolTip(ActivityDiagramConstant.ACTIVITY_DIAGRAM.getString("synchronization_node.tooltip"));
         orientation = new TextChoiceList<StretchStrategy>(
-                new String[]{"HORIZONTAL","VERTICAL"},
-                new StretchStrategy[]{HORIZONTAL, VERTICAL}
+                STRETCH_KEYS,
+                STRETCH_STRATEGIES
         );
         orientation.setSelectedValue(HORIZONTAL);
+        selectedStretch = orientation.getSelectedPos();
         createContentStructure();
     }
 
     protected SynchronizationBarNode(SynchronizationBarNode node) throws CloneNotSupportedException
     {
         super(node);
+        orientation = node.orientation.clone();
+        selectedStretch = orientation.getSelectedPos();
         createContentStructure();
     }
 
     @Override
-    protected INode copy() throws CloneNotSupportedException
+    public void deserializeSupport()
+    {
+        orientation = new TextChoiceList<StretchStrategy>(
+                STRETCH_KEYS,
+                STRETCH_STRATEGIES
+        );
+        orientation.setSelectedIndex(selectedStretch);
+        super.deserializeSupport();
+    }
+
+    @Override
+    protected SynchronizationBarNode copy() throws CloneNotSupportedException
     {
         return new SynchronizationBarNode(this);
     }
@@ -69,13 +83,13 @@ public class SynchronizationBarNode extends ColorableNode
     @Override
     protected void createContentStructure()
     {
-        currentStretch = ((StretchStrategy)this.orientation.getSelectedValue());
+        StretchStrategy currentStretch = getStretch();
 
         content = new EmptyContent();
         currentStretch.setLength(content, LENGTH);
         currentStretch.setThickness(content, THICKNESS);
 
-        ContentInsideShape contentInsideShape = new ContentInsideRectangle(content);
+        ContentInsideShape contentInsideShape = new ContentInsideRoundRectangle(content, THICKNESS);
         ContentBackground contentBackground = new ContentBackground(contentInsideShape, getBorderColor());
 
         setContent(contentBackground);
@@ -99,43 +113,13 @@ public class SynchronizationBarNode extends ColorableNode
         return e.getEndNode() != null && this != e.getEndNode();
     }
 
-    @Override
-    public Point2D getConnectionPoint(IEdge e)
-    {
-        Point2D defaultConnectionPoint = super.getConnectionPoint(e);
-        double x = defaultConnectionPoint.getX();
-        double y = defaultConnectionPoint.getY();
-
-        if (ActivityTransitionEdge.class.isInstance(e))
-        {
-            if (this == e.getStartNode())
-            {
-                x = e.getStartNode().getConnectionPoint(e).getX();
-            }
-            else if (this == e.getEndNode())
-            {
-                x = e.getEndNode().getConnectionPoint(e).getX();
-            }
-
-            if(Direction.NORTH.equals(e.getDirection(this).getNearestCardinalDirection()))
-            {
-                y = defaultConnectionPoint.getY();
-            }
-            else if(Direction.SOUTH.equals(e.getDirection(this).getNearestCardinalDirection()))
-            {
-                y = defaultConnectionPoint.getY() + THICKNESS;
-            }
-        }
-
-        return new Point2D.Double(x, y);
-    }
-
     private void refresh()
     {
         List<IEdge> connectedEdges = getConnectedEdges();
         if (connectedEdges.size() > 0)
         {
             int count = 0;
+            StretchStrategy currentStretch = getStretch();
 
             for (IEdge edge : connectedEdges)
             {
@@ -150,11 +134,6 @@ public class SynchronizationBarNode extends ColorableNode
         }
     }
 
-    public StretchStyle getStretchStyle()
-    {
-        return currentStretch.getStretchStyle();
-    }
-
     public ChoiceList getOrientation()
     {
         return orientation;
@@ -162,25 +141,31 @@ public class SynchronizationBarNode extends ColorableNode
 
     public void setOrientation(ChoiceList orientation)
     {
+        StretchStrategy currentStretch = getStretch();
+
         double length = currentStretch.getLength(content);
         double thickness = currentStretch.getThickness(content);
+        this.orientation = orientation;
+        selectedStretch = this.orientation.getSelectedPos();
 
-        currentStretch = ((StretchStrategy)this.orientation.getSelectedValue());
-
+        currentStretch = getStretch();
         currentStretch.setLength(content, length);
         currentStretch.setThickness(content, thickness);
 
-        this.orientation = orientation;
         getContent().refresh();
     }
+    public StretchStrategy getStretch()
+    {
+        return ((StretchStrategy)orientation.getSelectedValue());
+    }
 
-    private ChoiceList orientation;
+    private int selectedStretch;
 
-    private transient StretchStrategy currentStretch;
-    private transient Content content = null;
+    private transient ChoiceList orientation;
+    private transient Content content;
 
     private static final int LENGTH = 100;
-    private static final int THICKNESS = 5;
+    private static final int THICKNESS = 6;
     private static final int EXTRA_LENGTH = 12;
 
     private interface StretchStrategy
@@ -190,10 +175,10 @@ public class SynchronizationBarNode extends ColorableNode
         void setThickness(Content content, double thickness);
         double getThickness(Content content);
         Direction getCountingDirection();
-        StretchStyle getStretchStyle();
     }
 
-    private static final StretchStrategy HORIZONTAL = new StretchStrategy() {
+    public static final StretchStrategy HORIZONTAL = new StretchStrategy()
+    {
         @Override
         public void setLength(Content content, double length) {
             content.setMinWidth(length);
@@ -220,12 +205,9 @@ public class SynchronizationBarNode extends ColorableNode
             return Direction.NORTH;
         }
 
-        @Override
-        public StretchStyle getStretchStyle() {
-            return StretchStyle.HORIZONTAL;
-        }
     };
-    private static final StretchStrategy VERTICAL = new StretchStrategy() {
+    public static final StretchStrategy VERTICAL = new StretchStrategy()
+    {
         @Override
         public void setLength(Content content, double length) {
             content.setMinHeight(length);
@@ -250,10 +232,27 @@ public class SynchronizationBarNode extends ColorableNode
         public Direction getCountingDirection() {
             return Direction.EAST;
         }
-
-        @Override
-        public StretchStyle getStretchStyle() {
-            return StretchStyle.VERTICAL;
-        }
     };
+
+    private static final StretchStrategy[] STRETCH_STRATEGIES = new StretchStrategy[]{
+            HORIZONTAL,
+            VERTICAL
+    };
+    private static String[] STRETCH_KEYS = new String[]{
+            "HORIZONTAL",
+            "VERTICAL"
+    };
+
+    static
+    {
+        for(int i = 0; i <STRETCH_KEYS.length;++i)
+        {
+            try
+            {
+                STRETCH_KEYS[i] = ActivityDiagramConstant.ACTIVITY_DIAGRAM.getString("stretch." + STRETCH_KEYS[i].toLowerCase());
+            }
+            catch (MissingResourceException ignored)
+            {}
+        }
+    }
 }

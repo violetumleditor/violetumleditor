@@ -3,11 +3,10 @@ package com.horstmann.violet.web.property;
 import java.beans.PropertyDescriptor;
 import java.util.EnumSet;
 
-import com.horstmann.violet.framework.property.BentStyleChoiceList;
-//import com.horstmann.violet.framework.propertyeditor.customeditor.BentStyleEditor;
+import com.horstmann.violet.product.diagram.property.BentStyleChoiceList;
+//import com.horstmann.violet.product.diagram.propertyeditor.customeditor.BentStyleEditor;
 
 import eu.webtoolkit.jwt.Side;
-import eu.webtoolkit.jwt.Signal;
 import eu.webtoolkit.jwt.WComboBox;
 import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WWidget;

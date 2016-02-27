@@ -352,6 +352,7 @@ public class ActivationBarNode extends ColorableNode
             {
                 if(edge.getEndLocation().getY() < end.getBounds().getY() + LifelineNode.TOP_HEIGHT)
                 {
+                    edge.setCenterLabel("«create»");
                     return true;
                 }
 
@@ -360,7 +361,6 @@ public class ActivationBarNode extends ColorableNode
                 Point2D newActivationBarLocation = new Point2D.Double(location.getX(), location.getY());
                 end.addChild(newActivationBar, newActivationBarLocation);
                 edge.setEndNode(newActivationBar);
-                edge.setCenterLabel("«create»");
                 return true;
             }
         }

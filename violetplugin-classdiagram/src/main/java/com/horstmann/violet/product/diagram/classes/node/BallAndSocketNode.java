@@ -4,9 +4,9 @@ import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.framework.property.choiceList.ChoiceList;
-import com.horstmann.violet.framework.property.choiceList.TextChoiceList;
-import com.horstmann.violet.framework.property.text.SingleLineText;
+import com.horstmann.violet.product.diagram.property.choiceList.ChoiceList;
+import com.horstmann.violet.product.diagram.property.choiceList.TextChoiceList;
+import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 import com.horstmann.violet.product.diagram.common.node.PointNode;
 
 import java.awt.*;

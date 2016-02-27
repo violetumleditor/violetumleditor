@@ -28,7 +28,8 @@ import com.horstmann.violet.framework.graphics.content.TextContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideEllipse;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.framework.property.text.SingleLineText;
+import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
+import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 
 import java.awt.*;
 
@@ -43,7 +44,7 @@ public class PageLinkNode extends ColorableNode
     public PageLinkNode()
     {
         super();
-
+        setToolTip(ActivityDiagramConstant.ACTIVITY_DIAGRAM.getString("page_connector_node.tooltip"));
         name = new SingleLineText();
         createContentStructure();
     }
@@ -59,12 +60,11 @@ public class PageLinkNode extends ColorableNode
     public void deserializeSupport()
     {
         name.deserializeSupport();
-
         super.deserializeSupport();
     }
 
     @Override
-    protected INode copy() throws CloneNotSupportedException
+    protected PageLinkNode copy() throws CloneNotSupportedException
     {
         return new PageLinkNode(this);
     }

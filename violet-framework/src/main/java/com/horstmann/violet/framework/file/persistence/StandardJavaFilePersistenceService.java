@@ -19,15 +19,15 @@ import java.util.List;
 import java.util.Map;
 
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.ManagedBean;
-import com.horstmann.violet.framework.property.BentStyleChoiceList;
-import com.horstmann.violet.framework.property.LineStyleChoiceList;
+import com.horstmann.violet.product.diagram.property.BentStyleChoiceList;
+import com.horstmann.violet.product.diagram.property.LineStyleChoiceList;
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.Id;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.framework.property.ArrowheadChoiceList;
+import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
 import com.horstmann.violet.product.diagram.common.node.ImageNode;
 
 /**

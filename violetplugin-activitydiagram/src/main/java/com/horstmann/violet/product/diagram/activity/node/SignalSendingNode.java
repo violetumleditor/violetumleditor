@@ -33,7 +33,8 @@ import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.framework.property.text.SingleLineText;
+import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
+import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 
 /**
  * An send event node_old in an activity diagram.
@@ -46,6 +47,7 @@ public class SignalSendingNode extends ColorableNode
     public SignalSendingNode()
     {
         super();
+        setToolTip(ActivityDiagramConstant.ACTIVITY_DIAGRAM.getString("signal_sending_node.tooltip"));
         signal = new SingleLineText();
         signal.setPadding(1,10,1,20);
         createContentStructure();
@@ -68,7 +70,7 @@ public class SignalSendingNode extends ColorableNode
     }
 
     @Override
-    protected INode copy() throws CloneNotSupportedException
+    protected SignalSendingNode copy() throws CloneNotSupportedException
     {
         return new SignalSendingNode(this);
     }

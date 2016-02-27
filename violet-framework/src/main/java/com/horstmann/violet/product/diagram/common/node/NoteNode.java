@@ -29,11 +29,12 @@ import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
+import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
 import com.horstmann.violet.framework.theme.ThemeManager;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.framework.property.text.MultiLineText;
+import com.horstmann.violet.product.diagram.property.text.MultiLineText;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 
 /**
@@ -53,6 +54,7 @@ public class NoteNode extends ColorableNode
     public NoteNode()
     {
         super();
+        setToolTip(ResourceBundleConstant.NODE_AND_EDGE_RESOURCE.getString("note_node.tooltip"));
         text = new MultiLineText();
         createContentStructure();
     }

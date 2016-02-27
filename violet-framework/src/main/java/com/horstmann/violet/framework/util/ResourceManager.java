@@ -11,7 +11,7 @@ import java.util.ResourceBundle;
  */
 public class ResourceManager
 {
-    protected ResourceManager(String baseName)
+    public ResourceManager(String baseName)
     {
         resourceBundle = ResourceBundle.getBundle(baseName, Locale.getDefault());
     }
@@ -21,7 +21,7 @@ public class ResourceManager
         return resourceBundle.getString(key);
     }
 
-    public static final ResourceManager NODE_AND_EDGE = new ResourceManager("properties.NodeAndEdgeStrings");
+//    public static final ResourceManager NODE_AND_EDGE = new ResourceManager("properties.NodeAndEdgeStrings");
 
     private ResourceBundle resourceBundle;
 }

@@ -86,7 +86,8 @@ public abstract class AbstractNode implements INode
         }
     }
 
-    public void deserializeSupport() {
+    public void deserializeSupport()
+    {
         createContentStructure();
         getContent().refresh();
     }

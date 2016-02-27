@@ -32,11 +32,13 @@ import com.horstmann.violet.framework.graphics.content.ContentBorder;
 import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
 import com.horstmann.violet.framework.graphics.content.TextContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideDiamond;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.framework.property.text.SingleLineText;
+import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
+import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 
 /**
  * A decision node_old in an activity diagram.
@@ -49,6 +51,7 @@ public class DecisionNode extends ColorableNode
     public DecisionNode()
     {
         super();
+        setToolTip(ActivityDiagramConstant.ACTIVITY_DIAGRAM.getString("decision_node.tooltip"));
         condition = new SingleLineText();
         createContentStructure();
     }
@@ -64,12 +67,12 @@ public class DecisionNode extends ColorableNode
     public void deserializeSupport()
     {
         condition.deserializeSupport();
-
         super.deserializeSupport();
     }
 
     @Override
-    protected INode copy() throws CloneNotSupportedException {
+    protected DecisionNode copy() throws CloneNotSupportedException
+    {
         return new DecisionNode(this);
     }
 
@@ -80,7 +83,7 @@ public class DecisionNode extends ColorableNode
         conditionContent.setMinHeight(MIN_HEIGHT);
         conditionContent.setMinWidth(MIN_WIDTH);
 
-        ContentInsideShape contentInsideShape = new ContentInsideCustomShape(conditionContent, new DecisionShape());
+        ContentInsideShape contentInsideShape = new ContentInsideDiamond(conditionContent, DIAMOND_DEGREES);
 
         setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
         setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
@@ -153,28 +156,7 @@ public class DecisionNode extends ColorableNode
 
     private SingleLineText condition;
 
+    private static final int DIAMOND_DEGREES = 60;
     private static final int MIN_WIDTH = 30;
     private static final int MIN_HEIGHT = 20;
-
-    private static final class DecisionShape implements ContentInsideCustomShape.ShapeCreator
-    {
-        /**
-         * @param contentWidth  width of rectangle
-         * @param contentHeight height of rectangle
-         * @return shape described in the rectangle
-         */
-        @Override
-        public Shape createShape(double contentWidth, double contentHeight) {
-            double width = contentWidth + contentHeight * Math.sqrt(3);
-            double height = contentHeight + contentWidth / Math.sqrt(3);
-
-            GeneralPath diamond = new GeneralPath();
-            diamond.moveTo(0, height/2);
-            diamond.lineTo(width/2, 0);
-            diamond.lineTo(width, height/2);
-            diamond.lineTo(width/2, height);
-            diamond.lineTo(0, height/2);
-            return diamond;
-        }
-    }
 }

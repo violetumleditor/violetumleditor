@@ -5,7 +5,8 @@ import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.framework.property.text.SingleLineText;
+import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
+import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
@@ -21,7 +22,7 @@ public class WaitTimeActionNode  extends ColorableNode
     public WaitTimeActionNode()
     {
         super();
-
+        setToolTip(ActivityDiagramConstant.ACTIVITY_DIAGRAM.getString("wait_time_action_node.tooltip"));
         waitTimeAction = new SingleLineText();
         waitTimeAction.setPadding(5,5,5,5);
         createContentStructure();
@@ -44,7 +45,7 @@ public class WaitTimeActionNode  extends ColorableNode
     }
 
     @Override
-    protected INode copy() throws CloneNotSupportedException
+    protected WaitTimeActionNode copy() throws CloneNotSupportedException
     {
         return new WaitTimeActionNode(this);
     }

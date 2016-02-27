@@ -86,23 +86,23 @@ public class SequenceDiagramGraph extends AbstractGraph {
         NODE_PROTOTYPES.add(integrationFrameNode);
 
         CallEdge callEdge = new CallEdge();
-//        callEdge.setEndArrowHead(ArrowheadChoiceList.BLACK_TRIANGLE);
-//        callEdge.setStartArrowHead(ArrowheadChoiceList.NONE);
-//        callEdge.setLineStyle(LineStyleChoiceList.SOLID);
+//        callEdge.setEndArrowHead(ArrowHead.BLACK_TRIANGLE);
+//        callEdge.setStartArrowHead(ArrowHead.NONE);
+//        callEdge.setLineStyle(LineStyle.SOLID);
         callEdge.setToolTip(rs.getString("edge0.tooltip"));
         EDGE_PROTOTYPES.add(callEdge);
 
         CallEdge createEdge = new CallEdge();
-//        createEdge.setEndArrowHead(ArrowheadChoiceList.V);
-//        createEdge.setStartArrowHead(ArrowheadChoiceList.NONE);
-//        createEdge.setLineStyle(LineStyleChoiceList.SOLID);
+//        createEdge.setEndArrowHead(ArrowHead.V);
+//        createEdge.setStartArrowHead(ArrowHead.NONE);
+//        createEdge.setLineStyle(LineStyle.SOLID);
         createEdge.setToolTip(rs.getString("edge1.tooltip"));
         EDGE_PROTOTYPES.add(createEdge);
 
         ReturnEdge returnEdge = new ReturnEdge();
-//        returnEdge.setEndArrowHead(ArrowheadChoiceList.V);
-//        returnEdge.setStartArrowHead(ArrowheadChoiceList.NONE);
-//        returnEdge.setLineStyle(LineStyleChoiceList.DOTTED);
+//        returnEdge.setEndArrowHead(ArrowHead.V);
+//        returnEdge.setStartArrowHead(ArrowHead.NONE);
+//        returnEdge.setLineStyle(LineStyle.DOTTED);
         returnEdge.setToolTip(rs.getString("edge2.tooltip"));
         EDGE_PROTOTYPES.add(returnEdge);
 

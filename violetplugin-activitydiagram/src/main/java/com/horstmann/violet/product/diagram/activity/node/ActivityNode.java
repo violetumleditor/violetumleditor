@@ -27,14 +27,15 @@ import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRoundRectangle;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.framework.property.text.SingleLineText;
+import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
+import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 
 public class ActivityNode extends ColorableNode
 {
     public ActivityNode()
     {
         super();
-
+        setToolTip(ActivityDiagramConstant.ACTIVITY_DIAGRAM.getString("activity_node.tooltip"));
         name = new SingleLineText();
         createContentStructure();
     }
@@ -50,12 +51,11 @@ public class ActivityNode extends ColorableNode
     public void deserializeSupport()
     {
         name.deserializeSupport();
-
         super.deserializeSupport();
     }
 
     @Override
-    protected INode copy() throws CloneNotSupportedException
+    protected ActivityNode copy() throws CloneNotSupportedException
     {
         return new ActivityNode(this);
     }

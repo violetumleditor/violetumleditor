@@ -56,15 +56,15 @@ public class StateDiagramGraph extends AbstractGraph
     static
     {
         ResourceBundle rs = ResourceBundle.getBundle(StateDiagramConstant.STATE_DIAGRAM_STRINGS, Locale.getDefault());
-        
+
         CircularInitialStateNode circularInitialStateNode = new CircularInitialStateNode();
         circularInitialStateNode.setToolTip(rs.getString("node1.tooltip"));
         NODE_PROTOTYPES.add(circularInitialStateNode);
-        
+
         StateNode stateNode = new StateNode();
         stateNode.setToolTip(rs.getString("node0.tooltip"));
         NODE_PROTOTYPES.add(stateNode);
-        
+
         CircularFinalStateNode circularFinalStateNode = new CircularFinalStateNode();
         circularFinalStateNode.setToolTip(rs.getString("node2.tooltip"));
         NODE_PROTOTYPES.add(circularFinalStateNode);
@@ -80,7 +80,7 @@ public class StateDiagramGraph extends AbstractGraph
         ExternalSystemExitPointNode exitPointNode = new ExternalSystemExitPointNode();
         exitPointNode.setToolTip(rs.getString("node6.tooltip"));
         NODE_PROTOTYPES.add(exitPointNode);
-        
+
         NoteNode noteNode = new NoteNode();
         noteNode.setToolTip(rs.getString("node3.tooltip"));
         NODE_PROTOTYPES.add(noteNode);
@@ -89,7 +89,7 @@ public class StateDiagramGraph extends AbstractGraph
         StateTransitionEdge stateTransitionEdge = new StateTransitionEdge();
         stateTransitionEdge.setToolTip(rs.getString("edge0.tooltip"));
         EDGE_PROTOTYPES.add(stateTransitionEdge);
-        
+
         NoteEdge noteEdge = new NoteEdge();
         noteEdge.setToolTip(rs.getString("edge1.tooltip"));
         EDGE_PROTOTYPES.add(noteEdge);

@@ -28,6 +28,7 @@ import com.horstmann.violet.framework.graphics.shape.ContentInsideEllipse;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 
 /**
@@ -38,6 +39,7 @@ public class ScenarioStartNode extends AbstractNode
     public ScenarioStartNode()
     {
         super();
+        setToolTip(ActivityDiagramConstant.ACTIVITY_DIAGRAM.getString("scenario_start_node.tooltip"));
         createContentStructure();
     }
 
@@ -48,7 +50,7 @@ public class ScenarioStartNode extends AbstractNode
     }
 
     @Override
-    protected INode copy() throws CloneNotSupportedException
+    protected ScenarioStartNode copy() throws CloneNotSupportedException
     {
         return new ScenarioStartNode(this);
     }

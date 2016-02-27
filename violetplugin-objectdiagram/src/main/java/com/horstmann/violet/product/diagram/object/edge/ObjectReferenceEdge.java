@@ -30,7 +30,7 @@ import java.awt.geom.Point2D;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.ShapeEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.framework.property.ArrowheadChoiceList;
+import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
 
 /**
  * An S- or C-shaped edge with an arrowhead.

@@ -26,15 +26,15 @@ import java.awt.Color;
 import com.horstmann.violet.framework.graphics.Separator;
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRoundRectangle;
-import com.horstmann.violet.framework.property.text.decorator.OneLineText;
+import com.horstmann.violet.product.diagram.property.text.decorator.OneLineText;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.framework.property.text.LineText;
-import com.horstmann.violet.framework.property.text.MultiLineText;
-import com.horstmann.violet.framework.property.text.SingleLineText;
-import com.horstmann.violet.framework.property.text.decorator.BoldDecorator;
-import com.horstmann.violet.framework.property.text.decorator.PrefixDecorator;
+import com.horstmann.violet.product.diagram.property.text.LineText;
+import com.horstmann.violet.product.diagram.property.text.MultiLineText;
+import com.horstmann.violet.product.diagram.property.text.SingleLineText;
+import com.horstmann.violet.product.diagram.property.text.decorator.BoldDecorator;
+import com.horstmann.violet.product.diagram.property.text.decorator.PrefixDecorator;
 
 /**
  * A node_old in a state diagram.
