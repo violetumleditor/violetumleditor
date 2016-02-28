@@ -1,6 +1,6 @@
 package com.horstmann.violet.product.diagram.classes.edge;
 
-import com.horstmann.violet.product.diagram.abstracts.edge.LabeledLineEdgeBeanInfo;
+import com.horstmann.violet.product.diagram.common.edge.LabeledLineEdgeBeanInfo;
 
 /**
  * TODO javadoc

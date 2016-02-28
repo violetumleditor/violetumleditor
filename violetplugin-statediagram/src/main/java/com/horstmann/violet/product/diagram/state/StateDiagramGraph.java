@@ -21,10 +21,7 @@
 
 package com.horstmann.violet.product.diagram.state;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
@@ -49,50 +46,18 @@ public class StateDiagramGraph extends AbstractGraph
         return EDGE_PROTOTYPES;
     }
 
-    private static final List<INode> NODE_PROTOTYPES = new ArrayList<INode>();
+    private static final List<INode> NODE_PROTOTYPES = new ArrayList<INode>(Arrays.asList(
+            new CircularInitialStateNode(),
+            new StateNode(),
+            new CircularFinalStateNode(),
+            new DecisionNode(),
+            new ExternalSystemEntryPointNode(),
+            new ExternalSystemExitPointNode(),
+            new NoteNode()
+    ));
 
-    private static final List<IEdge> EDGE_PROTOTYPES = new ArrayList<IEdge>();
-
-    static
-    {
-        ResourceBundle rs = ResourceBundle.getBundle(StateDiagramConstant.STATE_DIAGRAM_STRINGS, Locale.getDefault());
-
-        CircularInitialStateNode circularInitialStateNode = new CircularInitialStateNode();
-        circularInitialStateNode.setToolTip(rs.getString("node1.tooltip"));
-        NODE_PROTOTYPES.add(circularInitialStateNode);
-
-        StateNode stateNode = new StateNode();
-        stateNode.setToolTip(rs.getString("node0.tooltip"));
-        NODE_PROTOTYPES.add(stateNode);
-
-        CircularFinalStateNode circularFinalStateNode = new CircularFinalStateNode();
-        circularFinalStateNode.setToolTip(rs.getString("node2.tooltip"));
-        NODE_PROTOTYPES.add(circularFinalStateNode);
-
-        DecisionNode decisionNode = new DecisionNode();
-        decisionNode.setToolTip(rs.getString("node4.tooltip"));
-        NODE_PROTOTYPES.add(decisionNode);
-
-        ExternalSystemEntryPointNode entryPointNode = new ExternalSystemEntryPointNode();
-        entryPointNode.setToolTip(rs.getString("node5.tooltip"));
-        NODE_PROTOTYPES.add(entryPointNode);
-
-        ExternalSystemExitPointNode exitPointNode = new ExternalSystemExitPointNode();
-        exitPointNode.setToolTip(rs.getString("node6.tooltip"));
-        NODE_PROTOTYPES.add(exitPointNode);
-
-        NoteNode noteNode = new NoteNode();
-        noteNode.setToolTip(rs.getString("node3.tooltip"));
-        NODE_PROTOTYPES.add(noteNode);
-
-
-        StateTransitionEdge stateTransitionEdge = new StateTransitionEdge();
-        stateTransitionEdge.setToolTip(rs.getString("edge0.tooltip"));
-        EDGE_PROTOTYPES.add(stateTransitionEdge);
-
-        NoteEdge noteEdge = new NoteEdge();
-        noteEdge.setToolTip(rs.getString("edge1.tooltip"));
-        EDGE_PROTOTYPES.add(noteEdge);
-    }
-
+    private static final List<IEdge> EDGE_PROTOTYPES = new ArrayList<IEdge>(Arrays.asList(
+            new StateTransitionEdge(),
+            new NoteEdge()
+    ));
 }

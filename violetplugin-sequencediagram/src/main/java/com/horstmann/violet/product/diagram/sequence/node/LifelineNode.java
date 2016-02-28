@@ -39,7 +39,8 @@ import com.horstmann.violet.product.diagram.property.text.decorator.UnderlineDec
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
-import com.horstmann.violet.product.diagram.sequence.edge.CallEdge;
+import com.horstmann.violet.product.diagram.sequence.SequenceDiagramConstant;
+import com.horstmann.violet.product.diagram.sequence.edge.SynchronousCallEdge;
 
 /**
  * An object node_old in a scenario diagram.
@@ -127,6 +128,12 @@ public class LifelineNode extends ColorableNode
     }
 
     @Override
+    public String getToolTip()
+    {
+        return SequenceDiagramConstant.SEQUENCE_DIAGRAM_RESOURCE.getString("lifeline_node.tooltip");
+    }
+
+    @Override
     public Rectangle2D getBounds()
     {
         Rectangle2D bounds = super.getBounds();
@@ -197,7 +204,7 @@ public class LifelineNode extends ColorableNode
         double y = 0;
         for (IEdge edge : getGraph().getAllEdges())
         {
-            if (edge instanceof CallEdge)
+            if (edge instanceof SynchronousCallEdge)
             {
                 if (this == edge.getEndNode())
                 {

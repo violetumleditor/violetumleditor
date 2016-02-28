@@ -1,27 +1,27 @@
 package com.horstmann.violet.product.diagram.activity.node;
 
+import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
+import com.horstmann.violet.product.diagram.common.node.NodeBeanInfo;
 
-import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
-import java.beans.SimpleBeanInfo;
+import java.util.List;
 
-public class DecisionNodeBeanInfo extends SimpleBeanInfo
+public class DecisionNodeBeanInfo extends NodeBeanInfo
 {
-    public PropertyDescriptor[] getPropertyDescriptors()
+    public DecisionNodeBeanInfo()
     {
-        try
-        {
-            PropertyDescriptor nameDescriptor = new PropertyDescriptor("condition", DecisionNode.class);
-            nameDescriptor.setValue("priority", new Integer(0));
-
-            return new PropertyDescriptor[]
-            {
-                nameDescriptor,
-            };
-        }
-        catch (IntrospectionException exception)
-        {
-            return null;
-        }
+        super(DecisionNode.class);
+        addResourceBundle(ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE);
     }
+
+    @Override
+    protected List<PropertyDescriptor> createPropertyDescriptorList()
+    {
+        List<PropertyDescriptor> propertyDescriptorList = super.createPropertyDescriptorList();
+        propertyDescriptorList.add(createPropertyDescriptor(CONDITION_VAR_NAME, CONDITION_LABEL_KEY,1));
+        return propertyDescriptorList;
+    }
+
+    private static final String CONDITION_LABEL_KEY = "decision_node.condition";
+    private static final String CONDITION_VAR_NAME = "condition";
 }

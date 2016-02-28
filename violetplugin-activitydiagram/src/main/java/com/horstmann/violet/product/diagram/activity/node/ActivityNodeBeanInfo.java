@@ -1,34 +1,30 @@
 package com.horstmann.violet.product.diagram.activity.node;
 
-import java.beans.IntrospectionException;
+import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
+import com.horstmann.violet.product.diagram.common.node.NodeBeanInfo;
+
 import java.beans.PropertyDescriptor;
-import java.beans.SimpleBeanInfo;
+import java.util.List;
 
 /**
  * The bean info for the ActivityNodeBeanInfo type.
  */
-public class ActivityNodeBeanInfo extends SimpleBeanInfo
+public class ActivityNodeBeanInfo extends NodeBeanInfo
 {
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.beans.BeanInfo#getPropertyDescriptors()
-     */
-    public PropertyDescriptor[] getPropertyDescriptors()
+    public ActivityNodeBeanInfo()
     {
-        try
-        {
-            PropertyDescriptor nameDescriptor = new PropertyDescriptor("name", ActivityNode.class);
-            nameDescriptor.setValue("priority", new Integer(0));
-//            nameDescriptor.setName("test");
-            return new PropertyDescriptor[]
-            {
-                nameDescriptor,
-            };
-        }
-        catch (IntrospectionException exception)
-        {
-            return null;
-        }
+        super(ActivityNode.class);
+        addResourceBundle(ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE);
     }
+
+    @Override
+    protected List<PropertyDescriptor> createPropertyDescriptorList()
+    {
+        List<PropertyDescriptor> propertyDescriptorList = super.createPropertyDescriptorList();
+        propertyDescriptorList.add(createPropertyDescriptor(NAME_VAR_NAME, NAME_LABEL_KEY,1));
+        return propertyDescriptorList;
+    }
+
+    private static final String NAME_LABEL_KEY = "activity_node.waitTimeAction";
+    private static final String NAME_VAR_NAME = "waitTimeAction";
 }

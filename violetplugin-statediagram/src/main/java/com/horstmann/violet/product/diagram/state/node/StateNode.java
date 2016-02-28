@@ -35,6 +35,7 @@ import com.horstmann.violet.product.diagram.property.text.MultiLineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 import com.horstmann.violet.product.diagram.property.text.decorator.BoldDecorator;
 import com.horstmann.violet.product.diagram.property.text.decorator.PrefixDecorator;
+import com.horstmann.violet.product.diagram.state.StateDiagramConstant;
 
 /**
  * A node_old in a state diagram.
@@ -130,6 +131,12 @@ public class StateNode extends ColorableNode
             separator.setColor(borderColor);
         }
         super.setBorderColor(borderColor);
+    }
+
+    @Override
+    public String getToolTip()
+    {
+        return StateDiagramConstant.STATE_DIAGRAM_RESOURCE.getString("state_node.tooltip");
     }
 
 

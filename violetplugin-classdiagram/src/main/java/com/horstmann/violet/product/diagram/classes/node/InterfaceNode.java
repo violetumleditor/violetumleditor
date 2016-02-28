@@ -7,6 +7,7 @@ import com.horstmann.violet.framework.graphics.Separator;
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.content.VerticalLayout;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
+import com.horstmann.violet.product.diagram.classes.ClassDiagramConstant;
 import com.horstmann.violet.product.diagram.property.text.decorator.*;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.property.text.LineText;
@@ -93,6 +94,12 @@ public class InterfaceNode extends ColorableNode
     {
         name.setTextColor(textColor);
         methods.setTextColor(textColor);
+    }
+
+    @Override
+    public String getToolTip()
+    {
+        return ClassDiagramConstant.CLASS_DIAGRAM_RESOURCE.getString("interface_node.tooltip");
     }
 
     @Override

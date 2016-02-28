@@ -22,17 +22,14 @@
 package com.horstmann.violet.product.diagram.sequence;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.common.edge.NoteEdge;
 import com.horstmann.violet.product.diagram.common.node.NoteNode;
-import com.horstmann.violet.product.diagram.sequence.edge.CallEdge;
+import com.horstmann.violet.product.diagram.sequence.edge.SynchronousCallEdge;
 import com.horstmann.violet.product.diagram.sequence.edge.ReturnEdge;
 import com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode;
 import com.horstmann.violet.product.diagram.sequence.node.IntegrationFrameNode;
@@ -41,11 +38,11 @@ import com.horstmann.violet.product.diagram.sequence.node.LifelineNode;
 /**
  * A UML sequence diagram.
  */
-public class SequenceDiagramGraph extends AbstractGraph {
-
-
+public class SequenceDiagramGraph extends AbstractGraph
+{
     @Override
-    public boolean addNode(INode newNode, Point2D p) {
+    public boolean addNode(INode newNode, Point2D p)
+    {
         INode foundNode = findNode(p);
         if (foundNode == null && newNode.getClass().isAssignableFrom(ActivationBarNode.class)) {
             return false;
@@ -62,53 +59,17 @@ public class SequenceDiagramGraph extends AbstractGraph {
         return EDGE_PROTOTYPES;
     }
 
-    private static final List<INode> NODE_PROTOTYPES = new ArrayList<INode>();
+    private static final List<INode> NODE_PROTOTYPES = new ArrayList<INode>(Arrays.asList(
+            new LifelineNode(),
+            new ActivationBarNode(),
+            new IntegrationFrameNode(),
+            new NoteNode()
+    ));
 
-    private static final List<IEdge> EDGE_PROTOTYPES = new ArrayList<IEdge>();
-
-    static {
-        ResourceBundle rs = ResourceBundle.getBundle(SequenceDiagramConstant.SEQUENCE_DIAGRAM_STRINGS, Locale.getDefault());
-
-        LifelineNode lifelineNode = new LifelineNode();
-        lifelineNode.setToolTip(rs.getString("node0.tooltip"));
-        NODE_PROTOTYPES.add(lifelineNode);
-
-        ActivationBarNode activationBarNode = new ActivationBarNode();
-        activationBarNode.setToolTip(rs.getString("node1.tooltip"));
-        NODE_PROTOTYPES.add(activationBarNode);
-
-        NoteNode noteNode = new NoteNode();
-        noteNode.setToolTip(rs.getString("node2.tooltip"));
-        NODE_PROTOTYPES.add(noteNode);
-
-        IntegrationFrameNode integrationFrameNode = new IntegrationFrameNode();
-        integrationFrameNode.setToolTip(rs.getString("node3.tooltip"));
-        NODE_PROTOTYPES.add(integrationFrameNode);
-
-        CallEdge callEdge = new CallEdge();
-//        callEdge.setEndArrowHead(ArrowHead.BLACK_TRIANGLE);
-//        callEdge.setStartArrowHead(ArrowHead.NONE);
-//        callEdge.setLineStyle(LineStyle.SOLID);
-        callEdge.setToolTip(rs.getString("edge0.tooltip"));
-        EDGE_PROTOTYPES.add(callEdge);
-
-        CallEdge createEdge = new CallEdge();
-//        createEdge.setEndArrowHead(ArrowHead.V);
-//        createEdge.setStartArrowHead(ArrowHead.NONE);
-//        createEdge.setLineStyle(LineStyle.SOLID);
-        createEdge.setToolTip(rs.getString("edge1.tooltip"));
-        EDGE_PROTOTYPES.add(createEdge);
-
-        ReturnEdge returnEdge = new ReturnEdge();
-//        returnEdge.setEndArrowHead(ArrowHead.V);
-//        returnEdge.setStartArrowHead(ArrowHead.NONE);
-//        returnEdge.setLineStyle(LineStyle.DOTTED);
-        returnEdge.setToolTip(rs.getString("edge2.tooltip"));
-        EDGE_PROTOTYPES.add(returnEdge);
-
-        NoteEdge noteEdge = new NoteEdge();
-        noteEdge.setToolTip(rs.getString("edge3.tooltip"));
-        EDGE_PROTOTYPES.add(noteEdge);
-    }
-
+    private static final List<IEdge> EDGE_PROTOTYPES = new ArrayList<IEdge>(Arrays.asList(
+            new SynchronousCallEdge(),//BLACK_TRIANGLE
+            new SynchronousCallEdge(),//V
+            new ReturnEdge(),
+            new NoteEdge()
+    ));
 }

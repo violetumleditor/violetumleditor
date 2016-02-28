@@ -1,7 +1,5 @@
 package com.horstmann.violet.product.diagram.common.edge;
 
-import com.horstmann.violet.product.diagram.abstracts.edge.LabeledLineEdge;
-
 /**
  * TODO javadoc
  *

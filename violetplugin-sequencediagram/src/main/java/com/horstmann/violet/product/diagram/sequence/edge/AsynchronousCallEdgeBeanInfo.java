@@ -21,27 +21,11 @@
 
 package com.horstmann.violet.product.diagram.sequence.edge;
 
-import java.beans.IntrospectionException;
-import java.beans.PropertyDescriptor;
-import java.beans.SimpleBeanInfo;
 
 /**
- * The bean info for the CallEdge type.
+ * The bean info for the SynchronousCallEdge type.
  */
-public class CallEdgeBeanInfo extends SimpleBeanInfo
+public class AsynchronousCallEdgeBeanInfo extends SynchronousCallEdgeBeanInfo
 {
-    public PropertyDescriptor[] getPropertyDescriptors()
-    {
-        try
-        {
-            return new PropertyDescriptor[]
-            {
-                    new PropertyDescriptor("middleLabel", CallEdge.class)
-            };
-        }
-        catch (IntrospectionException exception)
-        {
-            return null;
-        }
-    }
+
 }

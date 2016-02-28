@@ -27,6 +27,7 @@ import com.horstmann.violet.framework.graphics.content.EmptyContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideEllipse;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.state.StateDiagramConstant;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 
 /**
@@ -63,6 +64,12 @@ public class CircularInitialStateNode extends AbstractNode
 
         ContentBackground contentBackground = new ContentBackground(contentInsideShape, ColorToolsBarPanel.PASTEL_GREY.getBorderColor());
         setContent(contentBackground);
+    }
+
+    @Override
+    public String getToolTip()
+    {
+        return StateDiagramConstant.STATE_DIAGRAM_RESOURCE.getString("scenario_start_node.tooltip");
     }
 
     /**

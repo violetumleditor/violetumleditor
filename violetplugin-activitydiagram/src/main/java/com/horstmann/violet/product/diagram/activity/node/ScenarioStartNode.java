@@ -27,7 +27,6 @@ import com.horstmann.violet.framework.graphics.content.EmptyContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideEllipse;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
-import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 
@@ -39,7 +38,6 @@ public class ScenarioStartNode extends AbstractNode
     public ScenarioStartNode()
     {
         super();
-        setToolTip(ActivityDiagramConstant.ACTIVITY_DIAGRAM.getString("scenario_start_node.tooltip"));
         createContentStructure();
     }
 
@@ -67,7 +65,13 @@ public class ScenarioStartNode extends AbstractNode
         ContentBackground contentBackground = new ContentBackground(contentInsideShape, ColorToolsBarPanel.PASTEL_GREY.getBorderColor());
         setContent(contentBackground);
     }
-    
+
+    @Override
+    public String getToolTip()
+    {
+        return ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("scenario_start_node.tooltip");
+    }
+
     @Override
     public boolean addConnection(IEdge e)
     {

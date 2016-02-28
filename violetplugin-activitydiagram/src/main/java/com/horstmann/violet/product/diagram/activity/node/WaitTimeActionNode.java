@@ -4,7 +4,6 @@ import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
-import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 
@@ -22,24 +21,23 @@ public class WaitTimeActionNode  extends ColorableNode
     public WaitTimeActionNode()
     {
         super();
-        setToolTip(ActivityDiagramConstant.ACTIVITY_DIAGRAM.getString("wait_time_action_node.tooltip"));
-        waitTimeAction = new SingleLineText();
-        waitTimeAction.setPadding(5,5,5,5);
+        name = new SingleLineText();
+        name.setPadding(5,5,5,5);
         createContentStructure();
     }
 
     protected WaitTimeActionNode(WaitTimeActionNode node) throws CloneNotSupportedException
     {
         super(node);
-        waitTimeAction = node.waitTimeAction.clone();
+        name = node.name.clone();
         createContentStructure();
     }
 
     @Override
     public void deserializeSupport()
     {
-        waitTimeAction.deserializeSupport();
-        waitTimeAction.setPadding(5,5,5,5);
+        name.deserializeSupport();
+        name.setPadding(5,5,5,5);
 
         super.deserializeSupport();
     }
@@ -53,7 +51,7 @@ public class WaitTimeActionNode  extends ColorableNode
     @Override
     protected void createContentStructure()
     {
-        TextContent nameContent = new TextContent(waitTimeAction);
+        TextContent nameContent = new TextContent(name);
 
         ContentInsideCustomShape shape = new ContentInsideCustomShape(null, WAIT_SHAPE);
         shape.setMinWidth(SHAPE_WIDTH);
@@ -74,6 +72,12 @@ public class WaitTimeActionNode  extends ColorableNode
     }
 
     @Override
+    public String getToolTip()
+    {
+        return ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("wait_time_action_node.tooltip");
+    }
+
+    @Override
     public boolean addConnection(IEdge e)
     {
         if (e.getEndNode() != null && this != e.getEndNode())
@@ -84,24 +88,24 @@ public class WaitTimeActionNode  extends ColorableNode
     }
 
     /**
-     * Sets the waitTimeAction property value.
+     * Sets the name property value.
      *
-     * @param newValue the new waitTimeAction description
+     * @param newValue the new name description
      */
-    public void setWaitTimeAction(SingleLineText newValue)
+    public void setName(SingleLineText newValue)
     {
-        waitTimeAction.setText(newValue.toEdit());
+        name.setText(newValue.toEdit());
     }
 
     /**
-     * Gets the waitTimeAction property value.
+     * Gets the name property value.
      */
-    public SingleLineText getWaitTimeAction()
+    public SingleLineText getName()
     {
-        return waitTimeAction;
+        return name;
     }
 
-    private SingleLineText waitTimeAction;
+    private SingleLineText name;
 
     private static final int SHAPE_WIDTH = 40;
     private static final int SHAPE_HEIGHT = 40;

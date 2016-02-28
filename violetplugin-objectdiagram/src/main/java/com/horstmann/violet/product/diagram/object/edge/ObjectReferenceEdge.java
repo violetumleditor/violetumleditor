@@ -30,6 +30,7 @@ import java.awt.geom.Point2D;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.ShapeEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.object.ObjectDiagramConstant;
 import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
 
 /**
@@ -37,6 +38,12 @@ import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
  */
 public class ObjectReferenceEdge extends ShapeEdge
 {
+    @Override
+    public String getToolTip()
+    {
+        return ObjectDiagramConstant.OBJECT_DIAGRAM_RESOURCE.getString("object_reference_edge.tooltip");
+    }
+
     public void draw(Graphics2D g2)
     {
         g2.draw(getShape());

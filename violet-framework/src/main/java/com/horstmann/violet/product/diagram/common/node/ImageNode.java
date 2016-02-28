@@ -254,6 +254,12 @@ public class ImageNode extends ColorableNode
 //        return cloned;
 //    }
 
+    @Override
+    public String getToolTip()
+    {
+        return "";
+    }
+
     private static final String PIXEL_SEPARATOR = ":";
 
     @ResourceBundleBean(key = "imagenode.icon")

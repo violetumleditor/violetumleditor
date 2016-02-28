@@ -54,7 +54,6 @@ public class NoteNode extends ColorableNode
     public NoteNode()
     {
         super();
-        setToolTip(ResourceBundleConstant.NODE_AND_EDGE_RESOURCE.getString("note_node.tooltip"));
         text = new MultiLineText();
         createContentStructure();
     }
@@ -74,7 +73,8 @@ public class NoteNode extends ColorableNode
     }
 
     @Override
-    protected INode copy() throws CloneNotSupportedException {
+    protected INode copy() throws CloneNotSupportedException
+    {
         return new NoteNode(this);
     }
 
@@ -135,7 +135,11 @@ public class NoteNode extends ColorableNode
         super.setTextColor(textColor);
     }
 
-
+    @Override
+    public String getToolTip()
+    {
+        return ResourceBundleConstant.NODE_AND_EDGE_RESOURCE.getString("note_node.tooltip");
+    }
 
 
 

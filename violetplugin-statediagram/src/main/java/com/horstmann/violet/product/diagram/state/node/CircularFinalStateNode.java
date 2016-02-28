@@ -27,6 +27,7 @@ import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideEllipse;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.state.StateDiagramConstant;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 
 /**
@@ -76,6 +77,12 @@ public class CircularFinalStateNode extends AbstractNode
         relativeLayout.add(contentBackground, new Point2D.Double(DEFAULT_GAP/ Math.sqrt(2),DEFAULT_GAP/ Math.sqrt(2)));
 
         setContent(relativeLayout);
+    }
+
+    @Override
+    public String getToolTip()
+    {
+        return StateDiagramConstant.STATE_DIAGRAM_RESOURCE.getString("scenario_end_node.tooltip");
     }
 
     /** default node_old diameter */

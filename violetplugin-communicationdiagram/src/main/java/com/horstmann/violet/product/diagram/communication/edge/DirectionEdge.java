@@ -1,6 +1,7 @@
 package com.horstmann.violet.product.diagram.communication.edge;
 
-import com.horstmann.violet.product.diagram.abstracts.edge.LabeledLineEdge;
+import com.horstmann.violet.product.diagram.common.edge.LabeledLineEdge;
+import com.horstmann.violet.product.diagram.communication.CommunicationDiagramConstant;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 
 /**
@@ -84,6 +85,12 @@ public class DirectionEdge extends LabeledLineEdge {
 			setCenterLabel(SequenceNumber + " * " + SequentialLoop + " : " + Message);
 		else
 			setCenterLabel(SequenceNumber + " : " + Message);
+	}
+
+	@Override
+	public String getToolTip()
+	{
+		return CommunicationDiagramConstant.COMMUNICATION_DIAGRAM_RESOURCE.getString("direction_edge.tooltip");
 	}
 
 	private SingleLineText SequenceNumber;

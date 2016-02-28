@@ -1,9 +1,10 @@
-package com.horstmann.violet.product.diagram.classes.edge;
+package com.horstmann.violet.product.diagram.object.edge;
 
-import com.horstmann.violet.product.diagram.classes.ClassDiagramConstant;
+import com.horstmann.violet.product.diagram.abstracts.edge.bentstyle.BentStyle;
+import com.horstmann.violet.product.diagram.common.edge.LabeledLineEdge;
+import com.horstmann.violet.product.diagram.object.ObjectDiagramConstant;
 import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
 import com.horstmann.violet.product.diagram.property.LineStyleChoiceList;
-import com.horstmann.violet.product.diagram.common.edge.LabeledLineEdge;
 
 /**
  * TODO javadoc
@@ -17,6 +18,7 @@ public class AssociationEdge extends LabeledLineEdge
     public AssociationEdge()
     {
         super();
+        setBentStyle(BentStyle.STRAIGHT);
         setStartArrowhead(ArrowheadChoiceList.NONE);
         setEndArrowhead(ArrowheadChoiceList.V);
         setLineStyle(LineStyleChoiceList.SOLID);
@@ -31,6 +33,7 @@ public class AssociationEdge extends LabeledLineEdge
     public void deserializeSupport()
     {
         super.deserializeSupport();
+        setBentStyle(BentStyle.STRAIGHT);
         setStartArrowhead(ArrowheadChoiceList.NONE);
         setEndArrowhead(ArrowheadChoiceList.V);
         setLineStyle(LineStyleChoiceList.SOLID);
@@ -45,6 +48,6 @@ public class AssociationEdge extends LabeledLineEdge
     @Override
     public String getToolTip()
     {
-        return ClassDiagramConstant.CLASS_DIAGRAM_RESOURCE.getString("association_edge.tooltip");
+        return ObjectDiagramConstant.OBJECT_DIAGRAM_RESOURCE.getString("association_edge.tooltip");
     }
 }

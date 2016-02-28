@@ -108,6 +108,11 @@ public abstract class AbstractNode implements INode
         throw new CloneNotSupportedException("You can't clone abstract class");
     }
 
+    @Override
+    public String getToolTip()
+    {
+        return "";
+    }
 
     protected abstract void createContentStructure();
 
@@ -417,26 +422,6 @@ public abstract class AbstractNode implements INode
     	return this.graph;
     }
 
-    /**
-     * Sets node_old tool tip
-     * 
-     * @param label
-     */
-    public void setToolTip(String label)
-    {
-        if(null == label)
-        {
-            label = "";
-        }
-        this.toolTip = label;
-    }
-
-    @Override
-    public String getToolTip()
-    {
-    	return this.toolTip;
-    }
-
     public final Content getContent()
     {
         if(null == content)
@@ -454,7 +439,6 @@ public abstract class AbstractNode implements INode
     private transient Content content;
 
     private transient IGraph graph;
-    private transient String toolTip;
     private transient int z;
 
     /** Node's current id (unique in all the graph) */

@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
+import com.horstmann.violet.product.diagram.communication.CommunicationDiagramConstant;
 import com.horstmann.violet.product.diagram.property.text.decorator.OneLineText;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
@@ -17,16 +18,16 @@ import com.horstmann.violet.product.diagram.property.text.decorator.UnderlineDec
  * @author Alexandre de Pellegrin / Cays S. Horstmann
  *
  */
-public class ObjectNodeCommu extends ColorableNode
+public class ObjectCommuNode extends ColorableNode
 {
-	public ObjectNodeCommu()
+	public ObjectCommuNode()
 	{
 		super();
 		name = new SingleLineText(nameConverter);
 		createContentStructure();
 	}
 
-	protected ObjectNodeCommu(ObjectNodeCommu node) throws CloneNotSupportedException
+	protected ObjectCommuNode(ObjectCommuNode node) throws CloneNotSupportedException
 	{
 		super(node);
 		name = node.name.clone();
@@ -45,7 +46,7 @@ public class ObjectNodeCommu extends ColorableNode
 	@Override
 	protected INode copy() throws CloneNotSupportedException
 	{
-		return new ObjectNodeCommu(this);
+		return new ObjectCommuNode(this);
 	}
 
 	@Override
@@ -69,6 +70,12 @@ public class ObjectNodeCommu extends ColorableNode
 	{
 		name.setTextColor(textColor);
 		super.setTextColor(textColor);
+	}
+
+	@Override
+	public String getToolTip()
+	{
+		return CommunicationDiagramConstant.COMMUNICATION_DIAGRAM_RESOURCE.getString("object_commu_node.tooltip");
 	}
 
 	/**

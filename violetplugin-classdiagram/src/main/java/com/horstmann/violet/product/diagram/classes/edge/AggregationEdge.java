@@ -1,8 +1,9 @@
 package com.horstmann.violet.product.diagram.classes.edge;
 
+import com.horstmann.violet.product.diagram.classes.ClassDiagramConstant;
 import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
 import com.horstmann.violet.product.diagram.property.LineStyleChoiceList;
-import com.horstmann.violet.product.diagram.abstracts.edge.LabeledLineEdge;
+import com.horstmann.violet.product.diagram.common.edge.LabeledLineEdge;
 
 /**
  * TODO javadoc
@@ -39,5 +40,11 @@ public class AggregationEdge extends LabeledLineEdge
     protected AggregationEdge copy() throws CloneNotSupportedException
     {
         return new AggregationEdge(this);
+    }
+
+    @Override
+    public String getToolTip()
+    {
+        return ClassDiagramConstant.CLASS_DIAGRAM_RESOURCE.getString("aggregation_edge.tooltip");
     }
 }

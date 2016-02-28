@@ -13,6 +13,7 @@ import com.horstmann.violet.product.diagram.property.text.MultiLineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 import com.horstmann.violet.product.diagram.property.text.decorator.LargeSizeDecorator;
 import com.horstmann.violet.product.diagram.property.text.decorator.OneLineText;
+import com.horstmann.violet.product.diagram.sequence.SequenceDiagramConstant;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
@@ -126,6 +127,12 @@ public class IntegrationFrameNode extends ColorableNode implements IResizableNod
     @Override
     public void setBorderColor(Color borderColor)
     {
+    }
+
+    @Override
+    public String getToolTip()
+    {
+        return SequenceDiagramConstant.SEQUENCE_DIAGRAM_RESOURCE.getString("integration_frame_node.tooltip");
     }
 
     @Override

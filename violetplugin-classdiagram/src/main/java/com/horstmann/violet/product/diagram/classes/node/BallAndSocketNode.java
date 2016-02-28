@@ -4,6 +4,7 @@ import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.classes.ClassDiagramConstant;
 import com.horstmann.violet.product.diagram.property.choiceList.ChoiceList;
 import com.horstmann.violet.product.diagram.property.choiceList.TextChoiceList;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
@@ -122,7 +123,13 @@ public class BallAndSocketNode extends ColorableNode
         setTextColor(super.getTextColor());
     }
 
-    /*
+    @Override
+    public String getToolTip()
+    {
+        return ClassDiagramConstant.CLASS_DIAGRAM_RESOURCE.getString("ball_and_socket_node.tooltip");
+    }
+
+    /**
      * (non-Javadoc) This method is used for setting right starting point for
      * wire
      *

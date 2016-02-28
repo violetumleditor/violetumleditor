@@ -11,6 +11,7 @@ import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
+import com.horstmann.violet.product.diagram.state.StateDiagramConstant;
 
 public class ExternalSystemExitPointNode extends ColorableNode
 {
@@ -97,6 +98,12 @@ public class ExternalSystemExitPointNode extends ColorableNode
 	protected INode copy() throws CloneNotSupportedException
 	{
 		return new ExternalSystemExitPointNode(this);
+	}
+
+	@Override
+	public String getToolTip()
+	{
+		return StateDiagramConstant.STATE_DIAGRAM_RESOURCE.getString("external_system_exit_point_node.tooltip");
 	}
 
 	/**

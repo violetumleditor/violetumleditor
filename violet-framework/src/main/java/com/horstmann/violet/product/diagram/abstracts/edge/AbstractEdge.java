@@ -49,14 +49,12 @@ public abstract class AbstractEdge implements IEdge
 
     protected AbstractEdge(AbstractEdge cloned) throws CloneNotSupportedException
     {
-        this.toolTip = cloned.toolTip;
         refreshContactPoints();
     }
 
     @Override
     public void deserializeSupport()
     {
-        setToolTip(toolTip);
         refreshContactPoints();
     }
 
@@ -73,6 +71,12 @@ public abstract class AbstractEdge implements IEdge
     protected IEdge copy() throws CloneNotSupportedException
     {
         throw new CloneNotSupportedException("You can't clone abstract class");
+    }
+
+    @Override
+    public String getToolTip()
+    {
+        return "";
     }
 
     @Override
@@ -280,25 +284,6 @@ public abstract class AbstractEdge implements IEdge
         ++this.revision;
     }
 
-    @Override
-    public final String getToolTip()
-    {
-        return this.toolTip;
-    }
-
-    /**
-     * Sets edge tool tip
-     * 
-     * @param toolTip
-     */
-    public final void setToolTip(String toolTip)
-    {
-        if (null == toolTip)
-        {
-            toolTip = "";
-        }
-        this.toolTip = toolTip;
-    }
 
     protected void updateContactPoints()
     {
@@ -320,9 +305,6 @@ public abstract class AbstractEdge implements IEdge
 
     /** Points of contact path */
     protected transient Point2D[] contactPoints;
-
-    /** Edge tool tip */
-    private transient String toolTip;
 
     /** Edge's current id (unique in all the graph) */
     private Id id;

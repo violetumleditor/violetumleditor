@@ -1,6 +1,7 @@
-package com.horstmann.violet.product.diagram.abstracts.edge;
+package com.horstmann.violet.product.diagram.common.edge;
 
 import com.horstmann.violet.framework.graphics.content.TextContent;
+import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 

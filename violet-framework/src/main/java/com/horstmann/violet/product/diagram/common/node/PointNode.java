@@ -85,4 +85,10 @@ public class PointNode extends AbstractNode
     {
         // Invisible node_old
     }
+
+    @Override
+    public String getToolTip()
+    {
+        return "";
+    }
 }

@@ -34,6 +34,7 @@ import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
+import com.horstmann.violet.product.diagram.usecase.UseCaseDiagramConstant;
 
 /**
  * A use case node_old in a use case diagram.
@@ -97,6 +98,11 @@ public class UseCaseNode extends ColorableNode
         super.setTextColor(textColor);
     }
 
+    @Override
+    public String getToolTip()
+    {
+        return UseCaseDiagramConstant.USE_CASE_DIAGRAM_RESOURCE.getString("use_case_node.tooltip");
+    }
 
     @Override
     public Point2D getConnectionPoint(IEdge e)

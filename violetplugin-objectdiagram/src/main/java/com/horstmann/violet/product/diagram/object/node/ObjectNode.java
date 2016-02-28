@@ -30,6 +30,7 @@ import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.content.VerticalLayout;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
+import com.horstmann.violet.product.diagram.object.ObjectDiagramConstant;
 import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.decorator.LargeSizeDecorator;
 import com.horstmann.violet.product.diagram.property.text.decorator.OneLineText;
@@ -123,7 +124,11 @@ public class ObjectNode extends ColorableNode
         super.setBorderColor(borderColor);
     }
 
-
+    @Override
+    public String getToolTip()
+    {
+        return ObjectDiagramConstant.OBJECT_DIAGRAM_RESOURCE.getString("object_node.tooltip");
+    }
 
     public boolean addConnection(IEdge e)
     {

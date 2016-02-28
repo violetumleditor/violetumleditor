@@ -37,6 +37,7 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
+import com.horstmann.violet.product.diagram.state.StateDiagramConstant;
 
 /**
  * A decision node_old in an activity diagram.
@@ -109,6 +110,12 @@ public class DecisionNode extends ColorableNode
     {
         condition.setTextColor(textColor);
         super.setTextColor(textColor);
+    }
+
+    @Override
+    public String getToolTip()
+    {
+        return StateDiagramConstant.STATE_DIAGRAM_RESOURCE.getString("decision_node.tooltip");
     }
 
 

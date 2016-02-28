@@ -1,5 +1,6 @@
-package com.horstmann.violet.product.diagram.abstracts.edge;
+package com.horstmann.violet.product.diagram.common.edge;
 
+import com.horstmann.violet.product.diagram.abstracts.edge.ShapeEdge;
 import com.horstmann.violet.product.diagram.property.BentStyleChoiceList;
 import com.horstmann.violet.product.diagram.property.LineStyleChoiceList;
 import com.horstmann.violet.product.diagram.property.choiceList.ChoiceList;

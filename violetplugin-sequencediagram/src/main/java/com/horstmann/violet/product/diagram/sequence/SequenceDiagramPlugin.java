@@ -8,7 +8,7 @@ import java.util.ResourceBundle;
 import com.horstmann.violet.framework.plugin.IDiagramPlugin;
 import com.horstmann.violet.framework.plugin.extensionpoint.Violet016FileFilterExtensionPoint;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
-import com.horstmann.violet.product.diagram.sequence.edge.CallEdge;
+import com.horstmann.violet.product.diagram.sequence.edge.SynchronousCallEdge;
 import com.horstmann.violet.product.diagram.sequence.edge.ReturnEdge;
 import com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode;
 import com.horstmann.violet.product.diagram.sequence.node.LifelineNode;
@@ -79,7 +79,7 @@ public class SequenceDiagramPlugin implements IDiagramPlugin, Violet016FileFilte
     public Map<String, String> getMappingToKeepViolet016Compatibility()
     {
         Map<String, String> replaceMap = new HashMap<String, String>();
-        replaceMap.put("com.horstmann.violet.CallEdge", CallEdge.class.getName());
+        replaceMap.put("com.horstmann.violet.SynchronousCallEdge", SynchronousCallEdge.class.getName());
         replaceMap.put("com.horstmann.violet.CallNode", ActivationBarNode.class.getName());
         replaceMap.put("com.horstmann.violet.ImplicitParameterNode", LifelineNode.class.getName());
         replaceMap.put("com.horstmann.violet.ReturnEdge", ReturnEdge.class.getName());

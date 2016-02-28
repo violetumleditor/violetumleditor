@@ -1,5 +1,7 @@
 package com.horstmann.violet.framework.util;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -11,17 +13,55 @@ import java.util.ResourceBundle;
  */
 public class ResourceManager
 {
+    public ResourceManager()
+    {
+        this.resourceBundles = new ArrayList<ResourceBundle>();
+    }
+
+    public ResourceManager(ResourceBundle resourceBundle)
+    {
+        this();
+        addResource(resourceBundle);
+    }
+
     public ResourceManager(String baseName)
     {
-        resourceBundle = ResourceBundle.getBundle(baseName, Locale.getDefault());
+        this(ResourceBundle.getBundle(baseName, Locale.getDefault()));
+    }
+
+    public final void addResource(String baseName)
+    {
+        addResource(ResourceBundle.getBundle(baseName, Locale.getDefault()));
+    }
+
+    public final void addResource(ResourceBundle resourceBundle)
+    {
+        this.resourceBundles.add(0,resourceBundle);
     }
 
     public final String getString(String key)
     {
-        return resourceBundle.getString(key);
+        while(true)
+        {
+            for (ResourceBundle resourceBundle : resourceBundles)
+            {
+                try
+                {
+                    return resourceBundle.getString(key);
+                }
+                catch (Exception ignored)
+                {}
+            }
+            int indexOfSeparator = key.indexOf('.');
+            if (-1 == indexOfSeparator)
+            {
+                break;
+            }
+            key = key.substring(indexOfSeparator+1);
+        }
+
+        return key;
     }
 
-//    public static final ResourceManager NODE_AND_EDGE = new ResourceManager("properties.NodeAndEdgeStrings");
-
-    private ResourceBundle resourceBundle;
+    private List<ResourceBundle> resourceBundles;
 }

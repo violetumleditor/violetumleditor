@@ -28,7 +28,7 @@ import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
 import com.horstmann.violet.product.diagram.property.BentStyleChoiceList;
 import com.horstmann.violet.product.diagram.property.LineStyleChoiceList;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
-import com.horstmann.violet.product.diagram.abstracts.edge.LabeledLineEdge;
+import com.horstmann.violet.product.diagram.common.edge.LabeledLineEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.activity.node.SynchronizationBarNode;
 
@@ -40,7 +40,6 @@ public class ActivityTransitionEdge extends LabeledLineEdge
     public ActivityTransitionEdge()
     {
         super();
-        setToolTip(ActivityDiagramConstant.ACTIVITY_DIAGRAM.getString("transition_edge.tooltip"));
         setStartArrowhead(ArrowheadChoiceList.NONE);
         setEndArrowhead(ArrowheadChoiceList.V);
         setLineStyle(LineStyleChoiceList.SOLID);
@@ -64,6 +63,12 @@ public class ActivityTransitionEdge extends LabeledLineEdge
     protected ActivityTransitionEdge copy() throws CloneNotSupportedException
     {
         return new ActivityTransitionEdge(this);
+    }
+
+    @Override
+    public String getToolTip()
+    {
+        return ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("transition_edge.tooltip");
     }
 
     @Override

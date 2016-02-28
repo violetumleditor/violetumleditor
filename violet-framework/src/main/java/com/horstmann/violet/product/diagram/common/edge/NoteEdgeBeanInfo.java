@@ -1,8 +1,5 @@
 package com.horstmann.violet.product.diagram.common.edge;
 
-import com.horstmann.violet.product.diagram.abstracts.edge.LineEdge;
-import com.horstmann.violet.product.diagram.abstracts.edge.LineEdgeBeanInfo;
-
 /**
  * TODO javadoc
  * This ...

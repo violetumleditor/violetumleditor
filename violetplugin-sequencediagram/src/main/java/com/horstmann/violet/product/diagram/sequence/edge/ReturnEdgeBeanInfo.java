@@ -26,7 +26,7 @@ import java.beans.PropertyDescriptor;
 import java.beans.SimpleBeanInfo;
 
 /**
- * The bean info for the CallEdge type.
+ * The bean info for the SynchronousCallEdge type.
  */
 public class ReturnEdgeBeanInfo extends SimpleBeanInfo
 {

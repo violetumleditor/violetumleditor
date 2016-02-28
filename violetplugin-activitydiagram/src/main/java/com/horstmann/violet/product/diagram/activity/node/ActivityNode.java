@@ -26,7 +26,6 @@ import java.awt.*;
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRoundRectangle;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
-import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 
@@ -35,7 +34,6 @@ public class ActivityNode extends ColorableNode
     public ActivityNode()
     {
         super();
-        setToolTip(ActivityDiagramConstant.ACTIVITY_DIAGRAM.getString("activity_node.tooltip"));
         name = new SingleLineText();
         createContentStructure();
     }
@@ -81,6 +79,12 @@ public class ActivityNode extends ColorableNode
     {
         name.setTextColor(textColor);
         super.setTextColor(textColor);
+    }
+
+    @Override
+    public String getToolTip()
+    {
+        return ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("activity_node.tooltip");
     }
 
     public void setName(SingleLineText newValue)

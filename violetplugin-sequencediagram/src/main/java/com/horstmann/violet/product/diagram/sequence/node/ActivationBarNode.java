@@ -32,7 +32,8 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.sequence.edge.CallEdge;
+import com.horstmann.violet.product.diagram.sequence.SequenceDiagramConstant;
+import com.horstmann.violet.product.diagram.sequence.edge.SynchronousCallEdge;
 import com.horstmann.violet.product.diagram.sequence.edge.ReturnEdge;
 
 /**
@@ -108,6 +109,12 @@ public class ActivationBarNode extends ColorableNode
     }
 
     @Override
+    public String getToolTip()
+    {
+        return SequenceDiagramConstant.SEQUENCE_DIAGRAM_RESOURCE.getString("activation_bar_node.tooltip");
+    }
+
+    @Override
     public void removeChild(INode node)
     {
         activationsGroup.remove(((ActivationBarNode) node).getContent());
@@ -163,9 +170,9 @@ public class ActivationBarNode extends ColorableNode
         {
             return false;
         }
-        if (edge instanceof CallEdge)
+        if (edge instanceof SynchronousCallEdge)
         {
-            return isCallEdgeAcceptable((CallEdge) edge);
+            return isCallEdgeAcceptable((SynchronousCallEdge) edge);
         }
         if (edge instanceof ReturnEdge)
         {
@@ -177,7 +184,7 @@ public class ActivationBarNode extends ColorableNode
     @Override
     public void removeConnection(IEdge edge)
     {
-        if (edge instanceof CallEdge)
+        if (edge instanceof SynchronousCallEdge)
         {
             for(IEdge connectedEdge : getConnectedEdges())
             {
@@ -206,7 +213,7 @@ public class ActivationBarNode extends ColorableNode
             x+= WIDTH;
         }
 
-        if(edge instanceof CallEdge)
+        if(edge instanceof SynchronousCallEdge)
         {
             if (edge.getEndNode() instanceof LifelineNode)
             {
@@ -264,7 +271,7 @@ public class ActivationBarNode extends ColorableNode
 
         for (IEdge edge : getGraph().getAllEdges())
         {
-            if (edge instanceof CallEdge)
+            if (edge instanceof SynchronousCallEdge)
             {
                 if (edge.getStartNode() == this && edge.getStartNode() != getParent())
                 {
@@ -280,7 +287,7 @@ public class ActivationBarNode extends ColorableNode
         double height = 0;
         for (IEdge edge : getGraph().getAllEdges())
         {
-            if (edge instanceof CallEdge)
+            if (edge instanceof SynchronousCallEdge)
             {
                 if (edge.getStartNode() == this && edge.getStartNode() != getParent())
                 {
@@ -319,7 +326,7 @@ public class ActivationBarNode extends ColorableNode
         return false;
     }
 
-    private boolean isCallEdgeAcceptable(CallEdge edge)
+    private boolean isCallEdgeAcceptable(SynchronousCallEdge edge)
     {
         INode start = edge.getStartNode();
         INode end = edge.getEndNode();

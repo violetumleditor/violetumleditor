@@ -1,11 +1,7 @@
-package com.horstmann.violet.product.diagram.abstracts.edge;
-
-import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
+package com.horstmann.violet.product.diagram.common.edge;
 
 import java.beans.PropertyDescriptor;
 import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 /**
  * TODO javadoc
@@ -19,30 +15,11 @@ public class ArrowheadEdgeBeanInfo extends LineEdgeBeanInfo
     public ArrowheadEdgeBeanInfo()
     {
         super(ArrowheadEdge.class);
-        setLabelsFromResourceBundle();
     }
 
     protected ArrowheadEdgeBeanInfo(Class<?> beanClass)
     {
         super(beanClass);
-        setLabelsFromResourceBundle();
-    }
-
-    private void setLabelsFromResourceBundle()
-    {
-        ResourceBundle rs = ResourceBundle.getBundle(ResourceBundleConstant.NODE_AND_EDGE_STRINGS, Locale.getDefault());
-        try
-        {
-            startArrowheadLabel = rs.getString(START_ARROWHEAD_LABEL_KEY);
-        }catch (Exception e){
-            startArrowheadLabel = START_ARROWHEAD_LABEL_KEY;
-        }
-        try
-        {
-            endArrowheadLabel = rs.getString(END_ARROWHEAD_LABEL_KEY);
-        }catch (Exception e){
-            endArrowheadLabel = END_ARROWHEAD_LABEL_KEY;
-        }
     }
 
     @Override
@@ -52,17 +29,14 @@ public class ArrowheadEdgeBeanInfo extends LineEdgeBeanInfo
 
         if(displayStartArrowhead)
         {
-            propertyDescriptorList.add(createPropertyDescriptor(START_ARROWHEAD_VAR_NAME, startArrowheadLabel,0));
+            propertyDescriptorList.add(createPropertyDescriptor(START_ARROWHEAD_VAR_NAME, START_ARROWHEAD_LABEL_KEY,0));
         }
         if(displayEndArrowhead)
         {
-            propertyDescriptorList.add(createPropertyDescriptor(END_ARROWHEAD_VAR_NAME, endArrowheadLabel,10));
+            propertyDescriptorList.add(createPropertyDescriptor(END_ARROWHEAD_VAR_NAME, END_ARROWHEAD_LABEL_KEY,10));
         }
         return propertyDescriptorList;
     }
-
-    protected String startArrowheadLabel;
-    protected String endArrowheadLabel;
 
     protected boolean displayStartArrowhead = true;
     protected boolean displayEndArrowhead = true;

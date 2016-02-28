@@ -19,30 +19,29 @@
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package com.horstmann.violet.product.diagram.usecase.edge;
+package com.horstmann.violet.product.diagram.sequence.edge;
 
-import com.horstmann.violet.product.diagram.common.edge.LabeledLineEdge;
-import com.horstmann.violet.product.diagram.usecase.UseCaseDiagramConstant;
+import java.beans.IntrospectionException;
+import java.beans.PropertyDescriptor;
+import java.beans.SimpleBeanInfo;
 
 /**
- * An edge that is shaped like a line with up to three segments with an arrowhead
+ * The bean info for the SynchronousCallEdge type.
  */
-public class UseCaseRelationshipEdge extends LabeledLineEdge
+public class SynchronousCallEdgeBeanInfo extends SimpleBeanInfo
 {
-    public UseCaseRelationshipEdge() {}
-
-    protected UseCaseRelationshipEdge(LabeledLineEdge clone) {
-        super(clone);
-    }
-
-    @Override
-    public UseCaseRelationshipEdge copy() {
-        return new UseCaseRelationshipEdge(this);
-    }
-
-    @Override
-    public String getToolTip()
+    public PropertyDescriptor[] getPropertyDescriptors()
     {
-        return UseCaseDiagramConstant.USE_CASE_DIAGRAM_RESOURCE.getString("edge0.tooltip");
+        try
+        {
+            return new PropertyDescriptor[]
+            {
+                    new PropertyDescriptor("middleLabel", SynchronousCallEdge.class)
+            };
+        }
+        catch (IntrospectionException exception)
+        {
+            return null;
+        }
     }
 }

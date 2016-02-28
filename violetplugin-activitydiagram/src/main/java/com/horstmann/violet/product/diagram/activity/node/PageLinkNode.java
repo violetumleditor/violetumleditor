@@ -27,7 +27,6 @@ import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
 import com.horstmann.violet.framework.graphics.content.TextContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideEllipse;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
-import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 
@@ -44,7 +43,6 @@ public class PageLinkNode extends ColorableNode
     public PageLinkNode()
     {
         super();
-        setToolTip(ActivityDiagramConstant.ACTIVITY_DIAGRAM.getString("page_connector_node.tooltip"));
         name = new SingleLineText();
         createContentStructure();
     }
@@ -90,6 +88,12 @@ public class PageLinkNode extends ColorableNode
     {
         name.setTextColor(textColor);
         super.setTextColor(textColor);
+    }
+
+    @Override
+    public String getToolTip()
+    {
+        return ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("page_connector_node.tooltip");
     }
 
     /**

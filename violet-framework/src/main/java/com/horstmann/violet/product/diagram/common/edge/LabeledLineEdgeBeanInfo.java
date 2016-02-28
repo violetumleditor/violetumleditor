@@ -1,11 +1,7 @@
-package com.horstmann.violet.product.diagram.abstracts.edge;
-
-import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
+package com.horstmann.violet.product.diagram.common.edge;
 
 import java.beans.PropertyDescriptor;
 import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 /**
  * TODO javadoc
@@ -19,36 +15,11 @@ public class LabeledLineEdgeBeanInfo extends ArrowheadEdgeBeanInfo
     public LabeledLineEdgeBeanInfo()
     {
         super(LabeledLineEdge.class);
-        setLabelsFromResourceBundle();
     }
 
     protected LabeledLineEdgeBeanInfo(Class<?> beanClass)
     {
         super(beanClass);
-        setLabelsFromResourceBundle();
-    }
-
-    private void setLabelsFromResourceBundle()
-    {
-        ResourceBundle rs = ResourceBundle.getBundle(ResourceBundleConstant.NODE_AND_EDGE_STRINGS, Locale.getDefault());
-        try
-        {
-            startLabel = rs.getString(START_LABEL_KEY);
-        }catch (Exception e){
-            startLabel = START_LABEL_KEY;
-        }
-        try
-        {
-            centerLabel = rs.getString(CENTER_LABEL_KEY);
-        }catch (Exception e){
-            centerLabel = CENTER_LABEL_KEY;
-        }
-        try
-        {
-            endLabel = rs.getString(END_LABEL_KEY);
-        }catch (Exception e){
-            endLabel = END_LABEL_KEY;
-        }
     }
 
     @Override
@@ -58,22 +29,18 @@ public class LabeledLineEdgeBeanInfo extends ArrowheadEdgeBeanInfo
 
         if(displayStartLabel)
         {
-            propertyDescriptorList.add(createPropertyDescriptor(START_VAR_NAME, startLabel,2));
+            propertyDescriptorList.add(createPropertyDescriptor(START_VAR_NAME, START_LABEL_KEY,2));
         }
         if(displayCenterLabel)
         {
-            propertyDescriptorList.add(createPropertyDescriptor(CENTER_VAR_NAME, centerLabel,3));
+            propertyDescriptorList.add(createPropertyDescriptor(CENTER_VAR_NAME, CENTER_LABEL_KEY,3));
         }
         if(displayEndLabel)
         {
-            propertyDescriptorList.add(createPropertyDescriptor(END_VAR_NAME, endLabel,6));
+            propertyDescriptorList.add(createPropertyDescriptor(END_VAR_NAME, END_LABEL_KEY,6));
         }
         return propertyDescriptorList;
     }
-
-    protected String startLabel;
-    protected String centerLabel;
-    protected String endLabel;
 
     protected boolean displayStartLabel = true;
     protected boolean displayCenterLabel = true;

@@ -6,11 +6,14 @@ import com.horstmann.violet.product.diagram.common.node.NodeBeanInfo;
 import java.beans.PropertyDescriptor;
 import java.util.List;
 
-public class SignalReceiptNodeBeanInfo extends NodeBeanInfo
+/**
+ * The bean info for the ActivityNodeBeanInfo type.
+ */
+public class WaitTimeActionNodeBeanInfo extends NodeBeanInfo
 {
-    public SignalReceiptNodeBeanInfo()
+    public WaitTimeActionNodeBeanInfo()
     {
-        super(SignalReceiptNode.class);
+        super(WaitTimeActionNode.class);
         addResourceBundle(ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE);
     }
 
@@ -18,10 +21,10 @@ public class SignalReceiptNodeBeanInfo extends NodeBeanInfo
     protected List<PropertyDescriptor> createPropertyDescriptorList()
     {
         List<PropertyDescriptor> propertyDescriptorList = super.createPropertyDescriptorList();
-        propertyDescriptorList.add(createPropertyDescriptor(SIGNAL_VAR_NAME, SIGNAL_LABEL_KEY,1));
+        propertyDescriptorList.add(createPropertyDescriptor(NAME_VAR_NAME, NAME_LABEL_KEY,1));
         return propertyDescriptorList;
     }
 
-    private static final String SIGNAL_LABEL_KEY = "signal_receipt_node.signal";
-    private static final String SIGNAL_VAR_NAME = "signal";
+    private static final String NAME_LABEL_KEY = "wait_time_action_node.name";
+    private static final String NAME_VAR_NAME = "name";
 }

@@ -25,14 +25,35 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import com.horstmann.violet.product.diagram.abstracts.edge.LabeledLineEdge;
+import com.horstmann.violet.product.diagram.common.edge.LabeledLineEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.sequence.SequenceDiagramConstant;
 
 /**
  * An edge that joins two call node.
  */
 public class ReturnEdge extends LabeledLineEdge
 {
+    public ReturnEdge() {}
+
+    protected ReturnEdge(ReturnEdge clone)
+    {
+        super(clone);
+    }
+
+    @Override
+    public ReturnEdge copy()
+    {
+        return new ReturnEdge(this);
+    }
+
+
+    @Override
+    public String getToolTip()
+    {
+        return SequenceDiagramConstant.SEQUENCE_DIAGRAM_RESOURCE.getString("return_edge.tooltip");
+    }
+
 	@Override
 	public boolean isTransitionPointsSupported() {
 		return false;

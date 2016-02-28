@@ -8,12 +8,12 @@ import java.beans.SimpleBeanInfo;
  * @author Alexandre de Pellegrin / Cays S. Horstmann
  *
  */
-public class ObjectNodeCommuBeanInfo extends SimpleBeanInfo {
+public class ObjectCommuNodeBeanInfo extends SimpleBeanInfo {
 	 public PropertyDescriptor[] getPropertyDescriptors()
 	    {
 	        try
 	        {
-	            PropertyDescriptor nameDescriptor = new PropertyDescriptor("name", ObjectNodeCommu.class);
+	            PropertyDescriptor nameDescriptor = new PropertyDescriptor("name", ObjectCommuNode.class);
 	            nameDescriptor.setValue("priority", new Integer(1));
 	               
 	            return new PropertyDescriptor[]

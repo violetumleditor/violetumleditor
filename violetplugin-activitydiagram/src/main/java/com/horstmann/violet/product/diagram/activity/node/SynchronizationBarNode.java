@@ -32,7 +32,6 @@ import com.horstmann.violet.framework.graphics.shape.ContentInsideRoundRectangle
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
-import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
 import com.horstmann.violet.product.diagram.property.choiceList.ChoiceList;
 import com.horstmann.violet.product.diagram.property.choiceList.TextChoiceList;
@@ -45,7 +44,6 @@ public class SynchronizationBarNode extends ColorableNode
     public SynchronizationBarNode()
     {
         super();
-        setToolTip(ActivityDiagramConstant.ACTIVITY_DIAGRAM.getString("synchronization_node.tooltip"));
         orientation = new TextChoiceList<StretchStrategy>(
                 STRETCH_KEYS,
                 STRETCH_STRATEGIES
@@ -93,6 +91,12 @@ public class SynchronizationBarNode extends ColorableNode
         ContentBackground contentBackground = new ContentBackground(contentInsideShape, getBorderColor());
 
         setContent(contentBackground);
+    }
+
+    @Override
+    public String getToolTip()
+    {
+        return ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("synchronization_node.tooltip");
     }
 
     @Override
@@ -249,7 +253,7 @@ public class SynchronizationBarNode extends ColorableNode
         {
             try
             {
-                STRETCH_KEYS[i] = ActivityDiagramConstant.ACTIVITY_DIAGRAM.getString("stretch." + STRETCH_KEYS[i].toLowerCase());
+                STRETCH_KEYS[i] = ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("stretch." + STRETCH_KEYS[i].toLowerCase());
             }
             catch (MissingResourceException ignored)
             {}

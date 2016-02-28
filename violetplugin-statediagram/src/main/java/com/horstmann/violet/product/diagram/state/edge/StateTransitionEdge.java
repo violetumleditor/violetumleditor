@@ -37,12 +37,19 @@ import com.horstmann.violet.product.diagram.abstracts.edge.ShapeEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
+import com.horstmann.violet.product.diagram.state.StateDiagramConstant;
 
 /**
  * A curved edge for a state transition in a state diagram.
  */
 public class StateTransitionEdge extends ShapeEdge
 {
+    @Override
+    public String getToolTip()
+    {
+        return StateDiagramConstant.STATE_DIAGRAM_RESOURCE.getString("state_edge.tooltip");
+    }
+
     /**
      * Sets the label property value.
      * 

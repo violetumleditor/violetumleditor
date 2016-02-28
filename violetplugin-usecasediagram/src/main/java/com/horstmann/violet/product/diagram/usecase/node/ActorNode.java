@@ -34,6 +34,7 @@ import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
+import com.horstmann.violet.product.diagram.usecase.UseCaseDiagramConstant;
 
 /**
  * An actor node_old in a use case diagram.
@@ -156,6 +157,11 @@ public class ActorNode extends ColorableNode
         super.setTextColor(textColor);
     }
 
+    @Override
+    public String getToolTip()
+    {
+        return UseCaseDiagramConstant.USE_CASE_DIAGRAM_RESOURCE.getString("actor_node.tooltip");
+    }
 
     /**
      * Sets the name property value.

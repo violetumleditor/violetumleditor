@@ -32,7 +32,6 @@ import com.horstmann.violet.framework.graphics.content.TextContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
-import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 
@@ -47,7 +46,6 @@ public class SignalSendingNode extends ColorableNode
     public SignalSendingNode()
     {
         super();
-        setToolTip(ActivityDiagramConstant.ACTIVITY_DIAGRAM.getString("signal_sending_node.tooltip"));
         signal = new SingleLineText();
         signal.setPadding(1,10,1,20);
         createContentStructure();
@@ -107,6 +105,12 @@ public class SignalSendingNode extends ColorableNode
     {
         signal.setTextColor(textColor);
         super.setTextColor(textColor);
+    }
+
+    @Override
+    public String getToolTip()
+    {
+        return ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("signal_sending_node.tooltip");
     }
 
     @Override

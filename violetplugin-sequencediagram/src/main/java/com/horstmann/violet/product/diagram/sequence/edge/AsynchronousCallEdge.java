@@ -19,30 +19,35 @@
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package com.horstmann.violet.product.diagram.usecase.edge;
+package com.horstmann.violet.product.diagram.sequence.edge;
 
-import com.horstmann.violet.product.diagram.common.edge.LabeledLineEdge;
-import com.horstmann.violet.product.diagram.usecase.UseCaseDiagramConstant;
+import com.horstmann.violet.product.diagram.sequence.SequenceDiagramConstant;
 
 /**
- * An edge that is shaped like a line with up to three segments with an arrowhead
+ * An edge that joins two call node. Typically, call edges are used in sequence diagram to represent calls between entities (call
+ * node).
  */
-public class UseCaseRelationshipEdge extends LabeledLineEdge
+public class AsynchronousCallEdge extends SynchronousCallEdge
 {
-    public UseCaseRelationshipEdge() {}
+    public AsynchronousCallEdge() {}
 
-    protected UseCaseRelationshipEdge(LabeledLineEdge clone) {
+    protected AsynchronousCallEdge(AsynchronousCallEdge clone)
+    {
         super(clone);
     }
 
     @Override
-    public UseCaseRelationshipEdge copy() {
-        return new UseCaseRelationshipEdge(this);
+    public AsynchronousCallEdge copy()
+    {
+        return new AsynchronousCallEdge(this);
     }
 
     @Override
     public String getToolTip()
     {
-        return UseCaseDiagramConstant.USE_CASE_DIAGRAM_RESOURCE.getString("edge0.tooltip");
+        return SequenceDiagramConstant.SEQUENCE_DIAGRAM_RESOURCE.getString("asynchronous_call_edge.tooltip");
     }
+
+    /** Horizintal gap used to connected two activation bars on the same lifeline */
+    private static int LOOP_GAP = 15;
 }

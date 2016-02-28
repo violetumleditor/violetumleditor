@@ -25,35 +25,35 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import com.horstmann.violet.product.diagram.abstracts.edge.LabeledLineEdge;
+import com.horstmann.violet.product.diagram.common.edge.LabeledLineEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.sequence.SequenceDiagramConstant;
 import com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode;
 
 /**
  * An edge that joins two call node. Typically, call edges are used in sequence diagram to represent calls between entities (call
  * node).
  */
-public class CallEdge extends LabeledLineEdge
+public class SynchronousCallEdge extends LabeledLineEdge
 {
-    public CallEdge() {}
+    public SynchronousCallEdge() {}
 
-    @Override
-    public CallEdge copy()
-    {
-        return new CallEdge(this);
-    }
-
-    protected CallEdge(LabeledLineEdge clone)
+    protected SynchronousCallEdge(SynchronousCallEdge clone)
     {
         super(clone);
     }
 
-	@Override
-	public boolean isTransitionPointsSupported()
+    @Override
+    public SynchronousCallEdge copy()
     {
-		return false;
-	}
+        return new SynchronousCallEdge(this);
+    }
 
+    @Override
+    public String getToolTip()
+    {
+        return SequenceDiagramConstant.SEQUENCE_DIAGRAM_RESOURCE.getString("synchronous_call_edge.tooltip");
+    }
 
     @Override
     public Line2D getConnectionPoints()

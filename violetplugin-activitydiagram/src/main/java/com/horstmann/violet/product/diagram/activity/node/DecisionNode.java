@@ -22,8 +22,6 @@
 package com.horstmann.violet.product.diagram.activity.node;
 
 import java.awt.Color;
-import java.awt.Shape;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -31,12 +29,10 @@ import com.horstmann.violet.framework.graphics.content.ContentBackground;
 import com.horstmann.violet.framework.graphics.content.ContentBorder;
 import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
 import com.horstmann.violet.framework.graphics.content.TextContent;
-import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideDiamond;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
-import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 
@@ -51,7 +47,6 @@ public class DecisionNode extends ColorableNode
     public DecisionNode()
     {
         super();
-        setToolTip(ActivityDiagramConstant.ACTIVITY_DIAGRAM.getString("decision_node.tooltip"));
         condition = new SingleLineText();
         createContentStructure();
     }
@@ -99,6 +94,11 @@ public class DecisionNode extends ColorableNode
         super.setTextColor(textColor);
     }
 
+    @Override
+    public String getToolTip()
+    {
+        return ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("decision_node.tooltip");
+    }
 
     @Override
     public Point2D getConnectionPoint(IEdge edge)

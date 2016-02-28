@@ -5,5 +5,6 @@ import java.util.ResourceBundle;
 
 public abstract class ActivityDiagramConstant
 {
-    public static final ResourceBundle ACTIVITY_DIAGRAM = ResourceBundle.getBundle("properties.ActivityDiagramGraphStrings", Locale.getDefault());
+    public static final String ACTIVITY_DIAGRAM_STRINGS = "properties.ActivityDiagramGraphStrings";
+    public static final ResourceBundle ACTIVITY_DIAGRAM_RESOURCE = ResourceBundle.getBundle(ACTIVITY_DIAGRAM_STRINGS, Locale.getDefault());
 }

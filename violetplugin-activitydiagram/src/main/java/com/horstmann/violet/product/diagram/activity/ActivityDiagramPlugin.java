@@ -26,37 +26,37 @@ public class ActivityDiagramPlugin implements IDiagramPlugin {
     @Override
     public String getDescription()
     {
-        return ActivityDiagramConstant.ACTIVITY_DIAGRAM.getString("description");
+        return ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("description");
     }
 
     @Override
     public String getName()
     {
-        return ActivityDiagramConstant.ACTIVITY_DIAGRAM.getString("menu.activity_diagram.name");
+        return ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("menu.activity_diagram.name");
     }
 
     @Override
     public String getCategory()
     {
-	    return ActivityDiagramConstant.ACTIVITY_DIAGRAM.getString("menu.activity_diagram.category");
+	    return ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("menu.activity_diagram.category");
     }
 
     @Override
     public String getFileExtension()
     {
-	    return ActivityDiagramConstant.ACTIVITY_DIAGRAM.getString("files.activity.extension");
+	    return ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("files.activity.extension");
     }
 
     @Override
     public String getFileExtensionName()
     {
-        return ActivityDiagramConstant.ACTIVITY_DIAGRAM.getString("files.activity.name");
+        return ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("files.activity.name");
     }
 
     @Override
     public String getSampleFilePath()
     {
-        return ActivityDiagramConstant.ACTIVITY_DIAGRAM.getString("sample.file.path");
+        return ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("sample.file.path");
     }
 
     @Override

@@ -85,6 +85,6 @@ public class UseCaseDiagramPlugin implements IDiagramPlugin, Violet016FileFilter
         return replaceMap;
     }
 
-    private ResourceBundle rs = ResourceBundle.getBundle(UseCaseDiagramConstant.USECASE_DIAGRAM_STRINGS, Locale.getDefault());
+    private ResourceBundle rs = ResourceBundle.getBundle(UseCaseDiagramConstant.USE_CASE_DIAGRAM_STRINGS, Locale.getDefault());
 
 }
