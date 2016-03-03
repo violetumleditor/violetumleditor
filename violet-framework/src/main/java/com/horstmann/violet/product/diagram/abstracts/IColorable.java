@@ -5,16 +5,16 @@ import java.awt.Color;
 public interface IColorable
 {
 
-    public void setBackgroundColor(Color bgColor);
+    void setBackgroundColor(Color bgColor);
     
-    public Color getBackgroundColor();
+    Color getBackgroundColor();
     
-    public void setBorderColor(Color borderColor);
+    void setBorderColor(Color borderColor);
 
-    public Color getBorderColor();
+    Color getBorderColor();
     
-    public void setTextColor(Color textColor);
+    void setTextColor(Color textColor);
     
-    public Color getTextColor();
+    Color getTextColor();
     
 }

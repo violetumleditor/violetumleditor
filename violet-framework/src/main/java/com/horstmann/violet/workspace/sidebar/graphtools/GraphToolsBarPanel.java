@@ -1,11 +1,8 @@
 package com.horstmann.violet.workspace.sidebar.graphtools;
 
 import java.awt.GridLayout;
-import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,7 +90,7 @@ public class GraphToolsBarPanel extends JPanel
     }
     
     /**
-     * @return all node buttons
+     * @return all node_old buttons
      */
     public List<GraphToolsBarButton> getNodeButtons() {
         return this.nodeButtons;
@@ -221,13 +218,32 @@ public class GraphToolsBarPanel extends JPanel
         }
     }
 
+    private void notifyMouseEvent(GraphToolsBarButton selectedButton, MouseEvent event)
+    {
+        for (GraphToolsBarButton button : this.nodeButtons)
+        {
+            if (button == selectedButton)
+            {
+                int pos = this.nodeButtons.indexOf(button);
+                this.graphToolsPanel.notifyMouseEvent(this.graphToolsPanel.getNodeTools().get(pos), event);
+            }
+        }
+        for (GraphToolsBarButton button : this.edgeButtons)
+        {
+            if (button == selectedButton)
+            {
+                int pos = this.edgeButtons.indexOf(button);
+                this.graphToolsPanel.notifyMouseEvent(this.graphToolsPanel.getEdgeTools().get(pos), event);
+            }
+        }
+    }
 
 
 
 
 
     /**
-     * @return panel containing node buttons
+     * @return panel containing node_old buttons
      */
     public JPanel getNodeButtonsPanel() {
         if (this.nodeButtonsPanel == null) {
@@ -259,11 +275,27 @@ public class GraphToolsBarPanel extends JPanel
         {
             button.addMouseListener(new MouseAdapter()
             {
+            	public void mousePressed(MouseEvent arg0) 
+            	{
+            		notifyMouseEvent(button, arg0);
+            	}
+            	
+            	public void mouseReleased(MouseEvent arg0) 
+            	{
+            		notifyMouseEvent(button, arg0);
+            	}
+
                 public void mouseClicked(MouseEvent arg0)
                 {
                     setSelectedButton(button);
                 }
             });
+            button.addMouseMotionListener(new MouseAdapter() {
+            	public void mouseDragged(MouseEvent arg0) 
+            	{
+            		notifyMouseEvent(button, arg0);
+            	}
+            });            
             buttonPanel.add(button);
         }
 

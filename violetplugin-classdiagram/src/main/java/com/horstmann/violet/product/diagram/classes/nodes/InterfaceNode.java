@@ -1,117 +1,98 @@
 package com.horstmann.violet.product.diagram.classes.nodes;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
+import com.horstmann.violet.framework.graphics.Separator;
+import com.horstmann.violet.framework.graphics.content.*;
+import com.horstmann.violet.framework.graphics.content.VerticalLayout;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
+import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
+import com.horstmann.violet.product.diagram.abstracts.property.string.LineText;
+import com.horstmann.violet.product.diagram.abstracts.property.string.decorator.*;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
+import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
+import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 import com.horstmann.violet.product.diagram.common.PointNode;
 
 /**
- * An interface node in a class diagram.
+ * An interface nodes in a class diagram.
  */
-public class InterfaceNode extends RectangularNode
+public class InterfaceNode extends ColorableNode
 {
     /**
      * Construct an interface node with a default size and the text <<interface>>.
      */
     public InterfaceNode()
     {
-        name = new MultiLineString();
-        name.setSize(MultiLineString.LARGE);
-        name.setText("\u00ABinterface\u00BB");
-        methods = new MultiLineString();
-        methods.setJustification(MultiLineString.LEFT);
+        super();
+
+        name = new SingleLineText(nameConverter);
+        methods = new MultiLineText(methodsConverter);
+        createContentStructure();
     }
 
-    private Rectangle2D getTopRectangleBounds()
+    protected InterfaceNode(InterfaceNode node) throws CloneNotSupportedException
     {
-        Rectangle2D globalBounds = new Rectangle2D.Double(0, 0, 0, 0);
-        Rectangle2D nameBounds = name.getBounds();
-        globalBounds.add(nameBounds);
-        boolean isMethodsEmpty = (methods.getText().length() == 0);
-        double defaultHeight = DEFAULT_HEIGHT;
-        if (!isMethodsEmpty)
-        {
-            defaultHeight = DEFAULT_COMPARTMENT_HEIGHT;
-        }
-        globalBounds.add(new Rectangle2D.Double(0, 0, DEFAULT_WIDTH, defaultHeight));
-        Point2D currentLocation = getLocation();
-        double x = currentLocation.getX();
-        double y = currentLocation.getY();
-        double w = globalBounds.getWidth();
-        double h = globalBounds.getHeight();
-        globalBounds.setFrame(x, y, w, h);
-        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(globalBounds);
-        return snappedBounds;
-    }
-
-    private Rectangle2D getBottomRectangleBounds()
-    {
-        Rectangle2D globalBounds = new Rectangle2D.Double(0, 0, 0, 0);
-        Rectangle2D methodsBounds = methods.getBounds();
-        globalBounds.add(methodsBounds);
-        if (methodsBounds.getHeight() > 0)
-        {
-            globalBounds.add(new Rectangle2D.Double(0, 0, DEFAULT_WIDTH, DEFAULT_COMPARTMENT_HEIGHT));
-        }
-        Rectangle2D topBounds = getTopRectangleBounds();
-        double x = topBounds.getX();
-        double y = topBounds.getMaxY();
-        double w = globalBounds.getWidth();
-        double h = globalBounds.getHeight();
-        globalBounds.setFrame(x, y, w, h);
-        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(globalBounds);
-        return snappedBounds;
+        super(node);
+        name = node.name.clone();
+        methods = node.methods.clone();
+        createContentStructure();
     }
 
     @Override
-    public Rectangle2D getBounds()
+    public void deserializeSupport()
     {
-        Rectangle2D top = getTopRectangleBounds();
-        Rectangle2D bot = getBottomRectangleBounds();
-        top.add(bot);
-        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(top);
-        return snappedBounds;
+        name.deserializeSupport(nameConverter);
+        methods.deserializeSupport(methodsConverter);
+
+        super.deserializeSupport();
     }
 
     @Override
-    public void draw(Graphics2D g2)
+    protected INode copy() throws CloneNotSupportedException
     {
-        // Backup current color;
-        Color oldColor = g2.getColor();
-        // Translate g2 if node has parent
-        Point2D nodeLocationOnGraph = getLocationOnGraph();
-        Point2D nodeLocation = getLocation();
-        Point2D g2Location = new Point2D.Double(nodeLocationOnGraph.getX() - nodeLocation.getX(), nodeLocationOnGraph.getY()
-                - nodeLocation.getY());
-        g2.translate(g2Location.getX(), g2Location.getY());
-        // Perform drawing
-        super.draw(g2);
-        Rectangle2D currentBounds = getBounds();
-        Rectangle2D topBounds = getTopRectangleBounds();
-        Rectangle2D bottomBounds = getBottomRectangleBounds();
-        if (topBounds.getWidth() < currentBounds.getWidth())
+        return new InterfaceNode(this);
+    }
+
+    @Override
+    protected void createContentStructure()
+    {
+        name.setText(name.toEdit());
+
+        TextContent nameContent = new TextContent(name);
+        nameContent.setMinHeight(MIN_NAME_HEIGHT);
+        nameContent.setMinWidth(MIN_WIDTH);
+        TextContent methodsContent = new TextContent(methods);
+
+        VerticalLayout verticalGroupContent = new VerticalLayout();
+        verticalGroupContent.add(nameContent);
+        verticalGroupContent.add(methodsContent);
+        separator = new Separator.LineSeparator(getBorderColor());
+        verticalGroupContent.setSeparator(separator);
+
+        ContentInsideShape contentInsideShape = new ContentInsideRectangle(verticalGroupContent);
+
+        setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
+        setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
+        setContent(getBackground());
+    }
+
+    @Override
+    public void setBorderColor(Color borderColor)
+    {
+        if(null != separator)
         {
-        	// We need to re-center the topBounds - only do so if really required to avoid race conditions
-        	topBounds.setRect(topBounds.getX(), topBounds.getY(), currentBounds.getWidth(), topBounds.getHeight());
+            separator.setColor(borderColor);
         }
-        g2.setColor(getBackgroundColor());
-        g2.fill(currentBounds);
-        g2.setColor(getBorderColor());
-        g2.draw(currentBounds);
-        g2.setColor(getBorderColor());
-        g2.drawLine((int) topBounds.getX(), (int) topBounds.getMaxY(), (int) currentBounds.getMaxX(), (int) topBounds.getMaxY());
-        g2.setColor(getTextColor());
-        name.draw(g2, topBounds);
-        methods.draw(g2, bottomBounds);
-        // Restore g2 original location
-        g2.translate(-g2Location.getX(), -g2Location.getY());
-        // Restore first color
-        g2.setColor(oldColor);
+        super.setBorderColor(borderColor);
+    }
+
+    @Override
+    public void setTextColor(Color textColor)
+    {
+        name.setTextColor(textColor);
+        methods.setTextColor(textColor);
     }
 
     @Override
@@ -129,9 +110,9 @@ public class InterfaceNode extends RectangularNode
      * 
      * @param newValue the interface name
      */
-    public void setName(MultiLineString newValue)
+    public void setName(SingleLineText newValue)
     {
-        name = newValue;
+        name.setText(newValue.toEdit());
     }
 
     /**
@@ -139,7 +120,7 @@ public class InterfaceNode extends RectangularNode
      * 
      * @return the interface name
      */
-    public MultiLineString getName()
+    public SingleLineText getName()
     {
         return name;
     }
@@ -149,7 +130,7 @@ public class InterfaceNode extends RectangularNode
      * 
      * @param newValue the methods of this interface
      */
-    public void setMethods(MultiLineString newValue)
+    public void setMethods(MultiLineText newValue)
     {
         methods = newValue;
     }
@@ -159,26 +140,42 @@ public class InterfaceNode extends RectangularNode
      * 
      * @return the methods of this interface
      */
-    public MultiLineString getMethods()
+    public MultiLineText getMethods()
     {
         return methods;
     }
 
-    @Override
-    public InterfaceNode clone()
+
+
+    private SingleLineText name;
+    private MultiLineText methods;
+
+    private transient Separator separator = null;
+
+    private static final int MIN_NAME_HEIGHT = 45;
+    private static final int MIN_WIDTH = 100;
+    private static final String STATIC = "<<static>>";
+
+    private static LineText.Converter nameConverter = new LineText.Converter()
     {
-        InterfaceNode cloned = (InterfaceNode) super.clone();
-        cloned.name = name.clone();
-        cloned.methods = methods.clone();
-        return cloned;
-    }
+        @Override
+        public OneLineString toLineString(String text)
+        {
+            return new PrefixDecorator( new LargeSizeDecorator(new OneLineString(text)), "<center>«interface»</center>");
+        }
+    };
+    private static final LineText.Converter methodsConverter = new LineText.Converter()
+    {
+        @Override
+        public OneLineString toLineString(String text)
+        {
+            OneLineString lineString = new OneLineString(text);
 
-    // private transient double midHeight;
-    // private transient double botHeight;
-    private MultiLineString name;
-    private MultiLineString methods;
-
-    private static int DEFAULT_COMPARTMENT_HEIGHT = 20;
-    private static int DEFAULT_WIDTH = 100;
-    private static int DEFAULT_HEIGHT = 60;
+            if(lineString.contains(STATIC))
+            {
+                lineString = new UnderlineDecorator(new RemoveSentenceDecorator(lineString, STATIC));
+            }
+            return lineString;
+        }
+    };
 }

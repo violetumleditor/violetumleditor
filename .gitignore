@@ -1,5 +1,10 @@
 *.class
 
+.orig
+.iml
+.idea/
+JavaDoc/
+
 # Package Files #
 *.war
 *.ear
@@ -9,5 +14,17 @@
 .project
 .settings/
 
+# IDEA files #
+.idea/
+*.iml
+
 # Maven build files #
 target/
+
+*.iml
+
+## Directory-based project format:
+.idea/
+# if you remove the above rule, at least ignore the following:
+
+

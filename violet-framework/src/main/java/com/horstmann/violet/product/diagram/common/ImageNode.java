@@ -20,6 +20,7 @@
  */
 
 package com.horstmann.violet.product.diagram.common;
+//TODO Czy ta klasa jest wogole potrzebna
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -38,21 +39,21 @@ import javax.swing.ImageIcon;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
+import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
+import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
 
 /**
- * A node in a diagram represented by an image
+ * A node_old in a diagram represented by an image
  */
-public class ImageNode extends RectangularNode
+public class ImageNode extends ColorableNode
 {
     /**
-     * Default construct a note node with a default size and color
+     * Default construct a note node_old with a default size and color
      */
     public ImageNode(Image img)
     {
-        text = new MultiLineString();
-        text.setJustification(MultiLineString.RIGHT);
+        text = new MultiLineText();
+//        text.setAlignment(MultiLineText.RIGHT);
         this.setImage(img);
     }
 
@@ -62,8 +63,8 @@ public class ImageNode extends RectangularNode
     public ImageNode()
     {
     	ResourceBundleInjector.getInjector().inject(this);
-    	text = new MultiLineString();
-        text.setJustification(MultiLineString.RIGHT);
+    	text = new MultiLineText();
+//        text.setAlignment(MultiLineText.RIGHT);
     }
 
     /**
@@ -107,7 +108,7 @@ public class ImageNode extends RectangularNode
      * 
      * @return the text inside the note
      */
-    public MultiLineString getText()
+    public MultiLineText getText()
     {
         return text;
     }
@@ -117,7 +118,7 @@ public class ImageNode extends RectangularNode
      * 
      * @param newValue the text inside the note
      */
-    public void setText(MultiLineString newValue)
+    public void setText(MultiLineText newValue)
     {
         text = newValue;
     }
@@ -157,7 +158,7 @@ public class ImageNode extends RectangularNode
     /*
      * (non-Javadoc)
      * 
-     * @see com.horstmann.violet.product.diagram.abstracts.RectangularNode#getShape()
+     * @see com.horstmann.violet.product.diagram.abstracts.ColorableNode#getShape()
      */
     public Shape getShape()
     {
@@ -241,20 +242,22 @@ public class ImageNode extends RectangularNode
     /*
      * (non-Javadoc)
      * 
-     * @see com.horstmann.violet.product.diagram.abstracts.RectangularNode#clone()
+     * @see com.horstmann.violet.product.diagram.abstracts.ColorableNode#clone()
      */
-    public ImageNode clone()
-    {
-        ImageNode cloned = (ImageNode) super.clone();
-        cloned.text = text.clone();
-        cloned.imageIcon = imageIcon;
-        return cloned;
-    }
+
+    //TODO cos z tym zrobic
+//    public ImageNode clone()
+//    {
+//        ImageNode cloned = (ImageNode) super.clone();
+//        cloned.text = text.clone();
+//        cloned.imageIcon = imageIcon;
+//        return cloned;
+//    }
 
     private static final String PIXEL_SEPARATOR = ":";
 
     @ResourceBundleBean(key = "imagenode.icon")
     private ImageIcon imageIcon;
 
-    private MultiLineString text;
+    private MultiLineText text;
 }

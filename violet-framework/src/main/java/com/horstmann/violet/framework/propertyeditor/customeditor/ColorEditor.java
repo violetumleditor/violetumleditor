@@ -36,7 +36,7 @@ import javax.swing.Icon;
 import javax.swing.JComboBox;
 
 /**
- * A property editor for the MultiLineString type.
+ * A property editor for the MultiLineText type.
  */
 public class ColorEditor extends PropertyEditorSupport
 {

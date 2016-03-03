@@ -12,7 +12,7 @@ import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
 
 /**
- * Allows to select the next or the previous element (node or edge) by specifying a distance with the current one
+ * Allows to select the next or the previous element (node_old or edge) by specifying a distance with the current one
  * 
  * @author Alexandre de Pellegrin
  * 

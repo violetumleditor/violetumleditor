@@ -30,13 +30,13 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
-import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
+import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
+import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
 
 /**
- * An link node in a diagram.
+ * An link node_old in a diagram.
  */
-public class DiagramLinkNode extends RectangularNode
+public class DiagramLinkNode extends ColorableNode
 {
 
     /**
@@ -44,7 +44,7 @@ public class DiagramLinkNode extends RectangularNode
      */
     public DiagramLinkNode()
     {
-        this.label = new MultiLineString();
+        this.label = new MultiLineText();
     }
     
     @Override
@@ -131,11 +131,11 @@ public class DiagramLinkNode extends RectangularNode
         this.diagramLink = fLink;
     }
 
-    private MultiLineString getLabel()
+    private MultiLineText getLabel()
     {
         if (this.label == null)
         {
-            this.label = new MultiLineString();
+            this.label = new MultiLineText();
         }
         DiagramLink dl = this.getDiagramLink();
         if (dl != null && dl.getFile() != null)
@@ -144,13 +144,13 @@ public class DiagramLinkNode extends RectangularNode
                     .append(
                             ResourceBundle.getBundle(ResourceBundleConstant.OTHER_STRINGS, Locale.getDefault()).getString(
                                     "file.link.text")).append(" ").append(dl.getFile().getFilename());
-            this.label.setText(linktext.toString());
+            this.label.setText( linktext.toString() );
         }
         return this.label;
     }
     
     /** Label */
-    private MultiLineString label;
+    private MultiLineText label;
 
     /** Linked diagram */
     private DiagramLink diagramLink;

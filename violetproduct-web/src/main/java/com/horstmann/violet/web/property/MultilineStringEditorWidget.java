@@ -2,7 +2,7 @@ package com.horstmann.violet.web.property;
 
 import java.beans.PropertyDescriptor;
 
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
+import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
 
 import eu.webtoolkit.jwt.Signal;
 import eu.webtoolkit.jwt.WContainerWidget;
@@ -13,7 +13,7 @@ import eu.webtoolkit.jwt.WTextArea;
 import eu.webtoolkit.jwt.WVBoxLayout;
 import eu.webtoolkit.jwt.WWidget;
 
-public class MultilineStringEditorWidget extends AbstractPropertyEditorWidget<MultiLineString> {
+public class MultilineStringEditorWidget extends AbstractPropertyEditorWidget<MultiLineText> {
 
 	private WTextArea textAreaComponent;
 	private WLabel titleLabel;
@@ -51,7 +51,7 @@ public class MultilineStringEditorWidget extends AbstractPropertyEditorWidget<Mu
 			this.textAreaComponent.setHeight(new WLength(100, Unit.Pixel));
 			this.textAreaComponent.changed().addListener(this, new Signal.Listener() {
 				public void trigger() {
-					MultiLineString currentValue = getValue();
+					MultiLineText currentValue = getValue();
 					currentValue.setText(getTextAreaComponent().getText());
 					setValue(currentValue);
 				}
@@ -67,7 +67,7 @@ public class MultilineStringEditorWidget extends AbstractPropertyEditorWidget<Mu
 
 	@Override
 	protected void updateCustomEditor() {
-		getTextAreaComponent().setText(super.getValue().getText());
+		getTextAreaComponent().setText(super.getValue().toEdit());
 	}
 
 }

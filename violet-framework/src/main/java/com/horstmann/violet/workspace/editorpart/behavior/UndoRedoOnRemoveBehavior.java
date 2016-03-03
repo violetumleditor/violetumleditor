@@ -136,7 +136,7 @@ public class UndoRedoOnRemoveBehavior extends AbstractEditorPartBehavior
     }
 
     /**
-     * Checks if ancestorNode is a parent node of child node
+     * Checks if ancestorNode is a parent node_old of child node_old
      * 
      * @param childNode
      * @param ancestorNode
@@ -169,7 +169,7 @@ public class UndoRedoOnRemoveBehavior extends AbstractEditorPartBehavior
     }
 
     /**
-     * Takes a list of nodes and removes from this list all nodes which have ancestors node in this list.<br/>
+     * Takes a list of nodes and removes from this list all nodes which have ancestors node_old in this list.<br/>
      * 
      * @param nodes the list to filter
      * @return the filtered list

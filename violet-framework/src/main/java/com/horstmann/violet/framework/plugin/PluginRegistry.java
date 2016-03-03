@@ -14,8 +14,6 @@ import com.horstmann.violet.framework.injection.bean.ManiocFramework.ManagedBean
 @ManagedBean
 public class PluginRegistry
 {
-
-
     /**
      * Private constructor
      */

@@ -31,52 +31,128 @@ public class ChoiceList
 {
     /**
      * Default constructor
-     * 
-     * @param list items to select
+     *
+     * @param keys items to select
      */
-    public ChoiceList(String[] list)
+    public ChoiceList(String[] keys)
     {
-        this.list = list;
-        this.selectedPos = DEFAULT_SELECT;
+        this(keys,keys);
     }
 
     /**
-     * @return the item list
+     * Default constructor
+     *
+     * @param keys items to select
+     * @param values items to select
+     * @throws IllegalArgumentException
      */
-    public String[] getList()
+    public ChoiceList(String[] keys, Object[] values)
     {
-        return list;
-    }
-
-    /**
-     * Selects an item in the list
-     * 
-     * @param selected
-     */
-    public void setSelectedItem(String selected)
-    {
-        for (int i = 0; i < list.length; i++)
+        if(keys.length != values.length || keys.length < 1)
         {
-            if (list[i].equals(selected))
+            throw new IllegalArgumentException("keys and values must have the same length of");
+        }
+
+        this.values = values;
+        this.keys = keys;
+        this.selectedPos = 0;
+    }
+
+    /**
+     * (non-Javadoc)
+     * @see java.lang.Object#clone()
+     *
+     */
+    public ChoiceList clone()
+    {
+        ChoiceList cloned = new ChoiceList(keys, values);
+        cloned.selectedPos = selectedPos;
+
+        return cloned;
+    }
+
+	/**
+	 * @return the key list
+	 */
+	public String[] getKeys()
+    {
+		return keys;
+	}
+
+    /**
+     * Selects an index in the list
+     *
+     * @param index
+     */
+    public boolean setSelectedIndex(int index)
+    {
+        if(0>index || keys.length <= index)
+        {
+            return false;
+        }
+        selectedPos = index;
+        return true;
+    }
+
+    /**
+     * Selects an key in the list
+     *
+     * @param key
+     */
+    public boolean setSelectedKey(String key)
+    {
+        for(int i = 0; i<keys.length; ++i)
+        {
+            if(key.equals(keys[i]))
             {
                 selectedPos = i;
-                return;
+                return true;
             }
         }
+        return false;
     }
 
     /**
-     * @return current selected item
+     * Selects an value in the list
+     *
+     * @param value
      */
-    public String getSelectedItem()
+    public boolean setSelectedValue(Object value)
     {
-        return list[selectedPos];
+        for(int i = 0; i<values.length; ++i)
+        {
+            if(value.equals(values[i]))
+            {
+                selectedPos = i;
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
-     * Item list for selection
+     * @return current selected value
      */
-    private String[] list;
+    public Object getSelectedValue()
+    {
+        return values[selectedPos];
+    }
+
+    /**
+     * @return current selected key
+     */
+    public String getSelectedKey()
+    {
+        return keys[selectedPos];
+    }
+
+    /**
+     * @return current selected position
+     */
+    public int getSelectedPos()
+    {
+        return selectedPos;
+    }
 
     /**
      * Index for current selected item
@@ -84,8 +160,12 @@ public class ChoiceList
     private int selectedPos;
 
     /**
-     * Default selected item index
+     * Item keys list for selection
      */
-    private static final int DEFAULT_SELECT = 0;
+    private final String[] keys;
 
+    /**
+     * Item values list for selection
+     */
+    private final Object[] values;
 }

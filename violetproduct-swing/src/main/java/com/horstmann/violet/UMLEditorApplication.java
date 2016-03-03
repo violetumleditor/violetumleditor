@@ -56,6 +56,8 @@ import com.horstmann.violet.framework.util.VersionChecker;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
 
+import javax.swing.*;
+
 /**
  * A program for editing UML diagrams.
  */
@@ -153,6 +155,7 @@ public class UMLEditorApplication
         this.versionChecker.checkJavaVersion();
         MainFrame mainFrame = new MainFrame();
         mainFrame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+        mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         SplashScreen.displayOverEditor(mainFrame, 1000);
         List<IFile> fullList = new ArrayList<IFile>();
         List<IFile> lastSessionFiles = this.userPreferencesService.getOpenedFilesDuringLastSession();

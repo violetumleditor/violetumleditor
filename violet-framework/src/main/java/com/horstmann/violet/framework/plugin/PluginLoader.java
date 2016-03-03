@@ -27,10 +27,6 @@ import com.horstmann.violet.framework.plugin.extensionpoint.Violet016FileFilterE
 @ManagedBean
 public class PluginLoader extends ClassLoader
 {
-
-    
-
-
     public void installPlugins()
     {
         ServiceLoader<IDiagramPlugin> list = ServiceLoader.load(IDiagramPlugin.class, this.getClass().getClassLoader());

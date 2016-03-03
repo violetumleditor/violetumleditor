@@ -185,7 +185,7 @@ public class DialogFactory
     /**
      * Updates the jOptionPane background color for all its components
      * 
-     * @param optionPane
+     * @param component optionPane
      */
     private void updateBackgroundColor(Component component)
     {

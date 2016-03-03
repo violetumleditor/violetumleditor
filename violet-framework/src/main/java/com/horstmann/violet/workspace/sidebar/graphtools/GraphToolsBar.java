@@ -22,6 +22,7 @@
 package com.horstmann.violet.workspace.sidebar.graphtools;
 
 import java.awt.Component;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -34,7 +35,7 @@ import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.sidebar.ISideBarElement;
 
 /**
- * A tool bar that contains node and edge prototype icons. Exactly one icon is selected at any time.
+ * A tool bar that contains node_old and edge prototype icons. Exactly one icon is selected at any time.
  */
 public class GraphToolsBar implements IGraphToolsBar, ISideBarElement
 {
@@ -145,7 +146,7 @@ public class GraphToolsBar implements IGraphToolsBar, ISideBarElement
     }
 
     /**
-     * Returns standard node tools associated to a graph
+     * Returns standard node_old tools associated to a graph
      * 
      * @param graph
      * @return tools collection
@@ -212,8 +213,28 @@ public class GraphToolsBar implements IGraphToolsBar, ISideBarElement
             fireToolChangeEvent(t);
         }
     }
-    
 
+    @Override
+    public void notifyMouseEvent(GraphTool t, MouseEvent event) {
+    	fireToolMouseEvent(t, event);
+    }
+    
+    private void fireToolMouseEvent(GraphTool tool, MouseEvent event)
+    {
+        Iterator<IGraphToolsBarMouseListener> it = this.clickListeners.iterator();
+        while (it.hasNext())
+        {
+            IGraphToolsBarMouseListener listener = it.next();
+            if (event.getID() == MouseEvent.MOUSE_PRESSED) {
+            	listener.onMouseToolClicked(tool);
+            } else if (event.getID() == MouseEvent.MOUSE_DRAGGED) {
+            	listener.onMouseToolDragged(event);
+            } else if (event.getID() == MouseEvent.MOUSE_RELEASED) {
+            	listener.onMouseToolReleased(event);
+            }
+        }
+    }
+    
     /**
      * Remenbers selected tool and informs all listeners about this change
      * 
@@ -251,7 +272,7 @@ public class GraphToolsBar implements IGraphToolsBar, ISideBarElement
     {
         this.listeners.add(listener);
     }
-
+    
     /*
      * (non-Javadoc)
      * 
@@ -262,7 +283,18 @@ public class GraphToolsBar implements IGraphToolsBar, ISideBarElement
         this.listeners.remove(listener);
     }
 
+    public void addMouseListener(IGraphToolsBarMouseListener listener)
+    {
+        this.clickListeners.add(listener);
+    }
+    
+    public void removeMouseListener(IGraphToolsBarMouseListener listener)
+    {
+        this.clickListeners.remove(listener);
+    }
+    
     private List<IGraphToolsBarListener> listeners = new ArrayList<IGraphToolsBarListener>();
+    private List<IGraphToolsBarMouseListener> clickListeners = new ArrayList<IGraphToolsBarMouseListener>();
     private List<GraphTool> nodeTools;
     private List<GraphTool> edgeTools;
     private GraphTool selectionTool = GraphTool.SELECTION_TOOL;

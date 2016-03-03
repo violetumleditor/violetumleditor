@@ -17,16 +17,13 @@ import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.BentStyle;
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
+import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
 import com.horstmann.violet.web.workspace.editorpart.EditorPartWidget;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 
 import eu.webtoolkit.jwt.WCompositeWidget;
 import eu.webtoolkit.jwt.WContainerWidget;
-import eu.webtoolkit.jwt.WLength;
-import eu.webtoolkit.jwt.WLength.Unit;
-import eu.webtoolkit.jwt.WScrollArea;
 import eu.webtoolkit.jwt.WVBoxLayout;
 
 public class PropertyEditorWidget extends WCompositeWidget {
@@ -133,7 +130,7 @@ public class PropertyEditorWidget extends WCompositeWidget {
 
 	private AbstractPropertyEditorWidget<?> getEditorWidget(Class<?> type, Object bean, PropertyDescriptor descriptor) {
 		AbstractPropertyEditorWidget editorWidget = null;
-		if (MultiLineString.class.equals(type)) {
+		if (MultiLineText.class.equals(type)) {
 			editorWidget = new MultilineStringEditorWidget(bean, descriptor);
 		}
 		if (BentStyle.class.equals(type)) {

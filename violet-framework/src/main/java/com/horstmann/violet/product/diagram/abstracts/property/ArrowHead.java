@@ -23,8 +23,10 @@ package com.horstmann.violet.product.diagram.abstracts.property;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.framework.util.SerializableEnumeration;
 
@@ -33,102 +35,240 @@ import com.horstmann.violet.framework.util.SerializableEnumeration;
  */
 public class ArrowHead extends SerializableEnumeration
 {
+    static private class FilledArrowHead extends ArrowHead
+    {
+        public FilledArrowHead(Color color)
+        {
+            this.color = color;
+        }
+
+        /**
+         * @see ArrowHead#fillPath(Graphics2D, GeneralPath)
+         */
+        @Override
+        protected void fillPath(Graphics2D graphics, GeneralPath path) {
+            graphics.setColor(color);
+            graphics.fill(path);
+        }
+
+        private Color color;
+    }
 
     /**
      * Draws the arrowhead.
      * 
-     * @param g2 the graphics context
+     * @param graphics the graphics context
      * @param p a point on the axis of the arrow head
      * @param q the end point of the arrow head
      */
-    public void draw(Graphics2D g2, Point2D p, Point2D q)
+    public void draw(Graphics2D graphics, Point2D p, Point2D q)
     {
-        GeneralPath path = getPath(p, q);
-        Color oldColor = g2.getColor();
-        if (this != V && this != HALF_V && this != NONE)
-        {
-           if (this == BLACK_DIAMOND || this == BLACK_TRIANGLE)
-              g2.setColor(Color.BLACK);
-           else
-              g2.setColor(Color.WHITE);
-           g2.fill(path);
-        }        
-        
-        g2.setColor(oldColor);
-        g2.draw(path);
+        Color oldColor = graphics.getColor();
+
+        GeneralPath path = getPath();
+        rotatePath(path, calculateAngle(q, p));
+
+        graphics.translate(q.getX(), q.getY());
+        fillPath(graphics, path);
+        graphics.setColor(Color.BLACK);
+        graphics.draw(path);
+        graphics.translate(-q.getX(), -q.getY());
+        graphics.setColor(oldColor);
     }
 
     /**
-     * Gets the path of the arrowhead
-     * 
-     * @param p a point on the axis of the arrow head
-     * @param q the end point of the arrow head
-     * @return the path
+     * @return path type a empty/none
      */
-    public GeneralPath getPath(Point2D p, Point2D q)
+    public GeneralPath getPath()
+    {
+        return new GeneralPath();
+    }
+
+    /**
+     * @return path type a V
+     */
+    protected GeneralPath getPathTypeV()
     {
         GeneralPath path = new GeneralPath();
-        if (this == NONE) return path;
-        final double ARROW_ANGLE = Math.PI / 6;
-        final double ARROW_LENGTH = 10;
+        double x = ARROW_LENGTH * Math.cos(ARROW_ANGLE);
+        double y = ARROW_LENGTH * Math.sin(ARROW_ANGLE);
 
-        double dx = q.getX() - p.getX();
-        double dy = q.getY() - p.getY();
-        double angle = Math.atan2(dy, dx);
-        double x1 = q.getX() - ARROW_LENGTH * Math.cos(angle + ARROW_ANGLE);
-        double y1 = q.getY() - ARROW_LENGTH * Math.sin(angle + ARROW_ANGLE);
-        double x2 = q.getX() - ARROW_LENGTH * Math.cos(angle - ARROW_ANGLE);
-        double y2 = q.getY() - ARROW_LENGTH * Math.sin(angle - ARROW_ANGLE);
+        path.moveTo((float) x, (float) y);
+        path.lineTo((float) 0, (float) 0);
+        path.lineTo((float) x, (float) -y);
 
-        if (this == V)
-        {
-            path.moveTo((float) x1, (float) y1);
-            path.lineTo((float) q.getX(), (float) q.getY());
-            path.lineTo((float) x2, (float) y2);
-            path.lineTo((float) q.getX(), (float) q.getY());
-            path.lineTo((float) x1, (float) y1);
-            path.closePath();
-        }
-        else if (this == TRIANGLE || this == BLACK_TRIANGLE)
-        {
-            path.moveTo((float) q.getX(), (float) q.getY());
-            path.lineTo((float) x1, (float) y1);
-            path.lineTo((float) x2, (float) y2);
-            path.closePath();
-        }
-        else if (this == DIAMOND || this == BLACK_DIAMOND)
-        {
-            path.moveTo((float) q.getX(), (float) q.getY());
-            path.lineTo((float) x1, (float) y1);
-            double x3 = x2 - ARROW_LENGTH * Math.cos(angle + ARROW_ANGLE);
-            double y3 = y2 - ARROW_LENGTH * Math.sin(angle + ARROW_ANGLE);
-            path.lineTo((float) x3, (float) y3);
-            path.lineTo((float) x2, (float) y2);
-            path.closePath();
-        }
         return path;
     }
 
-    /** Array head type : this head has no shape */
+    /**
+     * @return path type a diamond
+     */
+    protected GeneralPath getPathTypeTriangle()
+    {
+        GeneralPath path = new GeneralPath();
+        double x = ARROW_LENGTH * Math.cos(ARROW_ANGLE);
+        double y = ARROW_LENGTH * Math.sin(ARROW_ANGLE);
+
+        path.moveTo((float) 0, (float) 0);
+        path.lineTo((float) x, (float) y);
+        path.lineTo((float) x, (float) -y);
+        path.lineTo((float) 0, (float) 0);
+
+        return path;
+    }
+
+    /**
+     * @return path type a diamond
+     */
+    protected GeneralPath getPathTypeDiamond()
+    {
+        GeneralPath path = new GeneralPath();
+        double x = ARROW_LENGTH * Math.cos(ARROW_ANGLE);
+        double y = ARROW_LENGTH * Math.sin(ARROW_ANGLE);
+
+        path.moveTo((float) 0, (float) 0);
+        path.lineTo((float) x, (float) y);
+        path.lineTo((float) 2*x, (float) 0);
+        path.lineTo((float) x, (float) -y);
+        path.lineTo((float) 0, (float) 0);
+
+        return path;
+    }
+
+    /**
+     * @return path type a X
+     */
+    protected GeneralPath getPathTypeX()
+    {
+        final double CROSS_ANGLE = Math.PI / 4;
+
+        GeneralPath path = new GeneralPath();
+        double x = 0.75 * ARROW_LENGTH * Math.cos(CROSS_ANGLE);
+        double y = 0.75 * ARROW_LENGTH * Math.sin(CROSS_ANGLE);
+
+        path.moveTo((float) x, (float) y);
+        path.lineTo((float) -x, (float) -y);
+        path.moveTo((float) x, (float) -y);
+        path.lineTo((float) -x, (float) y);
+
+        return path;
+    }
+
+    /**
+     * Calculates the angle between two points
+     * @param p
+     * @param q
+     * @return angle
+     */
+    private double calculateAngle(Point2D p, Point2D q)
+    {
+        return Math.atan2(q.getY() - p.getY(), q.getX() - p.getX());
+    }
+
+    /**
+     * The path is rotating on the angle
+     * @param basePath
+     * @param angle
+     */
+    private void rotatePath(GeneralPath basePath, double angle)
+    {
+        AffineTransform af = new AffineTransform();
+        af.rotate(angle);
+        basePath.transform(af);
+    }
+
+    /**
+     * fill path
+     * @param graphics
+     * @param basePath
+     */
+    protected void fillPath(Graphics2D graphics, GeneralPath basePath)
+    {}
+
+    protected static final double ARROW_ANGLE = Math.PI / 6;
+    protected static final double ARROW_LENGTH = 10;
+
+    /**
+     * Array head type : this head has no shape
+     */
     public static final ArrowHead NONE = new ArrowHead();
 
-    /** Array head type : this head is a triangle */
-    public static final ArrowHead TRIANGLE = new ArrowHead();
+    /**
+     * Array head type : this head is a triangle
+     */
+    public static final ArrowHead TRIANGLE = new FilledArrowHead(Color.WHITE)
+    {
+        @Override
+        public GeneralPath getPath()
+        {
+            return getPathTypeTriangle();
+        }
+    };
 
-    /** Array head type : this head is a black filled triangle */
-    public static final ArrowHead BLACK_TRIANGLE = new ArrowHead();
+    /**
+     * Array head type : this head is a black filled triangle
+     */
+    public static final ArrowHead BLACK_TRIANGLE = new FilledArrowHead(Color.BLACK)
+    {
+        @Override
+        public GeneralPath getPath()
+        {
+            return getPathTypeTriangle();
+        }
+    };
 
-    /** Array head type : this head is a V */
-    public static final ArrowHead V = new ArrowHead();
+    /**
+     * Array head type : this head is a V
+     */
+    public static final ArrowHead V = new ArrowHead()
+    {
+        @Override
+        public GeneralPath getPath()
+        {
+            return getPathTypeV();
+        }
+    };
 
-    /** Array head type : this head is a half V */
-    public static final ArrowHead HALF_V = new ArrowHead();
+    /**
+     * Array head type : this head is a half V
+     */
+//    public static final ArrowHead HALF_V = new ArrowHead();
 
-    /** Array head type : this head is a diamond */
-    public static final ArrowHead DIAMOND = new ArrowHead();
+    /**
+     * Array head type : this head is a diamond
+     */
+    public static final ArrowHead DIAMOND = new FilledArrowHead(Color.WHITE)
+    {
+        @Override
+        public GeneralPath getPath()
+        {
+            return getPathTypeDiamond();
+        }
+    };
 
-    /** Array head type : this head is black filled diamond */
-    public static final ArrowHead BLACK_DIAMOND = new ArrowHead();
+    /**
+     * Array head type : this head is black filled diamond
+     */
+    public static final ArrowHead BLACK_DIAMOND = new FilledArrowHead(Color.BLACK)
+    {
+        @Override
+        public GeneralPath getPath()
+        {
+            return getPathTypeDiamond();
+        }
+    };
+
+    /**
+     * Array head type : this head is a X
+     */
+    public static final ArrowHead X = new ArrowHead()
+    {
+        @Override
+        public GeneralPath getPath()
+        {
+            return getPathTypeX();
+        }
+    };
 
     /** Internal Java UID */
     private static final long serialVersionUID = -3824887997763775890L;

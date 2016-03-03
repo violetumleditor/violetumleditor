@@ -41,7 +41,6 @@ import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WEnvironment;
 import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WLink;
-import eu.webtoolkit.jwt.WLink.Type;
 import eu.webtoolkit.jwt.WResource;
 import eu.webtoolkit.jwt.WLength.Unit;
 import eu.webtoolkit.jwt.servlet.WebRequest;

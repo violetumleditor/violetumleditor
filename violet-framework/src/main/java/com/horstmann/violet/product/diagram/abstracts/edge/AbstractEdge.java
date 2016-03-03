@@ -41,6 +41,12 @@ public abstract class AbstractEdge implements IEdge
         // Nothing to do
     }
 
+    public void deserializeSupport()
+    {
+
+    }
+
+
     @Override
     public void setStart(INode startingNode)
     {
@@ -78,7 +84,7 @@ public abstract class AbstractEdge implements IEdge
     }
 
     @Override
-    public void setEndlocation(Point2D endLocation)
+    public void setEndLocation(Point2D endLocation)
     {
         this.endLocation = endLocation;
     }
@@ -239,16 +245,16 @@ public abstract class AbstractEdge implements IEdge
     	return this.toolTip;
     }
 
-    /** The node where the edge starts */
+    /** The node_old where the edge starts */
     private INode start;
 
-    /** The node where the edge ends */
+    /** The node_old where the edge ends */
     private INode end;
 
-    /** The point inside the starting node where this edge begins */
+    /** The point inside the starting node_old where this edge begins */
     private Point2D startLocation;
 
-    /** The point inside the ending node where this edge ends */
+    /** The point inside the ending node_old where this edge ends */
     private Point2D endLocation;
     
     /** Points for free path */

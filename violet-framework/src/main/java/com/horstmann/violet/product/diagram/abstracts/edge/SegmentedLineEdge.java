@@ -41,10 +41,12 @@ import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
 import com.horstmann.violet.product.diagram.abstracts.property.BentStyle;
 import com.horstmann.violet.product.diagram.abstracts.property.LineStyle;
+import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
 
 /**
  * An edge that is composed of multiple line segments
  */
+//public abstract class SegmentedLineEdge extends ShapeEdge
 public abstract class SegmentedLineEdge extends ShapeEdge
 {
     /**
@@ -52,9 +54,17 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      */
     public SegmentedLineEdge()
     {
-        startLabel = "";
-        middleLabel = "";
-        endLabel = "";
+        startLabel = new SingleLineText();
+        middleLabel = new SingleLineText();
+        endLabel = new SingleLineText();
+    }
+
+    public void deserializeSupport()
+    {
+        super.deserializeSupport();
+        startLabel.deserializeSupport();
+        middleLabel.deserializeSupport();
+        endLabel.deserializeSupport();
     }
     
     @Override
@@ -173,9 +183,13 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      * 
      * @param newValue the new value
      */
+    public void setStartLabel(SingleLineText newValue)
+    {
+        startLabel.setText(newValue.toEdit());
+    }
     public void setStartLabel(String newValue)
     {
-        startLabel = newValue;
+        startLabel.setText(newValue);
     }
 
     /**
@@ -183,7 +197,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      * 
      * @return the label at the start of the edge
      */
-    public String getStartLabel()
+    public SingleLineText getStartLabel()
     {
         return startLabel;
     }
@@ -193,9 +207,13 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      * 
      * @param newValue the new value
      */
+    public void setMiddleLabel(SingleLineText newValue)
+    {
+        middleLabel.setText(newValue.toEdit());
+    }
     public void setMiddleLabel(String newValue)
     {
-        middleLabel = newValue;
+        middleLabel.setText(newValue);
     }
 
     /**
@@ -203,7 +221,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      * 
      * @return the label at the middle of the edge
      */
-    public String getMiddleLabel()
+    public SingleLineText getMiddleLabel()
     {
         return middleLabel;
     }
@@ -213,17 +231,21 @@ public abstract class SegmentedLineEdge extends ShapeEdge
      * 
      * @param newValue the new value
      */
+    public void setEndLabel(SingleLineText newValue)
+    {
+        endLabel.setText(newValue.toEdit());
+    }
     public void setEndLabel(String newValue)
     {
-        endLabel = newValue;
+        endLabel.setText(newValue);
     }
 
     /**
      * Gets the end label property
-     * 
+     *
      * @return the label at the end of the edge
      */
-    public String getEndLabel()
+    public SingleLineText getEndLabel()
     {
         return endLabel;
     }
@@ -245,11 +267,11 @@ public abstract class SegmentedLineEdge extends ShapeEdge
         getStartArrowHead().draw(g2, (Point2D) points.get(1), (Point2D) points.get(0));
         getEndArrowHead().draw(g2, (Point2D) points.get(points.size() - 2), (Point2D) points.get(points.size() - 1));
 
-        drawString(g2, (Point2D) points.get(1), (Point2D) points.get(0), getStartArrowHead(), startLabel, false);
-        drawString(g2, (Point2D) points.get(points.size() / 2 - 1), (Point2D) points.get(points.size() / 2), null, middleLabel,
+        drawString(g2, (Point2D) points.get(1), (Point2D) points.get(0), getStartArrowHead(), startLabel.toDisplay(), false);
+        drawString(g2, (Point2D) points.get(points.size() / 2 - 1), (Point2D) points.get(points.size() / 2), null, middleLabel.toDisplay(),
                 true);
         drawString(g2, (Point2D) points.get(points.size() - 2), (Point2D) points.get(points.size() - 1), getEndArrowHead(),
-                endLabel, false);
+                endLabel.toDisplay(), false);
         g2.setColor(oldColor);
     }
 
@@ -315,7 +337,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge
             }
             if (arrow != null)
             {
-                Rectangle2D arrowBounds = arrow.getPath(p, q).getBounds2D();
+                Rectangle2D arrowBounds = arrow.getPath().getBounds2D();
                 if (p.getX() < q.getX())
                 {
                     xoff -= arrowBounds.getWidth();
@@ -358,11 +380,11 @@ public abstract class SegmentedLineEdge extends ShapeEdge
     {
         ArrayList<Point2D> points = getPoints();
         Rectangle2D r = super.getBounds();
-        r.add(getStringBounds((Point2D) points.get(1), (Point2D) points.get(0), getStartArrowHead(), startLabel, false));
+        r.add(getStringBounds((Point2D) points.get(1), (Point2D) points.get(0), getStartArrowHead(), startLabel.toDisplay(), false));
         r.add(getStringBounds((Point2D) points.get(points.size() / 2 - 1), (Point2D) points.get(points.size() / 2), null,
-                middleLabel, true));
+                middleLabel.toDisplay(), true));
         r.add(getStringBounds((Point2D) points.get(points.size() - 2), (Point2D) points.get(points.size() - 1), getEndArrowHead(),
-                endLabel, false));
+                endLabel.toDisplay(), false));
         return r;
     }
 
@@ -371,8 +393,8 @@ public abstract class SegmentedLineEdge extends ShapeEdge
     {
         GeneralPath path = getSegmentPath();
         ArrayList<Point2D> points = getPoints();
-        path.append(getStartArrowHead().getPath((Point2D) points.get(1), (Point2D) points.get(0)), false);
-        path.append(getEndArrowHead().getPath((Point2D) points.get(points.size() - 2), (Point2D) points.get(points.size() - 1)),
+        path.append(getStartArrowHead().getPath(), false);
+        path.append(getEndArrowHead().getPath(),
                 false);
         return path;
     }
@@ -493,13 +515,24 @@ public abstract class SegmentedLineEdge extends ShapeEdge
         return straightDirection;
     }
 
+    protected SegmentedLineEdge(SegmentedLineEdge segmentedLineEdge)
+    {
+        this.lineStyle = segmentedLineEdge.lineStyle;
+        this.startArrowHead = segmentedLineEdge.startArrowHead;
+        this.endArrowHead = segmentedLineEdge.endArrowHead;
+        this.bentStyle = segmentedLineEdge.bentStyle;
+        this.startLabel = segmentedLineEdge.startLabel.clone();
+        this.middleLabel = segmentedLineEdge.middleLabel.clone();
+        this.endLabel = segmentedLineEdge.endLabel.clone();
+    }
+
     private LineStyle lineStyle;
     private ArrowHead startArrowHead;
     private ArrowHead endArrowHead;
     private BentStyle bentStyle;
-    private String startLabel;
-    private String middleLabel;
-    private String endLabel;
+    private SingleLineText startLabel;
+    private SingleLineText middleLabel;
+    private SingleLineText endLabel;
 
     private static JLabel label = new JLabel();
 }

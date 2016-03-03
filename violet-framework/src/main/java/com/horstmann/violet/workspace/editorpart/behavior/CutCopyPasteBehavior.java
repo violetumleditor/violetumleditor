@@ -97,7 +97,7 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
         IGraph newGraph = newGraphFile.getGraph();
         IEditorPartSelectionHandler selectionHandler = editorPart.getSelectionHandler();
         List<INode> selectedNodes = selectionHandler.getSelectedNodes();
-        // We use an mapper for ids because they are changed when each node is added to the newGraph
+        // We use an mapper for ids because they are changed when each node_old is added to the newGraph
         Map<Id, Id> idMapper = new HashMap<Id, Id>();
         for (INode aSelectedNode : selectedNodes)
         {
@@ -283,7 +283,7 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
     }
 
     /**
-     * As we can copy/paste on many diagrams, we ensure that we paste only node types acceptable for the current diagram
+     * As we can copy/paste on many diagrams, we ensure that we paste only node_old types acceptable for the current diagram
      * 
      * @param nodes from clipboard
      * @return nodes acceptable for the current diagram
@@ -431,7 +431,7 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
     }
 
     /**
-     * Checks if the given list contains an ancestor of the given node
+     * Checks if the given list contains an ancestor of the given node_old
      * 
      * @param childNode
      * @param ancestorList
@@ -448,7 +448,7 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
     }
 
     /**
-     * Checks if ancestorNode is a parent node of child node
+     * Checks if ancestorNode is a parent node_old of child node_old
      * 
      * @param childNode
      * @param ancestorNode

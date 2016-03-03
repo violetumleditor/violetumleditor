@@ -11,26 +11,26 @@ public interface IIdentifiable
 {
 
     /**
-     * Returns a unique id of this node to make it easier to identify
+     * Returns a unique id of this node_old to make it easier to identify
      * 
      * @return a unique id
      */
     Id getId();
 
     /**
-     * Sets unique id to this node to make it easier to identify
+     * Sets unique id to this node_old to make it easier to identify
      * 
      * @param id new unique id
      */
     void setId(Id id);
 
     /**
-     * Returns current node revision
+     * Returns current node_old revision
      */
     Integer getRevision();
 
     /**
-     * Updates current node revision number
+     * Updates current node_old revision number
      * 
      * @param newRevisionNumber n
      */

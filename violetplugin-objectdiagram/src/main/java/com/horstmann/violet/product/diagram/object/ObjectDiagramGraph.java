@@ -30,9 +30,14 @@ import java.util.ResourceBundle;
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
-import com.horstmann.violet.product.diagram.common.NoteEdge;
+import com.horstmann.violet.product.diagram.abstracts.property.BentStyle;
+import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
+import com.horstmann.violet.product.diagram.common.edge.BasePropertyEdge;
+import com.horstmann.violet.product.diagram.common.edge.NoteEdge;
 import com.horstmann.violet.product.diagram.common.NoteNode;
+import com.horstmann.violet.product.diagram.object.edges.ObjectReferenceEdge;
+import com.horstmann.violet.product.diagram.object.nodes.FieldNode;
+import com.horstmann.violet.product.diagram.object.nodes.ObjectNode;
 
 /**
  * An UML-style object diagram that shows object references.
@@ -74,11 +79,11 @@ public class ObjectDiagramGraph extends AbstractGraph
 
         FieldNode node1 = new FieldNode();
         node1.setToolTip(rs.getString("node1.tooltip"));
-        MultiLineString fn = new MultiLineString();
-        fn.setText("name");
+        SingleLineText fn = new SingleLineText();
+//        fn.setText("name");
         node1.setName(fn);
-        MultiLineString fv = new MultiLineString();
-        fv.setText("value");
+        SingleLineText fv = new SingleLineText();
+//        fv.setText("value");
         node1.setValue(fv);
         NODE_PROTOTYPES.add(node1);
 
@@ -90,7 +95,8 @@ public class ObjectDiagramGraph extends AbstractGraph
         reference.setToolTip(rs.getString("edge0.tooltip"));
         EDGE_PROTOTYPES.add(reference);
 
-        ObjectRelationshipEdge association = new ObjectRelationshipEdge();
+        BasePropertyEdge association = new BasePropertyEdge();
+        association.setBentStyle(BentStyle.STRAIGHT);
         association.setToolTip(rs.getString("edge1.tooltip"));
         EDGE_PROTOTYPES.add(association);
 

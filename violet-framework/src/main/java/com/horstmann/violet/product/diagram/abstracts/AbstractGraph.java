@@ -33,7 +33,6 @@ import java.util.List;
 
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.common.NoteNode;
 
 /**
@@ -48,6 +47,19 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
     {
         nodes = new ArrayList<INode>();
         edges = new ArrayList<IEdge>();
+    }
+
+    @Override
+    public void deserializeSupport()
+    {
+        for(INode node : nodes)
+        {
+            node.deserializeSupport();
+        }
+        for(IEdge edge : edges)
+        {
+            edge.deserializeSupport();
+        }
     }
 
     @Override
@@ -101,10 +113,10 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
 
 
     @Override
-    public void draw(Graphics2D g2)
+    public void draw(Graphics2D graphics)
     {
-        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         List<INode> specialNodes = new ArrayList<INode>();
 
@@ -113,18 +125,20 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
         Collection<INode> nodes = getAllNodes();
         while (count < nodes.size())
         {
-            for (INode n : nodes)
+            for (INode node : nodes)
             {
-
-                if (n.getZ() == z)
+                if (node.getZ() == z)
                 {
-                    if (n instanceof NoteNode)
+                    if (node instanceof NoteNode)
                     {
-                        specialNodes.add(n);
+                        specialNodes.add(node);
                     }
                     else
                     {
-                        n.draw(g2);
+                        if(null == node.getParent())
+                        {
+                            node.draw(graphics);
+                        }
                     }
                     count++;
                 }
@@ -135,20 +149,20 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
         for (int i = 0; i < edges.size(); i++)
         {
             IEdge e = (IEdge) edges.get(i);
-            e.draw(g2);
+            e.draw(graphics);
         }
         // Special nodes are always drawn upon other elements
         for (INode n : specialNodes)
         {
-            // Translate g2 if node has parent
+            // Translate graphics if node_old has parent
             Point2D nodeLocationOnGraph = n.getLocationOnGraph();
             Point2D nodeLocation = n.getLocation();
             Point2D g2Location = new Point2D.Double(nodeLocationOnGraph.getX() - nodeLocation.getX(), nodeLocationOnGraph.getY()
                     - nodeLocation.getY());
-            g2.translate(g2Location.getX(), g2Location.getY());
-            n.draw(g2);
-            // Restore g2 original location
-            g2.translate(-g2Location.getX(), -g2Location.getY());
+            graphics.translate(g2Location.getX(), g2Location.getY());
+            n.draw(graphics);
+            // Restore graphics original location
+            graphics.translate(-g2Location.getX(), -g2Location.getY());
         }
 
     }
@@ -216,14 +230,14 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
     {
         newNode.setId(new Id());
         newNode.setGraph(this);
-        // Case 1 : Note node always attached to the graph
+        // Case 1 : Note node_old always attached to the graph
         if (newNode instanceof NoteNode)
         {
             newNode.setLocation(p);
             nodes.add(newNode);
             return true;
         }
-        // Case 2 : attached to an existing node
+        // Case 2 : attached to an existing node_old
         INode potentialParentNode = findNode(p);
         if (potentialParentNode != null)
         {
@@ -292,17 +306,26 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
         {
             addNode(end, end.getLocation());
         }
+
         e.setStart(start);
         e.setStartLocation(startLocation);
         e.setEnd(end);
-        e.setEndlocation(endLocation);
+        e.setEndLocation(endLocation);
         e.setTransitionPoints(transitionPoints);
-        if (start.addConnection(e))
+        if (null != start && start.addConnection(e))
         {
             e.setId(new Id());
             edges.add(e);
+
+            start.onConnectedEdge(e);
+            if(end != null)
+            {
+                end.onConnectedEdge(e);
+            }
+
             return true;
         }
+
         return false;
     }
 

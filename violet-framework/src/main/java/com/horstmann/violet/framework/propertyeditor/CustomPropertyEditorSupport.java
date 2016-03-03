@@ -22,6 +22,8 @@
 package com.horstmann.violet.framework.propertyeditor;
 
 import java.beans.PropertyEditorSupport;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  * A helper class for showing names of objects in a property sheet that allows the user to pick one of a finite set of named values.
@@ -60,4 +62,6 @@ public class CustomPropertyEditorSupport extends PropertyEditorSupport
 
     private String[] names;
     private Object[] values;
+
+    protected static ResourceBundle resourceBundle = ResourceBundle.getBundle("properties.CustomEditor", Locale.getDefault());
 }

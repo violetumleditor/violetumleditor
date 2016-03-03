@@ -29,8 +29,10 @@ import java.util.ResourceBundle;
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.common.NoteEdge;
+import com.horstmann.violet.product.diagram.common.edge.NoteEdge;
 import com.horstmann.violet.product.diagram.common.NoteNode;
+import com.horstmann.violet.product.diagram.state.edges.StateTransitionEdge;
+import com.horstmann.violet.product.diagram.state.nodes.*;
 
 /**
  * An UML state diagram.
@@ -66,10 +68,23 @@ public class StateDiagramGraph extends AbstractGraph
         CircularFinalStateNode circularFinalStateNode = new CircularFinalStateNode();
         circularFinalStateNode.setToolTip(rs.getString("node2.tooltip"));
         NODE_PROTOTYPES.add(circularFinalStateNode);
+
+        DecisionNode decisionNode = new DecisionNode();
+        decisionNode.setToolTip(rs.getString("node4.tooltip"));
+        NODE_PROTOTYPES.add(decisionNode);
+
+        ExternalSystemEntryPointNode entryPointNode = new ExternalSystemEntryPointNode();
+        entryPointNode.setToolTip(rs.getString("node5.tooltip"));
+        NODE_PROTOTYPES.add(entryPointNode);
+
+        ExternalSystemExitPointNode exitPointNode = new ExternalSystemExitPointNode();
+        exitPointNode.setToolTip(rs.getString("node6.tooltip"));
+        NODE_PROTOTYPES.add(exitPointNode);
         
         NoteNode noteNode = new NoteNode();
         noteNode.setToolTip(rs.getString("node3.tooltip"));
         NODE_PROTOTYPES.add(noteNode);
+
 
         StateTransitionEdge stateTransitionEdge = new StateTransitionEdge();
         stateTransitionEdge.setToolTip(rs.getString("edge0.tooltip"));

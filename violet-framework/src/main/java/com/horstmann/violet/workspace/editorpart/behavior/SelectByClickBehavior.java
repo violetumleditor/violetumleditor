@@ -1,7 +1,6 @@
 package com.horstmann.violet.workspace.editorpart.behavior;
 
 import java.awt.Graphics2D;
-import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -9,6 +8,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.List;
 
 import com.horstmann.violet.framework.util.GrabberUtils;
+import com.horstmann.violet.framework.util.KeyModifierUtil;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
@@ -46,7 +46,7 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
         }
         double zoom = editorPart.getZoomFactor();
         Point2D mousePoint = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
-        boolean isCtrl = (event.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0;
+        boolean isCtrl = KeyModifierUtil.isCtrl(event);
         boolean isOnNodeOrEdge = isMouseOnNodeOrEdge(mousePoint);
         if (!isOnNodeOrEdge && !isCtrl)
         {
@@ -84,11 +84,9 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
         if (this.isDragGesture) {
             return;
         }
-        boolean isCtrl = (event.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0;
-        if (isCtrl) {
+        if (KeyModifierUtil.isCtrl(event)) {
             processSelectionInConflictWithDraggingEvents(false);
-        }
-        if (!isCtrl) {
+        } else {
             processSelectionInConflictWithDraggingEvents(true);
         }
         this.editorPart.getSwingComponent().invalidate();
@@ -120,7 +118,7 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
     
     
     /**
-     * Here, we add or remove the selected node or edge to the global selection. Under the wood, we can't remove anything.
+     * Here, we add or remove the selected node_old or edge to the global selection. Under the wood, we can't remove anything.
      * This can only made on 'mouse released' to avoid conflict to any dragging event.
      * 
      * @param mouseLocation
@@ -154,7 +152,7 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
         {
             if (this.selectionHandler.isElementAlreadySelected(node))
             {
-                // This node will be removed only on mouse button released
+                // This node_old will be removed only on mouse button released
                 // to avoid conflicts with dragging events
                 this.unprocessedNode = node;
             }

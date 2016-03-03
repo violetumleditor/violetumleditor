@@ -42,24 +42,24 @@ public class BentStyleEditor extends CustomPropertyEditorSupport
     /** bent styme labels */
     public static final String[] NAMES =
     {
-            "Auto",
-            "Straight",
-            "Free",
-            "HV",
-            "VH",
-            "HVH",
-            "VHV"
+        resourceBundle.getString("bent_style.auto"),
+        resourceBundle.getString("bent_style.straight"),
+        resourceBundle.getString("bent_style.free"),
+        resourceBundle.getString("bent_style.hv"),
+        resourceBundle.getString("bent_style.vh"),
+        resourceBundle.getString("bent_style.hvh"),
+        resourceBundle.getString("bent_style.vhv")
     };
 
     /** bent style technical values */
     public static final Object[] VALUES =
     {
-            BentStyle.AUTO,
-            BentStyle.STRAIGHT,
-            BentStyle.FREE,
-            BentStyle.HV,
-            BentStyle.VH,
-            BentStyle.HVH,
-            BentStyle.VHV
+        BentStyle.AUTO,
+        BentStyle.STRAIGHT,
+        BentStyle.FREE,
+        BentStyle.HV,
+        BentStyle.VH,
+        BentStyle.HVH,
+        BentStyle.VHV
     };
 }

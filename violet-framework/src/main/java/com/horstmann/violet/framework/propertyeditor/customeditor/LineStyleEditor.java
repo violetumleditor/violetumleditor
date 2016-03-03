@@ -42,8 +42,8 @@ public class LineStyleEditor extends CustomPropertyEditorSupport
      */
     public static final String[] NAMES =
     {
-            "Solid",
-            "Dotted"
+        resourceBundle.getString("line_style.solid"),
+        resourceBundle.getString("line_style.dotted")
     };
 
     /**

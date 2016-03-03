@@ -56,21 +56,14 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
-import com.horstmann.violet.framework.propertyeditor.customeditor.AbstractDiagramLinkEditor;
-import com.horstmann.violet.framework.propertyeditor.customeditor.ArrowHeadEditor;
-import com.horstmann.violet.framework.propertyeditor.customeditor.BentStyleEditor;
-import com.horstmann.violet.framework.propertyeditor.customeditor.ChoiceListEditor;
-import com.horstmann.violet.framework.propertyeditor.customeditor.ColorEditor;
-import com.horstmann.violet.framework.propertyeditor.customeditor.ImageIconEditor;
-import com.horstmann.violet.framework.propertyeditor.customeditor.LineStyleEditor;
-import com.horstmann.violet.framework.propertyeditor.customeditor.MultiLineStringEditor;
-import com.horstmann.violet.framework.propertyeditor.customeditor.StringEditor;
+import com.horstmann.violet.framework.propertyeditor.customeditor.*;
+
+import com.horstmann.violet.framework.propertyeditor.customeditor.SingleLineTextEditor;
 import com.horstmann.violet.framework.util.SerializableEnumeration;
-import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
-import com.horstmann.violet.product.diagram.abstracts.property.BentStyle;
-import com.horstmann.violet.product.diagram.abstracts.property.ChoiceList;
-import com.horstmann.violet.product.diagram.abstracts.property.LineStyle;
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
+import com.horstmann.violet.product.diagram.abstracts.property.*;
+import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
+import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
+
 import com.horstmann.violet.product.diagram.common.DiagramLink;
 
 /**
@@ -81,8 +74,7 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
     /**
      * Constructs a property sheet that shows the editable properties of a given object.
      * 
-     * @param object the object whose properties are being edited
-     * @param parent the parent component
+     * @param bean the object whose properties are being edited
      */
     public CustomPropertyEditor(Object bean)
     {
@@ -195,20 +187,20 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
             {
                 public void propertyChange(PropertyChangeEvent event)
                 {
-                    try
-                    {
-                        Object newValue = editor.getValue();
-                        setter.invoke(bean, newValue);
-                        firePropertyStateChanged(new PropertyChangeEvent(bean, descriptor.getName(), oldValue, newValue));
-                    }
-                    catch (IllegalAccessException exception)
-                    {
-                        exception.printStackTrace();
-                    }
-                    catch (InvocationTargetException exception)
-                    {
-                        exception.printStackTrace();
-                    }
+                try
+                {
+                    Object newValue = editor.getValue();
+                    setter.invoke(bean, newValue);
+                    firePropertyStateChanged(new PropertyChangeEvent(bean, descriptor.getName(), oldValue, newValue));
+                }
+                catch (IllegalAccessException exception)
+                {
+                    exception.printStackTrace();
+                }
+                catch (InvocationTargetException exception)
+                {
+                    exception.printStackTrace();
+                }
                 }
             });
             return editor;
@@ -257,8 +249,8 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
              * WIDTH - 8; } public int getIconHeight() { return HEIGHT - 8; }
              * 
              * public void paintIcon(Component c, Graphics g, int x, int y) { g.translate(x, y); Rectangle r = new Rectangle(0, 0,
-             * getIconWidth(), getIconHeight()); Color oldColor = g.getColor(); g.setColor(Color.BLACK); editor.paintValue(g, r);
-             * g.setColor(oldColor); g.translate(-x, -y); } }); } else button.setText(buttonText(text)); // pop up custom editor
+             * getIconWidth(), getIconHeight()); Color oldColor = g.getBackgroundColor(); g.setBackgroundColor(Color.BLACK); editor.paintValue(g, r);
+             * g.setBackgroundColor(oldColor); g.translate(-x, -y); } }); } else button.setText(buttonText(text)); // pop up custom editor
              * when button is clicked button.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent event)
              * { final Component customEditor = editor.getCustomEditor();
              * 
@@ -271,6 +263,7 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
         }
         else if (tags != null)
         {
+            // TODO: 14.02.2016 tlanslation for tags
             // make a combo box that shows all tags
             final JComboBox comboBox = new JComboBox(tags);
             comboBox.setSelectedItem(text);
@@ -399,9 +392,12 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
         editors.put(java.awt.Color.class, ColorEditor.class);
         editors.put(DiagramLink.class, AbstractDiagramLinkEditor.class);
         editors.put(LineStyle.class, LineStyleEditor.class);
-        editors.put(MultiLineString.class, MultiLineStringEditor.class);
-        editors.put(String.class, StringEditor.class);
+        editors.put(StretchStyle.class, StretchStyleEditor.class);
+        editors.put(MultiLineText.class, MultiLineTextEditor.class);
+        editors.put(SingleLineText.class, SingleLineTextEditor.class);
+        editors.put(String.class, SingleLineTextEditor.class);
         editors.put(ImageIcon.class, ImageIconEditor.class);
+        editors.put(IntegrationFrameType.class, IntegrationFrameTypeEditor.class);
     }
 
     private static Set<Class<?>> knownImmutables = new HashSet<Class<?>>();

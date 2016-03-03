@@ -24,6 +24,11 @@
 			<version>${applicationVersion}</version>
 		</dependency>
 		<dependency>
+ 			<groupId>com.horstmann.violet</groupId>
+ 			<artifactId>violetplugin-communicationdiagram</artifactId>
+ 			<version>${applicationVersion}</version>
+ 		</dependency>
+		<dependency>
 			<groupId>com.horstmann.violet</groupId>
 			<artifactId>violetplugin-sequencediagram</artifactId>
 			<version>${applicationVersion}</version>
@@ -78,13 +83,14 @@
 					<folders>
 						<folder>${project.parent.build.directory}../../violet-framework/target/classes</folder>
 						<folder>${project.parent.build.directory}../../violetplugin-classdiagram/target/classes</folder>
+						<folder>${project.parent.build.directory}../../violetplugin-communicationdiagram/target/classes</folder>
 						<folder>${project.parent.build.directory}../../violetplugin-sequencediagram/target/classes</folder>
 						<folder>${project.parent.build.directory}../../violetplugin-statediagram/target/classes</folder>
 						<folder>${project.parent.build.directory}../../violetplugin-usecasediagram/target/classes</folder>
 						<folder>${project.parent.build.directory}../../violetplugin-activitydiagram/target/classes</folder>
 						<folder>${project.parent.build.directory}../../violetplugin-objectdiagram/target/classes</folder>
 					</folders>
-					<excludeArtifactIds>violet-framework,violetplugin-classdiagram,violetplugin-sequencediagram,violetplugin-statediagram,violetplugin-usecasediagram,violetplugin-activitydiagram,violetplugin-objectdiagram</excludeArtifactIds>
+					<excludeArtifactIds>violet-framework,violetplugin-classdiagram,violetplugin-communicationdiagram,violetplugin-sequencediagram,violetplugin-statediagram,violetplugin-usecasediagram,violetplugin-activitydiagram,violetplugin-objectdiagram</excludeArtifactIds>
 				</configuration>
 			</plugin>
 			<plugin>

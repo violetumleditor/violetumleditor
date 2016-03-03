@@ -11,5 +11,6 @@ package com.horstmann.violet.framework.dialog;
  */
 public enum DialogFactoryMode
 {
-    INTERNAL, DELEGATED
+    INTERNAL,
+    DELEGATED
 }
