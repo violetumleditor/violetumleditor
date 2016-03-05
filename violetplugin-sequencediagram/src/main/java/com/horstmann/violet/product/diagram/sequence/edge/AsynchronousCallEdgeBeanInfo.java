@@ -25,7 +25,10 @@ package com.horstmann.violet.product.diagram.sequence.edge;
 /**
  * The bean info for the SynchronousCallEdge type.
  */
-public class AsynchronousCallEdgeBeanInfo extends SynchronousCallEdgeBeanInfo
+public class AsynchronousCallEdgeBeanInfo extends CallEdgeBeanInfo
 {
-
+    public AsynchronousCallEdgeBeanInfo()
+    {
+        super(AsynchronousCallEdge.class);
+    }
 }

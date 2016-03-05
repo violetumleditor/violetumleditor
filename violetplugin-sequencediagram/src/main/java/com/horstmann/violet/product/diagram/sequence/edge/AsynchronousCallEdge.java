@@ -21,19 +21,30 @@
 
 package com.horstmann.violet.product.diagram.sequence.edge;
 
+import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
 import com.horstmann.violet.product.diagram.sequence.SequenceDiagramConstant;
 
 /**
  * An edge that joins two call node. Typically, call edges are used in sequence diagram to represent calls between entities (call
  * node).
  */
-public class AsynchronousCallEdge extends SynchronousCallEdge
+public class AsynchronousCallEdge extends CallEdge
 {
-    public AsynchronousCallEdge() {}
+    public AsynchronousCallEdge()
+    {
+        setEndArrowhead(ArrowheadChoiceList.V);
+    }
 
     protected AsynchronousCallEdge(AsynchronousCallEdge clone)
     {
         super(clone);
+    }
+
+    @Override
+    public void deserializeSupport()
+    {
+        super.deserializeSupport();
+        setEndArrowhead(ArrowheadChoiceList.V);
     }
 
     @Override
@@ -47,7 +58,4 @@ public class AsynchronousCallEdge extends SynchronousCallEdge
     {
         return SequenceDiagramConstant.SEQUENCE_DIAGRAM_RESOURCE.getString("asynchronous_call_edge.tooltip");
     }
-
-    /** Horizintal gap used to connected two activation bars on the same lifeline */
-    private static int LOOP_GAP = 15;
 }

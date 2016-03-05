@@ -33,7 +33,7 @@ import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.sequence.SequenceDiagramConstant;
-import com.horstmann.violet.product.diagram.sequence.edge.SynchronousCallEdge;
+import com.horstmann.violet.product.diagram.sequence.edge.CallEdge;
 import com.horstmann.violet.product.diagram.sequence.edge.ReturnEdge;
 
 /**
@@ -119,12 +119,13 @@ public class ActivationBarNode extends ColorableNode
     {
         activationsGroup.remove(((ActivationBarNode) node).getContent());
         super.removeChild(node);
+        refreshSize();
     }
 
     @Override
     public boolean addChild(INode node, Point2D point)
     {
-        if (! (node instanceof ActivationBarNode))
+        if (!(node instanceof ActivationBarNode))
         {
             return false;
         }
@@ -141,11 +142,12 @@ public class ActivationBarNode extends ColorableNode
         activationBarNode.setLocation(point);
         activationBarNode.setGraph(getGraph());
         activationBarNode.setParent(this);
-        refreshPositionAndSize();
+        refreshSize();
 
         return true;
     }
 
+    @Override
     protected void onChildChangeLocation(INode child)
     {
         activationsGroup.setPosition(((AbstractNode) child).getContent(), getChildRelativeLocation(child));
@@ -154,13 +156,20 @@ public class ActivationBarNode extends ColorableNode
     protected Point2D getChildRelativeLocation(INode node)
     {
         Point2D nodeLocation = node.getLocation();
-        if(CHILD_VERTICAL_MARGIN > nodeLocation.getY() || CHILD_LEFT_MARGIN != nodeLocation.getX())
+
+        if(CHILD_LEFT_MARGIN != nodeLocation.getX() || CHILD_VERTICAL_MARGIN > nodeLocation.getY())
         {
             nodeLocation.setLocation(CHILD_LEFT_MARGIN, Math.max(nodeLocation.getY(), CHILD_VERTICAL_MARGIN));
             node.setLocation(nodeLocation);
         }
 
-        return new Point2D.Double(nodeLocation.getX()+ CHILD_LEFT_MARGIN, nodeLocation.getY()- CHILD_VERTICAL_MARGIN);
+        return new Point2D.Double(nodeLocation.getX() + CHILD_LEFT_MARGIN, nodeLocation.getY() - CHILD_VERTICAL_MARGIN);
+    }
+
+    @Override
+    public void onConnectedEdge(IEdge connectedEdge)
+    {
+        refreshPositionAndSize();
     }
 
     @Override
@@ -170,9 +179,9 @@ public class ActivationBarNode extends ColorableNode
         {
             return false;
         }
-        if (edge instanceof SynchronousCallEdge)
+        if (edge instanceof CallEdge)
         {
-            return isCallEdgeAcceptable((SynchronousCallEdge) edge);
+            return isCallEdgeAcceptable((CallEdge) edge);
         }
         if (edge instanceof ReturnEdge)
         {
@@ -184,7 +193,7 @@ public class ActivationBarNode extends ColorableNode
     @Override
     public void removeConnection(IEdge edge)
     {
-        if (edge instanceof SynchronousCallEdge)
+        if (edge instanceof CallEdge)
         {
             for(IEdge connectedEdge : getConnectedEdges())
             {
@@ -213,7 +222,7 @@ public class ActivationBarNode extends ColorableNode
             x+= WIDTH;
         }
 
-        if(edge instanceof SynchronousCallEdge)
+        if(edge instanceof CallEdge)
         {
             if (edge.getEndNode() instanceof LifelineNode)
             {
@@ -255,14 +264,23 @@ public class ActivationBarNode extends ColorableNode
     public Rectangle2D getBounds()
     {
         refreshPositionAndSize();
-
         return super.getBounds();
+    }
+
+    private void refreshPosition()
+    {
+        setLocation(calculateLocation());
+    }
+
+    private void refreshSize()
+    {
+        activationsGroup.setMinHeight((int)Math.max(calculateHeight(), MIN_HEIGHT));
     }
 
     private void refreshPositionAndSize()
     {
-        setLocation(calculateLocation());
-        activationsGroup.setMinHeight((int)Math.max(calculateHeight(), MIN_HEIGHT));
+        refreshPosition();
+        refreshSize();
     }
 
     private Point2D calculateLocation()
@@ -271,11 +289,12 @@ public class ActivationBarNode extends ColorableNode
 
         for (IEdge edge : getGraph().getAllEdges())
         {
-            if (edge instanceof SynchronousCallEdge)
+            if (edge instanceof CallEdge && edge.getEndNode() instanceof ActivationBarNode)
             {
-                if (edge.getStartNode() == this && edge.getStartNode() != getParent())
+                if (edge.getStartNode() == this &&
+                    edge.getEndNode().getParents().contains(edge.getStartNode()))
                 {
-                    y = Math.min(y, edge.getEndNode().getLocationOnGraph().getY()-5);
+                    y = Math.min(y, edge.getEndNode().getLocation().getY()-5);
                 }
             }
         }
@@ -287,7 +306,7 @@ public class ActivationBarNode extends ColorableNode
         double height = 0;
         for (IEdge edge : getGraph().getAllEdges())
         {
-            if (edge instanceof SynchronousCallEdge)
+            if (edge instanceof CallEdge)
             {
                 if (edge.getStartNode() == this && edge.getStartNode() != getParent())
                 {
@@ -326,7 +345,7 @@ public class ActivationBarNode extends ColorableNode
         return false;
     }
 
-    private boolean isCallEdgeAcceptable(SynchronousCallEdge edge)
+    private boolean isCallEdgeAcceptable(CallEdge edge)
     {
         INode start = edge.getStartNode();
         INode end = edge.getEndNode();
@@ -341,6 +360,11 @@ public class ActivationBarNode extends ColorableNode
         }
         if (start instanceof ActivationBarNode && end instanceof ActivationBarNode)
         {
+            if(start.getParents().contains(end))
+            {
+                return false;
+            }
+
             if(start == end)
             {
                 ActivationBarNode newActivationBar = new ActivationBarNode();
@@ -348,9 +372,8 @@ public class ActivationBarNode extends ColorableNode
                 Point2D newActivationBarLocation = new Point2D.Double(location.getX(), location.getY() + CALL_Y_GAP / 2);
                 start.addChild(newActivationBar, newActivationBarLocation);
                 edge.setEndNode(newActivationBar);
-                return true;
             }
-            return ((start.getParents().get(0) != end.getParents().get(0)) || (start == end.getParent()));
+            return true;
         }
 
         if (end instanceof LifelineNode)
@@ -359,7 +382,7 @@ public class ActivationBarNode extends ColorableNode
             {
                 if(edge.getEndLocation().getY() < end.getBounds().getY() + LifelineNode.TOP_HEIGHT)
                 {
-                    edge.setCenterLabel("«create»");
+                    edge.setCenterLabel(CENTER_LABEL);
                     return true;
                 }
 
@@ -374,12 +397,13 @@ public class ActivationBarNode extends ColorableNode
         return false;
     }
 
-
     private transient RelativeLayout activationsGroup = null;
     
     public static final int WIDTH = 16;
-    public static final int MIN_HEIGHT = 20;
-    public static final int CHILD_LEFT_MARGIN = 5;
+    public static final int MIN_HEIGHT = 15;
+    public static final int CHILD_LEFT_MARGIN = 6;
     public static final int CHILD_VERTICAL_MARGIN = 10;
     public static final int CALL_Y_GAP = 20;
+
+    public static final String CENTER_LABEL = "«create»";
 }

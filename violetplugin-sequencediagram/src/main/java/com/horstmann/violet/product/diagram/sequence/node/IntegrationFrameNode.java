@@ -3,6 +3,7 @@ package com.horstmann.violet.product.diagram.sequence.node;
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
+import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.property.choiceList.ChoiceList;
 import com.horstmann.violet.product.diagram.property.choiceList.TextChoiceList;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
@@ -136,11 +137,10 @@ public class IntegrationFrameNode extends ColorableNode implements IResizableNod
     }
 
     @Override
-    public boolean addChild(INode n, Point2D p)
+    public boolean addConnection(IEdge e)
     {
         return false;
     }
-
 
     @Override
     public void setWantedSize(Rectangle2D size)

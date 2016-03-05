@@ -21,27 +21,20 @@
 
 package com.horstmann.violet.product.diagram.sequence.edge;
 
-import java.beans.IntrospectionException;
-import java.beans.PropertyDescriptor;
-import java.beans.SimpleBeanInfo;
+import com.horstmann.violet.product.diagram.common.edge.LabeledLineEdgeBeanInfo;
 
 /**
  * The bean info for the SynchronousCallEdge type.
  */
-public class ReturnEdgeBeanInfo extends SimpleBeanInfo
+public class ReturnEdgeBeanInfo extends LabeledLineEdgeBeanInfo
 {
-    public PropertyDescriptor[] getPropertyDescriptors()
+    public ReturnEdgeBeanInfo()
     {
-        try
-        {
-            return new PropertyDescriptor[]
-            {
-                    new PropertyDescriptor("middleLabel", ReturnEdge.class)
-            };
-        }
-        catch (IntrospectionException exception)
-        {
-            return null;
-        }
+        super(ReturnEdge.class);
+
+        displayLineStyle = false;
+        displayEndArrowhead = false;
+        displayStartArrowhead = false;
+        displayBentStyle = false;
     }
 }

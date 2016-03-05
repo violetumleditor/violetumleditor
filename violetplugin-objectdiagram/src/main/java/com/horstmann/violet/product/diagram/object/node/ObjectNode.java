@@ -79,7 +79,8 @@ public class ObjectNode extends ColorableNode
     }
 
     @Override
-    protected INode copy() throws CloneNotSupportedException {
+    protected INode copy() throws CloneNotSupportedException
+    {
         return new ObjectNode(this);
     }
 

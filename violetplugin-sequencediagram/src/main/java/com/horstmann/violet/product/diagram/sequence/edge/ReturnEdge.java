@@ -27,6 +27,8 @@ import java.util.ArrayList;
 
 import com.horstmann.violet.product.diagram.common.edge.LabeledLineEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
+import com.horstmann.violet.product.diagram.property.LineStyleChoiceList;
 import com.horstmann.violet.product.diagram.sequence.SequenceDiagramConstant;
 
 /**
@@ -34,11 +36,25 @@ import com.horstmann.violet.product.diagram.sequence.SequenceDiagramConstant;
  */
 public class ReturnEdge extends LabeledLineEdge
 {
-    public ReturnEdge() {}
+    public ReturnEdge()
+    {
+        setEndArrowhead(ArrowheadChoiceList.V);
+        setStartArrowhead(ArrowheadChoiceList.NONE);
+        setLineStyle(LineStyleChoiceList.DOTTED);
+    }
 
     protected ReturnEdge(ReturnEdge clone)
     {
         super(clone);
+    }
+
+    @Override
+    public void deserializeSupport()
+    {
+        super.deserializeSupport();
+        setEndArrowhead(ArrowheadChoiceList.V);
+        setStartArrowhead(ArrowheadChoiceList.NONE);
+        setLineStyle(LineStyleChoiceList.DOTTED);
     }
 
     @Override
@@ -54,36 +70,12 @@ public class ReturnEdge extends LabeledLineEdge
         return SequenceDiagramConstant.SEQUENCE_DIAGRAM_RESOURCE.getString("return_edge.tooltip");
     }
 
-	@Override
-	public boolean isTransitionPointsSupported() {
-		return false;
-	}
-
     @Override
     public Line2D getConnectionPoints()
     {
-        ArrayList<Point2D> points = getPoints();
-        Point2D p1 = points.get(0);
-        Point2D p2 = points.get(points.size() - 1);
-        return new Line2D.Double(p1, p2);
+        return new Line2D.Double(
+                getStartNode().getConnectionPoint(this),
+                getEndNode().getConnectionPoint(this)
+        );
     }
-
-//    @Override
-    public ArrayList<Point2D> getPoints()
-    {
-        INode endingNode = getEndNode();
-        INode startingNode = getStartNode();
-        return getPointsForNodesOnDifferentLifeLines(startingNode, endingNode);
-    }
-
-    private ArrayList<Point2D> getPointsForNodesOnDifferentLifeLines(INode startingNode, INode endingNode)
-    {
-        Point2D startingPoint = startingNode.getConnectionPoint(this);
-        Point2D endingPoint = endingNode.getConnectionPoint(this);
-        ArrayList<Point2D> a = new ArrayList<Point2D>();
-        a.add(startingPoint);
-        a.add(endingPoint);
-        return a;
-    }
-
 }

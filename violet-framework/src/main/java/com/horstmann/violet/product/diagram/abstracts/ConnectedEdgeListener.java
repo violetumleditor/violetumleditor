@@ -8,6 +8,7 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
  * @author Adrian Bobrowski
  * @date 14.01.2016
  */
-public interface ConnectedEdgeListener {
+public interface ConnectedEdgeListener
+{
     void onConnectedEdge(IEdge connectedEdge);
 }

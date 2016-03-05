@@ -40,7 +40,7 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 import com.horstmann.violet.product.diagram.sequence.SequenceDiagramConstant;
-import com.horstmann.violet.product.diagram.sequence.edge.SynchronousCallEdge;
+import com.horstmann.violet.product.diagram.sequence.edge.CallEdge;
 
 /**
  * An object node_old in a scenario diagram.
@@ -187,8 +187,10 @@ public class LifelineNode extends ColorableNode
 
     protected Point2D getChildRelativeLocation(INode node)
     {
-        Point2D nodeLocation = node.getLocation();
         double relativeCenteredX = getRelativeCenteredPositionX();
+
+        Point2D nodeLocation = node.getLocation();
+
         if(TOP_HEIGHT + ACTIVATIONS_PADDING > nodeLocation.getY() || relativeCenteredX != nodeLocation.getX())
         {
             nodeLocation.setLocation(relativeCenteredX, Math.max(nodeLocation.getY(), TOP_HEIGHT + ACTIVATIONS_PADDING));
@@ -204,11 +206,12 @@ public class LifelineNode extends ColorableNode
         double y = 0;
         for (IEdge edge : getGraph().getAllEdges())
         {
-            if (edge instanceof SynchronousCallEdge)
+            if (edge instanceof CallEdge)
             {
                 if (this == edge.getEndNode())
                 {
                     y = edge.getStartNode().getLocationOnGraph().getY() - TOP_HEIGHT /2 + ActivationBarNode.CALL_Y_GAP / 2;
+                    break;
                 }
             }
         }

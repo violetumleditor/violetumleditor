@@ -29,6 +29,7 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.common.edge.NoteEdge;
 import com.horstmann.violet.product.diagram.common.node.NoteNode;
+import com.horstmann.violet.product.diagram.sequence.edge.AsynchronousCallEdge;
 import com.horstmann.violet.product.diagram.sequence.edge.SynchronousCallEdge;
 import com.horstmann.violet.product.diagram.sequence.edge.ReturnEdge;
 import com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode;
@@ -50,7 +51,6 @@ public class SequenceDiagramGraph extends AbstractGraph
         return super.addNode(newNode, p);
     }
 
-
     public List<INode> getNodePrototypes() {
         return NODE_PROTOTYPES;
     }
@@ -67,8 +67,8 @@ public class SequenceDiagramGraph extends AbstractGraph
     ));
 
     private static final List<IEdge> EDGE_PROTOTYPES = new ArrayList<IEdge>(Arrays.asList(
-            new SynchronousCallEdge(),//BLACK_TRIANGLE
-            new SynchronousCallEdge(),//V
+            new SynchronousCallEdge(),
+            new AsynchronousCallEdge(),
             new ReturnEdge(),
             new NoteEdge()
     ));

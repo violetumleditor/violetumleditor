@@ -123,7 +123,8 @@ public abstract class AbstractNode implements INode
     }
 
     @Override
-    public Rectangle2D getBounds() {
+    public Rectangle2D getBounds()
+    {
         Point2D location = getLocation();
         Rectangle2D contentBounds = getContent().getBounds();
         return new Rectangle2D.Double(location.getX(), location.getY(), contentBounds.getWidth(), contentBounds.getHeight());
@@ -312,7 +313,8 @@ public abstract class AbstractNode implements INode
     }
 
     @Override
-    public boolean addConnection(IEdge e) {
+    public boolean addConnection(IEdge e)
+    {
         return e.getEndNode() != null;
     }
 
