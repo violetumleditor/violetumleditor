@@ -24,11 +24,11 @@ import java.awt.geom.Rectangle2D;
 /**
  * A integration frame node in a UML diagram.
  */
-public class IntegrationFrameNode extends ColorableNode implements IResizableNode
+public class CombinedFragmentNode extends ColorableNode implements IResizableNode
 {
-    public IntegrationFrameNode()
+    public CombinedFragmentNode()
     {
-        type = new TextChoiceList<String>(TYPE_KEYS, TYPE_KEYS);
+        type = new TextChoiceList<String>(TYPE_KEYS, TYPE_VALUE);
         selectedType = type.getSelectedPos();
         name = new SingleLineText(nameConverter);
         name.setText(type.getSelectedValue());
@@ -37,7 +37,7 @@ public class IntegrationFrameNode extends ColorableNode implements IResizableNod
         createContentStructure();
     }
 
-    protected IntegrationFrameNode(IntegrationFrameNode node) throws CloneNotSupportedException
+    protected CombinedFragmentNode(CombinedFragmentNode node) throws CloneNotSupportedException
     {
         super(node);
         type = node.type;
@@ -55,7 +55,7 @@ public class IntegrationFrameNode extends ColorableNode implements IResizableNod
         name.reconstruction(nameConverter);
         name.setPadding(0,8,0,18);
 
-        type = new TextChoiceList<String>(TYPE_KEYS, TYPE_KEYS);
+        type = new TextChoiceList<String>(TYPE_KEYS, TYPE_VALUE);
         type.setSelectedIndex(selectedType);
     }
 
@@ -72,7 +72,7 @@ public class IntegrationFrameNode extends ColorableNode implements IResizableNod
     @Override
     protected INode copy() throws CloneNotSupportedException
     {
-        return new IntegrationFrameNode(this);
+        return new CombinedFragmentNode(this);
     }
 
     @Override
@@ -138,7 +138,7 @@ public class IntegrationFrameNode extends ColorableNode implements IResizableNod
     @Override
     public String getToolTip()
     {
-        return SequenceDiagramConstant.SEQUENCE_DIAGRAM_RESOURCE.getString("integration_frame_node.tooltip");
+        return SequenceDiagramConstant.SEQUENCE_DIAGRAM_RESOURCE.getString("combined_fragment_node.tooltip");
     }
 
     @Override
@@ -226,18 +226,6 @@ public class IntegrationFrameNode extends ColorableNode implements IResizableNod
     private static final int NAME_MARGIN_RIGHT = 10;
     private static final int RESIZABLE_POINT_SIZE = 5;
 
-    private static final String[] TYPE_KEYS = new String[]{
-            "alt",
-            "else",
-            "loop",
-            "break",
-            "opt",
-            "par",
-            "neg",
-            "strict",
-            "critical"
-    };
-
     private static final LineText.Converter nameConverter = new LineText.Converter()
     {
         @Override
@@ -246,5 +234,35 @@ public class IntegrationFrameNode extends ColorableNode implements IResizableNod
             return new LargeSizeDecorator(new OneLineText(text));
         }
     };
+
+    private static final String[] TYPE_VALUE = new String[]{
+            "alt",
+            "opt",
+            "loop",
+            "break",
+            "par",
+            "strict",
+            "seq",
+            "critical",
+            "ignore",
+            "consider",
+            "assert",
+            "neg"
+    };
+
+    public static String[] TYPE_KEYS = new String[TYPE_VALUE.length];
+
+    static
+    {
+        for(int i=0; i< TYPE_KEYS.length; ++i)
+        {
+            try
+            {
+                TYPE_KEYS[i] = SequenceDiagramConstant.SEQUENCE_DIAGRAM_RESOURCE.getString(
+                        ("operator." + TYPE_VALUE[i]).toLowerCase()
+                );
+            }catch (Exception ignored){}
+        }
+    }
 
 }

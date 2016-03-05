@@ -35,6 +35,7 @@ import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
 import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.decorator.LargeSizeDecorator;
 import com.horstmann.violet.product.diagram.property.text.decorator.OneLineText;
+import com.horstmann.violet.product.diagram.property.text.decorator.PrefixDecorator;
 import com.horstmann.violet.product.diagram.property.text.decorator.UnderlineDecorator;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
@@ -57,6 +58,7 @@ public class LifelineNode extends ColorableNode
         super();
 
         name = new SingleLineText(nameConverter);
+        type = new SingleLineText(typeConverter);
         createContentStructure();
     }
 
@@ -64,6 +66,7 @@ public class LifelineNode extends ColorableNode
     {
         super(node);
         name = node.name.clone();
+        type = node.type.clone();
         createContentStructure();
     }
 
@@ -73,6 +76,7 @@ public class LifelineNode extends ColorableNode
         super.beforeReconstruction();
 
         name.reconstruction(nameConverter);
+        type.reconstruction(typeConverter);
     }
 
     @Override
@@ -100,10 +104,16 @@ public class LifelineNode extends ColorableNode
     protected void createContentStructure()
     {
         TextContent nameContent = new TextContent(name);
+        TextContent typeContent = new TextContent(type);
         nameContent.setMinHeight(TOP_HEIGHT);
-        nameContent.setMinWidth(MIN_WIDTH);
+        typeContent.setMinHeight(TOP_HEIGHT);
 
-        ContentInsideShape contentInsideShape = new ContentInsideRectangle(nameContent);
+        HorizontalLayout horizontalLayout = new HorizontalLayout();
+        horizontalLayout.add(nameContent);
+        horizontalLayout.add(typeContent);
+        horizontalLayout.setMinWidth(MIN_WIDTH);
+
+        ContentInsideShape contentInsideShape = new ContentInsideRectangle(horizontalLayout);
 
         setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
         setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
@@ -336,6 +346,27 @@ public class LifelineNode extends ColorableNode
     }
 
     /**
+     * Sets the type property value.
+     *
+     * @param newValue the type of this object
+     */
+    public void setType(SingleLineText newValue)
+    {
+        type.setText(newValue.toEdit());
+        centeredActivationsGroup();
+    }
+
+    /**
+     * Gets the type property value.
+     *
+     * @return the name of this object
+     */
+    public SingleLineText getType()
+    {
+        return type;
+    }
+
+    /**
      * Sets the  end of life property value.
      *
      * @param newValue the end of life of this object
@@ -356,6 +387,7 @@ public class LifelineNode extends ColorableNode
     }
 
     private SingleLineText name;
+    private SingleLineText type;
     private boolean endOfLife;
 
     private transient RelativeLayout activationsGroup = null;
@@ -369,7 +401,20 @@ public class LifelineNode extends ColorableNode
         @Override
         public OneLineText toLineString(String text)
         {
-            return new LargeSizeDecorator(new UnderlineDecorator(new OneLineText(text)));
+            return new LargeSizeDecorator(new OneLineText(text));
+        }
+    };
+
+    private static final LineText.Converter typeConverter = new LineText.Converter(){
+        @Override
+        public OneLineText toLineString(String text)
+        {
+            OneLineText oneLineText = new OneLineText(text);
+            if(!text.isEmpty())
+            {
+                oneLineText = new PrefixDecorator(oneLineText, ":");
+            }
+            return new LargeSizeDecorator(oneLineText);
         }
     };
 }

@@ -33,7 +33,7 @@ import com.horstmann.violet.product.diagram.sequence.edge.AsynchronousCallEdge;
 import com.horstmann.violet.product.diagram.sequence.edge.SynchronousCallEdge;
 import com.horstmann.violet.product.diagram.sequence.edge.ReturnEdge;
 import com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode;
-import com.horstmann.violet.product.diagram.sequence.node.IntegrationFrameNode;
+import com.horstmann.violet.product.diagram.sequence.node.CombinedFragmentNode;
 import com.horstmann.violet.product.diagram.sequence.node.LifelineNode;
 
 /**
@@ -62,7 +62,7 @@ public class SequenceDiagramGraph extends AbstractGraph
     private static final List<INode> NODE_PROTOTYPES = new ArrayList<INode>(Arrays.asList(
             new LifelineNode(),
             new ActivationBarNode(),
-            new IntegrationFrameNode(),
+            new CombinedFragmentNode(),
             new NoteNode()
     ));
 
