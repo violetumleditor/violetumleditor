@@ -1,34 +1,41 @@
 package com.horstmann.violet.product.diagram.sequence.node;
 
 
+import com.horstmann.violet.framework.util.BeanInfo;
+import com.horstmann.violet.product.diagram.sequence.SequenceDiagramConstant;
+
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.beans.SimpleBeanInfo;
+import java.util.List;
 
 /**
  * The bean info for the CombinedFragmentNode type.
  */
-public class LifelineNodeBeanInfo extends SimpleBeanInfo {
+public class LifelineNodeBeanInfo extends BeanInfo
+{
+    public LifelineNodeBeanInfo()
+    {
+        super(LifelineNode.class);
+        addResourceBundle(SequenceDiagramConstant.SEQUENCE_DIAGRAM_STRINGS);
+    }
 
     @Override
-    public PropertyDescriptor[] getPropertyDescriptors() {
-        try {
-            PropertyDescriptor nameDescriptor = new PropertyDescriptor("name", LifelineNode.class);
-            nameDescriptor.setValue("priority", 0);
+    protected List<PropertyDescriptor> createPropertyDescriptorList()
+    {
+        List<PropertyDescriptor> propertyDescriptorList = super.createPropertyDescriptorList();
 
-            PropertyDescriptor typeDescriptor = new PropertyDescriptor("type", LifelineNode.class);
-            typeDescriptor.setValue("priority", 1);
+        propertyDescriptorList.add(createPropertyDescriptor(NAME_VAR_NAME, NAME_LABEL_KEY, 1));
+        propertyDescriptorList.add(createPropertyDescriptor(TYPE_VAR_NAME, TYPE_LABEL_KEY, 2));
+        propertyDescriptorList.add(createPropertyDescriptor(END_OF_LIVE_VAR_NAME, END_OF_LIVE_LABEL_KEY, 3));
 
-            PropertyDescriptor contentDescriptor = new PropertyDescriptor("endOfLife", LifelineNode.class);
-            contentDescriptor.setValue("priority", 2);
-
-            return new PropertyDescriptor[]{
-                    nameDescriptor,
-                    typeDescriptor,
-                    contentDescriptor
-            };
-        } catch (IntrospectionException exception) {
-            return null;
-        }
+        return propertyDescriptorList;
     }
+
+    protected static final String NAME_LABEL_KEY = "object.name";
+    protected static final String TYPE_LABEL_KEY = "object.type";
+    protected static final String END_OF_LIVE_LABEL_KEY = "object.end_of_life";
+    private static final String NAME_VAR_NAME = "name";
+    private static final String TYPE_VAR_NAME = "type";
+    private static final String END_OF_LIVE_VAR_NAME = "endOfLife";
 }

@@ -28,11 +28,11 @@ public class CombinedFragmentNode extends ColorableNode implements IResizableNod
 {
     public CombinedFragmentNode()
     {
-        type = new TextChoiceList<String>(TYPE_KEYS, TYPE_VALUE);
-        selectedType = type.getSelectedPos();
-        name = new SingleLineText(nameConverter);
-        name.setText(type.getSelectedValue());
-        name.setPadding(0,8,0,18);
+        operator = new TextChoiceList<String>(TYPE_KEYS, TYPE_VALUE);
+        selectedType = operator.getSelectedPos();
+        operatorText = new SingleLineText(nameConverter);
+        operatorText.setText(operator.getSelectedValue());
+        operatorText.setPadding(0,8,0,18);
         frameContent = new MultiLineText();
         createContentStructure();
     }
@@ -40,9 +40,9 @@ public class CombinedFragmentNode extends ColorableNode implements IResizableNod
     protected CombinedFragmentNode(CombinedFragmentNode node) throws CloneNotSupportedException
     {
         super(node);
-        type = node.type;
-        selectedType = type.getSelectedPos();
-        name = node.name.clone();
+        operator = node.operator;
+        selectedType = operator.getSelectedPos();
+        operatorText = node.operatorText.clone();
         frameContent = node.frameContent.clone();
         createContentStructure();
     }
@@ -51,18 +51,28 @@ public class CombinedFragmentNode extends ColorableNode implements IResizableNod
     protected void beforeReconstruction()
     {
         super.beforeReconstruction();
-        frameContent.reconstruction();
-        name.reconstruction(nameConverter);
-        name.setPadding(0,8,0,18);
 
-        type = new TextChoiceList<String>(TYPE_KEYS, TYPE_VALUE);
-        type.setSelectedIndex(selectedType);
+        if(null==frameContent)
+        {
+            frameContent = new MultiLineText();
+        }
+        if(null==operatorText)
+        {
+            operatorText = new SingleLineText();
+        }
+
+        frameContent.reconstruction();
+        operatorText.reconstruction(nameConverter);
+        operatorText.setPadding(0,8,0,18);
+
+        operator = new TextChoiceList<String>(TYPE_KEYS, TYPE_VALUE);
+        operator.setSelectedIndex(selectedType);
     }
 
     @Override
     protected void afterReconstruction()
     {
-        setType(getType());
+        setOperator(getOperator());
 
         wantedSizeContent.setMinWidth(wantedWeight);
         wantedSizeContent.setMinHeight(wantedHeight);
@@ -84,7 +94,7 @@ public class CombinedFragmentNode extends ColorableNode implements IResizableNod
         relativeGroupContent.setMinHeight(DEFAULT_HEIGHT);
         relativeGroupContent.setMinWidth(DEFAULT_WIDTH);
 
-        TextContent nameContent = new TextContent(name);
+        TextContent nameContent = new TextContent(operatorText);
         nameContent.setMinHeight(DEFAULT_TYPE_HEIGHT);
         nameContent.setMinWidth(DEFAULT_TYPE_WIDTH);
 
@@ -192,9 +202,9 @@ public class CombinedFragmentNode extends ColorableNode implements IResizableNod
      *
      * @return the type of this frame
      */
-    public ChoiceList getType()
+    public ChoiceList getOperator()
     {
-        return type;
+        return operator;
     }
 
     /**
@@ -202,18 +212,18 @@ public class CombinedFragmentNode extends ColorableNode implements IResizableNod
      *
      * @param type the type of this frame
      */
-    public void setType(ChoiceList type)
+    public void setOperator(ChoiceList type)
     {
-        this.type = (TextChoiceList<String>)type;
-        selectedType = this.type.getSelectedPos();
-        name.setText(this.type.getSelectedValue());
+        this.operator = (TextChoiceList<String>)type;
+        selectedType = this.operator.getSelectedPos();
+        operatorText.setText(this.operator.getSelectedValue());
     }
 
-    private SingleLineText name;
+    private SingleLineText operatorText;
     private MultiLineText frameContent;
 
     private int selectedType;
-    private transient TextChoiceList<String> type;
+    private transient TextChoiceList<String> operator;
 
     private double wantedWeight;
     private double wantedHeight;

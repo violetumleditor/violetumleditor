@@ -33,10 +33,7 @@ import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
 import com.horstmann.violet.product.diagram.property.text.LineText;
-import com.horstmann.violet.product.diagram.property.text.decorator.LargeSizeDecorator;
-import com.horstmann.violet.product.diagram.property.text.decorator.OneLineText;
-import com.horstmann.violet.product.diagram.property.text.decorator.PrefixDecorator;
-import com.horstmann.violet.product.diagram.property.text.decorator.UnderlineDecorator;
+import com.horstmann.violet.product.diagram.property.text.decorator.*;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
@@ -58,7 +55,10 @@ public class LifelineNode extends ColorableNode
         super();
 
         name = new SingleLineText(nameConverter);
+        name.setPadding(5, 10, 5, 0);
         type = new SingleLineText(typeConverter);
+        type.setPadding(5, 0, 5, 10);
+
         createContentStructure();
     }
 
@@ -74,9 +74,20 @@ public class LifelineNode extends ColorableNode
     protected void beforeReconstruction()
     {
         super.beforeReconstruction();
+        if(null==name)
+        {
+            name = new SingleLineText();
+        }
+        if(null==type)
+        {
+            type = new SingleLineText();
+        }
 
         name.reconstruction(nameConverter);
         type.reconstruction(typeConverter);
+
+        name.setPadding(5, 10, 5, 0);
+        type.setPadding(5, 0, 5, 10);
     }
 
     @Override
@@ -111,9 +122,11 @@ public class LifelineNode extends ColorableNode
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         horizontalLayout.add(nameContent);
         horizontalLayout.add(typeContent);
-        horizontalLayout.setMinWidth(MIN_WIDTH);
 
-        ContentInsideShape contentInsideShape = new ContentInsideRectangle(horizontalLayout);
+        CenterContent centerContent = new CenterContent(horizontalLayout);
+        centerContent.setMinWidth(MIN_WIDTH);
+
+        ContentInsideShape contentInsideShape = new ContentInsideRectangle(centerContent);
 
         setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
         setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
@@ -239,12 +252,17 @@ public class LifelineNode extends ColorableNode
     {
         Rectangle2D bounds = getBounds();
         Point2D startPoint = new Point2D.Double(bounds.getCenterX(), bounds.getMinY());
-        Point2D endPoint  = new Point2D.Double(bounds.getCenterX(), getMaxYOverAllLifeLineNodes() + ACTIVATIONS_PADDING);
+        Point2D endPoint  = new Point2D.Double(bounds.getCenterX(), getMaxYOverAllLifeLineNodes());
 
         Color oldColor = g2.getColor();
         Stroke oldStroke = g2.getStroke();
         g2.setColor(getBorderColor());
-        g2.setStroke(new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0.0f, new float[]{5.0f,5.0f}, 0.0f));
+        if(!name.toEdit().isEmpty())
+        {
+            g2.setStroke(new BasicStroke(
+                    1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0.0f, new float[]{5.0f, 5.0f}, 0.0f
+            ));
+        }
         g2.draw(new Line2D.Double(startPoint, endPoint));
         g2.setStroke(oldStroke);
         if(endOfLife)
@@ -302,7 +320,7 @@ public class LifelineNode extends ColorableNode
         {
             if (node instanceof LifelineNode)
             {
-                maxY = Math.max(maxY, ((LifelineNode) node).getMaxY());
+                maxY = Math.max(maxY, ((LifelineNode) node).getMaxY() + ACTIVATIONS_PADDING);
             }
         }
         return maxY;
@@ -332,7 +350,8 @@ public class LifelineNode extends ColorableNode
     public void setName(SingleLineText newValue)
     {
         name.setText(newValue.toEdit());
-        centeredActivationsGroup();
+        setType(getType());
+//        centeredActivationsGroup();
     }
 
     /**
@@ -395,7 +414,7 @@ public class LifelineNode extends ColorableNode
     public static final int TOP_HEIGHT = 60;
     private static final int MIN_WIDTH = 100;
     private static final int MIN_HEIGHT = 100;
-    private static final int ACTIVATIONS_PADDING = 10;
+    private static final int ACTIVATIONS_PADDING = 15;
 
     private static final LineText.Converter nameConverter = new LineText.Converter(){
         @Override
@@ -409,12 +428,7 @@ public class LifelineNode extends ColorableNode
         @Override
         public OneLineText toLineString(String text)
         {
-            OneLineText oneLineText = new OneLineText(text);
-            if(!text.isEmpty())
-            {
-                oneLineText = new PrefixDecorator(oneLineText, ":");
-            }
-            return new LargeSizeDecorator(oneLineText);
+            return new LargeSizeDecorator(new RemoveSentenceDecorator(new PrefixDecorator(new OneLineText(text), ":"), " "));
         }
     };
 }

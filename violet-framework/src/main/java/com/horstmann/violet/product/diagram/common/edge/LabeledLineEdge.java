@@ -48,6 +48,19 @@ public class LabeledLineEdge extends ArrowheadEdge
     {
         super.beforeReconstruction();
 
+        if(null == startLabel)
+        {
+            startLabel = new SingleLineText();
+        }
+        if(null == centerTextContent)
+        {
+            centerLabel = new SingleLineText();
+        }
+        if(null == endTextContent)
+        {
+            endLabel = new SingleLineText();
+        }
+
         startTextContent = new TextContent(startLabel);
         centerTextContent = new TextContent(centerLabel);
         endTextContent = new TextContent(endLabel);

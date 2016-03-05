@@ -1,30 +1,38 @@
 package com.horstmann.violet.product.diagram.sequence.node;
 
 
+import com.horstmann.violet.framework.util.BeanInfo;
+import com.horstmann.violet.product.diagram.sequence.SequenceDiagramConstant;
+
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.beans.SimpleBeanInfo;
+import java.util.List;
 
 /**
  * The bean info for the CombinedFragmentNode type.
  */
-public class CombinedFragmentNodeBeanInfo extends SimpleBeanInfo {
+public class CombinedFragmentNodeBeanInfo  extends BeanInfo
+{
+    public CombinedFragmentNodeBeanInfo()
+    {
+        super(CombinedFragmentNode.class);
+        addResourceBundle(SequenceDiagramConstant.SEQUENCE_DIAGRAM_STRINGS);
+    }
 
     @Override
-    public PropertyDescriptor[] getPropertyDescriptors() {
-        try {
-            PropertyDescriptor typeDescriptor = new PropertyDescriptor("type", CombinedFragmentNode.class);
-            typeDescriptor.setValue("priority", new Integer(1));
+    protected List<PropertyDescriptor> createPropertyDescriptorList()
+    {
+        List<PropertyDescriptor> propertyDescriptorList = super.createPropertyDescriptorList();
 
-            PropertyDescriptor contentDescriptor = new PropertyDescriptor("frameContent", CombinedFragmentNode.class);
-            contentDescriptor.setValue("priority", new Integer(2));
+        propertyDescriptorList.add(createPropertyDescriptor(TYPE_VAR_NAME, TYPE_LABEL_KEY, 1));
+        propertyDescriptorList.add(createPropertyDescriptor(CONTENT_VAR_NAME, CONTENT_LABEL_KEY, 2));
 
-            return new PropertyDescriptor[]{
-                    typeDescriptor,
-                    contentDescriptor
-            };
-        } catch (IntrospectionException exception) {
-            return null;
-        }
+        return propertyDescriptorList;
     }
+
+    protected static final String CONTENT_LABEL_KEY = "fragment.content";
+    protected static final String TYPE_LABEL_KEY = "fragment.operator";
+    private static final String CONTENT_VAR_NAME = "frameContent";
+    private static final String TYPE_VAR_NAME = "operator";
 }

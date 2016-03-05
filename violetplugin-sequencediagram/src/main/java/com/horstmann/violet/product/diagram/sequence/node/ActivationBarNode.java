@@ -56,12 +56,14 @@ public class ActivationBarNode extends ColorableNode
     {
         super();
         createContentStructure();
+        refreshPositionAndSize();
     }
 
     protected ActivationBarNode(ActivationBarNode node) throws CloneNotSupportedException
     {
         super(node);
         createContentStructure();
+        refreshPositionAndSize();
     }
 
     @Override
