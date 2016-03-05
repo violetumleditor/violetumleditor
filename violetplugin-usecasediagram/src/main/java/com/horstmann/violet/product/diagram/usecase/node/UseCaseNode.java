@@ -61,12 +61,12 @@ public class UseCaseNode extends ColorableNode
     }
 
     @Override
-    public void deserializeSupport()
+    protected void beforeReconstruction()
     {
-        name.deserializeSupport();
-        name.setAlignment(LineText.CENTER);
+        super.beforeReconstruction();
 
-        super.deserializeSupport();
+        name.reconstruction();
+        name.setAlignment(LineText.CENTER);
     }
 
     @Override

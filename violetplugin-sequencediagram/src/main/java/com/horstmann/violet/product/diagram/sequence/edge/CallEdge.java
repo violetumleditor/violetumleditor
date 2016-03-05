@@ -30,9 +30,9 @@ public abstract class CallEdge extends LabeledLineEdge
     }
 
     @Override
-    public void deserializeSupport()
+    protected void beforeReconstruction()
     {
-        super.deserializeSupport();
+        super.beforeReconstruction();
         setStartArrowhead(ArrowheadChoiceList.NONE);
         setLineStyle(LineStyleChoiceList.SOLID);
         setBentStyle(BentStyle.STRAIGHT);

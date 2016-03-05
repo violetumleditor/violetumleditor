@@ -86,9 +86,20 @@ public abstract class AbstractNode implements INode
         }
     }
 
-    public void deserializeSupport()
+    @Override
+    public final void reconstruction()
     {
+        beforeReconstruction();
         createContentStructure();
+        afterReconstruction();
+    }
+
+    protected void beforeReconstruction()
+    {
+    }
+
+    protected void afterReconstruction()
+    {
         getContent().refresh();
     }
 
@@ -428,7 +439,7 @@ public abstract class AbstractNode implements INode
     {
         if(null == content)
         {
-            deserializeSupport();
+            reconstruction();
         }
         return content;
     }

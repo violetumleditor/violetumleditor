@@ -64,13 +64,17 @@ public class PackageNode extends ColorableNode
     }
 
     @Override
-    public void deserializeSupport()
+    protected void beforeReconstruction()
     {
-        name.deserializeSupport();
-        text.deserializeSupport();
+        super.beforeReconstruction();
 
-        super.deserializeSupport();
+        name.reconstruction();
+        text.reconstruction();
+    }
 
+    @Override
+    protected void afterReconstruction()
+    {
         for(INode child : getChildren())
         {
             if (isSupportedNode(child))
@@ -78,6 +82,8 @@ public class PackageNode extends ColorableNode
                 nodesGroup.add(((ColorableNode) child).getContent(), getChildRelativeLocation(child));
             }
         }
+
+        super.afterReconstruction();
     }
 
     @Override

@@ -66,10 +66,10 @@ public class NoteNode extends ColorableNode
     }
 
     @Override
-    public void deserializeSupport()
+    protected void beforeReconstruction()
     {
-        super.deserializeSupport();
-        text.deserializeSupport();
+        super.beforeReconstruction();
+        text.reconstruction();
     }
 
     @Override

@@ -43,9 +43,10 @@ public class NoteEdge extends LineEdge
     }
 
     @Override
-    public void deserializeSupport()
+    protected void beforeReconstruction()
     {
-        super.deserializeSupport();
+        super.beforeReconstruction();
+
         setLineStyle(LineStyleChoiceList.DOTTED);
         setBentStyle(BentStyleChoiceList.STRAIGHT);
     }

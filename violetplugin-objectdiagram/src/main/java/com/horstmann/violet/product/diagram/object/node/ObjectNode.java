@@ -61,14 +61,17 @@ public class ObjectNode extends ColorableNode
     }
 
     @Override
-    public void deserializeSupport()
+    protected void beforeReconstruction()
     {
-        objectName.deserializeSupport();
-        className.deserializeSupport();
-        fullName.deserializeSupport(nameConverter);
+        super.beforeReconstruction();
+        objectName.reconstruction();
+        className.reconstruction();
+        fullName.reconstruction(nameConverter);
+    }
 
-        super.deserializeSupport();
-
+    @Override
+    protected void afterReconstruction()
+    {
         for(INode child : getChildren())
         {
             if (child instanceof FieldNode)
@@ -76,6 +79,7 @@ public class ObjectNode extends ColorableNode
                 fieldsGroup.add(((ColorableNode) child).getContent());
             }
         }
+        super.afterReconstruction();
     }
 
     @Override

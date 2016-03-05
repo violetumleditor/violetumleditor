@@ -41,9 +41,9 @@ public class SynchronousCallEdge extends CallEdge
     }
 
     @Override
-    public void deserializeSupport()
+    protected void beforeReconstruction()
     {
-        super.deserializeSupport();
+        super.beforeReconstruction();
         setEndArrowhead(ArrowheadChoiceList.TRIANGLE_BLACK);
     }
 

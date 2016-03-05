@@ -69,14 +69,14 @@ public class FieldNode extends ColorableNode
     }
 
     @Override
-    public void deserializeSupport()
+    protected void beforeReconstruction()
     {
-        name.deserializeSupport();
-        value.deserializeSupport();
+        super.beforeReconstruction();
+
+        name.reconstruction();
+        value.reconstruction();
         name.setPadding(0, 10, 0, 15);
         value.setPadding(0, 15, 0, 10);
-
-        super.deserializeSupport();
     }
 
     @Override

@@ -44,17 +44,17 @@ public class LabeledLineEdge extends ArrowheadEdge
     }
 
     @Override
-    public void deserializeSupport()
+    protected void beforeReconstruction()
     {
-        super.deserializeSupport();
+        super.beforeReconstruction();
 
         startTextContent = new TextContent(startLabel);
         centerTextContent = new TextContent(centerLabel);
         endTextContent = new TextContent(endLabel);
 
-        startLabel.deserializeSupport();
-        centerLabel.deserializeSupport();
-        endLabel.deserializeSupport();
+        startLabel.reconstruction();
+        centerLabel.reconstruction();
+        endLabel.reconstruction();
     }
 
     @Override

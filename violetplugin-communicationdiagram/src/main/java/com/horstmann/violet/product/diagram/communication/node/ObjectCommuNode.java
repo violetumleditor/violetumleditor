@@ -35,12 +35,10 @@ public class ObjectCommuNode extends ColorableNode
 	}
 
 	@Override
-	public void deserializeSupport()
+	protected void beforeReconstruction()
 	{
-		name.setConverter(nameConverter);
-		name.deserializeSupport();
-
-		super.deserializeSupport();
+		super.beforeReconstruction();
+		name.reconstruction(nameConverter);
 	}
 
 	@Override

@@ -62,13 +62,13 @@ public class ExternalSystemExitPointNode extends ColorableNode
 	}
 
 	@Override
-	public void deserializeSupport()
+	protected void beforeReconstruction()
 	{
-		name.deserializeSupport();
+		super.beforeReconstruction();
+
+		name.reconstruction();
 		name.setAlignment(LineText.CENTER);
 		name.setPadding(5,5,5,5);
-
-		super.deserializeSupport();
 	}
 
 	@Override

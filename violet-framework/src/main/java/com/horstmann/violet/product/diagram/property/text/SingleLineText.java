@@ -28,9 +28,9 @@ public class SingleLineText extends LineText
         oneLineString = lineText.getOneLineString().clone();
     }
     @Override
-    public void deserializeSupport(Converter converter)
+    public void reconstruction(Converter converter)
     {
-        super.deserializeSupport(converter);
+        super.reconstruction(converter);
         oneLineString = new OneLineText();
         setPadding(0,10);
         setText(text);

@@ -34,12 +34,12 @@ public class WaitTimeActionNode  extends ColorableNode
     }
 
     @Override
-    public void deserializeSupport()
+    protected void beforeReconstruction()
     {
-        name.deserializeSupport();
-        name.setPadding(5,5,5,5);
+        super.beforeReconstruction();
 
-        super.deserializeSupport();
+        name.reconstruction();
+        name.setPadding(5,5,5,5);
     }
 
     @Override

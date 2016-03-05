@@ -59,10 +59,11 @@ public class DecisionNode extends ColorableNode
     }
 
     @Override
-    public void deserializeSupport()
+    protected void beforeReconstruction()
     {
-        condition.deserializeSupport();
-        super.deserializeSupport();
+        super.beforeReconstruction();
+
+        condition.reconstruction();
     }
 
     @Override

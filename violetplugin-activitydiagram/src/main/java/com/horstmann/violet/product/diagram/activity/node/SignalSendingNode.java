@@ -59,12 +59,12 @@ public class SignalSendingNode extends ColorableNode
     }
 
     @Override
-    public void deserializeSupport()
+    protected void beforeReconstruction()
     {
-        signal.deserializeSupport();
-        signal.setPadding(1,10,1,20);
+        super.beforeReconstruction();
 
-        super.deserializeSupport();
+        signal.reconstruction();
+        signal.setPadding(1,10,1,20);
     }
 
     @Override

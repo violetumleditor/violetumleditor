@@ -28,9 +28,9 @@ public class AggregationEdge extends LabeledLineEdge
     }
 
     @Override
-    public void deserializeSupport()
+    protected void beforeReconstruction()
     {
-        super.deserializeSupport();
+        super.beforeReconstruction();
         setStartArrowhead(ArrowheadChoiceList.NONE);
         setEndArrowhead(ArrowheadChoiceList.DIAMOND_WHITE);
         setLineStyle(LineStyleChoiceList.SOLID);

@@ -28,9 +28,9 @@ public class CompositionEdge extends LabeledLineEdge
     }
 
     @Override
-    public void deserializeSupport()
+    protected void beforeReconstruction()
     {
-        super.deserializeSupport();
+        super.beforeReconstruction();
         setStartArrowhead(ArrowheadChoiceList.NONE);
         setEndArrowhead(ArrowheadChoiceList.DIAMOND_BLACK);
         setLineStyle(LineStyleChoiceList.SOLID);

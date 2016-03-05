@@ -65,18 +65,18 @@ public class ActivationBarNode extends ColorableNode
     }
 
     @Override
-    public void deserializeSupport()
+    protected void afterReconstruction()
     {
-        super.deserializeSupport();
         for(INode child : getChildren())
         {
             if (child instanceof ActivationBarNode)
             {
-                child.deserializeSupport();
+                child.reconstruction();
                 activationsGroup.add(((ActivationBarNode) child).getContent());
                 onChildChangeLocation(child);
             }
         }
+        super.afterReconstruction();
     }
 
     @Override

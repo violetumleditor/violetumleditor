@@ -62,14 +62,15 @@ public class SynchronizationBarNode extends ColorableNode
     }
 
     @Override
-    public void deserializeSupport()
+    protected void beforeReconstruction()
     {
+        super.beforeReconstruction();
+
         orientation = new TextChoiceList<StretchStrategy>(
                 STRETCH_KEYS,
                 STRETCH_STRATEGIES
         );
         orientation.setSelectedIndex(selectedStretch);
-        super.deserializeSupport();
     }
 
     @Override

@@ -105,11 +105,11 @@ public class ActorNode extends ColorableNode
     }
 
     @Override
-    public void deserializeSupport()
+    protected void beforeReconstruction()
     {
-        name.deserializeSupport();
+        super.beforeReconstruction();
 
-        super.deserializeSupport();
+        name.reconstruction();
     }
 
     @Override

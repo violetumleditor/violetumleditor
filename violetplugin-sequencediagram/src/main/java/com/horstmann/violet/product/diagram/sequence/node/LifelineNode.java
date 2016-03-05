@@ -68,21 +68,26 @@ public class LifelineNode extends ColorableNode
     }
 
     @Override
-    public void deserializeSupport()
+    protected void beforeReconstruction()
     {
-        name.deserializeSupport(nameConverter);
+        super.beforeReconstruction();
 
-        super.deserializeSupport();
+        name.reconstruction(nameConverter);
+    }
 
+    @Override
+    protected void afterReconstruction()
+    {
         for(INode child : getChildren())
         {
             if (child instanceof ActivationBarNode)
             {
-                child.deserializeSupport();
+                child.reconstruction();
                 activationsGroup.add(((ActivationBarNode) child).getContent());
                 onChildChangeLocation(child);
             }
         }
+        super.afterReconstruction();
     }
 
     @Override

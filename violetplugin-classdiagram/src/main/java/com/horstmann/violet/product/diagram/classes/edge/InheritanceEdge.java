@@ -28,9 +28,9 @@ public class InheritanceEdge extends LabeledLineEdge
     }
 
     @Override
-    public void deserializeSupport()
+    protected void beforeReconstruction()
     {
-        super.deserializeSupport();
+        super.beforeReconstruction();
         setStartArrowhead(ArrowheadChoiceList.NONE);
         setEndArrowhead(ArrowheadChoiceList.TRIANGLE_WHITE);
         setLineStyle(LineStyleChoiceList.SOLID);

@@ -24,12 +24,12 @@ public class DirectionEdge extends LabeledLineEdge {
 	}
 
 	@Override
-	public void deserializeSupport()
+	protected void beforeReconstruction()
 	{
-		super.deserializeSupport();
-		SequenceNumber.deserializeSupport();
-		Message.deserializeSupport();
-		SequentialLoop.deserializeSupport();
+		super.beforeReconstruction();
+		SequenceNumber.reconstruction();
+		Message.reconstruction();
+		SequentialLoop.reconstruction();
 	}
 
 	protected DirectionEdge(DirectionEdge directionEdge)

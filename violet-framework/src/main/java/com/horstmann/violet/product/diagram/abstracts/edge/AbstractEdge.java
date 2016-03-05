@@ -53,7 +53,17 @@ public abstract class AbstractEdge implements IEdge
     }
 
     @Override
-    public void deserializeSupport()
+    public final void reconstruction()
+    {
+        beforeReconstruction();
+        afterReconstruction();
+    }
+
+    protected void beforeReconstruction()
+    {
+    }
+
+    protected void afterReconstruction()
     {
         refreshContactPoints();
     }

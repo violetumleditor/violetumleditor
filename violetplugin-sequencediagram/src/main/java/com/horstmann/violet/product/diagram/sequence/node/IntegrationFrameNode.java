@@ -48,22 +48,26 @@ public class IntegrationFrameNode extends ColorableNode implements IResizableNod
     }
 
     @Override
-    public void deserializeSupport()
+    protected void beforeReconstruction()
     {
-        frameContent.deserializeSupport();
-        name.deserializeSupport(nameConverter);
+        super.beforeReconstruction();
+        frameContent.reconstruction();
+        name.reconstruction(nameConverter);
         name.setPadding(0,8,0,18);
-
-        super.deserializeSupport();
 
         type = new TextChoiceList<String>(TYPE_KEYS, TYPE_KEYS);
         type.setSelectedIndex(selectedType);
+    }
+
+    @Override
+    protected void afterReconstruction()
+    {
         setType(getType());
 
         wantedSizeContent.setMinWidth(wantedWeight);
         wantedSizeContent.setMinHeight(wantedHeight);
+        super.afterReconstruction();
     }
-
 
     @Override
     protected INode copy() throws CloneNotSupportedException

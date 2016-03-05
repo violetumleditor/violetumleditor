@@ -22,12 +22,9 @@
 package com.horstmann.violet.product.diagram.sequence.edge;
 
 import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 import com.horstmann.violet.product.diagram.abstracts.edge.bentstyle.BentStyle;
 import com.horstmann.violet.product.diagram.common.edge.LabeledLineEdge;
-import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
 import com.horstmann.violet.product.diagram.property.LineStyleChoiceList;
 import com.horstmann.violet.product.diagram.sequence.SequenceDiagramConstant;
@@ -51,14 +48,14 @@ public class ReturnEdge extends LabeledLineEdge
     }
 
     @Override
-    public void deserializeSupport()
+    protected void beforeReconstruction()
     {
-        setBentStyle(BentStyle.STRAIGHT);
-
-        super.deserializeSupport();
+        super.beforeReconstruction();
         setEndArrowhead(ArrowheadChoiceList.V);
         setStartArrowhead(ArrowheadChoiceList.NONE);
         setLineStyle(LineStyleChoiceList.DOTTED);
+        setBentStyle(BentStyle.STRAIGHT);
+
     }
 
     @Override

@@ -42,14 +42,14 @@ public abstract class LineEdge extends ShapeEdge
     }
 
     @Override
-    public void deserializeSupport()
+    protected void beforeReconstruction()
     {
-        super.deserializeSupport();
+        super.beforeReconstruction();
         lineStyleChoiceList = new LineStyleChoiceList();
         bentStyleChoiceList = new BentStyleChoiceList();
 
-        bentStyleChoiceList.setSelectedIndex(selectedBentStyle);
         lineStyleChoiceList.setSelectedIndex(selectedLineStyle);
+        bentStyleChoiceList.setSelectedIndex(selectedBentStyle);
     }
 
     /**

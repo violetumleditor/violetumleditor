@@ -54,11 +54,11 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
     {
         for(INode node : nodes)
         {
-            node.deserializeSupport();
+            node.reconstruction();
         }
         for(IEdge edge : edges)
         {
-            edge.deserializeSupport();
+            edge.reconstruction();
         }
     }
 

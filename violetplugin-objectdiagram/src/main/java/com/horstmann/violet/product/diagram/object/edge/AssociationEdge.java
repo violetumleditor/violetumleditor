@@ -30,9 +30,9 @@ public class AssociationEdge extends LabeledLineEdge
     }
 
     @Override
-    public void deserializeSupport()
+    protected void beforeReconstruction()
     {
-        super.deserializeSupport();
+        super.beforeReconstruction();
         setBentStyle(BentStyle.STRAIGHT);
         setStartArrowhead(ArrowheadChoiceList.NONE);
         setEndArrowhead(ArrowheadChoiceList.V);

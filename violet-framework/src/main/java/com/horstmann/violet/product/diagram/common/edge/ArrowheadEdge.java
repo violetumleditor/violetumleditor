@@ -36,9 +36,9 @@ public abstract class ArrowheadEdge extends LineEdge
     }
 
     @Override
-    public void deserializeSupport()
+    protected void beforeReconstruction()
     {
-        super.deserializeSupport();
+        super.beforeReconstruction();
 
         startArrowheadChoiceList = new ArrowheadChoiceList();
         endArrowheadChoiceList = new ArrowheadChoiceList();
