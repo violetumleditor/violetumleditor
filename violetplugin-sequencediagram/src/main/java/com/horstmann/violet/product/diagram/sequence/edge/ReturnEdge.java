@@ -25,6 +25,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import com.horstmann.violet.product.diagram.abstracts.edge.bentstyle.BentStyle;
 import com.horstmann.violet.product.diagram.common.edge.LabeledLineEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
@@ -41,6 +42,7 @@ public class ReturnEdge extends LabeledLineEdge
         setEndArrowhead(ArrowheadChoiceList.V);
         setStartArrowhead(ArrowheadChoiceList.NONE);
         setLineStyle(LineStyleChoiceList.DOTTED);
+        setBentStyle(BentStyle.STRAIGHT);
     }
 
     protected ReturnEdge(ReturnEdge clone)
@@ -51,6 +53,8 @@ public class ReturnEdge extends LabeledLineEdge
     @Override
     public void deserializeSupport()
     {
+        setBentStyle(BentStyle.STRAIGHT);
+
         super.deserializeSupport();
         setEndArrowhead(ArrowheadChoiceList.V);
         setStartArrowhead(ArrowheadChoiceList.NONE);

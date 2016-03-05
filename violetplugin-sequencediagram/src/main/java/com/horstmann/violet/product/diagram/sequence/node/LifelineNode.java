@@ -78,7 +78,9 @@ public class LifelineNode extends ColorableNode
         {
             if (child instanceof ActivationBarNode)
             {
+                child.deserializeSupport();
                 activationsGroup.add(((ActivationBarNode) child).getContent());
+                onChildChangeLocation(child);
             }
         }
     }

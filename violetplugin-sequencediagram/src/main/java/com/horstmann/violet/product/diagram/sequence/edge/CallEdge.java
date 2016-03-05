@@ -1,5 +1,6 @@
 package com.horstmann.violet.product.diagram.sequence.edge;
 
+import com.horstmann.violet.product.diagram.abstracts.edge.bentstyle.BentStyle;
 import com.horstmann.violet.product.diagram.common.edge.LabeledLineEdge;
 import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
 import com.horstmann.violet.product.diagram.property.LineStyleChoiceList;
@@ -20,6 +21,7 @@ public abstract class CallEdge extends LabeledLineEdge
     {
         setStartArrowhead(ArrowheadChoiceList.NONE);
         setLineStyle(LineStyleChoiceList.SOLID);
+        setBentStyle(BentStyle.STRAIGHT);
     }
 
     protected CallEdge(CallEdge clone)
@@ -33,6 +35,7 @@ public abstract class CallEdge extends LabeledLineEdge
         super.deserializeSupport();
         setStartArrowhead(ArrowheadChoiceList.NONE);
         setLineStyle(LineStyleChoiceList.SOLID);
+        setBentStyle(BentStyle.STRAIGHT);
     }
 
     @Override

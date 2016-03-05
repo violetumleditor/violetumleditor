@@ -72,7 +72,9 @@ public class ActivationBarNode extends ColorableNode
         {
             if (child instanceof ActivationBarNode)
             {
+                child.deserializeSupport();
                 activationsGroup.add(((ActivationBarNode) child).getContent());
+                onChildChangeLocation(child);
             }
         }
     }
@@ -105,7 +107,6 @@ public class ActivationBarNode extends ColorableNode
         setContent(getBackground());
 
         setTextColor(getTextColor());
-        refreshPositionAndSize();
     }
 
     @Override
@@ -291,10 +292,9 @@ public class ActivationBarNode extends ColorableNode
         {
             if (edge instanceof CallEdge && edge.getEndNode() instanceof ActivationBarNode)
             {
-                if (edge.getStartNode() == this &&
-                    edge.getEndNode().getParents().contains(edge.getStartNode()))
+                if (edge.getStartNode() == this)
                 {
-                    y = Math.min(y, edge.getEndNode().getLocation().getY()-5);
+                    y = Math.min(y, edge.getEndNode().getLocationOnGraph().getY() - 5);
                 }
             }
         }
@@ -360,20 +360,28 @@ public class ActivationBarNode extends ColorableNode
         }
         if (start instanceof ActivationBarNode && end instanceof ActivationBarNode)
         {
-            if(start.getParents().contains(end))
+            if(start.getParents().get(0) != end.getParents().get(0))
             {
-                return false;
+                return true;
             }
-
-            if(start == end)
+            else if(start == end)
             {
                 ActivationBarNode newActivationBar = new ActivationBarNode();
                 Point2D location = edge.getStartLocation();
                 Point2D newActivationBarLocation = new Point2D.Double(location.getX(), location.getY() + CALL_Y_GAP / 2);
                 start.addChild(newActivationBar, newActivationBarLocation);
                 edge.setEndNode(newActivationBar);
+
+                return true;
             }
-            return true;
+            else if(end.getParents().contains(start))
+            {
+                return true;
+            }
+            else if(start.getParents().contains(end))
+            {
+                return false;
+            }
         }
 
         if (end instanceof LifelineNode)
