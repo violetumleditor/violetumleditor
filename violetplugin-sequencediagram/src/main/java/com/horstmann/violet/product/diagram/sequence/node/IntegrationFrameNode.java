@@ -50,12 +50,12 @@ public class IntegrationFrameNode extends ColorableNode implements IResizableNod
     @Override
     public void deserializeSupport()
     {
-        type = new TextChoiceList<String>(TYPE_KEYS, TYPE_KEYS);
-        type.setSelectedIndex(selectedType);
-
         frameContent.deserializeSupport();
         name.deserializeSupport(nameConverter);
         name.setPadding(0,8,0,18);
+
+        type = new TextChoiceList<String>(TYPE_KEYS, TYPE_KEYS);
+        type.setSelectedIndex(selectedType);
 
         super.deserializeSupport();
 
