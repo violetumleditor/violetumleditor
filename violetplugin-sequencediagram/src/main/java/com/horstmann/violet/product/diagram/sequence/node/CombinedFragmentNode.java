@@ -4,9 +4,9 @@ import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.property.choiceList.ChoiceList;
 import com.horstmann.violet.product.diagram.property.choiceList.TextChoiceList;
-import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.IResizableNode;
 import com.horstmann.violet.product.diagram.property.text.LineText;
@@ -22,9 +22,12 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 /**
- * A integration frame node in a UML diagram.
+ * A Combined fragment node in a UML diagram.
+ *
+ * @author Adrian Bobrowski <adrian071993@gmail.com>
+ * @date 21.02.2016
  */
-public class CombinedFragmentNode extends ColorableNode implements IResizableNode
+public class CombinedFragmentNode extends AbstractNode implements IResizableNode
 {
     public CombinedFragmentNode()
     {
@@ -114,7 +117,7 @@ public class CombinedFragmentNode extends ColorableNode implements IResizableNod
             }
         });
 
-        ContentBackground nameBackground = new ContentBackground(new ContentBorder(nameInsideShape, getBorderColor()), new Color(255, 255, 153, 255));
+        ContentBackground nameBackground = new ContentBackground(new ContentBorder(nameInsideShape, BORDER_COLOR), BACKGROUND_COLOR);
 
         EmptyContent nameMarginRight = new EmptyContent();
         nameMarginRight.setMinWidth(NAME_MARGIN_RIGHT);
@@ -129,20 +132,7 @@ public class CombinedFragmentNode extends ColorableNode implements IResizableNod
 
         ContentInsideShape contentInsideShape = new ContentInsideRectangle(relativeGroupContent);
 
-        setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
-        setContent(getBorder());
-    }
-
-    @Override
-    public void setTextColor(Color textColor)
-    {
-        frameContent.setTextColor(textColor);
-        super.setTextColor(textColor);
-    }
-
-    @Override
-    public void setBorderColor(Color borderColor)
-    {
+        setContent(new ContentBorder(contentInsideShape, BORDER_COLOR));
     }
 
     @Override
@@ -235,6 +225,9 @@ public class CombinedFragmentNode extends ColorableNode implements IResizableNod
     private static final int DEFAULT_HEIGHT = 50;
     private static final int NAME_MARGIN_RIGHT = 10;
     private static final int RESIZABLE_POINT_SIZE = 5;
+
+    private static final Color BORDER_COLOR = new Color(191, 191, 191, 255);
+    private static final Color BACKGROUND_COLOR = new Color(255, 255, 153, 255);
 
     private static final LineText.Converter nameConverter = new LineText.Converter()
     {

@@ -1,18 +1,16 @@
 package com.horstmann.violet.product.diagram.sequence.node;
 
 
-import com.horstmann.violet.framework.util.BeanInfo;
+import com.horstmann.violet.product.diagram.common.node.ColorableNodeBeanInfo;
 import com.horstmann.violet.product.diagram.sequence.SequenceDiagramConstant;
 
-import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
-import java.beans.SimpleBeanInfo;
 import java.util.List;
 
 /**
  * The bean info for the CombinedFragmentNode type.
  */
-public class LifelineNodeBeanInfo extends BeanInfo
+public class LifelineNodeBeanInfo extends ColorableNodeBeanInfo
 {
     public LifelineNodeBeanInfo()
     {

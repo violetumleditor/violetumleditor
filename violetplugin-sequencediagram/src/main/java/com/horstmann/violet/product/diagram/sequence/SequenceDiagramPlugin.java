@@ -31,13 +31,13 @@ public class SequenceDiagramPlugin implements IDiagramPlugin, Violet016FileFilte
     @Override
     public String getProvider()
     {
-        return "Alexandre de Pellegrin / Cays S. Horstmann";
+        return "Alexandre de Pellegrin / Cays S. Horstmann / Adrian Bobrowski";
     }
 
     @Override
     public String getVersion()
     {
-        return "1.0.0";
+        return "2.1.0";
     }
 
     @Override
@@ -88,5 +88,4 @@ public class SequenceDiagramPlugin implements IDiagramPlugin, Violet016FileFilte
     }
 
     private ResourceBundle rs = ResourceBundle.getBundle(SequenceDiagramConstant.SEQUENCE_DIAGRAM_STRINGS, Locale.getDefault());
-
 }

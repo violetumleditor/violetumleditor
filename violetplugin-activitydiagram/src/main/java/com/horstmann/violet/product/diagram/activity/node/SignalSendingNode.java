@@ -31,7 +31,7 @@ import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
 import com.horstmann.violet.framework.graphics.content.TextContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
+import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 

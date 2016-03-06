@@ -19,7 +19,7 @@
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package com.horstmann.violet.product.diagram.abstracts.node;
+package com.horstmann.violet.product.diagram.common.node;
 
 import java.awt.Color;
 import java.awt.Shape;
@@ -31,6 +31,8 @@ import com.horstmann.violet.framework.graphics.content.EmptyContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRoundRectangle;
 import com.horstmann.violet.product.diagram.abstracts.IColorable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
+import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 
 /**

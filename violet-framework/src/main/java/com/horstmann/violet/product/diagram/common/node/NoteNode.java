@@ -32,7 +32,6 @@ import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
 import com.horstmann.violet.framework.theme.ThemeManager;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.property.text.MultiLineText;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;

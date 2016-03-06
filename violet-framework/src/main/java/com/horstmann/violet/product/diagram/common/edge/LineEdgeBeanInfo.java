@@ -2,6 +2,7 @@ package com.horstmann.violet.product.diagram.common.edge;
 
 import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
 import com.horstmann.violet.framework.util.BeanInfo;
+import com.horstmann.violet.product.diagram.abstracts.edge.AbstractEdgeBeanInfo;
 
 import java.beans.PropertyDescriptor;
 import java.util.List;
@@ -13,18 +14,16 @@ import java.util.List;
  * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 21.02.2016
  */
-public class LineEdgeBeanInfo extends BeanInfo
+public class LineEdgeBeanInfo extends AbstractEdgeBeanInfo
 {
     public LineEdgeBeanInfo()
     {
         super(LineEdge.class);
-        addResourceBundle(ResourceBundleConstant.NODE_AND_EDGE_STRINGS);
     }
 
     protected LineEdgeBeanInfo(Class<?> beanClass)
     {
         super(beanClass);
-        addResourceBundle(ResourceBundleConstant.NODE_AND_EDGE_STRINGS);
     }
 
     @Override

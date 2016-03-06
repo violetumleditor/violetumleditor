@@ -39,7 +39,6 @@ import javax.swing.ImageIcon;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.property.text.MultiLineText;
 
 /**

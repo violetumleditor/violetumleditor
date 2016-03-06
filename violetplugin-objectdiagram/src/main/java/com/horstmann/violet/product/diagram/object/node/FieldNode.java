@@ -31,7 +31,7 @@ import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.content.HorizontalLayout;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
+import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.object.ObjectDiagramConstant;
 import com.horstmann.violet.product.diagram.property.text.LineText;

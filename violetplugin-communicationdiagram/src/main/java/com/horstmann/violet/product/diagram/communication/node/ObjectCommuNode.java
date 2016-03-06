@@ -6,7 +6,7 @@ import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.communication.CommunicationDiagramConstant;
 import com.horstmann.violet.product.diagram.property.text.decorator.OneLineText;
-import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
+import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;

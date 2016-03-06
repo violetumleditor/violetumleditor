@@ -27,10 +27,11 @@ import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
-import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
+import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.sequence.SequenceDiagramConstant;
 import com.horstmann.violet.product.diagram.sequence.edge.CallEdge;

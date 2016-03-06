@@ -7,7 +7,7 @@ import com.horstmann.violet.product.diagram.classes.ClassDiagramConstant;
 import com.horstmann.violet.product.diagram.property.text.decorator.LargeSizeDecorator;
 import com.horstmann.violet.product.diagram.property.text.decorator.OneLineText;
 import com.horstmann.violet.product.diagram.property.text.decorator.PrefixDecorator;
-import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
+import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.MultiLineText;
