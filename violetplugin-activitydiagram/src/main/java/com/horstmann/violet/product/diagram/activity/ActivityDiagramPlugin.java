@@ -24,9 +24,17 @@ public class ActivityDiagramPlugin implements IDiagramPlugin {
     }
 
     @Override
-    public String getDescription()
+    public String getShortDescription()
     {
         return ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("description");
+    }
+
+    /**
+     * @return full description
+     */
+    @Override
+    public String getFullDescription() {
+        return null;
     }
 
     @Override

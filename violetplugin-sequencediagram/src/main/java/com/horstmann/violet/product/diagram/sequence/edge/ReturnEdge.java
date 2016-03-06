@@ -68,7 +68,7 @@ public class ReturnEdge extends LabeledLineEdge
     @Override
     public String getToolTip()
     {
-        return SequenceDiagramConstant.SEQUENCE_DIAGRAM_RESOURCE.getString("return_edge.tooltip");
+        return SequenceDiagramConstant.SEQUENCE_DIAGRAM_RESOURCE.getString("tooltip.return_edge");
     }
 
     @Override

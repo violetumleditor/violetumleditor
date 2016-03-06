@@ -13,13 +13,13 @@ public class SingleLineText extends LineText
     public SingleLineText()
     {
         super();
-        setPadding(0,10);
+        setPadding(5,10);
         oneLineString = new OneLineText();
     }
     public SingleLineText(Converter converter)
     {
         super(converter);
-        setPadding(0,10);
+        setPadding(5,10);
         oneLineString = new OneLineText();
     }
     protected SingleLineText(SingleLineText lineText) throws CloneNotSupportedException

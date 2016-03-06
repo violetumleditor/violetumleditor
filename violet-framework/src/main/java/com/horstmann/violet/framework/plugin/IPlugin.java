@@ -6,23 +6,26 @@ package com.horstmann.violet.framework.plugin;
  * @author Alexandre de Pellegrin
  * 
  */
-interface AbstractPlugin
+interface IPlugin
 {
-
-    /**
-     * @return very short plugin description (ex : Class diagram XMI extension)
-     */
-    public abstract String getDescription();
-
     /**
      * 
      * @return plugin's provider or authors
      */
-    public abstract String getProvider();
+    String getProvider();
 
     /**
      * @return plugin's version. Please, keep the pattern aa.bb.cc as major-version.minor-version.patch. (ex : 1.20.0)
      */
-    public abstract String getVersion();
+    String getVersion();
 
+    /**
+     * @return very short plugin description (ex : Class diagram XMI extension)
+     */
+    String getShortDescription();
+
+    /**
+     * @return full description
+     */
+    String getFullDescription();
 }

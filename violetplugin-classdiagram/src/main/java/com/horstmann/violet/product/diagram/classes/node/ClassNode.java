@@ -1,6 +1,8 @@
 package com.horstmann.violet.product.diagram.classes.node;
 
 import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 import com.horstmann.violet.framework.graphics.Separator;
 import com.horstmann.violet.framework.graphics.content.*;
@@ -25,10 +27,10 @@ public class ClassNode extends ColorableNode
     public ClassNode()
     {
         super();
-        name = new SingleLineText(nameConverter);
+        name = new SingleLineText(NAME_CONVERTER);
         name.setAlignment(LineText.CENTER);
-        attributes = new MultiLineText(propertyConverter);
-        methods = new MultiLineText(propertyConverter);
+        attributes = new MultiLineText(PROPERTY_CONVERTER);
+        methods = new MultiLineText(PROPERTY_CONVERTER);
         createContentStructure();
     }
 
@@ -46,9 +48,9 @@ public class ClassNode extends ColorableNode
     {
         super.beforeReconstruction();
 
-        name.reconstruction(nameConverter);
-        attributes.reconstruction(propertyConverter);
-        methods.reconstruction(propertyConverter);
+        name.reconstruction(NAME_CONVERTER);
+        attributes.reconstruction(PROPERTY_CONVERTER);
+        methods.reconstruction(PROPERTY_CONVERTER);
         name.setAlignment(LineText.CENTER);
     }
 
@@ -105,7 +107,7 @@ public class ClassNode extends ColorableNode
     @Override
     public String getToolTip()
     {
-        return ClassDiagramConstant.CLASS_DIAGRAM_RESOURCE.getString("class_node.tooltip");
+        return ClassDiagramConstant.CLASS_DIAGRAM_RESOURCE.getString("tooltip.class_node");
     }
 
     /**
@@ -176,8 +178,8 @@ public class ClassNode extends ColorableNode
 
     private static final int MIN_NAME_HEIGHT = 45;
     private static final int MIN_WIDTH = 100;
-    private static final String ABSTRACT = "<<abstract>>";
     private static final String STATIC = "<<static>>";
+    private static final String ABSTRACT = "«abstract»";
     private static final String[][] SIGNATURE_REPLACE_KEYS = {
             { "public ", "+ " },
             { "package ", "~ " },
@@ -186,21 +188,46 @@ public class ClassNode extends ColorableNode
             { "property ", "/ " }
     };
 
-    private static final LineText.Converter nameConverter = new LineText.Converter()
+    private static final List<String> STEREOTYPES = Arrays.asList(
+            "«Utility»",
+            "«Type»",
+            "«Metaclass»",
+            "«ImplementationClass»",
+            "«Focus»",
+            "«Entity»",
+            "«Control»",
+            "«Boundary»",
+            "«Auxiliary»",
+            ABSTRACT
+    );
+
+    private static final LineText.Converter NAME_CONVERTER = new LineText.Converter()
     {
         @Override
         public OneLineText toLineString(String text)
         {
-            OneLineText lineString = new OneLineText(text);
-            if(lineString.contains(ABSTRACT))
+            OneLineText controlText = new OneLineText(text);
+            OneLineText lineString = new LargeSizeDecorator(controlText);
+
+            if(controlText.contains(ABSTRACT))
             {
-                return new PrefixDecorator( new LargeSizeDecorator(new RemoveSentenceDecorator(lineString, ABSTRACT)), "<center>«abstract»</center>");
+                lineString = new ItalicsDecorator(lineString);
             }
 
-            return new LargeSizeDecorator(new OneLineText(text));
+            for(String stereotype : STEREOTYPES)
+            {
+                if(controlText.contains(stereotype))
+                {
+                    lineString = new PrefixDecorator(new RemoveSentenceDecorator(
+                            lineString, stereotype), String.format("<center>%s</center>", stereotype)
+                    );
+                }
+            }
+
+            return lineString;
         }
     };
-    private static final LineText.Converter propertyConverter= new LineText.Converter()
+    private static final LineText.Converter PROPERTY_CONVERTER = new LineText.Converter()
     {
         @Override
         public OneLineText toLineString(String text)

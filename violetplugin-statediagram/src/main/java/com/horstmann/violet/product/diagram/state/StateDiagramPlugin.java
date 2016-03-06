@@ -22,9 +22,17 @@ public class StateDiagramPlugin implements IDiagramPlugin, Violet016FileFilterEx
 {
 
     @Override
-    public String getDescription()
+    public String getShortDescription()
     {
         return "State UML diagram";
+    }
+
+    /**
+     * @return full description
+     */
+    @Override
+    public String getFullDescription() {
+        return null;
     }
 
     @Override

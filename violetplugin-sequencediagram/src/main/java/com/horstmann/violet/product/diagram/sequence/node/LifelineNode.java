@@ -161,7 +161,7 @@ public class LifelineNode extends ColorableNode
     @Override
     public String getToolTip()
     {
-        return SequenceDiagramConstant.SEQUENCE_DIAGRAM_RESOURCE.getString("lifeline_node.tooltip");
+        return SequenceDiagramConstant.SEQUENCE_DIAGRAM_RESOURCE.getString("tooltip.lifeline_node");
     }
 
     @Override

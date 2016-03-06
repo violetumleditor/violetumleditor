@@ -27,7 +27,6 @@ import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
-import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
@@ -115,7 +114,7 @@ public class ActivationBarNode extends ColorableNode
     @Override
     public String getToolTip()
     {
-        return SequenceDiagramConstant.SEQUENCE_DIAGRAM_RESOURCE.getString("activation_bar_node.tooltip");
+        return SequenceDiagramConstant.SEQUENCE_DIAGRAM_RESOURCE.getString("tooltip.activation_bar_node");
     }
 
     @Override

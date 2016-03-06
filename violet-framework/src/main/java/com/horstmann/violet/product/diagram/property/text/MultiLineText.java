@@ -23,12 +23,12 @@ public class MultiLineText extends LineText
     public MultiLineText()
     {
         super();
-        setPadding(2,8);
+        setPadding(7,8);
     }
     public MultiLineText(Converter converter)
     {
         super(converter);
-        setPadding(1,8);
+        setPadding(6,8);
     }
     protected MultiLineText(MultiLineText lineText) throws CloneNotSupportedException
     {

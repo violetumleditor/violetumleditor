@@ -56,6 +56,6 @@ public class SynchronousCallEdge extends CallEdge
     @Override
     public String getToolTip()
     {
-        return SequenceDiagramConstant.SEQUENCE_DIAGRAM_RESOURCE.getString("synchronous_call_edge.tooltip");
+        return SequenceDiagramConstant.SEQUENCE_DIAGRAM_RESOURCE.getString("tooltip.synchronous_call_edge");
     }
 }

@@ -56,6 +56,6 @@ public class AsynchronousCallEdge extends CallEdge
     @Override
     public String getToolTip()
     {
-        return SequenceDiagramConstant.SEQUENCE_DIAGRAM_RESOURCE.getString("asynchronous_call_edge.tooltip");
+        return SequenceDiagramConstant.SEQUENCE_DIAGRAM_RESOURCE.getString("tooltip.asynchronous_call_edge");
     }
 }

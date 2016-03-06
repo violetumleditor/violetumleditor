@@ -45,6 +45,6 @@ public class DependencyEdge extends LabeledLineEdge
     @Override
     public String getToolTip()
     {
-        return ClassDiagramConstant.CLASS_DIAGRAM_RESOURCE.getString("dependency_edge.tooltip");
+        return ClassDiagramConstant.CLASS_DIAGRAM_RESOURCE.getString("tooltip.dependency_edge");
     }
 }

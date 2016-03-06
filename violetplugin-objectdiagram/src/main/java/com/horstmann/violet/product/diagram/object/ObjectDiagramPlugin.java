@@ -23,9 +23,17 @@ public class ObjectDiagramPlugin implements IDiagramPlugin, Violet016FileFilterE
 {
 
     @Override
-    public String getDescription()
+    public String getShortDescription()
     {
         return "Object UML diagram";
+    }
+
+    /**
+     * @return full description
+     */
+    @Override
+    public String getFullDescription() {
+        return null;
     }
 
     @Override

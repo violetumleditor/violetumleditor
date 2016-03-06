@@ -98,7 +98,7 @@ public class InterfaceNode extends ColorableNode
     @Override
     public String getToolTip()
     {
-        return ClassDiagramConstant.CLASS_DIAGRAM_RESOURCE.getString("interface_node.tooltip");
+        return ClassDiagramConstant.CLASS_DIAGRAM_RESOURCE.getString("tooltip.interface_node");
     }
 
     @Override

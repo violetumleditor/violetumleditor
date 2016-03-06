@@ -22,9 +22,17 @@ public class UseCaseDiagramPlugin implements IDiagramPlugin, Violet016FileFilter
 {
 
     @Override
-    public String getDescription()
+    public String getShortDescription()
     {
         return "Use case UML diagram";
+    }
+
+    /**
+     * @return full description
+     */
+    @Override
+    public String getFullDescription() {
+        return null;
     }
 
     @Override

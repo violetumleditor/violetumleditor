@@ -45,6 +45,6 @@ public class AggregationEdge extends LabeledLineEdge
     @Override
     public String getToolTip()
     {
-        return ClassDiagramConstant.CLASS_DIAGRAM_RESOURCE.getString("aggregation_edge.tooltip");
+        return ClassDiagramConstant.CLASS_DIAGRAM_RESOURCE.getString("tooltip.aggregation_edge");
     }
 }

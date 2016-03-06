@@ -2,13 +2,15 @@ package com.horstmann.violet.product.diagram.classes.node;
 
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideEllipse;
+import com.horstmann.violet.product.diagram.abstracts.Direction;
+import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.classes.ClassDiagramConstant;
 import com.horstmann.violet.product.diagram.property.choiceList.ChoiceList;
 import com.horstmann.violet.product.diagram.property.choiceList.TextChoiceList;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
-import com.horstmann.violet.product.diagram.common.node.PointNode;
 
 import java.awt.*;
 import java.awt.geom.*;
@@ -16,7 +18,9 @@ import java.awt.geom.*;
 import static com.horstmann.violet.product.diagram.classes.node.BallAndSocketNode.Types.BALL;
 
 /**
- * @author Jakub Homlala This class represents ball and socket (Ball and Socket interface notification)
+ * This class represents ball and socket (Ball and Socket interface notification)
+ *
+ * @author Jakub Homlala
  */
 public class BallAndSocketNode extends ColorableNode
 {
@@ -27,42 +31,16 @@ public class BallAndSocketNode extends ColorableNode
         BALL_AND_SOCKET
     }
 
-    protected class BallAndSocketShape implements ContentInsideCustomShape.ShapeCreator
+    protected class SocketShape implements ContentInsideCustomShape.ShapeCreator
     {
         @Override
         public Shape createShape(double contentWidth, double contentHeight)
         {
-            GeneralPath path = new GeneralPath();
-
-            switch ((Types)type.getSelectedValue())
-            {
-                case BALL:
-                {
-                    return new Ellipse2D.Double(DEFAULT_GAP,DEFAULT_GAP,DEFAULT_DIAMETER-2*DEFAULT_GAP,DEFAULT_DIAMETER-2*DEFAULT_GAP);
-                }
-
-                case SOCKET:
-                {
-                    path.append(new Arc2D.Double(0, DEFAULT_GAP, DEFAULT_DIAMETER, DEFAULT_DIAMETER, 0, 180, Arc2D.OPEN),false);
-                }break;
-
-                case BALL_AND_SOCKET:
-                {
-                    path.append(new Ellipse2D.Double(DEFAULT_GAP,DEFAULT_GAP,DEFAULT_DIAMETER-2*DEFAULT_GAP,DEFAULT_DIAMETER-2*DEFAULT_GAP),false);
-                    path.append(new Arc2D.Double(0, 0, DEFAULT_DIAMETER, DEFAULT_DIAMETER, 0, 180, Arc2D.OPEN),false);
-                }break;
-            }
-
-            AffineTransform af = new AffineTransform();
-            af.rotate(
-                    Math.toRadians((Integer)orientation.getSelectedValue()),
-                    path.getBounds().getX() + path.getBounds().width/2,
-                    path.getBounds().getY() + path.getBounds().height/2
-            );
-            path.transform(af);
-
-            return path;
+            int angle = (Integer)orientation.getSelectedValue();
+            return new Arc2D.Double(0, 0, DEFAULT_DIAMETER, DEFAULT_DIAMETER, angle, 180, Arc2D.OPEN);
         }
+
+//        path.append(new Ellipse2D.Double(DEFAULT_GAP,DEFAULT_GAP,DEFAULT_DIAMETER-2*DEFAULT_GAP,DEFAULT_DIAMETER-2*DEFAULT_GAP),false);
     }
 
     /**
@@ -75,6 +53,8 @@ public class BallAndSocketNode extends ColorableNode
         name = new SingleLineText();
         type = new TextChoiceList<Types>(TYPE_KEYS, TYPE_VALUES);
         orientation = new TextChoiceList<Integer>(ORIENTATION_KEYS, ORIENTATION_VALUES);
+
+        name.setPadding(25,5,5,5);
     }
 
     protected BallAndSocketNode(BallAndSocketNode node) throws CloneNotSupportedException
@@ -103,49 +83,128 @@ public class BallAndSocketNode extends ColorableNode
     @Override
     public void createContentStructure()
     {
+        VerticalLayout verticalGroupContent = new VerticalLayout();
+
+        ballAndSocketLayout = new RelativeLayout();
+        ballAndSocketLayout.setMinWidth(DEFAULT_DIAMETER);
+        ballAndSocketLayout.setMinHeight(DEFAULT_DIAMETER);
+        refreshBallAndSocketLayout();
+
         TextContent nameContent = new TextContent(name);
 
-        ContentInsideCustomShape shape = new ContentInsideCustomShape(null, new BallAndSocketShape());
-        shape.setMinWidth(DEFAULT_DIAMETER);
-        shape.setMinHeight(DEFAULT_DIAMETER);
-
-        setBorder(new ContentBorder(shape, getBorderColor()));
-//        setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
-
-        CenterContent centeredShape = new CenterContent(getBorder());
-
-        VerticalLayout verticalGroupContent = new VerticalLayout();
-        verticalGroupContent.add(centeredShape);
+        verticalGroupContent.add(new CenterContent(ballAndSocketLayout));
         verticalGroupContent.add(nameContent);
 
         setContent(verticalGroupContent);
-
         setTextColor(super.getTextColor());
+    }
+
+    @Override
+    public void setBackgroundColor(Color bgColor)
+    {
+        super.setBackgroundColor(bgColor);
+        ballBackground.setBackgroundColor(bgColor);
+    }
+
+    @Override
+    public void setBorderColor(Color borderColor)
+    {
+        super.setBorderColor(borderColor);
+        socketBorder.setBorderColor(borderColor);
+        ballBorder.setBorderColor(borderColor);
     }
 
     @Override
     public String getToolTip()
     {
-        return ClassDiagramConstant.CLASS_DIAGRAM_RESOURCE.getString("ball_and_socket_node.tooltip");
+        return ClassDiagramConstant.CLASS_DIAGRAM_RESOURCE.getString("tooltip.ball_and_socket_node");
     }
 
-    /**
-     * (non-Javadoc) This method is used for setting right starting point for
-     * wire
-     *
-     * @see
-     * com.horstmann.violet.product.diagram.abstracts.node.AbstractNode#addChild
-     * (com.horstmann.violet.product.diagram.abstracts.node.INode,
-     * java.awt.geom.Point2D)
-     */
     @Override
-    public boolean addChild(INode n, Point2D p) {
-        if (n instanceof PointNode) {
-            return true;
+    public Point2D getConnectionPoint(IEdge edge)
+    {
+        Direction direction = edge.getDirection(this).getNearestCardinalDirection();
+        Rectangle2D selfBounds = getBounds();
+
+        if(!name.toEdit().isEmpty() && Direction.NORTH.equals(direction))
+        {
+            return new Point2D.Double(
+                    selfBounds.getCenterX(),
+                    selfBounds.getMaxY()
+            );
         }
-        return false;
+
+        Types type = (Types)getType().getSelectedValue();
+        int orientationAngle = (Integer)orientation.getSelectedValue();
+        int directionAngle = 0;
+
+        if(Direction.SOUTH.equals(direction))
+        {
+            directionAngle = 180;
+        }
+        else if(Direction.WEST.equals(direction))
+        {
+            directionAngle = 90;
+        }
+        else if(Direction.EAST.equals(direction))
+        {
+            directionAngle = 270;
+        }
+
+        boolean supportDirection =(Types.BALL_AND_SOCKET == type && (directionAngle +180)%360 == orientationAngle);
+
+        if(Types.SOCKET == type || supportDirection)
+        {
+            double radians = Math.toRadians(orientationAngle+180);
+            return new Point2D.Double(
+                    selfBounds.getCenterX() + Math.sin(radians) * DEFAULT_DIAMETER/2,
+                    selfBounds.getY() + (1+Math.cos(radians)) * DEFAULT_DIAMETER/2
+            );
+        }
+
+        double radians = Math.toRadians(directionAngle);
+        double topGap = 0;
+
+        if(0 == directionAngle%180)
+        {
+            topGap = DEFAULT_GAP;
+        }
+
+        return new Point2D.Double(
+                selfBounds.getCenterX() + Math.sin(radians) * (DEFAULT_DIAMETER - DEFAULT_GAP)/2,
+                selfBounds.getY() + topGap + (1+Math.cos(radians)) * DEFAULT_DIAMETER/2
+        );
     }
 
+    private void refreshBallAndSocketLayout()
+    {
+        ballAndSocketLayout.remove(ballBackground);
+        ballAndSocketLayout.remove(socketBorder);
+
+        Types type = (Types)getType().getSelectedValue();
+
+        if(Types.BALL_AND_SOCKET == type || Types.SOCKET == type)
+        {
+            Content content = new EmptyContent();
+            content.setMinWidth(DEFAULT_DIAMETER);
+            content.setMinHeight(DEFAULT_DIAMETER);
+
+            socketBorder = new ContentBorder(
+                    new ContentInsideCustomShape(content, new SocketShape()), getBorderColor()
+            );
+            ballAndSocketLayout.add(socketBorder);
+        }
+        if(Types.BALL_AND_SOCKET == type || Types.BALL == type)
+        {
+            Content content = new EmptyContent();
+            content.setMinWidth((DEFAULT_DIAMETER-2*DEFAULT_GAP)/Math.sqrt(2));
+            content.setMinHeight((DEFAULT_DIAMETER-2*DEFAULT_GAP)/Math.sqrt(2));
+
+            ballBorder = new ContentBorder(new ContentInsideEllipse(content, 1), getBorderColor());
+            ballBackground = new ContentBackground(ballBorder, getBackgroundColor());
+            ballAndSocketLayout.add(ballBackground, new Point2D.Double(DEFAULT_GAP,DEFAULT_GAP));
+        }
+    }
 
     /**
      * Sets the name property value.
@@ -186,7 +245,7 @@ public class BallAndSocketNode extends ColorableNode
     public void setOrientation(ChoiceList orientation)
     {
         this.orientation = orientation;
-        getContent().refresh();
+        refreshBallAndSocketLayout();
     }
 
     public ChoiceList getType()
@@ -197,13 +256,18 @@ public class BallAndSocketNode extends ColorableNode
     public void setType(ChoiceList type)
     {
         this.type = type;
-        getContent().refresh();
+        refreshBallAndSocketLayout();
     }
 
 
     private SingleLineText name;
     private ChoiceList orientation;
     private ChoiceList type;
+
+    private transient RelativeLayout ballAndSocketLayout;
+    private transient ContentBorder socketBorder;
+    private transient ContentBorder ballBorder;
+    private transient ContentBackground ballBackground;
 
     /**
      * Diameter of circle used for creating bounds

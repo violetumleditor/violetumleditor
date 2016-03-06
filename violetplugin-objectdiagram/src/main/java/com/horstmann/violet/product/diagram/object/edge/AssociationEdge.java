@@ -48,6 +48,6 @@ public class AssociationEdge extends LabeledLineEdge
     @Override
     public String getToolTip()
     {
-        return ObjectDiagramConstant.OBJECT_DIAGRAM_RESOURCE.getString("association_edge.tooltip");
+        return ObjectDiagramConstant.OBJECT_DIAGRAM_RESOURCE.getString("tooltip.association_edge");
     }
 }

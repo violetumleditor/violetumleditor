@@ -45,6 +45,6 @@ public class InheritanceEdge extends LabeledLineEdge
     @Override
     public String getToolTip()
     {
-        return ClassDiagramConstant.CLASS_DIAGRAM_RESOURCE.getString("inheritance_edge.tooltip");
+        return ClassDiagramConstant.CLASS_DIAGRAM_RESOURCE.getString("tooltip.inheritance_edge");
     }
 }

@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
@@ -23,35 +22,11 @@ import com.horstmann.violet.product.diagram.property.text.SingleLineText;
  */
 public class PackageNode extends ColorableNode
 {
-    static protected class PackageShape implements ContentInsideCustomShape.ShapeCreator
-    {
-        PackageShape(TextContent nameContent) {
-            this.nameContent = nameContent;
-        }
-
-        @Override
-        public Shape createShape(double contentWidth, double contentHeight)
-        {
-            GeneralPath path = new GeneralPath();
-            path.moveTo(nameContent.getWidth(), nameContent.getHeight());
-            path.lineTo(nameContent.getWidth(), 0);
-            path.lineTo(0, 0);
-            path.lineTo(0, contentHeight);
-            path.lineTo(contentWidth, contentHeight);
-            path.lineTo(contentWidth, nameContent.getHeight());
-            path.lineTo(0, nameContent.getHeight());
-            path.closePath();
-            return path;
-        }
-
-        private TextContent nameContent;
-    }
-
     public PackageNode()
     {
         name = new SingleLineText();
         name.setAlignment(LineText.CENTER);
-        text = new MultiLineText();
+        context = new MultiLineText();
         createContentStructure();
     }
 
@@ -59,7 +34,7 @@ public class PackageNode extends ColorableNode
     {
         super(node);
         name = node.name.clone();
-        text = node.text.clone();
+        context = node.context.clone();
         createContentStructure();
     }
 
@@ -69,7 +44,7 @@ public class PackageNode extends ColorableNode
         super.beforeReconstruction();
 
         name.reconstruction();
-        text.reconstruction();
+        context.reconstruction();
     }
 
     @Override
@@ -93,40 +68,36 @@ public class PackageNode extends ColorableNode
     }
 
     @Override
-    protected void createContentStructure() {
-        RelativeLayout relativeGroupContent = new RelativeLayout();
+    protected void createContentStructure()
+    {
+        nameContent = new TextContent(name);
+        nameContent.setMinHeight(DEFAULT_TOP_HEIGHT);
+        nameContent.setMinWidth(DEFAULT_TOP_WIDTH);
+
+        TextContent textContent = new TextContent(context);
 
         nodesGroup = new RelativeLayout();
         nodesGroup.setMinHeight(DEFAULT_HEIGHT);
         nodesGroup.setMinWidth(DEFAULT_WIDTH);
 
-        TextContent nameContent = new TextContent(name);
-        nameContent.setMinHeight(DEFAULT_TOP_HEIGHT);
-        nameContent.setMinWidth(DEFAULT_TOP_WIDTH);
-        TextContent textContent = new TextContent(text);
+        RelativeLayout relativeGroupContent = new RelativeLayout();
+
         EmptyContent emptyContent = new EmptyContent();
-        emptyContent.setMinWidth(CHILD_GAP);
-        EmptyContent emptyWidthContent = new EmptyContent();
-        emptyWidthContent.setMinWidth(CHILD_GAP);
-        EmptyContent emptyHeightContent = new EmptyContent();
-        emptyHeightContent.setMinHeight(CHILD_GAP);
+        emptyContent.setMinWidth(NAME_GAP);
 
-        HorizontalLayout horizontal = new HorizontalLayout();
-        horizontal.add(nodesGroup);
-        horizontal.add(emptyWidthContent);
-        VerticalLayout vertical = new VerticalLayout();
-        vertical.add(horizontal);
-        vertical.add(emptyHeightContent);
+        HorizontalLayout horizontalName = new HorizontalLayout();
+        horizontalName.add(nameContent);
+        horizontalName.add(emptyContent);
 
-        HorizontalLayout horizontalGroupContent = new HorizontalLayout();
-        horizontalGroupContent.add(nameContent);
-        horizontalGroupContent.add(emptyContent);
-
-        relativeGroupContent.add(horizontalGroupContent);
-        relativeGroupContent.add(vertical, new Point2D.Double(0, DEFAULT_TOP_HEIGHT));
+        relativeGroupContent.add(
+                new PaddingContent(nodesGroup, CHILD_GAP), new Point2D.Double(0, DEFAULT_TOP_HEIGHT)
+        );
         relativeGroupContent.add(textContent, new Point2D.Double(0, DEFAULT_TOP_HEIGHT));
+        relativeGroupContent.add(horizontalName);
 
-        ContentInsideShape contentInsideShape = new ContentInsideCustomShape(relativeGroupContent, new PackageShape(nameContent));
+        ContentInsideShape contentInsideShape = new ContentInsideCustomShape(
+                relativeGroupContent, new PackageShape(nameContent)
+        );
 
         setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
         setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
@@ -134,32 +105,37 @@ public class PackageNode extends ColorableNode
     }
 
     @Override
-    public void setTextColor(Color textColor) {
+    public void setTextColor(Color textColor)
+    {
         name.setTextColor(textColor);
-        text.setTextColor(textColor);
+        context.setTextColor(textColor);
         super.setTextColor(textColor);
     }
 
     @Override
     public String getToolTip()
     {
-        return ClassDiagramConstant.CLASS_DIAGRAM_RESOURCE.getString("package_node.tooltip");
+        return ClassDiagramConstant.CLASS_DIAGRAM_RESOURCE.getString("tooltip.package_node");
     }
 
     @Override
-    public Point2D getConnectionPoint(IEdge e) {
-        Point2D connectionPoint = super.getConnectionPoint(e);
+    public Point2D getConnectionPoint(IEdge edge)
+    {
+        Point2D connectionPoint = super.getConnectionPoint(edge);
+        Direction direction = edge.getDirection(this).getNearestCardinalDirection();
 
-        // Fix location to stick to shape (because of the top rectangle)
-        Direction d = e.getDirection(this);
-        Direction nearestCardinalDirection = d.getNearestCardinalDirection();
-        if (Direction.SOUTH.equals(nearestCardinalDirection)) {
-            Rectangle2D topRectangleBounds = name.getBounds();
-            if (!topRectangleBounds.contains(connectionPoint)) {
-                double x = connectionPoint.getX();
-                double y = connectionPoint.getY();
-                double h = topRectangleBounds.getHeight();
-                connectionPoint = new Point2D.Double(x, y + h);
+        if (Direction.SOUTH.equals(direction))
+        {
+            if(connectionPoint.getX() >= getLocation().getX() + nameContent.getWidth())
+            {
+                return new Point2D.Double(connectionPoint.getX(), connectionPoint.getY() + nameContent.getHeight());
+            }
+        }
+        else if(Direction.WEST.equals(direction))
+        {
+            if(connectionPoint.getY() < getLocation().getY() + nameContent.getHeight())
+            {
+                return new Point2D.Double(connectionPoint.getX(), connectionPoint.getY() + nameContent.getHeight());
             }
         }
         return connectionPoint;
@@ -206,7 +182,7 @@ public class PackageNode extends ColorableNode
             child.setLocation(childLocation);
         }
 
-        return new Point2D.Double(childLocation.getX(), childLocation.getY()-DEFAULT_TOP_HEIGHT);
+        return new Point2D.Double(childLocation.getX()-CHILD_GAP, childLocation.getY()-DEFAULT_TOP_HEIGHT-CHILD_GAP);
     }
 
     /**
@@ -249,9 +225,9 @@ public class PackageNode extends ColorableNode
      * 
      * @param newValue the contents of this class
      */
-    public void setText(MultiLineText newValue)
+    public void setContext(MultiLineText newValue)
     {
-        text = newValue;
+        context = newValue;
     }
 
     /**
@@ -259,21 +235,46 @@ public class PackageNode extends ColorableNode
      * 
      * @return the contents of this class
      */
-    public MultiLineText getText()
+    public MultiLineText getContext()
     {
-        return text;
+        return context;
     }
 
     private SingleLineText name;
-    private MultiLineText text;
+    private MultiLineText context;
 
-    private transient RelativeLayout nodesGroup = null;
+    private transient TextContent nameContent;
+    private transient RelativeLayout nodesGroup;
 
     private static int DEFAULT_TOP_WIDTH = 60;
     private static int DEFAULT_TOP_HEIGHT = 20;
     private static int DEFAULT_WIDTH = 100;
     private static int DEFAULT_HEIGHT = 60;
-    private static final int NAME_GAP = 3;
+    private static final int NAME_GAP = 30;
     private static final int CHILD_GAP = 20;
 
+    static protected class PackageShape implements ContentInsideCustomShape.ShapeCreator
+    {
+        PackageShape(TextContent nameContent)
+        {
+            this.nameContent = nameContent;
+        }
+
+        @Override
+        public Shape createShape(double contentWidth, double contentHeight)
+        {
+            GeneralPath path = new GeneralPath();
+            path.moveTo(nameContent.getWidth(), nameContent.getHeight());
+            path.lineTo(nameContent.getWidth(), 0);
+            path.lineTo(0, 0);
+            path.lineTo(0, contentHeight);
+            path.lineTo(contentWidth, contentHeight);
+            path.lineTo(contentWidth, nameContent.getHeight());
+            path.lineTo(0, nameContent.getHeight());
+            path.closePath();
+            return path;
+        }
+
+        private TextContent nameContent;
+    }
 }

@@ -45,6 +45,6 @@ public class CompositionEdge extends LabeledLineEdge
     @Override
     public String getToolTip()
     {
-        return ClassDiagramConstant.CLASS_DIAGRAM_RESOURCE.getString("composition_edge.tooltip");
+        return ClassDiagramConstant.CLASS_DIAGRAM_RESOURCE.getString("tooltip.composition_edge");
     }
 }

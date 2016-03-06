@@ -13,8 +13,16 @@ import com.horstmann.violet.product.diagram.abstracts.IGraph;
 public class CommunicationDiagramPlugin implements IDiagramPlugin {
 
 	@Override
-	public String getDescription() {
+	public String getShortDescription() {
 		return "Communication UML diagram";
+	}
+
+	/**
+	 * @return full description
+	 */
+	@Override
+	public String getFullDescription() {
+		return null;
 	}
 
 	@Override

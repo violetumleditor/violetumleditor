@@ -138,7 +138,7 @@ public class CombinedFragmentNode extends AbstractNode implements IResizableNode
     @Override
     public String getToolTip()
     {
-        return SequenceDiagramConstant.SEQUENCE_DIAGRAM_RESOURCE.getString("combined_fragment_node.tooltip");
+        return SequenceDiagramConstant.SEQUENCE_DIAGRAM_RESOURCE.getString("tooltip.combined_fragment_node");
     }
 
     @Override

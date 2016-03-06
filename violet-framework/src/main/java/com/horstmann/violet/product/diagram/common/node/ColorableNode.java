@@ -116,7 +116,7 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
 
 
     @Override
-    public final void setBackgroundColor(Color bgColor)
+    public void setBackgroundColor(Color bgColor)
     {
         backgroundColor = bgColor;
         if(null != background)
