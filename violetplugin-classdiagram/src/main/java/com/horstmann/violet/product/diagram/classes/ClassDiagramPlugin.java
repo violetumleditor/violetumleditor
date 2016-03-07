@@ -8,7 +8,7 @@ import com.horstmann.violet.framework.plugin.AbstractDiagramPlugin;
  * @author Alexandre de Pellegrin
  * 
  */
-public class ClassDiagramPlugin  extends AbstractDiagramPlugin
+public class ClassDiagramPlugin extends AbstractDiagramPlugin
 {
     public ClassDiagramPlugin()
     {

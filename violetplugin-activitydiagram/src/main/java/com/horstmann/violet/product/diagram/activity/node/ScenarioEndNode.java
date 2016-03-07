@@ -82,7 +82,7 @@ public class ScenarioEndNode extends AbstractNode
     @Override
     public String getToolTip()
     {
-        return ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("scenario_end_node.tooltip");
+        return ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("tooltip.scenario_end_node");
     }
 
     @Override

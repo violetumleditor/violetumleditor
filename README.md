@@ -25,6 +25,10 @@ If you want to go further and contribute (even for small fixes), please read the
 Once you think you have something great, you can create a git pull request. I will examine your request and contact you back.
 
 
+Try beta version
+=================
+https://drive.google.com/folderview?id=0B8Mrn_bc5gt2dGl6OGtydXhOX1k&usp=sharing
+
 
 Kind Regards,
 Alex

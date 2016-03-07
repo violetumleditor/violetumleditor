@@ -85,7 +85,7 @@ public class ActivityNode extends ColorableNode
     @Override
     public String getToolTip()
     {
-        return ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("activity_node.tooltip");
+        return ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("tooltip.activity_node");
     }
 
     public void setName(SingleLineText newValue)

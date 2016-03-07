@@ -2,8 +2,9 @@
 
 
 
-By Cay S. Horstmann (http://www.horstmann.com)
-and Alexandre de Pellegrin (http://alexdp.free.fr)
+By Cay S. Horstmann (http://www.horstmann.com),
+Alexandre de Pellegrin (http://alexdp.free.fr),
+Adrian Bobrowski (https://www.linkedin.com/in/bobrowskiadrian)
 
 
 
@@ -46,7 +47,7 @@ Igor Garcia
 Mark George
 Mike Godfrey
 Daniel Guerrero
-Stefan Gründel
+Stefan Grï¿½ndel
 Wee Jin Goh
 Laurent Hayoun
 Graham King
@@ -58,14 +59,14 @@ Matijs Moest
 Tri Nguyen
 Evelyn Obaid
 Norbert Oertel
-Johannes Päivinen
+Johannes Pï¿½ivinen
 Bill Pine
 Bruce Raggett
 Zack Rubinstein
 Grant Talarico
 Jordan Thompson
 Simon Tokumine
-Jesper Trägardh
+Jesper Trï¿½gardh
 Trygve Utstumo
 Glenn Vanmarcke
 Sam Watkins
@@ -79,15 +80,14 @@ Martin Schleyer
 Adrian Bobrowski
 Artur Ratajczak
 Dawid Pohling
-Piotr Fediów
-Micha³ Leœniak
+Piotr Fediï¿½w
+Michaï¿½ Leï¿½niak
 Piotr Janik
 Bartosz Boguniewicz
 Wojtek Pazio
-Maciej Knicha³
-Pawe³ Majka
-Jacek Pi¹tek
-Mateusz Mucha
+Maciej Knichaï¿½
+Paweï¿½ Majka
+Jacek Piï¿½tek
 [Your name must be here] <- contribute!
 
 

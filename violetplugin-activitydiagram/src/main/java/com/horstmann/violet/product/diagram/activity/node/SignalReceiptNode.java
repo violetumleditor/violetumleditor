@@ -24,12 +24,14 @@ package com.horstmann.violet.product.diagram.activity.node;
 import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
 
 import com.horstmann.violet.framework.graphics.content.ContentBackground;
 import com.horstmann.violet.framework.graphics.content.ContentBorder;
 import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
 import com.horstmann.violet.framework.graphics.content.TextContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
+import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
@@ -111,7 +113,25 @@ public class SignalReceiptNode extends ColorableNode
     @Override
     public String getToolTip()
     {
-        return ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("signal_receipt_node.tooltip");
+        return ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("tooltip.signal_receipt_node");
+    }
+
+    @Override
+    public Point2D getConnectionPoint(IEdge edge)
+    {
+        Point2D connectionPoint = super.getConnectionPoint(edge);
+
+        if (Direction.EAST.equals(edge.getDirection(this).getNearestCardinalDirection()))
+        {
+            double offset = MIN_HEIGHT / 2 - Math.abs(connectionPoint.getY() - getLocation().getY() - MIN_HEIGHT / 2);
+
+            return new Point2D.Double(
+                    connectionPoint.getX() + offset,
+                    connectionPoint.getY()
+            );
+        }
+
+        return connectionPoint;
     }
 
     @Override

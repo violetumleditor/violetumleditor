@@ -13,7 +13,7 @@ import java.awt.geom.GeneralPath;
 /**
  * An receive event node in an activity diagram.
  */
-public class WaitTimeActionNode  extends ColorableNode
+public class WaitTimeActionNode extends ColorableNode
 {
     /**
      * Construct an receive event node with a default size
@@ -74,7 +74,7 @@ public class WaitTimeActionNode  extends ColorableNode
     @Override
     public String getToolTip()
     {
-        return ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("wait_time_action_node.tooltip");
+        return ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("tooltip.wait_time_action_node");
     }
 
     @Override

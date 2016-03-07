@@ -69,7 +69,7 @@ public class CircularInitialStateNode extends AbstractNode
     @Override
     public String getToolTip()
     {
-        return StateDiagramConstant.STATE_DIAGRAM_RESOURCE.getString("scenario_start_node.tooltip");
+        return StateDiagramConstant.STATE_DIAGRAM_RESOURCE.getString("tooltip.scenario_start_node");
     }
 
     /**

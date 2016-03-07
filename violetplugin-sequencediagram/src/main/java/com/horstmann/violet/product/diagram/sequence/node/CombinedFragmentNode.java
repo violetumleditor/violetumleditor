@@ -267,5 +267,4 @@ public class CombinedFragmentNode extends AbstractNode implements IResizableNode
             }catch (Exception ignored){}
         }
     }
-
 }

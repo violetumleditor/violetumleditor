@@ -1,7 +1,7 @@
 package com.horstmann.violet.product.diagram.activity.node;
 
 import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
-import com.horstmann.violet.product.diagram.common.node.NodeBeanInfo;
+import com.horstmann.violet.product.diagram.common.node.ColorableNodeBeanInfo;
 
 import java.beans.PropertyDescriptor;
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * The bean info for the ActivityNodeBeanInfo type.
  */
-public class WaitTimeActionNodeBeanInfo extends NodeBeanInfo
+public class WaitTimeActionNodeBeanInfo extends ColorableNodeBeanInfo
 {
     public WaitTimeActionNodeBeanInfo()
     {

@@ -1,37 +1,36 @@
 package com.horstmann.violet.product.diagram.classes.node;
 
 
-import java.beans.IntrospectionException;
+import com.horstmann.violet.product.diagram.classes.ClassDiagramConstant;
+import com.horstmann.violet.product.diagram.common.node.ColorableNodeBeanInfo;
+
 import java.beans.PropertyDescriptor;
-import java.beans.SimpleBeanInfo;
+import java.util.List;
 
 /**
  * The bean info for the ClassNode type.
  */
-public class EnumNodeBeanInfo extends SimpleBeanInfo
+public class EnumNodeBeanInfo extends ColorableNodeBeanInfo
 {
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.beans.BeanInfo#getPropertyDescriptors()
-     */
-    public PropertyDescriptor[] getPropertyDescriptors()
+    public EnumNodeBeanInfo()
     {
-        try
-        {
-            PropertyDescriptor nameDescriptor = new PropertyDescriptor("name", EnumNode.class);
-            nameDescriptor.setValue("priority", new Integer(1));
-            PropertyDescriptor attributesDescriptor = new PropertyDescriptor("attributes", EnumNode.class);
-            attributesDescriptor.setValue("priority", new Integer(2));
-            return new PropertyDescriptor[]
-            {
-                    nameDescriptor,
-                    attributesDescriptor
-            };
-        }
-        catch (IntrospectionException exception)
-        {
-            return null;
-        }
+        super(EnumNode.class);
+        addResourceBundle(ClassDiagramConstant.CLASS_DIAGRAM_STRINGS);
     }
+
+    @Override
+    protected List<PropertyDescriptor> createPropertyDescriptorList()
+    {
+        List<PropertyDescriptor> propertyDescriptorList = super.createPropertyDescriptorList();
+
+        propertyDescriptorList.add(createPropertyDescriptor(NAME_VAR_NAME, NAME_LABEL_KEY, 1));
+        propertyDescriptorList.add(createPropertyDescriptor(ATTRIBUTES_VAR_NAME, ATTRIBUTES_LABEL_KEY, 2));
+
+        return propertyDescriptorList;
+    }
+
+    protected static final String NAME_LABEL_KEY = "enum.name";
+    protected static final String ATTRIBUTES_LABEL_KEY = "enum.attributes";
+    private static final String NAME_VAR_NAME = "name";
+    private static final String ATTRIBUTES_VAR_NAME = "attributes";
 }

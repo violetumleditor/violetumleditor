@@ -68,7 +68,7 @@ public class ActivityTransitionEdge extends LabeledLineEdge
     @Override
     public String getToolTip()
     {
-        return ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("transition_edge.tooltip");
+        return ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("tooltip.transition_edge");
     }
 
     @Override

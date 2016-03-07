@@ -82,7 +82,7 @@ public class CircularFinalStateNode extends AbstractNode
     @Override
     public String getToolTip()
     {
-        return StateDiagramConstant.STATE_DIAGRAM_RESOURCE.getString("scenario_end_node.tooltip");
+        return StateDiagramConstant.STATE_DIAGRAM_RESOURCE.getString("tooltip.scenario_end_node");
     }
 
     /** default node_old diameter */

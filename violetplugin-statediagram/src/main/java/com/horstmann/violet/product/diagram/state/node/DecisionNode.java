@@ -115,7 +115,7 @@ public class DecisionNode extends ColorableNode
     @Override
     public String getToolTip()
     {
-        return StateDiagramConstant.STATE_DIAGRAM_RESOURCE.getString("decision_node.tooltip");
+        return StateDiagramConstant.STATE_DIAGRAM_RESOURCE.getString("tooltip.decision_node");
     }
 
 

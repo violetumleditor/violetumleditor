@@ -36,11 +36,9 @@ public class BallAndSocketNode extends ColorableNode
         @Override
         public Shape createShape(double contentWidth, double contentHeight)
         {
-            int angle = (Integer)orientation.getSelectedValue();
+            int angle = orientation.getSelectedValue();
             return new Arc2D.Double(0, 0, DEFAULT_DIAMETER, DEFAULT_DIAMETER, angle, 180, Arc2D.OPEN);
         }
-
-//        path.append(new Ellipse2D.Double(DEFAULT_GAP,DEFAULT_GAP,DEFAULT_DIAMETER-2*DEFAULT_GAP,DEFAULT_DIAMETER-2*DEFAULT_GAP),false);
     }
 
     /**
@@ -51,10 +49,12 @@ public class BallAndSocketNode extends ColorableNode
     {
         super();
         name = new SingleLineText();
+        name.setPadding(25,5,5,5);
         type = new TextChoiceList<Types>(TYPE_KEYS, TYPE_VALUES);
         orientation = new TextChoiceList<Integer>(ORIENTATION_KEYS, ORIENTATION_VALUES);
 
-        name.setPadding(25,5,5,5);
+        this.selectedType = this.type.getSelectedPos();
+        this.selectedOrientation = this.orientation.getSelectedPos();
     }
 
     protected BallAndSocketNode(BallAndSocketNode node) throws CloneNotSupportedException
@@ -63,6 +63,11 @@ public class BallAndSocketNode extends ColorableNode
         name = node.name.clone();
         type = node.type.clone();
         orientation = node.orientation.clone();
+        name.setPadding(25,5,5,5);
+
+        this.selectedType = this.type.getSelectedPos();
+        this.selectedOrientation = this.orientation.getSelectedPos();
+
         createContentStructure();
     }
 
@@ -72,6 +77,13 @@ public class BallAndSocketNode extends ColorableNode
         super.beforeReconstruction();
 
         name.reconstruction();
+        name.setPadding(25,5,5,5);
+
+        type = new TextChoiceList<Types>(TYPE_KEYS, TYPE_VALUES);
+        orientation = new TextChoiceList<Integer>(ORIENTATION_KEYS, ORIENTATION_VALUES);
+
+        type.setSelectedIndex(selectedType);
+        orientation.setSelectedIndex(selectedOrientation);
     }
 
     @Override
@@ -135,7 +147,7 @@ public class BallAndSocketNode extends ColorableNode
         }
 
         Types type = (Types)getType().getSelectedValue();
-        int orientationAngle = (Integer)orientation.getSelectedValue();
+        int orientationAngle = orientation.getSelectedValue();
         int directionAngle = 0;
 
         if(Direction.SOUTH.equals(direction))
@@ -165,7 +177,11 @@ public class BallAndSocketNode extends ColorableNode
         double radians = Math.toRadians(directionAngle);
         double topGap = 0;
 
-        if(0 == directionAngle%180)
+        if(0 == directionAngle)
+        {
+            topGap = -DEFAULT_GAP;
+        }
+        else if(180 == directionAngle)
         {
             topGap = DEFAULT_GAP;
         }
@@ -244,8 +260,11 @@ public class BallAndSocketNode extends ColorableNode
      */
     public void setOrientation(ChoiceList orientation)
     {
-        this.orientation = orientation;
-        refreshBallAndSocketLayout();
+        if(this.orientation.setSelectedIndex(orientation.getSelectedPos()))
+        {
+            this.selectedOrientation = orientation.getSelectedPos();
+            refreshBallAndSocketLayout();
+        }
     }
 
     public ChoiceList getType()
@@ -255,14 +274,20 @@ public class BallAndSocketNode extends ColorableNode
 
     public void setType(ChoiceList type)
     {
-        this.type = type;
-        refreshBallAndSocketLayout();
+        if(this.type.setSelectedIndex(type.getSelectedPos()))
+        {
+            this.selectedType = type.getSelectedPos();
+            refreshBallAndSocketLayout();
+        }
     }
 
-
     private SingleLineText name;
-    private ChoiceList orientation;
-    private ChoiceList type;
+
+    private int selectedOrientation;
+    private int selectedType;
+
+    private transient TextChoiceList<Integer> orientation;
+    private transient TextChoiceList<Types> type;
 
     private transient RelativeLayout ballAndSocketLayout;
     private transient ContentBorder socketBorder;
@@ -279,8 +304,31 @@ public class BallAndSocketNode extends ColorableNode
      */
     private static final int DEFAULT_GAP = 5;
 
-    public static final String[] ORIENTATION_KEYS = new String[]{"top", "bottom", "left", "right"};
+    public static String[] ORIENTATION_KEYS = new String[]{"top", "bottom", "left", "right"};
     public static final Integer[] ORIENTATION_VALUES = new Integer[]{0, 180, 270, 90};
-    public static final String[] TYPE_KEYS = new String[]{"Ball and Socket", "Only ball", "Only socket" };
+    public static String[] TYPE_KEYS = new String[]{"ball_and_socket", "ball", "socket" };
     public static final Types[] TYPE_VALUES = new Types[]{Types.BALL_AND_SOCKET, BALL, Types.SOCKET};
+
+    static
+    {
+        for(int i=0; i< ORIENTATION_KEYS.length; ++i)
+        {
+            try
+            {
+                ORIENTATION_KEYS[i] = ClassDiagramConstant.CLASS_DIAGRAM_RESOURCE.getString(
+                        ("orientation." + ORIENTATION_KEYS[i]).toLowerCase()
+                );
+            }catch (Exception ignored){}
+        }
+
+        for(int i=0; i< TYPE_KEYS.length; ++i)
+        {
+            try
+            {
+                TYPE_KEYS[i] = ClassDiagramConstant.CLASS_DIAGRAM_RESOURCE.getString(
+                        ("type." + TYPE_KEYS[i]).toLowerCase()
+                );
+            }catch (Exception ignored){}
+        }
+    }
 }

@@ -97,7 +97,7 @@ public class SynchronizationBarNode extends ColorableNode
     @Override
     public String getToolTip()
     {
-        return ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("synchronization_node.tooltip");
+        return ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("tooltip.synchronization_node");
     }
 
     @Override

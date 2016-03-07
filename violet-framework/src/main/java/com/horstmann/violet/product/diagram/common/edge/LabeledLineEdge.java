@@ -52,11 +52,11 @@ public class LabeledLineEdge extends ArrowheadEdge
         {
             startLabel = new SingleLineText();
         }
-        if(null == centerTextContent)
+        if(null == centerLabel)
         {
             centerLabel = new SingleLineText();
         }
-        if(null == endTextContent)
+        if(null == endLabel)
         {
             endLabel = new SingleLineText();
         }
