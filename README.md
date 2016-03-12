@@ -27,7 +27,7 @@ Once you think you have something great, you can create a git pull request. I wi
 
 Try beta version
 =================
-https://drive.google.com/folderview?id=0B8Mrn_bc5gt2dGl6OGtydXhOX1k&usp=sharing
+https://drive.google.com/folderview?id=0B8Mrn_bc5gt2dGl6OGtydXhOX1k&usp=sharing#list
 
 
 Kind Regards,
