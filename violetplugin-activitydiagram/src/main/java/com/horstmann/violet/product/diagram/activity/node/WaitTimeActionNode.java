@@ -2,6 +2,7 @@ package com.horstmann.violet.product.diagram.activity.node;
 
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
+import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
@@ -9,6 +10,8 @@ import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * An receive event node in an activity diagram.
@@ -37,7 +40,10 @@ public class WaitTimeActionNode extends ColorableNode
     protected void beforeReconstruction()
     {
         super.beforeReconstruction();
-
+        if(null == name)
+        {
+            name = new SingleLineText();
+        }
         name.reconstruction();
         name.setPadding(5,5,5,5);
     }
@@ -75,6 +81,33 @@ public class WaitTimeActionNode extends ColorableNode
     public String getToolTip()
     {
         return ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("tooltip.wait_time_action_node");
+    }
+
+    @Override
+    public Point2D getConnectionPoint(IEdge edge)
+    {
+        Direction direction = edge.getDirection(this).getNearestCardinalDirection();
+        Rectangle2D selfBounds = getBounds();
+        Point2D point = super.getConnectionPoint(edge);
+
+        if(!name.toEdit().isEmpty() && Direction.NORTH.equals(direction))
+        {
+            return new Point2D.Double(
+                    point.getX(),
+                    selfBounds.getMaxY()
+            );
+        }
+
+        if(Direction.NORTH.equals(direction) || Direction.SOUTH.equals(direction))
+        {
+            return new Point2D.Double((SHAPE_WIDTH * (point.getX()-selfBounds.getX()))/selfBounds.getWidth() +
+                    (selfBounds.getCenterX() - SHAPE_WIDTH/2),point.getY());
+        }
+
+        return new Point2D.Double(selfBounds.getCenterX() +
+                ((SHAPE_WIDTH * (point.getX() - selfBounds.getCenterX())/ selfBounds.getWidth())),
+                selfBounds.getY() + SHAPE_HEIGHT * (point.getY() - selfBounds.getY()) / selfBounds.getHeight()
+        );
     }
 
     @Override

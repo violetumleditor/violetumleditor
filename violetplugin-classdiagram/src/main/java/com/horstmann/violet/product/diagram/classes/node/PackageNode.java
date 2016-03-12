@@ -42,7 +42,14 @@ public class PackageNode extends ColorableNode
     protected void beforeReconstruction()
     {
         super.beforeReconstruction();
-
+        if(null == name)
+        {
+            name = new SingleLineText();
+        }
+        if(null == context)
+        {
+            context = new MultiLineText();
+        }
         name.reconstruction();
         context.reconstruction();
     }

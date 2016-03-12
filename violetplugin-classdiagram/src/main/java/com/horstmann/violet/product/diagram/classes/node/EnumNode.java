@@ -44,6 +44,14 @@ public class EnumNode extends ColorableNode
     {
         super.beforeReconstruction();
 
+        if(null == name)
+        {
+            name = new SingleLineText();
+        }
+        if(null == attributes)
+        {
+            attributes = new MultiLineText();
+        }
         name.reconstruction(NAME_CONVERTER);
         attributes.reconstruction();
     }

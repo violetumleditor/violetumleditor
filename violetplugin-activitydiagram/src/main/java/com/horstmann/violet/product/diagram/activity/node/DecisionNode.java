@@ -21,20 +21,15 @@
 
 package com.horstmann.violet.product.diagram.activity.node;
 
-import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import com.horstmann.violet.framework.graphics.content.ContentBackground;
-import com.horstmann.violet.framework.graphics.content.ContentBorder;
-import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
-import com.horstmann.violet.framework.graphics.content.TextContent;
+import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideDiamond;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
-import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 
 /**
  * A decision node_old in an activity diagram.
@@ -47,23 +42,13 @@ public class DecisionNode extends ColorableNode
     public DecisionNode()
     {
         super();
-        condition = new SingleLineText();
         createContentStructure();
     }
 
     protected DecisionNode(DecisionNode node) throws CloneNotSupportedException
     {
         super(node);
-        condition = node.condition.clone();
         createContentStructure();
-    }
-
-    @Override
-    protected void beforeReconstruction()
-    {
-        super.beforeReconstruction();
-
-        condition.reconstruction();
     }
 
     @Override
@@ -75,24 +60,17 @@ public class DecisionNode extends ColorableNode
     @Override
     protected void createContentStructure()
     {
-        TextContent conditionContent = new TextContent(condition);
-        conditionContent.setMinHeight(MIN_HEIGHT);
-        conditionContent.setMinWidth(MIN_WIDTH);
+        EmptyContent content = new EmptyContent();
+        content.setMinHeight(MIN_HEIGHT);
+        content.setMinWidth(MIN_WIDTH);
 
-        ContentInsideShape contentInsideShape = new ContentInsideDiamond(conditionContent, DIAMOND_DEGREES);
+        ContentInsideShape contentInsideShape = new ContentInsideDiamond(content, DIAMOND_DEGREES);
 
         setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
         setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
         setContent(getBackground());
 
         setTextColor(super.getTextColor());
-    }
-
-    @Override
-    public void setTextColor(Color textColor)
-    {
-        condition.setTextColor(textColor);
-        super.setTextColor(textColor);
     }
 
     @Override
@@ -134,28 +112,6 @@ public class DecisionNode extends ColorableNode
     {
         return e.getEndNode() != null && this != e.getEndNode();
     }
-
-    /**
-     * Sets the condition property value.
-     * 
-     * @param newValue the branch condition
-     */
-    public void setCondition(SingleLineText newValue)
-    {
-        condition.setText(newValue.toEdit());
-    }
-
-    /**
-     * Gets the condition property value.
-     * 
-     * @return the branch condition
-     */
-    public SingleLineText getCondition()
-    {
-        return condition;
-    }
-
-    private SingleLineText condition;
 
     private static final int DIAMOND_DEGREES = 60;
     private static final int MIN_WIDTH = 30;

@@ -58,7 +58,7 @@ public class PointNode extends AbstractNode
         if (tempLocation != null) tempLocation.setLocation(bounds.getX(), bounds.getY());
     }
     
-    public Point2D getConnectionPoint(IEdge e)
+    public Point2D getConnectionPoint(IEdge edge)
     {
         return getLocation();
     }

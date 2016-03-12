@@ -73,6 +73,14 @@ public class FieldNode extends ColorableNode
     {
         super.beforeReconstruction();
 
+        if(null == name)
+        {
+            name = new SingleLineText();
+        }
+        if(null == value)
+        {
+            value = new SingleLineText();
+        }
         name.reconstruction();
         value.reconstruction();
         name.setPadding(0, 10, 0, 15);
@@ -130,7 +138,7 @@ public class FieldNode extends ColorableNode
     @Override
     public String getToolTip()
     {
-        return ObjectDiagramConstant.OBJECT_DIAGRAM_RESOURCE.getString("field_node.tooltip");
+        return ObjectDiagramConstant.OBJECT_DIAGRAM_RESOURCE.getString("tooltip.field_node");
     }
 
 

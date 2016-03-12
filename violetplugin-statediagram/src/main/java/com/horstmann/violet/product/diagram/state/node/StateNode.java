@@ -68,7 +68,18 @@ public class StateNode extends ColorableNode
     protected void beforeReconstruction()
     {
         super.beforeReconstruction();
-
+        if(null == name)
+        {
+            name = new SingleLineText();
+        }
+        if(null == onEntry)
+        {
+            onEntry = new MultiLineText();
+        }
+        if(null == onExit)
+        {
+            onExit = new MultiLineText();
+        }
         name.reconstruction(nameConverter);
         onEntry.reconstruction(entryConverter);
         onExit.reconstruction(exitConverter);
@@ -136,7 +147,7 @@ public class StateNode extends ColorableNode
     @Override
     public String getToolTip()
     {
-        return StateDiagramConstant.STATE_DIAGRAM_RESOURCE.getString("state_node.tooltip");
+        return StateDiagramConstant.STATE_DIAGRAM_RESOURCE.getString("tooltip.state_node");
     }
 
 

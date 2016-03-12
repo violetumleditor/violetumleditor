@@ -45,6 +45,14 @@ public class InterfaceNode extends ColorableNode
     protected void beforeReconstruction()
     {
         super.beforeReconstruction();
+        if(null == name)
+        {
+            name = new SingleLineText();
+        }
+        if(null == methods)
+        {
+            methods = new MultiLineText();
+        }
         name.reconstruction(nameConverter);
         methods.reconstruction(methodsConverter);
     }

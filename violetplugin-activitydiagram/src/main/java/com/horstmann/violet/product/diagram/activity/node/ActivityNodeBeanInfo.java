@@ -26,6 +26,6 @@ public class ActivityNodeBeanInfo extends ColorableNodeBeanInfo
         return propertyDescriptorList;
     }
 
-    private static final String NAME_LABEL_KEY = "activity_node.waitTimeAction";
-    private static final String NAME_VAR_NAME = "waitTimeAction";
+    private static final String NAME_LABEL_KEY = "activity_node.name";
+    private static final String NAME_VAR_NAME = "name";
 }

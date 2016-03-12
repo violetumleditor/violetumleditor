@@ -65,7 +65,10 @@ public class ExternalSystemExitPointNode extends ColorableNode
 	protected void beforeReconstruction()
 	{
 		super.beforeReconstruction();
-
+		if(null == name)
+		{
+			name = new SingleLineText();
+		}
 		name.reconstruction();
 		name.setAlignment(LineText.CENTER);
 		name.setPadding(5,5,5,5);
@@ -103,7 +106,7 @@ public class ExternalSystemExitPointNode extends ColorableNode
 	@Override
 	public String getToolTip()
 	{
-		return StateDiagramConstant.STATE_DIAGRAM_RESOURCE.getString("external_system_exit_point_node.tooltip");
+		return StateDiagramConstant.STATE_DIAGRAM_RESOURCE.getString("tooltip.external_system_exit_point_node");
 	}
 
 	/**

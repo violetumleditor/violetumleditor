@@ -254,7 +254,7 @@ public class SynchronizationBarNode extends ColorableNode
         {
             try
             {
-                STRETCH_KEYS[i] = ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("stretch." + STRETCH_KEYS[i].toLowerCase());
+                STRETCH_KEYS[i] = ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("orientation." + STRETCH_KEYS[i].toLowerCase());
             }
             catch (MissingResourceException ignored)
             {}

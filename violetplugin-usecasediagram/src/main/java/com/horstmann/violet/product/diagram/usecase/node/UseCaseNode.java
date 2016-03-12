@@ -105,14 +105,14 @@ public class UseCaseNode extends ColorableNode
     }
 
     @Override
-    public Point2D getConnectionPoint(IEdge e)
+    public Point2D getConnectionPoint(IEdge edge)
     {
         // if use case node_old is atatched to an actor node_old, we force connection point to cardianl points
-        if (e.getStartNode().getClass().isAssignableFrom(ActorNode.class) || e.getEndNode().getClass().isAssignableFrom(ActorNode.class))
+        if (edge.getStartNode().getClass().isAssignableFrom(ActorNode.class) || edge.getEndNode().getClass().isAssignableFrom(ActorNode.class))
         {
 
         }
-        return super.getConnectionPoint(e);
+        return super.getConnectionPoint(edge);
     }
 
 

@@ -148,7 +148,8 @@ public abstract class AbstractNode implements INode
     /**
      * @return currently connected edges
      */
-    protected List<IEdge> getConnectedEdges() {
+    protected List<IEdge> getConnectedEdges()
+    {
         List<IEdge> connectedEdges = new ArrayList<IEdge>();
         IGraph currentGraph = getGraph();
         for (IEdge anEdge : currentGraph.getAllEdges()) {
@@ -169,7 +170,8 @@ public abstract class AbstractNode implements INode
 
 
     @Override
-    public Point2D getLocationOnGraph() {
+    public Point2D getLocationOnGraph()
+    {
         INode parentNode = getParent();
         if (parentNode == null) {
             return getLocation();
@@ -182,7 +184,8 @@ public abstract class AbstractNode implements INode
     }
 
     @Override
-    public void setLocation(Point2D point) {
+    public void setLocation(Point2D point)
+    {
         if (null == point) {
             throw new NullPointerException("Location can't be null");
         }
@@ -217,7 +220,8 @@ public abstract class AbstractNode implements INode
      * @param edge
      * @return ordered list of edges
      */
-    private List<IEdge> getEdgesOnSameSide(IEdge edge) {
+    private List<IEdge> getEdgesOnSameSide(IEdge edge)
+    {
         // Step 1 : look for edges
         List<IEdge> result = new ArrayList<IEdge>();
         Direction d = edge.getDirection(this);
@@ -264,13 +268,13 @@ public abstract class AbstractNode implements INode
     }
 
 
-    public Point2D getConnectionPoint(IEdge e) {
-
-        List<IEdge> edgesOnSameSide = getEdgesOnSameSide(e);
-        int position = edgesOnSameSide.indexOf(e);
+    public Point2D getConnectionPoint(IEdge edge)
+    {
+        List<IEdge> edgesOnSameSide = getEdgesOnSameSide(edge);
+        int position = edgesOnSameSide.indexOf(edge);
         int size = edgesOnSameSide.size();
 
-        Direction edgeDirection = e.getDirection(this);
+        Direction edgeDirection = edge.getDirection(this);
         Point2D startingNodeLocation = getLocation();
 
         double x = startingNodeLocation.getX();

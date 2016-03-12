@@ -21,12 +21,20 @@ public class AssociationEdge extends LabeledLineEdge
         setBentStyle(BentStyle.STRAIGHT);
         setStartArrowhead(ArrowheadChoiceList.NONE);
         setEndArrowhead(ArrowheadChoiceList.V);
-        setLineStyle(LineStyleChoiceList.SOLID);
     }
 
     protected AssociationEdge(AssociationEdge cloned)
     {
         super(cloned);
+        setBentStyle(BentStyle.STRAIGHT);
+        setStartArrowhead(ArrowheadChoiceList.NONE);
+        setEndArrowhead(ArrowheadChoiceList.V);
+    }
+
+    @Override
+    protected AssociationEdge copy() throws CloneNotSupportedException
+    {
+        return new AssociationEdge(this);
     }
 
     @Override
@@ -36,14 +44,8 @@ public class AssociationEdge extends LabeledLineEdge
         setBentStyle(BentStyle.STRAIGHT);
         setStartArrowhead(ArrowheadChoiceList.NONE);
         setEndArrowhead(ArrowheadChoiceList.V);
-        setLineStyle(LineStyleChoiceList.SOLID);
     }
 
-    @Override
-    protected AssociationEdge copy() throws CloneNotSupportedException
-    {
-        return new AssociationEdge(this);
-    }
 
     @Override
     public String getToolTip()

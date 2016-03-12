@@ -29,6 +29,7 @@ import java.awt.geom.Point2D;
 
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.ShapeEdge;
+import com.horstmann.violet.product.diagram.abstracts.edge.bentstyle.BentStyle;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.object.ObjectDiagramConstant;
 import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
@@ -38,10 +39,25 @@ import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
  */
 public class ObjectReferenceEdge extends ShapeEdge
 {
+    public ObjectReferenceEdge()
+    {
+        super();
+    }
+
+    protected ObjectReferenceEdge(ObjectReferenceEdge cloned)
+    {
+    }
+
+    @Override
+    protected ObjectReferenceEdge copy() throws CloneNotSupportedException
+    {
+        return new ObjectReferenceEdge(this);
+    }
+
     @Override
     public String getToolTip()
     {
-        return ObjectDiagramConstant.OBJECT_DIAGRAM_RESOURCE.getString("object_reference_edge.tooltip");
+        return ObjectDiagramConstant.OBJECT_DIAGRAM_RESOURCE.getString("tooltip.object_reference_edge");
     }
 
     public void draw(Graphics2D g2)

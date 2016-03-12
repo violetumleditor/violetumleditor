@@ -44,10 +44,25 @@ import com.horstmann.violet.product.diagram.state.StateDiagramConstant;
  */
 public class StateTransitionEdge extends ShapeEdge
 {
+    public StateTransitionEdge()
+    {
+        super();
+    }
+
+    protected StateTransitionEdge(StateTransitionEdge cloned)
+    {
+    }
+
+    @Override
+    protected StateTransitionEdge copy() throws CloneNotSupportedException
+    {
+        return new StateTransitionEdge(this);
+    }
+
     @Override
     public String getToolTip()
     {
-        return StateDiagramConstant.STATE_DIAGRAM_RESOURCE.getString("state_edge.tooltip");
+        return StateDiagramConstant.STATE_DIAGRAM_RESOURCE.getString("tooltip.state_edge");
     }
 
     /**

@@ -23,6 +23,7 @@ package com.horstmann.violet.product.diagram.activity.edge;
 
 import java.awt.geom.Point2D;
 
+import com.horstmann.violet.product.diagram.abstracts.edge.bentstyle.BentStyle;
 import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
 import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
 import com.horstmann.violet.product.diagram.property.BentStyleChoiceList;
@@ -43,6 +44,7 @@ public class ActivityTransitionEdge extends LabeledLineEdge
         setStartArrowhead(ArrowheadChoiceList.NONE);
         setEndArrowhead(ArrowheadChoiceList.V);
         setLineStyle(LineStyleChoiceList.SOLID);
+        setBentStyle(BentStyle.AUTO);
     }
 
     protected ActivityTransitionEdge(ActivityTransitionEdge cloned)

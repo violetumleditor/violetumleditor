@@ -55,9 +55,9 @@ public class LifelineNode extends ColorableNode
         super();
 
         name = new SingleLineText(nameConverter);
-        name.setPadding(5, 10, 5, 0);
+        name.setPadding(5, 10, 5, 2);
         type = new SingleLineText(typeConverter);
-        type.setPadding(5, 0, 5, 10);
+        type.setPadding(5, 2, 5, 10);
 
         createContentStructure();
     }
@@ -86,8 +86,8 @@ public class LifelineNode extends ColorableNode
         name.reconstruction(nameConverter);
         type.reconstruction(typeConverter);
 
-        name.setPadding(5, 10, 5, 0);
-        type.setPadding(5, 0, 5, 10);
+        name.setPadding(5, 10, 5, 2);
+        type.setPadding(5, 2, 5, 10);
     }
 
     @Override
@@ -297,11 +297,11 @@ public class LifelineNode extends ColorableNode
     }
 
     @Override
-    public Point2D getConnectionPoint(IEdge e)
+    public Point2D getConnectionPoint(IEdge edge)
     {
         Point2D locationOnGraph = getLocationOnGraph();
         double x = locationOnGraph.getX();
-        if (0 >= e.getDirection(this).getX())
+        if (0 >= edge.getDirection(this).getX())
         {
             x += getContent().getWidth();
         }

@@ -27,10 +27,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import com.horstmann.violet.framework.graphics.content.ContentBackground;
-import com.horstmann.violet.framework.graphics.content.ContentBorder;
-import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
-import com.horstmann.violet.framework.graphics.content.TextContent;
+import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
@@ -50,23 +47,13 @@ public class DecisionNode extends ColorableNode
     public DecisionNode()
     {
         super();
-        condition = new SingleLineText();
         createContentStructure();
     }
 
     protected DecisionNode(DecisionNode node) throws CloneNotSupportedException
     {
         super(node);
-        condition = node.condition.clone();
         createContentStructure();
-    }
-
-    @Override
-    protected void beforeReconstruction()
-    {
-        super.beforeReconstruction();
-
-        condition.reconstruction();
     }
 
     @Override
@@ -78,11 +65,11 @@ public class DecisionNode extends ColorableNode
     @Override
     protected void createContentStructure()
     {
-        TextContent conditionContent = new TextContent(condition);
-        conditionContent.setMinHeight(DEFAULT_HEIGHT);
-        conditionContent.setMinWidth(DEFAULT_WIDTH);
+        EmptyContent content = new EmptyContent();
+        content.setMinHeight(DEFAULT_HEIGHT);
+        content.setMinWidth(DEFAULT_WIDTH);
 
-        ContentInsideShape contentInsideShape = new ContentInsideCustomShape(conditionContent, new ContentInsideCustomShape.ShapeCreator() {
+        ContentInsideShape contentInsideShape = new ContentInsideCustomShape(content, new ContentInsideCustomShape.ShapeCreator() {
             @Override
             public Shape createShape(double contentWidth, double contentHeight) {
                 double width = contentWidth + contentHeight * Math.sqrt(3);
@@ -106,13 +93,6 @@ public class DecisionNode extends ColorableNode
     }
 
     @Override
-    public void setTextColor(Color textColor)
-    {
-        condition.setTextColor(textColor);
-        super.setTextColor(textColor);
-    }
-
-    @Override
     public String getToolTip()
     {
         return StateDiagramConstant.STATE_DIAGRAM_RESOURCE.getString("tooltip.decision_node");
@@ -120,14 +100,14 @@ public class DecisionNode extends ColorableNode
 
 
     @Override
-    public Point2D getConnectionPoint(IEdge e)
+    public Point2D getConnectionPoint(IEdge edge)
     {
         Rectangle2D b = getBounds();
 
         double x = b.getCenterX();
         double y = b.getCenterY();
 
-        Direction d = e.getDirection(this);
+        Direction d = edge.getDirection(this);
 
         Direction nearestCardinalDirection = d.getNearestCardinalDirection();
 
@@ -159,33 +139,6 @@ public class DecisionNode extends ColorableNode
     {
         return e.getEndNode() != null && this != e.getEndNode();
     }
-
-
-    /**
-     * Sets the condition property value.
-     * 
-     * @param newValue the branch condition
-     */
-    public void setCondition(SingleLineText newValue)
-    {
-        condition.setText(newValue.toEdit());
-    }
-
-    /**
-     * Gets the condition property value.
-     * 
-     * @return the branch condition
-     */
-    public SingleLineText getCondition()
-    {
-        return condition;
-    }
-
-    /**
-     * @see java.lang.Object#clone()
-     */
-
-    private SingleLineText condition;
 
     private static int DEFAULT_WIDTH = 30;
     private static int DEFAULT_HEIGHT = 20;

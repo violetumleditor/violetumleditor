@@ -22,8 +22,8 @@ public abstract class ArrowheadEdge extends LineEdge
         startArrowheadChoiceList = new ArrowheadChoiceList();
         endArrowheadChoiceList = new ArrowheadChoiceList();
 
-        this.selectedStartArrowhead = this.startArrowheadChoiceList.getSelectedPos();
-        this.selectedEndArrowhead = this.endArrowheadChoiceList.getSelectedPos();
+        setStartArrowhead(ArrowheadChoiceList.NONE);
+        setEndArrowhead(ArrowheadChoiceList.NONE);
     }
 
     protected ArrowheadEdge(ArrowheadEdge arrowheadEdge)

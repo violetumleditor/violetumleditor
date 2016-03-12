@@ -76,6 +76,10 @@ public class BallAndSocketNode extends ColorableNode
     {
         super.beforeReconstruction();
 
+        if(null == name)
+        {
+            name = new SingleLineText();
+        }
         name.reconstruction();
         name.setPadding(25,5,5,5);
 

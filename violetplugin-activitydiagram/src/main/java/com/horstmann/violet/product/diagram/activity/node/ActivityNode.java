@@ -50,6 +50,10 @@ public class ActivityNode extends ColorableNode
     {
         super.beforeReconstruction();
 
+        if(null == name)
+        {
+            name = new SingleLineText();
+        }
         name.reconstruction();
     }
 

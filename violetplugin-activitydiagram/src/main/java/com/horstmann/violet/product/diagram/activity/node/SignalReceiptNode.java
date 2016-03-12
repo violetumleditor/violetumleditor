@@ -64,7 +64,10 @@ public class SignalReceiptNode extends ColorableNode
     protected void beforeReconstruction()
     {
         super.beforeReconstruction();
-
+        if(null == signal)
+        {
+            signal = new SingleLineText();
+        }
         signal.reconstruction();
         signal.setPadding(1,25,1,10);
     }

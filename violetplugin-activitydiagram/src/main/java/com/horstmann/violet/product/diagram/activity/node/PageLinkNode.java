@@ -58,7 +58,10 @@ public class PageLinkNode extends ColorableNode
     protected void beforeReconstruction()
     {
         super.beforeReconstruction();
-
+        if(null == name)
+        {
+            name = new SingleLineText();
+        }
         name.reconstruction();
     }
 

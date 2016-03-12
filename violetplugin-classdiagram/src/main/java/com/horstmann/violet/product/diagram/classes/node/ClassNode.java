@@ -48,6 +48,18 @@ public class ClassNode extends ColorableNode
     {
         super.beforeReconstruction();
 
+        if(null == name)
+        {
+            name = new SingleLineText();
+        }
+        if(null == attributes)
+        {
+            attributes = new MultiLineText();
+        }
+        if(null == methods)
+        {
+            methods = new MultiLineText();
+        }
         name.reconstruction(NAME_CONVERTER);
         attributes.reconstruction(PROPERTY_CONVERTER);
         methods.reconstruction(PROPERTY_CONVERTER);

@@ -17,7 +17,6 @@ Adrian Bobrowski (https://www.linkedin.com/in/bobrowskiadrian)
 
 
 
-
 This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions.
 
 
@@ -131,7 +130,6 @@ If you like this software, don't hesitate to talk about it around you. Any sugge
 
 By Cay S. Horstmann (http://www.horstmann.com)
 and Alexandre de Pellegrin (http://alexdp.free.fr)
-
-
+Adrian Bobrowski (https://www.linkedin.com/in/bobrowskiadrian)
 
 

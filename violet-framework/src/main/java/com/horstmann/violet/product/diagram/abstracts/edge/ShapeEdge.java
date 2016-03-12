@@ -34,8 +34,6 @@ import java.awt.geom.Rectangle2D;
  */
 public abstract class ShapeEdge extends AbstractEdge
 {
-    
-
     /**
      * Returns the path that should be stroked to draw this edge. The path does not include arrow tips or labels.
      * 
