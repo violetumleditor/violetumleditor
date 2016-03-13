@@ -127,7 +127,7 @@ public class ClassNode extends ColorableNode
      * 
      * @param newValue the class name
      */
-    public void setName(SingleLineText newValue)
+    public void setName(LineText newValue)
     {
         name.setText(newValue.toEdit());
     }
@@ -137,7 +137,7 @@ public class ClassNode extends ColorableNode
      * 
      * @return the class name
      */
-    public SingleLineText getName()
+    public LineText getName()
     {
         return name;
     }
@@ -147,7 +147,7 @@ public class ClassNode extends ColorableNode
      * 
      * @param newValue the attributes of this class
      */
-    public void setAttributes(MultiLineText newValue)
+    public void setAttributes(LineText newValue)
     {
         attributes.setText(newValue.toEdit());
     }
@@ -157,7 +157,7 @@ public class ClassNode extends ColorableNode
      * 
      * @return the attributes of this class
      */
-    public MultiLineText getAttributes()
+    public LineText getAttributes()
     {
         return attributes;
     }
@@ -167,7 +167,7 @@ public class ClassNode extends ColorableNode
      * 
      * @param newValue the methods of this class
      */
-    public void setMethods(MultiLineText newValue)
+    public void setMethods(LineText newValue)
     {
         methods.setText(newValue.toEdit());
     }
@@ -177,7 +177,7 @@ public class ClassNode extends ColorableNode
      * 
      * @return the methods of this class
      */
-    public MultiLineText getMethods()
+    public LineText getMethods()
     {
         return methods;
     }

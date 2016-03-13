@@ -2,6 +2,7 @@ package com.horstmann.violet.product.diagram.common.edge;
 
 import com.horstmann.violet.framework.graphics.content.TextContent;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.edge.bentstyle.BentStyle;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 
@@ -94,51 +95,88 @@ public class LabeledLineEdge extends ArrowheadEdge
     private void drawContent(Graphics2D graphics, TextContent textContent, Point2D startPoint, Point2D endPoint, boolean center)
     {
         Rectangle2D textBounds = textContent.getBounds();
-        Direction direction = new Direction(startPoint, endPoint).getNearestCardinalDirection();
+        Direction direction = new Direction(startPoint, endPoint);
+        Direction nearestDirection = direction.getNearestCardinalDirection();
 
         double x;
         double y;
 
         if(center)
         {
-            x = (startPoint.getX() + endPoint.getX())/2;
-            y = (startPoint.getY() + endPoint.getY())/2;
-
-            if(Direction.NORTH.equals(direction) || Direction.SOUTH.equals(direction))
-            {
-                y -= textBounds.getHeight()/2;
-            }
-            else
-            {
-                x -= textBounds.getWidth()/2;
-                y -= textBounds.getHeight();
-            }
+            x = (startPoint.getX() + endPoint.getX()) / 2;
+            y = (startPoint.getY() + endPoint.getY()) / 2;
         }
         else
         {
             x = startPoint.getX();
             y = startPoint.getY();
-
-            if(Direction.EAST.equals(direction))
-            {
-                x += LABEL_GAP;
-                y -= textBounds.getHeight();
-            }
-            else if(Direction.WEST.equals(direction))
-            {
-                x -= textBounds.getWidth() + LABEL_GAP;
-                y -= textBounds.getHeight();
-            }
-            else if(Direction.SOUTH.equals(direction))
-            {
-                y += LABEL_GAP;
-            }
-            else if(Direction.NORTH.equals(direction))
-            {
-                y -= textBounds.getHeight() + LABEL_GAP;
-            }
         }
-        textContent.draw(graphics, new Point2D.Double(x,y));
+
+        if(BentStyle.FREE == getBentStyle() || BentStyle.STRAIGHT == getBentStyle())
+        {
+            double tan = Math.atan2(direction.getY(), direction.getX());
+            if(0>direction.getX())
+            {
+                tan+=Math.PI;
+            }
+
+            graphics.translate(x,y);
+            graphics.rotate(tan);
+            if(center)
+            {
+                textContent.draw(graphics, new Point2D.Double(-textContent.getWidth() / 2, -textContent.getHeight()));
+            }
+            else
+            {
+                if(0>direction.getX())
+                {
+                    textContent.draw(graphics, new Point2D.Double(-LABEL_GAP - textContent.getWidth(),-textContent.getHeight()));
+                }
+                else
+                {
+                    textContent.draw(graphics, new Point2D.Double(LABEL_GAP,-textContent.getHeight()));
+                }
+            }
+            graphics.rotate(-tan);
+            graphics.translate(-x,-y);
+        }
+        else
+        {
+            if(center)
+            {
+                if(Direction.NORTH.equals(nearestDirection) || Direction.SOUTH.equals(nearestDirection))
+                {
+                    y -= textBounds.getHeight()/2;
+                }
+                else
+                {
+                    x -= textBounds.getWidth()/2;
+                    y -= textBounds.getHeight();
+                }
+            }
+            else
+            {
+                if(Direction.EAST.equals(nearestDirection))
+                {
+                    x += LABEL_GAP;
+                    y -= textBounds.getHeight();
+                }
+                else if(Direction.WEST.equals(nearestDirection))
+                {
+                    x -= textBounds.getWidth() + LABEL_GAP;
+                    y -= textBounds.getHeight();
+                }
+                else if(Direction.SOUTH.equals(nearestDirection))
+                {
+                    y += LABEL_GAP;
+                }
+                else if(Direction.NORTH.equals(nearestDirection))
+                {
+                    y -= textBounds.getHeight() + LABEL_GAP;
+                }
+            }
+            textContent.draw(graphics, new Point2D.Double(x,y));
+        }
     }
 
     public SingleLineText getStartLabel()

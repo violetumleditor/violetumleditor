@@ -35,16 +35,7 @@ import java.beans.PropertyEditor;
 import java.beans.PropertyEditorManager;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Map;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
@@ -56,7 +47,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
-import com.horstmann.violet.product.diagram.property.*;
 import com.horstmann.violet.product.diagram.propertyeditor.baseeditors.BooleanEditor;
 import com.horstmann.violet.product.diagram.propertyeditor.baseeditors.ChoiceListEditor;
 import com.horstmann.violet.product.diagram.propertyeditor.baseeditors.MultiLineTextEditor;
@@ -87,7 +77,7 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
         {
             Introspector.flushFromCaches(bean.getClass());
             BeanInfo info = Introspector.getBeanInfo(bean.getClass());
-            PropertyDescriptor[] descriptors = (PropertyDescriptor[]) info.getPropertyDescriptors().clone();
+            PropertyDescriptor[] descriptors = info.getPropertyDescriptors().clone();
             Arrays.sort(descriptors, new Comparator<PropertyDescriptor>()
             {
                 public int compare(PropertyDescriptor d1, PropertyDescriptor d2)
@@ -97,7 +87,7 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
                     if (p1 == null && p2 == null) return 0;
                     if (p1 == null) return 1;
                     if (p2 == null) return -1;
-                    return p1.intValue() - p2.intValue();
+                    return p1 - p2;
                 }
             });
 
@@ -158,19 +148,56 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
     {
         try
         {
-            Method getter = descriptor.getReadMethod();
-            if (getter == null) return null;
+            final Method getter = descriptor.getReadMethod();
+            if (getter == null)
+            {
+                return null;
+            }
             final Method setter = descriptor.getWriteMethod();
-            if (setter == null) return null;
-            Class<?> type = descriptor.getPropertyType();
+            if (setter == null)
+            {
+                return null;
+            }
+            Object value = getter.invoke(bean);
+            if(null == value)
+            {
+                return null;
+            }
+            Class<?> type = value.getClass();
+
+            if(!descriptor.getPropertyType().isInstance(value))
+            {
+                return null;
+            }
+
             final PropertyEditor editor;
             Class<?> editorClass = descriptor.getPropertyEditorClass();
-            if (editorClass == null && editors.containsKey(type)) editorClass = (Class<?>) editors.get(type);
-            if (editorClass != null) editor = (PropertyEditor) editorClass.newInstance();
-            else editor = PropertyEditorManager.findEditor(type);
-            if (editor == null) return null;
+            if (editorClass == null)
+            {
+                while(null != type)
+                {
+                    if(editors.containsKey(type))
+                    {
+                        editorClass = editors.get(type);
+                        break;
+                    }
+                    type = type.getSuperclass();
+                }
+            }
 
-            Object value = getter.invoke(bean);
+            if (editorClass != null)
+            {
+                editor = (PropertyEditor) editorClass.newInstance();
+            }
+            else
+            {
+                editor = PropertyEditorManager.findEditor(type);
+            }
+            if (editor == null)
+            {
+                return null;
+            }
+
             editor.setValue(value);
 
             if (!isKnownImmutable(type))
@@ -179,30 +206,30 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
                 {
                     value = value.getClass().getMethod("clone").invoke(value);
                 }
-                catch (Throwable t)
-                {
-                    // we tried
-                }
+                catch (Throwable ignored)
+                {} // we tried
             }
             final Object oldValue = value;
             editor.addPropertyChangeListener(new PropertyChangeListener()
             {
                 public void propertyChange(PropertyChangeEvent event)
                 {
-                try
-                {
-                    Object newValue = editor.getValue();
-                    setter.invoke(bean, newValue);
-                    firePropertyStateChanged(new PropertyChangeEvent(bean, descriptor.getName(), oldValue, newValue));
-                }
-                catch (IllegalAccessException exception)
-                {
-                    exception.printStackTrace();
-                }
-                catch (InvocationTargetException exception)
-                {
-                    exception.printStackTrace();
-                }
+                    try
+                    {
+                        Object newValue = editor.getValue();
+                        setter.invoke(bean, newValue);
+                        firePropertyStateChanged(new PropertyChangeEvent(
+                                bean, descriptor.getName(), oldValue, newValue)
+                        );
+                    }
+                    catch (IllegalAccessException exception)
+                    {
+                        exception.printStackTrace();
+                    }
+                    catch (InvocationTargetException exception)
+                    {
+                        exception.printStackTrace();
+                    }
                 }
             });
             return editor;
@@ -226,10 +253,9 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
 
     private static boolean isKnownImmutable(Class<?> type)
     {
-        if (type.isPrimitive()) return true;
-        if (knownImmutables.contains(type)) return true;
-        if (SerializableEnumeration.class.isAssignableFrom(type)) return true;
-        return false;
+        return  type.isPrimitive() ||
+                knownImmutables.contains(type) ||
+                SerializableEnumeration.class.isAssignableFrom(type);
     }
 
     /**
@@ -265,7 +291,6 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
         }
         else if (tags != null)
         {
-            // TODO: 14.02.2016 tlanslation for tags
             // make a combo box that shows all tags
             final JComboBox comboBox = new JComboBox(tags);
             comboBox.setSelectedItem(text);
@@ -360,7 +385,9 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
         synchronized (listeners)
         {
             for (PropertyChangeListener listener : listeners)
+            {
                 listener.propertyChange(event);
+            }
         }
     }
 
@@ -384,6 +411,7 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
     private JPanel panel;
 
     private static Map<Class<?>, Class<? extends PropertyEditor>> editors;
+    private static Set<Class<?>> knownImmutables;
 
     static
     {
@@ -396,12 +424,8 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
         editors.put(java.awt.Color.class, ColorEditor.class);
         editors.put(DiagramLink.class, AbstractDiagramLinkEditor.class);
         editors.put(ImageIcon.class, ImageIconEditor.class);
-    }
 
-    private static Set<Class<?>> knownImmutables = new HashSet<Class<?>>();
-
-    static
-    {
+        knownImmutables = new HashSet<Class<?>>();
         knownImmutables.add(String.class);
         knownImmutables.add(Integer.class);
         knownImmutables.add(Boolean.class);

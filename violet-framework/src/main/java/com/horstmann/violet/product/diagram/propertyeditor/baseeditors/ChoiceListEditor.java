@@ -23,7 +23,7 @@ package com.horstmann.violet.product.diagram.propertyeditor.baseeditors;
 
 import com.horstmann.violet.product.diagram.property.choiceList.ChoiceList;
 
-import java.awt.Component;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyEditorSupport;
@@ -56,6 +56,8 @@ public class ChoiceListEditor extends PropertyEditorSupport
     @Override
     public Component getCustomEditor()
     {
+        JPanel panel = new JPanel();
+
         final ChoiceList list = ((ChoiceList) getValue()).clone();
         final JComboBox comboBox = new JComboBox(list.getKeys());
         comboBox.setSelectedIndex(list.getSelectedPos());
@@ -68,6 +70,7 @@ public class ChoiceListEditor extends PropertyEditorSupport
             }
 
         });
-        return comboBox;
+        panel.add(comboBox);
+        return panel;
     }
 }

@@ -145,14 +145,17 @@ public class EditSelectedBehavior extends AbstractEditorPartBehavior
             }
         });
 
+        String tooltip = "";
         if (sheet.isEditable())
         {
             if (edited instanceof INode)
             {
+                tooltip = ((INode) edited).getToolTip();
                 this.behaviorManager.fireBeforeEditingNode((INode) edited);
             }
             if (edited instanceof IEdge)
             {
+                tooltip = ((IEdge) edited).getToolTip();
                 this.behaviorManager.fireBeforeEditingEdge((IEdge) edited);
             }
             optionPane.setMessage(sheet.getAWTComponent());
@@ -163,7 +166,7 @@ public class EditSelectedBehavior extends AbstractEditorPartBehavior
             label.setFont(label.getFont().deriveFont(Font.PLAIN));
             optionPane.setMessage(label);
         }
-        this.dialogFactory.showDialog(optionPane, this.dialogTitle, true);
+        this.dialogFactory.showDialog(optionPane, tooltip+": "+this.dialogTitle, true);
     }
     
   

@@ -218,42 +218,40 @@ public abstract class AbstractEdge implements IEdge
                 endLocationOnGraph.getY() + endNode.getBounds().getHeight() / 2
         );
 
-        if (startNode.equals(node))
+        if(null !=this.contactPoints && this.contactPoints.length > 1)
         {
-            if (isTransitionPointsSupported() && this.transitionPoints != null && this.transitionPoints.length > 0)
+            if (startNode.equals(node))
             {
-                endCenter = this.transitionPoints[0];
+                return new Direction(startCenter,this.contactPoints[1]);
             }
-            return new Direction(endCenter, startCenter);
-        }
-        else if (endNode.equals(node))
-        {
-            if (isTransitionPointsSupported() && this.transitionPoints != null && this.transitionPoints.length > 0)
+            else if (endNode.equals(node))
             {
-                startCenter = this.transitionPoints[this.transitionPoints.length - 1];
+                return new Direction(endCenter,this.contactPoints[this.contactPoints.length - 2]);
             }
-            return new Direction(startCenter, endCenter);
         }
-        return null;
+
+        return new Direction(0,0);
     }
 
     @Override
     public Line2D getConnectionPoints()
     {
-//        refreshContactPoints();
+        Point2D startLocationOnGraph = startNode.getLocationOnGraph();
+        Point2D endLocationOnGraph = endNode.getLocationOnGraph();
 
-        // TODO need refactor
-        INode startingNode = getStartNode();
-        INode endingNode = getEndNode();
-        Point2D startingNodeLocation = startingNode.getLocation();
-        Point2D endingNodeLocation = endingNode.getLocation();
-        Point2D startingNodeLocationOnGraph = startingNode.getLocationOnGraph();
-        Point2D endingNodeLocationOnGraph = endingNode.getLocationOnGraph();
-        Point2D relativeStartingConnectionPoint = startingNode.getConnectionPoint(this);
-        Point2D relativeEndingConnectionPoint = endingNode.getConnectionPoint(this);
-        Point2D absoluteStartingConnectionPoint = new Point2D.Double(startingNodeLocationOnGraph.getX() - startingNodeLocation.getX() + relativeStartingConnectionPoint.getX(), startingNodeLocationOnGraph.getY() - startingNodeLocation.getY() + relativeStartingConnectionPoint.getY());
-        Point2D absoluteEndingConnectionPoint = new Point2D.Double(endingNodeLocationOnGraph.getX() - endingNodeLocation.getX() + relativeEndingConnectionPoint.getX(), endingNodeLocationOnGraph.getY() - endingNodeLocation.getY() + relativeEndingConnectionPoint.getY());
-        return new Line2D.Double(absoluteStartingConnectionPoint, absoluteEndingConnectionPoint);
+        Point2D relativeStarting = startNode.getConnectionPoint(this);
+        Point2D relativeEnding = endNode.getConnectionPoint(this);
+
+        return new Line2D.Double(
+                new Point2D.Double(
+                        startLocationOnGraph.getX() - relativeStarting.getX() + startNode.getBounds().getWidth() + startNode.getLocation().getX(),
+                        startLocationOnGraph.getY() - relativeStarting.getY() + startNode.getBounds().getHeight() + startNode.getLocation().getY()
+                ),
+                new Point2D.Double(
+                        endLocationOnGraph.getX() - relativeEnding.getX() + endNode.getBounds().getWidth() + endNode.getLocation().getX(),
+                        endLocationOnGraph.getY() - relativeEnding.getY() + endNode.getBounds().getHeight() + endNode.getLocation().getY()
+                )
+        );
     }
 
     @Override

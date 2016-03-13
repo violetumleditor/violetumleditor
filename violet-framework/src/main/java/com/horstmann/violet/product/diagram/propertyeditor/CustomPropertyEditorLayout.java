@@ -59,7 +59,7 @@ class CustomPropertyEditorLayout implements LayoutManager
 
     public void layoutContainer(Container parent)
     {
-        preferredLayoutSize(parent); // sets left, right
+        preferredLayoutSize(parent);// sets left, right
 
         Component[] components = parent.getComponents();
 
