@@ -129,7 +129,7 @@ public class ClassNode extends ColorableNode
      */
     public void setName(LineText newValue)
     {
-        name.setText(newValue.toEdit());
+        name.setText(newValue);
     }
 
     /**
@@ -149,7 +149,7 @@ public class ClassNode extends ColorableNode
      */
     public void setAttributes(LineText newValue)
     {
-        attributes.setText(newValue.toEdit());
+        attributes.setText(newValue);
     }
 
     /**
@@ -169,7 +169,7 @@ public class ClassNode extends ColorableNode
      */
     public void setMethods(LineText newValue)
     {
-        methods.setText(newValue.toEdit());
+        methods.setText(newValue);
     }
 
     /**

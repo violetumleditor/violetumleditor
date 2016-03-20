@@ -11,15 +11,6 @@ import com.horstmann.violet.product.diagram.common.edge.LabeledLineEdgeBeanInfo;
  */
 public class ActivityTransitionEdgeBeanInfo extends LabeledLineEdgeBeanInfo
 {
-    public ActivityTransitionEdgeBeanInfo()
-    {
-        super(ActivityTransitionEdge.class);
-
-        displayLineStyle = false;
-        displayStartArrowhead = false;
-        displayEndArrowhead = false;
-    }
-
     protected ActivityTransitionEdgeBeanInfo(Class<?> beanClass)
     {
         super(beanClass);
@@ -27,5 +18,9 @@ public class ActivityTransitionEdgeBeanInfo extends LabeledLineEdgeBeanInfo
         displayLineStyle = false;
         displayStartArrowhead = false;
         displayEndArrowhead = false;
+    }
+    public ActivityTransitionEdgeBeanInfo()
+    {
+        this(ActivityTransitionEdge.class);
     }
 }

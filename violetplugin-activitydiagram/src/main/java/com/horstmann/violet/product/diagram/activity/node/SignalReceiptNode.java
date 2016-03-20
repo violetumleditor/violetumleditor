@@ -35,6 +35,7 @@ import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
+import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 
 /**
@@ -138,9 +139,9 @@ public class SignalReceiptNode extends ColorableNode
     }
 
     @Override
-    public boolean addConnection(IEdge e)
+    public boolean addConnection(IEdge edge)
     {
-        if (e.getEndNode() != null && this != e.getEndNode())
+        if (edge.getEndNode() != null && this != edge.getEndNode())
         {
             return true;
         }
@@ -152,7 +153,7 @@ public class SignalReceiptNode extends ColorableNode
      * 
      * @param newValue the new signal description
      */
-    public void setSignal(SingleLineText newValue)
+    public void setSignal(LineText newValue)
     {
         signal.setText(newValue.toEdit());
     }
@@ -160,7 +161,7 @@ public class SignalReceiptNode extends ColorableNode
     /**
      * Gets the signal property value.
      */
-    public SingleLineText getSignal()
+    public LineText getSignal()
     {
         return signal;
     }

@@ -117,7 +117,9 @@ public class LifelineNode extends ColorableNode
         TextContent nameContent = new TextContent(name);
         TextContent typeContent = new TextContent(type);
         nameContent.setMinHeight(TOP_HEIGHT);
+        nameContent.setMinWidth(5);
         typeContent.setMinHeight(TOP_HEIGHT);
+        typeContent.setMinWidth(5);
 
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         horizontalLayout.add(nameContent);
@@ -249,30 +251,30 @@ public class LifelineNode extends ColorableNode
         return new Point2D.Double(super.getLocation().getX(), y);
     }
 
-    public void draw(Graphics2D g2)
+    public void draw(Graphics2D graphics)
     {
         Rectangle2D bounds = getBounds();
         Point2D startPoint = new Point2D.Double(bounds.getCenterX(), bounds.getMinY());
         Point2D endPoint  = new Point2D.Double(bounds.getCenterX(), getMaxYOverAllLifeLineNodes());
 
-        Color oldColor = g2.getColor();
-        Stroke oldStroke = g2.getStroke();
-        g2.setColor(getBorderColor());
+        Color oldColor = graphics.getColor();
+        Stroke oldStroke = graphics.getStroke();
+        graphics.setColor(getBorderColor());
         if(!name.toEdit().isEmpty())
         {
-            g2.setStroke(new BasicStroke(
+            graphics.setStroke(new BasicStroke(
                     1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0.0f, new float[]{5.0f, 5.0f}, 0.0f
             ));
         }
-        g2.draw(new Line2D.Double(startPoint, endPoint));
-        g2.setStroke(oldStroke);
+        graphics.draw(new Line2D.Double(startPoint, endPoint));
+        graphics.setStroke(oldStroke);
         if(endOfLife)
         {
-            ArrowheadChoiceList.X.draw(g2, startPoint, endPoint);
+            ArrowheadChoiceList.X.draw(graphics, startPoint, endPoint);
         }
-        g2.setColor(oldColor);
+        graphics.setColor(oldColor);
 
-        super.draw(g2);
+        super.draw(graphics);
     }
 
     public boolean contains(Point2D p)
@@ -291,7 +293,7 @@ public class LifelineNode extends ColorableNode
     }
 
     @Override
-    public boolean addConnection(IEdge e)
+    public boolean addConnection(IEdge edge)
     {
         return false;
     }
@@ -301,7 +303,7 @@ public class LifelineNode extends ColorableNode
     {
         Point2D locationOnGraph = getLocationOnGraph();
         double x = locationOnGraph.getX();
-        if (0 >= edge.getDirection(this).getX())
+        if (0 <= edge.getDirection(this).getX())
         {
             x += getContent().getWidth();
         }
@@ -348,7 +350,7 @@ public class LifelineNode extends ColorableNode
      *
      * @param newValue the name of this object
      */
-    public void setName(SingleLineText newValue)
+    public void setName(LineText newValue)
     {
         name.setText(newValue.toEdit());
         setType(getType());
@@ -360,7 +362,7 @@ public class LifelineNode extends ColorableNode
      *
      * @return the name of this object
      */
-    public SingleLineText getName()
+    public LineText getName()
     {
         return name;
     }
@@ -370,7 +372,7 @@ public class LifelineNode extends ColorableNode
      *
      * @param newValue the type of this object
      */
-    public void setType(SingleLineText newValue)
+    public void setType(LineText newValue)
     {
         type.setText(newValue.toEdit());
         centeredActivationsGroup();
@@ -381,7 +383,7 @@ public class LifelineNode extends ColorableNode
      *
      * @return the name of this object
      */
-    public SingleLineText getType()
+    public LineText getType()
     {
         return type;
     }

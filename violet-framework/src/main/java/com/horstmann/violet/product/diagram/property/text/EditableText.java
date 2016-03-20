@@ -27,4 +27,11 @@ public interface EditableText
      * @param text to be set
      */
     void setText(String text);
+
+    /**
+     * Sets a new plain text
+     *
+     * @param text to be set
+     */
+    void setText(EditableText text);
 }

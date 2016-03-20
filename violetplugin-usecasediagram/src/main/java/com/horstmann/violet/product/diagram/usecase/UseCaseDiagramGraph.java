@@ -28,7 +28,10 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.common.edge.NoteEdge;
 import com.horstmann.violet.product.diagram.common.node.NoteNode;
-import com.horstmann.violet.product.diagram.usecase.edge.UseCaseRelationshipEdge;
+import com.horstmann.violet.product.diagram.usecase.edge.ExtendEdge;
+import com.horstmann.violet.product.diagram.usecase.edge.GeneralizationEdge;
+import com.horstmann.violet.product.diagram.usecase.edge.IncludeEdge;
+import com.horstmann.violet.product.diagram.usecase.edge.InteractionEdge;
 import com.horstmann.violet.product.diagram.usecase.node.ActorNode;
 import com.horstmann.violet.product.diagram.usecase.node.UseCaseNode;
 
@@ -54,10 +57,10 @@ public class UseCaseDiagramGraph extends AbstractGraph
     ));
 
     private static final List<IEdge> EDGE_PROTOTYPES = new ArrayList<IEdge>(Arrays.asList(
-            new UseCaseRelationshipEdge(),//communication
-            new UseCaseRelationshipEdge(),//extendRel
-            new UseCaseRelationshipEdge(),//includeRel
-            new UseCaseRelationshipEdge(),//generalization
+            new InteractionEdge(),
+            new ExtendEdge(),
+            new IncludeEdge(),
+            new GeneralizationEdge(),
             new NoteEdge()
     ));
 }

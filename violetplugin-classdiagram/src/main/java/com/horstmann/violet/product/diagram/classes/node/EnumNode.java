@@ -116,9 +116,9 @@ public class EnumNode extends ColorableNode
      * 
      * @param newValue the class name
      */
-    public void setName(SingleLineText newValue)
+    public void setName(LineText newValue)
     {
-        name.setText(newValue.toEdit());
+        name.setText(newValue);
     }
 
     /**
@@ -126,7 +126,7 @@ public class EnumNode extends ColorableNode
      * 
      * @return the class name
      */
-    public SingleLineText getName()
+    public LineText getName()
     {
         return name;
     }
@@ -136,9 +136,9 @@ public class EnumNode extends ColorableNode
      *
      * @param newValue the attributes of this class
      */
-    public void setAttributes(MultiLineText newValue)
+    public void setAttributes(LineText newValue)
     {
-        attributes.setText(newValue.toEdit());
+        attributes.setText(newValue);
     }
 
     /**

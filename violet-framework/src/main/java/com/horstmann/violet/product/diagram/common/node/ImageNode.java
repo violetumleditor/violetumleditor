@@ -97,9 +97,9 @@ public class ImageNode extends ColorableNode
      * com.horstmann.violet.product.diagram.abstracts.AbstractNode#checkRemoveEdge(com.horstmann.violet.product.diagram.abstracts
      * .Edge)
      */
-    public void removeConnection(IEdge e)
+    public void removeConnection(IEdge edge)
     {
-        if (e.getStartNode() == this) getGraph().removeNode(e.getEndNode());
+        if (edge.getStartNode() == this) getGraph().removeNode(edge.getEndNode());
     }
 
     /**
@@ -136,22 +136,22 @@ public class ImageNode extends ColorableNode
      * 
      * @see com.horstmann.violet.product.diagram.abstracts.AbstractNode#draw(java.awt.Graphics2D)
      */
-    public void draw(Graphics2D g2)
+    public void draw(Graphics2D graphics)
     {
         // Backup current color;
-        Color oldColor = g2.getColor();
+        Color oldColor = graphics.getColor();
         // Draw image
         Rectangle2D bounds = getBounds();
-        g2.drawImage(this.imageIcon.getImage(), (int) bounds.getCenterX() - this.imageIcon.getIconWidth() / 2, (int) bounds.getY(),
+        graphics.drawImage(this.imageIcon.getImage(), (int) bounds.getCenterX() - this.imageIcon.getIconWidth() / 2, (int) bounds.getY(),
                 this.imageIcon.getImageObserver());
         // Draw text
-        g2.setColor(getTextColor());
+        graphics.setColor(getTextColor());
         Rectangle2D b = text.getBounds();
         Rectangle2D textBounds = new Rectangle2D.Double(bounds.getX(), bounds.getY() + this.imageIcon.getIconHeight(),
                 b.getWidth(), b.getHeight());
-        text.draw(g2, textBounds);
+        text.draw(graphics, textBounds);
         // Restore first color
-        g2.setColor(oldColor);
+        graphics.setColor(oldColor);
     }
 
     /*

@@ -28,6 +28,7 @@ import com.horstmann.violet.framework.graphics.content.TextContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideEllipse;
 import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
+import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 
 import java.awt.*;
@@ -105,7 +106,7 @@ public class PageLinkNode extends ColorableNode
      * 
      * @param newValue the new action name
      */
-    public void setName(SingleLineText newValue)
+    public void setName(LineText newValue)
     {
         name.setText(newValue.toEdit());
     }
@@ -113,7 +114,7 @@ public class PageLinkNode extends ColorableNode
     /**
      * Gets the name property value.
      */
-    public SingleLineText getName()
+    public LineText getName()
     {
         return name;
     }

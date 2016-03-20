@@ -33,6 +33,7 @@ public class BooleanEditor extends PropertyEditorSupport
     @Override
     public Component getCustomEditor()
     {
+        JPanel panel = new JPanel();
         final Boolean value = (Boolean)getValue();
         final JComboBox comboBox = new JComboBox(KEYS);
         comboBox.setSelectedIndex(value ? 1:0);
@@ -43,7 +44,8 @@ public class BooleanEditor extends PropertyEditorSupport
                 setValue(VALUES[comboBox.getSelectedIndex()]);
             }
         });
-        return comboBox;
+        panel.add(comboBox);
+        return panel;
     }
 
     public static final Boolean[] VALUES = new Boolean[]{

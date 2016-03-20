@@ -160,7 +160,7 @@ public class ActorNode extends ColorableNode
     @Override
     public String getToolTip()
     {
-        return UseCaseDiagramConstant.USE_CASE_DIAGRAM_RESOURCE.getString("actor_node.tooltip");
+        return UseCaseDiagramConstant.USE_CASE_DIAGRAM_RESOURCE.getString("tooltip.actor_node");
     }
 
     /**

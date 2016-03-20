@@ -101,7 +101,7 @@ public class UseCaseNode extends ColorableNode
     @Override
     public String getToolTip()
     {
-        return UseCaseDiagramConstant.USE_CASE_DIAGRAM_RESOURCE.getString("use_case_node.tooltip");
+        return UseCaseDiagramConstant.USE_CASE_DIAGRAM_RESOURCE.getString("tooltip.use_case_node");
     }
 
     @Override

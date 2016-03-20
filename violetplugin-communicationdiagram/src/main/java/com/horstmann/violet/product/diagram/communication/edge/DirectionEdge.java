@@ -1,7 +1,9 @@
 package com.horstmann.violet.product.diagram.communication.edge;
 
+import com.horstmann.violet.product.diagram.abstracts.edge.bentstyle.BentStyle;
 import com.horstmann.violet.product.diagram.common.edge.LabeledLineEdge;
 import com.horstmann.violet.product.diagram.communication.CommunicationDiagramConstant;
+import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 
 /**
@@ -12,6 +14,9 @@ import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 public class DirectionEdge extends LabeledLineEdge {
 
 	public DirectionEdge() {
+        super();
+		setBentStyle(BentStyle.STRAIGHT);
+
 		SequenceNumber = new SingleLineText();
 		Message = new SingleLineText();
 		ConcurrentLoop = false;
@@ -27,7 +32,9 @@ public class DirectionEdge extends LabeledLineEdge {
 	protected void beforeReconstruction()
 	{
 		super.beforeReconstruction();
-		SequenceNumber.reconstruction();
+        setBentStyle(BentStyle.STRAIGHT);
+
+        SequenceNumber.reconstruction();
 		Message.reconstruction();
 		SequentialLoop.reconstruction();
 	}
@@ -41,31 +48,30 @@ public class DirectionEdge extends LabeledLineEdge {
 		this.SequentialLoop = directionEdge.SequentialLoop.clone();
 	}
 
-	public void setSequenceNumber(SingleLineText number) {
-		this.SequenceNumber = number;
+	public void setSequenceNumber(LineText number) {
+		this.SequenceNumber.setText(number);
 		margeMessage();
 	}
 
-	public SingleLineText getSequenceNumber() {
+	public LineText getSequenceNumber() {
 		return SequenceNumber;
 	}
 
-	public void setMessage(SingleLineText message) {
-		this.Message = message;
+	public void setMessage(LineText message) {
+		this.Message.setText(message);
 		margeMessage();
-		;
 	}
 
-	public SingleLineText getMessage() {
+	public LineText getMessage() {
 		return Message;
 	}
 
-	public SingleLineText getSequentialLoop() {
+	public LineText getSequentialLoop() {
 		return SequentialLoop;
 	}
 
-	public void setSequentialLoop(SingleLineText sequentialLoop) {
-		SequentialLoop = sequentialLoop;
+	public void setSequentialLoop(LineText sequentialLoop) {
+		SequentialLoop.setText(sequentialLoop);
 		margeMessage();
 	}
 
@@ -90,7 +96,7 @@ public class DirectionEdge extends LabeledLineEdge {
 	@Override
 	public String getToolTip()
 	{
-		return CommunicationDiagramConstant.COMMUNICATION_DIAGRAM_RESOURCE.getString("direction_edge.tooltip");
+		return CommunicationDiagramConstant.COMMUNICATION_DIAGRAM_RESOURCE.getString("tooltip.direction_edge");
 	}
 
 	private SingleLineText SequenceNumber;

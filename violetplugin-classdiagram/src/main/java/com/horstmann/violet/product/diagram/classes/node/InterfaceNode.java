@@ -110,9 +110,9 @@ public class InterfaceNode extends ColorableNode
     }
 
     @Override
-    public boolean addChild(INode n, Point2D p)
+    public boolean addChild(INode node, Point2D point)
     {
-        if (n instanceof PointNode)
+        if (node instanceof PointNode)
         {
             return true;
         }
@@ -124,9 +124,9 @@ public class InterfaceNode extends ColorableNode
      * 
      * @param newValue the interface name
      */
-    public void setName(SingleLineText newValue)
+    public void setName(LineText newValue)
     {
-        name.setText(newValue.toEdit());
+        name.setText(newValue);
     }
 
     /**
@@ -134,7 +134,7 @@ public class InterfaceNode extends ColorableNode
      * 
      * @return the interface name
      */
-    public SingleLineText getName()
+    public LineText getName()
     {
         return name;
     }
@@ -144,9 +144,9 @@ public class InterfaceNode extends ColorableNode
      * 
      * @param newValue the methods of this interface
      */
-    public void setMethods(MultiLineText newValue)
+    public void setMethods(LineText newValue)
     {
-        methods = newValue;
+        methods.setText(newValue);
     }
 
     /**
@@ -154,7 +154,7 @@ public class InterfaceNode extends ColorableNode
      * 
      * @return the methods of this interface
      */
-    public MultiLineText getMethods()
+    public LineText getMethods()
     {
         return methods;
     }

@@ -3,6 +3,7 @@ package com.horstmann.violet.product.diagram.common.edge;
 import com.horstmann.violet.framework.graphics.content.TextContent;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.edge.bentstyle.BentStyle;
+import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 
@@ -179,12 +180,12 @@ public class LabeledLineEdge extends ArrowheadEdge
         }
     }
 
-    public SingleLineText getStartLabel()
+    public LineText getStartLabel()
     {
         return startLabel;
     }
 
-    public void setStartLabel(SingleLineText startLabel)
+    public void setStartLabel(LineText startLabel)
     {
         this.startLabel.setText(startLabel.toEdit());
     }
@@ -194,12 +195,12 @@ public class LabeledLineEdge extends ArrowheadEdge
         this.startLabel.setText(startLabel);
     }
 
-    public SingleLineText getCenterLabel()
+    public LineText getCenterLabel()
     {
         return centerLabel;
     }
 
-    public void setCenterLabel(SingleLineText centerLabel)
+    public void setCenterLabel(LineText centerLabel)
     {
         this.centerLabel.setText(centerLabel.toEdit());
     }
@@ -209,12 +210,12 @@ public class LabeledLineEdge extends ArrowheadEdge
         this.centerLabel.setText(centerLabel);
     }
 
-    public SingleLineText getEndLabel()
+    public LineText getEndLabel()
     {
         return endLabel;
     }
 
-    public void setEndLabel(SingleLineText endLabel)
+    public void setEndLabel(LineText endLabel)
     {
         this.endLabel.setText(endLabel.toEdit());
     }

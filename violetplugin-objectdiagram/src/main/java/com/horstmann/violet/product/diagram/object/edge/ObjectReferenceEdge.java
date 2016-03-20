@@ -55,6 +55,15 @@ public class ObjectReferenceEdge extends ShapeEdge
     }
 
     @Override
+    public Line2D getConnectionPoints()
+    {
+        return new Line2D.Double(
+                getStartNode().getConnectionPoint(this),
+                getEndNode().getConnectionPoint(this)
+        );
+    }
+
+    @Override
     public String getToolTip()
     {
         return ObjectDiagramConstant.OBJECT_DIAGRAM_RESOURCE.getString("tooltip.object_reference_edge");

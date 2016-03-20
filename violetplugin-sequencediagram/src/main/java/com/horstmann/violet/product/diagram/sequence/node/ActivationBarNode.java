@@ -220,7 +220,7 @@ public class ActivationBarNode extends ColorableNode
         double x = startingNodeLocation.getX();
         double y = startingNodeLocation.getY();
 
-        if (0 >= edgeDirection.getX())
+        if (0 <= edgeDirection.getX())
         {
             x+= WIDTH;
         }
@@ -235,7 +235,7 @@ public class ActivationBarNode extends ColorableNode
                      null != edge.getEndNode().getParent() &&
                      edge.getStartNode().getParents().get(0) == edge.getEndNode().getParents().get(0))
             {
-                if (0 < edgeDirection.getX())
+                if (0 > edgeDirection.getX())
                 {
                     x += WIDTH;
                 }

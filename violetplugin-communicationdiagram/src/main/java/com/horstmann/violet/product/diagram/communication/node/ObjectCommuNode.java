@@ -73,7 +73,7 @@ public class ObjectCommuNode extends ColorableNode
 	@Override
 	public String getToolTip()
 	{
-		return CommunicationDiagramConstant.COMMUNICATION_DIAGRAM_RESOURCE.getString("object_commu_node.tooltip");
+		return CommunicationDiagramConstant.COMMUNICATION_DIAGRAM_RESOURCE.getString("tooltip.object_commu_node");
 	}
 
 	/**
@@ -81,9 +81,9 @@ public class ObjectCommuNode extends ColorableNode
 	 *
 	 * @param newValue the class name
 	 */
-	public void setName(SingleLineText newValue)
+	public void setName(LineText newValue)
 	{
-		name = newValue;
+		name.setText(newValue);
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class ObjectCommuNode extends ColorableNode
 	 *
 	 * @return the class name
 	 */
-	public SingleLineText getName()
+	public LineText getName()
 	    {
 	        return name;
 	    }

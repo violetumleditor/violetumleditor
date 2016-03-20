@@ -106,8 +106,10 @@ public class ObjectNode extends ColorableNode
     {
         TextContent nameContent = new TextContent(name);
         nameContent.setMinHeight(DEFAULT_HEIGHT);
+        nameContent.setMinWidth(5);
         TextContent typeContent = new TextContent(type);
         typeContent.setMinHeight(DEFAULT_HEIGHT);
+        typeContent.setMinWidth(5);
 
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         horizontalLayout.add(nameContent);
@@ -153,14 +155,14 @@ public class ObjectNode extends ColorableNode
         return ObjectDiagramConstant.OBJECT_DIAGRAM_RESOURCE.getString("tooltip.object_node");
     }
 
-    public boolean addConnection(IEdge e)
+    public boolean addConnection(IEdge edge)
     {
-        if (!e.getClass().isAssignableFrom(AssociationEdge.class))
+        if (!edge.getClass().isAssignableFrom(AssociationEdge.class))
         {
             return false;
         }
-        INode startingNode = e.getStartNode();
-        INode endingNode = e.getEndNode();
+        INode startingNode = edge.getStartNode();
+        INode endingNode = edge.getEndNode();
         if (startingNode.getClass().isAssignableFrom(FieldNode.class))
         {
             startingNode = startingNode.getParent();
@@ -169,28 +171,28 @@ public class ObjectNode extends ColorableNode
         {
             endingNode = endingNode.getParent();
         }
-        e.setStartNode(startingNode);
-        e.setEndNode(endingNode);
+        edge.setStartNode(startingNode);
+        edge.setEndNode(endingNode);
         return true;
     }
 
 
-    public void setName(SingleLineText n)
+    public void setName(LineText n)
     {
         name.setText(n.toEdit());
     }
 
-    public SingleLineText getName()
+    public LineText getName()
     {
         return name;
     }
 
-    public void setType(SingleLineText n)
+    public void setType(LineText n)
     {
         type.setText(n.toEdit());
     }
 
-    public SingleLineText getType()
+    public LineText getType()
     {
         return type;
     }
@@ -203,22 +205,22 @@ public class ObjectNode extends ColorableNode
     }
 
     @Override
-    public boolean addChild(INode n, Point2D p)
+    public boolean addChild(INode node, Point2D point)
     {
         List<INode> fields = getChildren();
-        if (!(n instanceof FieldNode)) return false;
-        if (fields.contains(n)) return true;
+        if (!(node instanceof FieldNode)) return false;
+        if (fields.contains(node)) return true;
 
         int i = 0;
-        while (i < fields.size() && fields.get(i).getLocation().getY() < p.getY())
+        while (i < fields.size() && fields.get(i).getLocation().getY() < point.getY())
         {
             i++;
         }
-        addChild(n, i);
-        n.setGraph(getGraph());
-        n.setParent(this);
+        addChild(node, i);
+        node.setGraph(getGraph());
+        node.setParent(this);
 
-        FieldNode fieldNode = (FieldNode) n;
+        FieldNode fieldNode = (FieldNode) node;
         fieldNode.setTextColor(getTextColor());
         fieldNode.setBackgroundColor(getBackgroundColor());
         fieldNode.setBorderColor(getBorderColor());

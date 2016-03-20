@@ -93,12 +93,12 @@ public class ActivityNode extends ColorableNode
         return ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("tooltip.activity_node");
     }
 
-    public void setName(SingleLineText newValue)
+    public void setName(LineText newValue)
     {
         name.setText(newValue.toEdit());
     }
 
-    public SingleLineText getName()
+    public LineText getName()
     {
         return name;
     }

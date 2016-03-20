@@ -9,15 +9,14 @@ package com.horstmann.violet.product.diagram.classes.edge;
  */
 public class InterfaceInheritanceEdgeBeanInfo extends ClassRelationshipEdgeBeanInfo
 {
-    public InterfaceInheritanceEdgeBeanInfo()
-    {
-        super(InterfaceInheritanceEdge.class);
-        displayStartArrowhead = false;
-    }
-
     protected InterfaceInheritanceEdgeBeanInfo(Class<?> beanClass)
     {
         super(beanClass);
         displayStartArrowhead = false;
+    }
+
+    public InterfaceInheritanceEdgeBeanInfo()
+    {
+        this(InterfaceInheritanceEdge.class);
     }
 }

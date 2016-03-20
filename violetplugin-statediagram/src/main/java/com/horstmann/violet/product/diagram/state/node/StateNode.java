@@ -152,14 +152,14 @@ public class StateNode extends ColorableNode
 
 
     @Override
-    public boolean addConnection(IEdge e) {
-        if (e.getEndNode() == null) {
+    public boolean addConnection(IEdge edge) {
+        if (edge.getEndNode() == null) {
             return false;
         }
-        if (this.equals(e.getEndNode())) {
+        if (this.equals(edge.getEndNode())) {
             return false;
         }
-        return super.addConnection(e);
+        return super.addConnection(edge);
     }
 
     /**

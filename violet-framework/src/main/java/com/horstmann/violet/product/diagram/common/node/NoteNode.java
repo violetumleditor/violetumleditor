@@ -109,22 +109,22 @@ public class NoteNode extends ColorableNode
     }
 
     @Override
-    public void draw(Graphics2D g2)
+    public void draw(Graphics2D graphics)
     {
-        super.draw(g2);
+        super.draw(graphics);
 
-        Color oldColor = g2.getColor();
+        Color oldColor = graphics.getColor();
         GeneralPath fold = new GeneralPath();
         Rectangle2D bounds = getBounds();
         fold.moveTo((float) (bounds.getMaxX() - FOLD_X), (float) bounds.getY());
         fold.lineTo((float) bounds.getMaxX() - FOLD_X, (float) bounds.getY() + FOLD_X);
         fold.lineTo((float) bounds.getMaxX(), (float) (bounds.getY() + FOLD_Y));
         fold.closePath();
-        g2.setColor(ThemeManager.getInstance().getTheme().getWhiteColor());
-        g2.fill(fold);
-        g2.setColor(getBorderColor());
-        g2.draw(fold);
-        g2.setColor(oldColor);
+        graphics.setColor(ThemeManager.getInstance().getTheme().getWhiteColor());
+        graphics.fill(fold);
+        graphics.setColor(getBorderColor());
+        graphics.draw(fold);
+        graphics.setColor(oldColor);
     }
 
     @Override
@@ -154,13 +154,13 @@ public class NoteNode extends ColorableNode
     }
 
     @Override
-    public boolean addConnection(IEdge e)
+    public boolean addConnection(IEdge edge)
     {
-        if (e.getStartNode() == e.getEndNode())
+        if (edge.getStartNode() == edge.getEndNode())
         {
             return false;
         }
-        return super.addConnection(e);
+        return super.addConnection(edge);
     }
 
     /**

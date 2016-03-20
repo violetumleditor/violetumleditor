@@ -34,9 +34,9 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.object.ObjectDiagramConstant;
+import com.horstmann.violet.product.diagram.object.edge.AssociationEdge;
 import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
-import com.horstmann.violet.product.diagram.common.edge.BasePropertyEdge;
 import com.horstmann.violet.product.diagram.object.edge.ObjectReferenceEdge;
 
 /**
@@ -162,19 +162,19 @@ public class FieldNode extends ColorableNode
     }
 
     @Override
-    public boolean addConnection(IEdge e)
+    public boolean addConnection(IEdge edge)
     {
-        INode endingINode = e.getEndNode();
-        if (e.getClass().isAssignableFrom(ObjectReferenceEdge.class) && endingINode.getClass().isAssignableFrom(ObjectNode.class))
+        INode endingINode = edge.getEndNode();
+        if (edge.getClass().isAssignableFrom(ObjectReferenceEdge.class) && endingINode.getClass().isAssignableFrom(ObjectNode.class))
         {
             value.setText( "" );
             return true;
         }
         // Hack to allow drawing relationship edge over fields
-        if (e.getClass().isAssignableFrom(BasePropertyEdge.class))
+        if (edge instanceof AssociationEdge)
         {
-            INode startingNode = e.getStartNode();
-            INode endingNode = e.getEndNode();
+            INode startingNode = edge.getStartNode();
+            INode endingNode = edge.getEndNode();
             if (startingNode.getClass().isAssignableFrom(FieldNode.class))
             {
                 startingNode = startingNode.getParent();
@@ -183,9 +183,9 @@ public class FieldNode extends ColorableNode
             {
                 endingNode = endingNode.getParent();
             }
-            e.setStartNode(startingNode);
-            e.setEndNode(endingNode);
-            return getParent().addConnection(e);
+            edge.setStartNode(startingNode);
+            edge.setEndNode(endingNode);
+            return getParent().addConnection(edge);
         }
         return false;
     }
@@ -197,29 +197,29 @@ public class FieldNode extends ColorableNode
      * with this bug.
      */
     @Override
-    public boolean addChild(INode n, Point2D p)
+    public boolean addChild(INode node, Point2D point)
     {
-        if (!n.getClass().isAssignableFrom(FieldNode.class))
+        if (!node.getClass().isAssignableFrom(FieldNode.class))
         {
             return false;
         }
         INode parent = getParent();
         List<INode> parentChildren = parent.getChildren();
         int currentPosition = parentChildren.indexOf(this);
-        parent.addChild(n, currentPosition + 1);
+        parent.addChild(node, currentPosition + 1);
         return true;
     }
 
     @Override
     public Point2D getConnectionPoint(IEdge edge)
     {
-        Point2D location = getLocation();
+        Point2D location = getLocationOnGraph();
         int x = (int)name.getBounds().getWidth();
         if(0==x)
         {
             x = DEFAULT_WIDTH/2;
         }
-        return new Point2D.Double(x + 20, location.getY() + DEFAULT_HEIGHT/2);
+        return new Point2D.Double(x + 20 + location.getX(), location.getY() + DEFAULT_HEIGHT/2);
     }
 
     /**
@@ -227,9 +227,9 @@ public class FieldNode extends ColorableNode
      * 
      * @param newValue the field name
      */
-    public void setName(SingleLineText newValue)
+    public void setName(LineText newValue)
     {
-        name.setText(newValue.toEdit());
+        name.setText(newValue);
     }
 
     /**
@@ -237,7 +237,7 @@ public class FieldNode extends ColorableNode
      * 
      * @return the field name
      */
-    public SingleLineText getName()
+    public LineText getName()
     {
         return name;
     }
@@ -247,11 +247,11 @@ public class FieldNode extends ColorableNode
      * 
      * @param newValue the field value
      */
-    public void setValue(SingleLineText newValue)
+    public void setValue(LineText newValue)
     {
-        if(0==getConnectedEdges().size())
+        if(0 == getConnectedEdges().size())
         {
-            value.setText(newValue.toEdit());
+            value.setText(newValue);
         }
     }
 
@@ -260,11 +260,11 @@ public class FieldNode extends ColorableNode
      * 
      * @return the field value
      */
-    public SingleLineText getValue()
+    public LineText getValue()
     {
         if(0<getConnectedEdges().size())
         {
-            return new SingleLineText();
+            return null;
         }
         return value;
     }

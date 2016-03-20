@@ -101,6 +101,11 @@ public abstract class LineText implements Serializable, Cloneable, EditableText
         return bounds;
     }
 
+    public final void setText(EditableText text)
+    {
+        setText(text.toEdit());
+    }
+
     /**
      * @return label color
      */

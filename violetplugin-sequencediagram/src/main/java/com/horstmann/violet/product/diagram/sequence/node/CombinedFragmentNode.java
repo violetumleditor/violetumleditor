@@ -142,7 +142,7 @@ public class CombinedFragmentNode extends AbstractNode implements IResizableNode
     }
 
     @Override
-    public boolean addConnection(IEdge e)
+    public boolean addConnection(IEdge edge)
     {
         return false;
     }
@@ -172,7 +172,7 @@ public class CombinedFragmentNode extends AbstractNode implements IResizableNode
      *
      * @param newValue the contents of this class
      */
-    public void setFrameContent(MultiLineText newValue)
+    public void setFrameContent(LineText newValue)
     {
         frameContent.setText(newValue.toEdit());
     }
@@ -182,7 +182,7 @@ public class CombinedFragmentNode extends AbstractNode implements IResizableNode
      *
      * @return the contents of this class
      */
-    public MultiLineText getFrameContent()
+    public LineText getFrameContent()
     {
         return frameContent;
     }

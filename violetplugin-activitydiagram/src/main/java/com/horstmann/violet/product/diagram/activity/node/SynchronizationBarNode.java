@@ -107,15 +107,15 @@ public class SynchronizationBarNode extends ColorableNode
     }
 
     @Override
-    public void removeConnection(IEdge e)
+    public void removeConnection(IEdge edge)
     {
         refresh();
     }
 
     @Override
-    public boolean addConnection(IEdge e)
+    public boolean addConnection(IEdge edge)
     {
-        return e.getEndNode() != null && this != e.getEndNode();
+        return edge.getEndNode() != null && this != edge.getEndNode();
     }
 
     private void refresh()

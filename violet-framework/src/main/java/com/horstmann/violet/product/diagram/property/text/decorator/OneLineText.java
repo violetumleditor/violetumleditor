@@ -48,6 +48,17 @@ public class OneLineText implements Serializable, Cloneable, EditableText
     }
 
     /**
+     * Sets a new plain text
+     *
+     * @param text to be set
+     */
+    @Override
+    public final void setText(EditableText text)
+    {
+        setText(text.toEdit());
+    }
+
+    /**
      * Get formatted text with HTML tags
      *
      * @return formatted text

@@ -165,7 +165,7 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
             }
             Class<?> type = value.getClass();
 
-            if(!descriptor.getPropertyType().isInstance(value))
+            if(!descriptor.getPropertyType().isInstance(value) && !descriptor.getPropertyType().isPrimitive())
             {
                 return null;
             }
@@ -183,6 +183,10 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
                     }
                     type = type.getSuperclass();
                 }
+            }
+            if (type == null)
+            {
+                return null;
             }
 
             if (editorClass != null)
@@ -417,6 +421,7 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
     {
         editors = new HashMap<Class<?>, Class<? extends PropertyEditor>>();
         editors.put(boolean.class, BooleanEditor.class);
+        editors.put(Boolean.class, BooleanEditor.class);
         editors.put(String.class, SingleLineTextEditor.class);
         editors.put(SingleLineText.class, SingleLineTextEditor.class);
         editors.put(MultiLineText.class, MultiLineTextEditor.class);

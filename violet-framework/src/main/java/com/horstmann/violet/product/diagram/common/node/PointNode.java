@@ -81,7 +81,7 @@ public class PointNode extends AbstractNode
     }
 
     @Override
-    public void draw(Graphics2D g2)
+    public void draw(Graphics2D graphics)
     {
         // Invisible node_old
     }

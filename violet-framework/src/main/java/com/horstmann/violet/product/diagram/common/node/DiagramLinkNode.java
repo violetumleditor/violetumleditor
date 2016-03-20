@@ -70,7 +70,7 @@ public class DiagramLinkNode extends ColorableNode
     }
 
 
-    public void draw(Graphics2D g2)
+    public void draw(Graphics2D graphics)
     {
         Rectangle2D bounds = getBounds();
         GeneralPath path1 = new GeneralPath();
@@ -110,22 +110,22 @@ public class DiagramLinkNode extends ColorableNode
         Rectangle2D rec2 = new Rectangle2D.Float();
         rec2.setRect(x1, y1 - DEFAULT_SIZE / 12, DEFAULT_SIZE / 2, y6 - y1 + 2 * DEFAULT_SIZE / 12);
 
-        Color backupcolor = g2.getColor();
-        g2.setColor(Color.WHITE);
-        g2.fill(rec1);
-        g2.fill(rec2);
-        g2.setColor(backupcolor);
-        g2.draw(path1);
-        g2.draw(path2);
-        g2.draw(rec1);
-        g2.draw(rec2);
+        Color backupcolor = graphics.getColor();
+        graphics.setColor(Color.WHITE);
+        graphics.fill(rec1);
+        graphics.fill(rec2);
+        graphics.setColor(backupcolor);
+        graphics.draw(path1);
+        graphics.draw(path2);
+        graphics.draw(rec1);
+        graphics.draw(rec2);
 
         // Draw name
         Rectangle2D bot = getLabel().getBounds();
 
         Rectangle2D namebox = new Rectangle2D.Double(bounds.getX() + +(bounds.getWidth() - bot.getWidth()) / 2, bounds.getY()
                 + bounds.getHeight() - bot.getHeight(), bot.getWidth(), bot.getHeight());
-        getLabel().draw(g2, namebox);
+        getLabel().draw(graphics, namebox);
     }
 
     public DiagramLink getDiagramLink()

@@ -161,7 +161,7 @@ public class ActorNode extends ColorableNode
     @Override
     public String getToolTip()
     {
-        return CommunicationDiagramConstant.COMMUNICATION_DIAGRAM_RESOURCE.getString("actor_node.tooltip");
+        return CommunicationDiagramConstant.COMMUNICATION_DIAGRAM_RESOURCE.getString("tooltip.actor_node");
     }
 
     /**

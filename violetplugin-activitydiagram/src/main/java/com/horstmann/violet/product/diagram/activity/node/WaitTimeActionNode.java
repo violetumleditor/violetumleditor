@@ -6,6 +6,7 @@ import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
+import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 
 import java.awt.*;
@@ -111,9 +112,9 @@ public class WaitTimeActionNode extends ColorableNode
     }
 
     @Override
-    public boolean addConnection(IEdge e)
+    public boolean addConnection(IEdge edge)
     {
-        if (e.getEndNode() != null && this != e.getEndNode())
+        if (edge.getEndNode() != null && this != edge.getEndNode())
         {
             return true;
         }
@@ -125,7 +126,7 @@ public class WaitTimeActionNode extends ColorableNode
      *
      * @param newValue the new name description
      */
-    public void setName(SingleLineText newValue)
+    public void setName(LineText newValue)
     {
         name.setText(newValue.toEdit());
     }
@@ -133,7 +134,7 @@ public class WaitTimeActionNode extends ColorableNode
     /**
      * Gets the name property value.
      */
-    public SingleLineText getName()
+    public LineText getName()
     {
         return name;
     }

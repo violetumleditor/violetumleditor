@@ -21,28 +21,18 @@
 
 package com.horstmann.violet.product.diagram.usecase.edge;
 
-import com.horstmann.violet.product.diagram.common.edge.LabeledLineEdge;
-import com.horstmann.violet.product.diagram.usecase.UseCaseDiagramConstant;
-
 /**
- * An edge that is shaped like a line with up to three segments with an arrowhead
+ * The bean info for the ClassRelationshipEdge type.
  */
-public class UseCaseRelationshipEdge extends LabeledLineEdge
+public class GeneralizationEdgeBeanInfo extends UseCaseRelationshipEdgeBeanInfo
 {
-    public UseCaseRelationshipEdge() {}
-
-    protected UseCaseRelationshipEdge(LabeledLineEdge clone) {
-        super(clone);
-    }
-
-    @Override
-    public UseCaseRelationshipEdge copy() {
-        return new UseCaseRelationshipEdge(this);
-    }
-
-    @Override
-    public String getToolTip()
+    protected GeneralizationEdgeBeanInfo(Class<?> beanClass)
     {
-        return UseCaseDiagramConstant.USE_CASE_DIAGRAM_RESOURCE.getString("edge0.tooltip");
+        super(beanClass);
+    }
+
+    public GeneralizationEdgeBeanInfo()
+    {
+        this(GeneralizationEdge.class);
     }
 }

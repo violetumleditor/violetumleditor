@@ -156,9 +156,9 @@ public class PackageNode extends ColorableNode
     }
 
     @Override
-    public boolean addChild(INode node, Point2D p)
+    public boolean addChild(INode node, Point2D point)
     {
-        if(DEFAULT_TOP_HEIGHT > p.getY())
+        if(DEFAULT_TOP_HEIGHT > point.getY())
         {
             return false;
         }
@@ -166,7 +166,7 @@ public class PackageNode extends ColorableNode
         {
             node.setParent(this);
             node.setGraph(this.getGraph());
-            node.setLocation(p);
+            node.setLocation(point);
             addChild(node, getChildren().size());
 
             ColorableNode colorableNode = (ColorableNode) node;
@@ -212,9 +212,9 @@ public class PackageNode extends ColorableNode
      * 
      * @param newValue the class name
      */
-    public void setName(SingleLineText newValue)
+    public void setName(LineText newValue)
     {
-        name.setText(newValue.toEdit());
+        name.setText(newValue);
     }
 
     /**
@@ -222,7 +222,7 @@ public class PackageNode extends ColorableNode
      * 
      * @return the class name
      */
-    public SingleLineText getName()
+    public LineText getName()
     {
         return name;
     }
@@ -232,9 +232,9 @@ public class PackageNode extends ColorableNode
      * 
      * @param newValue the contents of this class
      */
-    public void setContext(MultiLineText newValue)
+    public void setContext(LineText newValue)
     {
-        context = newValue;
+        context.setText(newValue);
     }
 
     /**
@@ -242,7 +242,7 @@ public class PackageNode extends ColorableNode
      * 
      * @return the contents of this class
      */
-    public MultiLineText getContext()
+    public LineText getContext()
     {
         return context;
     }
@@ -254,7 +254,7 @@ public class PackageNode extends ColorableNode
     private transient RelativeLayout nodesGroup;
 
     private static int DEFAULT_TOP_WIDTH = 60;
-    private static int DEFAULT_TOP_HEIGHT = 20;
+    private static int DEFAULT_TOP_HEIGHT = 25;
     private static int DEFAULT_WIDTH = 100;
     private static int DEFAULT_HEIGHT = 60;
     private static final int NAME_GAP = 30;

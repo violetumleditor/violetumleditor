@@ -59,7 +59,7 @@ public abstract class LineEdge extends ShapeEdge
 
         if(null == transitionPoints || 0 == transitionPoints.length)
         {
-            setBentStyle(BentStyle.AUTO);
+//            setBentStyle(BentStyle.AUTO);
         }
         else
         {

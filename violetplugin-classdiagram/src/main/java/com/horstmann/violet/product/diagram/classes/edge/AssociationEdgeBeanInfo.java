@@ -9,13 +9,13 @@ package com.horstmann.violet.product.diagram.classes.edge;
  */
 public class AssociationEdgeBeanInfo extends ClassRelationshipEdgeBeanInfo
 {
-    public AssociationEdgeBeanInfo()
-    {
-        super(AssociationEdge.class);
-    }
-
     protected AssociationEdgeBeanInfo(Class<?> beanClass)
     {
         super(beanClass);
+    }
+
+    public AssociationEdgeBeanInfo()
+    {
+        this(AssociationEdge.class);
     }
 }

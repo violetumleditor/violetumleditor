@@ -135,9 +135,9 @@ public class DecisionNode extends ColorableNode
     }
 
     @Override
-    public boolean addConnection(IEdge e)
+    public boolean addConnection(IEdge edge)
     {
-        return e.getEndNode() != null && this != e.getEndNode();
+        return edge.getEndNode() != null && this != edge.getEndNode();
     }
 
     private static int DEFAULT_WIDTH = 30;

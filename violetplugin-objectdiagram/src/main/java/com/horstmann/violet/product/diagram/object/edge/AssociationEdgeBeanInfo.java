@@ -23,11 +23,6 @@ public class AssociationEdgeBeanInfo extends LabeledLineEdgeBeanInfo
 
     public AssociationEdgeBeanInfo()
     {
-        super(AssociationEdge.class);
-
-        displayBentStyle = false;
-        displayLineStyle = false;
-        displayEndArrowhead = false;
-        displayStartArrowhead = false;
+        this(AssociationEdge.class);
     }
 }

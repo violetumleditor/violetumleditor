@@ -82,35 +82,35 @@ public class DecisionNode extends ColorableNode
     @Override
     public Point2D getConnectionPoint(IEdge edge)
     {
-        Rectangle2D b = getBounds();
+        Rectangle2D bounds = getBounds();
 
-        double x = b.getCenterX();
-        double y = b.getCenterY();
+        double x = bounds.getCenterX();
+        double y = bounds.getCenterY();
 
         Direction direction = edge.getDirection(this).getNearestCardinalDirection();
         if(direction.equals(Direction.NORTH))
         {
-            y = b.getMaxY();
+            y = bounds.getMaxY();
         }
         else if(direction.equals(Direction.SOUTH))
         {
-            y = b.getY();
+            y = bounds.getY();
         }
         else if(direction.equals(Direction.EAST))
         {
-            x = b.getX();
+            x = bounds.getX();
         }
         else
         {
-            x = b.getMaxX();
+            x = bounds.getMaxX();
         }
         return new Point2D.Double(x, y);
     }
 
     @Override
-    public boolean addConnection(IEdge e)
+    public boolean addConnection(IEdge edge)
     {
-        return e.getEndNode() != null && this != e.getEndNode();
+        return edge.getEndNode() != null && this != edge.getEndNode();
     }
 
     private static final int DIAMOND_DEGREES = 60;

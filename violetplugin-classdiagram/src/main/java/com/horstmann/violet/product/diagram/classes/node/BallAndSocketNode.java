@@ -10,6 +10,7 @@ import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.classes.ClassDiagramConstant;
 import com.horstmann.violet.product.diagram.property.choiceList.ChoiceList;
 import com.horstmann.violet.product.diagram.property.choiceList.TextChoiceList;
+import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 
 import java.awt.*;
@@ -49,7 +50,7 @@ public class BallAndSocketNode extends ColorableNode
     {
         super();
         name = new SingleLineText();
-        name.setPadding(25,5,5,5);
+        name.setPadding(5,5,5,5);
         type = new TextChoiceList<Types>(TYPE_KEYS, TYPE_VALUES);
         orientation = new TextChoiceList<Integer>(ORIENTATION_KEYS, ORIENTATION_VALUES);
 
@@ -63,7 +64,7 @@ public class BallAndSocketNode extends ColorableNode
         name = node.name.clone();
         type = node.type.clone();
         orientation = node.orientation.clone();
-        name.setPadding(25,5,5,5);
+        name.setPadding(5,5,5,5);
 
         this.selectedType = this.type.getSelectedPos();
         this.selectedOrientation = this.orientation.getSelectedPos();
@@ -81,7 +82,7 @@ public class BallAndSocketNode extends ColorableNode
             name = new SingleLineText();
         }
         name.reconstruction();
-        name.setPadding(25,5,5,5);
+        name.setPadding(5,5,5,5);
 
         type = new TextChoiceList<Types>(TYPE_KEYS, TYPE_VALUES);
         orientation = new TextChoiceList<Integer>(ORIENTATION_KEYS, ORIENTATION_VALUES);
@@ -168,19 +169,20 @@ public class BallAndSocketNode extends ColorableNode
         }
 
         boolean supportDirection =(Types.BALL_AND_SOCKET == type && (directionAngle +180)%360 == orientationAngle);
+        if(supportDirection)
+        {
+            orientationAngle +=180;
+        }
 
         if(Types.SOCKET == type || supportDirection)
         {
-            double radians = Math.toRadians(orientationAngle+180);
+            double radians = Math.toRadians(orientationAngle);
             return new Point2D.Double(
                     selfBounds.getCenterX() + Math.sin(radians) * DEFAULT_DIAMETER/2,
-                    selfBounds.getY() + (1+Math.cos(radians)) * DEFAULT_DIAMETER/2
+                    selfBounds.getY() + (1+Math.cos(radians)) * (DEFAULT_DIAMETER)/2
             );
         }
-
-        double radians = Math.toRadians(directionAngle);
         double topGap = 0;
-
         if(0 == directionAngle)
         {
             topGap = -DEFAULT_GAP;
@@ -189,6 +191,7 @@ public class BallAndSocketNode extends ColorableNode
         {
             topGap = DEFAULT_GAP;
         }
+        double radians = Math.toRadians(directionAngle);
 
         return new Point2D.Double(
                 selfBounds.getCenterX() + Math.sin(radians) * (DEFAULT_DIAMETER - DEFAULT_GAP)/2,
@@ -232,8 +235,8 @@ public class BallAndSocketNode extends ColorableNode
      * @param newValue
      *            the new state name
      */
-    public void setName(SingleLineText newValue) {
-        name = newValue;
+    public void setName(LineText newValue) {
+        name.setText(newValue);
     }
 
     /**
@@ -241,7 +244,7 @@ public class BallAndSocketNode extends ColorableNode
      *
      * @return the state name
      */
-    public SingleLineText getName() {
+    public LineText getName() {
         return name;
     }
 

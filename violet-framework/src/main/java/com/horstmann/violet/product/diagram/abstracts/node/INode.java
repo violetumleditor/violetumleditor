@@ -46,27 +46,26 @@ public interface INode extends Serializable, Cloneable, IIdentifiable, Connected
     /**
      * Checks whether to add an edge that originates at this node_old.
      * 
-     * @param e the edge to add
+     * @param edge the edge to add
      * @return true if the edge was added
      */
-    boolean addConnection(IEdge e);
+    boolean addConnection(IEdge edge);
 
     /**
      * Notifies this node_old that an edge is being removed.
      * 
-     * @param g the ambient graph
-     * @param e the edge to be removed
+     * @param edge the edge to be removed
      */
-    void removeConnection(IEdge e);
+    void removeConnection(IEdge edge);
 
     /**
      * Adds a node_old as a child node_old to this node_old.
      * 
-     * @param n the child node_old
-     * @param p the point at which the node_old is being added
+     * @param node the child node_old
+     * @param point the point at which the node_old is being added
      * @return true if this node_old accepts the given node_old as a child
      */
-    boolean addChild(INode n, Point2D p);
+    boolean addChild(INode node, Point2D point);
 
     /**
      * Adds a child node_old and fires the graph modification event.
@@ -79,10 +78,9 @@ public interface INode extends Serializable, Cloneable, IIdentifiable, Connected
     /**
      * Notifies this node_old that a node_old is being removed.
      * 
-     * @param g the ambient graph
-     * @param n the node_old to be removed
+     * @param node the node_old to be removed
      */
-    void removeChild(INode n);
+    void removeChild(INode node);
 
     /**
      * Gets the children of this node_old.
@@ -147,7 +145,7 @@ public interface INode extends Serializable, Cloneable, IIdentifiable, Connected
      * @param d the direction from the center of the bounding rectangle towards the boundary
      * @return the recommended connection point
      */
-    Point2D getConnectionPoint(IEdge e);
+    Point2D getConnectionPoint(IEdge edge);
 
     /**
      * Set or change node_old location
@@ -177,10 +175,9 @@ public interface INode extends Serializable, Cloneable, IIdentifiable, Connected
     /**
      * Draw the node_old.
      * 
-     * @param g2 the graphics context
-     * @param grid the grid to snap to
+     * @param graphics the graphics context
      */
-    void draw(Graphics2D g2);
+    void draw(Graphics2D graphics);
 
 
     /**

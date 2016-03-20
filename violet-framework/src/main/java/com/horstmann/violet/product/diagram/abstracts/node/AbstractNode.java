@@ -128,9 +128,9 @@ public abstract class AbstractNode implements INode
     protected abstract void createContentStructure();
 
     @Override
-    public void draw(Graphics2D g2)
+    public void draw(Graphics2D graphics)
     {
-        getContent().draw(g2, getLocationOnGraph());
+        getContent().draw(graphics, getLocationOnGraph());
     }
 
     @Override
@@ -328,13 +328,13 @@ public abstract class AbstractNode implements INode
     }
 
     @Override
-    public boolean addConnection(IEdge e)
+    public boolean addConnection(IEdge edge)
     {
-        return e.getEndNode() != null;
+        return edge.getEndNode() != null;
     }
 
     @Override
-    public void removeConnection(IEdge e) {
+    public void removeConnection(IEdge edge) {
     }
 
     @Override
@@ -345,7 +345,7 @@ public abstract class AbstractNode implements INode
     }
 
     @Override
-    public boolean addChild(INode n, Point2D p)
+    public boolean addChild(INode node, Point2D point)
     {
         return false;
     }

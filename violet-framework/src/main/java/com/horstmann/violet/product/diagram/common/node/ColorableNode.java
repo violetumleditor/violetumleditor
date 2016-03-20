@@ -70,15 +70,15 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
     }
     
     @Override
-    public boolean addConnection(IEdge e) {
+    public boolean addConnection(IEdge edge) {
     	// Self call (loop)
-    	INode endingNode = e.getEndNode();
+    	INode endingNode = edge.getEndNode();
     	if (endingNode == null) {
-    		e.setEndNode(e.getStartNode());
-    		e.setEndLocation(e.getStartLocation());
+    		edge.setEndNode(edge.getStartNode());
+    		edge.setEndLocation(edge.getStartLocation());
     	}
     	// Back to default behavior
-    	return super.addConnection(e);
+    	return super.addConnection(edge);
     }
 
     @Override
