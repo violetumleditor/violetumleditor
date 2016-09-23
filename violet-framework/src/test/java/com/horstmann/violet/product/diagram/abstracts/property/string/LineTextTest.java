@@ -83,8 +83,9 @@ public class LineTextTest
 
         assertEquals(0, lineText.getBounds().getX(), 0.01);
         assertEquals(0, lineText.getBounds().getY(), 0.01);
-        assertEquals(22, lineText.getBounds().getWidth(), 0.01);
-        assertEquals(16, lineText.getBounds().getHeight(), 0.01);
+        // Cannot test width and height. Depends on system font 
+        // assertEquals(22, lineText.getBounds().getWidth(), 0.01);
+        // assertEquals(16, lineText.getBounds().getHeight(), 0.01);
     }
 
     @Test
@@ -106,37 +107,41 @@ public class LineTextTest
     @Test
     public void testSetPadding() throws Exception {
         LineText lineText = new TestLineText();
-        lineText.setPadding(5);
         lineText.setText("test");
-
+        double width = lineText.getBounds().getWidth();
+        double height = lineText.getBounds().getHeight();
+        lineText.setPadding(5);
         assertEquals(0, lineText.getBounds().getX(), 0.01);
         assertEquals(0, lineText.getBounds().getY(), 0.01);
-        assertEquals(22+2*5, lineText.getBounds().getWidth(), 0.01);
-        assertEquals(16+2*5, lineText.getBounds().getHeight(), 0.01);
+        assertEquals(width + 2*5, lineText.getBounds().getWidth(), 0.01);
+        assertEquals(height + 2*5, lineText.getBounds().getHeight(), 0.01);
     }
 
     @Test
     public void testSetPadding1() throws Exception {
         LineText lineText = new TestLineText();
-        lineText.setPadding(10,5);
         lineText.setText("test");
-
+        double width = lineText.getBounds().getWidth();
+        double height = lineText.getBounds().getHeight();
+        lineText.setPadding(10,5);
         assertEquals(0, lineText.getBounds().getX(), 0.01);
         assertEquals(0, lineText.getBounds().getY(), 0.01);
-        assertEquals(22+2*5, lineText.getBounds().getWidth(), 0.01);
-        assertEquals(16+2*10, lineText.getBounds().getHeight(), 0.01);
+        assertEquals(width+2*5, lineText.getBounds().getWidth(), 0.01);
+        assertEquals(height+2*10, lineText.getBounds().getHeight(), 0.01);
     }
 
     @Test
     public void testSetPadding2() throws Exception {
         LineText lineText = new TestLineText();
-        lineText.setPadding(5,10, 6,11);
         lineText.setText("test");
+        double width = lineText.getBounds().getWidth();
+        double height = lineText.getBounds().getHeight();
+        lineText.setPadding(5,10, 6,11);
 
         assertEquals(0, lineText.getBounds().getX(), 0.01);
         assertEquals(0, lineText.getBounds().getY(), 0.01);
-        assertEquals(22+11+10, lineText.getBounds().getWidth(), 0.01);
-        assertEquals(16+6+5, lineText.getBounds().getHeight(), 0.01);
+        assertEquals(width+11+10, lineText.getBounds().getWidth(), 0.01);
+        assertEquals(height+6+5, lineText.getBounds().getHeight(), 0.01);
     }
 
     @Test(expected = IllegalArgumentException.class)
