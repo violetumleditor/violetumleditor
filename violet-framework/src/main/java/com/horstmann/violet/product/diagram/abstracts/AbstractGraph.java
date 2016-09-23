@@ -33,15 +33,15 @@ import java.util.List;
 
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.common.NoteNode;
+import com.horstmann.violet.product.diagram.common.node.NoteNode;
 
 /**
- * A graph consisting of selectable nodes and edges.
+ * A graph consisting of selectable node and edges.
  */
 public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
 {
     /**
-     * Constructs a graph with no nodes or edges.
+     * Constructs a graph with no node or edges.
      */
     public AbstractGraph()
     {
@@ -54,11 +54,11 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
     {
         for(INode node : nodes)
         {
-            node.deserializeSupport();
+            node.reconstruction();
         }
         for(IEdge edge : edges)
         {
-            edge.deserializeSupport();
+            edge.reconstruction();
         }
     }
 
@@ -151,7 +151,7 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
             IEdge e = (IEdge) edges.get(i);
             e.draw(graphics);
         }
-        // Special nodes are always drawn upon other elements
+        // Special node are always drawn upon other elements
         for (INode n : specialNodes)
         {
             // Translate graphics if node_old has parent
@@ -256,7 +256,7 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
     @Override
     public void removeNode(INode... nodesToRemove)
     {
-        // Step 1a : Remove nodes directly attach to the graph
+        // Step 1a : Remove node directly attach to the graph
         for (INode aNodeToRemove : nodesToRemove)
         {
             if (this.nodes.contains(aNodeToRemove))
@@ -264,7 +264,7 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
                 this.nodes.remove(aNodeToRemove);
             }
         }
-        // Step 1b : Remove nodes attach to other nodes as children
+        // Step 1b : Remove node attach to other node as children
         for (INode aNode : getAllNodes())
         {
             for (INode aNodeToRemove : nodesToRemove)
@@ -281,8 +281,8 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
         Collection<INode> allNodes = getAllNodes();
         for (IEdge anEdge : this.edges)
         {
-            INode startingNode = anEdge.getStart();
-            INode endingNode = anEdge.getEnd();
+            INode startingNode = anEdge.getStartNode();
+            INode endingNode = anEdge.getEndNode();
             boolean isEdgeStillConnected = (allNodes.contains(startingNode) && allNodes.contains(endingNode));
             if (!isEdgeStillConnected)
             {
@@ -296,7 +296,7 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
     @Override
     public boolean connect(IEdge e, INode start, Point2D startLocation, INode end, Point2D endLocation, Point2D[] transitionPoints)
     {
-        // Step 1 : find if nodes exist
+        // Step 1 : find if node exist
         Collection<INode> allNodes = getAllNodes();
         if (start != null && !allNodes.contains(start))
         {
@@ -307,9 +307,9 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
             addNode(end, end.getLocation());
         }
 
-        e.setStart(start);
+        e.setStartNode(start);
         e.setStartLocation(startLocation);
-        e.setEnd(end);
+        e.setEndNode(end);
         e.setEndLocation(endLocation);
         e.setTransitionPoints(transitionPoints);
         if (null != start && start.addConnection(e))
@@ -334,8 +334,8 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
     {
         for (IEdge anEdgeToRemove : edgesToRemove)
         {
-            INode startingNode = anEdgeToRemove.getStart();
-            INode endingNode = anEdgeToRemove.getEnd();
+            INode startingNode = anEdgeToRemove.getStartNode();
+            INode endingNode = anEdgeToRemove.getEndNode();
             startingNode.removeConnection(anEdgeToRemove);
             endingNode.removeConnection(anEdgeToRemove);
             this.edges.remove(anEdgeToRemove);

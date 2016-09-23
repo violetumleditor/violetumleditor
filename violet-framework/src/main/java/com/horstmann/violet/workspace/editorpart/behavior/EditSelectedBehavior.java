@@ -14,12 +14,12 @@ import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjecto
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
-import com.horstmann.violet.framework.propertyeditor.CustomPropertyEditor;
-import com.horstmann.violet.framework.propertyeditor.ICustomPropertyEditor;
+import com.horstmann.violet.product.diagram.propertyeditor.CustomPropertyEditor;
+import com.horstmann.violet.product.diagram.propertyeditor.ICustomPropertyEditor;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.common.DiagramLinkNode;
+import com.horstmann.violet.product.diagram.common.node.DiagramLinkNode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
@@ -145,14 +145,17 @@ public class EditSelectedBehavior extends AbstractEditorPartBehavior
             }
         });
 
+        String tooltip = "";
         if (sheet.isEditable())
         {
             if (edited instanceof INode)
             {
+                tooltip = ((INode) edited).getToolTip();
                 this.behaviorManager.fireBeforeEditingNode((INode) edited);
             }
             if (edited instanceof IEdge)
             {
+                tooltip = ((IEdge) edited).getToolTip();
                 this.behaviorManager.fireBeforeEditingEdge((IEdge) edited);
             }
             optionPane.setMessage(sheet.getAWTComponent());
@@ -163,7 +166,7 @@ public class EditSelectedBehavior extends AbstractEditorPartBehavior
             label.setFont(label.getFont().deriveFont(Font.PLAIN));
             optionPane.setMessage(label);
         }
-        this.dialogFactory.showDialog(optionPane, this.dialogTitle, true);
+        this.dialogFactory.showDialog(optionPane, tooltip+": "+this.dialogTitle, true);
     }
     
   

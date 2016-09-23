@@ -14,10 +14,10 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
+import com.horstmann.violet.product.diagram.property.BentStyleChoiceList;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.abstracts.property.BentStyle;
-import com.horstmann.violet.product.diagram.abstracts.property.string.MultiLineText;
+import com.horstmann.violet.product.diagram.property.text.MultiLineText;
 import com.horstmann.violet.web.workspace.editorpart.EditorPartWidget;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
@@ -133,7 +133,7 @@ public class PropertyEditorWidget extends WCompositeWidget {
 		if (MultiLineText.class.equals(type)) {
 			editorWidget = new MultilineStringEditorWidget(bean, descriptor);
 		}
-		if (BentStyle.class.equals(type)) {
+		if (BentStyleChoiceList.class.equals(type)) {
 			editorWidget = new BentStyleEditorWidget(bean, descriptor);
 		}
 		return editorWidget;

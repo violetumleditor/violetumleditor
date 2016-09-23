@@ -119,5 +119,4 @@ public class PluginLoader extends ClassLoader
     /** Service to convert IGraph to XML content (and XML to IGraph of course) */
     @InjectedBean
     private IFilePersistenceService filePersistenceService;
-
 }

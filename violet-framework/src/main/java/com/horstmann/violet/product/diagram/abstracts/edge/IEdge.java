@@ -36,36 +36,35 @@ import com.horstmann.violet.product.diagram.abstracts.node.INode;
  */
 public interface IEdge extends Serializable, Cloneable, IIdentifiable
 {
-
-    void deserializeSupport();
+    void reconstruction();
 
     /**
      * Sets the starting node_old
      * 
      * @param startingNode
      */
-    void setStart(INode startingNode);
+    void setStartNode(INode startingNode);
 
     /**
      * Gets the starting node_old.
      * 
      * @return the starting node_old
      */
-    INode getStart();
+    INode getStartNode();
 
     /**
      * Sets the ending node_old
      * 
      * @param endingNode
      */
-    void setEnd(INode endingNode);
+    void setEndNode(INode endingNode);
 
     /**
      * Gets the ending node_old.
      * 
      * @return the ending node_old
      */
-    INode getEnd();
+    INode getEndNode();
 
     /**
      * Sets the point from where this edge begins (relative to the starting node_old)
@@ -80,6 +79,11 @@ public interface IEdge extends Serializable, Cloneable, IIdentifiable
     Point2D getStartLocation();
 
     /**
+     * @return the point from where this end begins location (absolute location on graph)
+     */
+    Point2D getStartLocationOnGraph();
+
+    /**
      * Sets the point where this node_old ends (relative to the ending node_old)
      * 
      * @param endingLocation
@@ -90,6 +94,11 @@ public interface IEdge extends Serializable, Cloneable, IIdentifiable
      * @return the point where this node_old ends (relative to the ending node_old)
      */
     Point2D getEndLocation();
+
+    /**
+     * @return the point where this node_old ends (absolute location on graph)
+     */
+    Point2D getEndLocationOnGraph();
     
     /**
      * Sets transition points for edge which supports free path 
@@ -108,7 +117,7 @@ public interface IEdge extends Serializable, Cloneable, IIdentifiable
     boolean isTransitionPointsSupported();
 
     /**
-     * Gets the points at which this edge is connected to its nodes.
+     * Gets the points at which this edge is connected to its node.
      * 
      * @return a line joining the two connection points
      */

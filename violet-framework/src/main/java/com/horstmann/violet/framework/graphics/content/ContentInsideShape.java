@@ -129,8 +129,6 @@ public abstract class ContentInsideShape extends Content
         refreshUp();
     }
 
-
-
     private Content content;
     private Shape shape;
 }

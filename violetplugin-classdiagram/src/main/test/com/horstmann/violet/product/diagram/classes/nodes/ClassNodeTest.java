@@ -1,4 +1,4 @@
-package com.horstmann.violet.product.diagram.classes.nodes;
+package com.horstmann.violet.product.diagram.classes.node;
 
 import static org.junit.Assert.*;
 

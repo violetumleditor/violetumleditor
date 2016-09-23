@@ -78,7 +78,7 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior {
         double dx = mousePoint.getX() - lastMousePoint.getX();
         double dy = mousePoint.getY() - lastMousePoint.getY();
 
-        // we don't want to drag nodes into negative coordinates
+        // we don't want to drag node into negative coordinates
         // particularly with multiple selection, we might never be
         // able to get them back.
         List<INode> selectedNodes = selectionHandler.getSelectedNodes();
@@ -105,8 +105,8 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior {
         Iterator<IEdge> iterOnEdges = graph.getAllEdges().iterator();
         while (iterOnEdges.hasNext()) {
             IEdge e = (IEdge) iterOnEdges.next();
-            INode startingNode = e.getStart();
-            INode endinNode = e.getEnd();
+            INode startingNode = e.getStartNode();
+            INode endinNode = e.getEndNode();
             if (selectedNodes.contains(startingNode) && selectedNodes.contains(endinNode)) {
                 Point2D[] transitionPoints = e.getTransitionPoints();
                 for (Point2D aTransitionPoint : transitionPoints) {

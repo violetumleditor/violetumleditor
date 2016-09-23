@@ -51,7 +51,7 @@ public abstract class ShapeEdge extends AbstractEdge
     {
         final double MAX_DIST = 10;
 
-        // the end points may contain small nodes, so don't
+        // the end points may contain small node, so don't
         // match them
         Line2D conn = getConnectionPoints();
         if (aPoint.distance(conn.getP1()) <= MAX_DIST || aPoint.distance(conn.getP2()) <= MAX_DIST) return false;

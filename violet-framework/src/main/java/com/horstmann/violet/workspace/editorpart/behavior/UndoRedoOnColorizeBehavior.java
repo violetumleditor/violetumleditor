@@ -9,7 +9,7 @@ import com.horstmann.violet.product.diagram.abstracts.IColorable;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorChoice;
 
 /**
- * Undo/Redo behavior triggered when nodes and edges are colorized
+ * Undo/Redo behavior triggered when node and edges are colorized
  * 
  * @author Alexandre de Pellegrin
  * 
