@@ -14,7 +14,7 @@ import com.horstmann.violet.product.diagram.abstracts.node.INode;
 
 
 /**
- * Undo/Redo behavior triggered when nodes and edges are edited
+ * Undo/Redo behavior triggered when node and edges are edited
  * 
  * @author Alexandre de Pellegrin
  *

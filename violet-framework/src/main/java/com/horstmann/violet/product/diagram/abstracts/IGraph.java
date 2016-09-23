@@ -31,9 +31,9 @@ public interface IGraph
     void deserializeSupport();
 
     /**
-     * Gets ALL the nodes of this graph.
+     * Gets ALL the node of this graph.
      * 
-     * @return an unmodifiable collection of the nodes
+     * @return an unmodifiable collection of the node
      */
     public abstract Collection<INode> getAllNodes();
 
@@ -54,7 +54,7 @@ public interface IGraph
     public abstract void removeEdge(IEdge... edgesToRemove);
     
     /**
-     * Removes one or more nodes from this graph.
+     * Removes one or more node from this graph.
      * 
      * @param nodesToRemove
      */
@@ -73,7 +73,7 @@ public interface IGraph
     /**
      * Adds an edge to this graph. 
      * 
-     * @param e the new edge to add (don't forget to populate it withs the following nodes and points!)
+     * @param e the new edge to add (don't forget to populate it withs the following node and points!)
      * @param start the start node_old of the edge
      * @param startLocation the point inside the start node_old where the edge begins
      * @param end the end node_old of the edge
@@ -98,7 +98,7 @@ public interface IGraph
      * Finds a node_old containing the given point.
      * 
      * @param p a point
-     * @return a node_old containing p or null if no nodes contain p
+     * @return a node_old containing p or null if no node contain p
      */
     public abstract INode findNode(Point2D p);
 

@@ -32,7 +32,7 @@ import org.apache.ws.jaxme.js.JavaSourceFactory;
 import org.apache.ws.jaxme.js.util.JavaParser;
 
 import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
-import com.horstmann.violet.product.diagram.communication.nodes.ClassNode;
+import com.horstmann.violet.product.diagram.communication.node.ClassNode;
 import com.horstmann.violet.product.diagram.sequence.LifelineNode;
 
 public class JavaFileModel

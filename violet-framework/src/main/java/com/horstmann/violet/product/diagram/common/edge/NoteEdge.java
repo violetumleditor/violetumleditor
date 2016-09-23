@@ -21,45 +21,45 @@
 
 package com.horstmann.violet.product.diagram.common.edge;
 
-import java.awt.BasicStroke;
-import java.awt.Graphics2D;
-import java.awt.Shape;
-import java.awt.Stroke;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
-
-import com.horstmann.violet.product.diagram.abstracts.edge.ShapeEdge;
+import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
+import com.horstmann.violet.product.diagram.property.BentStyleChoiceList;
+import com.horstmann.violet.product.diagram.property.LineStyleChoiceList;
 
 /**
  * A dotted line that connects a note to its attachment.
  */
-public class NoteEdge extends ShapeEdge
+public class NoteEdge extends LineEdge
 {
-    @Override
-    public void draw(Graphics2D g2)
+    public NoteEdge()
     {
-        Stroke oldStroke = g2.getStroke();
-        g2.setStroke(DOTTED_STROKE);
-        g2.draw(getConnectionPoints());
-        g2.setStroke(oldStroke);
+        super();
+        setLineStyle(LineStyleChoiceList.DOTTED);
+        setBentStyle(BentStyleChoiceList.STRAIGHT);
+    }
+
+    protected NoteEdge(NoteEdge cloned)
+    {
+        super(cloned);
     }
 
     @Override
-    public Shape getShape()
+    protected void beforeReconstruction()
     {
-        GeneralPath path = new GeneralPath();
-        Line2D conn = getConnectionPoints();
-        path.moveTo((float) conn.getX1(), (float) conn.getY1());
-        path.lineTo((float) conn.getX2(), (float) conn.getY2());
-        return path;
+        super.beforeReconstruction();
+
+        setLineStyle(LineStyleChoiceList.DOTTED);
+        setBentStyle(BentStyleChoiceList.STRAIGHT);
     }
 
-    private static Stroke DOTTED_STROKE = new BasicStroke(
-        1.0f,
-        BasicStroke.CAP_ROUND,
-        BasicStroke.JOIN_ROUND,
-        0.0f,
-        new float[] {3.0f,3.0f},
-        0.0f
-    );
+    @Override
+    protected NoteEdge copy() throws CloneNotSupportedException
+    {
+        return new NoteEdge(this);
+    }
+
+    @Override
+    public String getToolTip()
+    {
+        return ResourceBundleConstant.NODE_AND_EDGE_RESOURCE.getString("note_edge.tooltip");
+    }
 }

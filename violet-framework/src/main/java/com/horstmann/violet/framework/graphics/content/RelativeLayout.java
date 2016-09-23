@@ -147,7 +147,7 @@ public class RelativeLayout extends Layout
     {
         if(null == content)
         {
-            throw new NullPointerException("Content can't be null");
+            return;
         }
         RelativeContent relativeContent = null;
         for (Content c: getContents())

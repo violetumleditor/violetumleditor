@@ -21,6 +21,9 @@
 
 package com.horstmann.violet.product.diagram.abstracts.node;
 
+import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
+import com.horstmann.violet.framework.util.BeanInfo;
+
 import java.beans.PropertyDescriptor;
 import java.beans.SimpleBeanInfo;
 
@@ -29,16 +32,11 @@ import java.beans.SimpleBeanInfo;
  * 
  * @author Cay Horstmann
  */
-public class AbstractNodeBeanInfo extends SimpleBeanInfo
+public abstract class AbstractNodeBeanInfo extends BeanInfo
 {
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.beans.BeanInfo#getPropertyDescriptors()
-     */
-    public PropertyDescriptor[] getPropertyDescriptors()
+    protected AbstractNodeBeanInfo(Class<?> beanClass)
     {
-        return new PropertyDescriptor[] {};
+        super(beanClass);
+        addResourceBundle(ResourceBundleConstant.NODE_AND_EDGE_STRINGS);
     }
-
 }

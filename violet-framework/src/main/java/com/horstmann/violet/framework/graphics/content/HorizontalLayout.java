@@ -61,8 +61,8 @@ public class HorizontalLayout extends Layout
     {
         Rectangle2D selfMinimalBounds = super.getMinimalBounds();
 
-        double height = selfMinimalBounds.getWidth();
-        double width = selfMinimalBounds.getHeight();
+        double width = 0;
+        double height = 0;
 
         for (Content content: getContents())
         {
@@ -74,6 +74,9 @@ public class HorizontalLayout extends Layout
                 height = contentMinimalBounds.getHeight();
             }
         }
+
+        height = Math.max(height, selfMinimalBounds.getHeight());
+        width = Math.max(width, selfMinimalBounds.getWidth());
 
         return new Rectangle2D.Double(getX(),getY(),width,height);
     }

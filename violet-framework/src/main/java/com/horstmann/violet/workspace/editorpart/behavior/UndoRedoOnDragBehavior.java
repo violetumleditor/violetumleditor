@@ -20,7 +20,7 @@ import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
 
 /**
- * Undo/Redo behavior triggered when nodes and edges are dragged
+ * Undo/Redo behavior triggered when node and edges are dragged
  * 
  * @author Alexandre de Pellegrin
  *
@@ -139,7 +139,7 @@ public class UndoRedoOnDragBehavior extends AbstractEditorPartBehavior
     }
 
     /**
-     * Saves nodes locations
+     * Saves node locations
      */
     private void saveNodesLocationsBeforeDrag()
     {

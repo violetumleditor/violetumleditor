@@ -1,6 +1,7 @@
 package com.horstmann.violet.product.diagram.abstracts.property.string.decorator;
 
-import com.horstmann.violet.product.diagram.abstracts.property.string.SingleLineText;
+import com.horstmann.violet.product.diagram.property.text.decorator.BoldDecorator;
+import com.horstmann.violet.product.diagram.property.text.decorator.OneLineText;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -16,7 +17,7 @@ public class BoldDecoratorTest
     @Test
     public void testToDisplay() throws Exception
     {
-        BoldDecorator boldDecorator = new BoldDecorator(new OneLineString("test"));
+        BoldDecorator boldDecorator = new BoldDecorator(new OneLineText("test"));
         assertEquals("<b>test</b>", boldDecorator.toDisplay());
     }
 }

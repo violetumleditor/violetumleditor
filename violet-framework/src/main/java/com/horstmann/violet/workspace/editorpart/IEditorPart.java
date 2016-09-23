@@ -22,18 +22,18 @@ public interface IEditorPart
     public abstract IGraph getGraph();
 
     /**
-     * Removes the selected nodes or edges.
+     * Removes the selected node or edges.
      */
     public abstract void removeSelected();
 
 
     /**
-     * @return currently selected nodes
+     * @return currently selected node
      */
     public abstract List<INode> getSelectedNodes();
     
     /**
-     * Clears nodes and edges selection 
+     * Clears node and edges selection
      */
     public void clearSelection();
     
@@ -77,7 +77,7 @@ public interface IEditorPart
     public JComponent getSwingComponent();
     
     /**
-     * @return object that manages nodes and edges selection
+     * @return object that manages node and edges selection
      */
     public IEditorPartSelectionHandler getSelectionHandler();
     

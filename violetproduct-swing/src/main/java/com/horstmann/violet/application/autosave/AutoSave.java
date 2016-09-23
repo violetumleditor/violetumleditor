@@ -30,7 +30,7 @@ import com.horstmann.violet.workspace.Workspace;
 /**
  * Violet's auto save
  * 
- * @author Pawe³ Majka
+ * @author Pawel Majka
  * 
  */
 public class AutoSave implements ActionListener {

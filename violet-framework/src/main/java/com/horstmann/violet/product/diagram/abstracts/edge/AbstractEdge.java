@@ -38,75 +38,153 @@ public abstract class AbstractEdge implements IEdge
 {
     public AbstractEdge()
     {
-        // Nothing to do
+        this.id = new Id();
+        this.revision = 0;
+        this.startNode = null;
+        this.startLocation = null;
+        this.endNode = null;
+        this.endLocation = null;
+        this.transitionPoints = new Point2D[] {};
     }
 
-    public void deserializeSupport()
+    protected AbstractEdge(AbstractEdge cloned) throws CloneNotSupportedException
     {
-
-    }
-
-
-    @Override
-    public void setStart(INode startingNode)
-    {
-        this.start = startingNode;
-    }
-
-    @Override
-    public INode getStart()
-    {
-        return start;
+        refreshContactPoints();
     }
 
     @Override
-    public void setEnd(INode endingNode)
+    public final void reconstruction()
     {
-        this.end = endingNode;
+        beforeReconstruction();
+        afterReconstruction();
+    }
+
+    protected void beforeReconstruction()
+    {
+    }
+
+    protected void afterReconstruction()
+    {
+        refreshContactPoints();
     }
 
     @Override
-    public INode getEnd()
+    public final AbstractEdge clone()
     {
-        return end;
+        try {
+            return (AbstractEdge) copy();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+    }
+
+    protected IEdge copy() throws CloneNotSupportedException
+    {
+        throw new CloneNotSupportedException("You can't clone abstract class");
     }
 
     @Override
-    public void setStartLocation(Point2D startLocation)
+    public String getToolTip()
+    {
+        return "";
+    }
+
+    @Override
+    public final void setStartNode(INode startingNode)
+    {
+        this.startNode = startingNode;
+        refreshContactPoints();
+    }
+
+    @Override
+    public final INode getStartNode()
+    {
+        return startNode;
+    }
+
+    @Override
+    public final void setEndNode(INode endingNode)
+    {
+        this.endNode = endingNode;
+        refreshContactPoints();
+    }
+
+    @Override
+    public final INode getEndNode()
+    {
+        return endNode;
+    }
+
+    @Override
+    public final void setStartLocation(Point2D startLocation)
     {
         this.startLocation = startLocation;
+        refreshContactPoints();
     }
 
     @Override
-    public Point2D getStartLocation()
+    public final Point2D getStartLocation()
     {
         return startLocation;
     }
 
     @Override
-    public void setEndLocation(Point2D endLocation)
+    public final Point2D getStartLocationOnGraph()
     {
-        this.endLocation = endLocation;
+        if(null == startNode || null == startLocation)
+        {
+            return null;
+        }
+
+        Point2D nodeLocationOnGraph = startNode.getLocationOnGraph();
+        return new Point2D.Double(
+                nodeLocationOnGraph.getX() + startLocation.getX(),
+                nodeLocationOnGraph.getY() + startLocation.getY()
+        );
     }
 
     @Override
-    public Point2D getEndLocation()
+    public final void setEndLocation(Point2D endLocation)
+    {
+        this.endLocation = endLocation;
+        refreshContactPoints();
+    }
+
+    @Override
+    public final Point2D getEndLocation()
     {
         return this.endLocation;
+    }
+
+    @Override
+    public final Point2D getEndLocationOnGraph()
+    {
+        if(null == endNode || null == endLocation)
+        {
+            return null;
+        }
+
+        Point2D nodeLocationOnGraph = endNode.getLocationOnGraph();
+        return new Point2D.Double(
+                nodeLocationOnGraph.getX() + endLocation.getX(),
+                nodeLocationOnGraph.getY() + endLocation.getY()
+        );
     }
     
     @Override
     public void setTransitionPoints(Point2D[] transitionPoints)
     {
+        if(null == transitionPoints)
+        {
+            transitionPoints = new Point2D[] {};
+        }
         this.transitionPoints = transitionPoints;
+        refreshContactPoints();
     }
     
     @Override
-    public Point2D[] getTransitionPoints()
+    public final Point2D[] getTransitionPoints()
     {
-        if (this.transitionPoints == null) {
-            return new Point2D[] {};
-        }
         return this.transitionPoints;
     }
     
@@ -126,139 +204,115 @@ public abstract class AbstractEdge implements IEdge
     }
     
     @Override
-    public Direction getDirection(INode node) {
-        Rectangle2D startBounds = start.getBounds();
-        Rectangle2D endBounds = end.getBounds();
-        Point2D startLocationOnGraph = start.getLocationOnGraph();
-        Point2D endLocationOnGraph = end.getLocationOnGraph();
-        Point2D startCenter = new Point2D.Double(startLocationOnGraph.getX() + startBounds.getWidth() / 2, startLocationOnGraph.getY() + startBounds.getHeight() / 2);
-        Point2D endCenter = new Point2D.Double(endLocationOnGraph.getX() + endBounds.getWidth() / 2, endLocationOnGraph.getY() + endBounds.getHeight() / 2);
-        if (node.equals(start)) {
-            if (isTransitionPointsSupported() && this.transitionPoints != null && this.transitionPoints.length > 0) {
-                Point2D firstTransitionPoint = this.transitionPoints[0];
-                Direction fromStart = new Direction(firstTransitionPoint, startCenter);
-                return fromStart;
+    public Direction getDirection(INode node)
+    {
+        Point2D startLocationOnGraph = startNode.getLocationOnGraph();
+        Point2D endLocationOnGraph = endNode.getLocationOnGraph();
+
+        Point2D startCenter = new Point2D.Double(
+                startLocationOnGraph.getX() + startNode.getBounds().getWidth() / 2,
+                startLocationOnGraph.getY() + startNode.getBounds().getHeight() / 2
+        );
+        Point2D endCenter = new Point2D.Double(
+                endLocationOnGraph.getX() + endNode.getBounds().getWidth() / 2,
+                endLocationOnGraph.getY() + endNode.getBounds().getHeight() / 2
+        );
+
+        if(null !=this.contactPoints && this.contactPoints.length > 1)
+        {
+            if (startNode.equals(node))
+            {
+                return new Direction(startCenter,this.contactPoints[1]);
             }
-            Direction fromStart = new Direction(endCenter, startCenter);
-            return fromStart;
-        }
-        if (node.equals(end)) {
-            if (isTransitionPointsSupported() && this.transitionPoints != null && this.transitionPoints.length > 0) {
-                Point2D lastTransitionPoint = this.transitionPoints[this.transitionPoints.length - 1];
-                Direction toEnd = new Direction(lastTransitionPoint, endCenter);
-                return toEnd;
+            else if (endNode.equals(node))
+            {
+                return new Direction(endCenter,this.contactPoints[this.contactPoints.length - 2]);
             }
-            Direction toEnd = new Direction(startCenter, endCenter);
-            return toEnd;
         }
-        return null;
+
+        return new Direction(0,0);
     }
 
     @Override
     public Line2D getConnectionPoints()
     {
-        INode startingNode = getStart();
-        INode endingNode = getEnd();
-        Point2D startingNodeLocation = startingNode.getLocation();
-        Point2D endingNodeLocation = endingNode.getLocation();
-        Point2D startingNodeLocationOnGraph = startingNode.getLocationOnGraph();
-        Point2D endingNodeLocationOnGraph = endingNode.getLocationOnGraph();
-        Point2D relativeStartingConnectionPoint = startingNode.getConnectionPoint(this);
-        Point2D relativeEndingConnectionPoint = endingNode.getConnectionPoint(this);
-        Point2D absoluteStartingConnectionPoint = new Point2D.Double(startingNodeLocationOnGraph.getX() - startingNodeLocation.getX() + relativeStartingConnectionPoint.getX(), startingNodeLocationOnGraph.getY() - startingNodeLocation.getY() + relativeStartingConnectionPoint.getY());
-        Point2D absoluteEndingConnectionPoint = new Point2D.Double(endingNodeLocationOnGraph.getX() - endingNodeLocation.getX() + relativeEndingConnectionPoint.getX(), endingNodeLocationOnGraph.getY() - endingNodeLocation.getY() + relativeEndingConnectionPoint.getY());
-        IGraph graph = startingNode.getGraph();
-        IGridSticker positionCorrector = graph.getGridSticker();
-        absoluteStartingConnectionPoint = positionCorrector.snap(absoluteStartingConnectionPoint);
-        absoluteEndingConnectionPoint = positionCorrector.snap(absoluteEndingConnectionPoint);
-        return new Line2D.Double(absoluteStartingConnectionPoint, absoluteEndingConnectionPoint);
+        Point2D startLocationOnGraph = startNode.getLocationOnGraph();
+        Point2D endLocationOnGraph = endNode.getLocationOnGraph();
+
+        Point2D relativeStarting = startNode.getConnectionPoint(this);
+        Point2D relativeEnding = endNode.getConnectionPoint(this);
+
+        return new Line2D.Double(
+                new Point2D.Double(
+                        startLocationOnGraph.getX() - relativeStarting.getX() + startNode.getBounds().getWidth() + startNode.getLocation().getX(),
+                        startLocationOnGraph.getY() - relativeStarting.getY() + startNode.getBounds().getHeight() + startNode.getLocation().getY()
+                ),
+                new Point2D.Double(
+                        endLocationOnGraph.getX() - relativeEnding.getX() + endNode.getBounds().getWidth() + endNode.getLocation().getX(),
+                        endLocationOnGraph.getY() - relativeEnding.getY() + endNode.getBounds().getHeight() + endNode.getLocation().getY()
+                )
+        );
     }
 
     @Override
-    public Id getId()
+    public final Id getId()
     {
-        if (this.id == null) {
-        	this.id = new Id();
-        }
     	return this.id;
     }
 
     @Override
-    public void setId(Id id)
+    public final void setId(Id id)
     {
         this.id = id;
     }
 
     @Override
-    public AbstractEdge clone()
+    public final Integer getRevision()
     {
-        try
-        {
-            AbstractEdge cloned = (AbstractEdge) super.clone();
-            cloned.id = new Id();
-            return cloned;
-        }
-        catch (CloneNotSupportedException ex)
-        {
-            return null;
-        }
-    }
-
-    @Override
-    public Integer getRevision()
-    {
-        if (this.revision == null) {
-        	this.revision =  new Integer(0);
-        }
     	return this.revision;
     }
 
     @Override
-    public void setRevision(Integer newRevisionNumber)
+    public final void setRevision(Integer newRevisionNumber)
     {
+        if(null == newRevisionNumber)
+        {
+            throw new NullPointerException("newRevisionNumber can't be null");
+        }
+        if(0 > newRevisionNumber)
+        {
+            throw new IllegalArgumentException("newRevisionNumber can't be negative number");
+        }
         this.revision = newRevisionNumber;
     }
 
-    public void incrementRevision()
-    {
-        int i = getRevision().intValue();
-        i++;
-        this.revision = new Integer(i);
-    }
-
-    /**
-     * Sets edge tool tip
-     * 
-     * @param s
-     */
-    public void setToolTip(String s)
-    {
-        this.toolTip = s;
-    }
-
     @Override
-    public String getToolTip()
+    public final void incrementRevision()
     {
-        if (this.toolTip == null) {
-        	this.toolTip = "";
-        }
-    	return this.toolTip;
+        ++this.revision;
     }
 
-    /** The node_old where the edge starts */
-    private INode start;
 
-    /** The node_old where the edge ends */
-    private INode end;
+    protected void updateContactPoints()
+    {
+        Line2D connectionPoints = getConnectionPoints();
 
-    /** The point inside the starting node_old where this edge begins */
-    private Point2D startLocation;
+        contactPoints = new Point2D[]{
+                connectionPoints.getP1(),
+                connectionPoints.getP2()
+        };
+    }
 
-    /** The point inside the ending node_old where this edge ends */
-    private Point2D endLocation;
-    
-    /** Points for free path */
-    private Point2D[] transitionPoints;
+    private void refreshContactPoints()
+    {
+        if(null != startNode && null != endNode && null != startLocation && null != endLocation)
+        {
+            updateContactPoints();
+        }
+    }
+
+    /** Points of contact path */
+    protected transient Point2D[] contactPoints;
 
     /** Edge's current id (unique in all the graph) */
     private Id id;
@@ -266,6 +320,18 @@ public abstract class AbstractEdge implements IEdge
     /** Edge's current revision */
     private Integer revision;
 
-    /** Edge tool tip */
-    private transient String toolTip;
+    /** The node_old where the edge starts */
+    private INode startNode;
+
+    /** The point inside the starting node_old where this edge begins */
+    private Point2D startLocation;
+
+    /** The node_old where the edge ends */
+    private INode endNode;
+
+    /** The point inside the ending node_old where this edge ends */
+    private Point2D endLocation;
+    
+    /** Points for free path */
+    private Point2D[] transitionPoints;
 }

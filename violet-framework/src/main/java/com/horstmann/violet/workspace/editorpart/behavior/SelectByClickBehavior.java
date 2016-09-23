@@ -171,7 +171,7 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
     }
     
     /**
-     * We process nodes or edges on 'mouse released' event because it's not possible to remove nodes or edges
+     * We process node or edges on 'mouse released' event because it's not possible to remove node or edges
      * from selection on 'mouse pressed' because it can be part of a dragging intention from the user. So,
      * unprocessed elements are removed from selection only on 'mouse released' if the user is pressing CTRL.
      * They are set as unique selection if the user isn't pressing CTRL.

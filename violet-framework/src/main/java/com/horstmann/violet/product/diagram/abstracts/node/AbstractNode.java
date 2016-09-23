@@ -30,7 +30,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.horstmann.violet.framework.graphics.content.Content;
-import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
@@ -42,8 +41,10 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
  * 
  * @author Cay Horstmann
  */
-public abstract class AbstractNode implements INode {
-    private static class NodeGraph extends AbstractGraph {
+public abstract class AbstractNode implements INode
+{
+    private static class NodeGraph extends AbstractGraph
+    {
         @Override
         public List<INode> getNodePrototypes() {
             return new ArrayList<INode>();
@@ -68,8 +69,10 @@ public abstract class AbstractNode implements INode {
     /**
      * copy Constructs
      */
-    protected AbstractNode(AbstractNode node) throws CloneNotSupportedException {
-        if (null == node) {
+    protected AbstractNode(AbstractNode node) throws CloneNotSupportedException
+    {
+        if (null == node)
+        {
             throw new CloneNotSupportedException("node can't be null");
         }
         this.id = node.getId().clone();
@@ -83,14 +86,27 @@ public abstract class AbstractNode implements INode {
         }
     }
 
-    public void deserializeSupport() {
+    @Override
+    public final void reconstruction()
+    {
+        beforeReconstruction();
         createContentStructure();
+        afterReconstruction();
+    }
+
+    protected void beforeReconstruction()
+    {
+    }
+
+    protected void afterReconstruction()
+    {
         getContent().refresh();
     }
 
     @Override
 //    public AbstractNode clone(){
-    public final AbstractNode clone() {
+    public final AbstractNode clone()
+    {
         try {
             return (AbstractNode) copy();
         } catch (CloneNotSupportedException e) {
@@ -98,20 +114,28 @@ public abstract class AbstractNode implements INode {
         }
     }
 
-    protected INode copy() throws CloneNotSupportedException {
-        return null;
+    protected INode copy() throws CloneNotSupportedException
+    {
+        throw new CloneNotSupportedException("You can't clone abstract class");
     }
 
+    @Override
+    public String getToolTip()
+    {
+        return "";
+    }
 
     protected abstract void createContentStructure();
 
     @Override
-    public void draw(Graphics2D g2) {
-        getContent().draw(g2, getLocationOnGraph());
+    public void draw(Graphics2D graphics)
+    {
+        getContent().draw(graphics, getLocationOnGraph());
     }
 
     @Override
-    public Rectangle2D getBounds() {
+    public Rectangle2D getBounds()
+    {
         Point2D location = getLocation();
         Rectangle2D contentBounds = getContent().getBounds();
         return new Rectangle2D.Double(location.getX(), location.getY(), contentBounds.getWidth(), contentBounds.getHeight());
@@ -124,12 +148,13 @@ public abstract class AbstractNode implements INode {
     /**
      * @return currently connected edges
      */
-    protected List<IEdge> getConnectedEdges() {
+    protected List<IEdge> getConnectedEdges()
+    {
         List<IEdge> connectedEdges = new ArrayList<IEdge>();
         IGraph currentGraph = getGraph();
         for (IEdge anEdge : currentGraph.getAllEdges()) {
-            INode start = anEdge.getStart();
-            INode end = anEdge.getEnd();
+            INode start = anEdge.getStartNode();
+            INode end = anEdge.getEndNode();
             if (this.equals(start) || this.equals(end)) {
                 connectedEdges.add(anEdge);
             }
@@ -145,7 +170,8 @@ public abstract class AbstractNode implements INode {
 
 
     @Override
-    public Point2D getLocationOnGraph() {
+    public Point2D getLocationOnGraph()
+    {
         INode parentNode = getParent();
         if (parentNode == null) {
             return getLocation();
@@ -158,7 +184,8 @@ public abstract class AbstractNode implements INode {
     }
 
     @Override
-    public void setLocation(Point2D point) {
+    public void setLocation(Point2D point)
+    {
         if (null == point) {
             throw new NullPointerException("Location can't be null");
         }
@@ -193,7 +220,8 @@ public abstract class AbstractNode implements INode {
      * @param edge
      * @return ordered list of edges
      */
-    private List<IEdge> getEdgesOnSameSide(IEdge edge) {
+    private List<IEdge> getEdgesOnSameSide(IEdge edge)
+    {
         // Step 1 : look for edges
         List<IEdge> result = new ArrayList<IEdge>();
         Direction d = edge.getDirection(this);
@@ -206,7 +234,7 @@ public abstract class AbstractNode implements INode {
             if (cardinalDirectionToSearch.equals(nearestCardinalDirection)) {
                 result.add(anEdge);
             }
-            if (anEdge.getStart().equals(anEdge.getEnd()) && anEdge.getStart().equals(this)) {
+            if (anEdge.getStartNode().equals(anEdge.getEndNode()) && anEdge.getStartNode().equals(this)) {
                 // self loop
                 result.add(anEdge);
             }
@@ -240,13 +268,13 @@ public abstract class AbstractNode implements INode {
     }
 
 
-    public Point2D getConnectionPoint(IEdge e) {
-
-        List<IEdge> edgesOnSameSide = getEdgesOnSameSide(e);
-        int position = edgesOnSameSide.indexOf(e);
+    public Point2D getConnectionPoint(IEdge edge)
+    {
+        List<IEdge> edgesOnSameSide = getEdgesOnSameSide(edge);
+        int position = edgesOnSameSide.indexOf(edge);
         int size = edgesOnSameSide.size();
 
-        Direction edgeDirection = e.getDirection(this);
+        Direction edgeDirection = edge.getDirection(this);
         Point2D startingNodeLocation = getLocation();
 
         double x = startingNodeLocation.getX();
@@ -300,12 +328,13 @@ public abstract class AbstractNode implements INode {
     }
 
     @Override
-    public boolean addConnection(IEdge e) {
-        return e.getEnd() != null;
+    public boolean addConnection(IEdge edge)
+    {
+        return edge.getEndNode() != null;
     }
 
     @Override
-    public void removeConnection(IEdge e) {
+    public void removeConnection(IEdge edge) {
     }
 
     @Override
@@ -316,7 +345,7 @@ public abstract class AbstractNode implements INode {
     }
 
     @Override
-    public boolean addChild(INode n, Point2D p)
+    public boolean addChild(INode node, Point2D point)
     {
         return false;
     }
@@ -410,31 +439,11 @@ public abstract class AbstractNode implements INode {
     	return this.graph;
     }
 
-    /**
-     * Sets node_old tool tip
-     * 
-     * @param label
-     */
-    public void setToolTip(String label)
-    {
-        if(null == label)
-        {
-            label = "";
-        }
-        this.toolTip = label;
-    }
-
-    @Override
-    public String getToolTip()
-    {
-    	return this.toolTip;
-    }
-
     public final Content getContent()
     {
         if(null == content)
         {
-            deserializeSupport();
+            reconstruction();
         }
         return content;
     }
@@ -447,7 +456,6 @@ public abstract class AbstractNode implements INode {
     private transient Content content;
 
     private transient IGraph graph;
-    private transient String toolTip;
     private transient int z;
 
     /** Node's current id (unique in all the graph) */

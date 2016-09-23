@@ -24,6 +24,7 @@ package com.horstmann.violet.product.diagram.abstracts;
 import java.awt.geom.Point2D;
 
 /**
+ * TODO need refactor
  * This class describes a direction in the 2D plane. A direction is a vector of length 1 with an angle between 0 (inclusive) and 360
  * degrees (exclusive). There is also a degenerate direction of length 0.
  */

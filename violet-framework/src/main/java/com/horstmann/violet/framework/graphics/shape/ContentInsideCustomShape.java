@@ -25,7 +25,8 @@ public class ContentInsideCustomShape extends ContentInsideShape
         Shape createShape(double contentWidth, double contentHeight);
     }
 
-    public ContentInsideCustomShape(Content content, ShapeCreator customShapeCreator) {
+    public ContentInsideCustomShape(Content content, ShapeCreator customShapeCreator)
+    {
         if(null == customShapeCreator)
         {
             throw new NullPointerException("Shape creator can't be null");

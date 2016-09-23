@@ -61,8 +61,8 @@ public class VerticalLayout extends Layout
     {
         Rectangle2D selfMinimalBounds = super.getMinimalBounds();
 
-        double height = selfMinimalBounds.getWidth();
-        double width = selfMinimalBounds.getHeight();
+        double height = 0;
+        double width = 0;
 
         for (Content content: getContents())
         {
@@ -74,6 +74,9 @@ public class VerticalLayout extends Layout
                 width = contentMinimalBounds.getWidth();
             }
         }
+
+        height = Math.max(height, selfMinimalBounds.getHeight());
+        width = Math.max(width, selfMinimalBounds.getWidth());
 
         return new Rectangle2D.Double(getX(),getY(),width,height);
     }

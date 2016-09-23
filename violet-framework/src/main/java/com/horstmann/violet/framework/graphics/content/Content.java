@@ -93,7 +93,8 @@ public abstract class Content
      * sets the min width of the element
      * @param minWidth
      */
-    public void setMinWidth(double minWidth){
+    public void setMinWidth(double minWidth)
+    {
         if(0 > minWidth)
         {
             throw new IllegalArgumentException("min width can only be a positive number");
