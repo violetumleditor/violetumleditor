@@ -299,7 +299,8 @@ public abstract class AbstractNode implements INode
             x += getContent().getWidth();
             y += getContent().getHeight() - (getContent().getHeight() / (size + 1)) * (position + 1);
         }
-        return new Point2D.Double(x, y);
+        Point2D p = new Point2D.Double(x, y);
+		return p;
     }
 
     @Override

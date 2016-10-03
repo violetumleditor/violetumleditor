@@ -63,15 +63,28 @@ public class LabeledLineEdge extends ArrowheadEdge
             endLabel = new SingleLineText();
         }
 
-        startTextContent = new TextContent(startLabel);
-        centerTextContent = new TextContent(centerLabel);
-        endTextContent = new TextContent(endLabel);
-
-        startLabel.reconstruction();
-        centerLabel.reconstruction();
-        endLabel.reconstruction();
     }
 
+	@Override
+	protected void createContentStructure() {
+		super.createContentStructure();
+		startTextContent = new TextContent(startLabel);
+		centerTextContent = new TextContent(centerLabel);
+		endTextContent = new TextContent(endLabel);
+		
+		startLabel.reconstruction();
+		centerLabel.reconstruction();
+		endLabel.reconstruction();
+	}
+	
+	@Override
+	public void setTextColor(Color textColor) {
+		super.setTextColor(textColor);
+		startLabel.setTextColor(textColor);
+		centerLabel.setTextColor(textColor);
+		endLabel.setTextColor(textColor);
+	}
+    
     @Override
     protected IEdge copy() throws CloneNotSupportedException
     {
@@ -87,7 +100,6 @@ public class LabeledLineEdge extends ArrowheadEdge
     public void draw(Graphics2D graphics)
     {
         super.draw(graphics);
-
         drawContent(graphics, startTextContent, contactPoints[0], contactPoints[1], false);
         drawContent(graphics, centerTextContent, contactPoints[contactPoints.length/2-1], contactPoints[contactPoints.length/2], true);
         drawContent(graphics, endTextContent, contactPoints[contactPoints.length-1], contactPoints[contactPoints.length-2], false);
@@ -98,7 +110,6 @@ public class LabeledLineEdge extends ArrowheadEdge
         Rectangle2D textBounds = textContent.getBounds();
         Direction direction = new Direction(startPoint, endPoint);
         Direction nearestDirection = direction.getNearestCardinalDirection();
-
         double x;
         double y;
 
@@ -125,7 +136,7 @@ public class LabeledLineEdge extends ArrowheadEdge
             graphics.rotate(tan);
             if(center)
             {
-                textContent.draw(graphics, new Point2D.Double(-textContent.getWidth() / 2, -textContent.getHeight()));
+            	textContent.draw(graphics, new Point2D.Double(-textContent.getWidth() / 2, -textContent.getHeight()));
             }
             else
             {
@@ -249,4 +260,6 @@ public class LabeledLineEdge extends ArrowheadEdge
     private transient TextContent endTextContent;
 
     public static final int LABEL_GAP = 7;
+
+
 }

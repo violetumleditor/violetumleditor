@@ -56,6 +56,7 @@ public abstract class AbstractEdge implements IEdge
     public final void reconstruction()
     {
         beforeReconstruction();
+        createContentStructure();
         afterReconstruction();
     }
 
@@ -68,6 +69,9 @@ public abstract class AbstractEdge implements IEdge
         refreshContactPoints();
     }
 
+    protected abstract void createContentStructure();
+
+    
     @Override
     public final AbstractEdge clone()
     {
@@ -242,15 +246,22 @@ public abstract class AbstractEdge implements IEdge
         Point2D relativeStarting = startNode.getConnectionPoint(this);
         Point2D relativeEnding = endNode.getConnectionPoint(this);
 
-        return new Line2D.Double(
-                new Point2D.Double(
-                        startLocationOnGraph.getX() - relativeStarting.getX() + startNode.getBounds().getWidth() + startNode.getLocation().getX(),
-                        startLocationOnGraph.getY() - relativeStarting.getY() + startNode.getBounds().getHeight() + startNode.getLocation().getY()
-                ),
-                new Point2D.Double(
-                        endLocationOnGraph.getX() - relativeEnding.getX() + endNode.getBounds().getWidth() + endNode.getLocation().getX(),
-                        endLocationOnGraph.getY() - relativeEnding.getY() + endNode.getBounds().getHeight() + endNode.getLocation().getY()
-                )
+        //p = getGraph().getGridSticker().snap(p);
+
+        
+        Point2D p1 = new Point2D.Double(
+		        startLocationOnGraph.getX() - relativeStarting.getX() + startNode.getBounds().getWidth() + startNode.getLocation().getX(),
+		        startLocationOnGraph.getY() - relativeStarting.getY() + startNode.getBounds().getHeight() + startNode.getLocation().getY()
+		);
+        p1 = startNode.getGraph().getGridSticker().snap(p1);
+		Point2D p2 = new Point2D.Double(
+		        endLocationOnGraph.getX() - relativeEnding.getX() + endNode.getBounds().getWidth() + endNode.getLocation().getX(),
+		        endLocationOnGraph.getY() - relativeEnding.getY() + endNode.getBounds().getHeight() + endNode.getLocation().getY()
+		);
+		p2 = endNode.getGraph().getGridSticker().snap(p2);
+		return new Line2D.Double(
+                p1,
+                p2
         );
     }
 

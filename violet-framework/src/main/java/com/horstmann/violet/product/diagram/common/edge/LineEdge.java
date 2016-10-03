@@ -85,7 +85,7 @@ public abstract class LineEdge extends ShapeEdge
         Color oldColor = graphics.getColor();
         Stroke oldStroke = graphics.getStroke();
 
-        graphics.setColor(Color.BLACK);
+        graphics.setColor(getBorderColor());
         graphics.setStroke(getLineStyle());
         graphics.draw(getPath());
         graphics.setStroke(oldStroke);

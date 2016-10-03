@@ -15,11 +15,13 @@ public class Arrowhead
 {
     public Arrowhead()
     {
+    	this.borderColor = Color.BLACK;
         this.filledColor = null;
     }
 
     public Arrowhead(Color filledColor)
     {
+    	this.borderColor = Color.BLACK;
         this.filledColor = filledColor;
     }
 
@@ -44,7 +46,7 @@ public class Arrowhead
             graphics.fill(path);
         }
 
-        graphics.setColor(Color.BLACK);
+        graphics.setColor(borderColor);
         graphics.draw(path);
         graphics.translate(-q.getX(), -q.getY());
         graphics.setColor(oldColor);
@@ -80,8 +82,21 @@ public class Arrowhead
     {
         return new GeneralPath();
     }
+    
+    
 
-    private Color filledColor;
+    public void setFilledColor(Color filledColor) {
+		this.filledColor = filledColor;
+	}
+
+	public void setBorderColor(Color borderColor) {
+		this.borderColor = borderColor;
+	}
+
+
+
+	private Color filledColor;
+    private Color borderColor;
 
     protected static final double ARROW_ANGLE = Math.PI / 6;
     protected static final double ARROW_LENGTH = 10;

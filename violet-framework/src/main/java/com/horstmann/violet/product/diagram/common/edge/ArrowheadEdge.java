@@ -46,6 +46,15 @@ public abstract class ArrowheadEdge extends LineEdge
         startArrowheadChoiceList.setSelectedIndex(selectedStartArrowhead);
         endArrowheadChoiceList.setSelectedIndex(selectedEndArrowhead);
     }
+    
+    @Override
+    public void setBorderColor(Color borderColor) {
+    	super.setBorderColor(borderColor);
+    	getStartArrowhead().setFilledColor(borderColor);
+    	getStartArrowhead().setBorderColor(borderColor);
+    	getEndArrowhead().setFilledColor(borderColor);
+    	getEndArrowhead().setBorderColor(borderColor);
+    }
 
     /**
      * Draws the edge.

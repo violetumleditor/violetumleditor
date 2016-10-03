@@ -36,7 +36,7 @@
 		<dependency>
 			<groupId>eu.webtoolkit</groupId>
 			<artifactId>jwt</artifactId>
-			<version>3.3.3</version>
+			<version>3.1.11</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-fileupload</groupId>
@@ -68,8 +68,8 @@
 		<!-- JWT auth (start) -->
 		<dependency>
 			<groupId>eu.webtoolkit</groupId>
-			<artifactId>jwt-auth</artifactId>
-			<version>3.3.3</version>
+			<artifactId>jwt</artifactId>
+			<version>3.1.11</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>

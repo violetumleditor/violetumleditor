@@ -22,7 +22,7 @@
 		<module>violetproduct-exe</module>
 		<!-- module>violetproduct-rpm</module-->
 		<module>violetproduct-deb</module>
-		<!--module>violetproduct-web</module-->
+		<module>violetproduct-web</module>
 	</modules>
 	<properties>
 		<applicationVersion>2.5.3</applicationVersion>
