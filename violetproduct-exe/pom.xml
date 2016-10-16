@@ -51,7 +51,7 @@
 						</goals>
 						<configuration>
 							<headerType>gui</headerType>
-							<jar>${project.build.directory}/dependency/violetumleditor-${project.version}.jar</jar>
+							<jar>${project.build.directory}/../../violetproduct-swing/target/violetumleditor-${project.version}.jar</jar>
 							<outfile>${project.build.directory}/violetumleditor-${project.version}.exe</outfile>
 							<downloadUrl>http://java.com/download</downloadUrl>
 							<icon>src/main/resources/icon/violet.ico</icon>

@@ -21,6 +21,16 @@
 
 package com.horstmann.violet.product.diagram.propertyeditor;
 
+import com.github.javaparser.JavaParser;
+import com.github.javaparser.ParseException;
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.FieldDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.Parameter;
+import com.github.javaparser.ast.body.VariableDeclarator;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
+import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ItemEvent;
@@ -59,6 +69,28 @@ import com.horstmann.violet.product.diagram.property.text.MultiLineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 
 import com.horstmann.violet.product.diagram.common.DiagramLink;
+import com.seanregan.javaimport.ClassSelectionDialog;
+import com.seanregan.javaimport.ClassVisitor;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Modifier;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.text.JTextComponent;
 
 /**
  * A component filled with editors for all editable properties of an object.
@@ -73,6 +105,8 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
     public CustomPropertyEditor(Object bean)
     {
         panel = new JPanel();
+
+		JPanel subPanel = new JPanel();
         try
         {
             Introspector.flushFromCaches(bean.getClass());
@@ -91,9 +125,18 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
                 }
             });
 
-            panel.setLayout(new CustomPropertyEditorLayout());
+            subPanel.setLayout(new CustomPropertyEditorLayout());
 
-            ResourceBundle rs = ResourceBundle.getBundle(ResourceBundleConstant.NODE_AND_EDGE_STRINGS, Locale.getDefault());
+			String objClass = bean.getClass().toString();
+			objClass = objClass.substring(objClass.lastIndexOf(".") + 1, objClass.length());
+			boolean beanIsClassNode = (objClass.compareTo("ClassNode")  == 0);
+			boolean beanIsInterface = (objClass.compareTo("InterfaceNode")  == 0);
+			boolean beanIsImportable = (beanIsClassNode || beanIsInterface); 
+			
+			final JTextComponent[] editorTextComps = new JTextComponent[3];
+            final ArrayList<String> textCompsIndicies = new ArrayList<String>(Arrays.asList(new String[]{"name", "attributes", "methods"}));
+			
+			ResourceBundle rs = ResourceBundle.getBundle(ResourceBundleConstant.NODE_AND_EDGE_STRINGS, Locale.getDefault());
             for (int i = 0; i < descriptors.length; i++)
             {
                 PropertyEditor editor = getEditor(bean, descriptors[i]);
@@ -115,11 +158,39 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
 
                     JLabel label = new JLabel(textLabel);
                     label.setFont(label.getFont().deriveFont(Font.PLAIN));
-                    panel.add(label);
-                    panel.add(getEditorComponent(editor));
-                    this.isEditable = true;
+                    subPanel.add(label);
+					Component eComponent = getEditorComponent(editor);
+                    subPanel.add(eComponent);
+					
+					if (beanIsImportable && eComponent instanceof JPanel) {
+						JPanel ePanel = (JPanel)eComponent;
+						JTextComponent textComp = null;
+						if (ePanel.getComponents()[0] instanceof JTextField) {
+							textComp = (JTextComponent)(ePanel.getComponents()[0]);
+						} else if (ePanel.getComponents()[0] instanceof JScrollPane) {
+							JScrollPane scroller = (JScrollPane)(ePanel.getComponents()[0]);
+							textComp = (JTextComponent)(scroller.getViewport().getView());
+						}
+						
+						for (int t = 0; t < textCompsIndicies.size(); ++t) {
+							if (textLabel.toLowerCase().contains(textCompsIndicies.get(t))) {
+								editorTextComps[t] = textComp;
+								break;
+							}
+						}
+					}
+                    
+					this.isEditable = true;
                 }
             }
+			
+			panel.add(subPanel);
+			
+			if (editorTextComps[0] != null) {
+				JButton importButton = new JButton("Import");
+				panel.add(importButton);
+				importButton.addActionListener(new ImportActionListener(editorTextComps));
+			}
         }
         catch (IntrospectionException exception)
         {
@@ -127,6 +198,54 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
         }
     }
 
+	private class ImportActionListener implements ActionListener {
+		private JTextComponent[] editorTextComps;
+		
+		public ImportActionListener(JTextComponent[] textComponents) {
+			editorTextComps = textComponents;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			JFileChooser chooser = new JFileChooser();
+			if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+				try {
+					String fName = chooser.getSelectedFile().getName();
+					if (fName.toLowerCase().contains(".java")) {
+						CompilationUnit cu = JavaParser.parse(chooser.getSelectedFile());
+
+						final ClassVisitor cVisistor  = new ClassVisitor(cu);
+						List<String> cs = cVisistor.getClasses();
+
+						if (cs.size() > 0) {
+							ClassSelectionDialog dialog = new ClassSelectionDialog(cs);
+							ClassSelectionDialog.SelectionListener listener = new ClassSelectionDialog.SelectionListener() {
+								@Override
+								public void onSelectionMade(String sel) {
+									if (editorTextComps[0] != null) editorTextComps[0].setText(sel);
+									if (editorTextComps[1] != null) cVisistor.fillAttributes(sel, editorTextComps[1]);
+									if (editorTextComps[2] != null) cVisistor.fillMethods(sel, editorTextComps[2]);
+								}
+
+								@Override
+								public void onCancelled() {
+								}
+							};
+							dialog.setSelectionListener(listener);
+
+							if (cs.size() > 1) dialog.show();
+							else listener.onSelectionMade(cs.get(0));
+						}
+					}
+				} catch (Exception f) {
+					f.printStackTrace();
+				}
+			}
+		}
+	}; 
+	
+	
     /*
      * (non-Javadoc)
      * 
