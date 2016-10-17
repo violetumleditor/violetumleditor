@@ -8,6 +8,9 @@
     <name>Violet UML Editor Class Diagram Plugin</name>
     <version>${applicationVersion}</version>
     <packaging>jar</packaging>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
     <parent>
         <groupId>com.horstmann.violet</groupId>
         <artifactId>parent</artifactId>
