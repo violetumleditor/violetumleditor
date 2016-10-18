@@ -14,6 +14,9 @@ public class DiamondArrowhead extends Arrowhead
     public DiamondArrowhead(Color filledColor)
     {
         super(filledColor);
+		
+		//White is a special case (aggregate) - should not be colorable
+		mIsFilled = !(filledColor.getRGB() == Color.white.getRGB());
     }
 
     @Override
@@ -31,4 +34,17 @@ public class DiamondArrowhead extends Arrowhead
 
         return path;
     }
+
+	//This setting is ignored for a diamond head.
+	@Override
+    public void setFilledColor(Color filledColor) {
+		//Should only be able to set the fill color on a composition
+		//Not on an aggregate
+		
+		//Disable for now - Compositions should have a default 
+		//Fill color of black, not gray
+		//if (mIsFilled) super.setFilledColor(filledColor);
+	}
+	
+	private final boolean mIsFilled;
 }
