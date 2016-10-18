@@ -23,7 +23,6 @@ import com.horstmann.violet.product.diagram.common.node.DiagramLinkNode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
-import javax.swing.JButton;
 
 public class EditSelectedBehavior extends AbstractEditorPartBehavior
 {
@@ -118,7 +117,6 @@ public class EditSelectedBehavior extends AbstractEditorPartBehavior
         });
 
         JOptionPane optionPane = new JOptionPane();
-		//optionPane.add(new JButton("TEST"));
         optionPane.setOpaque(true);
         optionPane.addPropertyChangeListener(new PropertyChangeListener()
         {
