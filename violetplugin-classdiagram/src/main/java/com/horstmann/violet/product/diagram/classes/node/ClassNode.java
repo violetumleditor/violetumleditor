@@ -1,5 +1,8 @@
 package com.horstmann.violet.product.diagram.classes.node;
 
+import com.github.javaparser.JavaParser;
+import com.github.javaparser.ast.CompilationUnit;
+import com.seanregan.javaimport.IJavaParseable;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
@@ -15,11 +18,13 @@ import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.property.text.MultiLineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
+import com.seanregan.javaimport.ClassVisitor;
+import java.io.File;
 
 /**
  * A class node in a class diagram.
  */
-public class ClassNode extends ColorableNode
+public class ClassNode extends ColorableNode implements IJavaParseable
 {
 	/**
      * Construct a class node with a default size
@@ -181,7 +186,50 @@ public class ClassNode extends ColorableNode
     {
         return methods;
     }
+	
+	@Override
+	public void setFileReference(String refernce) {
+		mFileReference = refernce;
+	}
 
+	@Override
+	public String getFileReference() {
+		return mFileReference;
+	}
+
+	@Override
+	public void setClassName(String name) {
+		mFileClassName = name;
+	}
+
+	@Override
+	public String getClassName() {
+		return mFileClassName;
+	}
+	
+	@Override
+	public void parseAndPopulate() {
+		try {
+			CompilationUnit cu = JavaParser.parse(new File(mFileReference));
+			final ClassVisitor cVisistor  = new ClassVisitor(cu);
+			List<String> cs = cVisistor.getClasses();
+			for (String c : cs) {
+				if (c.compareToIgnoreCase(mFileClassName) == 0) {
+					setName(new MultiLineText(c));
+					setAttributes(new MultiLineText(cVisistor.getAttributesStrings(c)));
+					setMethods(new MultiLineText(cVisistor.getMethodsString(c)));
+
+					return;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private String mFileReference = null;
+	private String mFileClassName = null;
+	
     private SingleLineText name;
     private MultiLineText attributes;
     private MultiLineText methods;

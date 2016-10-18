@@ -71,6 +71,7 @@ import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 import com.horstmann.violet.product.diagram.common.DiagramLink;
 import com.seanregan.javaimport.ClassSelectionDialog;
 import com.seanregan.javaimport.ClassVisitor;
+import com.seanregan.javaimport.IJavaParseable;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -127,11 +128,7 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
 
             subPanel.setLayout(new CustomPropertyEditorLayout());
 
-			String objClass = bean.getClass().toString();
-			objClass = objClass.substring(objClass.lastIndexOf(".") + 1, objClass.length());
-			boolean beanIsClassNode = (objClass.compareTo("ClassNode")  == 0);
-			boolean beanIsInterface = (objClass.compareTo("InterfaceNode")  == 0);
-			boolean beanIsImportable = (beanIsClassNode || beanIsInterface); 
+			boolean beanIsImportable = (bean instanceof IJavaParseable);
 			
 			final JTextComponent[] editorTextComps = new JTextComponent[3];
             final ArrayList<String> textCompsIndicies = new ArrayList<String>(Arrays.asList(new String[]{"name", "attributes", "methods"}));
@@ -189,7 +186,7 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
 			if (editorTextComps[0] != null) {
 				JButton importButton = new JButton("Import");
 				panel.add(importButton);
-				importButton.addActionListener(new ImportActionListener(editorTextComps));
+				importButton.addActionListener(new ImportActionListener((IJavaParseable)bean, editorTextComps));
 			}
         }
         catch (IntrospectionException exception)
@@ -200,48 +197,17 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
 
 	private class ImportActionListener implements ActionListener {
 		private JTextComponent[] editorTextComps;
+		private final IJavaParseable mNode;
 		
-		public ImportActionListener(JTextComponent[] textComponents) {
+		public ImportActionListener(IJavaParseable node, JTextComponent[] textComponents) {
 			editorTextComps = textComponents;
+			mNode = node;
 		}
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
-			JFileChooser chooser = new JFileChooser();
-			if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-				try {
-					String fName = chooser.getSelectedFile().getName();
-					if (fName.toLowerCase().contains(".java")) {
-						CompilationUnit cu = JavaParser.parse(chooser.getSelectedFile());
 
-						final ClassVisitor cVisistor  = new ClassVisitor(cu);
-						List<String> cs = cVisistor.getClasses();
-
-						if (cs.size() > 0) {
-							ClassSelectionDialog dialog = new ClassSelectionDialog(cs);
-							ClassSelectionDialog.SelectionListener listener = new ClassSelectionDialog.SelectionListener() {
-								@Override
-								public void onSelectionMade(String sel) {
-									if (editorTextComps[0] != null) editorTextComps[0].setText(sel);
-									if (editorTextComps[1] != null) cVisistor.fillAttributes(sel, editorTextComps[1]);
-									if (editorTextComps[2] != null) cVisistor.fillMethods(sel, editorTextComps[2]);
-								}
-
-								@Override
-								public void onCancelled() {
-								}
-							};
-							dialog.setSelectionListener(listener);
-
-							if (cs.size() > 1) dialog.show();
-							else listener.onSelectionMade(cs.get(0));
-						}
-					}
-				} catch (Exception f) {
-					f.printStackTrace();
-				}
-			}
 		}
 	}; 
 	

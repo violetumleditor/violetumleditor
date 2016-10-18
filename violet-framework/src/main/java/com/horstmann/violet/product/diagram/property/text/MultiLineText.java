@@ -25,6 +25,15 @@ public class MultiLineText extends LineText
         super();
         setPadding(7,8);
     }
+	
+	public MultiLineText(String text)
+    {
+        super();
+        setPadding(7,8);
+		
+		setText(text);
+    }
+	
     public MultiLineText(Converter converter)
     {
         super(converter);

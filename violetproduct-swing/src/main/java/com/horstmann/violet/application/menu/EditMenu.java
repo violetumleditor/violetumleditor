@@ -31,6 +31,7 @@ import javax.swing.JMenuItem;
 import com.horstmann.violet.application.gui.MainFrame;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
+import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.behavior.CutCopyPasteBehavior;
@@ -38,6 +39,8 @@ import com.horstmann.violet.workspace.editorpart.behavior.EditSelectedBehavior;
 import com.horstmann.violet.workspace.editorpart.behavior.SelectAllBehavior;
 import com.horstmann.violet.workspace.editorpart.behavior.SelectByDistanceBehavior;
 import com.horstmann.violet.workspace.editorpart.behavior.UndoRedoCompoundBehavior;
+import com.seanregan.javaimport.IJavaParseable;
+import com.seanregan.javaimport.ImportClassHandler;
 
 /**
  * Edit menu
@@ -230,6 +233,52 @@ public class EditMenu extends JMenu
         });
         this.add(selectPrevious);
 
+		
+		mImportFromFile.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				IEditorPart editorPart = getActiveEditorPart();
+				List<INode> selNodes = editorPart.getSelectedNodes();
+				IEditorPartBehaviorManager behaviorManager = editorPart.getBehaviorManager();
+                if (selNodes.size() != 1) {
+                    return;
+                }
+                if (selNodes.get(0) instanceof IJavaParseable) {
+					new ImportClassHandler((IJavaParseable)selNodes.get(0));
+					
+					//Force update
+					INode edited = selNodes.get(0);
+					behaviorManager.fireAfterEditingNode(edited);
+					editorPart.getSwingComponent().invalidate();
+				}
+			}
+		});
+		this.add(mImportFromFile);
+		
+		mRefreshImport.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				IEditorPart editorPart = getActiveEditorPart();
+				List<INode> selNodes = editorPart.getSelectedNodes();
+				IEditorPartBehaviorManager behaviorManager = editorPart.getBehaviorManager();
+                if (selNodes.size() != 1) {
+                    return;
+                }
+                if (selNodes.get(0) instanceof IJavaParseable) {
+					INode edited		 = selNodes.get(0);
+					IJavaParseable jEdit = (IJavaParseable)selNodes.get(0);
+					
+					if (jEdit.getFileReference() != null) {
+						jEdit.parseAndPopulate();
+						
+						//Force update
+						behaviorManager.fireAfterEditingNode(edited);
+						editorPart.getSwingComponent().invalidate();
+					}
+				}
+			}
+		});
+		this.add(mRefreshImport);
     }
 
     /**
@@ -280,4 +329,10 @@ public class EditMenu extends JMenu
 
     @ResourceBundleBean(key = "edit.select_previous")
     private JMenuItem selectPrevious;
+	
+    @ResourceBundleBean(key = "edit.file_import")
+    private JMenuItem mImportFromFile;
+	
+    @ResourceBundleBean(key = "edit.refresh_import")
+    private JMenuItem mRefreshImport;
 }

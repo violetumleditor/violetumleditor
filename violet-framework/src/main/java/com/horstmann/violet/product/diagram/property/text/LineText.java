@@ -40,6 +40,7 @@ public abstract class LineText implements Serializable, Cloneable, EditableText
     {
         this(DEFAULT_CONVERTER);
     }
+	
     public LineText(Converter converter)
     {
         this.converter = converter;

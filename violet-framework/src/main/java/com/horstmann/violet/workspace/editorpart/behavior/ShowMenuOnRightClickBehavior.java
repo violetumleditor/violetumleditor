@@ -17,6 +17,8 @@ import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
+import com.seanregan.javaimport.IJavaParseable;
+import com.seanregan.javaimport.ImportClassHandler;
 
 public class ShowMenuOnRightClickBehavior extends AbstractEditorPartBehavior
 {
@@ -180,7 +182,51 @@ public class ShowMenuOnRightClickBehavior extends AbstractEditorPartBehavior
             }
         });
         aPopupMenu.add(selectAll);
-        
+		
+		mImportFromFile.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				List<INode> selNodes = ShowMenuOnRightClickBehavior.this.editorPart.getSelectedNodes();
+				IEditorPartBehaviorManager behaviorManager = ShowMenuOnRightClickBehavior.this.editorPart.getBehaviorManager();
+                if (selNodes.size() != 1) {
+                    return;
+                }
+                if (selNodes.get(0) instanceof IJavaParseable) {
+					new ImportClassHandler((IJavaParseable)selNodes.get(0));
+					
+					//Force update
+					INode edited = selNodes.get(0);
+					behaviorManager.fireAfterEditingNode(edited);
+					editorPart.getSwingComponent().invalidate();
+				}
+			}
+		});
+		aPopupMenu.add(mImportFromFile);
+		
+		mRefreshImport.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				List<INode> selNodes = ShowMenuOnRightClickBehavior.this.editorPart.getSelectedNodes();
+				IEditorPartBehaviorManager behaviorManager = ShowMenuOnRightClickBehavior.this.editorPart.getBehaviorManager();
+                if (selNodes.size() != 1) {
+                    return;
+                }
+                if (selNodes.get(0) instanceof IJavaParseable) {
+					INode edited		 = selNodes.get(0);
+					IJavaParseable jEdit = (IJavaParseable)selNodes.get(0);
+					
+					if (jEdit.getFileReference() != null) {
+						jEdit.parseAndPopulate();
+						
+						//Force update
+						behaviorManager.fireAfterEditingNode(edited);
+						editorPart.getSwingComponent().invalidate();
+					}
+				}
+			}
+		});
+		aPopupMenu.add(mRefreshImport);
+		
         return aPopupMenu;
     }
     
@@ -213,6 +259,12 @@ public class ShowMenuOnRightClickBehavior extends AbstractEditorPartBehavior
 
     @ResourceBundleBean(key = "edit.select_all")
     private JMenuItem selectAll;
+	
+    @ResourceBundleBean(key = "edit.file_import")
+    private JMenuItem mImportFromFile;
+	
+    @ResourceBundleBean(key = "edit.refresh_import")
+    private JMenuItem mRefreshImport;
     
     private IEditorPart editorPart;
 

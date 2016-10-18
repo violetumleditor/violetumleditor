@@ -1,5 +1,8 @@
 package com.horstmann.violet.product.diagram.classes.node;
 
+import com.github.javaparser.JavaParser;
+import com.github.javaparser.ast.CompilationUnit;
+import com.seanregan.javaimport.IJavaParseable;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
@@ -15,11 +18,13 @@ import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.property.text.MultiLineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 import com.horstmann.violet.product.diagram.common.node.PointNode;
+import com.seanregan.javaimport.ClassVisitor;
+import java.io.File;
 
 /**
  * An interface node in a class diagram.
  */
-public class InterfaceNode extends ColorableNode
+public class InterfaceNode extends ColorableNode implements IJavaParseable
 {
     /**
      * Construct an interface node with a default size and the text <<interface>>.
@@ -159,8 +164,48 @@ public class InterfaceNode extends ColorableNode
         return methods;
     }
 
+	@Override
+	public void setFileReference(String refernce) {
+		mFileReference = refernce;
+	}
 
+	@Override
+	public String getFileReference() {
+		return mFileReference;
+	}
 
+	@Override
+	public void setClassName(String name) {
+		mFileClassName = name;
+	}
+
+	@Override
+	public String getClassName() {
+		return mFileClassName;
+	}
+
+	@Override
+	public void parseAndPopulate() {
+		try {
+			CompilationUnit cu = JavaParser.parse(new File(mFileReference));
+			final ClassVisitor cVisistor  = new ClassVisitor(cu);
+			java.util.List<String> cs = cVisistor.getClasses();
+			for (String c : cs) {
+				if (c.compareToIgnoreCase(mFileClassName) == 0) {
+					setName(new MultiLineText(c));
+					setMethods(new MultiLineText(cVisistor.getMethodsString(c)));
+					
+					return;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private String mFileReference = null;
+	private String mFileClassName = null;
+	
     private SingleLineText name;
     private MultiLineText methods;
 

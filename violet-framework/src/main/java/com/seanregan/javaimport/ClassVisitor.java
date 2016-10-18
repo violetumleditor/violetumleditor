@@ -11,7 +11,6 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import javax.swing.text.JTextComponent;
 
 public class ClassVisitor extends VoidVisitorAdapter {
 	private final HashMap<String, ArrayList<String>> mMethodHash	 = new HashMap<String, ArrayList<String>>();
@@ -21,22 +20,24 @@ public class ClassVisitor extends VoidVisitorAdapter {
 		visit(cu, null);
 	}
 
-	public void fillMethods(String className, JTextComponent methodsField) {
-		fillField(className, methodsField, mMethodHash);
+	public String getMethodsString(String className) {
+		return getFieldString(className, mMethodHash);
 	}
 
-	public void fillAttributes(String className, JTextComponent attributesField) {
-		fillField(className, attributesField, mAttributesHash);
+	public String getAttributesStrings(String className) {
+		return getFieldString(className, mAttributesHash);
 	}
 
-	private void fillField(String className, JTextComponent textField, HashMap<String, ArrayList<String>> fromHash) {
-		textField.setText("");
+	private String getFieldString(String className, HashMap<String, ArrayList<String>> fromHash) {
+		String fieldValue = "";
 		if (fromHash.containsKey(className)) {
 			ArrayList<String> tokens = fromHash.get(className);
 			for (String m : tokens) {
-				textField.setText(textField.getText() + m + "\n");
+				fieldValue += m + "\n";
 			}
 		}
+		
+		return fieldValue;
 	}
 
 	public List<String> getClasses() {
@@ -96,7 +97,7 @@ public class ClassVisitor extends VoidVisitorAdapter {
 		}
 
 		String modType = getModType(n.getModifiers());
-
+		
 		for (VariableDeclarator var : n.getVariables()) {
 			attributes.add(modType + " " + var.getId().getName() + " : " + n.getType());
 			//mAttributesField.setText(mAttributesField.getText() + modType + " " + var.getId().getName() + " : " + n.getType() + "\n");
@@ -124,6 +125,10 @@ public class ClassVisitor extends VoidVisitorAdapter {
 			modType = "+";
 		} else if (Modifier.isProtected(mod)){
 			modType = "#";
+		}
+		
+		if (Modifier.isStatic(mod)) {
+			modType = "<<static>> " + modType;
 		}
 
 		return modType;
