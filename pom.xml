@@ -22,6 +22,7 @@
 		<module>violetproduct-exe</module>
 		<!-- module>violetproduct-rpm</module-->
 		<module>violetproduct-deb</module>
+                <module>violetproduct-web</module>
 	</modules>
 	<properties>
                 <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

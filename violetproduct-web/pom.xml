@@ -33,11 +33,11 @@
 		</dependency>
 		<!-- VIOLET (end) -->
 		<!-- JWT (start) -->
-		<dependency>
-			<groupId>eu.webtoolkit</groupId>
-			<artifactId>jwt</artifactId>
-			<version>3.1.11</version>
-		</dependency>
+                <dependency>
+                        <groupId>eu.webtoolkit</groupId>
+                        <artifactId>jwt</artifactId>
+                        <version>3.3.3</version>
+                </dependency>
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
@@ -66,11 +66,6 @@
 		</dependency>
 		<!-- JWT (end) -->
 		<!-- JWT auth (start) -->
-		<dependency>
-			<groupId>eu.webtoolkit</groupId>
-			<artifactId>jwt</artifactId>
-			<version>3.1.11</version>
-		</dependency>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
