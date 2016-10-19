@@ -67,9 +67,9 @@ public class GraphFile implements IGraphFile
         ResourceBundleInjector.getInjector().inject(this);
         BeanInjector.getInjector().inject(this);
 		
-		//Make sure we set the filename and directory!
-		this.currentDirectory = file.getDirectory();
-		this.currentFilename  = file.getFilename();
+        //Make sure we set the filename and directory!
+        this.currentDirectory = file.getDirectory();
+        this.currentFilename  = file.getFilename();
 		
         IFileReader fileOpener = fileChooserService.getFileReader(file);
         if (fileOpener == null)
