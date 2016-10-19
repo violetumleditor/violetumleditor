@@ -41,6 +41,7 @@ import com.horstmann.violet.workspace.editorpart.behavior.SelectByDistanceBehavi
 import com.horstmann.violet.workspace.editorpart.behavior.UndoRedoCompoundBehavior;
 import com.seanregan.javaimport.IJavaParseable;
 import com.seanregan.javaimport.ImportClassHandler;
+import java.util.Collection;
 
 /**
  * Edit menu
@@ -279,6 +280,24 @@ public class EditMenu extends JMenu
 			}
 		});
 		this.add(mRefreshImport);
+		
+		mRefreshAllImports.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				IEditorPart editorPart = getActiveEditorPart();
+				IEditorPartBehaviorManager behaviorManager = editorPart.getBehaviorManager();
+				Collection<INode> graphNodes = editorPart.getGraph().getAllNodes();
+				
+				for (INode node : graphNodes) {
+					if (node instanceof IJavaParseable) {
+						((IJavaParseable)(node)).parseAndPopulate();
+				
+						behaviorManager.fireAfterEditingNode(node);
+					}
+				}
+			}
+		});
+		this.add(mRefreshAllImports);
     }
 
     /**
@@ -335,4 +354,7 @@ public class EditMenu extends JMenu
 	
     @ResourceBundleBean(key = "edit.refresh_import")
     private JMenuItem mRefreshImport;
+	
+    @ResourceBundleBean(key = "edit.refresh_all_imports")
+    private JMenuItem mRefreshAllImports;
 }

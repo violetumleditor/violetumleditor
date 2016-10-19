@@ -209,6 +209,8 @@ public class ClassNode extends ColorableNode implements IJavaParseable
 	
 	@Override
 	public void parseAndPopulate() {
+		if (mFileReference == null || mFileClassName == null) return;
+		
 		try {
 			CompilationUnit cu = JavaParser.parse(new File(mFileReference));
 			final ClassVisitor cVisistor  = new ClassVisitor(cu);
