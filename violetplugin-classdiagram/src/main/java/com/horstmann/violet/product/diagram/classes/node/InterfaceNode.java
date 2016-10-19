@@ -3,7 +3,6 @@ package com.horstmann.violet.product.diagram.classes.node;
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.seanregan.javaimport.IJavaParseable;
-import java.awt.*;
 import java.awt.geom.Point2D;
 
 import com.horstmann.violet.framework.graphics.Separator;
@@ -19,7 +18,9 @@ import com.horstmann.violet.product.diagram.property.text.MultiLineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 import com.horstmann.violet.product.diagram.common.node.PointNode;
 import com.seanregan.javaimport.ClassVisitor;
+import java.awt.Color;
 import java.io.File;
+import java.util.List;
 
 /**
  * An interface node in a class diagram.
@@ -164,37 +165,70 @@ public class InterfaceNode extends ColorableNode implements IJavaParseable
         return methods;
     }
 
+	/**
+	 * Sets the file to import
+	 * @param refernce the absolute path of the file to import
+	 */
 	@Override
 	public void setFileReference(String refernce) {
 		mFileReference = refernce;
 	}
 
+	/**
+	 * Gets the file that is currently set to be imported
+	 * @return a String containing the absolute path to the
+	 * currently imported file
+	 */
 	@Override
 	public String getFileReference() {
 		return mFileReference;
 	}
 
+	/**
+	 * Sets the class name of from the file to import
+	 * @param name a String containing the class from the file
+	 * to import
+	 */
 	@Override
 	public void setClassName(String name) {
 		mFileClassName = name;
 	}
 
+	/**
+	 * Gets the name of the class to import from 
+	 * the imported file
+	 * @return a String containing the name of the class
+	 * to import
+	 */
 	@Override
 	public String getClassName() {
 		return mFileClassName;
 	}
-
+	
+	/**
+	 * Parses the specified class within the specified file and
+	 * populates the results within the node
+	 */
 	@Override
 	public void parseAndPopulate() {
+		if (mFileReference == null || mFileClassName == null) return;
+		
 		try {
+			//CompilationUnite to parse file
 			CompilationUnit cu = JavaParser.parse(new File(mFileReference));
+			
+			//Get details from file
 			final ClassVisitor cVisistor  = new ClassVisitor(cu);
-			java.util.List<String> cs = cVisistor.getClasses();
+			
+			//Get all the clases
+			List<String> cs = cVisistor.getClasses();
 			for (String c : cs) {
+				//Find the class that we want
 				if (c.compareToIgnoreCase(mFileClassName) == 0) {
+					//Fill the node's data
 					setName(new MultiLineText(c));
 					setMethods(new MultiLineText(cVisistor.getMethodsString(c)));
-					
+
 					return;
 				}
 			}

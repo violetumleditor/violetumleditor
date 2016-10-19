@@ -244,8 +244,11 @@ public class EditMenu extends JMenu
                 if (selNodes.size() != 1) {
                     return;
                 }
+				
+				//Check if selected node is parseable
                 if (selNodes.get(0) instanceof IJavaParseable) {
-					new ImportClassHandler((IJavaParseable)selNodes.get(0));
+					//Present user with import dialog
+					new ImportClassHandler((IJavaParseable)selNodes.get(0)).show();
 					
 					//Force update
 					INode edited = selNodes.get(0);
@@ -265,11 +268,15 @@ public class EditMenu extends JMenu
                 if (selNodes.size() != 1) {
                     return;
                 }
+				
+				//Check if selected node is parseable
                 if (selNodes.get(0) instanceof IJavaParseable) {
 					INode edited		 = selNodes.get(0);
 					IJavaParseable jEdit = (IJavaParseable)selNodes.get(0);
 					
+					//Check if it has a file reference
 					if (jEdit.getFileReference() != null) {
+						//It does so reparse the file
 						jEdit.parseAndPopulate();
 						
 						//Force update
@@ -286,12 +293,16 @@ public class EditMenu extends JMenu
 			public void actionPerformed(ActionEvent e) {
 				IEditorPart editorPart = getActiveEditorPart();
 				IEditorPartBehaviorManager behaviorManager = editorPart.getBehaviorManager();
-				Collection<INode> graphNodes = editorPart.getGraph().getAllNodes();
 				
+				//Get all the nodes in the current graph
+				Collection<INode> graphNodes = editorPart.getGraph().getAllNodes();
 				for (INode node : graphNodes) {
+					//Find the parseable nodes
 					if (node instanceof IJavaParseable) {
+						//Reparse their files
 						((IJavaParseable)(node)).parseAndPopulate();
 				
+						//Force an update
 						behaviorManager.fireAfterEditingNode(node);
 					}
 				}

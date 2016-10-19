@@ -191,8 +191,11 @@ public class ShowMenuOnRightClickBehavior extends AbstractEditorPartBehavior
                 if (selNodes.size() != 1) {
                     return;
                 }
+				
+				//Check if selected node is parseable
                 if (selNodes.get(0) instanceof IJavaParseable) {
-					new ImportClassHandler((IJavaParseable)selNodes.get(0));
+					//Present user with import dialog
+					new ImportClassHandler((IJavaParseable)selNodes.get(0)).show();
 					
 					//Force update
 					INode edited = selNodes.get(0);
@@ -211,11 +214,15 @@ public class ShowMenuOnRightClickBehavior extends AbstractEditorPartBehavior
                 if (selNodes.size() != 1) {
                     return;
                 }
+				
+				//Check if selected node is parseable
                 if (selNodes.get(0) instanceof IJavaParseable) {
 					INode edited		 = selNodes.get(0);
 					IJavaParseable jEdit = (IJavaParseable)selNodes.get(0);
 					
+					//Check if it has a file reference
 					if (jEdit.getFileReference() != null) {
+						//It does so reparse the file
 						jEdit.parseAndPopulate();
 						
 						//Force update
