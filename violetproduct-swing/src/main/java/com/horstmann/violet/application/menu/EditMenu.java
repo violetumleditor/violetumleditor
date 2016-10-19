@@ -238,22 +238,24 @@ public class EditMenu extends JMenu
 		mImportFromFile.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				IEditorPart editorPart = getActiveEditorPart();
-				List<INode> selNodes = editorPart.getSelectedNodes();
-				IEditorPartBehaviorManager behaviorManager = editorPart.getBehaviorManager();
-                if (selNodes.size() != 1) {
-                    return;
-                }
-				
-				//Check if selected node is parseable
-                if (selNodes.get(0) instanceof IJavaParseable) {
-					//Present user with import dialog
-					new ImportClassHandler((IJavaParseable)selNodes.get(0)).show();
-					
-					//Force update
-					INode edited = selNodes.get(0);
-					behaviorManager.fireAfterEditingNode(edited);
-					editorPart.getSwingComponent().invalidate();
+				if (isThereAnyWorkspaceDisplayed()) {
+					IEditorPart editorPart = getActiveEditorPart();
+					List<INode> selNodes = editorPart.getSelectedNodes();
+					IEditorPartBehaviorManager behaviorManager = editorPart.getBehaviorManager();
+					if (selNodes.size() != 1) {
+						return;
+					}
+
+					//Check if selected node is parseable
+					if (selNodes.get(0) instanceof IJavaParseable) {
+						//Present user with import dialog
+						new ImportClassHandler((IJavaParseable)selNodes.get(0)).show();
+
+						//Force update
+						INode edited = selNodes.get(0);
+						behaviorManager.fireAfterEditingNode(edited);
+						editorPart.getSwingComponent().invalidate();
+					}
 				}
 			}
 		});
@@ -262,26 +264,28 @@ public class EditMenu extends JMenu
 		mRefreshImport.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				IEditorPart editorPart = getActiveEditorPart();
-				List<INode> selNodes = editorPart.getSelectedNodes();
-				IEditorPartBehaviorManager behaviorManager = editorPart.getBehaviorManager();
-                if (selNodes.size() != 1) {
-                    return;
-                }
-				
-				//Check if selected node is parseable
-                if (selNodes.get(0) instanceof IJavaParseable) {
-					INode edited		 = selNodes.get(0);
-					IJavaParseable jEdit = (IJavaParseable)selNodes.get(0);
-					
-					//Check if it has a file reference
-					if (jEdit.getFileReference() != null) {
-						//It does so reparse the file
-						jEdit.parseAndPopulate();
-						
-						//Force update
-						behaviorManager.fireAfterEditingNode(edited);
-						editorPart.getSwingComponent().invalidate();
+				if (isThereAnyWorkspaceDisplayed()) {
+					IEditorPart editorPart = getActiveEditorPart();
+					List<INode> selNodes = editorPart.getSelectedNodes();
+					IEditorPartBehaviorManager behaviorManager = editorPart.getBehaviorManager();
+					if (selNodes.size() != 1) {
+						return;
+					}
+
+					//Check if selected node is parseable
+					if (selNodes.get(0) instanceof IJavaParseable) {
+						INode edited		 = selNodes.get(0);
+						IJavaParseable jEdit = (IJavaParseable)selNodes.get(0);
+
+						//Check if it has a file reference
+						if (jEdit.getFileReference() != null) {
+							//It does so reparse the file
+							jEdit.parseAndPopulate();
+
+							//Force update
+							behaviorManager.fireAfterEditingNode(edited);
+							editorPart.getSwingComponent().invalidate();
+						}
 					}
 				}
 			}
@@ -291,19 +295,21 @@ public class EditMenu extends JMenu
 		mRefreshAllImports.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				IEditorPart editorPart = getActiveEditorPart();
-				IEditorPartBehaviorManager behaviorManager = editorPart.getBehaviorManager();
-				
-				//Get all the nodes in the current graph
-				Collection<INode> graphNodes = editorPart.getGraph().getAllNodes();
-				for (INode node : graphNodes) {
-					//Find the parseable nodes
-					if (node instanceof IJavaParseable) {
-						//Reparse their files
-						((IJavaParseable)(node)).parseAndPopulate();
-				
-						//Force an update
-						behaviorManager.fireAfterEditingNode(node);
+				if (isThereAnyWorkspaceDisplayed()) {
+					IEditorPart editorPart = getActiveEditorPart();
+					IEditorPartBehaviorManager behaviorManager = editorPart.getBehaviorManager();
+
+					//Get all the nodes in the current graph
+					Collection<INode> graphNodes = editorPart.getGraph().getAllNodes();
+					for (INode node : graphNodes) {
+						//Find the parseable nodes
+						if (node instanceof IJavaParseable) {
+							//Reparse their files
+							((IJavaParseable)(node)).parseAndPopulate();
+
+							//Force an update
+							behaviorManager.fireAfterEditingNode(node);
+						}
 					}
 				}
 			}
