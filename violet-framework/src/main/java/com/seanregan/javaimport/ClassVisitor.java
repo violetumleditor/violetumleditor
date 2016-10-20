@@ -1,6 +1,7 @@
 package com.seanregan.javaimport;
 
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
@@ -98,7 +99,7 @@ public class ClassVisitor extends VoidVisitorAdapter {
 		//Parent is a class or interface
 		if (n.getParentNode() instanceof ClassOrInterfaceDeclaration) {
 			cOID = ((ClassOrInterfaceDeclaration)n.getParentNode());
-			String className = cOID.getName();
+			String className = getFullClassName(cOID);
 			
 			//Get the ArrayList<String> for methods that belongs to this class
 			methods = getClassArray(className, mMethodHash);
@@ -133,7 +134,7 @@ public class ClassVisitor extends VoidVisitorAdapter {
 		
 		//Parent is a class or interface
 		if (n.getParentNode() instanceof ClassOrInterfaceDeclaration) {
-			String className = ((ClassOrInterfaceDeclaration)n.getParentNode()).getName();
+			String className = getFullClassName(n.getParentNode());
 
 			//Get the ArrayList<String> for attributes that belongs to this class
 			attributes = getClassArray(className, mAttributesHash);
@@ -153,6 +154,40 @@ public class ClassVisitor extends VoidVisitorAdapter {
 		super.visit(n, arg);
 	}
 
+	/**
+	 * Gets the full class name for a class using dot notation
+	 * @param startNode the node to start the upward recursive search from
+	 * @return a String containing the full class name of the class
+	 */
+	private String getFullClassName(Node startNode) {
+		return getFullClassName(startNode, "");
+	}
+	
+	/**
+	 * Gets the full class name for a class using dot notation
+	 * @param startNode the node to start the upward recursive search from
+	 * @param curString the String to begin concatenation with
+	 * @return a String containing the full class name of the class
+	 */
+	private String getFullClassName(Node startNode, String curString) {
+		if (startNode instanceof CompilationUnit) {
+			//Base case - end of classes
+			return curString;
+		} else {
+			
+			//Add class to the current string
+			String dot = ".";
+			if (curString.compareTo("") == 0) dot = "";
+			if (startNode instanceof ClassOrInterfaceDeclaration) {
+				curString = ((ClassOrInterfaceDeclaration) startNode).getName() + dot + curString;
+			}
+			
+			//Recurse upwards
+			startNode = startNode.getParentNode();
+			return getFullClassName(startNode, curString);
+		}
+	}
+	
 	/**
 	 * Gets the ArrayList<String> that belongs to the specified ClassName
 	 * for the specified type
