@@ -35,13 +35,13 @@ public interface IEditorPart
     /**
      * Clears node and edges selection
      */
-    public void clearSelection();
+    public abstract void clearSelection();
     
     /**
      * Selects a node_old
      * @param node
      */
-    public void selectElement(INode node);
+    public abstract void selectElement(INode node);
 
     /**
      * Changes the zoom of this editor. The zoom is 1 by default and is multiplied by sqrt(2) for each positive stem or divided by
@@ -54,37 +54,37 @@ public interface IEditorPart
     /**
      * @return current zoom factor
      */
-    public double getZoomFactor();
+    public abstract double getZoomFactor();
     
     /**
      * @return the grid used to keep elements aligned
      */
-    public IGrid getGrid();
+    public abstract IGrid getGrid();
     
     /**
      * Grows drawing area
      */
-    public void growDrawingArea();
+    public abstract void growDrawingArea();
     
     /**
      * Clips drawing area
      */
-    public void clipDrawingArea();
+    public abstract void clipDrawingArea();
 
     /**
      * @return the awt object displaying this editor part
      */
-    public JComponent getSwingComponent();
+    public abstract JComponent getSwingComponent();
     
     /**
      * @return object that manages node and edges selection
      */
-    public IEditorPartSelectionHandler getSelectionHandler();
+    public abstract IEditorPartSelectionHandler getSelectionHandler();
     
     /**
      * @return manager used to declare new editor behaviors and how to send events between behaviors
      */
-    public IEditorPartBehaviorManager getBehaviorManager();
+    public abstract IEditorPartBehaviorManager getBehaviorManager();
     
    
 

@@ -111,7 +111,7 @@ public class GraphToolsBarPanel extends JPanel
 
 
 
-
+/*
 
     public void selectNextButton()
     {
@@ -142,7 +142,7 @@ public class GraphToolsBarPanel extends JPanel
             return;
         }
     }
-
+*/
 
 
 
@@ -177,9 +177,6 @@ public class GraphToolsBarPanel extends JPanel
             return;
         }
     }
-
-
-
 
 
 

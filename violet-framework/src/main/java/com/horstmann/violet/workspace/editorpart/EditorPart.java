@@ -59,6 +59,7 @@ public class EditorPart extends JPanel implements IEditorPart
         this.zoom = 1;
         this.grid = new PlainGrid(this);
         this.graph.setGridSticker(grid.getGridSticker());
+        
         addMouseListener(new MouseAdapter()
         {
 
@@ -100,6 +101,7 @@ public class EditorPart extends JPanel implements IEditorPart
                 behaviorManager.fireOnMouseMoved(event);
             }
         });
+        
         setBounds(0, 0, 0, 0);
         setDoubleBuffered(false);
     }

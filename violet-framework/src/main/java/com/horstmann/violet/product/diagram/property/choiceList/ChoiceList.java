@@ -81,7 +81,7 @@ public abstract class ChoiceList<K, V> implements Cloneable
      */
     public boolean setSelectedIndex(int index)
     {
-        if(0>index || keys.length <= index)
+        if(index < 0 || keys.length <= index)
         {
             return false;
         }
