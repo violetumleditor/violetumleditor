@@ -19,9 +19,10 @@ import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 /**
  * A class node in a class diagram.
  */
-public class ClassNode extends ColorableNode
-{
-	/**
+public class ClassNode extends ColorableNode {
+    public static boolean nameChange = false;
+
+    /**
      * Construct a class node with a default size
      */
     public ClassNode()
@@ -127,9 +128,25 @@ public class ClassNode extends ColorableNode
      * 
      * @param newValue the class name
      */
-    public void setName(LineText newValue)
-    {
-        name.setText(newValue);
+    public void setName(LineText newValue) {
+        if (nameChange == true) {
+
+            toBigLetter(newValue);
+        }
+        else {
+            name.setText(newValue);
+        }
+    }
+
+    /**
+     * Sets the name from big letter.
+     *
+     * @param newValue the class name
+     */
+    public void toBigLetter(LineText newValue) {
+        String newName = getName().toString().substring(0, 1).toUpperCase()
+                + getName().toString().substring(1).toLowerCase();
+        name.setText(newName);
     }
 
     /**

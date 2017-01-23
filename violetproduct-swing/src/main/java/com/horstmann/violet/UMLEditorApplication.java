@@ -29,6 +29,7 @@ import java.util.Locale;
 
 import com.horstmann.violet.application.gui.MainFrame;
 import com.horstmann.violet.application.gui.SplashScreen;
+import com.horstmann.violet.application.menu.SettingProperties;
 import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.dialog.DialogFactoryMode;
 import com.horstmann.violet.framework.file.GraphFile;
@@ -108,7 +109,17 @@ public class UMLEditorApplication
         BeanInjector.getInjector().inject(this);
         createDefaultWorkspace(filesToOpen);
     }
-    
+
+    /**
+     * Load properties from file, and set locale
+     */
+    private void loadPropertiesFromFile() {
+        SettingProperties settingProperties = new SettingProperties();
+    }
+
+    /**
+     * Initialize theme
+     */
     private static void initBeanFactory() {
         IUserPreferencesDao userPreferencesDao = new DefaultUserPreferencesDao();
         BeanFactory.getFactory().register(IUserPreferencesDao.class, userPreferencesDao);
