@@ -10,6 +10,7 @@ import com.horstmann.violet.product.diagram.classes.edge.*;
 import com.horstmann.violet.product.diagram.classes.node.*;
 
 import com.horstmann.violet.product.diagram.common.edge.NoteEdge;
+import com.horstmann.violet.product.diagram.common.node.ConstraintNode;
 import com.horstmann.violet.product.diagram.common.node.NoteNode;
 
 /**
@@ -33,7 +34,8 @@ public class ClassDiagramGraph extends AbstractGraph
             new EnumNode(),
             new PackageNode(),
             new BallAndSocketNode(),
-            new NoteNode()
+            new NoteNode(),
+            new ConstraintNode()
     ));
 
     private static final List<IEdge> EDGE_PROTOTYPES = new ArrayList<IEdge>(Arrays.asList(

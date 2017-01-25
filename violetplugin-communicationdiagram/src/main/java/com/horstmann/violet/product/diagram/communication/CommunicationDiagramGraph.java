@@ -7,6 +7,7 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 
 import com.horstmann.violet.product.diagram.common.edge.NoteEdge;
+import com.horstmann.violet.product.diagram.common.node.ConstraintNode;
 import com.horstmann.violet.product.diagram.common.node.NoteNode;
 import com.horstmann.violet.product.diagram.communication.edge.DirectionEdge;
 import com.horstmann.violet.product.diagram.communication.node.ActorNode;
@@ -33,7 +34,8 @@ public class CommunicationDiagramGraph extends AbstractGraph
     private static final List<INode> NODE_PROTOTYPES = new ArrayList<INode>(Arrays.asList(
             new ObjectCommuNode(),
             new ActorNode(),
-            new NoteNode()
+            new NoteNode(),
+            new ConstraintNode()
     ));
 
     private static final List<IEdge> EDGE_PROTOTYPES = new ArrayList<IEdge>(Arrays.asList(
