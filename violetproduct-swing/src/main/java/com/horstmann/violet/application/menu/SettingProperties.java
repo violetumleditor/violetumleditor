@@ -3,7 +3,6 @@ package com.horstmann.violet.application.menu;
 import com.horstmann.violet.product.diagram.classes.node.ClassNode;
 
 import java.io.*;
-import java.util.Locale;
 import java.util.Properties;
 
 /**
@@ -13,27 +12,37 @@ public class SettingProperties {
 
     private static final File propertiesFile = new File(System.getProperty("user.home") + File.separator + "user.properties");
     private static final String classNameProperties = "StartFromBig";
-    private String selectedClassName = "disabled";
+    private String selectedClassNameOption = "disabled";
 
+    /**
+     * Default constructor
+     */
     public SettingProperties() {
         if (IsPropertiesFileExist()) {
             loadProperties();
 
-            if (getSelectedClassName().equals("enabled")) {
-                ClassNode.nameChange = true;
+            if (getSelectedClassNameOption().equals("enabled")) {
+                ClassNode.classNameChange = true;
             }
         }
 
     }
 
-
-
-    public String getSelectedClassName() {
-        return selectedClassName;
+    /**
+     * Get classname option
+     *
+     * @return selected option
+     */
+    public String getSelectedClassNameOption() {
+        return selectedClassNameOption;
     }
 
-    public void setSelectedClassName(String selectedClassName) {
-        this.selectedClassName = selectedClassName;
+    /**
+     * Set classname option
+     * @param selectedClassNameOption
+     */
+    public void setSelectedClassNameOption(String selectedClassNameOption) {
+        this.selectedClassNameOption = selectedClassNameOption;
     }
 
     /**
@@ -62,7 +71,7 @@ public class SettingProperties {
     }
 
     /**
-     * Save properties
+     * Save properties to variables
      */
     public void savePropertiesToFile() {
 
@@ -70,7 +79,7 @@ public class SettingProperties {
             try {
                 Properties props = new Properties();
                 OutputStream out = new FileOutputStream(propertiesFile);
-                props.setProperty(classNameProperties, selectedClassName);
+                props.setProperty(classNameProperties, selectedClassNameOption);
                 props.store(out, "User properties");
                 out.close();
 
@@ -84,17 +93,17 @@ public class SettingProperties {
     }
 
     /**
-     * Load properties
+     * Load properties from File
      */
     public void loadProperties() {
 
         try {
 
             Properties props = new Properties();
-            InputStream in = new FileInputStream(propertiesFile);
-            props.load(in);
-            selectedClassName = props.getProperty(classNameProperties);
-            in.close();
+            InputStream inputStream = new FileInputStream(propertiesFile);
+            props.load(inputStream);
+            selectedClassNameOption = props.getProperty(classNameProperties);
+            inputStream.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

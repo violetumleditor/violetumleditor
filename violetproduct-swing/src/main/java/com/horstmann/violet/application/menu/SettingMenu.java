@@ -53,29 +53,32 @@ public class SettingMenu extends JMenu {
      * Initialize the menu
      */
     private void createMenu() {
-     
-        classNameJBox.addActionListener(new ActionListener() {
+
+        changeClassNameJBox.addActionListener(new ActionListener() {
                                             @Override
                                             public void actionPerformed(ActionEvent e) {
-                                                if (classNameJBox.isSelected()) {
+                                                if (changeClassNameJBox.isSelected()) {
 
-                                                    ClassNode.nameChange = true;
-                                                    settingProperties.setSelectedClassName("enabled");
+                                                    ClassNode.classNameChange = true;
+                                                    settingProperties.setSelectedClassNameOption("enabled");
                                                     settingProperties.savePropertiesToFile();
+
                                                 } else {
 
-                                                    ClassNode.nameChange = false;
-                                                    settingProperties.setSelectedClassName("disabled");
+                                                    ClassNode.classNameChange = false;
+                                                    settingProperties.setSelectedClassNameOption("disabled");
                                                     settingProperties.savePropertiesToFile();
                                                 }
                                             }
                                         }
         );
-        if (settingProperties.getSelectedClassName().equals("enabled")) {
 
-            classNameJBox.setSelected(true);
+        if (settingProperties.getSelectedClassNameOption().equals("enabled")) {
+
+            changeClassNameJBox.setSelected(true);
         }
-        this.add(classNameJBox);
+
+        this.add(changeClassNameJBox);
     }
 
     /**
@@ -89,6 +92,6 @@ public class SettingMenu extends JMenu {
     private SettingProperties settingProperties = new SettingProperties();
 
     @ResourceBundleBean(key = "setting.dialog.name.class")
-    private JCheckBoxMenuItem classNameJBox;
+    private JCheckBoxMenuItem changeClassNameJBox;
 
 }
