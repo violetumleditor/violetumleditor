@@ -188,8 +188,8 @@ public class SwingRepaintingBehavior implements IEditorPartBehavior
     @Override
     public void afterChangingColorOnElement(IColorable element)
     {
-        // TODO Auto-generated method stub
-        
+    	this.editorPart.getSwingComponent().invalidate();
+        this.editorPart.getSwingComponent().repaint();
     }
 
    

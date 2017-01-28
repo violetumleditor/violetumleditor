@@ -78,11 +78,11 @@ public class LabeledLineEdge extends ArrowheadEdge
 	}
 	
 	@Override
-	public void setTextColor(Color textColor) {
-		super.setTextColor(textColor);
-		startLabel.setTextColor(textColor);
-		centerLabel.setTextColor(textColor);
-		endLabel.setTextColor(textColor);
+	public void setBorderColor(Color borderColor) {
+		super.setBorderColor(borderColor);
+		startLabel.setTextColor(borderColor);
+		centerLabel.setTextColor(borderColor);
+		endLabel.setTextColor(borderColor);
 	}
     
     @Override
@@ -100,9 +100,12 @@ public class LabeledLineEdge extends ArrowheadEdge
     public void draw(Graphics2D graphics)
     {
         super.draw(graphics);
+        //Color oldColor = graphics.getColor();
+        //graphics.setColor(getBorderColor());
         drawContent(graphics, startTextContent, contactPoints[0], contactPoints[1], false);
         drawContent(graphics, centerTextContent, contactPoints[contactPoints.length/2-1], contactPoints[contactPoints.length/2], true);
         drawContent(graphics, endTextContent, contactPoints[contactPoints.length-1], contactPoints[contactPoints.length-2], false);
+        //graphics.setColor(oldColor);
     }
 
     private void drawContent(Graphics2D graphics, TextContent textContent, Point2D startPoint, Point2D endPoint, boolean center)

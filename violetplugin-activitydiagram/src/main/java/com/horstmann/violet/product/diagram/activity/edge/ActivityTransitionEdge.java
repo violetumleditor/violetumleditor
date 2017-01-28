@@ -42,7 +42,7 @@ public class ActivityTransitionEdge extends LabeledLineEdge
     {
         super();
         setStartArrowhead(ArrowheadChoiceList.NONE);
-        setEndArrowhead(ArrowheadChoiceList.V);
+        setEndArrowhead(ArrowheadChoiceList.TRIANGLE_BLACK);
         setLineStyle(LineStyleChoiceList.SOLID);
         setBentStyle(BentStyle.AUTO);
     }
@@ -57,7 +57,7 @@ public class ActivityTransitionEdge extends LabeledLineEdge
     {
         super.beforeReconstruction();
         setStartArrowhead(ArrowheadChoiceList.NONE);
-        setEndArrowhead(ArrowheadChoiceList.V);
+        setEndArrowhead(ArrowheadChoiceList.TRIANGLE_BLACK);
         setLineStyle(LineStyleChoiceList.SOLID);
     }
 

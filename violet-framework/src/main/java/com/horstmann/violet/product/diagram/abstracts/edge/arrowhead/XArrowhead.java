@@ -31,4 +31,9 @@ public class XArrowhead extends Arrowhead
 
         return path;
     }
+    
+    @Override
+    public Arrowhead clone() {
+    	return new XArrowhead();
+    }
 }

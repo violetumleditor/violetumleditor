@@ -112,7 +112,7 @@ public abstract class ChoiceList<K, V> implements Cloneable
      */
     public V getSelectedValue()
     {
-        return values[selectedPos];
+    	return values[selectedPos];
     }
 
     /**
