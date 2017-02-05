@@ -21,19 +21,21 @@
 
 package com.horstmann.violet.product.diagram.state.node;
 
-import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import com.horstmann.violet.framework.graphics.content.*;
+import com.horstmann.violet.framework.graphics.content.ContentBackground;
+import com.horstmann.violet.framework.graphics.content.ContentBorder;
+import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
+import com.horstmann.violet.framework.graphics.content.TextContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.common.node.ColorableNode;
+import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.property.text.SingleLineText;
+import com.horstmann.violet.product.diagram.property.text.MultiLineText;
 import com.horstmann.violet.product.diagram.state.StateDiagramConstant;
 
 /**
@@ -47,15 +49,31 @@ public class DecisionNode extends ColorableNode
     public DecisionNode()
     {
         super();
+        condition = new MultiLineText();
         createContentStructure();
     }
 
     protected DecisionNode(DecisionNode node) throws CloneNotSupportedException
     {
         super(node);
+        condition = new MultiLineText();
         createContentStructure();
     }
 
+    @Override
+    protected void beforeReconstruction()
+    {
+        super.beforeReconstruction();
+
+        if(null == condition)
+        {
+        	condition = new MultiLineText();
+        }
+        condition.reconstruction();
+    }
+
+    
+    
     @Override
     protected INode copy() throws CloneNotSupportedException
     {
@@ -65,11 +83,12 @@ public class DecisionNode extends ColorableNode
     @Override
     protected void createContentStructure()
     {
-        EmptyContent content = new EmptyContent();
-        content.setMinHeight(DEFAULT_HEIGHT);
-        content.setMinWidth(DEFAULT_WIDTH);
+    	TextContent conditionContent = new TextContent(condition);
+        conditionContent.setMinHeight(DEFAULT_HEIGHT);
+        conditionContent.setMinWidth(DEFAULT_WIDTH);
 
-        ContentInsideShape contentInsideShape = new ContentInsideCustomShape(content, new ContentInsideCustomShape.ShapeCreator() {
+
+        ContentInsideShape contentInsideShape = new ContentInsideCustomShape(conditionContent, new ContentInsideCustomShape.ShapeCreator() {
             @Override
             public Shape createShape(double contentWidth, double contentHeight) {
                 double width = contentWidth + contentHeight * Math.sqrt(3);
@@ -139,6 +158,35 @@ public class DecisionNode extends ColorableNode
     {
         return edge.getEndNode() != null && this != edge.getEndNode();
     }
+    
+    
+    
+    
+    /**
+     * Sets the condition property value.
+     * 
+     * @param newValue the branch condition
+     */
+    public void setCondition(MultiLineText newValue)
+    {
+        condition.setText(newValue.toEdit());
+    }
+
+    /**
+     * Gets the condition property value.
+     * 
+     * @return the branch condition
+     */
+    public MultiLineText getCondition()
+    {
+        return condition;
+    }
+
+    /**
+     * @see java.lang.Object#clone()
+     */
+
+    private MultiLineText condition;
 
     private static int DEFAULT_WIDTH = 30;
     private static int DEFAULT_HEIGHT = 20;

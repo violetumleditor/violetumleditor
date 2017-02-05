@@ -11,13 +11,10 @@ import java.awt.geom.Rectangle2D;
  */
 public interface IResizableNode
 {
-    void setExtraWidth(int width);
+    
+	
+	void setWantedSize(Rectangle2D size);
 
-    int getExtraWidth();
-
-    void setExtraHeight(int height);
-
-    int getExtraHeight();
 
     
     /**

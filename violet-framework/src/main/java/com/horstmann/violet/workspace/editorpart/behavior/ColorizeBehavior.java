@@ -2,8 +2,8 @@ package com.horstmann.violet.workspace.editorpart.behavior;
 
 import java.util.List;
 
-import com.horstmann.violet.product.diagram.abstracts.IColorable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.IColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
@@ -26,14 +26,14 @@ public class ColorizeBehavior extends AbstractEditorPartBehavior
                 List<INode> selectedNodes = workspace.getEditorPart().getSelectedNodes();
                 List<IEdge> selectedEdges = workspace.getEditorPart().getSelectedEdges();
             	for (INode node : selectedNodes) {
-            		if (node != null && IColorable.class.isInstance(node)) {
-                    	IColorable colorableElement = (IColorable) node;
+            		if (node != null && IColorableNode.class.isInstance(node)) {
+                    	IColorableNode colorableElement = (IColorableNode) node;
                     	updateColor(colorableElement, newColorChoice);
             		}
             	}
             	for (IEdge edge : selectedEdges) {
-            		if (edge != null && IColorable.class.isInstance(edge)) {
-                    	IColorable colorableElement = (IColorable) edge;
+            		if (edge != null && IColorableNode.class.isInstance(edge)) {
+                    	IColorableNode colorableElement = (IColorableNode) edge;
                     	updateColor(colorableElement, newColorChoice);
             		}
             	}
@@ -42,7 +42,7 @@ public class ColorizeBehavior extends AbstractEditorPartBehavior
     }
     
     
-    private void updateColor(IColorable colorableElement, ColorChoice currentColorChoice) {
+    private void updateColor(IColorableNode colorableElement, ColorChoice currentColorChoice) {
     	this.behaviorManager.fireBeforeChangingColorOnElement(colorableElement);
         colorableElement.setBackgroundColor(currentColorChoice.getBackgroundColor());
         colorableElement.setBorderColor(currentColorChoice.getBorderColor());

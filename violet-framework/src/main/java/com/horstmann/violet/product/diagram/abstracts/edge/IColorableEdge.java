@@ -1,8 +1,8 @@
-package com.horstmann.violet.product.diagram.abstracts;
+package com.horstmann.violet.product.diagram.abstracts.edge;
 
 import java.awt.Color;
 
-public interface IColorable
+public interface IColorableEdge
 {
 
     void setBackgroundColor(Color bgColor);
