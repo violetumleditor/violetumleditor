@@ -21,20 +21,22 @@
 
 package com.horstmann.violet.product.diagram.common.node;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Shape;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Rectangle2D;
-
-import com.horstmann.violet.framework.graphics.content.*;
+import com.horstmann.violet.framework.graphics.content.ContentBackground;
+import com.horstmann.violet.framework.graphics.content.ContentBorder;
+import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
+import com.horstmann.violet.framework.graphics.content.TextContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
 import com.horstmann.violet.framework.theme.ThemeManager;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.MultiLineText;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
+
+import java.awt.*;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Rectangle2D;
 
 /**
  * A note node_old in a UML diagram.
@@ -140,10 +142,20 @@ public class NoteNode extends ColorableNode
         return ResourceBundleConstant.NODE_AND_EDGE_RESOURCE.getString("note_node.tooltip");
     }
 
+    @Override
+    public LineText getName() {
+        return text;
+    }
 
+    @Override
+    public LineText getAttributes() {
+        return null;
+    }
 
-
-
+    @Override
+    public LineText getMethods() {
+        return null;
+    }
 
 
     @Override

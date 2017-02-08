@@ -21,21 +21,21 @@
 
 package com.horstmann.violet.product.diagram.state.node;
 
-import java.awt.Color;
-
 import com.horstmann.violet.framework.graphics.Separator;
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRoundRectangle;
-import com.horstmann.violet.product.diagram.property.text.decorator.OneLineText;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.MultiLineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 import com.horstmann.violet.product.diagram.property.text.decorator.BoldDecorator;
+import com.horstmann.violet.product.diagram.property.text.decorator.OneLineText;
 import com.horstmann.violet.product.diagram.property.text.decorator.PrefixDecorator;
 import com.horstmann.violet.product.diagram.state.StateDiagramConstant;
+
+import java.awt.*;
 
 /**
  * A node_old in a state diagram.
@@ -175,9 +175,19 @@ public class StateNode extends ColorableNode
     /**
      * Gets the name property value.
      */
-    public SingleLineText getName()
+    public LineText getName()
     {
         return name;
+    }
+
+    @Override
+    public LineText getAttributes() {
+        return onEntry;
+    }
+
+    @Override
+    public LineText getMethods() {
+        return onExit;
     }
 
     /**
@@ -196,7 +206,7 @@ public class StateNode extends ColorableNode
      *
      * @return the entry action
      */
-    public MultiLineText getOnEntry()
+    public LineText getOnEntry()
     {
         return onEntry;
     }
@@ -217,7 +227,7 @@ public class StateNode extends ColorableNode
      *
      * @return the exit action name
      */
-    public MultiLineText getOnExit()
+    public LineText getOnExit()
     {
         return onExit;
     }

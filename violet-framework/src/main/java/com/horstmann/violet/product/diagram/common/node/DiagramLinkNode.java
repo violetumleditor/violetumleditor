@@ -21,17 +21,17 @@
 
 package com.horstmann.violet.product.diagram.common.node;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
+import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
+import com.horstmann.violet.product.diagram.common.DiagramLink;
+import com.horstmann.violet.product.diagram.property.text.LineText;
+import com.horstmann.violet.product.diagram.property.text.MultiLineText;
+
+import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
-import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
-import com.horstmann.violet.product.diagram.property.text.MultiLineText;
-import com.horstmann.violet.product.diagram.common.DiagramLink;
 
 /**
  * An link node_old in a diagram.
@@ -53,7 +53,22 @@ public class DiagramLinkNode extends ColorableNode
 //        return ResourceBundleConstant.NODE_AND_EDGE_RESOURCE.getString("note_node.tooltip");
         return "DiagramLinkNode";
     }
-    
+
+    @Override
+    public LineText getName() {
+        return label;
+    }
+
+    @Override
+    public LineText getAttributes() {
+        return label;
+    }
+
+    @Override
+    public LineText getMethods() {
+        return label;
+    }
+
     @Override
     public Rectangle2D getBounds()
     {
@@ -155,7 +170,7 @@ public class DiagramLinkNode extends ColorableNode
         }
         return this.label;
     }
-    
+
     /** Label */
     private MultiLineText label;
 

@@ -28,8 +28,7 @@ public class OneLineText implements Serializable, Cloneable, EditableText
      */
     public OneLineText clone()
     {
-        OneLineText cloned = new OneLineText(text);
-        return cloned;
+        return new OneLineText(text);
     }
 
     /**

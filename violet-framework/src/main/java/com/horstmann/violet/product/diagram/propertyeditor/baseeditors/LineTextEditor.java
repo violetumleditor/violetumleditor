@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.horstmann.violet.product.diagram.propertyeditor.baseeditors;
 
@@ -11,8 +11,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.beans.PropertyEditorSupport;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public abstract class LineTextEditor extends PropertyEditorSupport
 {

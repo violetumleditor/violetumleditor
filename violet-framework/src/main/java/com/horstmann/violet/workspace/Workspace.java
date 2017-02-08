@@ -21,12 +21,6 @@
 
 package com.horstmann.violet.workspace;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
-
 import com.horstmann.violet.framework.file.IFile;
 import com.horstmann.violet.framework.file.IGraphFile;
 import com.horstmann.violet.framework.file.IGraphFileListener;
@@ -39,42 +33,29 @@ import com.horstmann.violet.product.diagram.abstracts.Id;
 import com.horstmann.violet.workspace.editorpart.EditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
-import com.horstmann.violet.workspace.editorpart.behavior.AddEdgeBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.AddNodeBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.AddTransitionPointBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.ChangeToolByWeelBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.ColorizeBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.CutCopyPasteBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.DragGraphBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.DragSelectedBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.DragTransitionPointBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.EditSelectedBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.FileCouldBeSavedBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.ResizeNodeBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.SelectAllBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.SelectByClickBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.SelectByDistanceBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.SelectByLassoBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.ShowMenuOnRightClickBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.SwingRepaintingBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.UndoRedoCompoundBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.ZoomByWheelBehavior;
+import com.horstmann.violet.workspace.editorpart.behavior.*;
 import com.horstmann.violet.workspace.sidebar.ISideBar;
 import com.horstmann.violet.workspace.sidebar.SideBar;
 import com.horstmann.violet.workspace.sidebar.graphtools.GraphTool;
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBarListener;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 /**
  * Diagram workspace. It is a kind of package composed by a diagram put in a scroll panel, a side bar for tools and a status bar.
  * This the class to use when you want to work with diagrams outside from Violet (in Eclipse or NetBeans for example)
- * 
+ *
  * @author Alexandre de Pellegrin
  */
 public class Workspace implements IWorkspace
 {
     /**
      * Constructs a diagram panel with the specified graph
-     * 
+     *
      * @param graphFile
      */
     public Workspace(IGraphFile graphFile)
@@ -85,7 +66,7 @@ public class Workspace implements IWorkspace
 
     /**
      * Constructs a diagram panel with the specified graph and a specified id
-     * 
+     *
      * @param graphFile
      * @param id unique id
      */
@@ -116,7 +97,7 @@ public class Workspace implements IWorkspace
         });
         getAWTComponent().prepareLayout();
     }
-    
+
     /**
      * @return graph filename or the corresponding diagram name if the graph <br/>
      * hasn't been saved yet.
@@ -137,8 +118,8 @@ public class Workspace implements IWorkspace
        }
        return resourceBundle.getString("workspace.unknown");
     }
-    
-    
+
+
     @Override
     public IGraphFile getGraphFile() {
         return this.graphFile;
@@ -171,6 +152,7 @@ public class Workspace implements IWorkspace
             behaviorManager.addBehavior(new CutCopyPasteBehavior(this.graphEditor));
             behaviorManager.addBehavior(new SwingRepaintingBehavior(this.graphEditor));
             behaviorManager.addBehavior(new ColorizeBehavior(this, this.getSideBar().getColorChoiceBar()));
+            behaviorManager.addBehavior(new FindBehavior(this.graphEditor));
         }
         return this.graphEditor;
     }
@@ -209,7 +191,7 @@ public class Workspace implements IWorkspace
 
     /**
      * Fires a event to indicate that the title has been changed
-     * 
+     *
      * @param newTitle
      */
     private void fireTitleChanged(String newTitle)
@@ -228,7 +210,7 @@ public class Workspace implements IWorkspace
 
     /**
      * Set a status indicating that the graph needs to be saved
-     * 
+     *
      * @param isSaveNeeded
      */
     private void updateTitle(boolean isSaveNeeded)
@@ -330,10 +312,10 @@ public class Workspace implements IWorkspace
         }
         return this.workspacePanel;
     }
-    
+
     @Override
     public void setAWTComponent(WorkspacePanel workspacePanel) {
-    	
+
     	this.workspacePanel = workspacePanel;
     }
 
