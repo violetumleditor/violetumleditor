@@ -8,6 +8,7 @@ import com.horstmann.violet.product.diagram.classes.ClassDiagramConstant;
 import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.common.node.PointNode;
 import com.horstmann.violet.product.diagram.property.text.LineText;
+import com.horstmann.violet.product.diagram.abstracts.node.INamedNode;
 import com.horstmann.violet.product.diagram.property.text.MultiLineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 import com.horstmann.violet.product.diagram.property.text.decorator.*;
@@ -18,7 +19,7 @@ import java.awt.geom.Point2D;
 /**
  * An interface node in a class diagram.
  */
-public class InterfaceNode extends ColorableNode
+public class InterfaceNode extends ColorableNode implements INamedNode
 {
     /**
      * Construct an interface node with a default size and the text <<interface>>.

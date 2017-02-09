@@ -7,7 +7,7 @@ import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.classes.ClassDiagramConstant;
 import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.property.text.LineText;
-import com.horstmann.violet.product.diagram.property.text.MultiLineText;
+import com.horstmann.violet.product.diagram.abstracts.node.INamedNode;import com.horstmann.violet.product.diagram.property.text.MultiLineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 import com.horstmann.violet.product.diagram.property.text.decorator.*;
 
@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * A class node in a class diagram.
  */
-public class ClassNode extends ColorableNode
+public class ClassNode extends ColorableNode implements INamedNode
 {
 	/**
      * Construct a class node with a default size
