@@ -36,7 +36,9 @@ import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.behavior.*;
 import com.horstmann.violet.workspace.sidebar.ISideBar;
 import com.horstmann.violet.workspace.sidebar.SideBar;
+import com.horstmann.violet.workspace.sidebar.colortools.IColorChoiceBar;
 import com.horstmann.violet.workspace.sidebar.graphtools.GraphTool;
+import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBar;
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBarListener;
 
 import java.io.File;
@@ -58,7 +60,7 @@ public class Workspace implements IWorkspace
      *
      * @param graphFile
      */
-    public Workspace(IGraphFile graphFile)
+    public Workspace(final IGraphFile graphFile)
     {
         this.graphFile = graphFile;
         init();
@@ -70,7 +72,7 @@ public class Workspace implements IWorkspace
      * @param graphFile
      * @param id unique id
      */
-    public Workspace(IGraphFile graphFile, Id id)
+    public Workspace(final IGraphFile graphFile, final Id id)
     {
         this.graphFile = graphFile;
         this.id = id;
@@ -92,7 +94,7 @@ public class Workspace implements IWorkspace
             public void onFileSaved()
             {
                 setTitle(getGraphName());
-            	updateTitle(false);
+                updateTitle(false);
             }
         });
         getAWTComponent().prepareLayout();
@@ -102,26 +104,28 @@ public class Workspace implements IWorkspace
      * @return graph filename or the corresponding diagram name if the graph <br/>
      * hasn't been saved yet.
      */
-    private String getGraphName() {
-       String filename = this.graphFile.getFilename();
-       if (filename != null) {
-           return filename;
-       }
-       List<IDiagramPlugin> diagramPlugins = this.pluginRegistry.getDiagramPlugins();
-       Class<? extends IGraph> searchedClass = this.graphFile.getGraph().getClass();
-       for (IDiagramPlugin aDiagramPlugin : diagramPlugins)
-       {
-           if (aDiagramPlugin.getGraphClass().equals(searchedClass))
-           {
-               return aDiagramPlugin.getName();
-           }
-       }
-       return resourceBundle.getString("workspace.unknown");
+    private String getGraphName()
+    {
+        final String filename = this.graphFile.getFilename();
+        if (filename != null)
+        {
+            return filename;
+        }
+        final List<IDiagramPlugin> diagramPlugins = this.pluginRegistry.getDiagramPlugins();
+        final Class<? extends IGraph> searchedClass = this.graphFile.getGraph().getClass();
+        for (final IDiagramPlugin aDiagramPlugin : diagramPlugins)
+        {
+            if (aDiagramPlugin.getGraphClass().equals(searchedClass))
+            {
+                return aDiagramPlugin.getName();
+            }
+        }
+        return resourceBundle.getString("workspace.unknown");
     }
 
-
     @Override
-    public IGraphFile getGraphFile() {
+    public IGraphFile getGraphFile()
+    {
         return this.graphFile;
     }
 
@@ -130,31 +134,46 @@ public class Workspace implements IWorkspace
     {
         if (this.graphEditor == null)
         {
-            this.graphEditor = new EditorPart(this.graphFile.getGraph());
-            IEditorPartBehaviorManager behaviorManager = this.graphEditor.getBehaviorManager();
-            behaviorManager.addBehavior(new SelectByLassoBehavior(this.graphEditor, this.getSideBar().getGraphToolsBar()));
-            behaviorManager.addBehavior(new SelectByClickBehavior(this.graphEditor, this.getSideBar().getGraphToolsBar()));
-            behaviorManager.addBehavior(new SelectByDistanceBehavior(this.graphEditor));
-            behaviorManager.addBehavior(new SelectAllBehavior(this.graphEditor, this.getSideBar().getGraphToolsBar()));
-            behaviorManager.addBehavior(new AddNodeBehavior(this.graphEditor, this.getSideBar().getGraphToolsBar()));
-            behaviorManager.addBehavior(new AddEdgeBehavior(this.graphEditor, this.getSideBar().getGraphToolsBar()));
-            behaviorManager.addBehavior(new AddTransitionPointBehavior(this.graphEditor, this.getSideBar().getGraphToolsBar()));
-            behaviorManager.addBehavior(new DragSelectedBehavior(this.graphEditor, this.getSideBar().getGraphToolsBar()));
-            behaviorManager.addBehavior(new DragTransitionPointBehavior(this.graphEditor, this.getSideBar().getGraphToolsBar()));
-            behaviorManager.addBehavior(new DragGraphBehavior(this));
-            behaviorManager.addBehavior(new EditSelectedBehavior(this.graphEditor));
-            behaviorManager.addBehavior(new FileCouldBeSavedBehavior(this.getGraphFile()));
-            behaviorManager.addBehavior(new ResizeNodeBehavior(this.graphEditor, this.getSideBar().getGraphToolsBar()));
-            behaviorManager.addBehavior(new ZoomByWheelBehavior(this.getEditorPart()));
-            behaviorManager.addBehavior(new ChangeToolByWeelBehavior(this.getSideBar().getGraphToolsBar()));
-            behaviorManager.addBehavior(new ShowMenuOnRightClickBehavior(this.graphEditor));
-            behaviorManager.addBehavior(new UndoRedoCompoundBehavior(this.graphEditor));
-            behaviorManager.addBehavior(new CutCopyPasteBehavior(this.graphEditor));
-            behaviorManager.addBehavior(new SwingRepaintingBehavior(this.graphEditor));
-            behaviorManager.addBehavior(new ColorizeBehavior(this, this.getSideBar().getColorChoiceBar()));
-            behaviorManager.addBehavior(new FindBehavior(this.graphEditor));
+            synchronized (Workspace.class)
+            {
+                if (this.graphEditor == null)
+                {
+                    initEditorPart();
+                }
+            }
         }
         return this.graphEditor;
+    }
+
+    private void initEditorPart()
+    {
+        this.graphEditor = new EditorPart(this.graphFile.getGraph());
+        final IEditorPartBehaviorManager behaviorManager = this.graphEditor.getBehaviorManager();
+        final IGraphToolsBar graphToolsBar = this.getSideBar().getGraphToolsBar();
+        final IColorChoiceBar colorChoiceBar = this.getSideBar().getColorChoiceBar();
+
+        behaviorManager.addBehavior(new SelectByLassoBehavior(this.graphEditor, graphToolsBar));
+        behaviorManager.addBehavior(new SelectByClickBehavior(this.graphEditor, graphToolsBar));
+        behaviorManager.addBehavior(new SelectByDistanceBehavior(this.graphEditor));
+        behaviorManager.addBehavior(new SelectAllBehavior(this.graphEditor, graphToolsBar));
+        behaviorManager.addBehavior(new AddNodeBehavior(this.graphEditor, graphToolsBar));
+        behaviorManager.addBehavior(new AddEdgeBehavior(this.graphEditor, graphToolsBar));
+        behaviorManager.addBehavior(new AddTransitionPointBehavior(this.graphEditor, graphToolsBar));
+        behaviorManager.addBehavior(new DragSelectedBehavior(this.graphEditor, graphToolsBar));
+        behaviorManager.addBehavior(new DragTransitionPointBehavior(this.graphEditor, graphToolsBar));
+        behaviorManager.addBehavior(new DragGraphBehavior(this));
+        behaviorManager.addBehavior(new DragEditorPartBehavior(this));
+        behaviorManager.addBehavior(new EditSelectedBehavior(this.graphEditor));
+        behaviorManager.addBehavior(new FileCouldBeSavedBehavior(this.getGraphFile()));
+        behaviorManager.addBehavior(new ResizeNodeBehavior(this.graphEditor, graphToolsBar));
+        behaviorManager.addBehavior(new ZoomByWheelBehavior(this.getEditorPart()));
+        behaviorManager.addBehavior(new ChangeToolByWeelBehavior(graphToolsBar));
+        behaviorManager.addBehavior(new ShowMenuOnRightClickBehavior(this.graphEditor));
+        behaviorManager.addBehavior(new UndoRedoCompoundBehavior(this.graphEditor));
+        behaviorManager.addBehavior(new CutCopyPasteBehavior(this.graphEditor));
+        behaviorManager.addBehavior(new SwingRepaintingBehavior(this.graphEditor));
+        behaviorManager.addBehavior(new ColorizeBehavior(this, colorChoiceBar));
+        behaviorManager.addBehavior(new FindBehavior(this.graphEditor));
     }
 
     @Override
@@ -162,19 +181,28 @@ public class Workspace implements IWorkspace
     {
         if (this.sideBar == null)
         {
-
-            this.sideBar = new SideBar(this);
-            this.sideBar.getGraphToolsBar().addListener(new IGraphToolsBarListener()
+            synchronized (Workspace.class)
             {
-                public void toolSelectionChanged(GraphTool tool)
+                if (this.sideBar == null)
                 {
-                    getEditorPart().getSelectionHandler().setSelectedTool(tool);
+                    initSideBar();
                 }
-            });
+            }
         }
         return this.sideBar;
     }
 
+    private void initSideBar()
+    {
+        this.sideBar = new SideBar(this);
+        this.sideBar.getGraphToolsBar().addListener(new IGraphToolsBarListener()
+        {
+            public void toolSelectionChanged(final GraphTool tool)
+            {
+                getEditorPart().getSelectionHandler().setSelectedTool(tool);
+            }
+        });
+    }
 
     @Override
     public String getTitle()
@@ -183,7 +211,7 @@ public class Workspace implements IWorkspace
     }
 
     @Override
-    public void setTitle(String newValue)
+    public void setTitle(final String newValue)
     {
         title = newValue;
         fireTitleChanged(newValue);
@@ -194,29 +222,28 @@ public class Workspace implements IWorkspace
      *
      * @param newTitle
      */
-    private void fireTitleChanged(String newTitle)
+    private void fireTitleChanged(final String newTitle)
     {
-        List<IWorkspaceListener> tl = cloneListeners();
-        int size = tl.size();
+        final List<IWorkspaceListener> tl = cloneListeners();
+        final int size = tl.size();
         if (size == 0) return;
 
         for (int i = 0; i < size; ++i)
         {
-            IWorkspaceListener aListener = tl.get(i);
+            final IWorkspaceListener aListener = tl.get(i);
             aListener.titleChanged(newTitle);
         }
     }
-
 
     /**
      * Set a status indicating that the graph needs to be saved
      *
      * @param isSaveNeeded
      */
-    private void updateTitle(boolean isSaveNeeded)
+    private void updateTitle(final boolean isSaveNeeded)
     {
-        String aTitle = getTitle();
-        String prefix = resourceBundle.getString("workspace.unsaved") + " ";
+        final String aTitle = getTitle();
+        final String prefix = resourceBundle.getString("workspace.unsaved") + " ";
         if (isSaveNeeded)
         {
             if (!aTitle.startsWith(prefix))
@@ -240,16 +267,15 @@ public class Workspace implements IWorkspace
     }
 
     @Override
-    public void setFilePath(String path)
+    public void setFilePath(final String path)
     {
         filePath = path;
-        File file = new File(path);
+        final File file = new File(path);
         setTitle(file.getName());
     }
 
-
     @Override
-    public synchronized void addListener(IWorkspaceListener l)
+    public synchronized void addListener(final IWorkspaceListener l)
     {
         if (!this.listeners.contains(l))
         {
@@ -266,14 +292,14 @@ public class Workspace implements IWorkspace
     /**
      * Fire an event to all listeners by calling
      */
-    public void fireMustOpenFile(IFile aFile)
+    public void fireMustOpenFile(final IFile aFile)
     {
-        List<IWorkspaceListener> tl = cloneListeners();
-        int size = tl.size();
+        final List<IWorkspaceListener> tl = cloneListeners();
+        final int size = tl.size();
         if (size == 0) return;
         for (int i = 0; i < size; ++i)
         {
-            IWorkspaceListener l = tl.get(i);
+            final IWorkspaceListener l = tl.get(i);
             l.mustOpenfile(aFile);
         }
     }
@@ -283,12 +309,12 @@ public class Workspace implements IWorkspace
      */
     private void fireSaveNeeded()
     {
-        List<IWorkspaceListener> tl = cloneListeners();
-        int size = tl.size();
+        final List<IWorkspaceListener> tl = cloneListeners();
+        final int size = tl.size();
         if (size == 0) return;
         for (int i = 0; i < size; ++i)
         {
-            IWorkspaceListener l = tl.get(i);
+            final IWorkspaceListener l = tl.get(i);
             l.graphCouldBeSaved();
         }
     }
@@ -314,18 +340,18 @@ public class Workspace implements IWorkspace
     }
 
     @Override
-    public void setAWTComponent(WorkspacePanel workspacePanel) {
-
-    	this.workspacePanel = workspacePanel;
+    public void setAWTComponent(final WorkspacePanel workspacePanel)
+    {
+        this.workspacePanel = workspacePanel;
     }
 
     public WorkspacePanel workspacePanel;
-    private IGraphFile graphFile;
-    private IEditorPart graphEditor;
-    private ISideBar sideBar;
+    private final IGraphFile graphFile;
+    private volatile IEditorPart graphEditor;
+    private volatile ISideBar sideBar;
     private String filePath;
     private String title;
-    private List<IWorkspaceListener> listeners = new ArrayList<IWorkspaceListener>();
+    private final List<IWorkspaceListener> listeners = new ArrayList<IWorkspaceListener>();
     private Id id;
 
     protected static ResourceBundle resourceBundle = ResourceBundle.getBundle("properties.OtherStrings", Locale.getDefault());
