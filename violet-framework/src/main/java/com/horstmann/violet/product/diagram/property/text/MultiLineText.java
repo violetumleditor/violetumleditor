@@ -9,9 +9,6 @@ import java.util.List;
 
 /**
  * This class is a container for multi lines of text
- *
- * @author Adrian Bobrowski <adrian071993@gmail.com>
- * @date 16.12.2015
  */
 public class MultiLineText extends LineText
 {
@@ -25,15 +22,18 @@ public class MultiLineText extends LineText
         super();
         setPadding(7,8);
     }
+
     public MultiLineText(Converter converter)
     {
         super(converter);
         setPadding(6,8);
     }
+
     protected MultiLineText(MultiLineText lineText) throws CloneNotSupportedException
     {
         super(lineText);
         rows = new ArrayList<OneLineText>(lineText.getRows());
+        text = lineText.text;
     }
 
     @Override

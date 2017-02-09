@@ -18,8 +18,6 @@ import java.awt.geom.Arc2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import static com.horstmann.violet.product.diagram.classes.node.BallAndSocketNode.Types.BALL;
-
 /**
  * This class represents ball and socket (Ball and Socket interface notification)
  *
@@ -27,49 +25,54 @@ import static com.horstmann.violet.product.diagram.classes.node.BallAndSocketNod
  */
 public class BallAndSocketNode extends ColorableNode
 {
-    protected enum Types
+    private enum Types
     {
         BALL,
         SOCKET,
         BALL_AND_SOCKET
     }
 
-    protected class SocketShape implements ContentInsideCustomShape.ShapeCreator
+    private class SocketShape implements ContentInsideCustomShape.ShapeCreator
     {
         @Override
         public Shape createShape(double contentWidth, double contentHeight)
         {
             int angle = orientation.getSelectedValue();
-            return new Arc2D.Double(0, 0, DEFAULT_DIAMETER, DEFAULT_DIAMETER, angle, 180, Arc2D.OPEN);
+            return new Arc2D.Double(0, 0, DEFAULT_DIAMETER, DEFAULT_DIAMETER, angle, DIRECTION_SOUTH, Arc2D.OPEN);
         }
     }
 
     /**
-     * Constructor, setting default values for properties, setting colors of
-     * node.
+     * Initializes new instance with default values.
      */
     public BallAndSocketNode()
     {
         super();
         name = new SingleLineText();
-        name.setPadding(5,5,5,5);
+        name.setPadding(5, 5, 5, 5);
         type = new TextChoiceList<Types>(TYPE_KEYS, TYPE_VALUES);
         orientation = new TextChoiceList<Integer>(ORIENTATION_KEYS, ORIENTATION_VALUES);
 
-        this.selectedType = this.type.getSelectedPos();
-        this.selectedOrientation = this.orientation.getSelectedPos();
+        selectedType = type.getSelectedPos();
+        selectedOrientation = orientation.getSelectedPos();
     }
 
-    protected BallAndSocketNode(BallAndSocketNode node) throws CloneNotSupportedException
+    /**
+     * Creates copy of an instance
+     *
+     * @param node a node to copy
+     * @throws CloneNotSupportedException when instance cannot be cloned.
+     */
+    private BallAndSocketNode(BallAndSocketNode node) throws CloneNotSupportedException
     {
         super(node);
         name = node.name.clone();
         type = node.type.clone();
         orientation = node.orientation.clone();
-        name.setPadding(5,5,5,5);
+        name.setPadding(5, 5, 5, 5);
 
-        this.selectedType = this.type.getSelectedPos();
-        this.selectedOrientation = this.orientation.getSelectedPos();
+        selectedType = type.getSelectedPos();
+        selectedOrientation = orientation.getSelectedPos();
 
         createContentStructure();
     }
@@ -79,12 +82,12 @@ public class BallAndSocketNode extends ColorableNode
     {
         super.beforeReconstruction();
 
-        if(null == name)
+        if (null == name)
         {
             name = new SingleLineText();
         }
         name.reconstruction();
-        name.setPadding(5,5,5,5);
+        name.setPadding(5, 5, 5, 5);
 
         type = new TextChoiceList<Types>(TYPE_KEYS, TYPE_VALUES);
         orientation = new TextChoiceList<Integer>(ORIENTATION_KEYS, ORIENTATION_VALUES);
@@ -93,6 +96,12 @@ public class BallAndSocketNode extends ColorableNode
         orientation.setSelectedIndex(selectedOrientation);
     }
 
+    /**
+     * Creates and returns a copy of BallAndSocketNode instance.
+     *
+     * @return a cloned instance.
+     * @throws CloneNotSupportedException when instance cannot be cloned.
+     */
     @Override
     protected INode copy() throws CloneNotSupportedException
     {
@@ -122,15 +131,24 @@ public class BallAndSocketNode extends ColorableNode
     public void setBackgroundColor(Color bgColor)
     {
         super.setBackgroundColor(bgColor);
-        ballBackground.setBackgroundColor(bgColor);
+        if (ballBackground != null)
+        {
+            ballBackground.setBackgroundColor(bgColor);
+        }
     }
 
     @Override
     public void setBorderColor(Color borderColor)
     {
         super.setBorderColor(borderColor);
-        socketBorder.setBorderColor(borderColor);
-        ballBorder.setBorderColor(borderColor);
+        if (socketBorder != null)
+        {
+            socketBorder.setBorderColor(borderColor);
+        }
+        if (ballBorder != null)
+        {
+            ballBorder.setBorderColor(borderColor);
+        }
     }
 
     @Override
@@ -145,7 +163,7 @@ public class BallAndSocketNode extends ColorableNode
         Direction direction = edge.getDirection(this).getNearestCardinalDirection();
         Rectangle2D selfBounds = getBounds();
 
-        if(!name.toEdit().isEmpty() && Direction.NORTH.equals(direction))
+        if (!name.toEdit().isEmpty() && Direction.NORTH.equals(direction))
         {
             return new Point2D.Double(
                     selfBounds.getCenterX(),
@@ -153,102 +171,132 @@ public class BallAndSocketNode extends ColorableNode
             );
         }
 
-        Types type = (Types)getType().getSelectedValue();
+        Types type = (Types) getType().getSelectedValue();
         int orientationAngle = orientation.getSelectedValue();
-        int directionAngle = 0;
+        int directionAngle = getDirectionAngle(direction);
 
-        if(Direction.SOUTH.equals(direction))
+        boolean isSupportedDirection = (Types.BALL_AND_SOCKET == type &&
+                (directionAngle + DIRECTION_SOUTH) % 360 == orientationAngle);
+        if (isSupportedDirection)
         {
-            directionAngle = 180;
-        }
-        else if(Direction.WEST.equals(direction))
-        {
-            directionAngle = 90;
-        }
-        else if(Direction.EAST.equals(direction))
-        {
-            directionAngle = 270;
+            orientationAngle += DIRECTION_SOUTH;
         }
 
-        boolean supportDirection =(Types.BALL_AND_SOCKET == type && (directionAngle +180)%360 == orientationAngle);
-        if(supportDirection)
-        {
-            orientationAngle +=180;
-        }
-
-        if(Types.SOCKET == type || supportDirection)
+        if (Types.SOCKET == type || isSupportedDirection)
         {
             double radians = Math.toRadians(orientationAngle);
             return new Point2D.Double(
-                    selfBounds.getCenterX() + Math.sin(radians) * DEFAULT_DIAMETER/2,
-                    selfBounds.getY() + (1+Math.cos(radians)) * (DEFAULT_DIAMETER)/2
+                    selfBounds.getCenterX() + Math.sin(radians) * DEFAULT_DIAMETER / 2,
+                    selfBounds.getY() + (1 + Math.cos(radians)) * (DEFAULT_DIAMETER) / 2
             );
         }
-        double topGap = 0;
-        if(0 == directionAngle)
-        {
-            topGap = -DEFAULT_GAP;
-        }
-        else if(180 == directionAngle)
-        {
-            topGap = DEFAULT_GAP;
-        }
+
+        double topGap = getTopGap(directionAngle);
         double radians = Math.toRadians(directionAngle);
 
         return new Point2D.Double(
-                selfBounds.getCenterX() + Math.sin(radians) * (DEFAULT_DIAMETER - DEFAULT_GAP)/2,
-                selfBounds.getY() + topGap + (1+Math.cos(radians)) * DEFAULT_DIAMETER/2
+                selfBounds.getCenterX() + Math.sin(radians) * (DEFAULT_DIAMETER - DEFAULT_GAP) / 2,
+                selfBounds.getY() + topGap + (1 + Math.cos(radians)) * DEFAULT_DIAMETER / 2
         );
+    }
+
+    private int getDirectionAngle(Direction direction)
+    {
+        if (Direction.SOUTH.equals(direction))
+        {
+            return DIRECTION_SOUTH;
+        }
+        else if (Direction.WEST.equals(direction))
+        {
+            return DIRECTION_WEST;
+        }
+        else if (Direction.EAST.equals(direction))
+        {
+            return DIRECTION_EAST;
+        }
+
+        return DIRECTION_NORTH;
+    }
+
+    private double getTopGap(int directionAngle)
+    {
+        if (DIRECTION_NORTH == directionAngle)
+        {
+            return -DEFAULT_GAP;
+        }
+        else if (DIRECTION_SOUTH == directionAngle)
+        {
+            return DEFAULT_GAP;
+        }
+
+        return DIRECTION_NORTH;
     }
 
     private void refreshBallAndSocketLayout()
     {
-        ballAndSocketLayout.remove(ballBackground);
-        ballAndSocketLayout.remove(socketBorder);
+        Types type = (Types) getType().getSelectedValue();
 
-        Types type = (Types)getType().getSelectedValue();
-
-        if(Types.BALL_AND_SOCKET == type || Types.SOCKET == type)
+        if (Types.BALL_AND_SOCKET == type || Types.SOCKET == type)
         {
-            Content content = new EmptyContent();
-            content.setMinWidth(DEFAULT_DIAMETER);
-            content.setMinHeight(DEFAULT_DIAMETER);
-
-            socketBorder = new ContentBorder(
-                    new ContentInsideCustomShape(content, new SocketShape()), getBorderColor()
-            );
-            ballAndSocketLayout.add(socketBorder);
+            refreshSocket();
         }
-        if(Types.BALL_AND_SOCKET == type || Types.BALL == type)
+        if (Types.BALL_AND_SOCKET == type || Types.BALL == type)
         {
-            Content content = new EmptyContent();
-            content.setMinWidth((DEFAULT_DIAMETER-2*DEFAULT_GAP)/Math.sqrt(2));
-            content.setMinHeight((DEFAULT_DIAMETER-2*DEFAULT_GAP)/Math.sqrt(2));
-
-            ballBorder = new ContentBorder(new ContentInsideEllipse(content, 1), getBorderColor());
-            ballBackground = new ContentBackground(ballBorder, getBackgroundColor());
-            ballAndSocketLayout.add(ballBackground, new Point2D.Double(DEFAULT_GAP,DEFAULT_GAP));
+            refreshBall();
         }
     }
 
     /**
-     * Sets the name property value.
-     *
-     * @param newValue
-     *            the new state name
+     * Refresh socket in layout
      */
-    public void setName(LineText newValue) {
+    private void refreshSocket()
+    {
+        ballAndSocketLayout.remove(socketBorder);
+        Content content = new EmptyContent();
+        content.setMinWidth(DEFAULT_DIAMETER);
+        content.setMinHeight(DEFAULT_DIAMETER);
+
+        socketBorder = new ContentBorder(new ContentInsideCustomShape(content, new SocketShape()), getBorderColor());
+        ballAndSocketLayout.add(socketBorder);
+    }
+
+    /**
+     * Refresh ball in layout.
+     */
+    private void refreshBall()
+    {
+        ballAndSocketLayout.remove(ballBackground);
+        Content content = new EmptyContent();
+        content.setMinWidth((DEFAULT_DIAMETER - 2 * DEFAULT_GAP) / Math.sqrt(2));
+        content.setMinHeight((DEFAULT_DIAMETER - 2 * DEFAULT_GAP) / Math.sqrt(2));
+
+        ballBorder = new ContentBorder(new ContentInsideEllipse(content, 1), getBorderColor());
+        ballBackground = new ContentBackground(ballBorder, getBackgroundColor());
+        ballAndSocketLayout.add(ballBackground, new Point2D.Double(DEFAULT_GAP, DEFAULT_GAP));
+    }
+
+    public void setName(LineText newValue)
+    {
         name.setText(newValue);
     }
 
-    /**
-     * Gets the name property value.
-     *
-     * @return the state name
-     */
-    public LineText getName() {
+    public LineText getName()
+    {
         return name;
     }
+
+    public ChoiceList getType()
+    {
+        return type;
+    }
+
+    public void setType(ChoiceList type)
+    {
+        if (this.type.setSelectedIndex(type.getSelectedPos()))
+        {
+            selectedType = type.getSelectedPos();
+            refreshBallAndSocketLayout();
+        }
 
     @Override
     public LineText getAttributes() {
@@ -258,6 +306,7 @@ public class BallAndSocketNode extends ColorableNode
     @Override
     public LineText getMethods() {
         return null;
+
     }
 
     /**
@@ -275,27 +324,13 @@ public class BallAndSocketNode extends ColorableNode
      * This setter is used for violet framework in order to make type property
      * visible in property editor. Set node type choice list.
      *
-     * @param orientation
+     * @param orientation orientation choice list
      */
     public void setOrientation(ChoiceList orientation)
     {
-        if(this.orientation.setSelectedIndex(orientation.getSelectedPos()))
+        if (this.orientation.setSelectedIndex(orientation.getSelectedPos()))
         {
-            this.selectedOrientation = orientation.getSelectedPos();
-            refreshBallAndSocketLayout();
-        }
-    }
-
-    public ChoiceList getType()
-    {
-        return type;
-    }
-
-    public void setType(ChoiceList type)
-    {
-        if(this.type.setSelectedIndex(type.getSelectedPos()))
-        {
-            this.selectedType = type.getSelectedPos();
+            selectedOrientation = orientation.getSelectedPos();
             refreshBallAndSocketLayout();
         }
     }
@@ -323,31 +358,31 @@ public class BallAndSocketNode extends ColorableNode
      */
     private static final int DEFAULT_GAP = 5;
 
-    public static String[] ORIENTATION_KEYS = new String[]{"top", "bottom", "left", "right"};
-    public static final Integer[] ORIENTATION_VALUES = new Integer[]{0, 180, 270, 90};
-    public static String[] TYPE_KEYS = new String[]{"ball_and_socket", "ball", "socket" };
-    public static final Types[] TYPE_VALUES = new Types[]{Types.BALL_AND_SOCKET, BALL, Types.SOCKET};
+    private static final int DIRECTION_NORTH = 0;
+    private static final int DIRECTION_SOUTH = 180;
+    private static final int DIRECTION_WEST = 90;
+    private static final int DIRECTION_EAST = 270;
+
+    private static String[] ORIENTATION_KEYS = new String[] { "top", "bottom", "left", "right" };
+    private static final Integer[] ORIENTATION_VALUES = new Integer[] {
+            DIRECTION_NORTH, DIRECTION_SOUTH,
+            DIRECTION_EAST, DIRECTION_WEST
+    };
+    private static String[] TYPE_KEYS = new String[] { "ball_and_socket", "ball", "socket" };
+    private static final Types[] TYPE_VALUES = new Types[] { Types.BALL_AND_SOCKET, Types.BALL, Types.SOCKET };
 
     static
     {
-        for(int i=0; i< ORIENTATION_KEYS.length; ++i)
+        for (int i = 0; i < ORIENTATION_KEYS.length; ++i)
         {
-            try
-            {
-                ORIENTATION_KEYS[i] = ClassDiagramConstant.CLASS_DIAGRAM_RESOURCE.getString(
-                        ("orientation." + ORIENTATION_KEYS[i]).toLowerCase()
-                );
-            }catch (Exception ignored){}
+            ORIENTATION_KEYS[i] = ClassDiagramConstant.CLASS_DIAGRAM_RESOURCE.getString(
+                    ("orientation." + ORIENTATION_KEYS[i]).toLowerCase());
         }
 
-        for(int i=0; i< TYPE_KEYS.length; ++i)
+        for (int i = 0; i < TYPE_KEYS.length; ++i)
         {
-            try
-            {
-                TYPE_KEYS[i] = ClassDiagramConstant.CLASS_DIAGRAM_RESOURCE.getString(
-                        ("type." + TYPE_KEYS[i]).toLowerCase()
-                );
-            }catch (Exception ignored){}
+            TYPE_KEYS[i] = ClassDiagramConstant.CLASS_DIAGRAM_RESOURCE.getString(
+                    ("type." + TYPE_KEYS[i]).toLowerCase());
         }
     }
 }

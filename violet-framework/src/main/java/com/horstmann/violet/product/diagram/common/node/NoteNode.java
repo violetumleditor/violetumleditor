@@ -21,6 +21,13 @@
 
 package com.horstmann.violet.product.diagram.common.node;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Shape;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D;
+
 import com.horstmann.violet.framework.graphics.content.ContentBackground;
 import com.horstmann.violet.framework.graphics.content.ContentBorder;
 import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
@@ -34,32 +41,24 @@ import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.MultiLineText;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 
-import java.awt.*;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Rectangle2D;
-
-/**
- * A note node_old in a UML diagram.
- * 
- * FIXME : manage Z order
- * 
- * for (IEdge e : getGraph().getEdges()) { if (e.getStartNode() == this) { INode end = e.getEndNode(); Point2D endPoint = end.getLocation();
- * INode n = getGraph().findNode(endPoint); if (n != end) end.setZ(n.getZ() + 1); } }
- * 
- */
 public class NoteNode extends ColorableNode
 {
     /**
-     * Construct a note node_old with a default size and color
+     * Construct a note node with default content structure.
      */
     public NoteNode()
     {
-        super();
         text = new MultiLineText();
         createContentStructure();
     }
 
-    public NoteNode(NoteNode node) throws CloneNotSupportedException
+    /**
+     * Construct a note node from another note node.
+     *
+     * @param node a node to copy from.
+     * @throws CloneNotSupportedException when node cannot be cloned.
+     */
+    private NoteNode(NoteNode node) throws CloneNotSupportedException
     {
         super(node);
         text = node.text.clone();
@@ -73,6 +72,12 @@ public class NoteNode extends ColorableNode
         text.reconstruction();
     }
 
+    /**
+     * Creates and returns a copy of NoteNode instance.
+     *
+     * @return a cloned instance.
+     * @throws CloneNotSupportedException when instance cannot be cloned.
+     */
     @Override
     protected INode copy() throws CloneNotSupportedException
     {
@@ -86,30 +91,18 @@ public class NoteNode extends ColorableNode
         textContent.setMinHeight(DEFAULT_HEIGHT);
         textContent.setMinWidth(DEFAULT_WIDTH);
 
-        ContentInsideShape contentInsideShape = new ContentInsideCustomShape(textContent, new ContentInsideCustomShape.ShapeCreator()
-        {
-            @Override
-            public Shape createShape(double contentWidth, double contentHeight) {
-                GeneralPath path = new GeneralPath();
-                path.moveTo(0, 0);
-                path.lineTo(contentWidth - FOLD_X, 0);
-                path.lineTo(contentWidth, FOLD_Y);
-                path.lineTo(contentWidth, contentHeight);
-                path.lineTo(0, contentHeight);
-                path.closePath();
-                return path;
-            }
-        });
-
+        ContentInsideShape contentInsideShape = initializeContentInsideShape(textContent);
         setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
         setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
         setContent(getBackground());
-
-        setBackgroundColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getBackgroundColor());
-        setBorderColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getBorderColor());
-        setTextColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getTextColor());
+        setDefaultNoteColors();
     }
 
+    /**
+     * Draws a NoteNode.
+     *
+     * @param graphics the graphics context
+     */
     @Override
     public void draw(Graphics2D graphics)
     {
@@ -157,57 +150,76 @@ public class NoteNode extends ColorableNode
         return null;
     }
 
-
     @Override
     public int getZ()
     {
-        // Ensures that this kind of node is always on top
-        return INFINITE_Z_LEVEL;
+        for (IEdge e : getGraph().getAllEdges())
+        {
+            if (e.getStartNode() == this)
+            {
+                INode end = e.getEndNode();
+                Point2D endPoint = end.getLocation();
+                INode n = getGraph().findNode(endPoint);
+                if (n != end)
+                    return end.getZ() + 1;
+            }
+        }
+        return 1;
     }
 
     @Override
     public boolean addConnection(IEdge edge)
     {
-        if (edge.getStartNode() == edge.getEndNode())
-        {
-            return false;
-        }
-        return super.addConnection(edge);
+        return edge.getStartNode() != edge.getEndNode() && super.addConnection(edge);
     }
 
-    /**
-     * Gets the value of the text property.
-     * 
-     * @return the text inside the note
-     */
     public MultiLineText getText()
     {
         return text;
     }
 
-    /**
-     * Sets the value of the text property.
-     * 
-     * @param newValue the text inside the note
-     */
     public void setText(MultiLineText newValue)
     {
         text = newValue;
     }
 
     /**
-     * Kept for compatibility
+     * Overrides default node colors
      */
-    public void setColor(Color newValue)
+    private void setDefaultNoteColors()
     {
-        // Nothing to do
+        boolean isDefaultBackgroundColor = getBackgroundColor() == ColorToolsBarPanel.DEFAULT_COLOR.getBackgroundColor();
+        if (isDefaultBackgroundColor)
+        {
+            setBackgroundColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getBackgroundColor());
+            setBorderColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getBorderColor());
+            setTextColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getTextColor());
+        }
+    }
+
+    private ContentInsideShape initializeContentInsideShape(TextContent textContent)
+    {
+        return new ContentInsideCustomShape(textContent, new ContentInsideCustomShape.ShapeCreator()
+        {
+            @Override
+            public Shape createShape(double contentWidth, double contentHeight)
+            {
+                GeneralPath path = new GeneralPath();
+                path.moveTo(0, 0);
+                path.lineTo(contentWidth - FOLD_X, 0);
+                path.lineTo(contentWidth, FOLD_Y);
+                path.lineTo(contentWidth, contentHeight);
+                path.lineTo(0, contentHeight);
+                path.closePath();
+                return path;
+            }
+        });
     }
 
     private MultiLineText text;
 
-    private static int DEFAULT_WIDTH = 60;
-    private static int DEFAULT_HEIGHT = 40;
-    private static int FOLD_X = 8;
-    private static int FOLD_Y = 8;
-    private static int INFINITE_Z_LEVEL = 10000;
+    private static final int DEFAULT_WIDTH = 60;
+    private static final int DEFAULT_HEIGHT = 40;
+    private static final int FOLD_X = 8;
+    private static final int FOLD_Y = 8;
 }
