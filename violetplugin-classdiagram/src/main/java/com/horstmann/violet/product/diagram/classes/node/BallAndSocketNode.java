@@ -297,6 +297,7 @@ public class BallAndSocketNode extends ColorableNode
             selectedType = type.getSelectedPos();
             refreshBallAndSocketLayout();
         }
+    }
 
     @Override
     public LineText getAttributes() {
