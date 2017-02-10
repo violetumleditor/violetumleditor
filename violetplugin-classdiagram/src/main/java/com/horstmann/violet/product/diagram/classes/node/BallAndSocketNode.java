@@ -35,9 +35,9 @@ public class BallAndSocketNode extends ColorableNode
     private class SocketShape implements ContentInsideCustomShape.ShapeCreator
     {
         @Override
-        public Shape createShape(double contentWidth, double contentHeight)
+        public Shape createShape(final double contentWidth, final double contentHeight)
         {
-            int angle = orientation.getSelectedValue();
+            final int angle = orientation.getSelectedValue();
             return new Arc2D.Double(0, 0, DEFAULT_DIAMETER, DEFAULT_DIAMETER, angle, DIRECTION_SOUTH, Arc2D.OPEN);
         }
     }
@@ -63,7 +63,7 @@ public class BallAndSocketNode extends ColorableNode
      * @param node a node to copy
      * @throws CloneNotSupportedException when instance cannot be cloned.
      */
-    private BallAndSocketNode(BallAndSocketNode node) throws CloneNotSupportedException
+    private BallAndSocketNode(final BallAndSocketNode node) throws CloneNotSupportedException
     {
         super(node);
         name = node.name.clone();
@@ -111,14 +111,14 @@ public class BallAndSocketNode extends ColorableNode
     @Override
     public void createContentStructure()
     {
-        VerticalLayout verticalGroupContent = new VerticalLayout();
+        final VerticalLayout verticalGroupContent = new VerticalLayout();
 
         ballAndSocketLayout = new RelativeLayout();
         ballAndSocketLayout.setMinWidth(DEFAULT_DIAMETER);
         ballAndSocketLayout.setMinHeight(DEFAULT_DIAMETER);
         refreshBallAndSocketLayout();
 
-        TextContent nameContent = new TextContent(name);
+        final TextContent nameContent = new TextContent(name);
 
         verticalGroupContent.add(new CenterContent(ballAndSocketLayout));
         verticalGroupContent.add(nameContent);
@@ -128,7 +128,7 @@ public class BallAndSocketNode extends ColorableNode
     }
 
     @Override
-    public void setBackgroundColor(Color bgColor)
+    public void setBackgroundColor(final Color bgColor)
     {
         super.setBackgroundColor(bgColor);
         if (ballBackground != null)
@@ -138,7 +138,7 @@ public class BallAndSocketNode extends ColorableNode
     }
 
     @Override
-    public void setBorderColor(Color borderColor)
+    public void setBorderColor(final Color borderColor)
     {
         super.setBorderColor(borderColor);
         if (socketBorder != null)
@@ -158,10 +158,10 @@ public class BallAndSocketNode extends ColorableNode
     }
 
     @Override
-    public Point2D getConnectionPoint(IEdge edge)
+    public Point2D getConnectionPoint(final IEdge edge)
     {
-        Direction direction = edge.getDirection(this).getNearestCardinalDirection();
-        Rectangle2D selfBounds = getBounds();
+        final Direction direction = edge.getDirection(this).getNearestCardinalDirection();
+        final Rectangle2D selfBounds = getBounds();
 
         if (!name.toEdit().isEmpty() && Direction.NORTH.equals(direction))
         {
@@ -171,11 +171,11 @@ public class BallAndSocketNode extends ColorableNode
             );
         }
 
-        Types type = (Types) getType().getSelectedValue();
+        final Types type = (Types) getType().getSelectedValue();
         int orientationAngle = orientation.getSelectedValue();
-        int directionAngle = getDirectionAngle(direction);
+        final int directionAngle = getDirectionAngle(direction);
 
-        boolean isSupportedDirection = (Types.BALL_AND_SOCKET == type &&
+        final boolean isSupportedDirection = (Types.BALL_AND_SOCKET == type &&
                 (directionAngle + DIRECTION_SOUTH) % 360 == orientationAngle);
         if (isSupportedDirection)
         {
@@ -184,15 +184,15 @@ public class BallAndSocketNode extends ColorableNode
 
         if (Types.SOCKET == type || isSupportedDirection)
         {
-            double radians = Math.toRadians(orientationAngle);
+            final double radians = Math.toRadians(orientationAngle);
             return new Point2D.Double(
                     selfBounds.getCenterX() + Math.sin(radians) * DEFAULT_DIAMETER / 2,
                     selfBounds.getY() + (1 + Math.cos(radians)) * (DEFAULT_DIAMETER) / 2
             );
         }
 
-        double topGap = getTopGap(directionAngle);
-        double radians = Math.toRadians(directionAngle);
+        final double topGap = getTopGap(directionAngle);
+        final double radians = Math.toRadians(directionAngle);
 
         return new Point2D.Double(
                 selfBounds.getCenterX() + Math.sin(radians) * (DEFAULT_DIAMETER - DEFAULT_GAP) / 2,
@@ -200,7 +200,7 @@ public class BallAndSocketNode extends ColorableNode
         );
     }
 
-    private int getDirectionAngle(Direction direction)
+    private int getDirectionAngle(final Direction direction)
     {
         if (Direction.SOUTH.equals(direction))
         {
@@ -218,7 +218,7 @@ public class BallAndSocketNode extends ColorableNode
         return DIRECTION_NORTH;
     }
 
-    private double getTopGap(int directionAngle)
+    private double getTopGap(final int directionAngle)
     {
         if (DIRECTION_NORTH == directionAngle)
         {
@@ -234,7 +234,7 @@ public class BallAndSocketNode extends ColorableNode
 
     private void refreshBallAndSocketLayout()
     {
-        Types type = (Types) getType().getSelectedValue();
+        final Types type = (Types) getType().getSelectedValue();
 
         if (Types.BALL_AND_SOCKET == type || Types.SOCKET == type)
         {
@@ -252,7 +252,7 @@ public class BallAndSocketNode extends ColorableNode
     private void refreshSocket()
     {
         ballAndSocketLayout.remove(socketBorder);
-        Content content = new EmptyContent();
+        final Content content = new EmptyContent();
         content.setMinWidth(DEFAULT_DIAMETER);
         content.setMinHeight(DEFAULT_DIAMETER);
 
@@ -266,7 +266,7 @@ public class BallAndSocketNode extends ColorableNode
     private void refreshBall()
     {
         ballAndSocketLayout.remove(ballBackground);
-        Content content = new EmptyContent();
+        final Content content = new EmptyContent();
         content.setMinWidth((DEFAULT_DIAMETER - 2 * DEFAULT_GAP) / Math.sqrt(2));
         content.setMinHeight((DEFAULT_DIAMETER - 2 * DEFAULT_GAP) / Math.sqrt(2));
 
@@ -275,7 +275,7 @@ public class BallAndSocketNode extends ColorableNode
         ballAndSocketLayout.add(ballBackground, new Point2D.Double(DEFAULT_GAP, DEFAULT_GAP));
     }
 
-    public void setName(LineText newValue)
+    public void setName(final LineText newValue)
     {
         name.setText(newValue);
     }
@@ -290,7 +290,7 @@ public class BallAndSocketNode extends ColorableNode
         return type;
     }
 
-    public void setType(ChoiceList type)
+    public void setType(final ChoiceList type)
     {
         if (this.type.setSelectedIndex(type.getSelectedPos()))
         {
@@ -327,7 +327,7 @@ public class BallAndSocketNode extends ColorableNode
      *
      * @param orientation orientation choice list
      */
-    public void setOrientation(ChoiceList orientation)
+    public void setOrientation(final ChoiceList orientation)
     {
         if (this.orientation.setSelectedIndex(orientation.getSelectedPos()))
         {
