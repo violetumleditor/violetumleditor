@@ -45,14 +45,18 @@ public class EditorToolsPanel extends JPanel implements ISideBarElement {
         super();
         ResourceBundleInjector.getInjector().inject(this);
         this.setUI(new EditorToolsPanelUI(this));
-        this.bZoomIn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                workspace.getEditorPart().changeZoom(1);
+        this.bZoomIn.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                workspace.getEditorPart().zoomIn();
             }
         });
-        this.bZoomOut.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                workspace.getEditorPart().changeZoom(-1);
+        this.bZoomOut.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                workspace.getEditorPart().zoomOut();
             }
         });
         this.bUndo.addActionListener(new ActionListener() {
@@ -115,8 +119,9 @@ public class EditorToolsPanel extends JPanel implements ISideBarElement {
      *
      * @return the first UndoRedoBehavior object found or null
      */
-    private UndoRedoCompoundBehavior getUndoRedoBehavior() {
-        IEditorPart activeEditorPart = workspace.getEditorPart();
+    private UndoRedoCompoundBehavior getUndoRedoBehavior()
+    {
+    	IEditorPart activeEditorPart = workspace.getEditorPart();
         IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
         List<UndoRedoCompoundBehavior> found = behaviorManager.getBehaviors(UndoRedoCompoundBehavior.class);
         if (found.size() != 1) {
@@ -130,8 +135,9 @@ public class EditorToolsPanel extends JPanel implements ISideBarElement {
      *
      * @return the first CutCopyPasteBehavior object found or null
      */
-    private CutCopyPasteBehavior getCutCopyPasteBehavior() {
-        IEditorPart activeEditorPart = workspace.getEditorPart();
+    private CutCopyPasteBehavior getCutCopyPasteBehavior()
+    {
+    	IEditorPart activeEditorPart = workspace.getEditorPart();
         IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
         List<CutCopyPasteBehavior> found = behaviorManager.getBehaviors(CutCopyPasteBehavior.class);
         if (found.size() != 1) {
@@ -145,7 +151,8 @@ public class EditorToolsPanel extends JPanel implements ISideBarElement {
      *
      * @return the first FindBehavior object found or null
      */
-    private FindBehavior getFindBehavior() {
+    private FindBehavior getFindBehavior()
+    {
         IEditorPart activeEditorPart = workspace.getEditorPart();
         IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
         List<FindBehavior> found = behaviorManager.getBehaviors(FindBehavior.class);
@@ -160,7 +167,8 @@ public class EditorToolsPanel extends JPanel implements ISideBarElement {
      * 
      * @see com.horstmann.violet.framework.display.clipboard.sidebar.ISideBarElement#getTitle()
      */
-    public String getTitle() {
+    public String getTitle()
+    {
         return this.title;
     }
 
@@ -168,7 +176,8 @@ public class EditorToolsPanel extends JPanel implements ISideBarElement {
     /* (non-Javadoc)
      * @see com.horstmann.violet.product.workspace.sidebar.ISideBarElement#install(com.horstmann.violet.product.workspace.IWorkspace)
      */
-    public void install(IWorkspace workspace) {
+    public void install(IWorkspace workspace)
+    {
         this.workspace = workspace;
     }
 
@@ -177,70 +186,80 @@ public class EditorToolsPanel extends JPanel implements ISideBarElement {
      * 
      * @see com.horstmann.violet.framework.display.clipboard.sidebar.ISideBarElement#getAWTComponent()
      */
-    public Component getAWTComponent() {
+    public Component getAWTComponent()
+    {
         return this;
     }
 
     /**
      * @return zoom in button
      */
-    public JButton getZoomInButton() {
+    public JButton getZoomInButton()
+    {
         return this.bZoomIn;
     }
 
     /**
      * @return zoom out button
      */
-    public JButton getZoomOutButton() {
+    public JButton getZoomOutButton()
+    {
         return this.bZoomOut;
     }
 
     /**
      * @return undo button
      */
-    public JButton getUndoButton() {
+    public JButton getUndoButton()
+    {
         return this.bUndo;
     }
 
     /**
      * @return redo button
      */
-    public JButton getRedoButton() {
+    public JButton getRedoButton()
+    {
         return this.bRedo;
     }
 
     /**
      * @return delete button
      */
-    public JButton getDeleteButton() {
+    public JButton getDeleteButton()
+    {
         return this.bDelete;
     }
 
     /**
      * @return cut button
      */
-    public JButton getCutButton() {
+    public JButton getCutButton()
+    {
         return this.bCut;
     }
 
     /**
      * @return copy button
      */
-    public JButton getCopyButton() {
+    public JButton getCopyButton()
+    {
         return this.bCopy;
     }
 
     /**
      * @return paste button
      */
-    public JButton getPasteButton() {
+    public JButton getPasteButton()
+    {
         return this.bPaste;
     }
 
     /**
      * @return find button
      */
-    public JButton getFindButton() {
+    public JButton getFindButton()
+    {
         return this.bFind;
     }
 
