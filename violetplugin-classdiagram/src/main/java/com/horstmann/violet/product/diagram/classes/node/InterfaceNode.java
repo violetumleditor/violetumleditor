@@ -174,6 +174,7 @@ public class InterfaceNode extends ColorableNode implements INamedNode
     private static final int MIN_NAME_HEIGHT = 45;
     private static final int MIN_WIDTH = 100;
     private static final String STATIC = "<<static>>";
+    private static final String HIDE= "hide ";
 
     private static LineText.Converter nameConverter = new LineText.Converter()
     {
@@ -189,6 +190,11 @@ public class InterfaceNode extends ColorableNode implements INamedNode
         public OneLineText toLineString(String text)
         {
             OneLineText lineString = new OneLineText(text);
+
+            if(lineString.contains(HIDE))
+            {
+                lineString = new HideDecorator(lineString);
+            }
 
             if(lineString.contains(STATIC))
             {
