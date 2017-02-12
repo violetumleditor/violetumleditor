@@ -29,7 +29,7 @@
 	</modules>
 	<properties>
 		<applicationVersion>2.5.3</applicationVersion>
-	</properties>
+        </properties>
 	<build>
 		<resources>
 			<resource>
