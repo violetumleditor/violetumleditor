@@ -32,6 +32,19 @@ public class UserPreferencesService
         return preferedLAF;
     }
 
+    public void setSelectedClassNameOption(String option)
+    {
+            IUserPreferencesDao pService = PreferencesServiceFactory.getInstance();
+            pService.put(PreferencesConstant.CLASS_NAME_OPTION, option);
+    }
+
+    public String  getSelectedClassNameOption()
+    {
+            IUserPreferencesDao pService = PreferencesServiceFactory.getInstance();
+            String preferedOption = pService.get(PreferencesConstant.CLASS_NAME_OPTION , "disabled");
+            return preferedOption;
+    }
+
     /**
      * @return the list of lastest opened files (as path strings)
      */

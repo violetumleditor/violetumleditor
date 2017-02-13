@@ -29,7 +29,6 @@ import java.util.Locale;
 
 import com.horstmann.violet.application.gui.MainFrame;
 import com.horstmann.violet.application.gui.SplashScreen;
-import com.horstmann.violet.application.menu.SettingProperties;
 import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.dialog.DialogFactoryMode;
 import com.horstmann.violet.framework.file.GraphFile;
@@ -111,16 +110,10 @@ public class UMLEditorApplication
     }
 
     /**
-     * Load properties from file, and set locale
-     */
-    private void loadPropertiesFromFile() {
-        SettingProperties settingProperties = new SettingProperties();
-    }
-
-    /**
      * Initialize theme
      */
-    private static void initBeanFactory() {
+    private static void initBeanFactory()
+    {
         IUserPreferencesDao userPreferencesDao = new DefaultUserPreferencesDao();
         BeanFactory.getFactory().register(IUserPreferencesDao.class, userPreferencesDao);
 
@@ -148,8 +141,6 @@ public class UMLEditorApplication
         IFileChooserService fileChooserService = new JFileChooserService();
         BeanFactory.getFactory().register(IFileChooserService.class, fileChooserService);
     }
-
-
 
     /**
      * Creates workspace when application works as a standalone one. It contains :<br>

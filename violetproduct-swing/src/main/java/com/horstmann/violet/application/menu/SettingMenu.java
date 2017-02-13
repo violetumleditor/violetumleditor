@@ -26,15 +26,19 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import com.horstmann.violet.application.gui.*;
+import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
+import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
+import com.horstmann.violet.framework.userpreferences.UserPreferencesService;
 import com.horstmann.violet.product.diagram.classes.node.ClassNode;
 
 /**
  * Represents the setting menu on the editor frame
  */
 @ResourceBundleBean(resourceReference = MenuFactory.class)
-public class SettingMenu extends JMenu {
+public class SettingMenu extends JMenu
+{
 
     /**
      * Default constructor
@@ -42,7 +46,9 @@ public class SettingMenu extends JMenu {
      * @param mainFrame
      */
     @ResourceBundleBean(key = "setting")
-    public SettingMenu(final MainFrame mainFrame) {
+    public SettingMenu(final MainFrame mainFrame)
+    {
+        BeanInjector.getInjector().inject(this);
         ResourceBundleInjector.getInjector().inject(this);
         this.mainFrame = mainFrame;
         this.createMenu();
@@ -52,29 +58,29 @@ public class SettingMenu extends JMenu {
     /**
      * Initialize the menu
      */
-    private void createMenu() {
-
-        changeClassNameJBox.addActionListener(new ActionListener() {
-                                            @Override
-                                            public void actionPerformed(ActionEvent e) {
-                                                if (changeClassNameJBox.isSelected()) {
-
-                                                    ClassNode.classNameChange = true;
-                                                    settingProperties.setSelectedClassNameOption("enabled");
-                                                    settingProperties.savePropertiesToFile();
-
-                                                } else {
-
-                                                    ClassNode.classNameChange = false;
-                                                    settingProperties.setSelectedClassNameOption("disabled");
-                                                    settingProperties.savePropertiesToFile();
-                                                }
-                                            }
-                                        }
+    private void createMenu()
+    {
+        changeClassNameJBox.addActionListener(new ActionListener()
+                                              {
+                                                  @Override
+                                                  public void actionPerformed(ActionEvent e)
+                                                  {
+                                                      if (changeClassNameJBox.isSelected())
+                                                      {
+                                                          ClassNode.classNameChange = true;
+                                                          userPreferencesServices.setSelectedClassNameOption("enabled");
+                                                      }
+                                                      else
+                                                          {
+                                                          ClassNode.classNameChange = false;
+                                                          userPreferencesServices.setSelectedClassNameOption("disabled");
+                                                          }
+                                                  }
+                                              }
         );
 
-        if (settingProperties.getSelectedClassNameOption().equals("enabled")) {
-
+        if (userPreferencesServices.getSelectedClassNameOption().equals("enabled"))
+        {
             changeClassNameJBox.setSelected(true);
         }
 
@@ -86,12 +92,10 @@ public class SettingMenu extends JMenu {
      */
     private MainFrame mainFrame;
 
-    /**
-     * Initialize  SettingProperties
-     */
-    private SettingProperties settingProperties = new SettingProperties();
-
     @ResourceBundleBean(key = "setting.dialog.name.class")
     private JCheckBoxMenuItem changeClassNameJBox;
+
+    @InjectedBean
+    private UserPreferencesService userPreferencesServices;
 
 }
