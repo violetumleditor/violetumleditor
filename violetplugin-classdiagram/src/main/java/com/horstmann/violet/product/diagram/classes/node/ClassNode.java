@@ -20,6 +20,9 @@ import java.util.List;
  */
 public class ClassNode extends ColorableNode implements INamedNode
 {
+
+    public static boolean classNameChange = false;
+
     /**
      * Construct a class node with a default size
      */
@@ -136,7 +139,26 @@ public class ClassNode extends ColorableNode implements INamedNode
      */
     public void setName(LineText newValue)
     {
-        name.setText(newValue);
+        if (classNameChange == true)
+        {
+            toBigLetter(getName());
+        }
+        else
+            {
+            name.setText(newValue);
+            }
+    }
+
+    /**
+     * Sets the name from big letter.
+     *
+     * @param newValue the class name
+     */
+    public void toBigLetter(LineText newValue)
+    {
+        String newName = newValue.toString().substring(0, 1).toUpperCase()
+                         + getName().toString().substring(1);
+        name.setText(newName);
     }
 
     /**

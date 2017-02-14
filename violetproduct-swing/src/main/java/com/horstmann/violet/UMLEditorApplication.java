@@ -110,11 +110,11 @@ public class UMLEditorApplication
         createDefaultWorkspace(filesToOpen);
     }
 
-
     /**
      * Initialize theme
      */
-    private static void initBeanFactory() {
+    private static void initBeanFactory()
+    {
         IUserPreferencesDao userPreferencesDao = new DefaultUserPreferencesDao();
         BeanFactory.getFactory().register(IUserPreferencesDao.class, userPreferencesDao);
 
@@ -144,8 +144,6 @@ public class UMLEditorApplication
         IFileChooserService fileChooserService = new JFileChooserService();
         BeanFactory.getFactory().register(IFileChooserService.class, fileChooserService);
     }
-
-
 
     /**
      * Creates workspace when application works as a standalone one. It contains :<br>

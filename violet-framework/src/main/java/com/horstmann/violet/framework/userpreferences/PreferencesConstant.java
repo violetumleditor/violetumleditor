@@ -103,6 +103,11 @@ public class PreferencesConstant
             "network.guestconfig.http.serverurl");
 
     /**
+     * Key to store class name setting
+     */
+    public static final PreferencesConstant CLASS_NAME_OPTION = new PreferencesConstant("StartFromBig");
+
+    /**
      * Key to store prefered language
      */
     public static final PreferencesConstant LANGUAGE = new PreferencesConstant("language");
@@ -114,7 +119,7 @@ public class PreferencesConstant
 
     static
     {
-        LIST = new PreferencesConstant[8];
+        LIST = new PreferencesConstant[9];
         LIST[0] = LOOK_AND_FEEL;
         LIST[1] = RECENT_FILES;
         LIST[2] = OPENED_FILES_ON_WORKSPACE;
@@ -122,7 +127,9 @@ public class PreferencesConstant
         LIST[4] = NETWORK_HOSTCONFIG_USERID;
         LIST[5] = NETWORK_GUESTCONFIG_USERID;
         LIST[6] = NETWORK_GUESTCONFIG_HTTP_SERVERURL;
-        LIST[7] = LANGUAGE;
+        LIST[7] = CLASS_NAME_OPTION;
+        LIST[8] = LANGUAGE;
+
     }
 
 }
