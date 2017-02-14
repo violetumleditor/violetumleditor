@@ -21,16 +21,17 @@
 
 package com.horstmann.violet.product.diagram.abstracts.node;
 
-import java.awt.Graphics2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.io.Serializable;
-import java.util.List;
-
 import com.horstmann.violet.product.diagram.abstracts.ConnectedEdgeListener;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.IIdentifiable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.property.text.LineText;
+
+import java.awt.*;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * A node_old in a graph. To be more precise, a node_old is an graphical entity that represents a class, a sequence, a state or all other
@@ -142,7 +143,7 @@ public interface INode extends Serializable, Cloneable, IIdentifiable, Connected
      * Get the best connection point to connect this node_old with another node_old. This should be a point on the boundary of the shape of
      * this node_old.
      * 
-     * @param d the direction from the center of the bounding rectangle towards the boundary
+     * @param edge the direction from the center of the bounding rectangle towards the boundary
      * @return the recommended connection point
      */
     Point2D getConnectionPoint(IEdge edge);
@@ -204,4 +205,10 @@ public interface INode extends Serializable, Cloneable, IIdentifiable, Connected
      * @return a deep copy of this object
      */
     INode clone();
+
+    LineText getName();
+
+    LineText getAttributes();
+
+    LineText getMethods();
 }

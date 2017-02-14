@@ -42,6 +42,7 @@ import com.horstmann.violet.framework.file.persistence.XHTMLPersistenceService;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanFactory;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
+import com.horstmann.violet.framework.language.LanguageManager;
 import com.horstmann.violet.framework.plugin.PluginLoader;
 import com.horstmann.violet.framework.theme.BlueAmbianceTheme;
 import com.horstmann.violet.framework.theme.ClassicMetalTheme;
@@ -108,7 +109,11 @@ public class UMLEditorApplication
         BeanInjector.getInjector().inject(this);
         createDefaultWorkspace(filesToOpen);
     }
-    
+
+
+    /**
+     * Initialize theme
+     */
     private static void initBeanFactory() {
         IUserPreferencesDao userPreferencesDao = new DefaultUserPreferencesDao();
         BeanFactory.getFactory().register(IUserPreferencesDao.class, userPreferencesDao);
@@ -127,6 +132,8 @@ public class UMLEditorApplication
         themeManager.applyPreferedTheme();
         BeanFactory.getFactory().register(ThemeManager.class, themeManager);
         themeManager.applyPreferedTheme();
+        LanguageManager languageManager = new LanguageManager();
+        languageManager.applyPreferedLanguage();
 
         DialogFactory dialogFactory = new DialogFactory(DialogFactoryMode.INTERNAL);
         BeanFactory.getFactory().register(DialogFactory.class, dialogFactory);

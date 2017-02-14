@@ -5,10 +5,10 @@ import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
-import com.horstmann.violet.product.diagram.property.choiceList.ChoiceList;
-import com.horstmann.violet.product.diagram.property.choiceList.TextChoiceList;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.IResizableNode;
+import com.horstmann.violet.product.diagram.property.choiceList.ChoiceList;
+import com.horstmann.violet.product.diagram.property.choiceList.TextChoiceList;
 import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.MultiLineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
@@ -139,6 +139,21 @@ public class CombinedFragmentNode extends AbstractNode implements IResizableNode
     public String getToolTip()
     {
         return SequenceDiagramConstant.SEQUENCE_DIAGRAM_RESOURCE.getString("tooltip.combined_fragment_node");
+    }
+
+    @Override
+    public LineText getName() {
+        return operatorText;
+    }
+
+    @Override
+    public LineText getAttributes() {
+        return frameContent;
+    }
+
+    @Override
+    public LineText getMethods() {
+        return null;
     }
 
     @Override

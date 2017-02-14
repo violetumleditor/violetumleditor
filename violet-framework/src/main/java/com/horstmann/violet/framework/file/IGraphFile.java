@@ -1,6 +1,8 @@
 package com.horstmann.violet.framework.file;
 
+import java.io.IOException;
 import java.io.OutputStream;
+import java.security.GeneralSecurityException;
 
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 
@@ -89,4 +91,9 @@ public interface IGraphFile extends IFile
     
     public abstract void autoSave();
     public abstract void removeBackup();
+
+    /**
+     * Saves file and uploads it to Google Drive
+     */
+    void saveToGoogleDrive() throws GeneralSecurityException, IOException;
 }

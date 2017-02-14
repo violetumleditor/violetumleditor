@@ -26,6 +26,7 @@ public class SingleLineText extends LineText
     {
         super(lineText);
         oneLineString = lineText.getOneLineString().clone();
+        text = lineText.text;
     }
     @Override
     public void reconstruction(Converter converter)

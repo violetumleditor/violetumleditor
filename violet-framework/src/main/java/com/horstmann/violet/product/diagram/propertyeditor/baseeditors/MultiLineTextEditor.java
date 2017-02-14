@@ -21,36 +21,55 @@
 
 package com.horstmann.violet.product.diagram.propertyeditor.baseeditors;
 
-import javax.swing.*;
-import javax.swing.text.JTextComponent;
-
+import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
 import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.MultiLineText;
+
+import javax.swing.*;
+import javax.swing.text.JTextComponent;
 
 /**
  * A property editor for the MultiLineText type.
  */
 public class MultiLineTextEditor extends LineTextEditor
 {
+    /**
+     * Multi line edited text.
+     */
+    private MultiLineText source;
+
+    /**
+     * Number of text lines.
+     */
+    private static final int ROWS;
+
+    static
+    {
+        ROWS = Integer.parseInt(ResourceBundleConstant.TEXT_EDITOR_RESOURCE.getString("rows"));
+    }
+
+    @Override
     protected void setSourceEditor()
     {
         this.source = (MultiLineText) getValue();
     }
+
+    @Override
     protected LineText getSourceEditor()
     {
         return this.source;
     }
+
+    @Override
     protected JTextComponent createTextComponent()
     {
         return new JTextArea(ROWS, COLUMNS);
     }
 
-    protected JComponent createScrollPanel(JTextComponent textComponent)
+    @Override
+    protected JComponent createScrollPanel(final JTextComponent textComponent)
     {
         return new JScrollPane(textComponent);
     }
 
-    private MultiLineText source;
-
-    private static final int ROWS = 5;
 }

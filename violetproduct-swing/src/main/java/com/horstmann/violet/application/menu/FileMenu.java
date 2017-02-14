@@ -34,6 +34,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.GeneralSecurityException;
 import java.text.MessageFormat;
 import java.util.Comparator;
 import java.util.List;
@@ -124,6 +125,7 @@ public class FileMenu extends JMenu
         initFileRecentMenu();
         initFileSaveItem();
         initFileSaveAsItem();
+        initFileSaveToGoogleDrive();
         initFileExportMenu();
         initFilePrintItem();
         initFileExitItem();
@@ -134,6 +136,7 @@ public class FileMenu extends JMenu
         this.add(this.fileRecentMenu);
         this.add(this.fileSaveItem);
         this.add(this.fileSaveAsItem);
+        this.add(this.fileSaveToGoogleDrive);
         this.add(this.fileExportMenu);
         this.add(this.filePrintItem);
         this.add(this.fileExitItem);
@@ -334,6 +337,34 @@ public class FileMenu extends JMenu
             }
         });
         if (this.fileChooserService == null) this.fileSaveAsItem.setEnabled(false);
+    }
+
+    private void initFileSaveToGoogleDrive()
+    {
+        this.fileSaveToGoogleDrive.addActionListener((event) ->
+        {
+            if (!mainFrame.isThereAnyDiagramDisplayed())
+            {
+                dialogFactory.showErrorDialog(dialogSaveNothingToSaveMessage);
+                return;
+            }
+
+            saveToGoogleDrive();
+        });
+    }
+
+    private void saveToGoogleDrive()
+    {
+        try
+        {
+            final IWorkspace workspace = mainFrame.getActiveWorkspace();
+            final IGraphFile graphFile = workspace.getGraphFile();
+            graphFile.saveToGoogleDrive();
+        }
+        catch (GeneralSecurityException | IOException e)
+        {
+            dialogFactory.showErrorDialog(googleDriveSaveFileErrorMessage);
+        }
     }
 
     /**
@@ -727,6 +758,9 @@ public class FileMenu extends JMenu
     @ResourceBundleBean(key = "file.save_as")
     private JMenuItem fileSaveAsItem;
 
+    @ResourceBundleBean(key = "file.save_to_google_drive")
+    private JMenuItem fileSaveToGoogleDrive;
+
     @ResourceBundleBean(key = "file.export_to_pdf")
     private JMenuItem fileExportToPdfItem;
 
@@ -765,6 +799,12 @@ public class FileMenu extends JMenu
 
     @ResourceBundleBean(key = "dialog.open_file_content_incompatibility.text")
     private String dialogOpenFileIncompatibilityMessage;
+
+    @ResourceBundleBean(key = "dialog.save_nothing_to_save.text")
+    private String dialogSaveNothingToSaveMessage;
+
+    @ResourceBundleBean(key = "dialog.google_drive_save_error.text")
+    private String googleDriveSaveFileErrorMessage;
 
     @ResourceBundleBean(key = "workspace.unsaved_prefix")
     private String unsavedPrefix;

@@ -28,6 +28,7 @@ import com.horstmann.violet.framework.graphics.shape.ContentInsideEllipse;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.IInitialStateNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.state.StateDiagramConstant;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 
@@ -72,6 +73,21 @@ public class CircularInitialStateNode extends AbstractNode implements IInitialSt
     public String getToolTip()
     {
         return StateDiagramConstant.STATE_DIAGRAM_RESOURCE.getString("tooltip.scenario_start_node");
+    }
+
+    @Override
+    public LineText getName() {
+        return null;
+    }
+
+    @Override
+    public LineText getAttributes() {
+        return null;
+    }
+
+    @Override
+    public LineText getMethods() {
+        return null;
     }
 
     /**

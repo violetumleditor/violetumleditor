@@ -21,15 +21,19 @@
 
 package com.horstmann.violet.product.diagram.activity.node;
 
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-
-import com.horstmann.violet.framework.graphics.content.*;
+import com.horstmann.violet.framework.graphics.content.ContentBackground;
+import com.horstmann.violet.framework.graphics.content.ContentBorder;
+import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
+import com.horstmann.violet.framework.graphics.content.EmptyContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideDiamond;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
+import com.horstmann.violet.product.diagram.common.node.ColorableNode;
+import com.horstmann.violet.product.diagram.property.text.LineText;
+
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * A decision node_old in an activity diagram.
@@ -77,6 +81,21 @@ public class DecisionNode extends ColorableNode
     public String getToolTip()
     {
         return ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("tooltip.decision_node");
+    }
+
+    @Override
+    public LineText getName() {
+        return null;
+    }
+
+    @Override
+    public LineText getAttributes() {
+        return null;
+    }
+
+    @Override
+    public LineText getMethods() {
+        return null;
     }
 
     @Override

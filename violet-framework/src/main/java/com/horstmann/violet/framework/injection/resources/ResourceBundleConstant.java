@@ -24,17 +24,25 @@ package com.horstmann.violet.framework.injection.resources;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public abstract class ResourceBundleConstant
+/**
+ * Collects resource bundles into one place.
+ */
+public final class ResourceBundleConstant
 {
     public static final String OTHER_STRINGS = "properties.OtherStrings";
     public static final String FILE_STRINGS = "properties.FileStrings";
     public static final String GENERIC_STRINGS = "properties.%Strings";
     public static final String NODE_AND_EDGE_STRINGS = "properties.NodeAndEdgeStrings";
     public static final String EDITOR_STRINGS = "properties.EditorStrings";
+    public static final String TEXT_EDITOR_STRINGS = "properties.TextEditorStrings";
 
     public static final ResourceBundle NODE_AND_EDGE_RESOURCE = ResourceBundle.getBundle(NODE_AND_EDGE_STRINGS, Locale.getDefault());
     public static final ResourceBundle EDITOR_RESOURCE = ResourceBundle.getBundle(EDITOR_STRINGS, Locale.getDefault());
     public static final ResourceBundle FILE_RESOURCE = ResourceBundle.getBundle(FILE_STRINGS, Locale.getDefault());
+    public static final ResourceBundle TEXT_EDITOR_RESOURCE = ResourceBundle.getBundle(TEXT_EDITOR_STRINGS, Locale.getDefault());
     public static final ResourceBundle OTHER_RESOURCE = ResourceBundle.getBundle(OTHER_STRINGS, Locale.getDefault());
-//    public static final ResourceBundle GENERIC = ResourceBundle.getBundle(GENERIC_STRINGS, Locale.getDefault());
+
+    private ResourceBundleConstant()
+    {
+    }
 }

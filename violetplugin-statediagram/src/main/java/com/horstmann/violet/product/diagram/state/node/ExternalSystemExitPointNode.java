@@ -1,17 +1,17 @@
 package com.horstmann.violet.product.diagram.state.node;
 
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.GeneralPath;
-
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
-import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 import com.horstmann.violet.product.diagram.state.StateDiagramConstant;
+
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.GeneralPath;
 
 public class ExternalSystemExitPointNode extends ColorableNode
 {
@@ -124,9 +124,19 @@ public class ExternalSystemExitPointNode extends ColorableNode
 	 *
 	 * @return the class name
 	 */
-	public SingleLineText getName()
+	public LineText getName()
 	{
 		return name;
+	}
+
+	@Override
+	public LineText getAttributes() {
+		return null;
+	}
+
+	@Override
+	public LineText getMethods() {
+		return null;
 	}
 
 	/**

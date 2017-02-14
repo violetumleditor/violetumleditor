@@ -21,23 +21,22 @@
 
 package com.horstmann.violet.product.diagram.object.node;
 
+import com.horstmann.violet.framework.graphics.Separator;
+import com.horstmann.violet.framework.graphics.content.*;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
+import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.common.node.ColorableNode;
+import com.horstmann.violet.product.diagram.object.ObjectDiagramConstant;
+import com.horstmann.violet.product.diagram.object.edge.AssociationEdge;
+import com.horstmann.violet.product.diagram.object.edge.ObjectReferenceEdge;
+import com.horstmann.violet.product.diagram.property.text.LineText;
+import com.horstmann.violet.product.diagram.property.text.SingleLineText;
+
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
-
-import com.horstmann.violet.framework.graphics.Separator;
-import com.horstmann.violet.framework.graphics.content.*;
-import com.horstmann.violet.framework.graphics.content.HorizontalLayout;
-import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
-import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.common.node.ColorableNode;
-import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.object.ObjectDiagramConstant;
-import com.horstmann.violet.product.diagram.object.edge.AssociationEdge;
-import com.horstmann.violet.product.diagram.property.text.LineText;
-import com.horstmann.violet.product.diagram.property.text.SingleLineText;
-import com.horstmann.violet.product.diagram.object.edge.ObjectReferenceEdge;
 
 /**
  * A field node_old in an object diagram.
@@ -240,6 +239,16 @@ public class FieldNode extends ColorableNode
     public LineText getName()
     {
         return name;
+    }
+
+    @Override
+    public LineText getAttributes() {
+        return value;
+    }
+
+    @Override
+    public LineText getMethods() {
+        return null;
     }
 
     /**

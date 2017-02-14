@@ -17,36 +17,34 @@ import java.util.List;
  * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 16.12.2015
  */
-public abstract class LineText implements Serializable, Cloneable, EditableText
-{
-    public interface Converter
-    {
+public abstract class LineText implements Serializable, Cloneable, EditableText {
+
+    public interface Converter {
         /**
          * converts plain text to one that may contain decorators
+         *
          * @param text
          * @return
          */
-        OneLineText toLineString(String text);
+        OneLineText toLineString(final String text);
     }
-    public interface ChangeListener
-    {
+
+    public interface ChangeListener {
         /**
          * This function is called when the text is changed
          */
         void onChange();
     }
 
-    public LineText()
-    {
+    public LineText() {
         this(DEFAULT_CONVERTER);
     }
-    public LineText(Converter converter)
-    {
+
+    public LineText(final Converter converter) {
         this.converter = converter;
     }
 
-    protected LineText(LineText lineText) throws CloneNotSupportedException
-    {
+    protected LineText(final LineText lineText) throws CloneNotSupportedException {
         getLabel().setHorizontalAlignment(lineText.getLabel().getHorizontalAlignment());
         getLabel().setVerticalAlignment(lineText.getLabel().getVerticalAlignment());
         getLabel().setForeground(lineText.getLabel().getForeground());
@@ -54,19 +52,21 @@ public abstract class LineText implements Serializable, Cloneable, EditableText
         getLabel().setText(lineText.getLabel().getText());
         converter = lineText.converter;
     }
+    
+    public String getText(){
+    	return getLabel().getText();
+    }
 
-    public final void reconstruction()
-    {
+    public final void reconstruction() {
         this.reconstruction(DEFAULT_CONVERTER);
     }
-    public void reconstruction(Converter converter)
-    {
+
+    public void reconstruction(final Converter converter) {
         this.converter = converter;
     }
 
     @Override
-    public LineText clone()
-    {
+    public LineText clone() {
         try {
             return copy();
         } catch (CloneNotSupportedException e) {
@@ -74,96 +74,90 @@ public abstract class LineText implements Serializable, Cloneable, EditableText
         }
     }
 
-    protected LineText copy() throws CloneNotSupportedException
-    {
+    protected LineText copy() throws CloneNotSupportedException {
         return null;
     }
 
     /**
      * set converter
+     *
      * @param converter
      * @see Converter
      */
-    public final void setConverter(Converter converter)
-    {
+    public final void setConverter(final Converter converter) {
         this.converter = converter;
     }
 
     /**
      * @return bounds of text in label
      */
-    public final Rectangle2D getBounds()
-    {
-        if(null == bounds)
-        {
+    public final Rectangle2D getBounds() {
+        if (null == bounds) {
             bounds = new Rectangle2D.Double(0, 0, 0, 0);
         }
         return bounds;
     }
 
-    public final void setText(EditableText text)
-    {
+    public final void setText(final EditableText text) {
         setText(text.toEdit());
     }
 
     /**
      * @return label color
      */
-    public final Color getTextColor()
-    {
+    public final Color getTextColor() {
         return getLabel().getForeground();
     }
 
     /**
      * sets label color
+     *
      * @param color
      */
-    public final void setTextColor(Color color)
-    {
+    public final void setTextColor(final Color color) {
         getLabel().setForeground(color);
     }
 
     /**
      * sets label padding
+     *
      * @param padding
      */
-    public final void setPadding(int padding)
-    {
+    public final void setPadding(int padding) {
         setPadding(padding, padding);
     }
 
     /**
      * sets label padding
+     *
      * @param vertical
      * @param horizontal
      */
-    public final void setPadding(int vertical, int horizontal)
-    {
+    public final void setPadding(int vertical, int horizontal) {
         setPadding(vertical, horizontal, vertical, horizontal);
     }
 
     /**
      * sets label padding
+     *
      * @param top
      * @param left
      * @param bottom
      * @param right
      */
-    public final void setPadding(int top, int left, int bottom, int right)
-    {
+    public final void setPadding(int top, int left, int bottom, int right) {
         getLabel().setBorder(new EmptyBorder(top, left, bottom, right));
         refresh();
     }
 
     /**
      * sets label alignments
-     * @param flag
-     *              LEFT
-     *              CENTER
-     *              RIGHT
+     *
+     * @param flag LEFT
+     *             CENTER
+     *             RIGHT
      */
-    public final void setAlignment(int flag)
-    {
+    public final void setAlignment(int flag) {
         getLabel().setHorizontalAlignment(flag);
         refresh();
     }
@@ -171,29 +165,28 @@ public abstract class LineText implements Serializable, Cloneable, EditableText
     /**
      * @return label alignments
      */
-    public final int getAlignment()
-    {
+    public final int getAlignment() {
         return getLabel().getHorizontalAlignment();
     }
 
     /**
      * Draws text with specific size
+     *
      * @param graphics
      * @param rect
      */
-    public final void draw(Graphics2D graphics, Rectangle2D rect)
-    {
+    public final void draw(Graphics2D graphics, Rectangle2D rect) {
         getLabel().setBounds(0, 0, (int) rect.getWidth(), (int) rect.getHeight());
         draw(graphics, new Point2D.Double(rect.getX(), rect.getY()));
     }
 
     /**
      * Draws text shifted by offset
+     *
      * @param graphics
      * @param point
      */
-    public final void draw(Graphics2D graphics, Point2D point)
-    {
+    public final void draw(Graphics2D graphics, Point2D point) {
         graphics.translate(point.getX(), point.getY());
         getLabel().paint(graphics);
         graphics.translate(-point.getX(), -point.getY());
@@ -201,22 +194,21 @@ public abstract class LineText implements Serializable, Cloneable, EditableText
 
     /**
      * Draws text
+     *
      * @param graphics
      */
-    public final void draw(Graphics2D graphics)
-    {
+    public final void draw(Graphics2D graphics) {
         getLabel().setBounds(0, 0, (int) getBounds().getWidth(), (int) getBounds().getHeight());
         draw(graphics, new Point2D.Double(0, 0));
     }
 
     /**
      * add listener
+     *
      * @param changeListener
      */
-    public final void addChangeListener(ChangeListener changeListener)
-    {
-        if(null == changeListener)
-        {
+    public final void addChangeListener(ChangeListener changeListener) {
+        if (null == changeListener) {
             throw new NullPointerException("ChangeListener can't be null");
         }
         getChangeListeners().add(changeListener);
@@ -225,27 +217,22 @@ public abstract class LineText implements Serializable, Cloneable, EditableText
     /**
      * notify all listeners that there is a change
      */
-    protected final void notifyAboutChange()
-    {
-        for (ChangeListener changeListener : getChangeListeners())
-        {
+    protected final void notifyAboutChange() {
+        for (ChangeListener changeListener : getChangeListeners()) {
             changeListener.onChange();
         }
     }
 
     /**
      * set text to label
+     *
      * @param text
      */
-    protected final void setLabelText(String text)
-    {
-        if(text.isEmpty())
-        {
+    protected final void setLabelText(String text) {
+        if (text.isEmpty()) {
             getLabel().setText("");
-        }
-        else
-        {
-            getLabel().setText("<html>"+text+"<html>");
+        } else {
+            getLabel().setText("<html>" + text + "<html>");
         }
 
         refresh();
@@ -254,14 +241,10 @@ public abstract class LineText implements Serializable, Cloneable, EditableText
     /**
      * Recalculate preferred size for text
      */
-    private void refresh()
-    {
-        if(getLabel().getText().isEmpty())
-        {
+    private void refresh() {
+        if (getLabel().getText().isEmpty()) {
             this.bounds = new Rectangle2D.Double(0, 0, 0, 0);
-        }
-        else
-        {
+        } else {
             Dimension dimension = getLabel().getPreferredSize();
             this.bounds = new Rectangle2D.Double(0, 0, dimension.getWidth(), dimension.getHeight());
         }
@@ -271,10 +254,8 @@ public abstract class LineText implements Serializable, Cloneable, EditableText
      * @return label
      * @see JLabel
      */
-    private JLabel getLabel()
-    {
-        if (null == label || null == label.getText())
-        {
+    private JLabel getLabel() {
+        if (null == label || null == label.getText()) {
             label = new JLabel("");
         }
         return label;
@@ -283,20 +264,16 @@ public abstract class LineText implements Serializable, Cloneable, EditableText
     /**
      * @return list of listeners
      */
-    private List<ChangeListener> getChangeListeners()
-    {
-        if(null == changeListeners)
-        {
+    private List<ChangeListener> getChangeListeners() {
+        if (null == changeListeners) {
             changeListeners = new ArrayList<ChangeListener>();
         }
         return changeListeners;
     }
 
-    public static final Converter DEFAULT_CONVERTER = new Converter()
-    {
+    public static final Converter DEFAULT_CONVERTER = new Converter() {
         @Override
-        public OneLineText toLineString(String text)
-        {
+        public OneLineText toLineString(String text) {
             return new OneLineText(text);
         }
     };

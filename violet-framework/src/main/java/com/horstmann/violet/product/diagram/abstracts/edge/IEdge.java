@@ -21,15 +21,16 @@
 
 package com.horstmann.violet.product.diagram.abstracts.edge;
 
-import java.awt.Graphics2D;
+import com.horstmann.violet.product.diagram.abstracts.Direction;
+import com.horstmann.violet.product.diagram.abstracts.IIdentifiable;
+import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.property.text.LineText;
+
+import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
-
-import com.horstmann.violet.product.diagram.abstracts.Direction;
-import com.horstmann.violet.product.diagram.abstracts.IIdentifiable;
-import com.horstmann.violet.product.diagram.abstracts.node.INode;
 
 /**
  * An edge in a graph.
@@ -165,4 +166,9 @@ public interface IEdge extends Serializable, Cloneable, IIdentifiable
      */
     IEdge clone();
 
+    LineText getStartLabel();
+
+    LineText getCenterLabel();
+
+    LineText getEndLabel();
 }

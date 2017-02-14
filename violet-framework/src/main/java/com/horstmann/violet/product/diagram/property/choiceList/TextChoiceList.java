@@ -46,14 +46,14 @@ public class TextChoiceList<V> extends ChoiceList<String, V>
     /**
      * Copy constructor
      *
-     * @param copyElement
+     * @param copyElement element to copy from
      */
     protected TextChoiceList(TextChoiceList<V> copyElement)
     {
         super(copyElement);
     }
 
-    public TextChoiceList clone()
+    public TextChoiceList<V> clone()
     {
         return new TextChoiceList<V>(this);
     }
