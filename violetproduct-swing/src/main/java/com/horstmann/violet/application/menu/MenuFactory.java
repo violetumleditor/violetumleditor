@@ -92,6 +92,7 @@ public class MenuFactory
      */    
     public DocumentMenu getDocumentMenu(MainFrame editorFrame)
     {
+
         if (this.documentMenu == null)
         {
             this.documentMenu = new DocumentMenu(editorFrame);
@@ -99,10 +100,24 @@ public class MenuFactory
         return this.documentMenu;
     }
 
+    /**
+     * @param editorFrame
+     * @return setting menu
+     */    
+    public SettingMenu getSettingMenu(MainFrame editorFrame)
+    {
+
+        if (this.settingMenu == null)
+        {
+            this.settingMenu = new SettingMenu(editorFrame);
+        }
+        return this.settingMenu;
+    }
+
     private EditMenu editMenu;
     private FileMenu fileMenu;
     private HelpMenu helpMenu;
     private ViewMenu viewMenu;
     private DocumentMenu documentMenu;
-
+    private SettingMenu settingMenu;
 }
