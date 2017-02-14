@@ -126,16 +126,16 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior implements IGrap
 
     private int getNumberOfInitialNodes() 
     {
-    Collection<INode> nodeCollection = graph.getAllNodes();
-    int numberOfInitialNodes = 0;
-    for (INode node : nodeCollection)
-    {
-        if ( node instanceof IInitialStateNode)
+        Collection<INode> nodeCollection = graph.getAllNodes();
+        int numberOfInitialNodes = 0;
+        for (INode node : nodeCollection)
         {
-            numberOfInitialNodes++;
+            if ( node instanceof IInitialStateNode)
+            {
+                numberOfInitialNodes++;
+            }
         }
-    }
-    return numberOfInitialNodes;
+        return numberOfInitialNodes;
     }
 
     private void showWarningAboutNumberOfInitialNodes()
@@ -161,13 +161,11 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior implements IGrap
             {
                 newNode.incrementRevision();
                 isAdded = true;
-
             }
         }
         finally
         {
             this.behaviorManager.fireAfterAddingNodeAtPoint(newNode, location);
-
         }
         return isAdded;
     }
