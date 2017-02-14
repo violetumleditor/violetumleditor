@@ -191,7 +191,7 @@ public class ViewMenu extends JMenu
     {
         if (mainFrame.getWorkspaceList().size() == 0) return;
         IWorkspace workspace = mainFrame.getActiveWorkspace();
-        workspace.getEditorPart().changeZoom(-1);
+        workspace.getEditorPart().zoomOut();
     }
 
     /**
@@ -201,7 +201,7 @@ public class ViewMenu extends JMenu
     {
         if (mainFrame.getWorkspaceList().size() == 0) return;
         IWorkspace workspace = mainFrame.getActiveWorkspace();
-        workspace.getEditorPart().changeZoom(1);
+        workspace.getEditorPart().zoomIn();
     }
 
     /**

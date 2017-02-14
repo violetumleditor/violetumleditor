@@ -36,6 +36,7 @@ import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.ShapeEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
+import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 import com.horstmann.violet.product.diagram.state.StateDiagramConstant;
 
@@ -63,6 +64,21 @@ public class StateTransitionEdge extends ShapeEdge
     public String getToolTip()
     {
         return StateDiagramConstant.STATE_DIAGRAM_RESOURCE.getString("tooltip.state_edge");
+    }
+
+    @Override
+    public LineText getStartLabel() {
+        return null;
+    }
+
+    @Override
+    public LineText getCenterLabel() {
+        return null;
+    }
+
+    @Override
+    public LineText getEndLabel() {
+        return null;
     }
 
     /**

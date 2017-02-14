@@ -48,10 +48,10 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
     protected ColorableNode(ColorableNode node) throws CloneNotSupportedException
     {
         super(node);
+        copyColors(node);
     }
 
     @Override
-//  protected abstract void createContentStructure();
     protected void createContentStructure()
     {
         setBorder(new ContentBorder(new ContentInsideRoundRectangle(new EmptyContent()), getBorderColor()));
@@ -62,23 +62,23 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
     @Override
     public boolean contains(Point2D p)
     {
-        if(null != getBackground())
+        if (null != getBackground())
         {
             return getBackground().contains(p);
         }
         return getContent().contains(p);
     }
-    
+
     @Override
-    public boolean addConnection(IEdge edge) {
-    	// Self call (loop)
-    	INode endingNode = edge.getEndNode();
-    	if (endingNode == null) {
-    		edge.setEndNode(edge.getStartNode());
-    		edge.setEndLocation(edge.getStartLocation());
-    	}
-    	// Back to default behavior
-    	return super.addConnection(edge);
+    public boolean addConnection(IEdge edge)
+    {
+        INode endingNode = edge.getEndNode();
+        if (endingNode == null)
+        {
+            edge.setEndNode(edge.getStartNode());
+            edge.setEndLocation(edge.getStartLocation());
+        }
+        return super.addConnection(edge);
     }
 
     @Override
@@ -91,9 +91,10 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
     {
         this.background = background;
     }
+
     protected final ContentBackground getBackground()
     {
-        if(null == background)
+        if (null == background)
         {
             getContent();
         }
@@ -104,22 +105,21 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
     {
         this.border = border;
     }
+
     protected final ContentBorder getBorder()
     {
-        if(null == border)
+        if (null == border)
         {
             getContent();
         }
         return border;
     }
 
-
-
     @Override
     public void setBackgroundColor(Color bgColor)
     {
         backgroundColor = bgColor;
-        if(null != background)
+        if (null != background)
         {
             background.setBackgroundColor(bgColor);
         }
@@ -128,7 +128,7 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
     @Override
     public final Color getBackgroundColor()
     {
-        if(null == backgroundColor)
+        if (null == backgroundColor)
         {
             return ColorToolsBarPanel.DEFAULT_COLOR.getBackgroundColor();
         }
@@ -139,7 +139,7 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
     public void setBorderColor(Color borderColor)
     {
         this.borderColor = borderColor;
-        if(null != border)
+        if (null != border)
         {
             border.setBorderColor(borderColor);
         }
@@ -148,7 +148,7 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
     @Override
     public final Color getBorderColor()
     {
-        if(null == borderColor)
+        if (null == borderColor)
         {
             return ColorToolsBarPanel.DEFAULT_COLOR.getBorderColor();
         }
@@ -164,11 +164,17 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
     @Override
     public final Color getTextColor()
     {
-        if(null == textColor)
+        if (null == textColor)
         {
             return ColorToolsBarPanel.DEFAULT_COLOR.getTextColor();
         }
         return textColor;
+    }
+
+    private void copyColors(ColorableNode node)
+    {
+        setBackgroundColor(node.getBackgroundColor());
+        setBorderColor(node.getBorderColor());
     }
 
     private transient ContentBackground background = null;

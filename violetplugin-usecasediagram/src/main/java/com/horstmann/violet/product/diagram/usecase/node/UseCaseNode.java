@@ -21,20 +21,20 @@
 
 package com.horstmann.violet.product.diagram.usecase.node;
 
-import java.awt.Color;
-import java.awt.geom.Point2D;
-
 import com.horstmann.violet.framework.graphics.content.ContentBackground;
 import com.horstmann.violet.framework.graphics.content.ContentBorder;
 import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
 import com.horstmann.violet.framework.graphics.content.TextContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideEllipse;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 import com.horstmann.violet.product.diagram.usecase.UseCaseDiagramConstant;
+
+import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
  * A use case node_old in a use case diagram.
@@ -130,9 +130,19 @@ public class UseCaseNode extends ColorableNode
      * Gets the name property value.
      *
      */
-    public SingleLineText getName()
+    public LineText getName()
     {
         return name;
+    }
+
+    @Override
+    public LineText getAttributes() {
+        return null;
+    }
+
+    @Override
+    public LineText getMethods() {
+        return null;
     }
 
 

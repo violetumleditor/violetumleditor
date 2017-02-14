@@ -92,6 +92,7 @@ public class MenuFactory
      */    
     public DocumentMenu getDocumentMenu(MainFrame editorFrame)
     {
+
         if (this.documentMenu == null)
         {
             this.documentMenu = new DocumentMenu(editorFrame);

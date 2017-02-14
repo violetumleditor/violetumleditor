@@ -23,13 +23,17 @@ package com.horstmann.violet.application.menu;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Locale;
 import javax.swing.*;
 
 import com.horstmann.violet.application.gui.*;
-import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
-import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
+import com.horstmann.violet.framework.injection.bean.ManiocFramework;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
+import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
+import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
+import com.horstmann.violet.framework.language.Language;
+import com.horstmann.violet.framework.language.LanguageManager;
 import com.horstmann.violet.framework.userpreferences.UserPreferencesService;
 import com.horstmann.violet.product.diagram.classes.node.ClassNode;
 
@@ -40,11 +44,6 @@ import com.horstmann.violet.product.diagram.classes.node.ClassNode;
 public class SettingMenu extends JMenu
 {
 
-    /**
-     * Default constructor
-     *
-     * @param mainFrame
-     */
     @ResourceBundleBean(key = "setting")
     public SettingMenu(final MainFrame mainFrame)
     {
@@ -52,7 +51,6 @@ public class SettingMenu extends JMenu
         ResourceBundleInjector.getInjector().inject(this);
         this.mainFrame = mainFrame;
         this.createMenu();
-
     }
 
     /**
@@ -60,6 +58,32 @@ public class SettingMenu extends JMenu
      */
     private void createMenu()
     {
+
+        ButtonGroup group = new ButtonGroup();
+        settingItemMenuLanguage.setIcon(languageIcon);
+        for (final Language language : languageManager.getLanguages())
+        {
+            JCheckBoxMenuItem menuLangSelect = new JCheckBoxMenuItem(language.getName());
+            group.add(menuLangSelect);
+
+            if (language.getShortcut().equals(Locale.getDefault().toString()))
+            {
+                menuLangSelect.setSelected(true);
+            }
+
+            settingItemMenuLanguage.add(menuLangSelect);
+            menuLangSelect.addActionListener(new ActionListener()
+                                             {
+                                                 @Override
+                                                 public void actionPerformed(ActionEvent e)
+                                                 {
+                                                     changeLanguage(language.getShortcut());
+                                                 }
+                                             }
+            );
+
+        }
+        
         changeClassNameJBox.addActionListener(new ActionListener()
                                               {
                                                   @Override
@@ -85,17 +109,48 @@ public class SettingMenu extends JMenu
         }
 
         this.add(changeClassNameJBox);
+        this.add(settingItemMenuLanguage);
+    }
+
+    private void changeLanguage(String languageName)
+    {
+        languageChangeAlert();
+        languageManager.setPreferedLanguage(languageName);
+    }
+
+    /**
+     * Initialize alert
+     */
+    private void languageChangeAlert()
+    {
+        Object[] options = {"OK"};
+        JOptionPane.showOptionDialog(null, changeLanguageDialogMessage, changeLanguageDialogTitle,
+                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
     }
 
     /**
      * Application frame
      */
     private MainFrame mainFrame;
-
-    @ResourceBundleBean(key = "setting.dialog.name.class")
-    private JCheckBoxMenuItem changeClassNameJBox;
+   
+    LanguageManager languageManager = new LanguageManager();
 
     @InjectedBean
     private UserPreferencesService userPreferencesServices;
+
+    @ResourceBundleBean(key = "setting.language")
+    private JMenu settingItemMenuLanguage;
+
+    @ResourceBundleBean(key = "dialog.change_laf.title")
+    private String changeLanguageDialogTitle;
+
+    @ResourceBundleBean(key = "setting.dialog.change_language")
+    private String changeLanguageDialogMessage;
+    
+    @ResourceBundleBean(key = "setting.dialog.name.class")
+    private JCheckBoxMenuItem changeClassNameJBox;
+
+    @ResourceBundleBean(key = "setting.language.active.icon")
+    private ImageIcon languageIcon;
 
 }

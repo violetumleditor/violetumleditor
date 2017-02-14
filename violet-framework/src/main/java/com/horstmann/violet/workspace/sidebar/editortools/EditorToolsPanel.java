@@ -21,30 +21,27 @@
 
 package com.horstmann.violet.workspace.sidebar.editortools;
 
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.List;
-
-import javax.swing.JButton;
-import javax.swing.JPanel;
-
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.behavior.CutCopyPasteBehavior;
+import com.horstmann.violet.workspace.editorpart.behavior.FindBehavior;
 import com.horstmann.violet.workspace.editorpart.behavior.UndoRedoCompoundBehavior;
 import com.horstmann.violet.workspace.sidebar.ISideBarElement;
 import com.horstmann.violet.workspace.sidebar.SideBar;
 
-@ResourceBundleBean(resourceReference = SideBar.class)
-public class EditorToolsPanel extends JPanel implements ISideBarElement
-{
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
-    public EditorToolsPanel()
-    {
+@ResourceBundleBean(resourceReference = SideBar.class)
+public class EditorToolsPanel extends JPanel implements ISideBarElement {
+
+    public EditorToolsPanel() {
         super();
         ResourceBundleInjector.getInjector().inject(this);
         this.setUI(new EditorToolsPanelUI(this));
@@ -52,81 +49,78 @@ public class EditorToolsPanel extends JPanel implements ISideBarElement
         {
             public void actionPerformed(ActionEvent e)
             {
-                workspace.getEditorPart().changeZoom(1);
+                workspace.getEditorPart().zoomIn();
             }
         });
         this.bZoomOut.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
             {
-                workspace.getEditorPart().changeZoom(-1);
+                workspace.getEditorPart().zoomOut();
             }
         });
-        this.bUndo.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-            	UndoRedoCompoundBehavior undoRedoBehavior = getUndoRedoBehavior();
-            	if (undoRedoBehavior != null) {
-            		undoRedoBehavior.undo();
-            	}
+        this.bUndo.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                UndoRedoCompoundBehavior undoRedoBehavior = getUndoRedoBehavior();
+                if (undoRedoBehavior != null) {
+                    undoRedoBehavior.undo();
+                }
             }
         });
-        this.bRedo.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-            	UndoRedoCompoundBehavior undoRedoBehavior = getUndoRedoBehavior();
-            	if (undoRedoBehavior != null) {
-            		undoRedoBehavior.redo();
-            	}
+        this.bRedo.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                UndoRedoCompoundBehavior undoRedoBehavior = getUndoRedoBehavior();
+                if (undoRedoBehavior != null) {
+                    undoRedoBehavior.redo();
+                }
             }
         });
-        this.bDelete.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
+        this.bDelete.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 workspace.getEditorPart().removeSelected();
             }
         });
-        this.bCut.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
+        this.bCut.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 CutCopyPasteBehavior cutCopyPasteBehavior = getCutCopyPasteBehavior();
                 if (cutCopyPasteBehavior != null) {
-                	cutCopyPasteBehavior.cut();
+                    cutCopyPasteBehavior.cut();
                 }
             }
         });
-        this.bCopy.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
+        this.bCopy.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 CutCopyPasteBehavior cutCopyPasteBehavior = getCutCopyPasteBehavior();
                 if (cutCopyPasteBehavior != null) {
-                	cutCopyPasteBehavior.copy();
+                    cutCopyPasteBehavior.copy();
                 }
             }
         });
-        this.bPaste.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
+        this.bPaste.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 CutCopyPasteBehavior cutCopyPasteBehavior = getCutCopyPasteBehavior();
                 if (cutCopyPasteBehavior != null) {
-                	cutCopyPasteBehavior.paste();
+                    cutCopyPasteBehavior.paste();
                 }
             }
-        });        
+        });
+        this.bFind.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                FindBehavior findBehavior = getFindBehavior();
+                if (findBehavior != null) {
+                    findBehavior.find();
+                }
+            }
+        });
     }
-    
+
     /**
      * Looks for UndoRedoBehavior on the current editor part
-     * 
+     *
      * @return the first UndoRedoBehavior object found or null
      */
-    private UndoRedoCompoundBehavior getUndoRedoBehavior() {
+    private UndoRedoCompoundBehavior getUndoRedoBehavior()
+    {
     	IEditorPart activeEditorPart = workspace.getEditorPart();
         IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
         List<UndoRedoCompoundBehavior> found = behaviorManager.getBehaviors(UndoRedoCompoundBehavior.class);
@@ -135,16 +129,33 @@ public class EditorToolsPanel extends JPanel implements ISideBarElement
         }
         return found.get(0);
     }
-    
+
     /**
      * Looks for CutCopyPasteBehavior on the current editor part
-     * 
+     *
      * @return the first CutCopyPasteBehavior object found or null
      */
-    private CutCopyPasteBehavior getCutCopyPasteBehavior() {
+    private CutCopyPasteBehavior getCutCopyPasteBehavior()
+    {
     	IEditorPart activeEditorPart = workspace.getEditorPart();
         IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
         List<CutCopyPasteBehavior> found = behaviorManager.getBehaviors(CutCopyPasteBehavior.class);
+        if (found.size() != 1) {
+            return null;
+        }
+        return found.get(0);
+    }
+
+    /**
+     * Looks for FindBehavior on the current editor part
+     *
+     * @return the first FindBehavior object found or null
+     */
+    private FindBehavior getFindBehavior()
+    {
+        IEditorPart activeEditorPart = workspace.getEditorPart();
+        IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
+        List<FindBehavior> found = behaviorManager.getBehaviors(FindBehavior.class);
         if (found.size() != 1) {
             return null;
         }
@@ -244,8 +255,17 @@ public class EditorToolsPanel extends JPanel implements ISideBarElement
         return this.bPaste;
     }
 
+    /**
+     * @return find button
+     */
+    public JButton getFindButton()
+    {
+        return this.bFind;
+    }
 
-    /** current workspace */
+    /**
+     * current workspace
+     */
     private IWorkspace workspace;
 
     @ResourceBundleBean(key = "zoomin")
@@ -264,7 +284,9 @@ public class EditorToolsPanel extends JPanel implements ISideBarElement
     private JButton bCopy;
     @ResourceBundleBean(key = "paste")
     private JButton bPaste;
+    @ResourceBundleBean(key = "find")
+    private JButton bFind;
     @ResourceBundleBean(key = "title.standardbuttons.text")
     private String title;
-    
+
 }

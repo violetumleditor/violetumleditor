@@ -16,6 +16,5 @@ public abstract class ClassRelationshipEdgeBeanInfo extends LabeledLineEdgeBeanI
         super(beanClass);
 
         displayLineStyle = false;
-        displayEndArrowhead = false;
     }
 }

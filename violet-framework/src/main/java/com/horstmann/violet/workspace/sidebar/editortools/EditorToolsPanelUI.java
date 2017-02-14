@@ -1,17 +1,12 @@
 package com.horstmann.violet.workspace.sidebar.editortools;
 
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.PanelUI;
-
 import com.horstmann.violet.framework.swingextension.IconButtonUI;
 import com.horstmann.violet.framework.theme.ThemeManager;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.PanelUI;
+import java.awt.*;
 
 /**
  * UI for displaying a large EditorToolsPanel
@@ -46,6 +41,7 @@ public class EditorToolsPanelUI extends PanelUI
         this.editorToolsPanel.getCutButton().setUI(new IconButtonUI(FULLSIZE_SCALING_FACTOR));
         this.editorToolsPanel.getCopyButton().setUI(new IconButtonUI(FULLSIZE_SCALING_FACTOR));
         this.editorToolsPanel.getPasteButton().setUI(new IconButtonUI(FULLSIZE_SCALING_FACTOR));
+        this.editorToolsPanel.getFindButton().setUI(new IconButtonUI(FULLSIZE_SCALING_FACTOR));
 
         c.setLayout(new FlowLayout(FlowLayout.CENTER));
         c.add(getToolsPanel());
@@ -69,6 +65,7 @@ public class EditorToolsPanelUI extends PanelUI
             this.toolsPanel.add(this.editorToolsPanel.getCutButton());
             this.toolsPanel.add(this.editorToolsPanel.getCopyButton());
             this.toolsPanel.add(this.editorToolsPanel.getPasteButton());
+            this.toolsPanel.add(this.editorToolsPanel.getFindButton());
 
             GridBagLayout layout = new GridBagLayout();
             this.toolsPanel.setLayout(layout);
@@ -128,6 +125,13 @@ public class EditorToolsPanelUI extends PanelUI
             c8.gridx = 3;
             c8.gridy = 1;
             layout.setConstraints(this.editorToolsPanel.getPasteButton(), c8);
+
+            GridBagConstraints c9 = new GridBagConstraints();
+            c9.insets = new Insets(0, 0, 0, 15);
+            c9.weightx = 1;
+            c9.gridx = 0;
+            c9.gridy = 1;
+            layout.setConstraints(this.editorToolsPanel.getFindButton(), c9);
         }
         return this.toolsPanel;
     }

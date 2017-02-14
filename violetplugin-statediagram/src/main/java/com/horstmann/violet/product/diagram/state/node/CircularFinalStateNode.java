@@ -21,14 +21,15 @@
 
 package com.horstmann.violet.product.diagram.state.node;
 
-import java.awt.geom.Point2D;
-
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideEllipse;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.state.StateDiagramConstant;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
+
+import java.awt.geom.Point2D;
 
 /**
  * An initial or final node_old (bull's eye) in a state or activity diagram.
@@ -83,6 +84,21 @@ public class CircularFinalStateNode extends AbstractNode
     public String getToolTip()
     {
         return StateDiagramConstant.STATE_DIAGRAM_RESOURCE.getString("tooltip.scenario_end_node");
+    }
+
+    @Override
+    public LineText getName() {
+        return null;
+    }
+
+    @Override
+    public LineText getAttributes() {
+        return null;
+    }
+
+    @Override
+    public LineText getMethods() {
+        return null;
     }
 
     /** default node_old diameter */

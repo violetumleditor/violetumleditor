@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.GeneralSecurityException;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import com.horstmann.violet.framework.file.persistence.IFilePersistenceService;
 import com.horstmann.violet.framework.file.persistence.IFileReader;
 import com.horstmann.violet.framework.file.persistence.IFileWriter;
 import com.horstmann.violet.framework.file.persistence.JFileWriter;
+import com.horstmann.violet.framework.google.drive.GoogleDriveAgent;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
@@ -173,6 +175,15 @@ public class GraphFile implements IGraphFile
 		if (autoSaveFile.exists())
 			autoSaveFile.delete();
 	}
+
+    @Override
+    public void saveToGoogleDrive() throws GeneralSecurityException, IOException
+    {
+        save();
+
+        final GoogleDriveAgent googleDriveAgent = new GoogleDriveAgent();
+        googleDriveAgent.saveFile(String.format("%s/%s", currentDirectory, currentFilename));
+    }
 
     @Override
     public void saveToNewLocation()
