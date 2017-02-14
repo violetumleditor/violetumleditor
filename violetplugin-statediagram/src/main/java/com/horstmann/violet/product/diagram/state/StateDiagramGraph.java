@@ -27,6 +27,7 @@ import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.common.edge.NoteEdge;
+import com.horstmann.violet.product.diagram.common.node.ConstraintNode;
 import com.horstmann.violet.product.diagram.common.node.NoteNode;
 import com.horstmann.violet.product.diagram.state.edge.StateTransitionEdge;
 import com.horstmann.violet.product.diagram.state.node.*;
@@ -53,7 +54,8 @@ public class StateDiagramGraph extends AbstractGraph
             new DecisionNode(),
             new ExternalSystemEntryPointNode(),
             new ExternalSystemExitPointNode(),
-            new NoteNode()
+            new NoteNode(),
+            new ConstraintNode()
     ));
 
     private static final List<IEdge> EDGE_PROTOTYPES = new ArrayList<IEdge>(Arrays.asList(

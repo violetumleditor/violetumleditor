@@ -27,6 +27,7 @@ import java.util.*;
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.common.node.ConstraintNode;
 import com.horstmann.violet.product.diagram.object.edge.AssociationEdge;
 import com.horstmann.violet.product.diagram.common.edge.NoteEdge;
 import com.horstmann.violet.product.diagram.common.node.NoteNode;
@@ -62,7 +63,8 @@ public class ObjectDiagramGraph extends AbstractGraph
     private static final List<INode> NODE_PROTOTYPES = new ArrayList<INode>(Arrays.asList(
             new ObjectNode(),
             new FieldNode(),
-            new NoteNode()
+            new NoteNode(),
+            new ConstraintNode()
     ));
 
     private static final List<IEdge> EDGE_PROTOTYPES = new ArrayList<IEdge>(Arrays.asList(
