@@ -107,47 +107,41 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior implements IGrap
             if (checkIfNumberOfInitialNodesIsMoreThanOne(newNode))
             {
                 showWarningAboutNumberOfInitialNodes();
-        }
+            }
         }
     }
 
-        private boolean checkIfNumberOfInitialNodesIsMoreThanOne(INode newNode)
+    private boolean checkIfNumberOfInitialNodesIsMoreThanOne(INode newNode)
+    {
+        if (newNode instanceof IInitialStateNode)
         {
-            if (newNode instanceof IInitialStateNode)
+            int numberOfInitialNodes = getNumberOfInitialNodes();
+            if (numberOfInitialNodes > maxNumberOfInitialNodes)
             {
-                int numberOfInitialNodes = getNumberOfInitialNodes();
-                if (numberOfInitialNodes > maxNumberOfInitialNodes)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-    /**
-     *
-     * @return number of initialNodes on Workspace
-     */
-        private int getNumberOfInitialNodes() {
-        Collection<INode> nodeCollection = graph.getAllNodes();
-        int numberOfInitialNodes = 0;
-        for (INode node : nodeCollection)
-        {
-            if ( node instanceof IInitialStateNode)
-            {
-                numberOfInitialNodes++;
+                return true;
             }
         }
-        return numberOfInitialNodes;
+        return false;
     }
-    /**
-     * show warning message if number of initialnodes is more than one
-     *
-     */
-        private void showWarningAboutNumberOfInitialNodes()
+
+    private int getNumberOfInitialNodes() 
+    {
+    Collection<INode> nodeCollection = graph.getAllNodes();
+    int numberOfInitialNodes = 0;
+    for (INode node : nodeCollection)
+    {
+        if ( node instanceof IInitialStateNode)
         {
-            showMessageDialog(null, message);
+            numberOfInitialNodes++;
         }
+    }
+    return numberOfInitialNodes;
+    }
+
+    private void showWarningAboutNumberOfInitialNodes()
+    {
+        showMessageDialog(null, message);
+    }
 
 
     /**
