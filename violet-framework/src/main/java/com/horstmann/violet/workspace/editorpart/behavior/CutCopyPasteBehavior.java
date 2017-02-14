@@ -57,12 +57,7 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
      */
     @ResourceBundleBean(key = "edit.properties.empty_message")
     private String message;
-
-    /**
-     * Default constructor
-     *
-     * @param editorPart
-     */
+    
     public CutCopyPasteBehavior(IEditorPart editorPart)
     {
         ResourceBundleInjector.getInjector().inject(this);
@@ -205,12 +200,7 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
         {
         }
     }
-    /**
-     * validate paste
-     *
-     * @param nodes
-     * @param graph
-     */
+
     private void validatePaste(List<INode> nodes, IGraph graph){
         if(checkIfNumberOfInitialNodesIsMoreThanOne(nodes, graph))
         {
