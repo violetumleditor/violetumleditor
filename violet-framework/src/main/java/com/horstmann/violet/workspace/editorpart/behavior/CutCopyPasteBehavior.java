@@ -240,7 +240,6 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
             int numberOfInitialNodes = 0;
 
             for (INode node : nodeCollection)
-
             {
                 if (node instanceof IInitialStateNode)
                 {
@@ -255,9 +254,6 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
         return false;
     }
 
-    /**
-     * Shows warning message about initialNodes
-     */
     private void showWarningAboutNumberOfInitialNodes()
     {
         showMessageDialog(null, message);
