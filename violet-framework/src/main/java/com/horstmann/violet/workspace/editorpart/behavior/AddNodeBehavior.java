@@ -25,25 +25,6 @@ import static javax.swing.JOptionPane.showMessageDialog;
 
 public class AddNodeBehavior extends AbstractEditorPartBehavior implements IGraphToolsBarMouseListener
 {
-    /** default number of max initial nodes on workspace */
-    private static final int maxNumberOfInitialNodes = 1;
-    /** default screen position*/
-    private static final int OUTSIDE_SCREEN_POSITION = -1000;
-
-    private IEditorPart editorPart;
-
-    private IGraph graph;
-
-    private IEditorPartSelectionHandler selectionHandler;
-
-    private IEditorPartBehaviorManager behaviorManager;
-
-    private IGraphToolsBar graphToolsBar;
-
-    private boolean dragging;
-
-    private INode draggedNode;
-
     @ResourceBundleBean(key = "edit.properties.empty_message")
     private String message;
 
@@ -90,12 +71,9 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior implements IGrap
         INode newNode = (INode) prototype.clone();
         newNode.setId(new Id());
 
-        boolean added = addNodeAtPoint(newNode, newNodeLocation);
-
-        if (added)
+        if (addNodeAtPoint(newNode, newNodeLocation))
         {
             selectionHandler.setSelectedElement(newNode);
-
             if (!KeyModifierUtil.isCtrl(event))
             {
                 selectionHandler.setSelectedTool(GraphTool.SELECTION_TOOL);
@@ -185,9 +163,7 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior implements IGrap
             final Point2D initialLocation = new Point2D.Double(OUTSIDE_SCREEN_POSITION / zoom, OUTSIDE_SCREEN_POSITION / zoom);
             IGridSticker gridSticker = graph.getGridSticker();
             Point2D newNodeLocation = gridSticker.snap(initialLocation);
-
-            boolean added = addNodeAtPoint(this.draggedNode, newNodeLocation);
-            if (added)
+            if (addNodeAtPoint(this.draggedNode, newNodeLocation))
             {
                 selectionHandler.setSelectedElement(this.draggedNode);
                 editorPart.getSwingComponent().invalidate();
@@ -248,4 +224,13 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior implements IGrap
         editorPart.getSwingComponent().invalidate();
         editorPart.getSwingComponent().repaint();
     }
+    private static final int maxNumberOfInitialNodes = 1;
+    private static final int OUTSIDE_SCREEN_POSITION = -1000;
+    private IEditorPart editorPart;
+    private IGraph graph;
+    private IEditorPartSelectionHandler selectionHandler;
+    private IEditorPartBehaviorManager behaviorManager;
+    private IGraphToolsBar graphToolsBar;
+    private boolean dragging;
+    private INode draggedNode;
 }
