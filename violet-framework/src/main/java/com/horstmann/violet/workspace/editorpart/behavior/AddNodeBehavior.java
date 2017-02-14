@@ -111,11 +111,6 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior implements IGrap
         }
     }
 
-    /**
-     * Checking if number of initialNodes is more than one
-     * @param newNode
-     * @return
-     */
         private boolean checkIfNumberOfInitialNodesIsMoreThanOne(INode newNode)
         {
             if (newNode instanceof IInitialStateNode)
