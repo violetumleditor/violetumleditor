@@ -1,5 +1,6 @@
 package com.horstmann.violet.workspace.editorpart;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

@@ -44,11 +44,13 @@ import java.awt.geom.Rectangle2D;
 /**
  * A constraint node in a UML diagram.
  */
-public class ConstraintNode extends ColorableNode {
+public class ConstraintNode extends ColorableNode
+{
     /**
      * Construct a constraint node with a default size and color
      */
-    public ConstraintNode() {
+    public ConstraintNode()
+    {
         tooltip = ResourceBundleConstant.NODE_AND_EDGE_RESOURCE.getString("constraint_node.tooltip");
         text = new MultiLineText(textConverter);
         createContentStructure();
@@ -59,7 +61,8 @@ public class ConstraintNode extends ColorableNode {
      * @param node
      * @throws CloneNotSupportedException
      */
-    public ConstraintNode(ConstraintNode node) throws CloneNotSupportedException {
+    public ConstraintNode(ConstraintNode node) throws CloneNotSupportedException
+    {
         super(node);
         tooltip = ResourceBundleConstant.NODE_AND_EDGE_RESOURCE.getString("constraint_node.tooltip");
         text = node.text.clone();
@@ -71,7 +74,8 @@ public class ConstraintNode extends ColorableNode {
      */
 
     @Override
-    protected void beforeReconstruction() {
+    protected void beforeReconstruction()
+    {
         super.beforeReconstruction();
         text.reconstruction(textConverter);
     }
@@ -82,7 +86,8 @@ public class ConstraintNode extends ColorableNode {
      * @throws CloneNotSupportedException
      */
     @Override
-    protected INode copy() throws CloneNotSupportedException {
+    protected INode copy() throws CloneNotSupportedException
+    {
         return new ConstraintNode(this);
     }
 
@@ -95,14 +100,17 @@ public class ConstraintNode extends ColorableNode {
         drawNodeWithoutCorner();
     }
 
-    private void drawNodeWithoutCorner() {
+    private void drawNodeWithoutCorner()
+    {
         TextContent textContent = new TextContent(text);
         textContent.setMinHeight(DEFAULT_HEIGHT);
         textContent.setMinWidth(DEFAULT_WIDTH);
 
-        ContentInsideShape contentInsideShape = new ContentInsideCustomShape(textContent, new ContentInsideCustomShape.ShapeCreator() {
+        ContentInsideShape contentInsideShape = new ContentInsideCustomShape(textContent, new ContentInsideCustomShape.ShapeCreator()
+        {
             @Override
-            public Shape createShape(double contentWidth, double contentHeight) {
+            public Shape createShape(double contentWidth, double contentHeight)
+            {
                 GeneralPath path = new GeneralPath();
                 path.moveTo(0, 0);
                 path.lineTo(contentWidth - FOLD_X, 0);
@@ -129,12 +137,14 @@ public class ConstraintNode extends ColorableNode {
      */
 
     @Override
-    public void draw(Graphics2D graphics) {
+    public void draw(Graphics2D graphics)
+    {
         super.draw(graphics);
         drawCorner(graphics);
     }
 
-    private void drawCorner(Graphics2D graphics) {
+    private void drawCorner(Graphics2D graphics)
+    {
         Color oldColor = graphics.getColor();
         GeneralPath fold = new GeneralPath();
         Rectangle2D bounds = getBounds();
@@ -154,7 +164,8 @@ public class ConstraintNode extends ColorableNode {
      * @param textColor
      */
     @Override
-    public void setTextColor(Color textColor) {
+    public void setTextColor(Color textColor)
+    {
         text.setTextColor(textColor);
         super.setTextColor(textColor);
     }
@@ -168,6 +179,15 @@ public class ConstraintNode extends ColorableNode {
     public String getToolTip() {
         return tooltip;
     }
+
+    @Override
+    public LineText getName() { return text; }
+
+    @Override
+    public LineText getAttributes() { return null; }
+
+    @Override
+    public LineText getMethods() { return null; }
 
     /**
      *
@@ -184,8 +204,10 @@ public class ConstraintNode extends ColorableNode {
      */
 
     @Override
-    public boolean addConnection(IEdge edge) {
-        if (edge.getStartNode() == edge.getEndNode()) {
+    public boolean addConnection(IEdge edge)
+    {
+        if (edge.getStartNode() == edge.getEndNode())
+        {
             return false;
         }
         return super.addConnection(edge);
@@ -201,9 +223,11 @@ public class ConstraintNode extends ColorableNode {
     /**
      * @return the text with prefix and suffix
      */
-    private static LineText.Converter textConverter = new LineText.Converter() {
+    private static LineText.Converter textConverter = new LineText.Converter()
+    {
         @Override
-        public OneLineText toLineString(String text) {
+        public OneLineText toLineString(String text)
+        {
             OneLineText decoratedText;
 
             decoratedText = new OneLineText(text);
@@ -227,7 +251,8 @@ public class ConstraintNode extends ColorableNode {
     /**
      * Kept for compatibility
      */
-    public void setColor(Color newValue) {
+    public void setColor(Color newValue)
+    {
         // Nothing to do
     }
 

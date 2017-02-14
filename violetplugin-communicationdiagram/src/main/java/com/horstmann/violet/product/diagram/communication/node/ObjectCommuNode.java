@@ -1,17 +1,20 @@
 package com.horstmann.violet.product.diagram.communication.node;
 
-import java.awt.Color;
-
-import com.horstmann.violet.framework.graphics.content.*;
+import com.horstmann.violet.framework.graphics.content.ContentBackground;
+import com.horstmann.violet.framework.graphics.content.ContentBorder;
+import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
+import com.horstmann.violet.framework.graphics.content.TextContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
-import com.horstmann.violet.product.diagram.communication.CommunicationDiagramConstant;
-import com.horstmann.violet.product.diagram.property.text.decorator.OneLineText;
-import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.common.node.ColorableNode;
+import com.horstmann.violet.product.diagram.communication.CommunicationDiagramConstant;
 import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 import com.horstmann.violet.product.diagram.property.text.decorator.LargeSizeDecorator;
+import com.horstmann.violet.product.diagram.property.text.decorator.OneLineText;
 import com.horstmann.violet.product.diagram.property.text.decorator.UnderlineDecorator;
+
+import java.awt.*;
 
 /**
  * 
@@ -96,6 +99,15 @@ public class ObjectCommuNode extends ColorableNode
 	        return name;
 	    }
 
+	@Override
+	public LineText getAttributes() {
+		return null;
+	}
+
+	@Override
+	public LineText getMethods() {
+		return null;
+	}
 
 
 	private static LineText.Converter nameConverter = new LineText.Converter(){

@@ -35,6 +35,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -54,7 +55,7 @@ import com.horstmann.violet.framework.theme.ThemeManager;
  * @author Alexandre de Pellegrin
  * 
  */
-@ManagedBean(registeredManually=true)
+@ManagedBean(registeredManually = true)
 public class DialogFactory
 {
 
@@ -67,10 +68,10 @@ public class DialogFactory
         ResourceBundleInjector.getInjector().inject(this);
     }
 
-    public static DialogFactory getInstance() {
-        throw new RuntimeException("Java method no longer reachable. Code needs to be refactored.")
-;    }
-    
+    public static DialogFactory getInstance()
+    {
+        throw new RuntimeException("Java method no longer reachable. Code needs to be refactored.");
+    }
 
     /**
      * Adds a listener that could be invoked if the factory is set to DELEGATED_MODE
@@ -128,6 +129,61 @@ public class DialogFactory
         optionPane.setIcon(this.genericInfoImageIcon);
         optionPane.setMessage(label);
         showDialog(optionPane, this.genericInfoTitle, true);
+    }
+
+    /**
+     * Shows popup message by POPUP_MESSAGE_VISIBILITY_TIME miliseconds
+     * 
+     * @param message
+     * @param width
+     * @param height
+     */
+    public void showPopupNotificationDialog(String message, int width, int height)
+    {
+        Rectangle mainFrameRectangle = dialogOwner.getBounds().getBounds();
+        double frameMargin = 10;
+        double x = mainFrameRectangle.getX() + mainFrameRectangle.getWidth() - width - frameMargin;
+        double y = mainFrameRectangle.getY() + mainFrameRectangle.getHeight() - height - frameMargin;
+        JFrame frame = new JFrame();
+        BoxLayout boxLayout = new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS);
+        frame.setLayout(boxLayout);
+        frame.getContentPane().setBackground(Color.LIGHT_GRAY);
+        JLabel label = new JLabel(message);
+        label.setFont(label.getFont().deriveFont(Font.PLAIN));
+        label.setAlignmentX(Component.CENTER_ALIGNMENT);
+        frame.add(label);
+        frame.setSize(width, height);
+        frame.setLocation((int) Math.round(x), (int) Math.round(y));
+        frame.setUndecorated(true);
+        frame.setAlwaysOnTop(true);
+        frame.setFocusableWindowState(false);
+        frame.setOpacity(0.8f);
+        showPopup(frame).start();
+    }
+
+    private Thread showPopup(final JFrame frame)
+    {
+        return new Thread()
+        {
+            @Override
+            public void run()
+            {
+                try
+                {
+                    frame.setVisible(true);
+
+                    Thread.sleep(POPUP_MESSAGE_VISIBILITY_TIME);
+                }
+                catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+                finally
+                {
+                    frame.setVisible(false);
+                }
+            }
+        };
     }
 
     /**
@@ -248,9 +304,9 @@ public class DialogFactory
         {
             this.delegatedDialogCache.add(new Object[]
             {
-                    optionPane,
-                    title,
-                    new Boolean(isModal)
+              optionPane,
+              title,
+              new Boolean(isModal)
             });
         }
     }
@@ -265,20 +321,21 @@ public class DialogFactory
     {
         this.dialogOwner = owner;
     }
-    
+
     /**
      * @return current's main frame
      */
-    private Frame getDialogOwner() {
-        if (this.dialogOwner != null) {
+    private Frame getDialogOwner()
+    {
+        if (this.dialogOwner != null)
+        {
             return this.dialogOwner;
         }
         return getEmergencyDialogOwner();
     }
 
     /**
-     * Return a temporary frame if the real frame owner is not yet set
-     * (for example, 
+     * Return a temporary frame if the real frame owner is not yet set (for example,
      */
     private Frame getEmergencyDialogOwner()
     {
@@ -289,9 +346,6 @@ public class DialogFactory
         emergencyFrame.setBounds(screenWidth / 16, screenHeight / 16, screenWidth * 7 / 8, screenHeight * 7 / 8);
         return emergencyFrame;
     }
-
-
-
 
     /**
      * Listener that have the responsability to create and display dialogs Note that ther is one and only one listener. Why? Because
@@ -320,22 +374,23 @@ public class DialogFactory
      */
     private List<Object[]> delegatedDialogCache = new ArrayList<Object[]>();
 
-    @ResourceBundleBean(key="dialog.generic.error.icon")
+    @ResourceBundleBean(key = "dialog.generic.error.icon")
     private ImageIcon genericErrorImageIcon;
 
-    @ResourceBundleBean(key="dialog.generic.error.title")
+    @ResourceBundleBean(key = "dialog.generic.error.title")
     private String genericErrorTitle;
-    
-    @ResourceBundleBean(key="dialog.generic.warning.icon")
+
+    @ResourceBundleBean(key = "dialog.generic.warning.icon")
     private ImageIcon genericWarningImageIcon;
 
-    @ResourceBundleBean(key="dialog.generic.warning.title")
+    @ResourceBundleBean(key = "dialog.generic.warning.title")
     private String genericWarningTitle;
-    
-    @ResourceBundleBean(key="dialog.generic.information.icon")
+
+    @ResourceBundleBean(key = "dialog.generic.information.icon")
     private ImageIcon genericInfoImageIcon;
 
-    @ResourceBundleBean(key="dialog.generic.information.title")
+    @ResourceBundleBean(key = "dialog.generic.information.title")
     private String genericInfoTitle;
 
+    private final int POPUP_MESSAGE_VISIBILITY_TIME = 2000;
 }

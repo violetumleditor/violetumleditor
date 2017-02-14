@@ -28,6 +28,7 @@ import com.horstmann.violet.framework.graphics.shape.ContentInsideEllipse;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
+import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 
 /**
@@ -70,6 +71,21 @@ public class ScenarioStartNode extends AbstractNode
     public String getToolTip()
     {
         return ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("tooltip.scenario_start_node");
+    }
+
+    @Override
+    public LineText getName() {
+        return null;
+    }
+
+    @Override
+    public LineText getAttributes() {
+        return null;
+    }
+
+    @Override
+    public LineText getMethods() {
+        return null;
     }
 
     @Override

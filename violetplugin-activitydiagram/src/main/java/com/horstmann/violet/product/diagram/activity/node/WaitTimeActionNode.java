@@ -4,8 +4,8 @@ import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
+import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 
@@ -137,6 +137,16 @@ public class WaitTimeActionNode extends ColorableNode
     public LineText getName()
     {
         return name;
+    }
+
+    @Override
+    public LineText getAttributes() {
+        return null;
+    }
+
+    @Override
+    public LineText getMethods() {
+        return null;
     }
 
     private SingleLineText name;

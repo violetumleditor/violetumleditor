@@ -21,14 +21,15 @@
 
 package com.horstmann.violet.product.diagram.activity.node;
 
-import java.awt.geom.Point2D;
-
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideEllipse;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
+import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
+
+import java.awt.geom.Point2D;
 
 /**
  * A final node_old (bull's eye) in an activity diagram.
@@ -83,6 +84,21 @@ public class ScenarioEndNode extends AbstractNode
     public String getToolTip()
     {
         return ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("tooltip.scenario_end_node");
+    }
+
+    @Override
+    public LineText getName() {
+        return null;
+    }
+
+    @Override
+    public LineText getAttributes() {
+        return null;
+    }
+
+    @Override
+    public LineText getMethods() {
+        return null;
     }
 
     @Override

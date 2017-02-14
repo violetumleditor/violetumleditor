@@ -24,6 +24,7 @@ package com.horstmann.violet.product.diagram.common.edge;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
 import com.horstmann.violet.product.diagram.property.BentStyleChoiceList;
 import com.horstmann.violet.product.diagram.property.LineStyleChoiceList;
+import com.horstmann.violet.product.diagram.property.text.LineText;
 
 /**
  * A dotted line that connects a note to its attachment.
@@ -61,5 +62,20 @@ public class NoteEdge extends LineEdge
     public String getToolTip()
     {
         return ResourceBundleConstant.NODE_AND_EDGE_RESOURCE.getString("note_edge.tooltip");
+    }
+
+    @Override
+    public LineText getStartLabel() {
+        return null;
+    }
+
+    @Override
+    public LineText getCenterLabel() {
+        return null;
+    }
+
+    @Override
+    public LineText getEndLabel() {
+        return null;
     }
 }

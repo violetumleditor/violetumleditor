@@ -102,8 +102,12 @@ public class PreferencesConstant
     public static final PreferencesConstant NETWORK_GUESTCONFIG_HTTP_SERVERURL = new PreferencesConstant(
             "network.guestconfig.http.serverurl");
 
-    
     /**
+     * Key to store prefered language
+     */
+    public static final PreferencesConstant LANGUAGE = new PreferencesConstant("language");
+
+     /**
      * Preference constants list
      */
     public static final PreferencesConstant[] LIST;
@@ -118,6 +122,7 @@ public class PreferencesConstant
         LIST[4] = NETWORK_HOSTCONFIG_USERID;
         LIST[5] = NETWORK_GUESTCONFIG_USERID;
         LIST[6] = NETWORK_GUESTCONFIG_HTTP_SERVERURL;
+        LIST[7] = LANGUAGE;
     }
 
 }

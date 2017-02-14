@@ -21,20 +21,21 @@
 
 package com.horstmann.violet.product.diagram.sequence.node;
 
-import java.awt.*;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
-import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.common.node.ColorableNode;
+import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.sequence.SequenceDiagramConstant;
 import com.horstmann.violet.product.diagram.sequence.edge.CallEdge;
 import com.horstmann.violet.product.diagram.sequence.edge.ReturnEdge;
+
+import java.awt.*;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * An activation bar in a sequence diagram. This activation bar is hang on a lifeline (implicit parameter)
@@ -115,6 +116,21 @@ public class ActivationBarNode extends ColorableNode
     public String getToolTip()
     {
         return SequenceDiagramConstant.SEQUENCE_DIAGRAM_RESOURCE.getString("tooltip.activation_bar_node");
+    }
+
+    @Override
+    public LineText getName() {
+        return null;
+    }
+
+    @Override
+    public LineText getAttributes() {
+        return null;
+    }
+
+    @Override
+    public LineText getMethods() {
+        return null;
     }
 
     @Override

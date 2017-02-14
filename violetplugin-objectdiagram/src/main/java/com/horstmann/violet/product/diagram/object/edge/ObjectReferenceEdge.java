@@ -21,18 +21,17 @@
 
 package com.horstmann.violet.product.diagram.object.edge;
 
-import java.awt.Graphics2D;
-import java.awt.Shape;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.ShapeEdge;
-import com.horstmann.violet.product.diagram.abstracts.edge.bentstyle.BentStyle;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.object.ObjectDiagramConstant;
 import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
+import com.horstmann.violet.product.diagram.property.text.LineText;
+
+import java.awt.*;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 
 /**
  * An S- or C-shaped edge with an arrowhead.
@@ -67,6 +66,21 @@ public class ObjectReferenceEdge extends ShapeEdge
     public String getToolTip()
     {
         return ObjectDiagramConstant.OBJECT_DIAGRAM_RESOURCE.getString("tooltip.object_reference_edge");
+    }
+
+    @Override
+    public LineText getStartLabel() {
+        return null;
+    }
+
+    @Override
+    public LineText getCenterLabel() {
+        return null;
+    }
+
+    @Override
+    public LineText getEndLabel() {
+        return null;
     }
 
     public void draw(Graphics2D g2)

@@ -22,24 +22,20 @@
 package com.horstmann.violet.product.diagram.common.node;
 //TODO Czy ta klasa jest wogole potrzebna
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Shape;
-import java.awt.Toolkit;
+import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
+import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
+import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.property.text.LineText;
+import com.horstmann.violet.product.diagram.property.text.MultiLineText;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.MemoryImageSource;
 import java.awt.image.PixelGrabber;
 import java.util.StringTokenizer;
-
-import javax.swing.ImageIcon;
-
-import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
-import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
-import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.property.text.MultiLineText;
 
 /**
  * A node_old in a diagram represented by an image
@@ -216,7 +212,7 @@ public class ImageNode extends ColorableNode
      * This method should be kept as private as long as it is used for serialization purpose. Replaces current imageIcon by a new
      * one created with the image content guven is parameters
      * 
-     * @param pixels image content
+     * @param imageContent image content
      * @param width image width
      * @param height image height
      */
@@ -257,6 +253,21 @@ public class ImageNode extends ColorableNode
     public String getToolTip()
     {
         return "";
+    }
+
+    @Override
+    public LineText getName() {
+        return text;
+    }
+
+    @Override
+    public LineText getAttributes() {
+        return text;
+    }
+
+    @Override
+    public LineText getMethods() {
+        return text;
     }
 
     private static final String PIXEL_SEPARATOR = ":";

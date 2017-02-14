@@ -5,8 +5,6 @@ import com.horstmann.violet.product.diagram.property.text.EditableText;
 import java.io.Serializable;
 
 /**
- * This ...
- *
  * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 12.12.2015
  */
@@ -28,8 +26,7 @@ public class OneLineText implements Serializable, Cloneable, EditableText
      */
     public OneLineText clone()
     {
-        OneLineText cloned = new OneLineText(text);
-        return cloned;
+        return new OneLineText(text);
     }
 
     /**
@@ -66,7 +63,7 @@ public class OneLineText implements Serializable, Cloneable, EditableText
     @Override
     public String toDisplay()
     {
-        return this.escapeHtml(text);
+        return this.replaceForUnification(text);
     }
 
     /**
@@ -137,17 +134,6 @@ public class OneLineText implements Serializable, Cloneable, EditableText
     {
         return sentence.replace("<<", "«").replace(">>", "»");
     }
-
-    /**
-     * Escapes all special characters to their corresponding entity reference (e.g. &lt;).
-     *
-     * @param sentence the (unescaped) input string
-     * @return the escaped string
-     */
-    private String escapeHtml(String sentence)
-    {
-        return replaceForUnification(sentence).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;").replace("'", "&#x27;").replace("/", "&#x2F;");
-    }
-
+    
     private String text;
 }
