@@ -93,13 +93,14 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior implements IGrap
     {
         if (newNode instanceof IInitialStateNode)
         {
+            boolean result = false;
             int numberOfInitialNodes = getNumberOfInitialNodes();
             if (numberOfInitialNodes > maxNumberOfInitialNodes)
             {
-                return true;
+                result=true;
             }
         }
-        return false;
+        return result;
     }
 
     private int getNumberOfInitialNodes() 
