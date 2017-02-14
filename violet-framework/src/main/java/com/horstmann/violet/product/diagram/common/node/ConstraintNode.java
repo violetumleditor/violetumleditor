@@ -72,7 +72,6 @@ public class ConstraintNode extends ColorableNode
     /**
      * Reconstruction of the text.
      */
-
     @Override
     protected void beforeReconstruction()
     {
@@ -94,9 +93,9 @@ public class ConstraintNode extends ColorableNode
     /**
      * Draw node with a cut out corner.
      */
-
     @Override
-    protected void createContentStructure() {
+    protected void createContentStructure()
+    {
         drawNodeWithoutCorner();
     }
 
@@ -135,7 +134,6 @@ public class ConstraintNode extends ColorableNode
      * Draw the corner of node.
      * @param graphics
      */
-
     @Override
     public void draw(Graphics2D graphics)
     {
@@ -171,26 +169,33 @@ public class ConstraintNode extends ColorableNode
     }
 
     /**
-     *
      * @return Tooltip string.
      */
-
     @Override
-    public String getToolTip() {
+    public String getToolTip()
+    {
         return tooltip;
     }
 
     @Override
-    public LineText getName() { return text; }
+    public LineText getName()
+    {
+        return text;
+    }
 
     @Override
-    public LineText getAttributes() { return null; }
+    public LineText getAttributes()
+    {
+        return null;
+    }
 
     @Override
-    public LineText getMethods() { return null; }
+    public LineText getMethods()
+    {
+        return null;
+    }
 
     /**
-     *
      * Ensures that this kind of node is always on top
      */
     @Override
@@ -202,7 +207,6 @@ public class ConstraintNode extends ColorableNode
      * Adds connection edge.
      * @param edge
      */
-
     @Override
     public boolean addConnection(IEdge edge)
     {
@@ -216,7 +220,8 @@ public class ConstraintNode extends ColorableNode
     /**
      * @return the text inside the note
      */
-    public MultiLineText getText() {
+    public MultiLineText getText()
+    {
         return text;
     }
 
@@ -238,13 +243,12 @@ public class ConstraintNode extends ColorableNode
         }
     };
 
-
     /**
      * Sets the value of the text property.
-     *
      * @param newValue the text inside the note
      */
-    public void setText(MultiLineText newValue) {
+    public void setText(MultiLineText newValue)
+    {
         text = newValue;
     }
 
