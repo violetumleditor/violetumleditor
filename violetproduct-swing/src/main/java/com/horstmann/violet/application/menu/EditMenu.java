@@ -78,10 +78,9 @@ public class EditMenu extends JMenu {
                     IEditorPart activeEditorPart = getActiveEditorPart();
                     IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
                     List<UndoRedoCompoundBehavior> found = behaviorManager.getBehaviors(UndoRedoCompoundBehavior.class);
-                    if (found.size() != 1) {
-                        return;
+                    if (found.size() >= 1) {
+                        found.get(0).redo();
                     }
-                    found.get(0).redo();
                 }
             }
         });
@@ -93,10 +92,9 @@ public class EditMenu extends JMenu {
                     IEditorPart activeEditorPart = getActiveEditorPart();
                     IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
                     List<EditSelectedBehavior> found = behaviorManager.getBehaviors(EditSelectedBehavior.class);
-                    if (found.size() != 1) {
-                        return;
+                    if (found.size() >= 1) {
+                        found.get(0).createSelectedItemEditMenu();
                     }
-                    found.get(0).createSelectedItemEditMenu();
                 }
             }
         });
@@ -108,10 +106,9 @@ public class EditMenu extends JMenu {
                     IEditorPart activeEditorPart = getActiveEditorPart();
                     IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
                     List<CutCopyPasteBehavior> found = behaviorManager.getBehaviors(CutCopyPasteBehavior.class);
-                    if (found.size() != 1) {
-                        return;
+                    if (found.size() >= 1) {
+                        found.get(0).cut();
                     }
-                    found.get(0).cut();
                 }
             }
         });
@@ -123,10 +120,9 @@ public class EditMenu extends JMenu {
                     IEditorPart activeEditorPart = getActiveEditorPart();
                     IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
                     List<CutCopyPasteBehavior> found = behaviorManager.getBehaviors(CutCopyPasteBehavior.class);
-                    if (found.size() != 1) {
-                        return;
+                    if (found.size() >= 1) {
+						found.get(0).copy();
                     }
-                    found.get(0).copy();
                 }
             }
         });
@@ -138,10 +134,9 @@ public class EditMenu extends JMenu {
                     IEditorPart activeEditorPart = getActiveEditorPart();
                     IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
                     List<CutCopyPasteBehavior> found = behaviorManager.getBehaviors(CutCopyPasteBehavior.class);
-                    if (found.size() != 1) {
-                        return;
+                    if (found.size() >= 1) {
+                        found.get(0).paste();
                     }
-                    found.get(0).paste();
                 }
             }
         });
@@ -153,10 +148,9 @@ public class EditMenu extends JMenu {
                     IEditorPart activeEditorPart = getActiveEditorPart();
                     IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
                     List<FindBehavior> found = behaviorManager.getBehaviors(FindBehavior.class);
-                    if (found.size() != 1) {
-                        return;
+                    if (found.size() >= 1) {
+                        found.get(0).find();
                     }
-                    found.get(0).find();
                 }
             }
         });
@@ -175,10 +169,9 @@ public class EditMenu extends JMenu {
                     IEditorPart activeEditorPart = getActiveEditorPart();
                     IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
                     List<SelectAllBehavior> found = behaviorManager.getBehaviors(SelectAllBehavior.class);
-                    if (found.size() != 1) {
-                        return;
+                    if (found.size() >= 1) {
+                        found.get(0).selectAllGraphElements();
                     }
-                    found.get(0).selectAllGraphElements();
                 }
             }
         });
@@ -190,10 +183,9 @@ public class EditMenu extends JMenu {
                     IEditorPart activeEditorPart = getActiveEditorPart();
                     IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
                     List<SelectByDistanceBehavior> found = behaviorManager.getBehaviors(SelectByDistanceBehavior.class);
-                    if (found.size() != 1) {
-                        return;
+                    if (found.size() >= 1) {
+						found.get(0).selectAnotherGraphElement(1);
                     }
-                    found.get(0).selectAnotherGraphElement(1);
                 }
             }
         });
@@ -205,10 +197,9 @@ public class EditMenu extends JMenu {
                     IEditorPart activeEditorPart = getActiveEditorPart();
                     IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
                     List<SelectByDistanceBehavior> found = behaviorManager.getBehaviors(SelectByDistanceBehavior.class);
-                    if (found.size() != 1) {
-                        return;
+                    if (found.size() >= 1) {
+						found.get(0).selectAnotherGraphElement(-1);
                     }
-                    found.get(0).selectAnotherGraphElement(-1);
                 }
             }
         });
