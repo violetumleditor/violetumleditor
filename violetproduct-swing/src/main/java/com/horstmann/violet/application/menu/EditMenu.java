@@ -121,7 +121,7 @@ public class EditMenu extends JMenu {
                     IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
                     List<CutCopyPasteBehavior> found = behaviorManager.getBehaviors(CutCopyPasteBehavior.class);
                     if (found.size() >= 1) {
-						found.get(0).copy();
+                        found.get(0).copy();
                     }
                 }
             }
@@ -184,7 +184,7 @@ public class EditMenu extends JMenu {
                     IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
                     List<SelectByDistanceBehavior> found = behaviorManager.getBehaviors(SelectByDistanceBehavior.class);
                     if (found.size() >= 1) {
-						found.get(0).selectAnotherGraphElement(1);
+                        found.get(0).selectAnotherGraphElement(1);
                     }
                 }
             }
@@ -198,7 +198,7 @@ public class EditMenu extends JMenu {
                     IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
                     List<SelectByDistanceBehavior> found = behaviorManager.getBehaviors(SelectByDistanceBehavior.class);
                     if (found.size() >= 1) {
-						found.get(0).selectAnotherGraphElement(-1);
+                        found.get(0).selectAnotherGraphElement(-1);
                     }
                 }
             }

@@ -143,10 +143,10 @@ public class ViewMenu extends JMenu
             public void menuSelected(MenuEvent event)
             {
                 if (mainFrame.getWorkspaceList().size() != 0) {
-					IWorkspace activeWorkspace = mainFrame.getActiveWorkspace();
-					IEditorPart activeEditor = activeWorkspace.getEditorPart();
-					hideGridItem.setSelected(!activeEditor.getGrid().isVisible());
-				}
+                    IWorkspace activeWorkspace = mainFrame.getActiveWorkspace();
+                    IEditorPart activeEditor = activeWorkspace.getEditorPart();
+                    hideGridItem.setSelected(!activeEditor.getGrid().isVisible());
+                }
             }
 
             public void menuDeselected(MenuEvent event)
@@ -164,7 +164,7 @@ public class ViewMenu extends JMenu
         for (ITheme aTheme : themes)
         {
             ThemeInfo themeInfo = aTheme.getThemeInfo();
-        	String themeName = themeInfo.getName();
+            String themeName = themeInfo.getName();
             final String themeClassName = themeInfo.getThemeClass().getName();
             JMenuItem lafMenu = new JCheckBoxMenuItem(themeName);
             lafMenu.addActionListener(new ActionListener()
@@ -191,9 +191,9 @@ public class ViewMenu extends JMenu
     private void performZoomOut()
     {
         if (mainFrame.getWorkspaceList().size() != 0) {
-			IWorkspace workspace = mainFrame.getActiveWorkspace();
-			workspace.getEditorPart().zoomOut();
-		}
+            IWorkspace workspace = mainFrame.getActiveWorkspace();
+            workspace.getEditorPart().zoomOut();
+        }
     }
 
     /**
@@ -202,9 +202,9 @@ public class ViewMenu extends JMenu
     private void performZoomIn()
     {
         if (mainFrame.getWorkspaceList().size() != 0) {
-			IWorkspace workspace = mainFrame.getActiveWorkspace();
-			workspace.getEditorPart().zoomIn();
-		}
+            IWorkspace workspace = mainFrame.getActiveWorkspace();
+            workspace.getEditorPart().zoomIn();
+        }
     }
 
     /**
@@ -213,9 +213,9 @@ public class ViewMenu extends JMenu
     private void performGrowDrawingArea()
     {
         if (mainFrame.getWorkspaceList().size() != 0) {
-			IWorkspace workspace = mainFrame.getActiveWorkspace();
-			workspace.getEditorPart().growDrawingArea();
-		}
+            IWorkspace workspace = mainFrame.getActiveWorkspace();
+            workspace.getEditorPart().growDrawingArea();
+        }
     }
 
     /**
@@ -224,9 +224,9 @@ public class ViewMenu extends JMenu
     private void performClipDrawingArea()
     {
         if (mainFrame.getWorkspaceList().size() != 0) {
-			IWorkspace workspace = mainFrame.getActiveWorkspace();
-			workspace.getEditorPart().clipDrawingArea();
-		}
+            IWorkspace workspace = mainFrame.getActiveWorkspace();
+            workspace.getEditorPart().clipDrawingArea();
+        }
     }
 
     /**
@@ -235,11 +235,11 @@ public class ViewMenu extends JMenu
     private void performDisplaySmallerGrid()
     {
         if (mainFrame.getWorkspaceList().size() != 0) {
-			IWorkspace workspace = mainFrame.getActiveWorkspace();
-			IEditorPart editorPart = workspace.getEditorPart();
-			editorPart.getGrid().changeGridSize(-1);
-			editorPart.getSwingComponent().repaint();
-		}
+            IWorkspace workspace = mainFrame.getActiveWorkspace();
+            IEditorPart editorPart = workspace.getEditorPart();
+            editorPart.getGrid().changeGridSize(-1);
+            editorPart.getSwingComponent().repaint();
+        }
     }
 
     /**
@@ -248,11 +248,11 @@ public class ViewMenu extends JMenu
     private void performDisplayLargerGrid()
     {
         if (mainFrame.getWorkspaceList().size() != 0) {
-			IWorkspace workspace = mainFrame.getActiveWorkspace();
-			IEditorPart editorPart = workspace.getEditorPart();
-			editorPart.getGrid().changeGridSize(1);
-			editorPart.getSwingComponent().repaint();
-		}
+            IWorkspace workspace = mainFrame.getActiveWorkspace();
+            IEditorPart editorPart = workspace.getEditorPart();
+            editorPart.getGrid().changeGridSize(1);
+            editorPart.getSwingComponent().repaint();
+        }
     }
 
     /**
@@ -263,19 +263,19 @@ public class ViewMenu extends JMenu
     private void performHideGrid(ActionEvent event)
     {
         if (mainFrame.getWorkspaceList().size() != 0) {
-			IWorkspace workspace = mainFrame.getActiveWorkspace();
-			boolean isHidden = hideGridItem.isSelected();
-			IEditorPart editorPart = workspace.getEditorPart();
-			if (isHidden)
-			{
-				editorPart.getGrid().setVisible(false);
-			}
-			else
-			{
-				editorPart.getGrid().setVisible(true);
-			}
-			editorPart.getSwingComponent().repaint();
-		}
+            IWorkspace workspace = mainFrame.getActiveWorkspace();
+            boolean isHidden = hideGridItem.isSelected();
+            IEditorPart editorPart = workspace.getEditorPart();
+            if (isHidden)
+            {
+                editorPart.getGrid().setVisible(false);
+            }
+            else
+            {
+                editorPart.getGrid().setVisible(true);
+            }
+            editorPart.getSwingComponent().repaint();
+        }
     }
 
     /**
@@ -285,7 +285,7 @@ public class ViewMenu extends JMenu
      */
     private void performChangeLookAndFeel(String className)
     {
-    	this.themeManager.setPreferedLookAndFeel(className);
+        this.themeManager.setPreferedLookAndFeel(className);
         JOptionPane optionPane = new JOptionPane();
         optionPane.setMessage(changeLAFDialogMessage);
         optionPane.setIcon(changeLAFDialogIcon);
