@@ -3,9 +3,12 @@ package com.horstmann.violet.framework.util;
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.beans.SimpleBeanInfo;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * TODO javadoc
@@ -68,21 +71,25 @@ public abstract class BeanInfo extends SimpleBeanInfo
 
     protected final PropertyDescriptor createPropertyDescriptor(String valueName, String resourceKey, int priority)
     {
+    	PropertyDescriptor propertyDescriptor = null;
         try
         {
-            PropertyDescriptor propertyDescriptor = new PropertyDescriptor(valueName, beanClass);
-
+            propertyDescriptor = new PropertyDescriptor(valueName, beanClass);
             propertyDescriptor.setValue("label", resourceManager.getString(resourceKey));
             propertyDescriptor.setValue("priority", new Integer(priority));
 
-            return propertyDescriptor;
         }
-        catch (IntrospectionException e)
-        {
-            return null;
+        catch (IntrospectionException exception)
+        {   
+            MessageFormat messageFormatter = new MessageFormat(CREATE_PROPERTY_DESCRIPTOR_FAIL_MESSAGE_FORMAT);
+            String message = messageFormatter.format(new Object[]{valueName,resourceKey,exception.getMessage()});
+            LOGGER.log(Level.WARNING, message);
         }
+        return propertyDescriptor;
     }
 
+    private static final Logger LOGGER = Logger.getLogger(BeanInfo.class.getName());
     private ResourceManager resourceManager;
     private final Class<?> beanClass;
+    private final String CREATE_PROPERTY_DESCRIPTOR_FAIL_MESSAGE_FORMAT = "Create property descriptor fail valueName: {0} resourceKey: {1}\nIntrospectionException:{2}";
 }
