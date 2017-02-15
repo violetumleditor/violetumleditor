@@ -235,6 +235,7 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
      */
     private boolean isNumberOfInitialNodesIsToHigh(INode newNode, Collection<INode> nodeCollection)
     {
+        boolean result = false;
         if (newNode instanceof IInitialStateNode)
         {
             int numberOfInitialNodes = 0;
@@ -246,12 +247,9 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
                     numberOfInitialNodes++;
                 }
             }
-            if (numberOfInitialNodes > maxNumberOfInitialNodes)
-            {
-                return true;
-            }
+            result =numberOfInitialNodes > maxNumberOfInitialNodes;
         }
-        return false;
+        return result;
     }
 
     private void showWarningAboutNumberOfInitialNodes()
