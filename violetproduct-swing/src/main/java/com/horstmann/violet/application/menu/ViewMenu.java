@@ -190,7 +190,8 @@ public class ViewMenu extends JMenu
      */
     private void performZoomOut()
     {
-        if (mainFrame.getWorkspaceList().size() != 0) {
+        if (mainFrame.getWorkspaceList().size() != 0)
+        {
             IWorkspace workspace = mainFrame.getActiveWorkspace();
             workspace.getEditorPart().zoomOut();
         }
@@ -201,7 +202,8 @@ public class ViewMenu extends JMenu
      */
     private void performZoomIn()
     {
-        if (mainFrame.getWorkspaceList().size() != 0) {
+        if (mainFrame.getWorkspaceList().size() != 0)
+        {
             IWorkspace workspace = mainFrame.getActiveWorkspace();
             workspace.getEditorPart().zoomIn();
         }
@@ -212,7 +214,8 @@ public class ViewMenu extends JMenu
      */
     private void performGrowDrawingArea()
     {
-        if (mainFrame.getWorkspaceList().size() != 0) {
+        if (mainFrame.getWorkspaceList().size() != 0)
+        {
             IWorkspace workspace = mainFrame.getActiveWorkspace();
             workspace.getEditorPart().growDrawingArea();
         }
@@ -223,7 +226,8 @@ public class ViewMenu extends JMenu
      */
     private void performClipDrawingArea()
     {
-        if (mainFrame.getWorkspaceList().size() != 0) {
+        if (mainFrame.getWorkspaceList().size() != 0)
+        {
             IWorkspace workspace = mainFrame.getActiveWorkspace();
             workspace.getEditorPart().clipDrawingArea();
         }
@@ -247,7 +251,8 @@ public class ViewMenu extends JMenu
      */
     private void performDisplayLargerGrid()
     {
-        if (mainFrame.getWorkspaceList().size() != 0) {
+        if (mainFrame.getWorkspaceList().size() != 0)
+        {
             IWorkspace workspace = mainFrame.getActiveWorkspace();
             IEditorPart editorPart = workspace.getEditorPart();
             editorPart.getGrid().changeGridSize(1);
@@ -262,7 +267,8 @@ public class ViewMenu extends JMenu
      */
     private void performHideGrid(ActionEvent event)
     {
-        if (mainFrame.getWorkspaceList().size() != 0) {
+        if (mainFrame.getWorkspaceList().size() != 0)
+        {
             IWorkspace workspace = mainFrame.getActiveWorkspace();
             boolean isHidden = hideGridItem.isSelected();
             IEditorPart editorPart = workspace.getEditorPart();
