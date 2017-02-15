@@ -1,5 +1,6 @@
 package com.horstmann.violet.workspace.editorpart;
 
+import com.horstmann.violet.framework.util.nodeusage.NodeUsage;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 
@@ -86,4 +87,8 @@ public interface IEditorPart
      */
     IEditorPartBehaviorManager getBehaviorManager();
 
+    /**
+     * @return list of node names with it's usages
+     */
+    List<NodeUsage> getSelectedNodesUsages();
 }

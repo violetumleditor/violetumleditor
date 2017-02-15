@@ -22,8 +22,11 @@
 package com.horstmann.violet.application.menu;
 
 import com.horstmann.violet.application.gui.MainFrame;
+import com.horstmann.violet.framework.dialog.DialogFactory;
+import com.horstmann.violet.framework.dialog.DialogFactoryMode;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
+import com.horstmann.violet.framework.util.nodeusage.NodeUsage;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.behavior.*;
@@ -162,9 +165,14 @@ public class EditMenu extends JMenu {
         });
         this.add(find);
 
-        delete.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                if (isThereAnyWorkspaceDisplayed()) getActiveEditorPart().removeSelected();
+        delete.addActionListener(event ->
+        {
+            final IEditorPart editorPart = getActiveEditorPart();
+            if (isThereAnyWorkspaceDisplayed())
+            {
+                final List<NodeUsage> selectedNodesUsages = editorPart.getSelectedNodesUsages();
+                removeSelectedNodes(editorPart, selectedNodesUsages);
+
             }
         });
         this.add(delete);
@@ -214,6 +222,36 @@ public class EditMenu extends JMenu {
         });
         this.add(selectPrevious);
 
+    }
+
+    private void removeSelectedNodes(final IEditorPart editorPart, final List<NodeUsage> selectedNodesUsages)
+    {
+        if (selectedNodesUsages.isEmpty())
+        {
+            editorPart.removeSelected();
+        }
+        else
+        {
+            final DialogFactory dialogFactory = new DialogFactory(DialogFactoryMode.INTERNAL);
+            final int answer = dialogFactory
+                    .showConfirmationDialog(confirmationDialogTitle, createNodesInUseMessage(selectedNodesUsages));
+
+            if (answer == JOptionPane.YES_OPTION)
+            {
+                editorPart.removeSelected();
+            }
+        }
+    }
+
+    private String createNodesInUseMessage(final List<NodeUsage> selectedNodesUsages)
+    {
+        final String separator = System.getProperty("line.separator");
+        final StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append(confirmationDialogInformation);
+        selectedNodesUsages.forEach((nodeUsage) -> stringBuilder.append(separator).append(nodeUsage));
+
+        return stringBuilder.toString();
     }
 
     /**
@@ -267,4 +305,10 @@ public class EditMenu extends JMenu {
 
     @ResourceBundleBean(key = "edit.select_previous")
     private JMenuItem selectPrevious;
+
+    @ResourceBundleBean(key = "edit.delete.confirmation_dialog.title.text")
+    private String confirmationDialogTitle;
+
+    @ResourceBundleBean(key = "edit.delete.confirmation_dialog.information.text")
+    private String confirmationDialogInformation;
 }

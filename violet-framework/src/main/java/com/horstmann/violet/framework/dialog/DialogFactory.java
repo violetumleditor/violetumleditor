@@ -208,6 +208,19 @@ public class DialogFactory
     }
 
     /**
+     * Displays confirmation dialog with 'Yes' and 'No' buttons.
+     *
+     * @param title
+     * @param information
+     * @return selected option
+     */
+    public int showConfirmationDialog(final String title, final String information)
+    {
+        return JOptionPane.showConfirmDialog(null, information, title,
+                JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+    }
+
+    /**
      * Creates (and displays) a dialog
      * 
      * @param optionPane
