@@ -26,15 +26,16 @@ import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
 import com.horstmann.violet.framework.graphics.content.EmptyContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideEllipse;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
+import com.horstmann.violet.product.diagram.abstracts.node.IInitialStateNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.state.StateDiagramConstant;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 
 /**
- * An initial or final node_old (bull's eye) in a state or activity diagram.
+ * An initial node_old (bull's eye) in a state or activity diagram.
  */
-public class CircularInitialStateNode extends AbstractNode
+public class CircularInitialStateNode extends AbstractNode implements IInitialStateNode
 {
     public CircularInitialStateNode()
     {
@@ -53,6 +54,7 @@ public class CircularInitialStateNode extends AbstractNode
     {
         return new CircularInitialStateNode(this);
     }
+
 
     @Override
     protected void createContentStructure()

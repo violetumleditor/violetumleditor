@@ -1,11 +1,24 @@
 package com.horstmann.violet.workspace.editorpart.behavior;
 
-import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
+import com.horstmann.violet.framework.file.GraphFile;
+import com.horstmann.violet.framework.file.IGraphFile;
+import com.horstmann.violet.framework.file.persistence.IFilePersistenceService;
+import com.horstmann.violet.framework.file.persistence.XStreamBasedPersistenceService;
+import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
+import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
+import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
+import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.abstracts.Id;
+import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.IInitialStateNode;
+import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.workspace.editorpart.IEditorPart;
+import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
+import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
+
+import javax.swing.undo.*;
+import java.awt.*;
+import java.awt.datatransfer.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -13,33 +26,15 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
-import javax.swing.undo.AbstractUndoableEdit;
-import javax.swing.undo.CannotRedoException;
-import javax.swing.undo.CannotUndoException;
-import javax.swing.undo.CompoundEdit;
-import javax.swing.undo.UndoableEdit;
-
-import com.horstmann.violet.framework.file.GraphFile;
-import com.horstmann.violet.framework.file.IGraphFile;
-import com.horstmann.violet.framework.file.persistence.IFilePersistenceService;
-import com.horstmann.violet.framework.file.persistence.XStreamBasedPersistenceService;
-import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
-import com.horstmann.violet.product.diagram.abstracts.IGraph;
-import com.horstmann.violet.product.diagram.abstracts.Id;
-import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.workspace.editorpart.IEditorPart;
-import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
-import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
 {
+    /** default number of max initial nodes on workspace */
+    private final static int maxNumberOfInitialNodes = 1;
 
     /**
      * The concerned workspace
@@ -49,7 +44,7 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
     /**
      * Used to convert graph to XML and to get graph back from XML
      */
-    
+
     private IFilePersistenceService persistenceService = new XStreamBasedPersistenceService();
 
     /**
@@ -58,14 +53,16 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
     private Point2D lastMouseLocation = new Point2D.Double(0, 0);
 
     /**
-     * Default constructor
-     * 
-     * @param editorPart
+     * Resources for message which appear after there is more than one InitialNode on workspace
      */
+    @ResourceBundleBean(key = "edit.properties.empty_message")
+    private String message;
+    
     public CutCopyPasteBehavior(IEditorPart editorPart)
     {
+        ResourceBundleInjector.getInjector().inject(this);
         BeanInjector.getInjector().inject(this);
-    	this.editorPart = editorPart;
+        this.editorPart = editorPart;
     }
 
     @Override
@@ -101,13 +98,14 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
         Map<Id, Id> idMapper = new HashMap<Id, Id>();
         for (INode aSelectedNode : selectedNodes)
         {
-        	if (isAncestorInCollection(aSelectedNode, selectedNodes)) {
-        		// In this case, id doesn't change. It only changes on newGraph.addNode()
-        		Id currentId = aSelectedNode.getId();
-				idMapper.put(currentId, currentId);
-        		continue;
-        	}
-        	INode clone = aSelectedNode.clone();
+            if (isAncestorInCollection(aSelectedNode, selectedNodes))
+            {
+                // In this case, id doesn't change. It only changes on newGraph.addNode()
+                Id currentId = aSelectedNode.getId();
+                idMapper.put(currentId, currentId);
+                continue;
+            }
+            INode clone = aSelectedNode.clone();
             Id oldId = clone.getId();
             Point2D locationOnGraph = aSelectedNode.getLocationOnGraph();
             newGraph.addNode(clone, locationOnGraph);
@@ -125,8 +123,8 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
             Id oldEndId = clone.getEndNode().getId();
             Id newStartId = idMapper.get(oldStartId);
             Id newEndId = idMapper.get(oldEndId);
-			INode startNode = newGraph.findNode(newStartId);
-			INode endNode = newGraph.findNode(newEndId);
+            INode startNode = newGraph.findNode(newStartId);
+            INode endNode = newGraph.findNode(newEndId);
             if (startNode != null && endNode != null)
             {
                 newGraph.connect(clone, startNode, startLocation, endNode, endLocation, transitionPoints);
@@ -137,7 +135,7 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
         byteArrayOutputStream.toString();
         String xmlContent = byteArrayOutputStream.toString();
         pushContentToSystemClipboard(xmlContent);
-        
+
     }
 
     /**
@@ -195,16 +193,74 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
 
             editorPart.getSwingComponent().invalidate();
             editorPart.getSwingComponent().repaint();
+
+            validatePaste(nodes, graph);
         }
         catch (IOException e)
         {
-            // Nothing to do
         }
     }
 
+    private void validatePaste(List<INode> nodes, IGraph graph){
+        if(checkIfNumberOfInitialNodesIsMoreThanOne(nodes, graph))
+        {
+            showWarningAboutNumberOfInitialNodes();
+        }
+    }
+    /**
+     * Is checking for each copied node if there is too many initialNodes on workspace
+     *
+     * @param nodes
+     * @param graph
+     * @return true if number of initialNodes is more than one
+     */
+    private boolean checkIfNumberOfInitialNodesIsMoreThanOne(List<INode> nodes, IGraph graph)
+    {
+        Collection<INode> nodeCollection = graph.getAllNodes();
+        for (INode newNode : nodes)
+        {
+            if (isNumberOfInitialNodesIsToHigh(newNode, nodeCollection))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    /**
+     * Is checking if Number of InitialNodes is greater than one
+     *
+     * @param newNode
+     * @param nodeCollection
+     * @return true if number of initialNodes is more than one
+     */
+    private boolean isNumberOfInitialNodesIsToHigh(INode newNode, Collection<INode> nodeCollection)
+    {
+        boolean result = false;
+        if (newNode instanceof IInitialStateNode)
+        {
+            int numberOfInitialNodes = 0;
+
+            for (INode node : nodeCollection)
+            {
+                if (node instanceof IInitialStateNode)
+                {
+                    numberOfInitialNodes++;
+                }
+            }
+            result =numberOfInitialNodes > maxNumberOfInitialNodes;
+        }
+        return result;
+    }
+
+    private void showWarningAboutNumberOfInitialNodes()
+    {
+        showMessageDialog(null, message);
+    }
+
+
     /**
      * Adds Undo/Redo support to copy pastes
-     * 
+     *
      * @param nodesPasted
      * @param edgesPasted
      */
@@ -260,7 +316,8 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
                 {
                     super.redo();
                     IGraph graph = editorPart.getGraph();
-                    graph.connect(anEdge, anEdge.getStartNode(), anEdge.getStartLocation(), anEdge.getEndNode(), anEdge.getEndLocation(), anEdge.getTransitionPoints());
+                    graph.connect(anEdge, anEdge.getStartNode(), anEdge.getStartLocation(), anEdge.getEndNode(),
+                            anEdge.getEndLocation(), anEdge.getTransitionPoints());
                 }
             };
             capturedEdit.addEdit(edit);
@@ -284,7 +341,7 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
 
     /**
      * As we can copy/paste on many diagrams, we ensure that we paste only node_old types acceptable for the current diagram
-     * 
+     *
      * @param nodes from clipboard
      * @return node acceptable for the current diagram
      */
@@ -312,7 +369,7 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
 
     /**
      * As we can copy/paste on many diagrams, we ensure that we paste only edge types acceptable for the current diagram
-     * 
+     *
      * @param edges from clipboard
      * @return edges acceptable for the current diagram
      */
@@ -340,7 +397,7 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
 
     /**
      * Moves all the node of a graph to a location
-     * 
+     *
      * @param graph
      * @param mouseLocation
      * @return the modified graph
@@ -364,7 +421,7 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
 
     /**
      * Deals with system wide clipboard
-     * 
+     *
      * @param content
      */
     private void pushContentToSystemClipboard(String content)
@@ -376,7 +433,7 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
 
     /**
      * Deals with system wide clipboard
-     * 
+     *
      * @return
      */
     private String getContentFromSystemClipboard()
@@ -407,7 +464,7 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
 
     /**
      * Converts a string into a bytebuffer
-     * 
+     *
      * @param msg
      * @return
      */
@@ -418,7 +475,7 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
 
     /**
      * Converts a bytebuffer into a string
-     * 
+     *
      * @param bytebuffer
      * @return
      */
@@ -432,7 +489,7 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
 
     /**
      * Checks if the given list contains an ancestor of the given node_old
-     * 
+     *
      * @param childNode
      * @param ancestorList
      * @return b
@@ -449,7 +506,7 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
 
     /**
      * Checks if ancestorNode is a parent node_old of child node_old
-     * 
+     *
      * @param childNode
      * @param ancestorNode
      * @return b
@@ -479,18 +536,20 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
         }
         return false;
     }
-    
-    private List<INode> getFamily(INode aParentNode) {
-    	List<INode> family = new ArrayList<INode>();
-    	List<INode> fifo = new ArrayList<INode>();
-    	fifo.addAll(aParentNode.getChildren());
-    	while (!fifo.isEmpty()) {
-    		INode aFamilyMember = fifo.get(0);
-    		family.add(aFamilyMember);
-    		fifo.addAll(aFamilyMember.getChildren());
-    		fifo.remove(0);
-    	}
-    	return family;
+
+    private List<INode> getFamily(INode aParentNode)
+    {
+        List<INode> family = new ArrayList<INode>();
+        List<INode> fifo = new ArrayList<INode>();
+        fifo.addAll(aParentNode.getChildren());
+        while (!fifo.isEmpty())
+        {
+            INode aFamilyMember = fifo.get(0);
+            family.add(aFamilyMember);
+            fifo.addAll(aFamilyMember.getChildren());
+            fifo.remove(0);
+        }
+        return family;
     }
 
 }
