@@ -3,6 +3,7 @@ package com.horstmann.violet.workspace.editorpart;
 import com.horstmann.violet.framework.util.nodeusage.NodeUsage;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.workspace.editorpart.enums.Direction;
 
 import javax.swing.*;
 import java.util.List;
@@ -91,4 +92,9 @@ public interface IEditorPart
      * @return list of node names with it's usages
      */
     List<NodeUsage> getSelectedNodesUsages();
+
+    /**
+     *  function align nodes to edge
+     */
+    public void align(Direction direction);
 }
