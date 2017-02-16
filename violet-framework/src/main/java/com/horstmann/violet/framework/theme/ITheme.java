@@ -43,6 +43,8 @@ public interface ITheme
     public abstract Color getWhiteColor();
 
     public abstract Color getBlackColor();
+    
+    public abstract Color getGridBackgroundColor();
 
     public abstract Color getGridColor();
 
