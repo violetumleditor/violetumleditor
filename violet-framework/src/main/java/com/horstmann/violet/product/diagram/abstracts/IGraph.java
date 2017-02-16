@@ -64,7 +64,7 @@ public interface IGraph
      * Adds a node_old to the graph so that the top left corner of the bounding rectangle is at the given point.
      * This method is called by a decoder when reading a data file.
      * 
-     * @param n the node_old to add
+     * @param n the node_old to addNode
      * @param p the desired location
      */
     public abstract boolean addNode(INode n, Point2D p);
@@ -73,7 +73,7 @@ public interface IGraph
     /**
      * Adds an edge to this graph. 
      * 
-     * @param e the new edge to add (don't forget to populate it withs the following node and points!)
+     * @param e the new edge to addNode (don't forget to populate it withs the following node and points!)
      * @param start the start node_old of the edge
      * @param startLocation the point inside the start node_old where the edge begins
      * @param end the end node_old of the edge

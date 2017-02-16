@@ -198,6 +198,10 @@ public abstract class AbstractNode implements INode
         }
     }
 
+    public Point2D geLocation(){
+        return this.getLocation();
+    }
+
     protected void onChildChangeLocation(INode child) {
     }
 

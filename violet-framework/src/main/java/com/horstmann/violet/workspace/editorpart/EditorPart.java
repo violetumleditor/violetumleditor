@@ -41,6 +41,7 @@ import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.editorpart.behavior.IEditorPartBehavior;
+import com.horstmann.violet.workspace.editorpart.enums.Direction;
 
 /**
  * Graph editor
@@ -56,7 +57,7 @@ public class EditorPart extends JPanel implements IEditorPart
     public EditorPart(IGraph aGraph)
     {
         this.graph = aGraph;
-        this.zoom = 1;
+        this.zoom = zoomScale;
         this.grid = new PlainGrid(this);
         this.graph.setGridSticker(grid.getGridSticker());
         addMouseListener(new MouseAdapter()
@@ -78,14 +79,7 @@ public class EditorPart extends JPanel implements IEditorPart
             }
         });
 
-        addMouseWheelListener(new MouseWheelListener()
-        {
-            @Override
-            public void mouseWheelMoved(MouseWheelEvent e)
-            {
-                behaviorManager.fireOnMouseWheelMoved(e);
-            }
-        });
+        addMouseWheelListener(e -> behaviorManager.fireOnMouseWheelMoved(e));
 
         addMouseMotionListener(new MouseMotionAdapter()
         {
@@ -175,11 +169,17 @@ public class EditorPart extends JPanel implements IEditorPart
     public void changeZoom(int steps)
     {
         final double FACTOR = Math.sqrt(Math.sqrt(2));
-        for (int i = 1; i <= steps; i++)
+        for (int i = zoomScale; i <= steps; i++)
             zoom *= FACTOR;
-        for (int i = 1; i <= -steps; i++)
+        for (int i = zoomScale; i <= -steps; i++)
             zoom /= FACTOR;
         invalidate();
+        repaint();
+    }
+
+    public void align(Direction direction){
+        Align align = new Align();
+        align.alignElements(getSelectedNodes(),direction);
         repaint();
     }
 
@@ -262,9 +262,6 @@ public class EditorPart extends JPanel implements IEditorPart
         }
     }
     
-    
-    
-    
     @Override
     public IEditorPartSelectionHandler getSelectionHandler()
     {
@@ -277,10 +274,6 @@ public class EditorPart extends JPanel implements IEditorPart
         return this.behaviorManager;
     }
 
-    
-    
-
-    
     private IGraph graph;
 
     private IGrid grid;
@@ -297,6 +290,8 @@ public class EditorPart extends JPanel implements IEditorPart
      * Scale factor used to grow drawing area
      */
     private static final double GROW_SCALE_FACTOR = Math.sqrt(2);
+
+    private final static int zoomScale = 1;
 
     private IEditorPartBehaviorManager behaviorManager = new EditorPartBehaviorManager();
     

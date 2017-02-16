@@ -28,12 +28,14 @@ import java.util.Map;
 import javax.swing.JPanel;
 
 import com.horstmann.violet.workspace.IWorkspace;
+import com.horstmann.violet.workspace.sidebar.alignedtools.AlignedToolsPanel;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 import com.horstmann.violet.workspace.sidebar.colortools.IColorChoiceBar;
 import com.horstmann.violet.workspace.sidebar.editortools.EditorToolsPanel;
 import com.horstmann.violet.workspace.sidebar.graphtools.GraphToolsBar;
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBar;
 import com.horstmann.violet.workspace.sidebar.optionaltools.OptionalToolsPanel;
+
 
 public class SideBar extends JPanel implements ISideBar
 {
@@ -103,6 +105,16 @@ public class SideBar extends JPanel implements ISideBar
 
     }
 
+    public ISideBarElement getAlignedOption()
+    {
+        if (this.alignedBar == null)
+        {
+            this.alignedBar = new AlignedToolsPanel();
+            this.alignedBar.install(this.diagramPanel);
+        }
+        return this.alignedBar;
+    }
+
     protected Map<ISideBarElement, String> getExternalContributionElements()
     {
         return this.externalContributionElements;
@@ -118,11 +130,13 @@ public class SideBar extends JPanel implements ISideBar
         return this;
     }
 
+
     private IWorkspace diagramPanel;
     private IGraphToolsBar graphToolsBar;
     private ISideBarElement editorToolsBar;
     private ISideBarElement optionalToolsBar;
     private IColorChoiceBar colorChoiceBar;
+    private ISideBarElement alignedBar;
     private Map<ISideBarElement, String> externalContributionElements = new HashMap<ISideBarElement, String>();
 
 }

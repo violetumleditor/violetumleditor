@@ -60,7 +60,7 @@ public class UserPreferencesService
     }
 
     /**
-     * add recently opened file into user preferences
+     * addNode recently opened file into user preferences
      * 
      * @param aFile file
      */

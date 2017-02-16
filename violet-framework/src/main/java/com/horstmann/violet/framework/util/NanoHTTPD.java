@@ -157,7 +157,7 @@ public class NanoHTTPD
         public InputStream data;
 
         /**
-         * Headers for the HTTP response. Use addHeader() to add lines.
+         * Headers for the HTTP response. Use addHeader() to addNode lines.
          */
         public Properties header = new Properties();
     }

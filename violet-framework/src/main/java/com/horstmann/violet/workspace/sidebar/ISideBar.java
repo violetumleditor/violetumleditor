@@ -56,10 +56,11 @@ public interface ISideBar
      */
     public IColorChoiceBar getColorChoiceBar();
 
-    
     /**
      * @return the AWT component representing this side bar
      */
     public Component getAWTComponent();
+
+
 
 }

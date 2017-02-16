@@ -126,7 +126,7 @@ public class RelativeLayout extends Layout
     }
 
     /**
-     * add a content to layout and sets him positions
+     * addNode a content to layout and sets him positions
      * @param content
      * @param position
      */

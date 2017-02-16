@@ -210,7 +210,7 @@ public abstract class LineText implements Serializable, Cloneable, EditableText
     }
 
     /**
-     * add listener
+     * addNode listener
      * @param changeListener
      */
     public final void addChangeListener(ChangeListener changeListener)

@@ -44,9 +44,9 @@ public interface INode extends Serializable, Cloneable, IIdentifiable, Connected
     void reconstruction();
     
     /**
-     * Checks whether to add an edge that originates at this node_old.
+     * Checks whether to addNode an edge that originates at this node_old.
      * 
-     * @param edge the edge to add
+     * @param edge the edge to addNode
      * @return true if the edge was added
      */
     boolean addConnection(IEdge edge);
@@ -69,8 +69,8 @@ public interface INode extends Serializable, Cloneable, IIdentifiable, Connected
 
     /**
      * Adds a child node_old and fires the graph modification event.
-     * @param node the child node_old to add
-     * @param index the position at which to add the child
+     * @param node the child node_old to addNode
+     * @param index the position at which to addNode the child
      * @return true if this node_old accepts the given node_old as a child
      */
     boolean addChild(INode node, int index);

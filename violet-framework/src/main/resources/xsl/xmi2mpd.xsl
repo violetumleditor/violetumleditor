@@ -34,7 +34,7 @@
     		<void property="attributes"> 
      			<void property="text"> 
       				<string>
-						<!-- add column private -->
+						<!-- addNode column private -->
 						<xsl:for-each select=".//UML:Attribute[@visibility='private']">
 							<xsl:if test="@visibility='public'">+ </xsl:if>
 							<xsl:if test="@visibility='private'">+ </xsl:if><!-- modification for mpd2sql -->
@@ -48,7 +48,7 @@
 							</xsl:if>
 							<xsl:text>&#xa;</xsl:text>
 						</xsl:for-each>
-						<!-- add column for association -->
+						<!-- addNode column for association -->
 						<xsl:call-template name="GetAssociation">
 							<xsl:with-param name="node" select="./@xmi.id" />
 							<xsl:with-param name="type">attribute</xsl:with-param>
@@ -57,7 +57,7 @@
 							<xsl:with-param name="node" select="./@xmi.id" />
 							<xsl:with-param name="type">attribute</xsl:with-param>
 						</xsl:call-template>
-						<!-- add column no private -->
+						<!-- addNode column no private -->
 						<xsl:for-each select=".//UML:Attribute[@visibility != 'private']">
 							<xsl:if test="@visibility='public'">+ </xsl:if>
 							<xsl:if test="@visibility='private'">+ </xsl:if><!-- modification for mpd2sql -->
@@ -79,7 +79,7 @@
     		<void property="methods"> 
      			<void property="text"> 
       				<string>
-						<!-- add pk -->
+						<!-- addNode pk -->
 						<xsl:if test="count(.//UML:Attribute[@visibility='private']) &gt; 0">
 							<xsl:text>getPK(</xsl:text>
 							<xsl:for-each select=".//UML:Attribute[@visibility='private']">
@@ -96,7 +96,7 @@
 							</xsl:for-each>
 							<xsl:text>)&#xa;</xsl:text>
 						</xsl:if>						
-						<!-- add column for association -->
+						<!-- addNode column for association -->
 						<xsl:call-template name="GetAssociation">
 							<xsl:with-param name="node" select="./@xmi.id" />
 							<xsl:with-param name="type">method</xsl:with-param>

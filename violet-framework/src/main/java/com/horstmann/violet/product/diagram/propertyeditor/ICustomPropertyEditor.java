@@ -12,14 +12,14 @@ public interface ICustomPropertyEditor
     /**
      * Adds a property change listener to the list of listeners.
      * 
-     * @param listener the listener to add
+     * @param listener the listener to addNode
      */
     public abstract void addPropertyChangeListener(PropertyChangeListener listener);
 
     /**
      * Adds a property change listener to the list of listeners.
      * 
-     * @param listener the listener to add
+     * @param listener the listener to addNode
      */
     public abstract void removePropertyChangeListener(PropertyChangeListener listener);
 

@@ -299,8 +299,8 @@ public class PrintPanel extends JPanel
                 }
         }
 
-        private static final int DEFAULT_WIDTH = 450;
-        private static final int DEFAULT_HEIGHT = 300;
+        private static final int DEFAULT_WIDTH = 800;
+        private static final int DEFAULT_HEIGHT = 700;
     }
 
     private PrintPreviewCanvas canvas;

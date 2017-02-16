@@ -42,7 +42,7 @@ public class WorkspacePanel extends JPanel
         JScrollPane scrollSideBarPanel = getScrollableSideBar();
         add(scrollSideBarPanel, BorderLayout.WEST);
 //        JScrollPane scrollStatusBarPanel = getScrollableStatusBar();
-//        add(scrollStatusBarPanel, BorderLayout.SOUTH);
+//        addNode(scrollStatusBarPanel, BorderLayout.SOUTH);
         refreshDisplay();
     }
 

@@ -39,26 +39,7 @@ import com.horstmann.violet.product.diagram.abstracts.Id;
 import com.horstmann.violet.workspace.editorpart.EditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
-import com.horstmann.violet.workspace.editorpart.behavior.AddEdgeBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.AddNodeBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.AddTransitionPointBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.ChangeToolByWeelBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.ColorizeBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.CutCopyPasteBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.DragGraphBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.DragSelectedBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.DragTransitionPointBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.EditSelectedBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.FileCouldBeSavedBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.ResizeNodeBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.SelectAllBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.SelectByClickBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.SelectByDistanceBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.SelectByLassoBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.ShowMenuOnRightClickBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.SwingRepaintingBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.UndoRedoCompoundBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.ZoomByWheelBehavior;
+import com.horstmann.violet.workspace.editorpart.behavior.*;
 import com.horstmann.violet.workspace.sidebar.ISideBar;
 import com.horstmann.violet.workspace.sidebar.SideBar;
 import com.horstmann.violet.workspace.sidebar.graphtools.GraphTool;
@@ -81,6 +62,7 @@ public class Workspace implements IWorkspace
     {
         this.graphFile = graphFile;
         init();
+
     }
 
     /**
@@ -182,13 +164,7 @@ public class Workspace implements IWorkspace
         {
 
             this.sideBar = new SideBar(this);
-            this.sideBar.getGraphToolsBar().addListener(new IGraphToolsBarListener()
-            {
-                public void toolSelectionChanged(GraphTool tool)
-                {
-                    getEditorPart().getSelectionHandler().setSelectedTool(tool);
-                }
-            });
+            this.sideBar.getGraphToolsBar().addListener(tool -> getEditorPart().getSelectionHandler().setSelectedTool(tool));
         }
         return this.sideBar;
     }
@@ -265,7 +241,6 @@ public class Workspace implements IWorkspace
         setTitle(file.getName());
     }
 
-
     @Override
     public synchronized void addListener(IWorkspaceListener l)
     {
@@ -278,7 +253,7 @@ public class Workspace implements IWorkspace
     @SuppressWarnings("unchecked")
     private synchronized List<IWorkspaceListener> cloneListeners()
     {
-        return (List<IWorkspaceListener>) new ArrayList<IWorkspaceListener>(this.listeners);
+        return new ArrayList<>(this.listeners);
     }
 
     /**
@@ -343,7 +318,7 @@ public class Workspace implements IWorkspace
     private ISideBar sideBar;
     private String filePath;
     private String title;
-    private List<IWorkspaceListener> listeners = new ArrayList<IWorkspaceListener>();
+    private List<IWorkspaceListener> listeners = new ArrayList<>();
     private Id id;
 
     protected static ResourceBundle resourceBundle = ResourceBundle.getBundle("properties.OtherStrings", Locale.getDefault());

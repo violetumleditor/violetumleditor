@@ -191,7 +191,7 @@ public class FieldNode extends ColorableNode
     }
 
     /**
-     * Hack to be able to add fields on object when we do a single click on another field READ THIS : due to this hack, when you
+     * Hack to be able to addNode fields on object when we do a single click on another field READ THIS : due to this hack, when you
      * dble click to edit this field, the first click triggers this methods (which is a correct framework behavior). The workaround
      * for end users is to use right click instead of dble click to edit fields. It is so simple to find it so we accept to deal
      * with this bug.

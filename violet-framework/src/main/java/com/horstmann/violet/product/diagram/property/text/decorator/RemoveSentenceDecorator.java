@@ -1,7 +1,7 @@
 package com.horstmann.violet.product.diagram.property.text.decorator;
 
 /**
- * This class remove a sentence from text
+ * This class removeNode a sentence from text
  *
  * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 17.12.2015
@@ -24,7 +24,7 @@ public class RemoveSentenceDecorator extends OneLineTextDecorator
     }
 
     /**
-     * remove sentence from text
+     * removeNode sentence from text
      * @param text
      * @return text without removed sentence
      */

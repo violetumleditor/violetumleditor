@@ -36,7 +36,7 @@ public abstract class Layout extends Content
     protected abstract Point2D getEndPointSeparator(Point2D offset);
 
     /**
-     * add a content to layout
+     * addNode a content to layout
      * @param content
      */
     public void add(Content content)
