@@ -23,6 +23,8 @@ package com.horstmann.violet.product.diagram.property;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.Arrays;
+import java.util.List;
 
 import com.horstmann.violet.product.diagram.property.choiceList.IconChoiceList;
 import com.horstmann.violet.product.diagram.abstracts.edge.arrowhead.*;
@@ -41,7 +43,8 @@ public class ArrowheadChoiceList extends IconChoiceList<Arrowhead>
      */
     public ArrowheadChoiceList()
     {
-        super(ARROWHEAD_ICONS, ARROWHEADS);
+        super(MODEL.clone());
+        
     }
 
     /**
@@ -54,10 +57,36 @@ public class ArrowheadChoiceList extends IconChoiceList<Arrowhead>
         super(copyElement);
     }
 
+    private ArrowheadChoiceList(ArrowheadIcon[] keys, Arrowhead[] values)
+    {
+        super(keys, values);
+    }
+    
     @Override
     public ArrowheadChoiceList clone()
     {
-        return new ArrowheadChoiceList(this);
+    	Arrowhead[] ARROWHEADS_CLONE = new Arrowhead[]{
+                NONE.clone(),
+                V.clone(),
+                TRIANGLE_WHITE.clone(),
+                TRIANGLE_BLACK.clone(),
+                DIAMOND_WHITE.clone(),
+                DIAMOND_BLACK.clone(),
+                X.clone(),
+        };
+    	ArrowheadChoiceList clone = new ArrowheadChoiceList(ARROWHEAD_ICONS, ARROWHEADS_CLONE);
+    	clone.setSelectedIndex(getSelectedPos());
+		return clone;
+    }
+    
+    @Override
+    public boolean setSelectedValue(Arrowhead value) {
+    	List<Arrowhead> staticList = Arrays.asList(ARROWHEADS);
+		if (staticList.contains(value)) {
+    		int pos = staticList.indexOf(value);
+    		return super.setSelectedIndex(pos);
+    	}
+		return super.setSelectedValue(value);
     }
 
     public static final Arrowhead NONE= new Arrowhead();
@@ -70,6 +99,7 @@ public class ArrowheadChoiceList extends IconChoiceList<Arrowhead>
 
     private static Arrowhead[] ARROWHEADS;
     private static ArrowheadIcon[] ARROWHEAD_ICONS;
+    private static ArrowheadChoiceList MODEL;
 
     static
     {
@@ -88,6 +118,7 @@ public class ArrowheadChoiceList extends IconChoiceList<Arrowhead>
         {
             ARROWHEAD_ICONS[i] = new ArrowheadIcon(ARROWHEADS[i]);
         }
+        MODEL = new ArrowheadChoiceList(ARROWHEAD_ICONS, ARROWHEADS);
     }
 
     private static final class ArrowheadIcon implements Icon

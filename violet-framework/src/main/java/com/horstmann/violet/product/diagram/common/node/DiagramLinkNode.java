@@ -31,6 +31,7 @@ import java.util.ResourceBundle;
 
 import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
 import com.horstmann.violet.product.diagram.property.text.MultiLineText;
+import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.common.DiagramLink;
 
 /**

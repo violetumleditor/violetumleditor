@@ -27,8 +27,6 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import com.horstmann.violet.product.diagram.common.edge.ColorableEdge;
-
 /**
  * A class that assumes that an edge can yield its shape and then takes advantage of the fact that containment testing can be done
  * by stroking the shape with a fat stroke. NOTE: Ideally, you should be able to draw the same shape that is used for containment

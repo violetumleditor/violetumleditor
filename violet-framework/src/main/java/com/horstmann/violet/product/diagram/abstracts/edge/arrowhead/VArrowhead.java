@@ -28,4 +28,9 @@ public class VArrowhead extends Arrowhead
 
         return path;
     }
+    
+    @Override
+    public Arrowhead clone() {
+    	return new VArrowhead();
+    }
 }

@@ -401,7 +401,6 @@ public class FileMenu extends JMenu
                 if (workspace != null)
                 {
                     IGraphFile graphFile = workspace.getGraphFile();
-                    graphFile.removeBackup();
                     if (graphFile.isSaveRequired())
                     {
                         JOptionPane optionPane = new JOptionPane();

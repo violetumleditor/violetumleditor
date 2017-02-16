@@ -6,8 +6,8 @@ import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.util.List;
 
-import com.horstmann.violet.product.diagram.abstracts.IColorable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.IColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.editorpart.behavior.IEditorPartBehavior;
 
@@ -64,9 +64,9 @@ public interface IEditorPartBehaviorManager
 
     public abstract void fireAfterChangingTransitionPointsOnEdge(IEdge edge);
     
-    public abstract void fireBeforeChangingColorOnElement(IColorable element);
+    public abstract void fireBeforeChangingColorOnElement(IColorableNode element);
 
-    public abstract void fireAfterChangingColorOnElement(IColorable element);
+    public abstract void fireAfterChangingColorOnElement(IColorableNode element);
 
     
     

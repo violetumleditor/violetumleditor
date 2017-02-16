@@ -19,7 +19,7 @@
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package com.horstmann.violet.product.diagram.common.node;
+package com.horstmann.violet.product.diagram.abstracts.node;
 
 import java.awt.Color;
 import java.awt.Shape;
@@ -29,16 +29,13 @@ import com.horstmann.violet.framework.graphics.content.ContentBackground;
 import com.horstmann.violet.framework.graphics.content.ContentBorder;
 import com.horstmann.violet.framework.graphics.content.EmptyContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRoundRectangle;
-import com.horstmann.violet.product.diagram.abstracts.IColorable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
-import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 
 /**
  * A node_old that has a rectangular shape.
  */
-public abstract class ColorableNode extends AbstractNode implements IColorable
+public abstract class ColorableNode extends AbstractNode implements IColorableNode
 {
     public ColorableNode()
     {
@@ -51,7 +48,6 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
     }
 
     @Override
-//  protected abstract void createContentStructure();
     protected void createContentStructure()
     {
         setBorder(new ContentBorder(new ContentInsideRoundRectangle(new EmptyContent()), getBorderColor()));

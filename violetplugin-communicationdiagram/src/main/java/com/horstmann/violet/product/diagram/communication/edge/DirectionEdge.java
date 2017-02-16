@@ -32,7 +32,6 @@ public class DirectionEdge extends LabeledLineEdge {
 	protected void beforeReconstruction()
 	{
 		super.beforeReconstruction();
-        setBentStyle(BentStyle.STRAIGHT);
 
         SequenceNumber.reconstruction();
 		Message.reconstruction();

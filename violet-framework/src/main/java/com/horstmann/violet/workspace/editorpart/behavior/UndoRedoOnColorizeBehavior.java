@@ -5,7 +5,7 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.CompoundEdit;
 
-import com.horstmann.violet.product.diagram.abstracts.IColorable;
+import com.horstmann.violet.product.diagram.abstracts.node.IColorableNode;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorChoice;
 
 /**
@@ -36,14 +36,14 @@ public class UndoRedoOnColorizeBehavior extends AbstractEditorPartBehavior
     }
 
     @Override
-    public void beforeChangingColorOnElement(IColorable element)
+    public void beforeChangingColorOnElement(IColorableNode element)
     {
         reset();
         this.oldColorChoice = new ColorChoice(element.getBackgroundColor(), element.getBorderColor(), element.getTextColor());
     }
 
     @Override
-    public void afterChangingColorOnElement(final IColorable element)
+    public void afterChangingColorOnElement(final IColorableNode element)
     {
         this.newColorChoice = new ColorChoice(element.getBackgroundColor(), element.getBorderColor(), element.getTextColor());
         this.compoundBehavior.startHistoryCapture();
@@ -62,11 +62,11 @@ public class UndoRedoOnColorizeBehavior extends AbstractEditorPartBehavior
     private class UndoableColorEdit extends AbstractUndoableEdit
     {
 
-        private IColorable element;
+        private IColorableNode element;
         private ColorChoice oldColorChoice;
         private ColorChoice newColorChoice;
 
-        public UndoableColorEdit(IColorable element, ColorChoice oldColorChoice, ColorChoice newColorChoice)
+        public UndoableColorEdit(IColorableNode element, ColorChoice oldColorChoice, ColorChoice newColorChoice)
         {
             this.element = element;
             this.oldColorChoice = oldColorChoice;

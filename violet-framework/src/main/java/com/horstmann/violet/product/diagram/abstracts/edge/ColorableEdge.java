@@ -1,12 +1,10 @@
-package com.horstmann.violet.product.diagram.common.edge;
+package com.horstmann.violet.product.diagram.abstracts.edge;
 
 import java.awt.Color;
 
-import com.horstmann.violet.product.diagram.abstracts.IColorable;
-import com.horstmann.violet.product.diagram.abstracts.edge.AbstractEdge;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 
-public abstract class ColorableEdge extends AbstractEdge implements IColorable {
+public abstract class ColorableEdge extends AbstractEdge implements IColorableEdge {
 
 
 	@Override
