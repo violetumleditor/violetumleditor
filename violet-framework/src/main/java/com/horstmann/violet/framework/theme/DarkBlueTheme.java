@@ -88,6 +88,11 @@ public class DarkBlueTheme extends AbstractTheme
     {
         return Color.BLACK;
     }
+    
+	public Color getGridBackgroundColor() 
+	{
+		return Color.WHITE;
+	}
 
     public Color getGridColor()
     {
