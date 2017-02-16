@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
          http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>violetproduct-swing</artifactId>
@@ -24,10 +24,10 @@
 			<version>${applicationVersion}</version>
 		</dependency>
 		<dependency>
- 			<groupId>com.horstmann.violet</groupId>
- 			<artifactId>violetplugin-communicationdiagram</artifactId>
- 			<version>${applicationVersion}</version>
- 		</dependency>
+			<groupId>com.horstmann.violet</groupId>
+			<artifactId>violetplugin-communicationdiagram</artifactId>
+			<version>${applicationVersion}</version>
+		</dependency>
 		<dependency>
 			<groupId>com.horstmann.violet</groupId>
 			<artifactId>violetplugin-sequencediagram</artifactId>
@@ -41,6 +41,11 @@
 		<dependency>
 			<groupId>com.horstmann.violet</groupId>
 			<artifactId>violetplugin-usecasediagram</artifactId>
+			<version>${applicationVersion}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.horstmann.violet</groupId>
+			<artifactId>violetplugin-componentdiagram</artifactId>
 			<version>${applicationVersion}</version>
 		</dependency>
 		<dependency>
@@ -87,10 +92,11 @@
 						<folder>${project.parent.build.directory}../../violetplugin-sequencediagram/target/classes</folder>
 						<folder>${project.parent.build.directory}../../violetplugin-statediagram/target/classes</folder>
 						<folder>${project.parent.build.directory}../../violetplugin-usecasediagram/target/classes</folder>
+						<folder>${project.parent.build.directory}../../violetplugin-componentdiagram/target/classes</folder>
 						<folder>${project.parent.build.directory}../../violetplugin-activitydiagram/target/classes</folder>
 						<folder>${project.parent.build.directory}../../violetplugin-objectdiagram/target/classes</folder>
 					</folders>
-					<excludeArtifactIds>violet-framework,violetplugin-classdiagram,violetplugin-communicationdiagram,violetplugin-sequencediagram,violetplugin-statediagram,violetplugin-usecasediagram,violetplugin-activitydiagram,violetplugin-objectdiagram</excludeArtifactIds>
+					<excludeArtifactIds>violet-framework,violetplugin-classdiagram,violetplugin-communicationdiagram,violetplugin-sequencediagram,violetplugin-statediagram,violetplugin-usecasediagram,violetplugin-componentdiagram,violetplugin-activitydiagram,violetplugin-objectdiagram</excludeArtifactIds>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -116,11 +122,11 @@
 							</filters>
 							<transformers>
 								<transformer
-									implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+										implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
 									<resource>META-INF/services/com.horstmann.violet.framework.plugin.IDiagramPlugin</resource>
 								</transformer>
 								<transformer
-									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+										implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<mainClass>com.horstmann.violet.UMLEditorApplication</mainClass>
 								</transformer>
 							</transformers>

@@ -17,6 +17,7 @@
     <module>violetplugin-objectdiagram</module>
     <module>violetplugin-sequencediagram</module>
     <module>violetplugin-statediagram</module>
+    <module>violetplugin-componentdiagram</module>
     <module>violetplugin-usecasediagram</module>
     <module>violetproduct-swing</module>
     <module>violetproduct-deb</module>

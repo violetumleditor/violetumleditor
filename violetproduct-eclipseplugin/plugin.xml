@@ -23,6 +23,12 @@
             icon="META-INF/eclipse_plugin_icon.png"
             id="com.horstmann.violet.eclipseplugin.wizards.NewUseCaseDiagramWizard"
             name="Use Case Diagram"/>
+       <wizard
+               category="com.horstmann.violet.eclipseplugin"
+               class="com.horstmann.violet.eclipseplugin.wizards.NewComponentDiagramWizard"
+               icon="META-INF/eclipse_plugin_icon.png"
+               id="com.horstmann.violet.eclipseplugin.wizards.NewComponentDiagramWizard"
+               name="Use Case Diagram"/>
       <wizard
             category="com.horstmann.violet.eclipseplugin"
             class="com.horstmann.violet.eclipseplugin.wizards.NewClassDiagramWizard"
