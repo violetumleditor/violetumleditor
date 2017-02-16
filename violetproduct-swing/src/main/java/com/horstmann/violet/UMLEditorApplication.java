@@ -21,6 +21,7 @@
 package com.horstmann.violet;
 
 import com.horstmann.violet.application.gui.MainFrame;
+import com.horstmann.violet.application.gui.SplashFrame;
 import com.horstmann.violet.application.gui.SplashScreen;
 import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.dialog.DialogFactoryMode;
@@ -185,6 +186,7 @@ public class UMLEditorApplication {
         mainFrame.setVisible(true);
         splashScreen.setVisible(false);
         splashScreen.dispose();
+        SplashFrame splashFrame = new SplashFrame(mainFrame);
     }
 
     /**
