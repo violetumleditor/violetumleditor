@@ -21,34 +21,6 @@
 
 package com.horstmann.violet.application.menu;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.security.GeneralSecurityException;
-import java.text.MessageFormat;
-import java.util.Comparator;
-import java.util.List;
-import java.util.SortedMap;
-import java.util.SortedSet;
-import java.util.TreeMap;
-import java.util.TreeSet;
-
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-
 import com.horstmann.violet.application.ApplicationStopper;
 import com.horstmann.violet.application.gui.MainFrame;
 import com.horstmann.violet.framework.dialog.DialogFactory;
@@ -73,6 +45,32 @@ import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
 import com.thoughtworks.xstream.io.StreamException;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.security.GeneralSecurityException;
+import java.text.MessageFormat;
+import java.util.Comparator;
+import java.util.List;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 /**
  * Represents the file menu on the editor frame
@@ -89,7 +87,7 @@ public class FileMenu extends JMenu
      * @param mainFrame
      */
     @ResourceBundleBean(key = "file")
-    public FileMenu(MainFrame mainFrame)
+    public FileMenu(final MainFrame mainFrame)
     {
         ResourceBundleInjector.getInjector().inject(this);
         BeanInjector.getInjector().inject(this);
@@ -150,7 +148,8 @@ public class FileMenu extends JMenu
     {
         this.mainFrame.addWindowListener(new WindowAdapter()
         {
-            public void windowClosing(WindowEvent event)
+            @Override
+            public void windowClosing(final WindowEvent event)
             {
                 stopper.exitProgram(mainFrame);
             }
@@ -164,7 +163,8 @@ public class FileMenu extends JMenu
     {
         this.fileExitItem.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent e)
+            @Override
+            public void actionPerformed(final ActionEvent e)
             {
                 stopper.exitProgram(mainFrame);
             }
@@ -199,9 +199,10 @@ public class FileMenu extends JMenu
     {
         this.fileExportToPythonItem.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent e)
+            @Override
+            public void actionPerformed(final ActionEvent e)
             {
-                IWorkspace workspace = (Workspace) mainFrame.getActiveWorkspace();
+                final IWorkspace workspace = (Workspace) mainFrame.getActiveWorkspace();
                 if (workspace != null)
                 {
                 }
@@ -216,9 +217,10 @@ public class FileMenu extends JMenu
     {
         this.fileExportToJavaItem.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent e)
+            @Override
+            public void actionPerformed(final ActionEvent e)
             {
-                IWorkspace workspace = (Workspace) mainFrame.getActiveWorkspace();
+                final IWorkspace workspace = (Workspace) mainFrame.getActiveWorkspace();
                 if (workspace != null)
                 {
                 }
@@ -233,9 +235,10 @@ public class FileMenu extends JMenu
     {
         this.fileExportToClipBoardItem.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent e)
+            @Override
+            public void actionPerformed(final ActionEvent e)
             {
-                IWorkspace workspace = (Workspace) mainFrame.getActiveWorkspace();
+                final IWorkspace workspace = (Workspace) mainFrame.getActiveWorkspace();
                 if (workspace != null)
                 {
                     workspace.getGraphFile().exportToClipboard();
@@ -251,32 +254,33 @@ public class FileMenu extends JMenu
     {
         this.fileExportToImageItem.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent e)
+            @Override
+            public void actionPerformed(final ActionEvent e)
             {
-                IWorkspace workspace = (Workspace) mainFrame.getActiveWorkspace();
+                final IWorkspace workspace = (Workspace) mainFrame.getActiveWorkspace();
                 if (workspace != null)
                 {
                     try
                     {
-                        ExtensionFilter[] exportFilters = fileNamingService.getImageExtensionFilters();
-                        IFileWriter fileSaver = fileChooserService.chooseAndGetFileWriter(exportFilters);
-                        OutputStream out = fileSaver.getOutputStream();
+                        final ExtensionFilter[] exportFilters = fileNamingService.getImageExtensionFilters();
+                        final IFileWriter fileSaver = fileChooserService.chooseAndGetFileWriter(exportFilters);
+                        final OutputStream out = fileSaver.getOutputStream();
                         if (out != null)
                         {
-                            String filename = fileSaver.getFileDefinition().getFilename();
-                            for (ExtensionFilter exportFilter : exportFilters)
+                            final String filename = fileSaver.getFileDefinition().getFilename();
+                            for (final ExtensionFilter exportFilter : exportFilters)
                             {
-                                String extension = exportFilter.getExtension();
+                                final String extension = exportFilter.getExtension();
                                 if (filename.toLowerCase().endsWith(extension.toLowerCase()))
                                 {
-                                    String format = extension.replace(".", "");
+                                    final String format = extension.replace(".", "");
                                     workspace.getGraphFile().exportImage(out, format);
                                     break;
                                 }
                             }
                         }
                     }
-                    catch (Exception e1)
+                    catch (final Exception e1)
                     {
                         throw new RuntimeException(e1);
                     }
@@ -290,26 +294,26 @@ public class FileMenu extends JMenu
         this.fileExportToPdfItem.addActionListener(new ActionListener()
         {
             @Override
-            public void actionPerformed(ActionEvent e)
+            public void actionPerformed(final ActionEvent e)
             {
-                IWorkspace workspace = (Workspace) mainFrame.getActiveWorkspace();
+                final IWorkspace workspace = (Workspace) mainFrame.getActiveWorkspace();
                 if (workspace != null)
                 {
                     try {
-                        ExtensionFilter extensionFilter = fileNamingService.getPdfExtensionFilter();
-                        IFileWriter fileSaver = fileChooserService.chooseAndGetFileWriter(extensionFilter);
-                        OutputStream out = fileSaver.getOutputStream();
+                        final ExtensionFilter extensionFilter = fileNamingService.getPdfExtensionFilter();
+                        final IFileWriter fileSaver = fileChooserService.chooseAndGetFileWriter(extensionFilter);
+                        final OutputStream out = fileSaver.getOutputStream();
                         if(null == out)
                         {
                             throw new IOException("Unable to get output stream for extension "
                                                     + extensionFilter.getExtension());
                         }
-                        String filename = fileSaver.getFileDefinition().getFilename();
+                        final String filename = fileSaver.getFileDefinition().getFilename();
                         workspace.getGraphFile().exportToPdf(out);
                     }
-                    catch (IOException e1)
+                    catch (final IOException e1)
                     {
-                        String message = MessageFormat.format(fileExportErrorMessage, e1.getMessage());
+                        final String message = MessageFormat.format(fileExportErrorMessage, e1.getMessage());
                         JOptionPane.showMessageDialog(null, message, fileExportError, JOptionPane.ERROR_MESSAGE);
                     }
 
@@ -325,12 +329,13 @@ public class FileMenu extends JMenu
     {
         this.fileSaveAsItem.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent e)
+            @Override
+            public void actionPerformed(final ActionEvent e)
             {
-                IWorkspace workspace = (Workspace) mainFrame.getActiveWorkspace();
+                final IWorkspace workspace = (Workspace) mainFrame.getActiveWorkspace();
                 if (workspace != null)
                 {
-                    IGraphFile graphFile = workspace.getGraphFile();
+                    final IGraphFile graphFile = workspace.getGraphFile();
                     graphFile.saveToNewLocation();
                     userPreferencesService.addRecentFile(graphFile);
                 }
@@ -374,12 +379,13 @@ public class FileMenu extends JMenu
     {
         this.fileSaveItem.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent e)
+            @Override
+            public void actionPerformed(final ActionEvent e)
             {
-                IWorkspace workspace = mainFrame.getActiveWorkspace();
+                final IWorkspace workspace = mainFrame.getActiveWorkspace();
                 if (workspace != null)
                 {
-                    IGraphFile graphFile = workspace.getGraphFile();
+                    final IGraphFile graphFile = workspace.getGraphFile();
                     graphFile.save();
                     userPreferencesService.addRecentFile(graphFile);
                 }
@@ -398,9 +404,10 @@ public class FileMenu extends JMenu
     {
         this.filePrintItem.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent e)
+            @Override
+            public void actionPerformed(final ActionEvent e)
             {
-                IWorkspace workspace = (Workspace) mainFrame.getActiveWorkspace();
+                final IWorkspace workspace = (Workspace) mainFrame.getActiveWorkspace();
                 if (workspace != null)
                 {
                     workspace.getGraphFile().exportToPrinter();
@@ -417,25 +424,26 @@ public class FileMenu extends JMenu
     {
         this.fileCloseItem.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent event)
+            @Override
+            public void actionPerformed(final ActionEvent event)
             {
                 IWorkspace workspace = null;
                 try
                 {
                     workspace = (Workspace) mainFrame.getActiveWorkspace();
                 }
-                catch (RuntimeException e)
+                catch (final RuntimeException e)
                 {
                     // If no diagram is opened, close app
                     stopper.exitProgram(mainFrame);
                 }
                 if (workspace != null)
                 {
-                    IGraphFile graphFile = workspace.getGraphFile();
+                    final IGraphFile graphFile = workspace.getGraphFile();
                     graphFile.removeBackup();
                     if (graphFile.isSaveRequired())
                     {
-                        JOptionPane optionPane = new JOptionPane();
+                        final JOptionPane optionPane = new JOptionPane();
                         optionPane.setMessage(dialogCloseMessage);
                         optionPane.setOptionType(JOptionPane.YES_NO_CANCEL_OPTION);
                         optionPane.setIcon(dialogCloseIcon);
@@ -449,7 +457,7 @@ public class FileMenu extends JMenu
 
                         if (result == JOptionPane.YES_OPTION)
                         {
-                            String filename = graphFile.getFilename();
+                            final String filename = graphFile.getFilename();
                             if (filename == null)
                             {
                                 graphFile.saveToNewLocation();
@@ -461,22 +469,22 @@ public class FileMenu extends JMenu
                             }
                             if (!graphFile.isSaveRequired())
                             {
-                                mainFrame.removeWorkspace(workspace);
+                                mainFrame.closeTabWithWorkspace(workspace);
                                 userPreferencesService.removeOpenedFile(graphFile);
                             }
                         }
                         if (result == JOptionPane.NO_OPTION)
                         {
-                            mainFrame.removeWorkspace(workspace);
+                            mainFrame.closeTabWithWorkspace(workspace);
                             userPreferencesService.removeOpenedFile(graphFile);
                         }
                     }
                     if (!graphFile.isSaveRequired())
                     {
-                        mainFrame.removeWorkspace(workspace);
+                        mainFrame.closeTabWithWorkspace(workspace);
                         userPreferencesService.removeOpenedFile(graphFile);
                     }
-                    List<IWorkspace> workspaceList = mainFrame.getWorkspaceList();
+                    final List<IWorkspace> workspaceList = mainFrame.getWorkspaceList();
                     if (workspaceList.size() == 0)
                     {
                         mainFrame.requestFocus();
@@ -493,30 +501,31 @@ public class FileMenu extends JMenu
     {
         this.fileOpenItem.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent event)
+            @Override
+            public void actionPerformed(final ActionEvent event)
             {
                 IFile selectedFile = null;
                 try
                 {
-                    ExtensionFilter[] filters = fileNamingService.getFileFilters();
-                    IFileReader fileOpener = fileChooserService.chooseAndGetFileReader(filters);
+                    final ExtensionFilter[] filters = fileNamingService.getFileFilters();
+                    final IFileReader fileOpener = fileChooserService.chooseAndGetFileReader(filters);
                     if (fileOpener == null)
                     {
                         // Action cancelled by user
                         return;
                     }
                     selectedFile = fileOpener.getFileDefinition();
-                    IGraphFile graphFile = new GraphFile(selectedFile);
-                    IWorkspace workspace = new Workspace(graphFile);
+                    final IGraphFile graphFile = new GraphFile(selectedFile);
+                    final IWorkspace workspace = new Workspace(graphFile);
                     mainFrame.addWorkspace(workspace);
                     userPreferencesService.addOpenedFile(graphFile);
                     userPreferencesService.addRecentFile(graphFile);
                 }
-                catch (StreamException se)
+                catch (final StreamException se)
                 {
                     dialogFactory.showErrorDialog(dialogOpenFileIncompatibilityMessage);
                 }
-                catch (Exception e)
+                catch (final Exception e)
                 {
                     dialogFactory.showErrorDialog(dialogOpenFileErrorMessage + " : " + e.getMessage());
                 }
@@ -530,58 +539,59 @@ public class FileMenu extends JMenu
      */
     public void initFileNewMenu()
     {
-        List<IDiagramPlugin> diagramPlugins = this.pluginRegistry.getDiagramPlugins();
+        final List<IDiagramPlugin> diagramPlugins = this.pluginRegistry.getDiagramPlugins();
 
         // Step 1 : sort diagram plugins by categories and names
-        SortedMap<String, SortedSet<IDiagramPlugin>> diagramPluginsSortedByCategory = new TreeMap<String, SortedSet<IDiagramPlugin>>();
+        final SortedMap<String, SortedSet<IDiagramPlugin>> diagramPluginsSortedByCategory = new TreeMap<String, SortedSet<IDiagramPlugin>>();
         for (final IDiagramPlugin aDiagramPlugin : diagramPlugins)
         {
-            String category = aDiagramPlugin.getCategory();
+            final String category = aDiagramPlugin.getCategory();
             if (!diagramPluginsSortedByCategory.containsKey(category))
             {
-                SortedSet<IDiagramPlugin> newSortedSet = new TreeSet<IDiagramPlugin>(new Comparator<IDiagramPlugin>()
+                final SortedSet<IDiagramPlugin> newSortedSet = new TreeSet<IDiagramPlugin>(new Comparator<IDiagramPlugin>()
                 {
                     @Override
-                    public int compare(IDiagramPlugin o1, IDiagramPlugin o2)
+                    public int compare(final IDiagramPlugin o1, final IDiagramPlugin o2)
                     {
-                        String n1 = o1.getName();
-                        String n2 = o2.getName();
+                        final String n1 = o1.getName();
+                        final String n2 = o2.getName();
                         return n1.compareTo(n2);
                     }
                 });
                 diagramPluginsSortedByCategory.put(category, newSortedSet);
             }
-            SortedSet<IDiagramPlugin> aSortedSet = diagramPluginsSortedByCategory.get(category);
+            final SortedSet<IDiagramPlugin> aSortedSet = diagramPluginsSortedByCategory.get(category);
             aSortedSet.add(aDiagramPlugin);
         }
         // Step 2 : populate menu entry
 		
-        for (String aCategory : diagramPluginsSortedByCategory.keySet())
+        for (final String aCategory : diagramPluginsSortedByCategory.keySet())
         {
-            String categoryName = aCategory.replaceFirst("[0-9]*\\.", "");
-            JMenu categorySubMenu = new JMenu(categoryName);
+            final String categoryName = aCategory.replaceFirst("[0-9]*\\.", "");
+            final JMenu categorySubMenu = new JMenu(categoryName);
             Dimension preferredSize = categorySubMenu.getPreferredSize();
             preferredSize = new Dimension((int) preferredSize.getWidth() + 30, (int) preferredSize.getHeight());
             categorySubMenu.setPreferredSize(preferredSize);
             fileNewMenu.add(categorySubMenu);
-            SortedSet<IDiagramPlugin> diagramPluginsByCategory = diagramPluginsSortedByCategory.get(aCategory);
+            final SortedSet<IDiagramPlugin> diagramPluginsByCategory = diagramPluginsSortedByCategory.get(aCategory);
             for (final IDiagramPlugin aDiagramPlugin : diagramPluginsByCategory)
             {
                 String name = aDiagramPlugin.getName();
                 name = name.replaceFirst("[0-9]*\\.", "");
-                JMenuItem item = new JMenuItem(name);
-                ImageIcon sampleDiagramImage = getSampleDiagramImage(aDiagramPlugin);
+                final JMenuItem item = new JMenuItem(name);
+                final ImageIcon sampleDiagramImage = getSampleDiagramImage(aDiagramPlugin);
                 if (sampleDiagramImage != null)
                 {
                     item.setRolloverIcon(sampleDiagramImage);
                 }
                 item.addActionListener(new ActionListener()
                 {
-                    public void actionPerformed(ActionEvent event)
+                    @Override
+                    public void actionPerformed(final ActionEvent event)
                     {
-                        Class<? extends IGraph> graphClass = aDiagramPlugin.getGraphClass();
-                        IGraphFile graphFile = new GraphFile(graphClass);
-                        IWorkspace diagramPanel = new Workspace(graphFile);
+                        final Class<? extends IGraph> graphClass = aDiagramPlugin.getGraphClass();
+                        final IGraphFile graphFile = new GraphFile(graphClass);
+                        final IWorkspace diagramPanel = new Workspace(graphFile);
                         String name = aDiagramPlugin.getName();
                         name = name.replaceFirst("[0-9]*\\.", "");
                         name = unsavedPrefix + " " + name.toLowerCase();
@@ -606,12 +616,14 @@ public class FileMenu extends JMenu
         this.addFocusListener(new FocusListener()
         {
 
-            public void focusGained(FocusEvent e)
+            @Override
+            public void focusGained(final FocusEvent e)
             {
                 refreshFileRecentMenu();
             }
 
-            public void focusLost(FocusEvent e)
+            @Override
+            public void focusLost(final FocusEvent e)
             {
                 // Nothing to do
             }
@@ -631,22 +643,23 @@ public class FileMenu extends JMenu
         fileRecentMenu.removeAll();
         for (final IFile aFile : userPreferencesService.getRecentFiles())
         {
-            String name = aFile.getFilename();
-            JMenuItem item = new JMenuItem(name);
+            final String name = aFile.getFilename();
+            final JMenuItem item = new JMenuItem(name);
             fileRecentMenu.add(item);
             item.addActionListener(new ActionListener()
             {
-                public void actionPerformed(ActionEvent event)
+                @Override
+                public void actionPerformed(final ActionEvent event)
                 {
                     try
                     {
-                        IGraphFile graphFile = new GraphFile(aFile);
-                        IWorkspace workspace = new Workspace(graphFile);
+                        final IGraphFile graphFile = new GraphFile(aFile);
+                        final IWorkspace workspace = new Workspace(graphFile);
                         mainFrame.addWorkspace(workspace);
                         userPreferencesService.addOpenedFile(aFile);
                         userPreferencesService.addRecentFile(aFile);
                     }
-                    catch (Exception e)
+                    catch (final Exception e)
                     {
                         dialogFactory.showErrorDialog(dialogOpenFileErrorMessage + " : " + e.getMessage());
                         userPreferencesService.removeOpenedFile(aFile);
@@ -661,33 +674,33 @@ public class FileMenu extends JMenu
      * @return an image exported from the sample diagram file attached to each plugin or null if no one exists
      * @throws IOException
      */
-    private ImageIcon getSampleDiagramImage(IDiagramPlugin diagramPlugin)
+    private ImageIcon getSampleDiagramImage(final IDiagramPlugin diagramPlugin)
     {
         try
         {
-            String sampleFilePath = diagramPlugin.getSampleFilePath();
-            InputStream resourceAsStream = getClass().getResourceAsStream("/" + sampleFilePath);
+            final String sampleFilePath = diagramPlugin.getSampleFilePath();
+            final InputStream resourceAsStream = getClass().getResourceAsStream("/" + sampleFilePath);
             if (resourceAsStream == null)
             {
                 return null;
             }
-            IGraph graph = this.filePersistenceService.read(resourceAsStream);
-            BufferedImage image = FileExportService.getImage(graph);
+            final IGraph graph = this.filePersistenceService.read(resourceAsStream);
+            final BufferedImage image = FileExportService.getImage(graph);
 
-            JLabel label = new JLabel();
+            final JLabel label = new JLabel();
             label.setHorizontalAlignment(JLabel.CENTER);
             label.setVerticalAlignment(JLabel.CENTER);
             label.setIcon(new ImageIcon(image));
             label.setSize(new Dimension(600, 550));
             label.setBackground(Color.WHITE);
             label.setOpaque(true);
-            Dimension size = label.getSize();
-            BufferedImage image2 = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB);
-            Graphics2D g2 = image2.createGraphics();
+            final Dimension size = label.getSize();
+            final BufferedImage image2 = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB);
+            final Graphics2D g2 = image2.createGraphics();
             label.paint(g2);
             return new ImageIcon(image2);
         }
-        catch (Exception e)
+        catch (final Exception e)
         {
             // Failed to load sample. It doesn"t matter.
             return null;
@@ -703,7 +716,7 @@ public class FileMenu extends JMenu
     /**
      * Application stopper
      */
-    private ApplicationStopper stopper = new ApplicationStopper();
+    private final ApplicationStopper stopper = new ApplicationStopper();
 
     /**
      * Plugin registry
@@ -738,7 +751,7 @@ public class FileMenu extends JMenu
     /**
      * Application main frame
      */
-    private MainFrame mainFrame;
+    private final MainFrame mainFrame;
 
     @ResourceBundleBean(key = "file.new")
     private JMenu fileNewMenu;

@@ -21,7 +21,7 @@
     <module>violetplugin-usecasediagram</module>
     <module>violetproduct-swing</module>
     <module>violetproduct-deb</module>
-    
+
     <!-- Modules 'exe' and 'web' are commented out because they're causing problems during project build-->
     <!--<module>violetproduct-exe</module>-->
     <!--<module>violetproduct-web</module>-->

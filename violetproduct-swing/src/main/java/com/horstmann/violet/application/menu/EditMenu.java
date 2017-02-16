@@ -21,13 +21,8 @@
 
 package com.horstmann.violet.application.menu;
 
-import java.awt.AWTException;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-
-import com.horstmann.violet.application.gui.MainFrame;
 import com.horstmann.violet.application.gui.MagnifierFrame;
+import com.horstmann.violet.application.gui.MainFrame;
 import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.dialog.DialogFactoryMode;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
@@ -35,12 +30,24 @@ import com.horstmann.violet.framework.injection.resources.annotation.ResourceBun
 import com.horstmann.violet.framework.util.nodeusage.NodeUsage;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
-import com.horstmann.violet.workspace.editorpart.behavior.*;
-
-import javax.swing.*;
+import com.horstmann.violet.workspace.editorpart.behavior.CutCopyPasteBehavior;
+import com.horstmann.violet.workspace.editorpart.behavior.EditSelectedBehavior;
+import com.horstmann.violet.workspace.editorpart.behavior.FindBehavior;
+import com.horstmann.violet.workspace.editorpart.behavior.SelectAllBehavior;
+import com.horstmann.violet.workspace.editorpart.behavior.SelectByDistanceBehavior;
+import com.horstmann.violet.workspace.editorpart.behavior.UndoRedoCompoundBehavior;
+import java.awt.AWTException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.List;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JWindow;
+import javax.swing.SwingUtilities;
 
 /**
  * Edit menu
@@ -67,12 +74,13 @@ public class EditMenu extends JMenu {
      */
     private void createMenu() {
         undo.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
+            @Override
+            public void actionPerformed(final ActionEvent event) {
                 if (isThereAnyWorkspaceDisplayed())
                 {
-                    IEditorPart activeEditorPart = getActiveEditorPart();
-                    IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
-                    List<UndoRedoCompoundBehavior> found = behaviorManager.getBehaviors(UndoRedoCompoundBehavior.class);
+                    final IEditorPart activeEditorPart = getActiveEditorPart();
+                    final IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
+                    final List<UndoRedoCompoundBehavior> found = behaviorManager.getBehaviors(UndoRedoCompoundBehavior.class);
                     if (found.size() >= 1)
                     {
                       found.get(0).undo();
@@ -83,12 +91,13 @@ public class EditMenu extends JMenu {
         this.add(undo);
 
         redo.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
+            @Override
+            public void actionPerformed(final ActionEvent event) {
                 if (isThereAnyWorkspaceDisplayed())
                 {
-                    IEditorPart activeEditorPart = getActiveEditorPart();
-                    IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
-                    List<UndoRedoCompoundBehavior> found = behaviorManager.getBehaviors(UndoRedoCompoundBehavior.class);
+                    final IEditorPart activeEditorPart = getActiveEditorPart();
+                    final IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
+                    final List<UndoRedoCompoundBehavior> found = behaviorManager.getBehaviors(UndoRedoCompoundBehavior.class);
                     if (found.size() >= 1)
                     {
                         found.get(0).redo();
@@ -99,12 +108,13 @@ public class EditMenu extends JMenu {
         this.add(redo);
 
         properties.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
+            @Override
+            public void actionPerformed(final ActionEvent event) {
                 if (isThereAnyWorkspaceDisplayed())
                 {
-                    IEditorPart activeEditorPart = getActiveEditorPart();
-                    IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
-                    List<EditSelectedBehavior> found = behaviorManager.getBehaviors(EditSelectedBehavior.class);
+                    final IEditorPart activeEditorPart = getActiveEditorPart();
+                    final IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
+                    final List<EditSelectedBehavior> found = behaviorManager.getBehaviors(EditSelectedBehavior.class);
                     if (found.size() >= 1)
                     {
                         found.get(0).createSelectedItemEditMenu();
@@ -115,12 +125,13 @@ public class EditMenu extends JMenu {
         this.add(properties);
 
         cut.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
+            @Override
+            public void actionPerformed(final ActionEvent event) {
                 if (isThereAnyWorkspaceDisplayed())
                 {
-                    IEditorPart activeEditorPart = getActiveEditorPart();
-                    IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
-                    List<CutCopyPasteBehavior> found = behaviorManager.getBehaviors(CutCopyPasteBehavior.class);
+                    final IEditorPart activeEditorPart = getActiveEditorPart();
+                    final IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
+                    final List<CutCopyPasteBehavior> found = behaviorManager.getBehaviors(CutCopyPasteBehavior.class);
                     if (found.size() >= 1)
                     {
                         found.get(0).cut();
@@ -131,12 +142,13 @@ public class EditMenu extends JMenu {
         this.add(cut);
 
         copy.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
+            @Override
+            public void actionPerformed(final ActionEvent event) {
                 if (isThereAnyWorkspaceDisplayed())
                 {
-                    IEditorPart activeEditorPart = getActiveEditorPart();
-                    IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
-                    List<CutCopyPasteBehavior> found = behaviorManager.getBehaviors(CutCopyPasteBehavior.class);
+                    final IEditorPart activeEditorPart = getActiveEditorPart();
+                    final IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
+                    final List<CutCopyPasteBehavior> found = behaviorManager.getBehaviors(CutCopyPasteBehavior.class);
                     if (found.size() >= 1)
                     {
                         found.get(0).copy();
@@ -147,12 +159,13 @@ public class EditMenu extends JMenu {
         this.add(copy);
 
         paste.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
+            @Override
+            public void actionPerformed(final ActionEvent event) {
                 if (isThereAnyWorkspaceDisplayed())
                 {
-                    IEditorPart activeEditorPart = getActiveEditorPart();
-                    IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
-                    List<CutCopyPasteBehavior> found = behaviorManager.getBehaviors(CutCopyPasteBehavior.class);
+                    final IEditorPart activeEditorPart = getActiveEditorPart();
+                    final IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
+                    final List<CutCopyPasteBehavior> found = behaviorManager.getBehaviors(CutCopyPasteBehavior.class);
                     if (found.size() >= 1)
                     {
                         found.get(0).paste();
@@ -163,12 +176,13 @@ public class EditMenu extends JMenu {
         this.add(paste);
 
         find.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
+            @Override
+            public void actionPerformed(final ActionEvent event) {
                 if (isThereAnyWorkspaceDisplayed())
                 {
-                    IEditorPart activeEditorPart = getActiveEditorPart();
-                    IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
-                    List<FindBehavior> found = behaviorManager.getBehaviors(FindBehavior.class);
+                    final IEditorPart activeEditorPart = getActiveEditorPart();
+                    final IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
+                    final List<FindBehavior> found = behaviorManager.getBehaviors(FindBehavior.class);
                     if (found.size() >= 1)
                     {
                         found.get(0).find();
@@ -191,12 +205,13 @@ public class EditMenu extends JMenu {
         this.add(delete);
 
         selectAll.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
+            @Override
+            public void actionPerformed(final ActionEvent event) {
                 if (isThereAnyWorkspaceDisplayed())
                 {
-                    IEditorPart activeEditorPart = getActiveEditorPart();
-                    IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
-                    List<SelectAllBehavior> found = behaviorManager.getBehaviors(SelectAllBehavior.class);
+                    final IEditorPart activeEditorPart = getActiveEditorPart();
+                    final IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
+                    final List<SelectAllBehavior> found = behaviorManager.getBehaviors(SelectAllBehavior.class);
                     if (found.size() >= 1)
                     {
                         found.get(0).selectAllGraphElements();
@@ -207,12 +222,13 @@ public class EditMenu extends JMenu {
         this.add(selectAll);
 
         selectNext.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
+            @Override
+            public void actionPerformed(final ActionEvent event) {
                 if (isThereAnyWorkspaceDisplayed())
                 {
-                    IEditorPart activeEditorPart = getActiveEditorPart();
-                    IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
-                    List<SelectByDistanceBehavior> found = behaviorManager.getBehaviors(SelectByDistanceBehavior.class);
+                    final IEditorPart activeEditorPart = getActiveEditorPart();
+                    final IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
+                    final List<SelectByDistanceBehavior> found = behaviorManager.getBehaviors(SelectByDistanceBehavior.class);
                     if (found.size() >= 1)
                     {
                         found.get(0).selectAnotherGraphElement(1);
@@ -223,12 +239,13 @@ public class EditMenu extends JMenu {
         this.add(selectNext);
 
         selectPrevious.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
+            @Override
+            public void actionPerformed(final ActionEvent event) {
                 if (isThereAnyWorkspaceDisplayed())
                 {
-                    IEditorPart activeEditorPart = getActiveEditorPart();
-                    IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
-                    List<SelectByDistanceBehavior> found = behaviorManager.getBehaviors(SelectByDistanceBehavior.class);
+                    final IEditorPart activeEditorPart = getActiveEditorPart();
+                    final IEditorPartBehaviorManager behaviorManager = activeEditorPart.getBehaviorManager();
+                    final List<SelectByDistanceBehavior> found = behaviorManager.getBehaviors(SelectByDistanceBehavior.class);
                     if (found.size() >= 1)
                     {
                         found.get(0).selectAnotherGraphElement(-1);
@@ -239,7 +256,8 @@ public class EditMenu extends JMenu {
         this.add(selectPrevious);
         
 		magnifier.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
+			@Override
+            public void actionPerformed(final ActionEvent event) {
 				SwingUtilities.invokeLater(new Runnable() 
 				{
 					@Override
@@ -291,19 +309,19 @@ public class EditMenu extends JMenu {
             magnifierWindow.addWindowListener(createMagnifierWindowListener());
 			magnifierWindow.setVisible(true);
 			magnifierWindow.pack();
-		} catch (AWTException e) {
+		} catch (final AWTException e) {
 			System.err.println("Failed create magnifier window");
 		}
-	};
+	}
 
-	/**
+    /**
 	 * Window listener
 	 * @return magnifier window
 	 */
     private WindowListener createMagnifierWindowListener() {
 		return new WindowAdapter() {
             @Override
-            public void windowClosing(WindowEvent e) {
+            public void windowClosing(final WindowEvent e) {
                 magnifierWindow.dispose();
             }
         };
@@ -344,7 +362,7 @@ public class EditMenu extends JMenu {
      * @return magnifierStartaupTop
      */
 	private int getMagnifierStartupY() {
-    	return mainFrame.getMainPanel().getY() + MagnifierFrame.PADDING_TOP;
+    	return mainFrame.getY() + MagnifierFrame.PADDING_TOP;
 	}
 
 	/**
@@ -372,7 +390,7 @@ public class EditMenu extends JMenu {
     /**
      * Application frame
      */
-    private MainFrame mainFrame;
+    private final MainFrame mainFrame;
     
     private JWindow magnifierWindow;
     private MagnifierFrame magnifierFrame;
