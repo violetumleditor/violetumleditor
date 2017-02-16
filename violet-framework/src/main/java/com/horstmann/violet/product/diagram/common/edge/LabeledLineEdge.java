@@ -1,11 +1,14 @@
 package com.horstmann.violet.product.diagram.common.edge;
 
 import com.horstmann.violet.framework.graphics.content.TextContent;
+import com.horstmann.violet.framework.util.MementoCaretaker;
+import com.horstmann.violet.framework.util.ThreeStringMemento;
+import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.edge.bentstyle.BentStyle;
+import com.horstmann.violet.framework.dialog.IRevertableProperties;
 import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
-import com.horstmann.violet.product.diagram.abstracts.Direction;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -18,7 +21,7 @@ import java.awt.geom.Rectangle2D;
  * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 22.02.2016
  */
-public class LabeledLineEdge extends ArrowheadEdge
+public class LabeledLineEdge extends ArrowheadEdge implements IRevertableProperties
 {
     public LabeledLineEdge()
     {
@@ -249,6 +252,24 @@ public class LabeledLineEdge extends ArrowheadEdge
     protected TextContent getEndTextContent()
     {
         return endTextContent;
+    }
+
+    private final MementoCaretaker<ThreeStringMemento> caretaker = new MementoCaretaker<ThreeStringMemento>();
+
+    @Override
+    public void beforeUpdate()
+    {
+        caretaker.save(new ThreeStringMemento(startLabel.toString(), centerLabel.toString(), endLabel.toString()));
+    }
+
+    @Override
+    public void revertUpdate()
+    {
+        ThreeStringMemento memento = caretaker.load();
+
+        startLabel.setText(memento.getFirstValue());
+        centerLabel.setText(memento.getSecondValue());
+        endLabel.setText(memento.getThirdValue());
     }
 
     private SingleLineText startLabel;

@@ -21,11 +21,14 @@
 
 package com.horstmann.violet.product.diagram.activity.node;
 
+import com.horstmann.violet.framework.dialog.IRevertableProperties;
 import com.horstmann.violet.framework.graphics.content.Content;
 import com.horstmann.violet.framework.graphics.content.ContentBackground;
 import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
 import com.horstmann.violet.framework.graphics.content.EmptyContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRoundRectangle;
+import com.horstmann.violet.framework.util.MementoCaretaker;
+import com.horstmann.violet.framework.util.OneIntegerMemento;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
@@ -40,7 +43,7 @@ import java.util.MissingResourceException;
 /**
  * A synchronization bar node_old in an activity diagram.
  */
-public class SynchronizationBarNode extends ColorableNode
+public class SynchronizationBarNode extends ColorableNode implements IRevertableProperties
 {
     public SynchronizationBarNode()
     {
@@ -178,6 +181,23 @@ public class SynchronizationBarNode extends ColorableNode
     public StretchStrategy getStretch()
     {
         return ((StretchStrategy)orientation.getSelectedValue());
+    }
+
+    private final MementoCaretaker<OneIntegerMemento> caretaker = new MementoCaretaker<OneIntegerMemento>();
+    @Override
+    public void beforeUpdate()
+    {
+        caretaker.save(new OneIntegerMemento(selectedStretch));
+    }
+
+    @Override
+    public void revertUpdate()
+    {
+        OneIntegerMemento memento = caretaker.load();
+
+        selectedStretch = memento.getValue();
+        orientation.setSelectedIndex(selectedStretch);
+        setOrientation(orientation);
     }
 
     private int selectedStretch;

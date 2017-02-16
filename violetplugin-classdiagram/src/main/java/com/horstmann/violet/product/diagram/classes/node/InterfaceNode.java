@@ -3,6 +3,9 @@ package com.horstmann.violet.product.diagram.classes.node;
 import com.horstmann.violet.framework.graphics.Separator;
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
+import com.horstmann.violet.framework.dialog.IRevertableProperties;
+import com.horstmann.violet.framework.util.MementoCaretaker;
+import com.horstmann.violet.framework.util.ThreeStringMemento;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.classes.ClassDiagramConstant;
 import com.horstmann.violet.product.diagram.common.node.ColorableNode;
@@ -19,7 +22,7 @@ import java.awt.geom.Point2D;
 /**
  * An interface node in a class diagram.
  */
-public class InterfaceNode extends ColorableNode implements INamedNode
+public class InterfaceNode extends ColorableNode implements INamedNode, IRevertableProperties
 {
     /**
      * Construct an interface node with a default size and the text <<interface>>.
@@ -165,6 +168,22 @@ public class InterfaceNode extends ColorableNode implements INamedNode
     }
 
 
+    private final MementoCaretaker<ThreeStringMemento> caretaker = new MementoCaretaker<ThreeStringMemento>();
+
+    @Override
+    public void beforeUpdate()
+    {
+        caretaker.save(new ThreeStringMemento(name.toString(), methods.toString()));
+    }
+
+    @Override
+    public void revertUpdate()
+    {
+        ThreeStringMemento memento = caretaker.load();
+
+        name.setText(memento.getFirstValue());
+        methods.setText(memento.getSecondValue());
+    }
 
     private SingleLineText name;
     private MultiLineText methods;

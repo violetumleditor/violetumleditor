@@ -3,6 +3,9 @@ package com.horstmann.violet.product.diagram.classes.node;
 import com.horstmann.violet.framework.graphics.Separator;
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
+import com.horstmann.violet.framework.dialog.IRevertableProperties;
+import com.horstmann.violet.framework.util.MementoCaretaker;
+import com.horstmann.violet.framework.util.ThreeStringMemento;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.classes.ClassDiagramConstant;
 import com.horstmann.violet.product.diagram.common.node.ColorableNode;
@@ -18,11 +21,10 @@ import java.util.List;
 /**
  * A class node in a class diagram.
  */
-public class ClassNode extends ColorableNode implements INamedNode
+public class ClassNode extends ColorableNode implements INamedNode, IRevertableProperties
 {
 
     public static boolean classNameChange = false;
-
     /**
      * Construct a class node with a default size
      */
@@ -130,6 +132,24 @@ public class ClassNode extends ColorableNode implements INamedNode
     public String getToolTip()
     {
         return ClassDiagramConstant.CLASS_DIAGRAM_RESOURCE.getString("tooltip.class_node");
+    }
+
+
+    private final MementoCaretaker<ThreeStringMemento> caretaker = new MementoCaretaker<ThreeStringMemento>();
+
+    @Override
+    public void beforeUpdate() {
+        caretaker.save(new ThreeStringMemento(name.toString(), attributes.toString(), methods.toString()));
+    }
+
+    @Override
+    public void revertUpdate()
+    {
+        ThreeStringMemento memento = caretaker.load();
+
+        attributes.setText(memento.getFirstValue());
+        name.setText(memento.getSecondValue());
+        methods.setText(memento.getThirdValue());
     }
 
     /**
@@ -316,4 +336,6 @@ public class ClassNode extends ColorableNode implements INamedNode
             return lineString;
         }
     };
+
+
 }

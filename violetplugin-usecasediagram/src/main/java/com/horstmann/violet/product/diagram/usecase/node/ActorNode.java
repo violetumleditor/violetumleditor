@@ -21,9 +21,12 @@
 
 package com.horstmann.violet.product.diagram.usecase.node;
 
+import com.horstmann.violet.framework.dialog.IRevertableProperties;
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
+import com.horstmann.violet.framework.util.MementoCaretaker;
+import com.horstmann.violet.framework.util.OneStringMemento;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.property.text.LineText;
@@ -38,7 +41,7 @@ import java.awt.geom.Rectangle2D;
 /**
  * An actor node_old in a use case diagram.
  */
-public class ActorNode extends ColorableNode
+public class ActorNode extends ColorableNode implements IRevertableProperties
 {
     protected static class ActorShape implements ContentInsideCustomShape.ShapeCreator
     {
@@ -181,6 +184,19 @@ public class ActorNode extends ColorableNode
         return name;
     }
 
+    private final MementoCaretaker<OneStringMemento> caretaker = new MementoCaretaker<OneStringMemento>();
+
+    @Override
+    public void beforeUpdate()
+    {
+        caretaker.save(new OneStringMemento(name.toString()));
+    }
+
+    @Override
+    public void revertUpdate()
+    {
+        name.setText(caretaker.load().getValue());
+    }
     @Override
     public LineText getAttributes() {
         return null;
@@ -190,7 +206,6 @@ public class ActorNode extends ColorableNode
     public LineText getMethods() {
         return null;
     }
-
 
     /** Actor name */
     private SingleLineText name;

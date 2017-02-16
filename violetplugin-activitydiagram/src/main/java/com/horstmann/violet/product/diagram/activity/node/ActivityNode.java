@@ -21,19 +21,23 @@
 
 package com.horstmann.violet.product.diagram.activity.node;
 
+import java.awt.*;
+
+import com.horstmann.violet.framework.dialog.IRevertableProperties;
+import com.horstmann.violet.framework.graphics.content.*;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideRoundRectangle;
+import com.horstmann.violet.framework.util.MementoCaretaker;
+import com.horstmann.violet.framework.util.OneStringMemento;
 import com.horstmann.violet.framework.graphics.content.ContentBackground;
 import com.horstmann.violet.framework.graphics.content.ContentBorder;
 import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
 import com.horstmann.violet.framework.graphics.content.TextContent;
-import com.horstmann.violet.framework.graphics.shape.ContentInsideRoundRectangle;
 import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
 import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 
-import java.awt.*;
-
-public class ActivityNode extends ColorableNode
+public class  ActivityNode extends ColorableNode implements IRevertableProperties
 {
     public ActivityNode()
     {
@@ -106,6 +110,20 @@ public class ActivityNode extends ColorableNode
         return name;
     }
 
+    private final MementoCaretaker<OneStringMemento> caretaker = new MementoCaretaker<OneStringMemento>();
+
+    @Override
+    public void beforeUpdate()
+    {
+        caretaker.save(new OneStringMemento(name.toString()));
+    }
+
+    @Override
+    public void revertUpdate()
+    {
+        name.setText(caretaker.load().getValue());
+    }
+    
     @Override
     public LineText getAttributes() {
         return null;
@@ -114,6 +132,7 @@ public class ActivityNode extends ColorableNode
     @Override
     public LineText getMethods() {
         return null;
+
     }
 
     private SingleLineText name;

@@ -61,32 +61,45 @@ public class GraphFile implements IGraphFile
 
     /**
      * Constructs a graph file from an existing file
-     *
+     * and creates an autosave file
      * @param file
      */
     public GraphFile(IFile file) throws IOException
     {
         ResourceBundleInjector.getInjector().inject(this);
         BeanInjector.getInjector().inject(this);
-        IFileReader fileOpener = fileChooserService.getFileReader(file);
-        if (fileOpener == null)
+
+        this.graph = readGraphFromFile(file);
+
+        this.currentFilename = file.getFilename();
+        this.currentDirectory = file.getDirectory();
+
+        createNewAutoSaveFile(file);
+    }
+
+    private IGraph readGraphFromFile(IFile file) throws IOException
+    {
+        IFileReader fileReader = fileChooserService.getFileReader(file);
+        if (fileReader == null)
         {
             throw new IOException("Open file action cancelled by user");
         }
-        InputStream in = fileOpener.getInputStream();
-        if (in != null)
-        {
-			this.graph = this.filePersistenceService.read(in);
-			this.autoSaveFilename = file.getFilename();
 
-			this.autoSaveFile = new File(this.autoSaveDirectory + this.autoSaveFilename);
-			this.autoSaveFile.createNewFile();
-        }
-        else
+        InputStream inputStream = fileReader.getInputStream();
+        if (inputStream == null)
         {
-            throw new IOException("Unable to read file " + fileOpener.getFileDefinition().getFilename() + " from location " +
-                    fileOpener.getFileDefinition().getDirectory());
+            IFile fileDefinition = fileReader.getFileDefinition();
+            throw new IOException("Unable to read file " + fileDefinition.getFilename() + " from location " +
+                    fileDefinition.getDirectory());
         }
+        return this.filePersistenceService.read(inputStream);
+    }
+
+    private void createNewAutoSaveFile(IFile file) throws IOException
+    {
+        this.autoSaveFilename = file.getFilename();
+        this.autoSaveFile = new File(this.autoSaveDirectory + this.autoSaveFilename);
+        this.autoSaveFile.createNewFile();
     }
 
     @Override

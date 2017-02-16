@@ -21,8 +21,18 @@
 
 package com.horstmann.violet.product.diagram.sequence.node;
 
+
+import java.awt.*;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.List;
+
+import com.horstmann.violet.framework.dialog.IRevertableProperties;
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
+import com.horstmann.violet.framework.util.LifelineNodeMemento;
+import com.horstmann.violet.framework.util.MementoCaretaker;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
@@ -36,19 +46,12 @@ import com.horstmann.violet.product.diagram.property.text.decorator.PrefixDecora
 import com.horstmann.violet.product.diagram.property.text.decorator.RemoveSentenceDecorator;
 import com.horstmann.violet.product.diagram.sequence.SequenceDiagramConstant;
 import com.horstmann.violet.product.diagram.sequence.edge.CallEdge;
-
-import java.awt.*;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.util.List;
-
 /**
  * An object node_old in a scenario diagram.
  *
  * @author Adrian Bobrowski <adrian071993@gmail.com>
  */
-public class LifelineNode extends ColorableNode
+public class LifelineNode extends ColorableNode implements IRevertableProperties
 {
     /**
      * Construct an object node_old with a default size
@@ -419,6 +422,24 @@ public class LifelineNode extends ColorableNode
     public boolean isEndOfLife()
     {
         return endOfLife;
+    }
+
+    private final MementoCaretaker<LifelineNodeMemento> caretaker = new MementoCaretaker<LifelineNodeMemento>();
+
+    @Override
+    public void beforeUpdate()
+    {
+        caretaker.save(new LifelineNodeMemento(name.toString(), type.toString(), endOfLife));
+    }
+
+    @Override
+    public void revertUpdate()
+    {
+        LifelineNodeMemento memento = caretaker.load();
+
+        name.setText(memento.getFirstValue());
+        type.setText(memento.getSecondValue());
+        endOfLife = memento.getThirdValue();
     }
 
     private SingleLineText name;

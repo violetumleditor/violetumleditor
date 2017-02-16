@@ -21,11 +21,15 @@
 
 package com.horstmann.violet.product.diagram.activity.node;
 
+
+import com.horstmann.violet.framework.dialog.IRevertableProperties;
 import com.horstmann.violet.framework.graphics.content.ContentBackground;
 import com.horstmann.violet.framework.graphics.content.ContentBorder;
 import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
 import com.horstmann.violet.framework.graphics.content.TextContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
+import com.horstmann.violet.framework.util.MementoCaretaker;
+import com.horstmann.violet.framework.util.OneStringMemento;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
@@ -40,7 +44,7 @@ import java.awt.geom.Point2D;
 /**
  * An send event node_old in an activity diagram.
  */
-public class SignalSendingNode extends ColorableNode
+public class SignalSendingNode extends ColorableNode implements IRevertableProperties
 {
     /**
      * Construct an send event node_old with a default size
@@ -177,6 +181,20 @@ public class SignalSendingNode extends ColorableNode
     public LineText getSignal()
     {
         return signal;
+    }
+
+    private final MementoCaretaker<OneStringMemento> caretaker = new MementoCaretaker<OneStringMemento>();
+
+    @Override
+    public void beforeUpdate()
+    {
+        caretaker.save(new OneStringMemento(signal.toString()));
+    }
+
+    @Override
+    public void revertUpdate()
+    {
+        signal.setText(caretaker.load().getValue());
     }
 
     private SingleLineText signal;

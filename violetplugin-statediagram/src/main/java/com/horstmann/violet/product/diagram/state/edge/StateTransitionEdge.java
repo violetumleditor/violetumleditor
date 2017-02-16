@@ -126,18 +126,21 @@ public class StateTransitionEdge extends ShapeEdge
 
     /**
      * Gets the bounds of the label text
-     * 
-     * @param g2 the graphics context
+     *
      * @return the bounds of the label text
      */
     private Rectangle2D getLabelBounds()
     {
         BufferedImage dummy = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
-        // need a dummy image to get a Graphics to
-        // measure the size
         Graphics2D g2 = (Graphics2D) dummy.getGraphics();
-        
-        label.setText("<html>" + labelText + "</html>");
+
+        try {
+            label.setText("<html>" + labelText + "</html>");
+        }
+        catch (NullPointerException ex)
+        {
+            //throw ex;
+        }
         label.setFont(g2.getFont());
         Dimension d = label.getPreferredSize();
         label.setBounds(0, 0, d.width, d.height);

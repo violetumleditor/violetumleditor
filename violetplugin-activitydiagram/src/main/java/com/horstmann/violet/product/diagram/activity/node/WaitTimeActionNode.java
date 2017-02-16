@@ -1,7 +1,10 @@
 package com.horstmann.violet.product.diagram.activity.node;
 
+import com.horstmann.violet.framework.dialog.IRevertableProperties;
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
+import com.horstmann.violet.framework.util.MementoCaretaker;
+import com.horstmann.violet.framework.util.OneStringMemento;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
@@ -17,7 +20,7 @@ import java.awt.geom.Rectangle2D;
 /**
  * An receive event node in an activity diagram.
  */
-public class WaitTimeActionNode extends ColorableNode
+public class WaitTimeActionNode extends ColorableNode implements IRevertableProperties
 {
     /**
      * Construct an receive event node with a default size
@@ -139,6 +142,20 @@ public class WaitTimeActionNode extends ColorableNode
         return name;
     }
 
+    private final MementoCaretaker<OneStringMemento> caretaker = new MementoCaretaker<OneStringMemento>();
+
+    @Override
+    public void beforeUpdate()
+    {
+        caretaker.save(new OneStringMemento(name.toString()));
+    }
+
+    @Override
+    public void revertUpdate()
+    {
+        name.setText(caretaker.load().getValue());
+    }    
+        
     @Override
     public LineText getAttributes() {
         return null;

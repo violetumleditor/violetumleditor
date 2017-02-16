@@ -1,8 +1,11 @@
 package com.horstmann.violet.product.diagram.sequence.node;
 
+import com.horstmann.violet.framework.dialog.IRevertableProperties;
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
+import com.horstmann.violet.framework.util.MementoCaretaker;
+import com.horstmann.violet.framework.util.ThreeStringMemento;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
@@ -27,7 +30,7 @@ import java.awt.geom.Rectangle2D;
  * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 21.02.2016
  */
-public class CombinedFragmentNode extends AbstractNode implements IResizableNode
+public class CombinedFragmentNode extends AbstractNode implements IResizableNode, IRevertableProperties
 {
     public CombinedFragmentNode()
     {
@@ -222,6 +225,23 @@ public class CombinedFragmentNode extends AbstractNode implements IResizableNode
         this.operator = (TextChoiceList<String>)type;
         selectedType = this.operator.getSelectedPos();
         operatorText.setText(this.operator.getSelectedValue());
+    }
+
+    private final MementoCaretaker<ThreeStringMemento> caretaker = new MementoCaretaker<ThreeStringMemento>();
+
+    @Override
+    public void beforeUpdate()
+    {
+        caretaker.save(new ThreeStringMemento(operatorText.toString(), frameContent.toString()));
+    }
+
+    @Override
+    public void revertUpdate()
+    {
+        ThreeStringMemento memento = caretaker.load();
+
+        operatorText.setText(memento.getFirstValue());
+        frameContent.setText(memento.getSecondValue());
     }
 
     private SingleLineText operatorText;
