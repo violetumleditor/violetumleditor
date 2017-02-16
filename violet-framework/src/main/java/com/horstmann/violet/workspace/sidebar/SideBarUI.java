@@ -43,6 +43,7 @@ public class SideBarUI extends PanelUI
         addElementToTaskPane(this.sideBar.getGraphToolsBar().getAWTComponent(), diagramToolsTitle, 1);
         addElementToTaskPane(this.sideBar.getOptionalToolsBar().getAWTComponent(), extendedFunctionsTitle, 2);
         addElementToTaskPane(this.sideBar.getColorChoiceBar().getAWTComponent(), colorToolsTitle, 3);
+        addElementToTaskPane(this.sideBar.getAlignedOption().getAWTComponent(),aligned,4);
         int i = 4;
         for (ISideBarElement anExternalElement : this.sideBar.getExternalContributionElements().keySet()) {
             String externalElementTitle = this.sideBar.getExternalContributionElements().get(anExternalElement);
@@ -94,5 +95,8 @@ public class SideBarUI extends PanelUI
     
     @ResourceBundleBean(key = "title.colortools.text")
     private String colorToolsTitle;
+
+    @ResourceBundleBean(key = "title.aligned.text")
+    private String aligned;
 
 }

@@ -28,6 +28,7 @@ import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.editorpart.behavior.IEditorPartBehavior;
+import com.horstmann.violet.workspace.editorpart.enums.Direction;
 
 import javax.swing.*;
 import java.awt.*;
@@ -346,5 +347,13 @@ public class EditorPart extends JPanel implements IEditorPart
         graph.removeNode(nodesArray);
         graph.removeEdge(edgesArray);
     }
+
+    @Override
+    public void align(Direction direction){
+        Align align = new Align();
+        align.alignElements(getSelectedNodes(),direction);
+        repaint();
+    }
+
 
 }
