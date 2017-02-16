@@ -36,7 +36,7 @@ public class ApplicationStopper
         {
         	for (IWorkspace workspace: mainFrame.getWorkspaceList())
         	{
-        		workspace.getGraphFile().removeBackup();
+        		// Perform what you want here before exit!!!
         	}
             System.exit(0);
         }

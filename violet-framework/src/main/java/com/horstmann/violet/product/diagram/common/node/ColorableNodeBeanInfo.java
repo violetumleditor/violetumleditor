@@ -22,6 +22,7 @@
 package com.horstmann.violet.product.diagram.common.node;
 
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNodeBeanInfo;
+import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 
 import java.beans.PropertyDescriptor;
 import java.util.List;

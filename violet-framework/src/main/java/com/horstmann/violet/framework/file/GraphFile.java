@@ -6,9 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -23,7 +21,6 @@ import com.horstmann.violet.framework.file.naming.FileNamingService;
 import com.horstmann.violet.framework.file.persistence.IFilePersistenceService;
 import com.horstmann.violet.framework.file.persistence.IFileReader;
 import com.horstmann.violet.framework.file.persistence.IFileWriter;
-import com.horstmann.violet.framework.file.persistence.JFileWriter;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
@@ -45,10 +42,6 @@ public class GraphFile implements IGraphFile
         try
         {
 			this.graph = graphClass.newInstance();
-			this.autoSaveFilename = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime()) + ".html";
-
-			this.autoSaveFile = new File(this.autoSaveDirectory + this.autoSaveFilename);
-			this.autoSaveFile.createNewFile();
         }
         catch (Exception e)
         {
@@ -75,10 +68,8 @@ public class GraphFile implements IGraphFile
         if (in != null)
         {
 			this.graph = this.filePersistenceService.read(in);
-			this.autoSaveFilename = file.getFilename();
-
-			this.autoSaveFile = new File(this.autoSaveDirectory + this.autoSaveFilename);
-			this.autoSaveFile.createNewFile();
+			this.currentFilename = fileOpener.getFileDefinition().getFilename();
+            this.currentDirectory = fileOpener.getFileDefinition().getDirectory();
         }
         else
         {
@@ -156,24 +147,6 @@ public class GraphFile implements IGraphFile
         }
     }
     
-	@Override
-	public void autoSave() {
-		try {
-			if (autoSaveFile.exists()) {
-				JFileWriter jfilewriter = new JFileWriter(autoSaveFile);
-				this.filePersistenceService.write(this.graph, jfilewriter.getOutputStream());
-			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-	
-	@Override
-	public void removeBackup() {
-		if (autoSaveFile.exists())
-			autoSaveFile.delete();
-	}
-
     @Override
     public void saveToNewLocation()
     {
@@ -386,5 +359,4 @@ public class GraphFile implements IGraphFile
 
     private List<IGraphFileListener> listeners = new ArrayList<IGraphFileListener>();
 
-    private File autoSaveFile;
 }

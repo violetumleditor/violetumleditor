@@ -21,7 +21,25 @@
 
 package com.horstmann.violet.application.gui;
 
+
 import com.horstmann.violet.application.autosave.AutoSave;
+
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.geom.Point2D;
+import java.beans.BeanInfo;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JFrame;
+import javax.swing.JMenuBar;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
 import com.horstmann.violet.application.help.AboutDialog;
 import com.horstmann.violet.application.menu.MenuFactory;
 import com.horstmann.violet.application.swingextension.SideBarHideButton;
@@ -77,7 +95,6 @@ public class MainFrame extends JFrame
         setInitialSize();
         createMenuBar();
         getContentPane().add(this.getMainPanel());
-        startAutoSave();
     }
 
     /**
@@ -118,10 +135,6 @@ public class MainFrame extends JFrame
         setJMenuBar(menuBar);
     }
     
-    private void startAutoSave()
-    {
-    	new AutoSave(this);
-    }
 
 
     /**

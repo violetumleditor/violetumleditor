@@ -89,21 +89,14 @@ public class ColorToolsBarPanelUI extends PanelUI
             @Override
             public void mouseExited(MouseEvent e)
             {
-                if (!aColorTool.equals(currentTool)) {
-                    aColorTool.setBorderPaintable(false);
-                    aColorTool.repaint();
-                }
+            	aColorTool.setBorderPaintable(false);
+            	aColorTool.repaint();
             }
 
             @Override
             public void mouseClicked(MouseEvent e)
             {
                 colorToolsPanel.fireColorChoiceChanged(colorChoice);
-                if (currentTool != null) {
-                    currentTool.setBorderPaintable(false);
-                    currentTool.repaint();
-                }
-                currentTool = aColorTool;
             }
         });
         return aColorTool;
@@ -143,13 +136,6 @@ public class ColorToolsBarPanelUI extends PanelUI
         private ColorChoice colorChoice;
     }
     
-    protected void resetChoice() {
-        if (currentTool != null) {
-            currentTool.setBorderPaintable(false);
-            currentTool.repaint();
-        }
-        currentTool = null;
-    }
 
     /**
      * Component(s panel
@@ -160,5 +146,4 @@ public class ColorToolsBarPanelUI extends PanelUI
 
     private List<ColorTool> colorToolList;
     
-    private ColorTool currentTool;
 }

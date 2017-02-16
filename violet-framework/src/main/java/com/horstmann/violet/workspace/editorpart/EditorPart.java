@@ -143,6 +143,11 @@ public class EditorPart extends JPanel implements IEditorPart
         return selectionHandler.getSelectedNodes();
     }
 
+    public List<IEdge> getSelectedEdges()
+    {
+        return selectionHandler.getSelectedEdges();
+    }
+    
     public void clearSelection()
     {
         selectionHandler.clearSelection();

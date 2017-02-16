@@ -5,6 +5,7 @@ import java.util.List;
 import javax.swing.JComponent;
 
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 
 /**
@@ -28,9 +29,14 @@ public interface IEditorPart
 
 
     /**
-     * @return currently selected node
+     * @return currently selected node list
      */
     public abstract List<INode> getSelectedNodes();
+    
+    /**
+     * @return currently selected edge list
+     */
+    public abstract List<IEdge> getSelectedEdges();
     
     /**
      * Clears node and edges selection

@@ -68,11 +68,11 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior implements IGrap
         {
             selectionHandler.setSelectedElement(newNode);
             
-            if (!KeyModifierUtil.isCtrl(event)) {
-	            selectionHandler.setSelectedTool(GraphTool.SELECTION_TOOL);
-	            graphToolsBar.setSelectedTool(GraphTool.SELECTION_TOOL);
-	            graphToolsBar.getAWTComponent().invalidate();
-            }
+//            if (!KeyModifierUtil.isCtrl(event)) {
+//	            selectionHandler.setSelectedTool(GraphTool.SELECTION_TOOL);
+//	            graphToolsBar.setSelectedTool(GraphTool.SELECTION_TOOL);
+//	            graphToolsBar.getAWTComponent().invalidate();
+//            }
             
             editorPart.getSwingComponent().invalidate();
         }
