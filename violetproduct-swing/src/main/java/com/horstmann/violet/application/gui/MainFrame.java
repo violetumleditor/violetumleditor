@@ -278,7 +278,7 @@ public class MainFrame extends JFrame
     }
 
 
-    private JPanel getMainPanel() {
+    public JPanel getMainPanel() {
         if (this.mainPanel == null) {
             this.mainPanel = new JPanel(new BorderLayout());
             this.mainPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
