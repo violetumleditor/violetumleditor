@@ -69,7 +69,7 @@ public class EditSelectedDuplicateBehavior
     }
 
     private final String NAME_OF_DETECTED_PROPERTY = "name";
-    private final String STEREOTYPE_ENDING = "»";
+    private final String STEREOTYPE_ENDING = "Â»";
 
     @InjectedBean
     private DialogFactory dialogFactory;
