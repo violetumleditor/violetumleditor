@@ -89,7 +89,8 @@ public interface IGraphFile extends IFile
      */
     public String getDirectory();
     
-    public abstract void autoSave();
+    public abstract void autoSave(String autoSaveDirectory);
+    public abstract void autoSaveSettingsWasChanged();
     public abstract void removeBackup();
 
     /**

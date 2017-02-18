@@ -7,6 +7,7 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
+import com.horstmann.violet.application.autosave.AutoSaveRecover;
 import com.horstmann.violet.application.gui.MainFrame;
 import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.file.IGraphFile;
@@ -53,14 +54,16 @@ public class ApplicationStopper
         List<IWorkspace> workspaceList = mainFrame.getWorkspaceList();
         for (IWorkspace workspace: workspaceList)
         {
-            IGraphFile graphFile = workspace.getGraphFile();
-        	if (graphFile.isSaveRequired())
-            {
-                dirtyWorkspaceList.add(workspace);
-            }
+            dirtyWorkspaceList.add(workspace);
+
         }
         int unsavedCount = dirtyWorkspaceList.size();
         IWorkspace activeWorkspace = mainFrame.getActiveWorkspace();
+
+        if (AutoSaveRecover.isAutoSaveFileLoad ==true)
+        {
+            unsavedCount++;
+        }
         if (unsavedCount > 0)
         {
             // ask user if it is ok to close

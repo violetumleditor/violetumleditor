@@ -47,10 +47,6 @@ public class GraphFile implements IGraphFile
         try
         {
 			this.graph = graphClass.newInstance();
-			this.autoSaveFilename = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime()) + ".html";
-
-			this.autoSaveFile = new File(this.autoSaveDirectory + this.autoSaveFilename);
-			this.autoSaveFile.createNewFile();
         }
         catch (Exception e)
         {
@@ -61,46 +57,31 @@ public class GraphFile implements IGraphFile
 
     /**
      * Constructs a graph file from an existing file
-     * and creates an autosave file
+     *
      * @param file
      */
     public GraphFile(IFile file) throws IOException
     {
         ResourceBundleInjector.getInjector().inject(this);
         BeanInjector.getInjector().inject(this);
-
-        this.graph = readGraphFromFile(file);
-
-        this.currentFilename = file.getFilename();
-        this.currentDirectory = file.getDirectory();
-
-        createNewAutoSaveFile(file);
-    }
-
-    private IGraph readGraphFromFile(IFile file) throws IOException
-    {
-        IFileReader fileReader = fileChooserService.getFileReader(file);
-        if (fileReader == null)
+        IFileReader fileOpener = fileChooserService.getFileReader(file);
+        if (fileOpener == null)
         {
             throw new IOException("Open file action cancelled by user");
         }
-
-        InputStream inputStream = fileReader.getInputStream();
-        if (inputStream == null)
+        InputStream in = fileOpener.getInputStream();
+        if (in != null)
         {
-            IFile fileDefinition = fileReader.getFileDefinition();
-            throw new IOException("Unable to read file " + fileDefinition.getFilename() + " from location " +
-                    fileDefinition.getDirectory());
+			this.graph = this.filePersistenceService.read(in);
+	
         }
-        return this.filePersistenceService.read(inputStream);
+        else
+        {
+            throw new IOException("Unable to read file " + fileOpener.getFileDefinition().getFilename() + " from location " +
+                    fileOpener.getFileDefinition().getDirectory());
+        }
     }
 
-    private void createNewAutoSaveFile(IFile file) throws IOException
-    {
-        this.autoSaveFilename = file.getFilename();
-        this.autoSaveFile = new File(this.autoSaveDirectory + this.autoSaveFilename);
-        this.autoSaveFile.createNewFile();
-    }
 
     @Override
     public IGraph getGraph()
@@ -172,10 +153,20 @@ public class GraphFile implements IGraphFile
     }
     
 	@Override
-	public void autoSave() {
+	public void autoSave(String fileDirectory) {
 		try {
+
+			if (this.autoSaveFileName == null) {
+					this.autoSaveFileName =  new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime()) + ".html";
+				}
+			
+				if ((autoSaveFile == null) || ((autoSaveFile != null) && (!autoSaveFile.getAbsolutePath().contains(fileDirectory) == false))) {
+				 	this.autoSaveFile = new File(fileDirectory + File.separator + this.autoSaveFileName);
+				 	autoSaveFile.createNewFile();
+				}
+			
 			if (autoSaveFile.exists()) {
-				JFileWriter jfilewriter = new JFileWriter(autoSaveFile);
+			    JFileWriter jfilewriter = new JFileWriter(autoSaveFile);
 				this.filePersistenceService.write(this.graph, jfilewriter.getOutputStream());
 			}
 		} catch (Exception e) {
@@ -185,8 +176,9 @@ public class GraphFile implements IGraphFile
 	
 	@Override
 	public void removeBackup() {
-		if (autoSaveFile.exists())
+		if ((autoSaveFile != null) && (autoSaveFile.exists())) {
 			autoSaveFile.delete();
+		}
 	}
 
     @Override
@@ -358,6 +350,13 @@ public class GraphFile implements IGraphFile
         PrintEngine engine = new PrintEngine(this.graph);
         engine.start();
     }
+    
+    @Override
+	public void autoSaveSettingsWasChanged()
+    {
+		this.autoSaveFile = null;
+	}
+    
 
     private IGraph graph;
 
@@ -365,13 +364,11 @@ public class GraphFile implements IGraphFile
      * Needed to identify the physical file used to save the graph
      */
     private String currentFilename;
-    private String autoSaveFilename;
 
     /**
      * Needed to identify the physical file used to save the graph
      */
     private String currentDirectory;
-    private final String autoSaveDirectory = System.getProperty("user.home") + File.separator + "VioletUML" + File.separator;
 
     private boolean isSaveRequired = false;
 
@@ -411,4 +408,6 @@ public class GraphFile implements IGraphFile
     private List<IGraphFileListener> listeners = new ArrayList<IGraphFileListener>();
 
     private File autoSaveFile;
+    private String autoSaveFileName;
+
 }

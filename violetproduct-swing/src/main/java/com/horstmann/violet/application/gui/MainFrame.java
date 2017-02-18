@@ -23,6 +23,7 @@ package com.horstmann.violet.application.gui;
 
 import com.horstmann.violet.application.TabFinalizer;
 import com.horstmann.violet.application.autosave.AutoSave;
+import com.horstmann.violet.application.autosave.IAutoSave;
 import com.horstmann.violet.application.help.AboutDialog;
 import com.horstmann.violet.application.menu.MenuFactory;
 import com.horstmann.violet.framework.dialog.DialogFactory;
@@ -73,7 +74,7 @@ import javax.swing.event.ChangeListener;
  * This desktop frame contains panes that show graphs.
  */
 @ResourceBundleBean(resourceReference = AboutDialog.class)
-public class MainFrame extends JFrame
+public class MainFrame extends JFrame implements IAutoSave
 {
     /**
      * Constructs a blank frame with a tabbed panel.
@@ -190,7 +191,9 @@ public class MainFrame extends JFrame
      */
     private void startAutoSave()
     {
-        new AutoSave(this);
+    	this.autoSave = new AutoSave(this);
+        
+
     }
 
     /**
@@ -492,6 +495,8 @@ public class MainFrame extends JFrame
 
     @ResourceBundleBean(key = "app.icon")
     private Image applicationIcon;
+    
+    private AutoSave autoSave;
 
     @ResourceBundleBean(key = "delete.icon")
     private Image tabCloseImage;
@@ -526,4 +531,8 @@ public class MainFrame extends JFrame
             }
         }
     }
+	@Override
+	public void reloadSettings() {
+		this.autoSave.reloadSettings();
+	}
 }

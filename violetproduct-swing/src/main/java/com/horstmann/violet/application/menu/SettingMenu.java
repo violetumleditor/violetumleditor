@@ -25,9 +25,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Locale;
 import javax.swing.*;
+import javax.swing.JDialog;
 
 import com.horstmann.violet.application.gui.*;
-import com.horstmann.violet.framework.injection.bean.ManiocFramework;
+import com.horstmann.violet.application.gui.SettingsDialog;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
@@ -105,11 +106,24 @@ public class SettingMenu extends JMenu
 
         if (userPreferencesServices.getSelectedClassNameOption().equals("enabled"))
         {
+            ClassNode.classNameChange = true;
             changeClassNameJBox.setSelected(true);
         }
 
+        settings.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent event)
+            {
+                JDialog settingsDialog = new SettingsDialog(mainFrame,true,mainFrame);
+                settingsDialog.setLocationRelativeTo(mainFrame);
+                settingsDialog.setAlwaysOnTop(false);
+                settingsDialog.setVisible(true);
+            }
+        		});
+
         this.add(changeClassNameJBox);
         this.add(settingItemMenuLanguage);
+        this.add(settings);
     }
 
     private void changeLanguage(String languageName)
@@ -152,5 +166,8 @@ public class SettingMenu extends JMenu
 
     @ResourceBundleBean(key = "setting.language.active.icon")
     private ImageIcon languageIcon;
+
+    @ResourceBundleBean(key = "setting.autosave.settings")
+	private JMenuItem settings;
 
 }
