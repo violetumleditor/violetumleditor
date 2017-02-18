@@ -35,6 +35,8 @@ import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.Id;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.property.text.LineText;
+import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 
 /**
  * A class that supplies convenience implementations for a number of methods in the Node interface
@@ -64,6 +66,7 @@ public abstract class AbstractNode implements INode
         this.revision = new Integer(0);
         this.location = new Point2D.Double(0, 0);
         this.children = new ArrayList<INode>();
+        this.name = new SingleLineText();
     }
 
     /**
@@ -79,6 +82,7 @@ public abstract class AbstractNode implements INode
         this.revision = new Integer(0);
         this.children = new ArrayList<INode>();
         this.location = (Point2D.Double) node.getLocation().clone();
+        this.name = new SingleLineText();
         for (INode child : node.getChildren()) {
             INode clonedChild = child.clone();
             clonedChild.setParent(this);
@@ -222,7 +226,6 @@ public abstract class AbstractNode implements INode
      */
     private List<IEdge> getEdgesOnSameSide(IEdge edge)
     {
-        // Step 1 : look for edges
         List<IEdge> result = new ArrayList<IEdge>();
         Direction d = edge.getDirection(this);
 
@@ -235,24 +238,20 @@ public abstract class AbstractNode implements INode
                 result.add(anEdge);
             }
             if (anEdge.getStartNode().equals(anEdge.getEndNode()) && anEdge.getStartNode().equals(this)) {
-                // self loop
                 result.add(anEdge);
             }
         }
-        // Step 2: sort them
-        if (Direction.NORTH.equals(cardinalDirectionToSearch) || Direction.SOUTH.equals(cardinalDirectionToSearch)) {
-            Collections.sort(result, new Comparator<IEdge>() {
-                @Override
-                public int compare(IEdge e1, IEdge e2) {
-                    Direction d1 = e1.getDirection(AbstractNode.this);
-                    Direction d2 = e2.getDirection(AbstractNode.this);
-                    double x1 = d1.getX();
-                    double x2 = d2.getX();
-                    return Double.compare(x1, x2);
-                }
-            });
+
+        if(cardinalDirectionToSearch.equals(Direction.NORTH) || cardinalDirectionToSearch.equals(Direction.SOUTH))
+        {
+            sortEdges(result, EdgeDirection.vertical);
         }
-        if (Direction.EAST.equals(cardinalDirectionToSearch) || Direction.WEST.equals(cardinalDirectionToSearch)) {
+        else if(cardinalDirectionToSearch.equals(Direction.EAST) || cardinalDirectionToSearch.equals(Direction.WEST))
+        {
+            sortEdges(result, EdgeDirection.horizontal);
+        }
+
+            if (Direction.EAST.equals(cardinalDirectionToSearch) || Direction.WEST.equals(cardinalDirectionToSearch)) {
             Collections.sort(result, new Comparator<IEdge>() {
                 @Override
                 public int compare(IEdge e1, IEdge e2) {
@@ -267,7 +266,32 @@ public abstract class AbstractNode implements INode
         return result;
     }
 
+    /**
+     * Sorts edges connected to the same side
+     * @param edges
+     * @param direction
+     */
+    private void sortEdges(List<IEdge> edges, final EdgeDirection direction)
+    {
+        Collections.sort(edges, new Comparator<IEdge>() {
+            @Override
+            public int compare(IEdge firstEdge, IEdge secondEdge) {
+                Direction firstDirection = firstEdge.getDirection(AbstractNode.this);
+                Direction secondDirection = secondEdge.getDirection(AbstractNode.this);
 
+                Double firstCoordinate = (direction == EdgeDirection.vertical) ? firstDirection.getY() : firstDirection.getX();
+                Double secondCoordinate = (direction == EdgeDirection.horizontal) ? secondDirection.getY() : secondDirection.getX();
+
+                return Double.compare(firstCoordinate, secondCoordinate);
+            }
+        });
+    }
+
+    /**
+     * Returns a point, where given edges are connected
+     * @param edge
+     * @return a point of edges connecting
+     */
     public Point2D getConnectionPoint(IEdge edge)
     {
         List<IEdge> edgesOnSameSide = getEdgesOnSameSide(edge);
@@ -301,6 +325,14 @@ public abstract class AbstractNode implements INode
         }
         Point2D p = new Point2D.Double(x, y);
 		return p;
+    }
+
+    public LineText getName() {
+        return this.name;
+    }
+
+    public void setName(LineText name) {
+        name.setText(name);
     }
 
     @Override
@@ -453,6 +485,10 @@ public abstract class AbstractNode implements INode
     {
         this.content = content;
     }
+
+    protected SingleLineText name;
+
+    private enum EdgeDirection { vertical, horizontal }
 
     private transient Content content;
 

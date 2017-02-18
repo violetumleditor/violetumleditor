@@ -174,6 +174,7 @@ public class Workspace implements IWorkspace
         behaviorManager.addBehavior(new SwingRepaintingBehavior(this.graphEditor));
         behaviorManager.addBehavior(new ColorizeBehavior(this, colorChoiceBar));
         behaviorManager.addBehavior(new FindBehavior(this.graphEditor));
+        behaviorManager.addBehavior(new RenameBehavior(this.graphEditor.getGraph()));
     }
 
     @Override
