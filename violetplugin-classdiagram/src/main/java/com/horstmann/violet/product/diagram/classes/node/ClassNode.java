@@ -147,8 +147,8 @@ public class ClassNode extends ColorableNode implements INamedNode, IRevertableP
     {
         ThreeStringMemento memento = caretaker.load();
 
-        attributes.setText(memento.getFirstValue());
-        name.setText(memento.getSecondValue());
+        name.setText(memento.getFirstValue());
+        attributes.setText(memento.getSecondValue());
         methods.setText(memento.getThirdValue());
     }
 
