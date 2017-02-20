@@ -40,9 +40,9 @@ import eu.webtoolkit.jwt.WBootstrapTheme;
 import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WEnvironment;
 import eu.webtoolkit.jwt.WLength;
+import eu.webtoolkit.jwt.WLength.Unit;
 import eu.webtoolkit.jwt.WLink;
 import eu.webtoolkit.jwt.WResource;
-import eu.webtoolkit.jwt.WLength.Unit;
 import eu.webtoolkit.jwt.servlet.WebRequest;
 import eu.webtoolkit.jwt.servlet.WebResponse;
 
@@ -65,9 +65,11 @@ public class UMLEditorWebApplication extends WApplication {
 	public UMLEditorWebApplication(WEnvironment env) throws IOException {
 		super(env);
 		createDefaultWorkspace();
-		
 	}
 
+	
+	
+	
 	private void createDefaultWorkspace() throws IOException {
 		setTheme(new WBootstrapTheme());
 		useStyleSheet(new WLink(new WResource() {

@@ -2,6 +2,7 @@ package com.horstmann.violet.web.workspace.sidebar;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,16 +19,16 @@ import com.horstmann.violet.workspace.sidebar.graphtools.GraphTool;
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBar;
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBarListener;
 
-import eu.webtoolkit.jwt.AlignmentFlag;
 import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WAnchor;
-import eu.webtoolkit.jwt.WBoxLayout;
 import eu.webtoolkit.jwt.WCompositeWidget;
 import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WImage;
 import eu.webtoolkit.jwt.WLabel;
 import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WLength.Unit;
+import eu.webtoolkit.jwt.WLink;
+import eu.webtoolkit.jwt.WMemoryResource;
 import eu.webtoolkit.jwt.WMenu;
 import eu.webtoolkit.jwt.WMenuItem;
 import eu.webtoolkit.jwt.WMouseEvent;
@@ -138,6 +139,7 @@ public class GraphToolsBarWidget extends WCompositeWidget {
 		if (this.graphToolCache.containsKey(aGraphTool)) {
 			return this.graphToolCache.get(aGraphTool);
 		}
+		final WMenuItem graphToolButton = new WMenuItem(aGraphTool.getLabel());
 		WResource iconResource = new WResource() {
 
 			@Override
@@ -154,8 +156,11 @@ public class GraphToolsBarWidget extends WCompositeWidget {
 				ImageIO.write(bi, "png", response.getOutputStream());
 			}
 		};
-		final WMenuItem graphToolButton = new WMenuItem(aGraphTool.getLabel());
-		WImage wImage = new WImage(iconResource, "icon");
+		String url = iconResource.getUrl();
+		if (url.startsWith(".")) {
+			url = url.substring(1, url.length() - 1);
+		}
+		WImage wImage = new WImage(new WLink(url));
 		WAnchor wAnchor = getAnchor(graphToolButton);
 		wAnchor.insertWidget(0, getSpaceText());
 		wAnchor.insertWidget(0, wImage);

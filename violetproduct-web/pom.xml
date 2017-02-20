@@ -12,13 +12,6 @@
 		<artifactId>parent</artifactId>
 		<version>1.0.0</version>
 	</parent>
-	<repositories>
-		<repository>
-			<id>project.local</id>
-			<name>project</name>
-			<url>file:${project.basedir}/src/repo/</url>
-		</repository>
-	</repositories>
 	<dependencies>
 		<!-- VIOLET (start) -->
 		<dependency>
@@ -36,7 +29,9 @@
 		<dependency>
 			<groupId>eu.webtoolkit</groupId>
 			<artifactId>jwt</artifactId>
-			<version>3.1.11</version>
+			<version>3.3.6</version>
+			<systemPath>${project.basedir}/repo/eu/webtoolkit/jwt/3.3.6/jwt-3.3.6.jar</systemPath>
+			<scope>system</scope>
 		</dependency>
 		<dependency>
 			<groupId>commons-fileupload</groupId>
@@ -68,8 +63,10 @@
 		<!-- JWT auth (start) -->
 		<dependency>
 			<groupId>eu.webtoolkit</groupId>
-			<artifactId>jwt</artifactId>
-			<version>3.1.11</version>
+			<artifactId>jwt-auth</artifactId>
+			<version>3.3.6</version>
+			<systemPath>${project.basedir}/repo/eu/webtoolkit/jwt-auth/3.3.6/jwt-auth-3.3.6.jar</systemPath>
+			<scope>system</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
@@ -110,6 +107,7 @@
 		</dependency>
 		<!-- JETTY SERVER (end) -->
 	</dependencies>
+
 	<build>
 		<finalName>violetumleditor-${project.version}</finalName>
 		<plugins>
@@ -141,5 +139,6 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		
 	</build>
 </project>

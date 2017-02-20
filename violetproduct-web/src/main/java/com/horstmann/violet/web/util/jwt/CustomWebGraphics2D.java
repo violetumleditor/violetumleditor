@@ -1,6 +1,5 @@
 package com.horstmann.violet.web.util.jwt;
 
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints.Key;
@@ -20,6 +19,8 @@ public class CustomWebGraphics2D extends WebGraphics2D {
 
 	public CustomWebGraphics2D(WPainter painter) {
 		super(painter);
+		painter.setClipping(true);
+		painter.getClipPath().addRect(0, 0, 800, 800);
 	}
 	
 
