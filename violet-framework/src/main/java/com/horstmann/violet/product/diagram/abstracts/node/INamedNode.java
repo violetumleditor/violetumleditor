@@ -3,7 +3,6 @@
  */
 package com.horstmann.violet.product.diagram.abstracts.node;
 
-import com.horstmann.violet.product.diagram.abstracts.IColorable;
 import com.horstmann.violet.product.diagram.property.text.LineText;
 
 /**
@@ -11,7 +10,7 @@ import com.horstmann.violet.product.diagram.property.text.LineText;
  * @author Aleksander Orchowski comodsuda@gmail.com
  * @date 28.11.2016
  */
-public interface INamedNode extends INode, IColorable {
+public interface INamedNode extends INode {
 	
 	/**
 	 * @author Aleksander Orchowski comodsuda@gmail.com 

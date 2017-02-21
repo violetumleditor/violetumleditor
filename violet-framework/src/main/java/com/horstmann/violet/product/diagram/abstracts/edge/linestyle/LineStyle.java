@@ -1,7 +1,6 @@
 package com.horstmann.violet.product.diagram.abstracts.edge.linestyle;
 
-import java.awt.BasicStroke;
-import java.awt.Stroke;
+import java.awt.*;
 
 /**
  * This class defines line styles.

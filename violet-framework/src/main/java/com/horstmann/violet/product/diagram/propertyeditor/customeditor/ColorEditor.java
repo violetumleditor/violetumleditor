@@ -31,6 +31,7 @@ import java.awt.event.ItemListener;
 import java.beans.PropertyEditorSupport;
 import java.util.Arrays;
 import java.util.Comparator;
+
 import javax.swing.Icon;
 import javax.swing.JComboBox;
 

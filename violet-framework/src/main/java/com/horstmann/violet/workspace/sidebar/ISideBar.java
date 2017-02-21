@@ -21,9 +21,10 @@
 
 package com.horstmann.violet.workspace.sidebar;
 
+import java.awt.Component;
+
 import com.horstmann.violet.workspace.sidebar.colortools.IColorChoiceBar;
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBar;
-import java.awt.Component;
 
 /**
  * Side bar interface definition

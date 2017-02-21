@@ -1,13 +1,14 @@
 package com.horstmann.violet.framework.userpreferences;
 
-import com.horstmann.violet.framework.file.IFile;
-import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
-import com.horstmann.violet.framework.injection.bean.ManiocFramework.ManagedBean;
-import com.horstmann.violet.framework.theme.BlueAmbianceTheme;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import com.horstmann.violet.framework.file.IFile;
+import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
+import com.horstmann.violet.framework.injection.bean.ManiocFramework.ManagedBean;
+import com.horstmann.violet.framework.theme.BlueAmbianceTheme;
 
 /**
  * Manages all user preferences

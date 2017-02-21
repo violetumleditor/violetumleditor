@@ -1,10 +1,5 @@
 package com.horstmann.violet.product.diagram.classes.node;
 
-import com.horstmann.violet.product.diagram.abstracts.node.INamedNode;
-import java.awt.*;
-import java.util.*;
-import java.util.List;
-
 import com.horstmann.violet.framework.graphics.Separator;
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;

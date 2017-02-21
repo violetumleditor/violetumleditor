@@ -30,14 +30,13 @@ import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.editorpart.behavior.IEditorPartBehavior;
 import com.horstmann.violet.workspace.editorpart.enums.Direction;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.util.Collection;
 import java.util.List;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
 
 /**
  * Graph editor.

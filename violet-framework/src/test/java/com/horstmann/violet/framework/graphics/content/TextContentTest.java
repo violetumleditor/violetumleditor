@@ -3,7 +3,7 @@ package com.horstmann.violet.framework.graphics.content;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
  * This ...

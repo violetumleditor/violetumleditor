@@ -1,12 +1,5 @@
 package com.horstmann.violet.workspace.editorpart.behavior;
 
-import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
-import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.workspace.editorpart.IEditorPart;
-import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
-import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
-import com.horstmann.violet.workspace.sidebar.graphtools.GraphTool;
-import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBar;
 import java.awt.Cursor;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Line2D;
@@ -14,6 +7,14 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
+import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.workspace.editorpart.IEditorPart;
+import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
+import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
+import com.horstmann.violet.workspace.sidebar.graphtools.GraphTool;
+import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBar;
 
 public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
 {

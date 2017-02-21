@@ -1,17 +1,15 @@
 package com.horstmann.violet.product.diagram.property.text;
 
 import com.horstmann.violet.product.diagram.property.text.decorator.OneLineText;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics2D;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
 
 /**
  * This class is a container for text

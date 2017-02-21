@@ -1,5 +1,12 @@
 package com.horstmann.violet.workspace.editorpart.behavior;
 
+import java.awt.Font;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
@@ -16,17 +23,6 @@ import com.horstmann.violet.product.diagram.propertyeditor.ICustomPropertyEditor
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
-import com.horstmann.violet.workspace.spellchecker.SpellChecker;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Point2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.IOException;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import org.jetbrains.annotations.NotNull;
 
 
 import javax.swing.*;
@@ -213,7 +209,6 @@ public class EditSelectedBehavior extends AbstractEditorPartBehavior
                 if (edited instanceof INode)
                 {
                     behaviorManager.fireWhileEditingNode((INode) edited, event);
-                    checkCorrectnessOfString((INamedNode) edited);
                 }
                 if (edited instanceof IEdge)
                 {
@@ -227,41 +222,6 @@ public class EditSelectedBehavior extends AbstractEditorPartBehavior
                 editorPart.getSwingComponent().invalidate();
             }
         });
-    }
-
-    private void checkCorrectnessOfString(final INamedNode edited) {
-        try {
-            String nodeName = edited.getName().getText();
-            String[] splitNameByUpperCase = getClearNodeName(nodeName);
-            for(String word : splitNameByUpperCase) {
-                boolean correctWord = SpellChecker.isCorrectWord(word);
-                if (!correctWord){
-                    edited.setTextColor(Color.RED);
-                }else{
-                    edited.setTextColor(Color.BLACK);
-                }
-            }
-        } catch (IOException e) {
-            System.err.println(e.getLocalizedMessage());
-        }
-    }
-
-    /**
-     * Its returns node name without html tags
-     *
-     * @param nodeName with html tags
-     * @return clear node name without html tags
-     */
-    @NotNull
-    private String[] getClearNodeName(String nodeName) {
-
-        final String regexSplitByUpperCase = "(?=\\p{Lu})";
-        System.out.println(nodeName);
-        nodeName = nodeName.replaceAll("<html><font size=\\+1>", "").replaceAll("</font><html>", "");
-        nodeName = nodeName.replaceAll("<html><center>\u00ABinterface\u00BB</center> <font size=\\+1>", "");
-        nodeName = nodeName.replaceAll("<html><center>\u00ABenumeration\u00BB</center> <font size=\\+1>", "");
-
-        return nodeName.split(regexSplitByUpperCase);
     }
 
     private IEditorPartSelectionHandler selectionHandler;

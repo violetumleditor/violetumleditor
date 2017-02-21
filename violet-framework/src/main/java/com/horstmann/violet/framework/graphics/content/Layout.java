@@ -1,7 +1,8 @@
 package com.horstmann.violet.framework.graphics.content;
 
 import com.horstmann.violet.framework.graphics.Separator;
-import java.awt.Graphics2D;
+
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;

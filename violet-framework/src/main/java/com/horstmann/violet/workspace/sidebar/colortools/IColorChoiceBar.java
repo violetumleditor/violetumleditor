@@ -1,7 +1,8 @@
 package com.horstmann.violet.workspace.sidebar.colortools;
 
-import com.horstmann.violet.workspace.sidebar.ISideBarElement;
 import java.awt.Cursor;
+
+import com.horstmann.violet.workspace.sidebar.ISideBarElement;
 
 public interface IColorChoiceBar extends ISideBarElement
 {

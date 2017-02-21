@@ -21,12 +21,14 @@
 
 package com.horstmann.violet.framework.theme;
 
-import com.pagosoft.plaf.PgsLookAndFeel;
-import com.pagosoft.plaf.themes.VistaTheme;
 import java.awt.Color;
 import java.awt.Font;
+
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.metal.MetalLookAndFeel;
+
+import com.pagosoft.plaf.PgsLookAndFeel;
+import com.pagosoft.plaf.themes.VistaTheme;
 
 /**
  * Implements Vista Blue theme

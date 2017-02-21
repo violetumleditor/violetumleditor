@@ -24,9 +24,8 @@ package com.horstmann.violet.product.diagram.propertyeditor.baseeditors;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
 import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.MultiLineText;
-import javax.swing.JComponent;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+
+import javax.swing.*;
 import javax.swing.text.JTextComponent;
 
 /**

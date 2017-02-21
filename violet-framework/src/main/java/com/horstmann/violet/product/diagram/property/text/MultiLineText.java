@@ -2,6 +2,7 @@
 package com.horstmann.violet.product.diagram.property.text;
 
 import com.horstmann.violet.product.diagram.property.text.decorator.OneLineText;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

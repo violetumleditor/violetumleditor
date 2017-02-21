@@ -21,10 +21,11 @@
 
 package com.horstmann.violet.workspace.sidebar.graphtools;
 
-import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.workspace.sidebar.ISideBarElement;
 import java.awt.event.MouseEvent;
 import java.util.List;
+
+import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.workspace.sidebar.ISideBarElement;
 
 /**
  * Side tool panel interface

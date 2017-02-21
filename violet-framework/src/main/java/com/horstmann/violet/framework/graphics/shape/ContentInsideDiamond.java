@@ -1,7 +1,8 @@
 package com.horstmann.violet.framework.graphics.shape;
 
 import com.horstmann.violet.framework.graphics.content.Content;
-import java.awt.Shape;
+
+import java.awt.*;
 import java.awt.geom.GeneralPath;
 
 /**

@@ -21,6 +21,13 @@
 
 package com.horstmann.violet.product.diagram.common.node;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Shape;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D;
+
 import com.horstmann.violet.framework.graphics.content.ContentBackground;
 import com.horstmann.violet.framework.graphics.content.ContentBorder;
 import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
@@ -36,12 +43,6 @@ import com.horstmann.violet.framework.dialog.IRevertableProperties;
 import com.horstmann.violet.product.diagram.property.text.MultiLineText;
 import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Shape;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 public class NoteNode extends ColorableNode implements IRevertableProperties
 {

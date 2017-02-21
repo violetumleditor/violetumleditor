@@ -1,6 +1,7 @@
 package com.horstmann.violet.product.diagram.propertyeditor;
 
 import java.beans.PropertyChangeListener;
+
 import javax.swing.JComponent;
 
 public interface ICustomPropertyEditor

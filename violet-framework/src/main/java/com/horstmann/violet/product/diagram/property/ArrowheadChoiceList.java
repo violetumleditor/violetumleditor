@@ -21,19 +21,13 @@
 
 package com.horstmann.violet.product.diagram.property;
 
-import com.horstmann.violet.product.diagram.abstracts.edge.arrowhead.Arrowhead;
-import com.horstmann.violet.product.diagram.abstracts.edge.arrowhead.DiamondArrowhead;
-import com.horstmann.violet.product.diagram.abstracts.edge.arrowhead.TriangleArrowhead;
-import com.horstmann.violet.product.diagram.abstracts.edge.arrowhead.VArrowhead;
-import com.horstmann.violet.product.diagram.abstracts.edge.arrowhead.XArrowhead;
-import com.horstmann.violet.product.diagram.property.choiceList.IconChoiceList;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.geom.Point2D;
-import javax.swing.Icon;
+
+import com.horstmann.violet.product.diagram.property.choiceList.IconChoiceList;
+import com.horstmann.violet.product.diagram.abstracts.edge.arrowhead.*;
+
+import javax.swing.*;
 
 /**
  * This class defines arrow heads of various shapes.

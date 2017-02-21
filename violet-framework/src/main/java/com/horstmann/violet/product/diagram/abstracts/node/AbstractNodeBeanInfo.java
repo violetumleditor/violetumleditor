@@ -24,6 +24,9 @@ package com.horstmann.violet.product.diagram.abstracts.node;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
 import com.horstmann.violet.framework.util.BeanInfo;
 
+import java.beans.PropertyDescriptor;
+import java.beans.SimpleBeanInfo;
+
 /**
  * The bean info for the AbstractNode type. This hides all.
  * 

@@ -2,7 +2,8 @@ package com.horstmann.violet.product.diagram.propertyeditor.baseeditors;
 
 import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
-import javax.swing.JTextField;
+
+import javax.swing.*;
 import javax.swing.text.JTextComponent;
 
 /**

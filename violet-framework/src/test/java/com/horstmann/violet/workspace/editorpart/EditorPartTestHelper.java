@@ -1,8 +1,11 @@
 package com.horstmann.violet.workspace.editorpart;
 
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
-import java.awt.Rectangle;
-import javax.swing.JPanel;
+import com.horstmann.violet.workspace.editorpart.EditorPart;
+import com.horstmann.violet.workspace.editorpart.IEditorPart;
+
+import javax.swing.*;
+import java.awt.*;
 
 import static org.mockito.Mockito.when;
 

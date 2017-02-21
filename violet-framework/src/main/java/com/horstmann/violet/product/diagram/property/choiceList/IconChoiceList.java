@@ -21,7 +21,7 @@
 
 package com.horstmann.violet.product.diagram.property.choiceList;
 
-import javax.swing.Icon;
+import javax.swing.*;
 
 /**
  * Represents a static list for user choices.

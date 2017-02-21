@@ -2,6 +2,8 @@ package com.horstmann.violet.framework.graphics.content;
 
 import org.junit.Test;
 
+import static org.junit.Assert.*;
+
 /**
  * This ...
  *

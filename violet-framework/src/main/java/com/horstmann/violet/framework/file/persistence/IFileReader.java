@@ -21,9 +21,10 @@
 
 package com.horstmann.violet.framework.file.persistence;
 
-import com.horstmann.violet.framework.file.IFile;
 import java.io.IOException;
 import java.io.InputStream;
+
+import com.horstmann.violet.framework.file.IFile;
 
 /**
  * An FileOpenHandler object handles the stream and name of the file that the user selected for reading.

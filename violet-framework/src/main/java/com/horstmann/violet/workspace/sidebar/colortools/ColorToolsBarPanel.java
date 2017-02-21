@@ -1,14 +1,16 @@
 package com.horstmann.violet.workspace.sidebar.colortools;
 
-import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
-import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
-import com.horstmann.violet.workspace.IWorkspace;
-import com.horstmann.violet.workspace.sidebar.SideBar;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JPanel;
+
+import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
+import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
+import com.horstmann.violet.workspace.IWorkspace;
+import com.horstmann.violet.workspace.sidebar.SideBar;
 
 @ResourceBundleBean(resourceReference = SideBar.class)
 public class ColorToolsBarPanel extends JPanel implements IColorChoiceBar

@@ -21,11 +21,6 @@
 
 package com.horstmann.violet.workspace.sidebar.graphtools;
 
-import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
-import com.horstmann.violet.framework.util.GrabberUtils;
-import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.common.node.PointNode;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
@@ -36,7 +31,14 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Locale;
 import java.util.ResourceBundle;
+
 import javax.swing.Icon;
+
+import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
+import com.horstmann.violet.framework.util.GrabberUtils;
+import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.common.node.PointNode;
 
 public class GraphTool
 {
