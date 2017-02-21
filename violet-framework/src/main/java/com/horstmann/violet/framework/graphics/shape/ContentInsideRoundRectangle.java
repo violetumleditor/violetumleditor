@@ -2,7 +2,6 @@ package com.horstmann.violet.framework.graphics.shape;
 
 import com.horstmann.violet.framework.graphics.content.Content;
 import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
-
 import java.awt.geom.RoundRectangle2D;
 
 /**

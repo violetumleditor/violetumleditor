@@ -1,10 +1,9 @@
 package com.horstmann.violet.framework.graphics;
 
 import com.horstmann.violet.framework.graphics.content.Layout;
-
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  * This class defines how the separation of elements in the layout

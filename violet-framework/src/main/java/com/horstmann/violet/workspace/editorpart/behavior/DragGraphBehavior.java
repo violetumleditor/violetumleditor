@@ -1,13 +1,5 @@
 package com.horstmann.violet.workspace.editorpart.behavior;
 
-import java.awt.Cursor;
-import java.awt.Point;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Point2D;
-
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
-
 import com.horstmann.violet.framework.util.KeyModifierUtil;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
@@ -16,6 +8,12 @@ import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.Workspace;
 import com.horstmann.violet.workspace.WorkspacePanel;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
+import java.awt.Cursor;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 
 public class DragGraphBehavior extends AbstractEditorPartBehavior
 {

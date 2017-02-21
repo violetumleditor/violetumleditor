@@ -2,11 +2,11 @@ package com.horstmann.violet.workspace.editorpart;
 
 import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import java.awt.Dimension;
+import java.awt.Rectangle;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.awt.*;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;

@@ -23,7 +23,6 @@ package com.horstmann.violet.framework.theme;
 
 import java.awt.Color;
 import java.awt.Font;
-
 import javax.swing.plaf.metal.DefaultMetalTheme;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.plaf.metal.MetalTheme;

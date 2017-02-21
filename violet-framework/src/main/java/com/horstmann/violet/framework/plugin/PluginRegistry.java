@@ -1,9 +1,8 @@
 package com.horstmann.violet.framework.plugin;
 
+import com.horstmann.violet.framework.injection.bean.ManiocFramework.ManagedBean;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.horstmann.violet.framework.injection.bean.ManiocFramework.ManagedBean;
 
 /**
  * Plugin registry

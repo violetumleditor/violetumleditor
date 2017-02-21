@@ -2,7 +2,6 @@ package com.horstmann.violet.workspace.editorpart.behavior;
 
 import com.horstmann.violet.framework.util.KeyModifierUtil;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
-
 import java.awt.event.MouseWheelEvent;
 
 public class ZoomByWheelBehavior extends AbstractEditorPartBehavior

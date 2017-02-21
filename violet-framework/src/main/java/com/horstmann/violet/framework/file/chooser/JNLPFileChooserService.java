@@ -21,15 +21,6 @@
 
 package com.horstmann.violet.framework.file.chooser;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
-import javax.jnlp.FileContents;
-import javax.jnlp.FileOpenService;
-import javax.jnlp.FileSaveService;
-import javax.jnlp.ServiceManager;
-import javax.jnlp.UnavailableServiceException;
-
 import com.horstmann.violet.framework.file.IFile;
 import com.horstmann.violet.framework.file.naming.ExtensionFilter;
 import com.horstmann.violet.framework.file.naming.FileNamingService;
@@ -40,6 +31,13 @@ import com.horstmann.violet.framework.file.persistence.JNLPFileWriter;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.ManagedBean;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.jnlp.FileContents;
+import javax.jnlp.FileOpenService;
+import javax.jnlp.FileSaveService;
+import javax.jnlp.ServiceManager;
+import javax.jnlp.UnavailableServiceException;
 
 /**
  * This class provides a FileService for Java Web Start. Note that file saving is strange under Web Start. You first save the data,

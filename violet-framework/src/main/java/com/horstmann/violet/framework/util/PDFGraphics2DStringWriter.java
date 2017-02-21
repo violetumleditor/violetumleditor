@@ -1,10 +1,10 @@
 package com.horstmann.violet.framework.util;
 
-import org.freehep.graphicsio.pdf.PDFGraphics2D;
-
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.io.IOException;
 import java.io.OutputStream;
+import org.freehep.graphicsio.pdf.PDFGraphics2D;
 
 /**
  * Created by Michał Leśniak on 28.01.16.

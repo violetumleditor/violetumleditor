@@ -1,11 +1,9 @@
 package com.horstmann.violet.framework.file.persistence;
 
+import com.horstmann.violet.framework.file.IFile;
 import java.io.IOException;
 import java.io.OutputStream;
-
 import javax.jnlp.FileContents;
-
-import com.horstmann.violet.framework.file.IFile;
 
 public class JNLPFileWriter implements IFileWriter
 {

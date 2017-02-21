@@ -1,8 +1,7 @@
 package com.horstmann.violet.workspace.sidebar;
 
-import java.awt.Component;
-
 import com.horstmann.violet.workspace.IWorkspace;
+import java.awt.Component;
 
 /**
  * An element displayed on a side bar. Usually, this is a JPanel

@@ -1,10 +1,9 @@
 package com.horstmann.violet.framework.file.persistence;
 
+import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import com.horstmann.violet.product.diagram.abstracts.IGraph;
 
 /**
  * Services dedicated to read/save a graph content from/to an input/outputstream

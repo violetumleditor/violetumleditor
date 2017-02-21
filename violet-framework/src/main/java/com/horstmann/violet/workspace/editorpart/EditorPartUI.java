@@ -1,15 +1,13 @@
 package com.horstmann.violet.workspace.editorpart;
 
+import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.workspace.editorpart.behavior.IEditorPartBehavior;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-
 import javax.swing.JComponent;
 import javax.swing.plaf.PanelUI;
-
-import com.horstmann.violet.product.diagram.abstracts.IGraph;
-import com.horstmann.violet.workspace.editorpart.behavior.IEditorPartBehavior;
 
 public class EditorPartUI extends PanelUI
 {

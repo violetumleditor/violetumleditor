@@ -21,11 +21,10 @@
 
 package com.horstmann.violet.framework.util;
 
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import java.io.ObjectStreamException;
 import java.io.Serializable;
 import java.lang.reflect.Field;
-
-import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 /**
  * This class is a superclass for enumerated types that can be serialized. Subclass like this:

@@ -1,15 +1,14 @@
 package com.horstmann.violet.workspace.editorpart;
 
+import com.horstmann.violet.product.diagram.abstracts.IColorable;
+import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.workspace.editorpart.behavior.IEditorPartBehavior;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.util.List;
-
-import com.horstmann.violet.product.diagram.abstracts.IColorable;
-import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.workspace.editorpart.behavior.IEditorPartBehavior;
 
 public interface IEditorPartBehaviorManager
 {

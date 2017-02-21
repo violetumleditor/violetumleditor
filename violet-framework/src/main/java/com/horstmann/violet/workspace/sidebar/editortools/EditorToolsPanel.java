@@ -31,12 +31,12 @@ import com.horstmann.violet.workspace.editorpart.behavior.FindBehavior;
 import com.horstmann.violet.workspace.editorpart.behavior.UndoRedoCompoundBehavior;
 import com.horstmann.violet.workspace.sidebar.ISideBarElement;
 import com.horstmann.violet.workspace.sidebar.SideBar;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
 @ResourceBundleBean(resourceReference = SideBar.class)
 public class EditorToolsPanel extends JPanel implements ISideBarElement {

@@ -1,10 +1,5 @@
 package com.horstmann.violet.workspace.editorpart.behavior;
 
-import java.beans.PropertyChangeEvent;
-import java.util.Iterator;
-
-import org.jsoup.Jsoup;
-
 import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
@@ -12,6 +7,8 @@ import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 import com.horstmann.violet.product.diagram.abstracts.node.INamedNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import java.util.Iterator;
+import org.jsoup.Jsoup;
 
 /**
  * Class which is detecting name duplicates, by INamedNode interface

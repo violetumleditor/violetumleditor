@@ -1,7 +1,5 @@
 package com.horstmann.violet.workspace.editorpart.behavior;
 
-import java.util.ArrayList;
-
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
@@ -9,6 +7,7 @@ import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBar;
+import java.util.ArrayList;
 
 public class SelectAllBehavior extends AbstractEditorPartBehavior
 {

@@ -22,10 +22,8 @@
 package com.horstmann.violet.product.diagram.property;
 
 import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
-import com.horstmann.violet.framework.util.ResourceManager;
-import com.horstmann.violet.product.diagram.property.choiceList.TextChoiceList;
 import com.horstmann.violet.product.diagram.abstracts.edge.bentstyle.BentStyle;
-
+import com.horstmann.violet.product.diagram.property.choiceList.TextChoiceList;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;

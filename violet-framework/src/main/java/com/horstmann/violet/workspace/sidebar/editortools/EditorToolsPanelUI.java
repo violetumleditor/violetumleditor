@@ -2,11 +2,14 @@ package com.horstmann.violet.workspace.sidebar.editortools;
 
 import com.horstmann.violet.framework.swingextension.IconButtonUI;
 import com.horstmann.violet.framework.theme.ThemeManager;
-
-import javax.swing.*;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.PanelUI;
-import java.awt.*;
 
 /**
  * UI for displaying a large EditorToolsPanel

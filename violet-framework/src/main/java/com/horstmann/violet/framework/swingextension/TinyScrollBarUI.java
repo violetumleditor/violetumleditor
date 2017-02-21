@@ -21,17 +21,15 @@
 
 package com.horstmann.violet.framework.swingextension;
 
+import com.horstmann.violet.framework.theme.ThemeManager;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-
 import javax.swing.JComponent;
 import javax.swing.JScrollBar;
 import javax.swing.SwingUtilities;
 import javax.swing.plaf.basic.BasicScrollBarUI;
-
-import com.horstmann.violet.framework.theme.ThemeManager;
 
 /**
  * Scroll bar style used for status and tool bars

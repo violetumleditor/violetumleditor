@@ -27,7 +27,6 @@
     <!--<module>violetproduct-web</module>-->
     <!--<module>violetproduct-jnlp</module>-->
     <!--<module>violetproduct-rpm</module>-->
-
   </modules>
   <properties>
     <applicationVersion>2.5.3</applicationVersion>

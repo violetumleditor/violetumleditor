@@ -1,11 +1,6 @@
 package com.horstmann.violet.framework.swingextension;
 
 import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
 
 /**
  * Multiline label Class grabbed from java2s.com (

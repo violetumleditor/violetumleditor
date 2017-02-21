@@ -14,12 +14,11 @@ import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
 import com.horstmann.violet.workspace.sidebar.graphtools.GraphTool;
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBar;
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBarMouseListener;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.util.Collection;
+import javax.swing.SwingUtilities;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 

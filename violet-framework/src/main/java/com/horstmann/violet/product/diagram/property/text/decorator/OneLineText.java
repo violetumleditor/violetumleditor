@@ -1,7 +1,6 @@
 package com.horstmann.violet.product.diagram.property.text.decorator;
 
 import com.horstmann.violet.product.diagram.property.text.EditableText;
-
 import java.io.Serializable;
 
 /**

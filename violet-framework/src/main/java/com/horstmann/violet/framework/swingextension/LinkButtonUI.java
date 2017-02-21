@@ -25,7 +25,6 @@ import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-
 import javax.swing.AbstractButton;
 import javax.swing.ButtonModel;
 import javax.swing.plaf.basic.BasicButtonUI;

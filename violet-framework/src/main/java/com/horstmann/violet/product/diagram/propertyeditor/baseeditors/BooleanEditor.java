@@ -1,14 +1,14 @@
 package com.horstmann.violet.product.diagram.propertyeditor.baseeditors;
 
 import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyEditorSupport;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import javax.swing.JComboBox;
+import javax.swing.JPanel;
 
 /**
  * TODO javadoc

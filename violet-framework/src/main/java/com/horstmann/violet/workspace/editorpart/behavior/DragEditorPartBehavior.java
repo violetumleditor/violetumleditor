@@ -2,11 +2,14 @@ package com.horstmann.violet.workspace.editorpart.behavior;
 
 import com.horstmann.violet.workspace.Workspace;
 import com.horstmann.violet.workspace.WorkspacePanel;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Cursor;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import javax.swing.JComponent;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 
 import static com.horstmann.violet.framework.injection.resources.ResourceBundleConstant.EDITOR_RESOURCE;
 

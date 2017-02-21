@@ -1,8 +1,7 @@
 package com.horstmann.violet.workspace.editorpart;
 
-import java.awt.Graphics2D;
-
 import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
+import java.awt.Graphics2D;
 
 
 public interface IGrid

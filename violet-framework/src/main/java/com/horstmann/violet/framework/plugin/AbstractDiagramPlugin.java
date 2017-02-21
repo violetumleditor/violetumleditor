@@ -2,7 +2,6 @@ package com.horstmann.violet.framework.plugin;
 
 import com.horstmann.violet.framework.util.ResourceManager;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
-
 import java.util.ResourceBundle;
 
 /**

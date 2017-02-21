@@ -1,5 +1,10 @@
 package com.horstmann.violet.framework.file.persistence;
 
+import com.horstmann.violet.framework.file.export.FileExportService;
+import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
+import com.horstmann.violet.framework.injection.bean.ManiocFramework.ManagedBean;
+import com.horstmann.violet.framework.util.VersionChecker;
+import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -10,19 +15,11 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
-
 import javax.imageio.ImageIO;
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLEditorKit;
-
 import org.apache.commons.codec.binary.Base64OutputStream;
-
-import com.horstmann.violet.framework.file.export.FileExportService;
-import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
-import com.horstmann.violet.framework.injection.bean.ManiocFramework.ManagedBean;
-import com.horstmann.violet.framework.util.VersionChecker;
-import com.horstmann.violet.product.diagram.abstracts.IGraph;
 
 @ManagedBean(registeredManually=true)
 public class XHTMLPersistenceService implements IFilePersistenceService
