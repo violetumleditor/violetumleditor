@@ -21,21 +21,19 @@
 
 package com.horstmann.violet.framework.theme;
 
-import java.awt.Frame;
-import java.awt.Insets;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.swing.SwingUtilities;
-import javax.swing.UIDefaults;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
 import com.horstmann.violet.framework.userpreferences.UserPreferencesService;
 import com.l2fprod.common.swing.plaf.LookAndFeelAddons;
 import com.l2fprod.common.swing.plaf.windows.WindowsLookAndFeelAddons;
+import java.awt.Frame;
+import java.awt.Insets;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.SwingUtilities;
+import javax.swing.UIDefaults;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  * Abstract GUI theme with commons operations

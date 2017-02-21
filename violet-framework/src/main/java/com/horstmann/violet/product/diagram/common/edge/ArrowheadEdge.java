@@ -1,10 +1,10 @@
 package com.horstmann.violet.product.diagram.common.edge;
 
+import com.horstmann.violet.product.diagram.abstracts.edge.arrowhead.Arrowhead;
 import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
 import com.horstmann.violet.product.diagram.property.choiceList.ChoiceList;
-import com.horstmann.violet.product.diagram.abstracts.edge.arrowhead.Arrowhead;
-
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
 
 /**
  * TODO javadoc

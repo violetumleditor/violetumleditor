@@ -2,8 +2,16 @@ package com.horstmann.violet.product.diagram.propertyeditor.baseeditors;
 
 import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
 import com.horstmann.violet.product.diagram.property.text.LineText;
-
-import javax.swing.*;
+import java.awt.Component;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.ActionEvent;
+import java.beans.PropertyEditorSupport;
+import java.util.HashSet;
+import java.util.Set;
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.UndoableEditEvent;
@@ -12,11 +20,6 @@ import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
 import javax.swing.undo.UndoManager;
 import javax.swing.undo.UndoableEdit;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.beans.PropertyEditorSupport;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Base text editor with specified behaviors like redo/undo/traversal.

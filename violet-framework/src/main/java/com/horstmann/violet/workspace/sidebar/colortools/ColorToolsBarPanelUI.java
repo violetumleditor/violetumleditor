@@ -1,5 +1,6 @@
 package com.horstmann.violet.workspace.sidebar.colortools;
 
+import com.horstmann.violet.framework.theme.ThemeManager;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -9,14 +10,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.PanelUI;
-
-import com.horstmann.violet.framework.theme.ThemeManager;
 
 public class ColorToolsBarPanelUI extends PanelUI
 {

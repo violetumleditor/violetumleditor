@@ -1,16 +1,14 @@
 package com.horstmann.violet.workspace.editorpart.behavior;
 
+import com.horstmann.violet.framework.util.PropertyUtils;
+import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import java.beans.PropertyChangeEvent;
-
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.CompoundEdit;
 import javax.swing.undo.UndoableEdit;
-
-import com.horstmann.violet.framework.util.PropertyUtils;
-import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.abstracts.node.INode;
 
 
 /**

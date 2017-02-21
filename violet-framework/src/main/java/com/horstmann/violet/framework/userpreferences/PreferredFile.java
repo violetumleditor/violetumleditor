@@ -1,8 +1,7 @@
 package com.horstmann.violet.framework.userpreferences;
 
-import java.io.IOException;
-
 import com.horstmann.violet.framework.file.IFile;
+import java.io.IOException;
 
 /**
  * This class allows to wrap a file definition (composed by <br/>

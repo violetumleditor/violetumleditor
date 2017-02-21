@@ -25,7 +25,7 @@ import java.awt.*;
 
 public class EnumNode extends ColorableNode implements INamedNode, IRevertableProperties
 {
-	/**
+    /**
      * Construct a class node with a default size
      */
     public EnumNode()
@@ -118,7 +118,7 @@ public class EnumNode extends ColorableNode implements INamedNode, IRevertablePr
 
     /**
      * Sets the name property value.
-     * 
+     *
      * @param newValue the class name
      */
     public void setName(LineText newValue)
@@ -128,7 +128,7 @@ public class EnumNode extends ColorableNode implements INamedNode, IRevertablePr
 
     /**
      * Gets the name property value.
-     * 
+     *
      * @return the class name
      */
     public LineText getName()

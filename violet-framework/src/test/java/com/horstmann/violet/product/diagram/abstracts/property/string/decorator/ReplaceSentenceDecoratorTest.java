@@ -4,7 +4,7 @@ import com.horstmann.violet.product.diagram.property.text.decorator.OneLineText;
 import com.horstmann.violet.product.diagram.property.text.decorator.ReplaceSentenceDecorator;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * This ...

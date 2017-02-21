@@ -1,16 +1,14 @@
 package com.horstmann.violet.workspace.sidebar.optionaltools;
 
+import com.horstmann.violet.framework.swingextension.IconButtonUI;
+import com.horstmann.violet.framework.theme.ThemeManager;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.PanelUI;
-
-import com.horstmann.violet.framework.swingextension.IconButtonUI;
-import com.horstmann.violet.framework.theme.ThemeManager;
 
 /**
  * Large UI for OptionalToolsPanel

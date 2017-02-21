@@ -21,15 +21,12 @@
 
 package com.horstmann.violet.product.diagram.abstracts.edge;
 
+import com.horstmann.violet.product.diagram.abstracts.Direction;
+import com.horstmann.violet.product.diagram.abstracts.Id;
+import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-
-import com.horstmann.violet.product.diagram.abstracts.Direction;
-import com.horstmann.violet.product.diagram.abstracts.IGraph;
-import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
-import com.horstmann.violet.product.diagram.abstracts.Id;
-import com.horstmann.violet.product.diagram.abstracts.node.INode;
 
 /**
  * A class that supplies convenience implementations for a number of methods in the Edge interface

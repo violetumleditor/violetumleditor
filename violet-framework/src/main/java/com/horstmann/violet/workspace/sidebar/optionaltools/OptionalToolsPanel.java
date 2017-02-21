@@ -21,18 +21,16 @@
 
 package com.horstmann.violet.workspace.sidebar.optionaltools;
 
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JPanel;
-
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.sidebar.ISideBarElement;
 import com.horstmann.violet.workspace.sidebar.SideBar;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
 @ResourceBundleBean(resourceReference=SideBar.class)
 public class OptionalToolsPanel extends JPanel implements ISideBarElement

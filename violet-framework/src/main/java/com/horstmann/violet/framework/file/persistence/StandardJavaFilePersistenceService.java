@@ -1,5 +1,16 @@
 package com.horstmann.violet.framework.file.persistence;
 
+import com.horstmann.violet.framework.injection.bean.ManiocFramework.ManagedBean;
+import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
+import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.abstracts.Id;
+import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
+import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.common.node.ImageNode;
+import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
+import com.horstmann.violet.product.diagram.property.BentStyleChoiceList;
+import com.horstmann.violet.product.diagram.property.LineStyleChoiceList;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -17,18 +28,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import com.horstmann.violet.framework.injection.bean.ManiocFramework.ManagedBean;
-import com.horstmann.violet.product.diagram.property.BentStyleChoiceList;
-import com.horstmann.violet.product.diagram.property.LineStyleChoiceList;
-import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
-import com.horstmann.violet.product.diagram.abstracts.IGraph;
-import com.horstmann.violet.product.diagram.abstracts.Id;
-import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
-import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
-import com.horstmann.violet.product.diagram.common.node.ImageNode;
 
 /**
  * Standard Java implementation of IFilePersistenceService

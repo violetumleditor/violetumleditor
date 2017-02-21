@@ -1,19 +1,17 @@
 package com.horstmann.violet.framework.injection.resources;
 
+import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 import java.awt.Image;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-
-import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 
 /**
  * This class can inject external values into object attributes. To do that, it uses the {@link ResourceBundleBean}

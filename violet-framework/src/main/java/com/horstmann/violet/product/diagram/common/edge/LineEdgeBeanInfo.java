@@ -1,9 +1,6 @@
 package com.horstmann.violet.product.diagram.common.edge;
 
-import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
-import com.horstmann.violet.framework.util.BeanInfo;
 import com.horstmann.violet.product.diagram.abstracts.edge.AbstractEdgeBeanInfo;
-
 import java.beans.PropertyDescriptor;
 import java.util.List;
 

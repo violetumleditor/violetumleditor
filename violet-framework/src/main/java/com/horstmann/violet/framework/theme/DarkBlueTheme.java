@@ -21,19 +21,17 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package com.horstmann.violet.framework.theme;
 
+import com.pagosoft.plaf.PgsLookAndFeel;
+import com.pagosoft.plaf.PgsTheme;
+import com.pagosoft.plaf.PlafOptions;
 import java.awt.Color;
 import java.awt.Font;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.metal.MetalLookAndFeel;
-
-import com.pagosoft.plaf.PgsLookAndFeel;
-import com.pagosoft.plaf.PgsTheme;
-import com.pagosoft.plaf.PlafOptions;
 
 /**
  * Implements Vista Blue theme

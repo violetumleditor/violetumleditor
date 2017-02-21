@@ -1,5 +1,9 @@
 package com.horstmann.violet.workspace.editorpart.behavior;
 
+import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.workspace.editorpart.IEditorPart;
+import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -7,17 +11,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.CompoundEdit;
 import javax.swing.undo.UndoableEdit;
-
-import com.horstmann.violet.product.diagram.abstracts.IGraph;
-import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.workspace.editorpart.IEditorPart;
-import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
 
 /**
  * Undo/Redo behavior triggered when node and edges are dragged

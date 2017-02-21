@@ -1,10 +1,9 @@
 package com.horstmann.violet.framework.file;
 
+import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.security.GeneralSecurityException;
-
-import com.horstmann.violet.product.diagram.abstracts.IGraph;
 
 public interface IGraphFile extends IFile
 {

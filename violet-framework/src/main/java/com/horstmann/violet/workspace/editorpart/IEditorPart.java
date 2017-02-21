@@ -4,9 +4,9 @@ import com.horstmann.violet.framework.util.nodeusage.NodeUsage;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.editorpart.enums.Direction;
-
 import javax.swing.*;
 import java.util.List;
+import javax.swing.JComponent;
 
 /**
  * Defines the editor behaviour (an editor is something embedding an IGraph)

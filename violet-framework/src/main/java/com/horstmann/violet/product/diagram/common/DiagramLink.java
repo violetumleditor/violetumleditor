@@ -21,13 +21,12 @@
 
 package com.horstmann.violet.product.diagram.common;
 
+import com.horstmann.violet.framework.file.IFile;
+import com.horstmann.violet.framework.file.LocalFile;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
-
-import com.horstmann.violet.framework.file.IFile;
-import com.horstmann.violet.framework.file.LocalFile;
 
 /**
  * This class is a link to a physical file. It is used to perform links between diagrams. Tested successfully in applet mode

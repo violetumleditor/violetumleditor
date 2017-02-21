@@ -21,6 +21,14 @@
 
 package com.horstmann.violet.framework.file.persistence;
 
+import com.horstmann.violet.framework.util.StringFilterOutputStream;
+import com.horstmann.violet.product.diagram.common.edge.NoteEdge;
+import com.horstmann.violet.product.diagram.common.node.DiagramLinkNode;
+import com.horstmann.violet.product.diagram.common.node.NoteNode;
+import com.horstmann.violet.product.diagram.common.node.PointNode;
+import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
+import com.horstmann.violet.product.diagram.property.BentStyleChoiceList;
+import com.horstmann.violet.product.diagram.property.LineStyleChoiceList;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,15 +40,6 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-
-import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
-import com.horstmann.violet.product.diagram.property.BentStyleChoiceList;
-import com.horstmann.violet.product.diagram.property.LineStyleChoiceList;
-import com.horstmann.violet.framework.util.StringFilterOutputStream;
-import com.horstmann.violet.product.diagram.common.node.DiagramLinkNode;
-import com.horstmann.violet.product.diagram.common.edge.NoteEdge;
-import com.horstmann.violet.product.diagram.common.node.NoteNode;
-import com.horstmann.violet.product.diagram.common.node.PointNode;
 
 /**
  * This class provides file format services

@@ -21,13 +21,12 @@
 
 package com.horstmann.violet.framework.theme;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.ManagedBean;
 import com.horstmann.violet.framework.userpreferences.UserPreferencesService;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Manages GUI themes

@@ -21,9 +21,8 @@
 
 package com.horstmann.violet.framework.userpreferences;
 
-import java.util.prefs.Preferences;
-
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.ManagedBean;
+import java.util.prefs.Preferences;
 
 /**
  * The default preferences service that uses the java.util.prefs API.

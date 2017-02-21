@@ -1,11 +1,10 @@
 package com.horstmann.violet.workspace.editorpart.behavior;
 
-import java.awt.event.MouseEvent;
-import java.awt.geom.Point2D;
-
 import com.horstmann.violet.framework.file.IGraphFile;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
 
 public class FileCouldBeSavedBehavior extends AbstractEditorPartBehavior
 {

@@ -1,12 +1,11 @@
 package com.horstmann.violet.workspace.editorpart.behavior;
 
+import com.horstmann.violet.product.diagram.abstracts.IColorable;
+import com.horstmann.violet.workspace.sidebar.colortools.ColorChoice;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.CompoundEdit;
-
-import com.horstmann.violet.product.diagram.abstracts.IColorable;
-import com.horstmann.violet.workspace.sidebar.colortools.ColorChoice;
 
 /**
  * Undo/Redo behavior triggered when node and edges are colorized

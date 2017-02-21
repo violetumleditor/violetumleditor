@@ -1,12 +1,10 @@
 package com.horstmann.violet.workspace.sidebar.graphtools;
 
+import com.horstmann.violet.framework.theme.ThemeManager;
 import java.awt.BorderLayout;
-
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.plaf.PanelUI;
-
-import com.horstmann.violet.framework.theme.ThemeManager;
 
 public class GraphToolsBarPanelUI extends PanelUI
 {

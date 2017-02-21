@@ -21,6 +21,19 @@
 
 package com.horstmann.violet.product.diagram.propertyeditor;
 
+import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
+import com.horstmann.violet.framework.util.SerializableEnumeration;
+import com.horstmann.violet.product.diagram.common.DiagramLink;
+import com.horstmann.violet.product.diagram.property.choiceList.ChoiceList;
+import com.horstmann.violet.product.diagram.property.text.MultiLineText;
+import com.horstmann.violet.product.diagram.property.text.SingleLineText;
+import com.horstmann.violet.product.diagram.propertyeditor.baseeditors.BooleanEditor;
+import com.horstmann.violet.product.diagram.propertyeditor.baseeditors.ChoiceListEditor;
+import com.horstmann.violet.product.diagram.propertyeditor.baseeditors.MultiLineTextEditor;
+import com.horstmann.violet.product.diagram.propertyeditor.baseeditors.SingleLineTextEditor;
+import com.horstmann.violet.product.diagram.propertyeditor.customeditor.AbstractDiagramLinkEditor;
+import com.horstmann.violet.product.diagram.propertyeditor.customeditor.ColorEditor;
+import com.horstmann.violet.product.diagram.propertyeditor.customeditor.ImageIconEditor;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ItemEvent;
@@ -35,8 +48,16 @@ import java.beans.PropertyEditor;
 import java.beans.PropertyEditorManager;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Map;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+import java.util.Set;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -45,20 +66,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-
-import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
-import com.horstmann.violet.product.diagram.propertyeditor.baseeditors.BooleanEditor;
-import com.horstmann.violet.product.diagram.propertyeditor.baseeditors.ChoiceListEditor;
-import com.horstmann.violet.product.diagram.propertyeditor.baseeditors.MultiLineTextEditor;
-import com.horstmann.violet.product.diagram.propertyeditor.customeditor.*;
-
-import com.horstmann.violet.product.diagram.propertyeditor.baseeditors.SingleLineTextEditor;
-import com.horstmann.violet.framework.util.SerializableEnumeration;
-import com.horstmann.violet.product.diagram.property.choiceList.ChoiceList;
-import com.horstmann.violet.product.diagram.property.text.MultiLineText;
-import com.horstmann.violet.product.diagram.property.text.SingleLineText;
-
-import com.horstmann.violet.product.diagram.common.DiagramLink;
 
 /**
  * A component filled with editors for all editable properties of an object.

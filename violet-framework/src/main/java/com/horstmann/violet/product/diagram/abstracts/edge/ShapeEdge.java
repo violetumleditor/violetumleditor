@@ -21,13 +21,12 @@
 
 package com.horstmann.violet.product.diagram.abstracts.edge;
 
+import com.horstmann.violet.product.diagram.common.edge.ColorableEdge;
 import java.awt.BasicStroke;
 import java.awt.Shape;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-
-import com.horstmann.violet.product.diagram.common.edge.ColorableEdge;
 
 /**
  * A class that assumes that an edge can yield its shape and then takes advantage of the fact that containment testing can be done

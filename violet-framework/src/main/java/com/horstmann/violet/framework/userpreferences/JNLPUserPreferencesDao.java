@@ -21,6 +21,7 @@
 
 package com.horstmann.violet.framework.userpreferences;
 
+import com.horstmann.violet.framework.injection.bean.ManiocFramework.ManagedBean;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,14 +29,11 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-
 import javax.jnlp.BasicService;
 import javax.jnlp.FileContents;
 import javax.jnlp.PersistenceService;
 import javax.jnlp.ServiceManager;
 import javax.jnlp.UnavailableServiceException;
-
-import com.horstmann.violet.framework.injection.bean.ManiocFramework.ManagedBean;
 
 /**
  * A preferences service that uses WebStart "muffins".

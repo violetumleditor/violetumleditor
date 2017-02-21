@@ -1,8 +1,8 @@
 package com.horstmann.violet.framework.graphics.content;
 
-import java.awt.Shape;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Shape;
 
 /**
  * This class fills in the background shape of the color

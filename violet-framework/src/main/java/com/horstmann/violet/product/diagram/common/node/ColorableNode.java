@@ -21,10 +21,6 @@
 
 package com.horstmann.violet.product.diagram.common.node;
 
-import java.awt.Color;
-import java.awt.Shape;
-import java.awt.geom.Point2D;
-
 import com.horstmann.violet.framework.graphics.content.ContentBackground;
 import com.horstmann.violet.framework.graphics.content.ContentBorder;
 import com.horstmann.violet.framework.graphics.content.EmptyContent;
@@ -34,6 +30,9 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
+import java.awt.Color;
+import java.awt.Shape;
+import java.awt.geom.Point2D;
 
 /**
  * A node_old that has a rectangular shape.

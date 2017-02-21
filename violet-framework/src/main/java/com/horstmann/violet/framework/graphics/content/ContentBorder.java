@@ -1,8 +1,8 @@
 package com.horstmann.violet.framework.graphics.content;
 
-import java.awt.Shape;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Shape;
 
 /**
  * This class is surrounded by the shape of the color

@@ -4,7 +4,7 @@ import com.horstmann.violet.product.diagram.property.text.decorator.LargeSizeDec
 import com.horstmann.violet.product.diagram.property.text.decorator.OneLineText;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * This ...

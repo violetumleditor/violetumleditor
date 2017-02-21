@@ -21,6 +21,9 @@
 
 package com.horstmann.violet.workspace.editorpart;
 
+import com.horstmann.violet.framework.theme.ThemeManager;
+import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
@@ -29,10 +32,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-
-import com.horstmann.violet.framework.theme.ThemeManager;
-import com.horstmann.violet.product.diagram.abstracts.IGraph;
-import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
 
 /**
  * A grid to which points and rectangles can be "snapped". The snapping operation moves a point to the nearest grid point.

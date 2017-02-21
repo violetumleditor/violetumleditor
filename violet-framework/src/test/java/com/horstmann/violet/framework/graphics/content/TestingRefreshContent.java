@@ -1,6 +1,6 @@
 package com.horstmann.violet.framework.graphics.content;
 
-import java.awt.*;
+import java.awt.Graphics2D;
 
 /**
  * This ...

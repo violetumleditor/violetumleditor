@@ -21,18 +21,17 @@
 
 package com.horstmann.violet.workspace.sidebar.graphtools;
 
-import java.awt.Component;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.sidebar.ISideBarElement;
+import java.awt.Component;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * A tool bar that contains node_old and edge prototype icons. Exactly one icon is selected at any time.

@@ -1,10 +1,9 @@
 package com.horstmann.violet.product.diagram.abstracts;
 
+import com.horstmann.violet.framework.plugin.IDiagramPlugin;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.horstmann.violet.framework.plugin.IDiagramPlugin;
 
 /**
  * Graph type registry. Each graph should be registered here to be accessible. 

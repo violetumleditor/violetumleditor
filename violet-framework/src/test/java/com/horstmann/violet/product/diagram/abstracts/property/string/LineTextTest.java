@@ -1,11 +1,10 @@
 package com.horstmann.violet.product.diagram.abstracts.property.string;
 
 import com.horstmann.violet.product.diagram.property.text.LineText;
+import java.awt.Color;
 import org.junit.Test;
 
-import java.awt.*;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * This ...

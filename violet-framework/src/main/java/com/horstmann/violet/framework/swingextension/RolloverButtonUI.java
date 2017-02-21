@@ -21,6 +21,7 @@
 
 package com.horstmann.violet.framework.swingextension;
 
+import com.horstmann.violet.framework.theme.ThemeManager;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -29,14 +30,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.geom.Rectangle2D;
-
 import javax.swing.AbstractButton;
 import javax.swing.ButtonModel;
 import javax.swing.JComponent;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicButtonUI;
-
-import com.horstmann.violet.framework.theme.ThemeManager;
 
 public class RolloverButtonUI extends BasicButtonUI
 {

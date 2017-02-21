@@ -22,7 +22,6 @@
 package com.horstmann.violet.framework.file.naming;
 
 import java.io.File;
-
 import javax.swing.filechooser.FileFilter;
 
 /**

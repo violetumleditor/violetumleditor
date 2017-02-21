@@ -36,8 +36,9 @@ import com.horstmann.violet.product.diagram.property.text.PrefixAndSuffixDecorat
 import com.horstmann.violet.product.diagram.property.text.decorator.OneLineText;
 import com.horstmann.violet.product.diagram.property.text.decorator.SmallSizeDecorator;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
-
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 

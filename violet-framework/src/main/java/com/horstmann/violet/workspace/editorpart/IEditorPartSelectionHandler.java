@@ -1,10 +1,9 @@
 package com.horstmann.violet.workspace.editorpart;
 
-import java.util.List;
-
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.sidebar.graphtools.GraphTool;
+import java.util.List;
 
 public interface IEditorPartSelectionHandler {
 

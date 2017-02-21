@@ -1,10 +1,12 @@
 package com.horstmann.violet.framework.graphics.content;
 
+import java.awt.Graphics2D;
+import java.awt.Point;
 import org.junit.Test;
 
-import java.awt.*;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * This ...

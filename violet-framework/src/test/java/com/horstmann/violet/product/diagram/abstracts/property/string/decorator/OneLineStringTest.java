@@ -1,12 +1,12 @@
 package com.horstmann.violet.product.diagram.abstracts.property.string.decorator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import com.horstmann.violet.product.diagram.property.text.decorator.OneLineText;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * This ...

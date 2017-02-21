@@ -1,9 +1,8 @@
 package com.horstmann.violet.workspace.editorpart.behavior;
 
-import java.awt.event.MouseWheelEvent;
-
 import com.horstmann.violet.framework.util.KeyModifierUtil;
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBar;
+import java.awt.event.MouseWheelEvent;
 
 public class ChangeToolByWeelBehavior extends AbstractEditorPartBehavior
 {

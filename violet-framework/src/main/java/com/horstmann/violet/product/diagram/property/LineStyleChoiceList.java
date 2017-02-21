@@ -21,13 +21,15 @@
 
 package com.horstmann.violet.product.diagram.property;
 
-import java.awt.*;
-import java.awt.geom.Point2D;
-
-import com.horstmann.violet.product.diagram.property.choiceList.IconChoiceList;
 import com.horstmann.violet.product.diagram.abstracts.edge.linestyle.LineStyle;
-
-import javax.swing.*;
+import com.horstmann.violet.product.diagram.property.choiceList.IconChoiceList;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Stroke;
+import java.awt.geom.Point2D;
+import javax.swing.Icon;
 
 /**
  * This class defines line styles of various shapes.

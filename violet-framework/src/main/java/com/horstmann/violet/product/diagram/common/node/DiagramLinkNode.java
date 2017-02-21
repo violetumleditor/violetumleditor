@@ -25,8 +25,8 @@ import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant
 import com.horstmann.violet.product.diagram.common.DiagramLink;
 import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.MultiLineText;
-
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;

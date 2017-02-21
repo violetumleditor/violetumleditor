@@ -24,13 +24,15 @@ package com.horstmann.violet.framework.file.export;
 import com.horstmann.violet.framework.util.ClipboardPipe;
 import com.horstmann.violet.framework.util.PDFGraphics2DStringWriter;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
-import org.freehep.graphicsbase.util.UserProperties;
-import org.freehep.graphicsio.pdf.PDFGraphics2D;
-
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.Toolkit;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.OutputStream;
+import org.freehep.graphicsbase.util.UserProperties;
+import org.freehep.graphicsio.pdf.PDFGraphics2D;
 
 public class FileExportService
 {

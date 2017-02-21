@@ -1,6 +1,6 @@
 package com.horstmann.violet.product.diagram.abstracts.edge.arrowhead;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.geom.GeneralPath;
 
 /**

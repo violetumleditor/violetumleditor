@@ -1,10 +1,10 @@
 package com.horstmann.violet.product.diagram.abstracts.property.string;
 
-import static org.junit.Assert.assertEquals;
-
 import com.horstmann.violet.product.diagram.property.text.MultiLineText;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * This ...

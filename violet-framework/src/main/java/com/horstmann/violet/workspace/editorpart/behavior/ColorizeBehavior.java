@@ -1,9 +1,6 @@
 package com.horstmann.violet.workspace.editorpart.behavior;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Point2D;
-
 import com.horstmann.violet.product.diagram.abstracts.IColorable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
@@ -13,6 +10,9 @@ import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorChoice;
 import com.horstmann.violet.workspace.sidebar.colortools.IColorChoiceBar;
 import com.horstmann.violet.workspace.sidebar.colortools.IColorChoiceChangeListener;
+import java.awt.Cursor;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
 
 public class ColorizeBehavior extends AbstractEditorPartBehavior
 {
