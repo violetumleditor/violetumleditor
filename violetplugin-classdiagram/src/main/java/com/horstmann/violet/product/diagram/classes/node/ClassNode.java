@@ -103,12 +103,12 @@ public class ClassNode extends ColorableNodeWithMethodsInfo implements INamedNod
         TextContent commentContent = new TextContent(comment);
         VerticalLayout verticalGroupContent = new VerticalLayout();
         verticalGroupContent.add(nameContent);
-        verticalGroupContent.add(commentContent);
 		if (VISIBLE_METHODS_AND_ATRIBUTES == true) {
 			TextContent attributesContent = new TextContent(attributes);
 			TextContent methodsContent = new TextContent(methods);
 			verticalGroupContent.add(attributesContent);
 			verticalGroupContent.add(methodsContent);
+            verticalGroupContent.add(commentContent);
 		}
         separator = new Separator.LineSeparator(getBorderColor());
         verticalGroupContent.setSeparator(separator);
