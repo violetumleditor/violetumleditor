@@ -89,12 +89,11 @@ public class UMLEditorWebApplication extends WApplication {
 		//IFile aFile = new LocalFile(new File(resource.getFile()));
 		GraphFile graphFile = new GraphFile(ClassDiagramGraph.class);
 		IWorkspace workspace = new Workspace(graphFile);
-		workspace.getAWTComponent().setSize(800, 600);
 		workspace.getAWTComponent().prepareLayout();
 		WorkspaceWidget workspaceWidget = new WorkspaceWidget(workspace);
 		WContainerWidget root = getRoot();
 		root.setWidth(new WLength(100,  Unit.Percentage));
-		root.setWidth(new WLength(100,  Unit.Percentage));
+		root.setHeight(new WLength(100,  Unit.Percentage));
 		root.setStyleClass("root");
 		root.addWidget(workspaceWidget);
 		root.mouseMoved().setBlocked(true);

@@ -3,6 +3,7 @@ package com.horstmann.violet.web.workspace.editorpart;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.geom.Rectangle2D;
@@ -15,6 +16,7 @@ import com.horstmann.violet.workspace.editorpart.IGrid;
 import eu.webtoolkit.jwt.Coordinates;
 import eu.webtoolkit.jwt.KeyboardModifier;
 import eu.webtoolkit.jwt.Signal1;
+import eu.webtoolkit.jwt.WApplication;
 import eu.webtoolkit.jwt.WFont;
 import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WLength.Unit;
@@ -23,6 +25,7 @@ import eu.webtoolkit.jwt.WMouseEvent.Button;
 import eu.webtoolkit.jwt.WPaintDevice;
 import eu.webtoolkit.jwt.WPaintedWidget;
 import eu.webtoolkit.jwt.WPainter;
+import eu.webtoolkit.jwt.WPainterPath;
 
 public class EditorPartWidget extends WPaintedWidget {
 
@@ -39,7 +42,7 @@ public class EditorPartWidget extends WPaintedWidget {
 		setHeight(new WLength(100, Unit.Percentage));
 		this.editorPart = editorPart;
 		final IGrid grid = editorPart.getGrid();
-		grid.setVisible(false);
+		//grid.setVisible(false);
 		this.editorPart.getGraph().setGridSticker(grid.getGridSticker());
 		final IEditorPartBehaviorManager behaviorManager = editorPart.getBehaviorManager();
 		
@@ -178,16 +181,11 @@ public class EditorPartWidget extends WPaintedWidget {
 
 	@Override
 	protected void paintEvent(WPaintDevice paintDevice) {
-		WPainter painter = new WPainter(paintDevice) {
-			@Override
-			public WFont getFont() {
-				WFont font = super.getFont();
-				font.setSize(new WLength(12, Unit.Pixel));
-				return font;
-			}
-		};
-		painter.setClipping(false);
-		paintDevice.init();
+		WPainter painter = new WPainter(paintDevice);
+		this.editorPart.getSwingComponent().doLayout();
+		Rectangle bounds = this.editorPart.getSwingComponent().getBounds();
+		painter.setClipping(true);
+		painter.getClipPath().addRect(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
 		Graphics2D graphics = new CustomWebGraphics2D(painter);
 		this.editorPart.getSwingComponent().paint(graphics);
 		paintDevice.done();

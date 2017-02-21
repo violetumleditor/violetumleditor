@@ -21,8 +21,10 @@ import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBarListener;
 
 import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WAnchor;
+import eu.webtoolkit.jwt.WApplication;
 import eu.webtoolkit.jwt.WCompositeWidget;
 import eu.webtoolkit.jwt.WContainerWidget;
+import eu.webtoolkit.jwt.WEnvironment;
 import eu.webtoolkit.jwt.WImage;
 import eu.webtoolkit.jwt.WLabel;
 import eu.webtoolkit.jwt.WLength;
@@ -60,6 +62,9 @@ public class GraphToolsBarWidget extends WCompositeWidget {
 	
 	@ResourceBundleBean(key = "title.diagramtools.text")
 	private String title;
+	
+	
+	private String deploymentPath;
 	
 
 	public GraphToolsBarWidget(final IGraphToolsBar graphToolsBar,
@@ -133,6 +138,8 @@ public class GraphToolsBarWidget extends WCompositeWidget {
 		});
 	}
 	
+	
+	
 
 	private WMenuItem getMenuItemFromGraphTool(
 			final IGraphToolsBar graphToolsBar, final GraphTool aGraphTool) {
@@ -156,9 +163,11 @@ public class GraphToolsBarWidget extends WCompositeWidget {
 				ImageIO.write(bi, "png", response.getOutputStream());
 			}
 		};
+		iconResource.suggestFileName(aGraphTool.getLabel());
+		iconResource.generateUrl();
 		String url = iconResource.getUrl();
-		if (url.startsWith(".")) {
-			url = url.substring(1, url.length() - 1);
+		if (!url.startsWith(getDeploymentPath())) {
+			url = getDeploymentPath() + "/" + url;
 		}
 		WImage wImage = new WImage(new WLink(url));
 		WAnchor wAnchor = getAnchor(graphToolButton);
@@ -190,5 +199,15 @@ public class GraphToolsBarWidget extends WCompositeWidget {
 		WText spaceText = new WText(" ");
 		spaceText.setWidth(new WLength(10, Unit.Pixel));
 		return spaceText;
+	}
+	
+	
+	private String getDeploymentPath() {
+		if (this.deploymentPath == null) {
+			WApplication wApplication = WApplication.getInstance();
+			WEnvironment environment = wApplication.getEnvironment();
+			this.deploymentPath = environment.getDeploymentPath();
+		}
+		return this.deploymentPath;
 	}
 }
