@@ -179,6 +179,15 @@ public class ShowMenuOnRightClickBehavior extends AbstractEditorPartBehavior
         });
         aPopupMenu.add(delete);
         
+        show.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent event)
+            {
+                ShowMenuOnRightClickBehavior.this.editorPart.switchVisableOnSelectedNodes();
+            }
+        });
+        aPopupMenu.add(show);
+        
         selectAll.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent event)
@@ -225,6 +234,9 @@ public class ShowMenuOnRightClickBehavior extends AbstractEditorPartBehavior
 
     @ResourceBundleBean(key = "edit.delete")
     private JMenuItem delete;
+    
+    @ResourceBundleBean(key = "edit.show")
+    private JMenuItem show;
 
     @ResourceBundleBean(key = "edit.select_all")
     private JMenuItem selectAll;

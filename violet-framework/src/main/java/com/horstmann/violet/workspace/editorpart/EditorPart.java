@@ -26,6 +26,7 @@ import com.horstmann.violet.framework.util.nodeusage.NodeUsage;
 import com.horstmann.violet.framework.util.nodeusage.NodeUsagesFinder;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.editorpart.behavior.IEditorPartBehavior;
 import com.horstmann.violet.workspace.editorpart.enums.Direction;
@@ -189,6 +190,16 @@ public class EditorPart extends JPanel implements IEditorPart
         return nodeUsagesFinder.findNodesUsages(selectedNodes, allNodes);
     }
 
+	public void switchVisableOnSelectedNodes() {
+		List<INode> selectedNodes = selectionHandler.getSelectedNodes();
+		for (INode iNode : selectedNodes) {
+			if (iNode instanceof AbstractNode) {
+				AbstractNode abstractNode = (AbstractNode) iNode;
+				abstractNode.switchVisible();
+			}
+		}
+	}
+	
     @Override
     public List<INode> getSelectedNodes()
     {

@@ -92,6 +92,11 @@ public interface IEditorPart
      * @return list of node names with it's usages
      */
     List<NodeUsage> getSelectedNodesUsages();
+    
+    /**
+     * @return nodes with extra information or without.
+     */
+    public void switchVisableOnSelectedNodes();
 
     /**
      *  function align nodes to edge

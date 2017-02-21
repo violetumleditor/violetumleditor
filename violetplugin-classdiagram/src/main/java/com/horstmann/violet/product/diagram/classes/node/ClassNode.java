@@ -95,14 +95,16 @@ public class ClassNode extends ColorableNodeWithMethodsInfo implements INamedNod
         TextContent nameContent = new TextContent(name);
         nameContent.setMinHeight(MIN_NAME_HEIGHT);
         nameContent.setMinWidth(MIN_WIDTH);
-        TextContent attributesContent = new TextContent(attributes);
-        TextContent methodsContent = new TextContent(methods);
         TextContent commentContent = new TextContent(comment);
         VerticalLayout verticalGroupContent = new VerticalLayout();
         verticalGroupContent.add(nameContent);
-        verticalGroupContent.add(attributesContent);
-        verticalGroupContent.add(methodsContent);
         verticalGroupContent.add(commentContent);
+		if (VISIBLE_METHODS_AND_ATRIBUTES == true) {
+			TextContent attributesContent = new TextContent(attributes);
+			TextContent methodsContent = new TextContent(methods);
+			verticalGroupContent.add(attributesContent);
+			verticalGroupContent.add(methodsContent);
+		}
         separator = new Separator.LineSeparator(getBorderColor());
         verticalGroupContent.setSeparator(separator);
 
@@ -157,6 +159,16 @@ public class ClassNode extends ColorableNodeWithMethodsInfo implements INamedNod
         attributes.setText(memento.getSecondValue());
         methods.setText(memento.getThirdValue());
     }
+    
+	/**
+	 * Edit visible boolean parameter to opposite value.
+	 * And refers structure.
+	 */
+	@Override
+	public void switchVisible() {
+		VISIBLE_METHODS_AND_ATRIBUTES = !VISIBLE_METHODS_AND_ATRIBUTES;
+		createContentStructure();
+	}
 
     @Override
     public void replaceNodeOccurrences(String oldValue, String newValue) {
@@ -304,7 +316,9 @@ public class ClassNode extends ColorableNodeWithMethodsInfo implements INamedNod
 
     private static final int MIN_NAME_HEIGHT = 45;
     private static final int MIN_WIDTH = 100;
-    private static final String ABSTRACT = "«abstract»";
+    private boolean VISIBLE_METHODS_AND_ATRIBUTES = true;
+    private static final String STATIC = "\u00ABstatic\u00BB";
+    private static final String ABSTRACT = "\u00ABabstract\u00BB";
     private static final String HIDE= "hide ";
 
     private static final String[][] SIGNATURE_REPLACE_KEYS = {
