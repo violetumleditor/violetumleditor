@@ -47,7 +47,7 @@ import javax.swing.JPanel;
 
 // TODO: Auto-generated Javadoc
 /**
- * Graph editor.
+ * Graph editor
  */
 public class EditorPart extends JPanel implements IEditorPart
 {
@@ -133,6 +133,8 @@ public class EditorPart extends JPanel implements IEditorPart
      */
     public EditorPart(final IGraph aGraph)
     {
+        setFocusable(true);
+        requestFocusInWindow();
         this.graph = aGraph;
         this.zoom = 1;
         this.grid = new PlainGrid(this);
@@ -333,9 +335,6 @@ public class EditorPart extends JPanel implements IEditorPart
         selectionHandler.addSelectedElement(node);
     }
 
-    /* (non-Javadoc)
-     * @see com.horstmann.violet.workspace.editorpart.IEditorPart#zoomIn()
-     */
     @Override
     public void zoomIn()
     {
@@ -444,10 +443,8 @@ public class EditorPart extends JPanel implements IEditorPart
         repaint();
     }
 
-    /* (non-Javadoc)
-     * @see com.horstmann.violet.workspace.editorpart.IEditorPart#getSwingComponent()
-     */
     @Override
+
     public JComponent getSwingComponent()
     {
         return this;

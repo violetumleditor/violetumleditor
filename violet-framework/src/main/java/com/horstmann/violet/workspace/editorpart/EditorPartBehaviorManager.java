@@ -16,11 +16,13 @@ public class EditorPartBehaviorManager implements IEditorPartBehaviorManager
 
     private List<IEditorPartBehavior> behaviors = new ArrayList<IEditorPartBehavior>();
 
+    @Override
     public void addBehavior(IEditorPartBehavior newBehavior)
     {
         this.behaviors.add(newBehavior);
     }
 
+    @Override
     public List<IEditorPartBehavior> getBehaviors()
     {
         return this.behaviors;
@@ -179,35 +181,33 @@ public class EditorPartBehaviorManager implements IEditorPartBehaviorManager
         for (IEditorPartBehavior aBehavior : this.behaviors)
             aBehavior.onNodeSelected(node);
     }
-    
+
     @Override
     public void fireBeforeChangingTransitionPointsOnEdge(IEdge edge)
     {
         for (IEditorPartBehavior aBehavior : this.behaviors)
             aBehavior.beforeChangingTransitionPointsOnEdge(edge);
     }
-    
+
     @Override
     public void fireAfterChangingTransitionPointsOnEdge(IEdge edge)
     {
         for (IEditorPartBehavior aBehavior : this.behaviors)
             aBehavior.afterChangingTransitionPointsOnEdge(edge);
     }
-    
-    
+
     @Override
     public void fireBeforeChangingColorOnElement(IColorable element)
     {
         for (IEditorPartBehavior aBehavior : this.behaviors)
             aBehavior.beforeChangingColorOnElement(element);
     }
-    
+
     @Override
     public void fireAfterChangingColorOnElement(IColorable element)
     {
         for (IEditorPartBehavior aBehavior : this.behaviors)
             aBehavior.afterChangingColorOnElement(element);
     }
-    
-
 }
+

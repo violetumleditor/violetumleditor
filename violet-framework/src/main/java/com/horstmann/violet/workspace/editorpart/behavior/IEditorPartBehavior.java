@@ -9,6 +9,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
+import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 
 /**
  * Describes all editors events which can be listen to.
@@ -175,5 +177,10 @@ public interface IEditorPartBehavior
      * @param g2 painted graphic.
      */
     void onPaint(Graphics2D g2);
+    /**
+     * Action performed after keyboard key is pressed.
+     * @param event given KeyEvent.
+     */
+    void handleKeyEvent(KeyEvent event);
     
 }

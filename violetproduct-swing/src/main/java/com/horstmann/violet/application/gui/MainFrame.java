@@ -44,6 +44,8 @@ import com.horstmann.violet.product.diagram.property.LineStyleChoiceList;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.IWorkspaceListener;
 import com.horstmann.violet.workspace.Workspace;
+import com.horstmann.violet.workspace.WorkspacePanel;
+import com.horstmann.violet.workspace.IWorkspace.KeyListenerDelegate;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -52,6 +54,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.geom.Point2D;
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
@@ -59,6 +63,7 @@ import java.beans.Introspector;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -70,6 +75,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import static java.util.Objects.requireNonNull;
 /**
  * This desktop frame contains panes that show graphs.
  */
@@ -90,6 +96,7 @@ public class MainFrame extends JFrame implements IAutoSave
         setInitialSize();
         createMenuBar();
         startAutoSave();
+	    addKeyListener(MAIN_FRAME_KEY_LISTENER);
     }
 
     /**
@@ -303,10 +310,12 @@ public class MainFrame extends JFrame implements IAutoSave
         if (workspace != null && this.workspaceList.contains(workspace))
         {
             listenToWorkspaceEvents(workspace);
+            attachWorkspaceKeyListener(workspace);
             menuFactory.getDocumentMenu(this).updateMenuItem();
             setTitle(workspace.getTitle());
             this.activeWorkspace = workspace;
             tabbedPane.setSelectedComponent(workspace.getAWTComponent());
+
         }
     }
 
@@ -321,6 +330,12 @@ public class MainFrame extends JFrame implements IAutoSave
             this.tabbedPane.addChangeListener(new TabSwitchActionHandler());
             getContentPane().add(this.tabbedPane);
         }
+    }
+
+    private void attachWorkspaceKeyListener(IWorkspace activeWorkspace)
+    {
+        MAIN_FRAME_KEY_LISTENER
+                .setDelegate(activeWorkspace.getKeyListenerDelegate().orElseGet(BLANK_KEY_LISTENER_DELEGATE_SUPPLIER));
     }
 
     /**
@@ -535,4 +550,51 @@ public class MainFrame extends JFrame implements IAutoSave
 	public void reloadSettings() {
 		this.autoSave.reloadSettings();
 	}
+
+    private static class MainFrameKeyListener extends KeyAdapter
+    {
+        private KeyListenerDelegate workspaceKeyListenerDelegate;
+
+        public MainFrameKeyListener(KeyListenerDelegate keyListenerDelegate)
+        {
+            setDelegate(keyListenerDelegate);
+        }
+
+        @Override
+        public void keyPressed(KeyEvent event)
+        {
+            workspaceKeyListenerDelegate.handleKeyEvent(event);
+        }
+
+        public void setDelegate(KeyListenerDelegate keyListenerDelegate)
+        {
+            workspaceKeyListenerDelegate = requireNonNull(keyListenerDelegate);
+        }
+    }
+
+    private static final KeyListenerDelegate BLANK_KEY_LISTENER_DELEGATE = new KeyListenerDelegate()
+    {
+
+        @Override
+        public void handleKeyEvent(KeyEvent keyEvent)
+        {
+            // Do nothing by default
+        }
+    };
+
+    private static final MainFrameKeyListener MAIN_FRAME_KEY_LISTENER = new MainFrameKeyListener(
+            BLANK_KEY_LISTENER_DELEGATE);
+
+    /**
+     * Blank key listener delegate, when workspace doesn't provide one, doesn't
+     * do anything on key event
+     */
+    private static final Supplier<KeyListenerDelegate> BLANK_KEY_LISTENER_DELEGATE_SUPPLIER = new Supplier<KeyListenerDelegate>()
+    {
+        @Override
+        public KeyListenerDelegate get()
+        {
+            return BLANK_KEY_LISTENER_DELEGATE;
+        }
+    };
 }

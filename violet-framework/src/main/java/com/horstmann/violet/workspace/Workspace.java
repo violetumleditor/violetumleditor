@@ -21,6 +21,7 @@
 
 package com.horstmann.violet.workspace;
 
+
 import com.horstmann.violet.framework.file.IFile;
 import com.horstmann.violet.framework.file.IGraphFile;
 import com.horstmann.violet.framework.file.IGraphFileListener;
@@ -33,29 +34,7 @@ import com.horstmann.violet.product.diagram.abstracts.Id;
 import com.horstmann.violet.workspace.editorpart.EditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
-import com.horstmann.violet.workspace.editorpart.behavior.AddEdgeBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.AddNodeBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.AddTransitionPointBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.ChangeToolByWeelBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.ColorizeBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.CutCopyPasteBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.DragEditorPartBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.DragGraphBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.DragSelectedBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.DragTransitionPointBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.EditSelectedBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.FileCouldBeSavedBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.FindBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.RenameBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.ResizeNodeBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.SelectAllBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.SelectByClickBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.SelectByDistanceBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.SelectByLassoBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.ShowMenuOnRightClickBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.SwingRepaintingBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.UndoRedoCompoundBehavior;
-import com.horstmann.violet.workspace.editorpart.behavior.ZoomByWheelBehavior;
+import com.horstmann.violet.workspace.editorpart.behavior.*;
 import com.horstmann.violet.workspace.sidebar.ISideBar;
 import com.horstmann.violet.workspace.sidebar.SideBar;
 import com.horstmann.violet.workspace.sidebar.colortools.IColorChoiceBar;
@@ -67,6 +46,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.awt.event.KeyEvent;
+import java.util.Optional;
 
 /**
  * Diagram workspace. It is a kind of package composed by a diagram put in a scroll panel, a side bar for tools and a status bar.
@@ -173,6 +154,7 @@ public class Workspace implements IWorkspace
         final IGraphToolsBar graphToolsBar = this.getSideBar().getGraphToolsBar();
         final IColorChoiceBar colorChoiceBar = this.getSideBar().getColorChoiceBar();
 
+        behaviorManager.addBehavior(new MoveSelectedWithArrowKeysBehavior(this.getEditorPart()));
         behaviorManager.addBehavior(new SelectByLassoBehavior(this.graphEditor, graphToolsBar));
         behaviorManager.addBehavior(new SelectByClickBehavior(this.graphEditor, graphToolsBar));
         behaviorManager.addBehavior(new SelectByDistanceBehavior(this.graphEditor));
@@ -366,6 +348,24 @@ public class Workspace implements IWorkspace
     {
         this.workspacePanel = workspacePanel;
     }
+
+    @Override
+    public Optional<KeyListenerDelegate> getKeyListenerDelegate() {
+        return Optional.of(WORKSPACE_KEY_LISTENER_DELEGATE);
+    }
+
+    private final KeyListenerDelegate WORKSPACE_KEY_LISTENER_DELEGATE = new KeyListenerDelegate()
+    {
+        @Override
+        public void handleKeyEvent(KeyEvent keyEvent)
+        {
+            IEditorPartBehaviorManager behaviorManager = getEditorPart().getBehaviorManager();
+            for (IEditorPartBehavior editorPartBehaviour : behaviorManager.getBehaviors())
+            {
+                editorPartBehaviour.handleKeyEvent(keyEvent);
+            }
+        }
+    };
 
     public WorkspacePanel workspacePanel;
     private final IGraphFile graphFile;
