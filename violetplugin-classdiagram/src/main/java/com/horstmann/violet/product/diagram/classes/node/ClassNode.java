@@ -14,6 +14,7 @@ import com.horstmann.violet.framework.util.ThreeStringMemento;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.IRenameableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.ISwitchableNode;
+import com.horstmann.violet.product.diagram.abstracts.node.IVisibleNode;
 import com.horstmann.violet.product.diagram.classes.ClassDiagramConstant;
 import com.horstmann.violet.product.diagram.common.node.ColorableNodeWithMethodsInfo;
 import com.horstmann.violet.product.diagram.property.text.LineText;
@@ -33,7 +34,7 @@ import java.util.regex.Pattern;
 /**
  * A class node in a class diagram.
  */
-public class ClassNode extends ColorableNodeWithMethodsInfo implements INamedNode, IRevertableProperties, IRenameableNode, ISwitchableNode
+public class ClassNode extends ColorableNodeWithMethodsInfo implements INamedNode, IRevertableProperties, IRenameableNode, ISwitchableNode, IVisibleNode
 {
 
     public static boolean classNameChange = false;
@@ -116,15 +117,22 @@ public class ClassNode extends ColorableNodeWithMethodsInfo implements INamedNod
         TextContent nameContent = new TextContent(name);
         nameContent.setMinHeight(MIN_NAME_HEIGHT);
         nameContent.setMinWidth(MIN_WIDTH);
-        TextContent commentContent = new TextContent(comment);
         VerticalLayout verticalGroupContent = new VerticalLayout();
         verticalGroupContent.add(nameContent);
 		if (VISIBLE_METHODS_AND_ATRIBUTES == true) {
+	        TextContent commentContent = new TextContent(comment);
 			TextContent attributesContent = new TextContent(attributes);
 			TextContent methodsContent = new TextContent(methods);
 			verticalGroupContent.add(attributesContent);
 			verticalGroupContent.add(methodsContent);
             verticalGroupContent.add(commentContent);
+		} else {
+			if(!comment.getText().isEmpty() || !attributes.getText().isEmpty() || !methods.getText().isEmpty()){
+				MultiLineText hiddenText = new MultiLineText();
+				hiddenText.setText("\u2022\u2022\u2022");
+				TextContent hiddenContent = new TextContent(hiddenText);
+				verticalGroupContent.add(hiddenContent);
+			}
 		}
         separator = new Separator.LineSeparator(getBorderColor());
         verticalGroupContent.setSeparator(separator);

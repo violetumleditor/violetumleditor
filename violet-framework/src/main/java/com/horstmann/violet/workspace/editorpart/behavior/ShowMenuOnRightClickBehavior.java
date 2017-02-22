@@ -6,6 +6,7 @@ import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.ISwitchableNode;
+import com.horstmann.violet.product.diagram.abstracts.node.IVisibleNode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
@@ -66,6 +67,7 @@ public class ShowMenuOnRightClickBehavior extends AbstractEditorPartBehavior
             this.popupMenu = fillMenu(this.popupMenu);
         }
         this.popupMenu = updateConvertOptionMenu(this.popupMenu);
+        this.popupMenu = updateShowHideContentOptionMenu(this.popupMenu);
         return this.popupMenu;
     }
     
@@ -94,6 +96,35 @@ public class ShowMenuOnRightClickBehavior extends AbstractEditorPartBehavior
         }
         if(!isConvertVisible && beforeStatus!=isConvertVisible){
         	aPopupMenu.remove(convert);
+        }
+    	return aPopupMenu;
+    }
+    
+    /**
+     * Update show/hide content option menu - show button only when selected node has switchVisible option.
+     * @param aPopupMenu the JPopupMenu
+     * @return the JPopupMenu
+     */
+    private JPopupMenu updateShowHideContentOptionMenu(JPopupMenu aPopupMenu){
+    	boolean beforeStatus = isShowHideVisible;
+    	isShowHideVisible = false;
+        if(selectionHandler.isNodeSelectedAtLeast()){
+        	List<INode> selectedNodes = selectionHandler.getSelectedNodes();
+        	int ivisibleNodes = 0;
+        	for(INode node : selectedNodes){
+        		if(node instanceof IVisibleNode){
+        			ivisibleNodes++;
+        		}
+        	}
+        	if(ivisibleNodes==selectedNodes.size()){
+        		isShowHideVisible = true;
+        		if(beforeStatus != isShowHideVisible){
+                    aPopupMenu.add(show);
+        		}
+        	}
+        }
+        if(!isShowHideVisible && beforeStatus!=isShowHideVisible){
+        	aPopupMenu.remove(show);
         }
     	return aPopupMenu;
     }
@@ -225,7 +256,6 @@ public class ShowMenuOnRightClickBehavior extends AbstractEditorPartBehavior
                 ShowMenuOnRightClickBehavior.this.editorPart.switchVisableOnSelectedNodes();
             }
         });
-        aPopupMenu.add(show);
         
         selectAll.addActionListener(new ActionListener()
         {
@@ -285,6 +315,9 @@ public class ShowMenuOnRightClickBehavior extends AbstractEditorPartBehavior
     
     /* Status of convert button in popup menu */
     private boolean isConvertVisible = false;
+    
+    /* Status of show/hide content button in popup menu */
+    private boolean isShowHideVisible = false;
     
     private IEditorPart editorPart;
   

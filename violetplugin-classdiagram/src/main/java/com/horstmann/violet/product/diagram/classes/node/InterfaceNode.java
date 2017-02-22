@@ -8,6 +8,7 @@ import com.horstmann.violet.framework.util.MementoCaretaker;
 import com.horstmann.violet.framework.util.ThreeStringMemento;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.ISwitchableNode;
+import com.horstmann.violet.product.diagram.abstracts.node.IVisibleNode;
 import com.horstmann.violet.product.diagram.classes.ClassDiagramConstant;
 import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.common.node.ColorableNodeWithMethodsInfo;
@@ -24,7 +25,7 @@ import java.awt.geom.Point2D;
 /**
  * An interface node in a class diagram.
  */
-public class InterfaceNode extends ColorableNodeWithMethodsInfo implements INamedNode, IRevertableProperties, ISwitchableNode
+public class InterfaceNode extends ColorableNodeWithMethodsInfo implements INamedNode, IRevertableProperties, ISwitchableNode, IVisibleNode
 {
     /**
      * Construct an interface node with a default size and the text <<interface>>.
@@ -95,6 +96,13 @@ public class InterfaceNode extends ColorableNodeWithMethodsInfo implements IName
 		if (VISIBLE_METHODS_AND_ATRIBUTES == true) {
 			TextContent methodsContent = new TextContent(methods);
 			verticalGroupContent.add(methodsContent);
+		} else {
+			if(!methods.getText().isEmpty()){
+				MultiLineText hiddenText = new MultiLineText();
+				hiddenText.setText("\u2022\u2022\u2022");
+				TextContent hiddenContent = new TextContent(hiddenText);
+				verticalGroupContent.add(hiddenContent);
+			}
 		}
         separator = new Separator.LineSeparator(getBorderColor());
         verticalGroupContent.setSeparator(separator);
@@ -183,7 +191,7 @@ public class InterfaceNode extends ColorableNodeWithMethodsInfo implements IName
     private static final int MIN_WIDTH = 100;
     private boolean VISIBLE_METHODS_AND_ATRIBUTES = true;
     private static final String STATIC = "\u00ABstatic\u00BB";
-    private static final String HIDE= "hide ";
+    private static final String HIDE = "hide ";
 
     private static LineText.Converter nameConverter = new LineText.Converter()
     {

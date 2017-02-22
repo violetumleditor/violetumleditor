@@ -29,6 +29,7 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.ISwitchableNode;
+import com.horstmann.violet.product.diagram.abstracts.node.IVisibleNode;
 import com.horstmann.violet.workspace.editorpart.behavior.IEditorPartBehavior;
 import com.horstmann.violet.workspace.editorpart.enums.Direction;
 import javax.swing.*;
@@ -296,11 +297,13 @@ public class EditorPart extends JPanel implements IEditorPart
 	public void switchVisableOnSelectedNodes() {
 		List<INode> selectedNodes = selectionHandler.getSelectedNodes();
 		for (INode iNode : selectedNodes) {
-			if (iNode instanceof AbstractNode) {
-				AbstractNode abstractNode = (AbstractNode) iNode;
-				abstractNode.switchVisible();
+			if (iNode instanceof IVisibleNode) {
+				IVisibleNode visibleNode = (IVisibleNode) iNode;
+				visibleNode.switchVisible();
 			}
 		}
+		this.getSwingComponent().invalidate();
+		this.updateUI();
 	}
 	
     /* (non-Javadoc)
