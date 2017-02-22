@@ -1,6 +1,7 @@
 package com.horstmann.violet.application.gui;
 
-
+import com.horstmann.violet.application.autosave.AutoSave;
+import com.horstmann.violet.application.autosave.AutoSaveRecover;
 import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.file.GraphFile;
 import com.horstmann.violet.framework.file.IFile;
@@ -36,6 +37,8 @@ public class SplashFrame {
     private JButton btnOpenProject;
     private JButton btnOpenRecent;
     private JButton btnRecentProject;
+    private JButton btnOpenAutosaveProject;
+
 
     private JButton btnClassDiagram;
     private JButton btnComunicationDiagram;
@@ -53,6 +56,7 @@ public class SplashFrame {
     private CardLayout cardLayout = new CardLayout();
     private JFrame frame = new JFrame();
     private List<IDiagramPlugin> diagramPlugins;
+    private int tableSize=3;
 
     /**
      * Constructs frame with 3 buttons to create/open or open recent project.
@@ -72,6 +76,7 @@ public class SplashFrame {
         btnNewProject = new JButton(btnNameNewProject);
         btnOpenProject = new JButton(btnNameOpenProject);
         btnOpenRecent = new JButton(btnNameOpenRecent);
+        btnOpenAutosaveProject = new JButton(btnNameOpenAutosave);
 
         btnActivityDiagram = new JButton(btnNameActivityDiagram);
         btnClassDiagram = new JButton(btnNameClassDiagram);
@@ -91,10 +96,18 @@ public class SplashFrame {
         viewsPanel.setLayout(new GridLayout(7, 1));
 
         welcomePanel = new JPanel();
-        welcomePanel.setLayout(new GridLayout(3, 1));
+
         welcomePanel.add(btnNewProject);
         welcomePanel.add(btnOpenProject);
         welcomePanel.add(btnOpenRecent);
+
+
+        if (AutoSave.isAutoSave) {
+            welcomePanel.add(btnOpenAutosaveProject);
+            tableSize=4;
+        }
+        welcomePanel.setLayout(new GridLayout(tableSize, 1));
+
 
         mainPanel.add(welcomePanel, "mainPanelView");
         mainPanel.add(openRecentPanel, "recentPanelView");
@@ -135,6 +148,17 @@ public class SplashFrame {
                 }
 
 
+            }
+        });
+
+        /**
+         * Opens AutoSave project.
+         */
+        btnOpenAutosaveProject.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                new AutoSaveRecover(mainFrame);
+                frame.dispose();
             }
         });
 
@@ -306,6 +330,9 @@ public class SplashFrame {
 
     @ResourceBundleBean(key = "nameBtnOpenRecent")
     private String btnNameOpenRecent;
+
+    @ResourceBundleBean(key = "recover")
+    private String btnNameOpenAutosave;
 
     @ResourceBundleBean(key = "nameBtnActivityDiagram")
     private String btnNameActivityDiagram;

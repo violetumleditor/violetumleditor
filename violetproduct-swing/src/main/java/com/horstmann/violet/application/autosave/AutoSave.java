@@ -17,6 +17,7 @@ public class AutoSave implements ActionListener
 	private int saveInterval;
 	private boolean autoSaveEnabled;
 	private String autoSaveDirectory;
+	public static boolean isAutoSave;
 
 
     /**
@@ -71,7 +72,7 @@ public class AutoSave implements ActionListener
             if (files.length == 0)
                 return;
 
-            new AutoSaveRecover(mainFrame);
+            isAutoSave=true;
 
         }
     }

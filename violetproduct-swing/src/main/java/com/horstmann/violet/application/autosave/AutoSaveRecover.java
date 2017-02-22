@@ -28,15 +28,6 @@ public class AutoSaveRecover extends JFrame
     private MainFrame mainFrame;
     private AutoSave autoSave = new AutoSave(mainFrame);
 
-    @ResourceBundleBean(key = "dialog.autosave.title")
-    private String saveRecoverFrameTitle;
-
-    @ResourceBundleBean(key = "dialog.autosave.recover")
-    private String buttonRecovery;
-
-    @ResourceBundleBean(key = "dialog.autosave.startnew")
-    private String buttonNew;
-
     /**
      * Open autosave frame
      */
@@ -44,71 +35,9 @@ public class AutoSaveRecover extends JFrame
     {
 
         this.mainFrame = mainFrame;
-
-        ResourceBundleInjector.getInjector().inject(this);
-        ManiocFramework.BeanInjector.getInjector().inject(this);
-        this.setTitle(this.saveRecoverFrameTitle);
-        this.setLocationRelativeTo(null);
-        this.setAlwaysOnTop(true);
-        this.setResizable(false);
-        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        this.getContentPane().setLayout(new BorderLayout());
-
-        JPanel buttonPanel = getButtonPanel();
-        this.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
-        this.pack();
-        this.setVisible(true);
-        setLocation();
+        loadAutoSaveFile();
     }
-
-    private JPanel getButtonPanel()
-    {
-
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-
-
-        JButton buttonRecovery = new JButton(this.buttonRecovery);
-        buttonRecovery.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                loadAutoSaveFile();
-                dispose();
-
-            }
-        }
-        );
-
-        JButton buttonNew = new JButton(this.buttonNew);
-        buttonNew.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                removeAutoSaveFile();
-                dispose();
-
-            }
-        }
-        );
-        this.getRootPane().setDefaultButton(buttonNew);
-        buttonPanel.add(buttonNew);
-        buttonPanel.add(buttonRecovery);
-        return buttonPanel;
-    }
-
-    /**
-     * Set JFrame position
-     */
-    private void setLocation()
-    {
-        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-
-        int w = this.getSize().width;
-        int h = this.getSize().height;
-        int x = (dimension.width - w) / 2;
-        int y = (dimension.height - h) / 2;
-        this.setLocation(x, y);
-    }
-
+    
     /**
      * Load autosave file
      */
