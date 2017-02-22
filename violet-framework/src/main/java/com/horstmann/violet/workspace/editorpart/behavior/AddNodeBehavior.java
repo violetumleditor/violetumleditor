@@ -41,16 +41,11 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior implements IGrap
     }
 
     @Override
-    public void onMouseClicked(MouseEvent event)
+    public void onMouseReleased(MouseEvent event)
     {
-        this.draggedNode = null;
+    	this.draggedNode = null;
 
-        if (event.getClickCount() > 1)
-        {
-            return;
-        }
-        if (event.getButton() != MouseEvent.BUTTON1)
-        {
+        if (event.getButton() != MouseEvent.BUTTON1) {
             return;
         }
         if (GraphTool.SELECTION_TOOL.equals(this.graphToolsBar.getSelectedTool()))
@@ -202,7 +197,6 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior implements IGrap
             {
                 moveDraggedNode(outEvent);
             }
-
             this.draggedNode = null;
         }
     }
