@@ -13,6 +13,7 @@ import com.horstmann.violet.framework.util.MementoCaretaker;
 import com.horstmann.violet.framework.util.ThreeStringMemento;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.IRenameableNode;
+import com.horstmann.violet.product.diagram.abstracts.node.ISwitchableNode;
 import com.horstmann.violet.product.diagram.classes.ClassDiagramConstant;
 import com.horstmann.violet.product.diagram.common.node.ColorableNodeWithMethodsInfo;
 import com.horstmann.violet.product.diagram.property.text.LineText;
@@ -32,7 +33,7 @@ import java.util.regex.Pattern;
 /**
  * A class node in a class diagram.
  */
-public class ClassNode extends ColorableNodeWithMethodsInfo implements INamedNode, IRevertableProperties, IRenameableNode
+public class ClassNode extends ColorableNodeWithMethodsInfo implements INamedNode, IRevertableProperties, IRenameableNode, ISwitchableNode
 {
 
     public static boolean classNameChange = false;
@@ -58,6 +59,21 @@ public class ClassNode extends ColorableNodeWithMethodsInfo implements INamedNod
         methods = node.methods.clone();
         comment=node.comment.clone();
         createContentStructure();
+    }
+    
+    /**
+     * Construct an class node from interface node
+     * @param the interface node
+     * @throws CloneNotSupportedException 
+     */
+    public ClassNode(InterfaceNode node) throws CloneNotSupportedException
+    {
+        super(node);
+        name = (SingleLineText) node.getName().clone();
+        name.reconstruction(NAME_CONVERTER);
+        attributes = new MultiLineText();
+        methods = (MultiLineText) node.getMethods().clone();
+        comment = new MultiLineText();
     }
 
     @Override
@@ -146,7 +162,18 @@ public class ClassNode extends ColorableNodeWithMethodsInfo implements INamedNod
     {
         return ClassDiagramConstant.CLASS_DIAGRAM_RESOURCE.getString("tooltip.class_node");
     }
-
+    
+    /**
+     * Converts class node to interface node
+     */
+	@Override
+	public INode switchNode() {
+		try {
+			return new InterfaceNode(this);
+		} catch (CloneNotSupportedException e) {
+			return null;
+		}
+	}
 
     private final MementoCaretaker<ThreeStringMemento> caretaker = new MementoCaretaker<ThreeStringMemento>();
 
@@ -322,6 +349,7 @@ public class ClassNode extends ColorableNodeWithMethodsInfo implements INamedNod
     private static final int MIN_NAME_HEIGHT = 45;
     private static final int MIN_WIDTH = 100;
     private boolean VISIBLE_METHODS_AND_ATRIBUTES = true;
+    private static final String INTERFACE = "<center>\u00ABinterface\u00BB</center>";
     private static final String STATIC = "\u00ABstatic\u00BB";
     private static final String ABSTRACT = "\u00ABabstract\u00BB";
     private static final String HIDE= "hide ";
@@ -336,15 +364,15 @@ public class ClassNode extends ColorableNodeWithMethodsInfo implements INamedNod
     };
 
     private static final List<String> STEREOTYPES = Arrays.asList(
-            "«Utility»",
-            "«Type»",
-            "«Metaclass»",
-            "«ImplementationClass»",
-            "«Focus»",
-            "«Entity»",
-            "«Control»",
-            "«Boundary»",
-            "«Auxiliary»",
+            "\u00ABUtility\u00BB",
+            "\u00ABType\u00BB",
+            "\u00ABMetaclass\u00BB",
+            "\u00ABImplementationClass\u00BB",
+            "\u00ABFocus\u00BB",
+            "\u00ABEntity\u00BB",
+            "\u00ABControl\u00BB",
+            "\u00ABBoundary\u00BB",
+            "\u00ABAuxiliary\u00BB",
             ABSTRACT,
             HIDE
     );
@@ -357,6 +385,11 @@ public class ClassNode extends ColorableNodeWithMethodsInfo implements INamedNod
             OneLineText controlText = new OneLineText(text);
             OneLineText lineString = new LargeSizeDecorator(controlText);
 
+            if(controlText.contains(INTERFACE))
+            {
+                lineString = new RemoveSentenceDecorator(lineString, INTERFACE);
+            }
+            
             if(controlText.contains(ABSTRACT))
             {
                 lineString = new ItalicsDecorator(lineString);

@@ -28,17 +28,23 @@ import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.abstracts.node.ISwitchableNode;
 import com.horstmann.violet.workspace.editorpart.behavior.IEditorPartBehavior;
 import com.horstmann.violet.workspace.editorpart.enums.Direction;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+// TODO: Auto-generated Javadoc
 /**
  * Graph editor.
  */
@@ -90,6 +96,27 @@ public class EditorPart extends JPanel implements IEditorPart
      */
     private double zoom;
 
+	/** The resource bundle with lang locale. */
+	private ResourceBundle resourceBundle = ResourceBundle.getBundle("properties.NodeAndEdgeStrings", Locale.getDefault());
+	
+	/** The convert warn yes text. */
+	private final String CONVERT_WARN_YES = resourceBundle.getString("convert.warn.yes");
+	
+	/** The convert warn no text. */
+	private final String CONVERT_WARN_NO = resourceBundle.getString("convert.warn.no");
+	
+	/** The convert warn text. */
+	private final String CONVERT_WARN_TEXT = resourceBundle.getString("convert.warn.text");
+	
+	/** The convert warn title text. */
+	private final String CONVERT_WARN_TITLE = resourceBundle.getString("convert.warn.title");
+
+	/** The convert error text. */
+	private final String CONVERT_ERROR_TEXT = resourceBundle.getString("convert.error.text");
+	
+	/** The convert error title text. */
+	private final String CONVERT_ERROR_TITLE = resourceBundle.getString("convert.error.title");
+    
     static
     {
         GROW_FACTOR = Double.parseDouble(ResourceBundleConstant.EDITOR_RESOURCE.getString("editorPart.grow.factor"));
@@ -99,7 +126,7 @@ public class EditorPart extends JPanel implements IEditorPart
     }
 
     /**
-     * Default constructor
+     * Default constructor.
      *
      * @param aGraph graph which will be drawn in this editor part
      */
@@ -158,12 +185,18 @@ public class EditorPart extends JPanel implements IEditorPart
         setDoubleBuffered(false);
     }
 
+    /* (non-Javadoc)
+     * @see com.horstmann.violet.workspace.editorpart.IEditorPart#getGraph()
+     */
     @Override
     public IGraph getGraph()
     {
         return this.graph;
     }
 
+    /* (non-Javadoc)
+     * @see com.horstmann.violet.workspace.editorpart.IEditorPart#removeSelected()
+     */
     @Override
     public void removeSelected()
     {
@@ -181,6 +214,72 @@ public class EditorPart extends JPanel implements IEditorPart
         }
     }
 
+    /*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.horstmann.violet.framework.display.clipboard.IEditorPart#
+	 * convertSelected()
+	 */
+	public void convertSelected() {
+		String[] options = new String[] {CONVERT_WARN_YES, CONVERT_WARN_NO};
+	    int response = JOptionPane.showOptionDialog(null, CONVERT_WARN_TEXT, CONVERT_WARN_TITLE,
+	        JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
+	        null, options, options[0]);
+	    if(response!=0){
+	    	return;
+	    }
+	    
+	    List<INode> selectedNodes = selectionHandler.getSelectedNodes();
+		this.behaviorManager.fireBeforeRemovingSelectedElements();
+		
+		for (INode node : selectedNodes) {
+			if (node instanceof ISwitchableNode) {
+				ISwitchableNode switchableNode = (ISwitchableNode) node;
+				INode convertedNode = switchableNode.switchNode();
+				if (convertedNode != null) {
+					graph.removeNode(node);
+					addNodeAtPoint(convertedNode, node.getLocationOnGraph());
+				} else {
+					JOptionPane.showMessageDialog(this,
+							CONVERT_ERROR_TEXT,
+							CONVERT_ERROR_TITLE,
+						    JOptionPane.ERROR_MESSAGE);
+					System.exit(-1);
+				}
+			}
+		}
+		this.selectionHandler.clearSelection();
+
+		this.behaviorManager.fireAfterRemovingSelectedElements();
+		
+		this.getSwingComponent().invalidate();
+	}
+	
+	/**
+	 * Adding specified node at location on graph
+	 * @param node
+	 * @param location
+	 * @return true if everything succeed
+	 */
+    private void addNodeAtPoint(INode node, Point2D location)
+    {
+        this.behaviorManager.fireBeforeAddingNodeAtPoint(node, location);
+        try
+        {
+            if (graph.addNode(node, location))
+            {
+                node.incrementRevision();
+            }
+        }
+        finally
+        {
+            this.behaviorManager.fireAfterAddingNodeAtPoint(node, location);
+        }
+    }
+    
+    /* (non-Javadoc)
+     * @see com.horstmann.violet.workspace.editorpart.IEditorPart#getSelectedNodesUsages()
+     */
     @Override
     public List<NodeUsage> getSelectedNodesUsages()
     {
@@ -191,6 +290,9 @@ public class EditorPart extends JPanel implements IEditorPart
         return nodeUsagesFinder.findNodesUsages(selectedNodes, allNodes);
     }
 
+	/* (non-Javadoc)
+	 * @see com.horstmann.violet.workspace.editorpart.IEditorPart#switchVisableOnSelectedNodes()
+	 */
 	public void switchVisableOnSelectedNodes() {
 		List<INode> selectedNodes = selectionHandler.getSelectedNodes();
 		for (INode iNode : selectedNodes) {
@@ -201,24 +303,36 @@ public class EditorPart extends JPanel implements IEditorPart
 		}
 	}
 	
+    /* (non-Javadoc)
+     * @see com.horstmann.violet.workspace.editorpart.IEditorPart#getSelectedNodes()
+     */
     @Override
     public List<INode> getSelectedNodes()
     {
         return selectionHandler.getSelectedNodes();
     }
 
+    /* (non-Javadoc)
+     * @see com.horstmann.violet.workspace.editorpart.IEditorPart#clearSelection()
+     */
     @Override
     public void clearSelection()
     {
         selectionHandler.clearSelection();
     }
 
+    /* (non-Javadoc)
+     * @see com.horstmann.violet.workspace.editorpart.IEditorPart#selectElement(com.horstmann.violet.product.diagram.abstracts.node.INode)
+     */
     @Override
     public void selectElement(final INode node)
     {
         selectionHandler.addSelectedElement(node);
     }
 
+    /* (non-Javadoc)
+     * @see com.horstmann.violet.workspace.editorpart.IEditorPart#zoomIn()
+     */
     @Override
     public void zoomIn()
     {
@@ -231,6 +345,9 @@ public class EditorPart extends JPanel implements IEditorPart
         repaint();
     }
 
+    /* (non-Javadoc)
+     * @see com.horstmann.violet.workspace.editorpart.IEditorPart#zoomOut()
+     */
     @Override
     public void zoomOut()
     {
@@ -244,6 +361,9 @@ public class EditorPart extends JPanel implements IEditorPart
 
     }
 
+    /* (non-Javadoc)
+     * @see javax.swing.JComponent#getPreferredSize()
+     */
     @Override
     public Dimension getPreferredSize()
     {
@@ -261,6 +381,12 @@ public class EditorPart extends JPanel implements IEditorPart
         return clipBounds.getBounds().getSize();
     }
 
+    /**
+     * Calculate zoomed bounds.
+     *
+     * @param bounds the bounds
+     * @return the rectangle 2 D
+     */
     private Rectangle2D calculateZoomedBounds(final Rectangle2D bounds)
     {
 
@@ -271,18 +397,27 @@ public class EditorPart extends JPanel implements IEditorPart
         return new Rectangle(width, height);
     }
 
+    /* (non-Javadoc)
+     * @see com.horstmann.violet.workspace.editorpart.IEditorPart#getZoomFactor()
+     */
     @Override
     public double getZoomFactor()
     {
         return this.zoom;
     }
 
+    /* (non-Javadoc)
+     * @see com.horstmann.violet.workspace.editorpart.IEditorPart#getGrid()
+     */
     @Override
     public IGrid getGrid()
     {
         return this.grid;
     }
 
+    /* (non-Javadoc)
+     * @see com.horstmann.violet.workspace.editorpart.IEditorPart#growDrawingArea()
+     */
     @Override
     public void growDrawingArea()
     {
@@ -294,6 +429,9 @@ public class EditorPart extends JPanel implements IEditorPart
         repaint();
     }
 
+    /* (non-Javadoc)
+     * @see com.horstmann.violet.workspace.editorpart.IEditorPart#clipDrawingArea()
+     */
     @Override
     public void clipDrawingArea()
     {
@@ -303,12 +441,18 @@ public class EditorPart extends JPanel implements IEditorPart
         repaint();
     }
 
+    /* (non-Javadoc)
+     * @see com.horstmann.violet.workspace.editorpart.IEditorPart#getSwingComponent()
+     */
     @Override
     public JComponent getSwingComponent()
     {
         return this;
     }
 
+    /* (non-Javadoc)
+     * @see javax.swing.JComponent#paintImmediately(int, int, int, int)
+     */
     @Override
     public void paintImmediately(final int x, final int y, final int w, final int h)
     {
@@ -316,6 +460,9 @@ public class EditorPart extends JPanel implements IEditorPart
         super.paintImmediately(x, y, w, h);
     }
 
+    /* (non-Javadoc)
+     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+     */
     @Override
     protected void paintComponent(final Graphics g)
     {
@@ -340,18 +487,30 @@ public class EditorPart extends JPanel implements IEditorPart
         }
     }
 
+    /* (non-Javadoc)
+     * @see com.horstmann.violet.workspace.editorpart.IEditorPart#getSelectionHandler()
+     */
     @Override
     public IEditorPartSelectionHandler getSelectionHandler()
     {
         return this.selectionHandler;
     }
 
+    /* (non-Javadoc)
+     * @see com.horstmann.violet.workspace.editorpart.IEditorPart#getBehaviorManager()
+     */
     @Override
     public IEditorPartBehaviorManager getBehaviorManager()
     {
         return this.behaviorManager;
     }
 
+    /**
+     * Removes the.
+     *
+     * @param nodes the nodes
+     * @param edges the edges
+     */
     private void remove(final List<INode> nodes, final List<IEdge> edges)
     {
         final IEdge[] edgesArray = edges.toArray(new IEdge[edges.size()]);
@@ -360,6 +519,9 @@ public class EditorPart extends JPanel implements IEditorPart
         graph.removeEdge(edgesArray);
     }
 
+    /* (non-Javadoc)
+     * @see com.horstmann.violet.workspace.editorpart.IEditorPart#align(com.horstmann.violet.workspace.editorpart.enums.Direction)
+     */
     @Override
     public void align(Direction direction){
         Align align = new Align();

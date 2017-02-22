@@ -7,6 +7,7 @@ import com.horstmann.violet.framework.dialog.IRevertableProperties;
 import com.horstmann.violet.framework.util.MementoCaretaker;
 import com.horstmann.violet.framework.util.ThreeStringMemento;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.abstracts.node.ISwitchableNode;
 import com.horstmann.violet.product.diagram.classes.ClassDiagramConstant;
 import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.common.node.ColorableNodeWithMethodsInfo;
@@ -23,7 +24,7 @@ import java.awt.geom.Point2D;
 /**
  * An interface node in a class diagram.
  */
-public class InterfaceNode extends ColorableNodeWithMethodsInfo implements INamedNode, IRevertableProperties
+public class InterfaceNode extends ColorableNodeWithMethodsInfo implements INamedNode, IRevertableProperties, ISwitchableNode
 {
     /**
      * Construct an interface node with a default size and the text <<interface>>.
@@ -43,6 +44,19 @@ public class InterfaceNode extends ColorableNodeWithMethodsInfo implements IName
         name = node.name.clone();
         methods = node.methods.clone();
         createContentStructure();
+    }
+    
+    /**
+     * Construct an interface node from class node
+     * @param the class node
+     * @throws CloneNotSupportedException 
+     */
+    public InterfaceNode(ClassNode node) throws CloneNotSupportedException
+    {
+        super(node);
+        name = (SingleLineText) node.getName();
+        name.reconstruction(nameConverter);
+        methods = (MultiLineText) node.getMethods();
     }
 
     @Override
@@ -91,6 +105,18 @@ public class InterfaceNode extends ColorableNodeWithMethodsInfo implements IName
         setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
         setContent(getBackground());
     }
+    
+    /**
+     * Converts interface node to class node
+     */
+	@Override
+	public INode switchNode() {
+		try {
+			return new ClassNode(this);
+		} catch (CloneNotSupportedException e) {
+			return null;
+		}
+	}
 
 	/**
 	 * Edit visible boolean parameter to opposite value. And refers structure.

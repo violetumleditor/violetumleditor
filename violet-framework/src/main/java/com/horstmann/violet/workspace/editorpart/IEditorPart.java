@@ -27,6 +27,11 @@ public interface IEditorPart
     void removeSelected();
 
     /**
+     * Converts the selected nodes to specified types (class or interface).
+     */
+    public abstract void convertSelected();
+    
+    /**
      * @return currently selected node
      */
     List<INode> getSelectedNodes();

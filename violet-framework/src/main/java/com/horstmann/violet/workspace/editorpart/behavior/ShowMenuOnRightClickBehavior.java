@@ -5,6 +5,7 @@ import com.horstmann.violet.framework.injection.resources.annotation.ResourceBun
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.abstracts.node.ISwitchableNode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
@@ -64,7 +65,37 @@ public class ShowMenuOnRightClickBehavior extends AbstractEditorPartBehavior
             this.popupMenu = new JPopupMenu();
             this.popupMenu = fillMenu(this.popupMenu);
         }
+        this.popupMenu = updateConvertOptionMenu(this.popupMenu);
         return this.popupMenu;
+    }
+    
+    /**
+     * Update convert option menu - show button only when selected node has convert option.
+     * @param aPopupMenu the JPopupMenu
+     * @return the JPopupMenu
+     */
+    private JPopupMenu updateConvertOptionMenu(JPopupMenu aPopupMenu){
+    	boolean beforeStatus = isConvertVisible;
+    	isConvertVisible = false;
+        if(selectionHandler.isNodeSelectedAtLeast()){
+        	List<INode> selectedNodes = selectionHandler.getSelectedNodes();
+        	int switchableNodes = 0;
+        	for(INode node : selectedNodes){
+        		if(node instanceof ISwitchableNode){
+        			switchableNodes++;
+        		}
+        	}
+        	if(switchableNodes==selectedNodes.size()){
+        		isConvertVisible = true;
+        		if(beforeStatus != isConvertVisible){
+                    aPopupMenu.add(convert);
+        		}
+        	}
+        }
+        if(!isConvertVisible && beforeStatus!=isConvertVisible){
+        	aPopupMenu.remove(convert);
+        }
+    	return aPopupMenu;
     }
     
     /**
@@ -113,6 +144,14 @@ public class ShowMenuOnRightClickBehavior extends AbstractEditorPartBehavior
             }
         });
         aPopupMenu.add(properties);
+        
+        convert.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent event)
+            {
+            	ShowMenuOnRightClickBehavior.this.editorPart.convertSelected();
+            }
+        });
 
         cut.addActionListener(new ActionListener()
         {
@@ -219,6 +258,9 @@ public class ShowMenuOnRightClickBehavior extends AbstractEditorPartBehavior
 
     @ResourceBundleBean(key = "edit.properties")
     private JMenuItem properties;
+    
+    @ResourceBundleBean(key = "edit.convert")
+    private JMenuItem convert;
 
     @ResourceBundleBean(key = "edit.cut")
     private JMenuItem cut;
@@ -241,7 +283,9 @@ public class ShowMenuOnRightClickBehavior extends AbstractEditorPartBehavior
     @ResourceBundleBean(key = "edit.select_all")
     private JMenuItem selectAll;
     
+    /* Status of convert button in popup menu */
+    private boolean isConvertVisible = false;
+    
     private IEditorPart editorPart;
-
   
 }
