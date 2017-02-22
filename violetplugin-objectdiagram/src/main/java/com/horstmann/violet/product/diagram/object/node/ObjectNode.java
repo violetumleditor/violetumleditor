@@ -36,6 +36,7 @@ import com.horstmann.violet.framework.util.MementoCaretaker;
 import com.horstmann.violet.framework.util.ThreeStringMemento;
 
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.INamedNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 
 import com.horstmann.violet.product.diagram.common.node.ColorableNode;
@@ -45,7 +46,7 @@ import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 import com.horstmann.violet.product.diagram.property.text.decorator.*;
 
-public class ObjectNode extends ColorableNode implements IRevertableProperties
+public class ObjectNode extends ColorableNode implements IRevertableProperties, INamedNode
 {
     public ObjectNode()
     {

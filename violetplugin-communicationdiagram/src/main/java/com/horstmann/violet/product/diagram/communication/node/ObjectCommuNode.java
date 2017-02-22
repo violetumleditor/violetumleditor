@@ -16,6 +16,7 @@ import com.horstmann.violet.framework.graphics.content.ContentBorder;
 import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
 import com.horstmann.violet.framework.graphics.content.TextContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
+import com.horstmann.violet.product.diagram.abstracts.node.INamedNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.communication.CommunicationDiagramConstant;
@@ -32,7 +33,7 @@ import java.awt.*;
  * @author Alexandre de Pellegrin / Cays S. Horstmann
  *
  */
-public class ObjectCommuNode extends ColorableNode implements IRevertableProperties
+public class ObjectCommuNode extends ColorableNode implements IRevertableProperties, INamedNode
 {
 	public ObjectCommuNode()
 	{

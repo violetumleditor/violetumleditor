@@ -33,6 +33,7 @@ import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.framework.util.ThreeStringMemento;
 import com.horstmann.violet.framework.util.MementoCaretaker;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.INamedNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.object.ObjectDiagramConstant;
@@ -44,7 +45,7 @@ import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 /**
  * A field node_old in an object diagram.
  */
-public class FieldNode extends ColorableNode implements IRevertableProperties
+public class FieldNode extends ColorableNode implements IRevertableProperties, INamedNode
 {
     /**
      * Default constructor

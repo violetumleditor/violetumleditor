@@ -7,6 +7,7 @@ import com.horstmann.violet.framework.util.ThreeStringMemento;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
+import com.horstmann.violet.product.diagram.abstracts.node.INamedNode;
 import com.horstmann.violet.framework.dialog.IRevertableProperties;
 import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
@@ -23,7 +24,7 @@ import java.awt.geom.Point2D;
 /**
  * A package node in a class diagram.
  */
-public class PackageNode extends ColorableNode implements IRevertableProperties
+public class PackageNode extends ColorableNode implements INamedNode, IRevertableProperties
 {
     public PackageNode()
     {

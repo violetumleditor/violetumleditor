@@ -28,6 +28,7 @@ import com.horstmann.violet.framework.graphics.content.TextContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.INamedNode;
 import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.component.ComponentDiagramConstant;
 import com.horstmann.violet.product.diagram.property.text.LineText;
@@ -40,7 +41,7 @@ import java.awt.geom.Point2D;
 /**
  * A component node in a UML diagram.
  */
-public class ComponentNode extends ColorableNode
+public class ComponentNode extends ColorableNode implements INamedNode
 {
     /**
      * Construct a component node with a default size and color
