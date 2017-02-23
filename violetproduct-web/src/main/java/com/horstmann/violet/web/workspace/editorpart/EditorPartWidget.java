@@ -26,6 +26,9 @@ import eu.webtoolkit.jwt.WPaintDevice;
 import eu.webtoolkit.jwt.WPaintedWidget;
 import eu.webtoolkit.jwt.WPainter;
 import eu.webtoolkit.jwt.WPainterPath;
+import eu.webtoolkit.jwt.WFont.GenericFamily;
+import eu.webtoolkit.jwt.WFont.Size;
+import eu.webtoolkit.jwt.WFont.Style;
 
 public class EditorPartWidget extends WPaintedWidget {
 
@@ -35,14 +38,12 @@ public class EditorPartWidget extends WPaintedWidget {
 	private int mouseDragGapY = 0;
 
 	private MouseEvent lastMouseEvent;
-	private boolean isDragDetected = false; // Used to avoid 'clicked' event after 'dragged" event
 
 	public EditorPartWidget(IEditorPart editorPart) {
-		setWidth(new WLength(100, Unit.Percentage));
-		setHeight(new WLength(100, Unit.Percentage));
+		setPreferredMethod(Method.HtmlCanvas);
 		this.editorPart = editorPart;
 		final IGrid grid = editorPart.getGrid();
-		//grid.setVisible(false);
+		grid.setVisible(false);
 		this.editorPart.getGraph().setGridSticker(grid.getGridSticker());
 		final IEditorPartBehaviorManager behaviorManager = editorPart.getBehaviorManager();
 		
@@ -63,7 +64,6 @@ public class EditorPartWidget extends WPaintedWidget {
 					mouseDragGapY = deltaY;
 				}
 				lastMouseEvent = mouseEvent;
-				isDragDetected = true;
 			}
 		});
 		mouseWentDown().addListener(this, new Signal1.Listener<WMouseEvent>() {
@@ -96,10 +96,6 @@ public class EditorPartWidget extends WPaintedWidget {
 		clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
 			@Override
 			public void trigger(WMouseEvent event) {
-				if (isDragDetected) {
-					isDragDetected = false;
-					return;
-				}
 				MouseEvent mouseEvent = convertMouseEvent(event, MouseEvent.MOUSE_CLICKED, 1, EditorPartWidget.this.editorPart.getSwingComponent());
 				if (lastMouseEvent != null && isSameEvent(lastMouseEvent, mouseEvent)) {
 					return;

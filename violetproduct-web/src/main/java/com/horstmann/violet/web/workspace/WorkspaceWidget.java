@@ -66,7 +66,6 @@ public class WorkspaceWidget extends WContainerWidget {
 			this.editorPartWidget = new EditorPartWidget(editorPart);
 			this.editorPartWidget.setWidth(new WLength(100, Unit.Percentage));
 			this.editorPartWidget.setHeight(new WLength(100, Unit.Percentage));
-			
 		}
 		return this.editorPartWidget;
 	}
@@ -76,8 +75,8 @@ public class WorkspaceWidget extends WContainerWidget {
 		if (this.editorPartScrollArea == null) {
 			this.editorPartScrollArea = new WScrollArea();
 			this.editorPartScrollArea.setWidget(getEditorPartWidget());
-			this.editorPartScrollArea.setHorizontalScrollBarPolicy(ScrollBarPolicy.ScrollBarAsNeeded);
-			this.editorPartScrollArea.setVerticalScrollBarPolicy(ScrollBarPolicy.ScrollBarAsNeeded);
+			this.editorPartScrollArea.setHorizontalScrollBarPolicy(ScrollBarPolicy.ScrollBarAlwaysOff);
+			this.editorPartScrollArea.setVerticalScrollBarPolicy(ScrollBarPolicy.ScrollBarAlwaysOff);
 			this.editorPartScrollArea.setWidth(new WLength(100, Unit.Percentage));
 			this.editorPartScrollArea.setHeight(new WLength(100, Unit.Percentage));
 		}

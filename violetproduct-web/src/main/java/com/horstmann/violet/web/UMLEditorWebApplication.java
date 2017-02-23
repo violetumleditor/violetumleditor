@@ -71,7 +71,9 @@ public class UMLEditorWebApplication extends WApplication {
 	
 	
 	private void createDefaultWorkspace() throws IOException {
-		setTheme(new WBootstrapTheme());
+		WBootstrapTheme theme = new WBootstrapTheme();
+		setTheme(theme);
+		
 		useStyleSheet(new WLink(new WResource() {
 			@Override
 			protected void handleRequest(WebRequest request, WebResponse response) throws IOException {
