@@ -5,3 +5,6 @@ jdk:
 
 script:
   - mvn clean package
+
+ignore:
+  - ./violet-documentation/*
