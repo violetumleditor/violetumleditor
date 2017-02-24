@@ -50,6 +50,8 @@ public class PropertyEditorWidget extends WCompositeWidget {
 
 		WContainerWidget container = new WContainerWidget();
 		WVBoxLayout vbox = new WVBoxLayout();
+		vbox.setSpacing(0);
+		vbox.setContentsMargins(0, 0, 0, 0);
 		try {
 			Introspector.flushFromCaches(bean.getClass());
 			BeanInfo info = Introspector.getBeanInfo(bean.getClass());

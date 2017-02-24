@@ -31,6 +31,7 @@ public class LineTextEditorWidget extends AbstractPropertyEditorWidget<LineText>
 			WVBoxLayout editorLayout = new WVBoxLayout();
 			editorLayout.addWidget(getTitleLabel());
 			editorLayout.addWidget(getTextAreaComponent());
+			editorLayout.setSpacing(20);
 			this.editorWidget.setLayout(editorLayout);
 			this.editorWidget.setWidth(getTextAreaComponent().getWidth());
 			this.editorWidget.setHeight(new WLength(getTitleLabel().getHeight().toPixels() + getTextAreaComponent().getHeight().toPixels(), Unit.Pixel));

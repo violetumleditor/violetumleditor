@@ -8,8 +8,11 @@ import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.sidebar.ISideBar;
 
+import eu.webtoolkit.jwt.Key;
+import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WHBoxLayout;
+import eu.webtoolkit.jwt.WKeyEvent;
 import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WLength.Unit;
 import eu.webtoolkit.jwt.WScrollArea;
@@ -31,6 +34,10 @@ public class WorkspaceWidget extends WContainerWidget {
 		addSpecificBehavior();
 		setWidth(new WLength(100,  Unit.Percentage));
 		setHeight(new WLength(100,  Unit.Percentage));
+	}
+	
+	public IWorkspace getWorkspace() {
+		return this.workspace;
 	}
 	
 	private void addSpecificBehavior() {
@@ -60,7 +67,7 @@ public class WorkspaceWidget extends WContainerWidget {
 		return this.sideBarWidget;
 	}
 	
-	private EditorPartWidget getEditorPartWidget() {
+	public EditorPartWidget getEditorPartWidget() {
 		if (this.editorPartWidget == null) {
 			IEditorPart editorPart = this.workspace.getEditorPart();
 			this.editorPartWidget = new EditorPartWidget(editorPart);
@@ -82,4 +89,7 @@ public class WorkspaceWidget extends WContainerWidget {
 		}
 		return this.editorPartScrollArea;
 	}
+	
+	
+	
 }

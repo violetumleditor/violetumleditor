@@ -22,6 +22,7 @@ package com.horstmann.violet.web;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import javax.servlet.ServletOutputStream;
 
@@ -32,17 +33,24 @@ import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBea
 import com.horstmann.violet.framework.plugin.PluginLoader;
 import com.horstmann.violet.product.diagram.classes.ClassDiagramGraph;
 import com.horstmann.violet.web.workspace.WorkspaceWidget;
+import com.horstmann.violet.web.workspace.editorpart.EditorPartWidget;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
+import com.horstmann.violet.workspace.editorpart.IEditorPart;
 
+import eu.webtoolkit.jwt.Key;
+import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WApplication;
 import eu.webtoolkit.jwt.WBootstrapTheme;
 import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WEnvironment;
+import eu.webtoolkit.jwt.WKeyEvent;
 import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WLength.Unit;
 import eu.webtoolkit.jwt.WLink;
 import eu.webtoolkit.jwt.WResource;
+import eu.webtoolkit.jwt.WWebWidget;
+import eu.webtoolkit.jwt.WWidget;
 import eu.webtoolkit.jwt.servlet.WebRequest;
 import eu.webtoolkit.jwt.servlet.WebResponse;
 
@@ -65,6 +73,7 @@ public class UMLEditorWebApplication extends WApplication {
 	public UMLEditorWebApplication(WEnvironment env) throws IOException {
 		super(env);
 		createDefaultWorkspace();
+		addGlobalKeyListener();
 	}
 
 	
@@ -99,7 +108,29 @@ public class UMLEditorWebApplication extends WApplication {
 		root.setStyleClass("root");
 		root.addWidget(workspaceWidget);
 		root.mouseMoved().setBlocked(true);
-		
+	}
+	
+	
+	private void addGlobalKeyListener() {
+		globalKeyPressed().addListener(this, new Signal1.Listener<WKeyEvent>() {
+			@Override
+			public void trigger(WKeyEvent event) {
+				Key key = event.getKey();
+				List<WWidget> children = getRoot().getChildren();
+				for (WWidget aWidget : children) {
+					if (WorkspaceWidget.class.isInstance(aWidget)) {
+						WorkspaceWidget workspaceWidget = (WorkspaceWidget) aWidget;
+						if (Key.Key_Delete.equals(key)) {
+							IWorkspace workspace = workspaceWidget.getWorkspace();
+							IEditorPart editorPart = workspace.getEditorPart();
+							editorPart.removeSelected();
+							EditorPartWidget editorPartWidget = workspaceWidget.getEditorPartWidget();
+							editorPartWidget.update();
+						}
+					}
+				}
+			}
+		});
 	}
 
 }
