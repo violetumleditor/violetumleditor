@@ -84,7 +84,8 @@ public class EditorToolsWidget extends WContainerWidget {
 			this.mainLayout = new WBoxLayout(Direction.TopToBottom);
 			this.mainLayout.addWidget(getTitleLabel());
 			WContainerWidget wContainerWidget = new WContainerWidget();
-			wContainerWidget.setLayout(getButtonLayout(), AlignmentFlag.AlignCenter, AlignmentFlag.AlignMiddle);
+			wContainerWidget.setLayout(getButtonLayout());
+			wContainerWidget.setContentAlignment(AlignmentFlag.AlignCenter, AlignmentFlag.AlignMiddle);
 			this.mainLayout.addWidget(wContainerWidget);
 			this.mainLayout.setContentsMargins(0, 0, 0, 0);
 		}

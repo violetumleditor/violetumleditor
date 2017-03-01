@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.property.BentStyleChoiceList;
+import com.horstmann.violet.product.diagram.property.choiceList.ChoiceList;
 import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.MultiLineText;
 import com.horstmann.violet.web.workspace.editorpart.EditorPartWidget;
@@ -139,8 +139,8 @@ public class PropertyEditorWidget extends WCompositeWidget {
 		if (LineText.class.equals(type)) {
 			editorWidget = new LineTextEditorWidget(bean, descriptor);
 		}
-		if (BentStyleChoiceList.class.equals(type)) {
-			editorWidget = new BentStyleEditorWidget(bean, descriptor);
+		if (ChoiceList.class.equals(type)) {
+			editorWidget = new ChoiceListEditorWidget(bean, descriptor);
 		}
 		return editorWidget;
 	}
