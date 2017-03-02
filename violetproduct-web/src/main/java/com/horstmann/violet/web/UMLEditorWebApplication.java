@@ -60,6 +60,8 @@ import eu.webtoolkit.jwt.servlet.WebResponse;
 public class UMLEditorWebApplication extends WApplication {
 
 	private static boolean FACTORY_INITIALIZED = false;
+	
+	private String deploymentPath;
 
 	@InjectedBean
 	private PluginLoader pluginLoader;
@@ -82,8 +84,7 @@ public class UMLEditorWebApplication extends WApplication {
 	private void createDefaultWorkspace() throws IOException {
 		WBootstrapTheme theme = new WBootstrapTheme();
 		setTheme(theme);
-		
-		useStyleSheet(new WLink(new WResource() {
+		WResource cssResource = new WResource() {
 			@Override
 			protected void handleRequest(WebRequest request, WebResponse response) throws IOException {
 				ClassLoader classLoader = this.getClass().getClassLoader();
@@ -94,8 +95,13 @@ public class UMLEditorWebApplication extends WApplication {
 				inputStream.close();
 				outputStream.close();
 			}
-			
-		}));
+		};
+		cssResource.generateUrl();
+		String url = cssResource.getUrl();
+		if (!url.startsWith(getDeploymentPath())) {
+			url = getDeploymentPath() + "/" + url;
+		}
+		useStyleSheet(new WLink(url));
 		//URL resource = getClass().getResource("test.class.violet.html");
 		//IFile aFile = new LocalFile(new File(resource.getFile()));
 		GraphFile graphFile = new GraphFile(ClassDiagramGraph.class);
@@ -131,6 +137,15 @@ public class UMLEditorWebApplication extends WApplication {
 				}
 			}
 		});
+	}
+	
+	private String getDeploymentPath() {
+		if (this.deploymentPath == null) {
+			WApplication wApplication = WApplication.getInstance();
+			WEnvironment environment = wApplication.getEnvironment();
+			this.deploymentPath = environment.getDeploymentPath();
+		}
+		return this.deploymentPath;
 	}
 
 }
