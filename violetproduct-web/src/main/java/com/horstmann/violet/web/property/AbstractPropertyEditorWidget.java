@@ -93,7 +93,7 @@ public abstract class AbstractPropertyEditorWidget<T> extends WCompositeWidget {
     public void setValue(T value) {
     	this.newValue = value;
     	firePropertyChanged(this.oldValue, this.newValue);
-    	if (!isKnownImmutable(this.propertyDescriptor.getPropertyType()))
+    	if (isKnownImmutable(this.propertyDescriptor.getPropertyType()))
         {
             try
             {
@@ -101,7 +101,8 @@ public abstract class AbstractPropertyEditorWidget<T> extends WCompositeWidget {
             }
             catch (Throwable t)
             {
-                // we tried
+                t.printStackTrace();
+            	// we tried
             }
         }
     	this.oldValue = value;

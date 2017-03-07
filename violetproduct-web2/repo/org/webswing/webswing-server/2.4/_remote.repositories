@@ -1,0 +1,6 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Thu Feb 23 10:58:04 CET 2017
+webswing-server-2.4.pom>=
+webswing-server-2.4.war>=
+webswing-server-2.4-sources.jar>=
+webswing-server-2.4-classes.jar>=

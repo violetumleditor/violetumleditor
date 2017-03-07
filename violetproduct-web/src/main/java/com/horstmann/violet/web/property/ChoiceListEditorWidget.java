@@ -1,8 +1,6 @@
 package com.horstmann.violet.web.property;
 
 import java.beans.PropertyDescriptor;
-import java.util.HashMap;
-import java.util.Map;
 
 import com.horstmann.violet.product.diagram.property.choiceList.ChoiceList;
 
@@ -20,7 +18,6 @@ public class ChoiceListEditorWidget extends AbstractPropertyEditorWidget<ChoiceL
 	private WComboBox comboBoxComponent;
 	private WLabel titleLabel;
 	private WContainerWidget editorWidget;
-	private Map<String, Object> keyValueMap = new HashMap<>();
 	
 	public ChoiceListEditorWidget(Object bean, PropertyDescriptor propertyDescriptor) {
 		super(bean, propertyDescriptor);
@@ -53,8 +50,19 @@ public class ChoiceListEditorWidget extends AbstractPropertyEditorWidget<ChoiceL
 			this.comboBoxComponent.changed().addListener(this, new Signal.Listener() {
 				public void trigger() {
 					String selectedKey = getComboBoxComponent().getValueText();
-					Object selectedValue = keyValueMap.get(selectedKey);
-					getValue().setSelectedValue(selectedValue);
+					Object selectedValue = null;
+					Object[] keys = getValue().getKeys();
+					Object[] values = getValue().getValues();
+					for (int i = 0; i < keys.length; i++) {
+						String key = keys[i].toString();
+						if (key.equals(selectedKey)) {
+							selectedValue = values[i];
+						}
+					}
+					if (selectedValue != null) {
+						getValue().setSelectedValue(selectedValue);
+					}
+					ChoiceListEditorWidget.this.setValue(getValue());
 				}
 			});
 		}
@@ -69,15 +77,15 @@ public class ChoiceListEditorWidget extends AbstractPropertyEditorWidget<ChoiceL
 
 	@Override
 	protected void updateCustomEditor() {
-		this.keyValueMap.clear(); 
+		getComboBoxComponent().clear();
 		Object selectedValue = super.getValue().getSelectedValue();
 		String selectedKey = null;
-		for (Object element : super.getValue().getKeys()) {
-			String key = element.toString();
-			Object value = element;
-			this.keyValueMap.put(key, value);
+		Object[] keys = super.getValue().getKeys();
+		Object[] values = super.getValue().getValues();
+		for (int i = 0; i < keys.length; i++) {
+			String key = keys[i].toString();
 			getComboBoxComponent().addItem(key);
-			if (value.equals(selectedValue)) {
+			if (values[i].equals(selectedValue)) {
 				selectedKey = key;
 			}
 		}
