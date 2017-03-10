@@ -104,19 +104,6 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior implements IGrap
         return isAdded;
     }
 
-    private IEditorPart editorPart;
-
-    private IGraph graph;
-
-    private IEditorPartSelectionHandler selectionHandler;
-
-    private IEditorPartBehaviorManager behaviorManager;
-
-    private IGraphToolsBar graphToolsBar;
-
-    private boolean dragging;
-    private INode draggedNode;
-
 	@Override
 	public void onMouseToolClicked(GraphTool selectedTool)
 	{
@@ -184,4 +171,18 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior implements IGrap
         editorPart.getSwingComponent().invalidate();
         editorPart.getSwingComponent().repaint();
 	}
+	
+    private IEditorPart editorPart;
+
+    private IGraph graph;
+
+    private IEditorPartSelectionHandler selectionHandler;
+
+    private IEditorPartBehaviorManager behaviorManager;
+
+    private IGraphToolsBar graphToolsBar;
+
+    private boolean dragging;
+    
+    private INode draggedNode;
 }
