@@ -55,16 +55,11 @@ public abstract class LineEdge extends ShapeEdge
     @Override
     public void setTransitionPoints(Point2D[] transitionPoints)
     {
+    	if(transitionPoints != null && transitionPoints.length > 0)
+    	{
+    		setBentStyle(BentStyle.FREE);
+    	}
         super.setTransitionPoints(transitionPoints);
-
-        if(null == transitionPoints || 0 == transitionPoints.length)
-        {
-//            setBentStyle(BentStyle.AUTO);
-        }
-        else
-        {
-            setBentStyle(BentStyle.FREE);
-        }
     }
 
     @Override
@@ -224,7 +219,10 @@ public abstract class LineEdge extends ShapeEdge
      */
     public final BentStyle getBentStyle()
     {
-        if (!bentStyleChoiceList.getSelectedValue().equals(BentStyleChoiceList.AUTO))
+    	if (!bentStyleChoiceList.getSelectedValue().equals(BentStyle.FREE)) {
+    		clearTransitionPoints();
+    	}
+    	if (!bentStyleChoiceList.getSelectedValue().equals(BentStyleChoiceList.AUTO))
         {
             return bentStyleChoiceList.getSelectedValue();
         }
@@ -257,9 +255,6 @@ public abstract class LineEdge extends ShapeEdge
 
     protected final void setBentStyle(BentStyle bentStyle)
     {
-    	if (!BentStyle.FREE.equals(bentStyle)) {
-    		clearTransitionPoints();
-    	}
         if(bentStyleChoiceList.setSelectedValue(bentStyle))
         {
         	this.selectedBentStyle = bentStyleChoiceList.getSelectedPos();
