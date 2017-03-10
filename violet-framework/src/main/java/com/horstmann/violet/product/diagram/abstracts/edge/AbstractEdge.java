@@ -197,6 +197,11 @@ public abstract class AbstractEdge implements IEdge
     {
         return false;
     }
+    
+    @Override
+    public void clearTransitionPoints() {
+    	this.transitionPoints = new Point2D[] {};
+    }
 
     @Override
     public Rectangle2D getBounds()

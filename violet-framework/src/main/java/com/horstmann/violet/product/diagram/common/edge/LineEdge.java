@@ -257,9 +257,12 @@ public abstract class LineEdge extends ShapeEdge
 
     protected final void setBentStyle(BentStyle bentStyle)
     {
+    	if (!BentStyle.FREE.equals(bentStyle)) {
+    		clearTransitionPoints();
+    	}
         if(bentStyleChoiceList.setSelectedValue(bentStyle))
         {
-            this.selectedBentStyle = bentStyleChoiceList.getSelectedPos();
+        	this.selectedBentStyle = bentStyleChoiceList.getSelectedPos();
         }
     }
 
