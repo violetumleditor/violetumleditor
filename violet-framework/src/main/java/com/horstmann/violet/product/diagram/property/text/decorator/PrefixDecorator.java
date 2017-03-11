@@ -33,7 +33,39 @@ public class PrefixDecorator extends OneLineTextDecorator
     @Override
     public String toDisplay()
     {
-        return prefix + " " + decoratedOneLineString.toDisplay();
+    	return getPrefixToDisplay() + decoratedOneLineString.toDisplay();
+    }
+    
+    /**
+     * Allows to display prefix only if string to display is not empty
+     * 
+     * @return string
+     */
+    private String getPrefixToDisplay() {
+    	if (isStringToDisplayEmpty()) {
+    		return "";
+    	}
+    	return " " + this.prefix + " ";
+    }
+    
+    
+    /**
+     * Checks if text to display is empty
+     * 
+     * @return true if empty
+     */
+    private boolean isStringToDisplayEmpty() {
+    	if (decoratedOneLineString == null) {
+    		return true;
+    	}
+    	String toDisplay = decoratedOneLineString.toDisplay();
+		if (toDisplay == null) {
+    		return true;
+    	}
+		if (toDisplay.length() == 0) {
+			return true;
+		}
+    	return false;
     }
 
     private String prefix = "";

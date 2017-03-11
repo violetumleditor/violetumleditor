@@ -175,7 +175,7 @@ public class InterfaceNode extends ColorableNode
         @Override
         public OneLineText toLineString(String text)
         {
-            return new PrefixDecorator( new LargeSizeDecorator(new OneLineText(text)), "<center>«interface»</center>");
+            return new PrefixDecorator( new LargeSizeDecorator(new OneLineText(text)), "<center>&laquo;interface&raquo;</center>");
         }
     };
     private static final LineText.Converter methodsConverter = new LineText.Converter()
