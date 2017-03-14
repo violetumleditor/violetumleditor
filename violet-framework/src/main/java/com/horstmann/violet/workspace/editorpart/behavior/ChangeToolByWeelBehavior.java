@@ -15,7 +15,6 @@ public class ChangeToolByWeelBehavior extends AbstractEditorPartBehavior
         this.graphToolsBar = graphToolsBar;
     }
 
-
     @Override
     public void onMouseWheelMoved(MouseWheelEvent event)
     {

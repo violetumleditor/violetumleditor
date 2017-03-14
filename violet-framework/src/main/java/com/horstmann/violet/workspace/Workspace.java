@@ -56,6 +56,7 @@ import com.horstmann.violet.workspace.editorpart.behavior.SelectAllBehavior;
 import com.horstmann.violet.workspace.editorpart.behavior.SelectByClickBehavior;
 import com.horstmann.violet.workspace.editorpart.behavior.SelectByDistanceBehavior;
 import com.horstmann.violet.workspace.editorpart.behavior.SelectByLassoBehavior;
+import com.horstmann.violet.workspace.editorpart.behavior.SelectSelectToolBehavior;
 import com.horstmann.violet.workspace.editorpart.behavior.ShowMenuOnRightClickBehavior;
 import com.horstmann.violet.workspace.editorpart.behavior.SwingRepaintingBehavior;
 import com.horstmann.violet.workspace.editorpart.behavior.UndoRedoCompoundBehavior;
@@ -152,6 +153,7 @@ public class Workspace implements IWorkspace
         {
             this.graphEditor = new EditorPart(this.graphFile.getGraph());
             IEditorPartBehaviorManager behaviorManager = this.graphEditor.getBehaviorManager();
+            
             behaviorManager.addBehavior(new SelectByLassoBehavior(this.graphEditor, this.getSideBar().getGraphToolsBar()));
             behaviorManager.addBehavior(new SelectByClickBehavior(this.graphEditor, this.getSideBar().getGraphToolsBar()));
             behaviorManager.addBehavior(new SelectByDistanceBehavior(this.graphEditor));
@@ -173,6 +175,7 @@ public class Workspace implements IWorkspace
             behaviorManager.addBehavior(new CutCopyPasteBehavior(this.graphEditor));
             behaviorManager.addBehavior(new SwingRepaintingBehavior(this.graphEditor));
             behaviorManager.addBehavior(new ColorizeBehavior(this, this.getSideBar().getColorChoiceBar()));
+            behaviorManager.addBehavior(new SelectSelectToolBehavior(this.getSideBar().getGraphToolsBar()));
         }
         return this.graphEditor;
     }
