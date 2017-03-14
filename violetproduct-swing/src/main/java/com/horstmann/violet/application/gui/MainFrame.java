@@ -21,6 +21,9 @@
 
 package com.horstmann.violet.application.gui;
 
+
+import com.horstmann.violet.application.autosave.AutoSave;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -39,6 +42,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.horstmann.violet.application.help.AboutDialog;
 import com.horstmann.violet.application.menu.MenuFactory;
+import com.horstmann.violet.application.swingextension.SideBarHideButton;
 import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.file.GraphFile;
 import com.horstmann.violet.framework.file.IFile;
@@ -59,6 +63,15 @@ import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.IWorkspaceListener;
 import com.horstmann.violet.workspace.Workspace;
 import com.horstmann.violet.workspace.WorkspacePanel;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import java.awt.geom.Point2D;
+import java.beans.BeanInfo;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This desktop frame contains panes that show graphs.
@@ -263,6 +276,7 @@ public class MainFrame extends JFrame
         }
         for (IWorkspace aWorkspace : this.workspaceList) {
             if (activeWorkspace.equals(aWorkspace.getAWTComponent())) {
+                sideBarHideButton.setVisible(true);
                 return aWorkspace;
             }
         }
@@ -280,6 +294,8 @@ public class MainFrame extends JFrame
             bottomBorderPanel.setBackground(cLAF.getMenubarBackgroundColor().darker());
             bottomBorderPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
             bottomBorderPanel.setSize(getContentPane().getWidth(), 8);
+            sideBarHideButton = new SideBarHideButton(this).createSideBarHideButton();
+            this.mainPanel.add(sideBarHideButton,BorderLayout.WEST);
             this.mainPanel.add(bottomBorderPanel, BorderLayout.SOUTH);
         }
         return this.mainPanel;
@@ -296,8 +312,12 @@ public class MainFrame extends JFrame
         }
         return this.menuFactory;
     }
-    
-    
+
+    /**
+     * Button which hides the sidebar
+     */
+    private JButton sideBarHideButton;
+
     /**
      * Main panel
      */

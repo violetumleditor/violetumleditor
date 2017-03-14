@@ -21,20 +21,8 @@
 
 package com.horstmann.violet.application.menu;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.List;
-
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
-
 import com.horstmann.violet.application.gui.MainFrame;
+import com.horstmann.violet.application.swingextension.GraphicsDeviceDetector;
 import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
@@ -45,6 +33,14 @@ import com.horstmann.violet.framework.theme.ThemeInfo;
 import com.horstmann.violet.framework.theme.ThemeManager;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
+
+import javax.swing.*;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
 /**
  * View menu
@@ -93,6 +89,15 @@ public class ViewMenu extends JMenu
             }
         });
         this.add(zoomIn);
+
+        fullscreen.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent event)
+            {
+                performFullScreen();
+            }
+        });
+        this.add(fullscreen);
 
         growDrawingArea.addActionListener(new ActionListener()
         {
@@ -205,7 +210,23 @@ public class ViewMenu extends JMenu
     }
 
     /**
-     * Performs gros drawing area action
+     * Performs fullscreen in action
+     */
+    private void performFullScreen()
+    {
+        final GraphicsDevice activeGraphicsDevice = new GraphicsDeviceDetector(mainFrame).detect();
+
+        if (activeGraphicsDevice.getFullScreenWindow()==null) {
+            activeGraphicsDevice.setFullScreenWindow(mainFrame);
+        }
+        else {
+            activeGraphicsDevice.setFullScreenWindow(null);
+        }
+    }
+
+
+    /**
+     * Performs grow drawing area action
      */
     private void performGrowDrawingArea()
     {
@@ -294,6 +315,9 @@ public class ViewMenu extends JMenu
 
     @ResourceBundleBean(key = "view.zoom_in")
     private JMenuItem zoomIn;
+
+    @ResourceBundleBean(key = "view.fullscreen")
+    private JMenuItem fullscreen;
 
     @ResourceBundleBean(key = "view.grow_drawing_area")
     private JMenuItem growDrawingArea;
