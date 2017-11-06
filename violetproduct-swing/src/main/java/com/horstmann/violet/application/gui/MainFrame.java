@@ -32,9 +32,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import com.horstmann.violet.application.help.AboutDialog;
@@ -274,7 +280,13 @@ public class MainFrame extends JFrame
         if (this.mainPanel == null) {
             this.mainPanel = new JPanel(new BorderLayout());
             this.mainPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
-            this.mainPanel.add(new JPanel(), BorderLayout.CENTER);
+            
+            
+            LoginMenuPanel content = new LoginMenuPanel();            
+            
+            
+            
+            this.mainPanel.add(content, BorderLayout.CENTER);
             JPanel bottomBorderPanel = new JPanel();
             ITheme cLAF = this.themeManager.getTheme();
             bottomBorderPanel.setBackground(cLAF.getMenubarBackgroundColor().darker());
