@@ -57,7 +57,6 @@ public class DocumentMenu extends JMenu
             }
         }
         
-        
         //MARK - Pie chart 
         String pieChartTitle = "Generate Pie Chart";
         final JMenuItem pieChartMenuItem = new JMenuItem(pieChartTitle);
@@ -72,7 +71,20 @@ public class DocumentMenu extends JMenu
           }
         });
         
+        //STEPH - Add averages
+        final JMenuItem averageMenuItem = new JMenuItem("Averages");
+        add(averageMenuItem);
+        averageMenuItem.addActionListener(new ActionListener()
+        {
+        		@Override
+        		public void actionPerformed(ActionEvent e)
+        		{
+        			GenerateAverage avg = new GenerateAverage();
+        		}
+        });
+        
         pieChartMenuItem.setEnabled(false);
+        averageMenuItem.setEnabled(false);
         
         //MARK - Login
         String loginTitle = "Login";
@@ -80,6 +92,8 @@ public class DocumentMenu extends JMenu
         
         Login login = new Login();
         login.pieChartMenuItem = pieChartMenuItem;
+        login.averageMenuItem = averageMenuItem;
+        
         add(loginMenuItem);
         loginMenuItem.addActionListener(new ActionListener()
         {

@@ -22,6 +22,7 @@ public class Login {
 	String password;
 	
 	public JMenuItem pieChartMenuItem;
+	public JMenuItem averageMenuItem;
 
 	public Login() 
 	{
@@ -85,7 +86,8 @@ public class Login {
 				
 				frame.setVisible(false);
 				
-				pieChartMenuItem.setEnabled(true);	
+				pieChartMenuItem.setEnabled(true);
+				averageMenuItem.setEnabled(true);
 			}
 			else
 			{
