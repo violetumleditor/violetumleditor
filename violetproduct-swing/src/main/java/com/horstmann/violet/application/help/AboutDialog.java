@@ -346,7 +346,6 @@ public class AboutDialog extends JDialog
     private JPanel versionPanel;
 
     private JPanel authorsPanel;
-
     private JPanel licensePanel;
 
     private JPanel systemInfoPanel;
