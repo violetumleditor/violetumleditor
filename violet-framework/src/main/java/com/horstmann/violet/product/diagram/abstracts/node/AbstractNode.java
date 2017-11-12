@@ -148,7 +148,7 @@ public abstract class AbstractNode implements INode
     /**
      * @return currently connected edges
      */
-    protected List<IEdge> getConnectedEdges()
+    public List<IEdge> getConnectedEdges()
     {
         List<IEdge> connectedEdges = new ArrayList<IEdge>();
         IGraph currentGraph = getGraph();
