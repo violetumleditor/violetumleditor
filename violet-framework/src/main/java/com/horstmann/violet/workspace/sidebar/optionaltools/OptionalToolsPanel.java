@@ -103,6 +103,18 @@ public class OptionalToolsPanel extends JPanel implements ISideBarElement
         });
         return bHelp;
     }
+    
+    protected JButton getVisualizationButton()
+    {
+        bHelp.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                //TODO : create visualization window
+            }
+        });
+        return bVisualize;
+    }
 
     /**
      * Current diagram panel
@@ -120,7 +132,8 @@ public class OptionalToolsPanel extends JPanel implements ISideBarElement
 
     @ResourceBundleBean(key="help")
     private JButton bHelp;
-
-
+    
+    @ResourceBundleBean(key="visualize")
+    private JButton bVisualize;
 
 }
