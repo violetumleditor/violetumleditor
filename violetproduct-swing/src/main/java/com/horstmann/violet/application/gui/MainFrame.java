@@ -125,6 +125,7 @@ public class MainFrame extends JFrame
         menuBar.add(menuFactory.getViewMenu(this));
         menuBar.add(menuFactory.getDocumentMenu(this));
         menuBar.add(menuFactory.getHelpMenu(this));
+        menuBar.add(menuFactory.getLoginMenu(this));
         setJMenuBar(menuBar);
     }
     
@@ -282,7 +283,7 @@ public class MainFrame extends JFrame
             this.mainPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
             
             
-            LoginMenuPanel content = new LoginMenuPanel();            
+            LoginMenuPanel content = new LoginMenuPanel(this);            
             
             
             

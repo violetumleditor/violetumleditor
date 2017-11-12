@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -20,8 +21,11 @@ public class LoginMenuPanel extends JPanel implements ActionListener {
 	JTextField txtUsername;
 	JPasswordField txtPassword;
 	
-	public LoginMenuPanel()
+	JFrame parent;
+	
+	public LoginMenuPanel(JFrame frame)
 	{
+		this.parent = frame;
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         
         username = new JPanel();
@@ -69,7 +73,7 @@ public class LoginMenuPanel extends JPanel implements ActionListener {
 			String password = txtPassword.getText();
 			
 			if (AccountChecker.VerifyAccount(username, password)) {
-				this.setVisible(false);
+				this.parent.getDefaultCloseOperation();
 			}
 		}
 	}

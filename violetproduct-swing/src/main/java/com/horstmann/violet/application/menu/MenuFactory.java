@@ -98,11 +98,25 @@ public class MenuFactory
         }
         return this.documentMenu;
     }
+    
+    /**
+     * @param editorFrame
+     * @return Login menu
+     */    
+    public LoginMenu getLoginMenu(MainFrame editorFrame)
+    {
+        if (this.loginMenu == null)
+        {
+            this.loginMenu = new LoginMenu(editorFrame);
+        }
+        return this.loginMenu;
+    }
 
     private EditMenu editMenu;
     private FileMenu fileMenu;
     private HelpMenu helpMenu;
     private ViewMenu viewMenu;
     private DocumentMenu documentMenu;
+    private LoginMenu loginMenu;
 
 }
