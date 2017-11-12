@@ -112,11 +112,21 @@ public class MenuFactory
         return this.loginMenu;
     }
 
+    public VisualizationMenu getVisualizationMenu(MainFrame editorFrame)
+    {
+        if (this.visualizationMenu == null)
+        {
+            this.visualizationMenu = new VisualizationMenu(editorFrame);
+        }
+        return this.visualizationMenu;
+    }
+
     private EditMenu editMenu;
     private FileMenu fileMenu;
     private HelpMenu helpMenu;
     private ViewMenu viewMenu;
     private DocumentMenu documentMenu;
     private LoginMenu loginMenu;
+    private VisualizationMenu visualizationMenu;
 
 }

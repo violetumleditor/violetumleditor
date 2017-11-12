@@ -126,6 +126,7 @@ public class MainFrame extends JFrame
         menuBar.add(menuFactory.getDocumentMenu(this));
         menuBar.add(menuFactory.getHelpMenu(this));
         menuBar.add(menuFactory.getLoginMenu(this));
+        menuBar.add(menuFactory.getVisualizationMenu(this));
         setJMenuBar(menuBar);
     }
     
