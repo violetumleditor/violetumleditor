@@ -28,6 +28,12 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
+import org.omg.CORBA.INTERNAL;
+
+import com.horstmann.violet.framework.dialog.DialogFactory;
+import com.horstmann.violet.framework.dialog.DialogFactoryMode;
 import com.horstmann.violet.framework.util.Statistics;
 import com.horstmann.violet.framework.util.XMLManager;
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
@@ -113,12 +119,18 @@ public class SequenceDiagramGraph extends AbstractGraph implements StatisticalGr
     	XMLManager<Statistics> manager = new XMLManager<>();
     	manager.writeXML(list);
 	}
+	
 
     @Override
-	public void evaluateViolations() {
-		// Collect Violations
-    	// Put them in Strings
-    	// Call Warning display window once it's implemented
+	public List<String> evaluateViolations() {
+    	
+		List<String> violations = new ArrayList<>();
+		
+		// Dummy examples
+		violations.add("A return message without a call message in object 3");
+		violations.add("Empty Activation Bar in object 5");
+		
+		return violations;
 	}
 
 
