@@ -1,4 +1,5 @@
 package com.horstmann.violet.product.diagram.classes;
+import com.horstmann.violet.product.diagram.abstracts.StatisticalGraph;
 
 import java.util.*;
 
@@ -16,7 +17,19 @@ import com.horstmann.violet.product.diagram.common.node.NoteNode;
 /**
  * A UML class diagram.
  */
-public class ClassDiagramGraph extends AbstractGraph {
+public class ClassDiagramGraph extends AbstractGraph implements StatisticalGraph{
+	
+	public void evaluateStatistics() {
+		
+	}
+	public List<String> evaluateViolations(){
+		List<String> violations = new ArrayList<String>();
+		violations.addAll(CheckRecursionConstraint());
+		violations.addAll(CheckBiDirectionalConstraint());
+		//violations.addAll(CheckInheritanceConstraint());
+		return violations;
+
+	}
 	public List<INode> getNodePrototypes() {
 		return NODE_PROTOTYPES;
 	}
@@ -32,17 +45,12 @@ public class ClassDiagramGraph extends AbstractGraph {
 			Arrays.asList(new DependencyEdge(), new InheritanceEdge(), new InterfaceInheritanceEdge(),
 					new AssociationEdge(), new AggregationEdge(), new CompositionEdge(), new NoteEdge()));
 
-	public void CheckConstraints() {
-		CheckRecursionConstraint();
-		CheckBiDirectionalConstraint();
-		CheckInheritanceConstraint();
-
-	}
 
 	/**
 	 * Check for multiple recursive relationships on class nodes and warn the user 
 	 */
-	private void CheckRecursionConstraint() {
+	private List<String> CheckRecursionConstraint() {
+		List<String> violations = new ArrayList<String>();
 
 		Collection<INode> nodes = getAllNodes();
 		for (INode node : nodes) {
@@ -53,7 +61,7 @@ public class ClassDiagramGraph extends AbstractGraph {
 					if (edge.getStartNode() == edge.getEndNode()) {
 						if (hasRecursiveRelationship) {
 							ClassNode cnode = (ClassNode) node;
-							System.out.println("Warning: Multiple recursive relationships in node "
+							violations.add("Multiple recursive relationships in node "
 									+ (cnode.getName().toDisplay().isEmpty() ? "<Unnamed Class>" : cnode.getName()));
 						}
 						hasRecursiveRelationship = true;
@@ -63,12 +71,14 @@ public class ClassDiagramGraph extends AbstractGraph {
 			}
 
 		}
+		return violations;
 	}
 
 	/**
 	 * Check for bi-directional aggregation/composition relationships between class nodes and warn the user 
 	 */
-	private void CheckBiDirectionalConstraint() {
+	private List<String> CheckBiDirectionalConstraint() {
+		List<String> violations = new ArrayList<String>();
 		Collection<IEdge> edges = getAllEdges();
 		IEdge[] edgesArray = edges.toArray(new IEdge[edges.size()]);
 
@@ -83,11 +93,14 @@ public class ClassDiagramGraph extends AbstractGraph {
 				if (!(edgesArray[j] instanceof CompositionEdge || edgesArray[j] instanceof AggregationEdge)) {
 					continue; // Edge is not a Composition or Aggregation edge
 				}
+				if (edgesArray[i].getStartNode() == edgesArray[j].getStartNode()) {
+					continue; //Both nodes are the same
+				}
 				if (edgesArray[i].getStartNode() == edgesArray[j].getEndNode()) {
 					if (edgesArray[j].getStartNode() == edgesArray[i].getEndNode()) {
 						ClassNode class1 = (ClassNode) edgesArray[i].getStartNode();
 						ClassNode class2 = (ClassNode) edgesArray[i].getEndNode();
-						System.out.println("Warning: Multiple composition/aggregation relationships between "
+						violations.add("Multiple composition/aggregation relationships between "
 								+ (class1.getName().toDisplay().isEmpty() ? "<Unnamed Class>" : class1.getName())
 								+ " and "
 								+ (class2.getName().toDisplay().isEmpty() ? "<Unnamed Class>" : class2.getName()));
@@ -97,6 +110,7 @@ public class ClassDiagramGraph extends AbstractGraph {
 			}
 
 		}
+		return violations;
 
 	}
 

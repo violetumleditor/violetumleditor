@@ -350,10 +350,6 @@ public class FileMenu extends JMenu
                 if (workspace != null)
                 {
                     IGraphFile graphFile = workspace.getGraphFile();
-                    if (graphFile.getGraph() instanceof ClassDiagramGraph) {
-                    	ClassDiagramGraph graph = (ClassDiagramGraph)graphFile.getGraph();
-                    	graph.CheckConstraints();
-                    }
                     graphFile.save();
                     userPreferencesService.addRecentFile(graphFile);
                 }
