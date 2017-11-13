@@ -104,6 +104,14 @@ public class FileMenu extends JMenu
     {
         return this.fileNewMenu;
     }
+    
+    /**
+     * @return 'new file' menu
+     */
+    public JMenu getFileBUmlMenu()
+    {
+        return this.fileBUmlMenu;
+    }
 
     /**
      * @return recently opened file menu
@@ -118,6 +126,7 @@ public class FileMenu extends JMenu
      */
     private void createMenu()
     {
+        initFileLoginItem();
         initFileNewMenu();
         initFileOpenItem();
         initFileCloseItem();
@@ -127,7 +136,10 @@ public class FileMenu extends JMenu
         initFileExportMenu();
         initFilePrintItem();
         initFileExitItem();
+        initFileBUmlMenu();
+        
 
+        this.add(this.fileLoginItem);
         this.add(this.fileNewMenu);
         this.add(this.fileOpenItem);
         this.add(this.fileCloseItem);
@@ -137,6 +149,7 @@ public class FileMenu extends JMenu
         this.add(this.fileExportMenu);
         this.add(this.filePrintItem);
         this.add(this.fileExitItem);
+        this.add(this.fileBUmlMenu);
 
     }
 
@@ -150,6 +163,21 @@ public class FileMenu extends JMenu
             public void windowClosing(WindowEvent event)
             {
                 stopper.exitProgram(mainFrame);
+            }
+        });
+    }
+    
+    /**
+     * Init Black UML menu entry
+     */
+    private void initFileBUmlMenu() {
+        
+    }
+    
+    private void initFileLoginItem() {
+        this.fileLoginItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                //TODO: open login window
             }
         });
     }
@@ -710,6 +738,10 @@ public class FileMenu extends JMenu
 
     @ResourceBundleBean(key = "file.new")
     private JMenu fileNewMenu;
+    
+    
+    private JMenuItem fileLoginItem = new JMenuItem("Login");
+    private JMenu fileBUmlMenu =new JMenu("Black UML");
 
     @ResourceBundleBean(key = "file.open")
     private JMenuItem fileOpenItem;

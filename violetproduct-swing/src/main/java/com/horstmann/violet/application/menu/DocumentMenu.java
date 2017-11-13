@@ -56,6 +56,56 @@ public class DocumentMenu extends JMenu
                 menuItem.setIcon(activeWorkspaceIcon);
             }
         }
+        
+        //MARK - Pie chart 
+        String pieChartTitle = "Generate Pie Chart";
+        final JMenuItem pieChartMenuItem = new JMenuItem(pieChartTitle);
+        add(pieChartMenuItem);
+        pieChartMenuItem.addActionListener(new ActionListener()
+        {
+          
+          @Override
+          public void actionPerformed(ActionEvent e)
+          {
+           GeneratePieChart pieChart = new GeneratePieChart();   
+          }
+        });
+        
+        //STEPH - Add averages
+        final JMenuItem averageMenuItem = new JMenuItem("Averages");
+        add(averageMenuItem);
+        averageMenuItem.addActionListener(new ActionListener()
+        {
+        		@Override
+        		public void actionPerformed(ActionEvent e)
+        		{
+        			GenerateAverage avg = new GenerateAverage();
+        		}
+        });
+        
+        pieChartMenuItem.setEnabled(false);
+        averageMenuItem.setEnabled(false);
+        
+        //MARK - Login
+        String loginTitle = "Login";
+        final JMenuItem loginMenuItem = new JMenuItem(loginTitle);
+        
+        Login login = new Login();
+        login.pieChartMenuItem = pieChartMenuItem;
+        login.averageMenuItem = averageMenuItem;
+        
+        add(loginMenuItem);
+        loginMenuItem.addActionListener(new ActionListener()
+        {
+          
+          @Override
+          public void actionPerformed(ActionEvent e)
+          {
+             login.frame.setVisible(true);
+          }
+        });
+        
+       
     }
     
     

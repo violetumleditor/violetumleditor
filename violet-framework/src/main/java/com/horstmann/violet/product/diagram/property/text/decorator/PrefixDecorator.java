@@ -45,7 +45,7 @@ public class PrefixDecorator extends OneLineTextDecorator
     	if (isStringToDisplayEmpty()) {
     		return "";
     	}
-    	return " " + this.prefix + " ";
+    	return this.prefix + " ";
     }
     
     
