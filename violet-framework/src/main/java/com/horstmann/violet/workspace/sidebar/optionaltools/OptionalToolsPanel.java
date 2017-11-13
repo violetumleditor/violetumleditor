@@ -24,12 +24,20 @@ package com.horstmann.violet.workspace.sidebar.optionaltools;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import com.horstmann.violet.framework.dialog.DialogFactory;
+import com.horstmann.violet.framework.dialog.DialogFactoryMode;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
+import com.horstmann.violet.framework.util.Warnings;
+import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.abstracts.StatisticalGraph;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.sidebar.ISideBarElement;
 import com.horstmann.violet.workspace.sidebar.SideBar;
@@ -106,7 +114,7 @@ public class OptionalToolsPanel extends JPanel implements ISideBarElement
     
     protected JButton getVisualizationButton()
     {
-        bHelp.addActionListener(new ActionListener()
+        bVisualize.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
             {
@@ -115,6 +123,30 @@ public class OptionalToolsPanel extends JPanel implements ISideBarElement
         });
         return bVisualize;
     }
+    
+    protected JButton getViolationsButton()
+    {
+        bViolations.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                
+            	// Get Violations from graph
+            	List<String> warnings = new ArrayList<>();
+            	IGraph graph = diagramPanel.getGraphFile().getGraph();
+            	if (graph instanceof StatisticalGraph) {
+            		StatisticalGraph statGraph = (StatisticalGraph) graph;
+            		warnings = statGraph.evaluateViolations();
+            	} else {
+            		// Button should not be enabled! Just for safety,
+            		warnings.add("Graph is not a Class Model/Sequence Diagram");
+            	}
+            	Warnings.showWarning(warnings);
+            }
+        });
+        return bViolations;
+    }
+    
 
     /**
      * Current diagram panel
@@ -135,5 +167,8 @@ public class OptionalToolsPanel extends JPanel implements ISideBarElement
     
     @ResourceBundleBean(key="visualize")
     private JButton bVisualize;
+    
+    @ResourceBundleBean(key="violations")
+    private JButton bViolations;
 
 }
