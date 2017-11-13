@@ -26,7 +26,7 @@ public class ClassDiagramGraph extends AbstractGraph implements StatisticalGraph
 		List<String> violations = new ArrayList<String>();
 		violations.addAll(CheckRecursionConstraint());
 		violations.addAll(CheckBiDirectionalConstraint());
-		//violations.addAll(CheckInheritanceConstraint());
+		violations.addAll(CheckInheritanceConstraint());
 		return violations;
 
 	}
@@ -114,8 +114,38 @@ public class ClassDiagramGraph extends AbstractGraph implements StatisticalGraph
 
 	}
 
-	private void CheckInheritanceConstraint() {
-		//TODO
+	private List<String> CheckInheritanceConstraint(){
+		List<String> violations = new ArrayList<String>();
+        Collection <IEdge> edges1 = getAllEdges();
+        IEdge[] edgesArray1 = edges1.toArray(new IEdge[edges1.size()]);
+        for (int i = 0; i < edgesArray1.length; i++) {
+            // if the edge is one of these
+            if(edgesArray1[i] instanceof AggregationEdge || edgesArray1[i] instanceof CompositionEdge || edgesArray1[i] instanceof InheritanceEdge ){
+                        for(int j=1; j<edgesArray1.length;j++){
+                            //and if the next edge is one these
+                            if(j>i && (edgesArray1[j] instanceof AggregationEdge || edgesArray1[j] instanceof CompositionEdge || edgesArray1[j] instanceof InheritanceEdge))
+                            {
+                                //and they are connected (the first edge starts at node and the second edge ends at the same node and vice versa)
+                                if(edgesArray1[i].getStartNode()== edgesArray1[j].getEndNode() && (edgesArray1[j].getStartNode()== edgesArray1[i].getEndNode())) {
+                                	ClassNode class1 = (ClassNode) edgesArray1[i].getStartNode();
+                                	ClassNode class2 = (ClassNode) edgesArray1[i].getEndNode();
+                                	
 
-	}
+                                	violations.add("Bi-directional inheritance with composite or aggregation between " 
+                                			+ (class1.getName().toDisplay().isEmpty() ? "<Unnamed Class>" : class1.getName())
+            								+ " and "
+            								+ (class2.getName().toDisplay().isEmpty() ? "<Unnamed Class>" : class2.getName()));
+                                }
+                           
+                            }
+                            
+            
+                        }
+        
+            }
+
+        }
+
+        return violations;
+    }
 }
