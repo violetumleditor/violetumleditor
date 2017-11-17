@@ -72,6 +72,7 @@ import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
 import com.thoughtworks.xstream.io.StreamException;
+import com.horstmann.violet.product.diagram.classes.ClassDiagramGraph;
 
 /**
  * Represents the file menu on the editor frame

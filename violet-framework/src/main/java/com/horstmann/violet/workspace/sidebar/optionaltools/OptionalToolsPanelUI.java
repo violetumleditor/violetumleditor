@@ -46,6 +46,12 @@ public class OptionalToolsPanelUI extends PanelUI
 
         JButton bExportToClipboard = this.optionalToolsPanel.getExportToClipboardButton();
         addButton(bExportToClipboard);
+        
+        JButton bViolations = this.optionalToolsPanel.getViolationsButton();
+        addButton(bViolations);
+        
+        JButton bVisualization = this.optionalToolsPanel.getVisualizationButton();
+        addButton(bVisualization);
 
         this.optionalToolsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
         this.optionalToolsPanel.add(getPanel());
