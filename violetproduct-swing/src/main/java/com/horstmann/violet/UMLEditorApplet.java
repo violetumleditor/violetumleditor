@@ -92,7 +92,6 @@ public class UMLEditorApplet extends JApplet
 
     }
 
-
     /**
      * Creates workspace when application works as an applet. It contains :<br>
      * + plugins loading + GUI theme management + launging argments to open diagram<br>

@@ -75,6 +75,18 @@ public class MenuFactory
 
     /**
      * @param editorFrame
+     * @return soen menu
+     */
+    public SoenMenu getSoenMenu(MainFrame editorFrame)
+    {
+        if (this.soenMenu == null)
+        {
+            this.soenMenu = new SoenMenu(editorFrame);
+        }
+        return this.soenMenu;
+    }
+    /**
+     * @param editorFrame
      * @return view menu
      */
     public ViewMenu getViewMenu(MainFrame editorFrame)
@@ -104,5 +116,6 @@ public class MenuFactory
     private HelpMenu helpMenu;
     private ViewMenu viewMenu;
     private DocumentMenu documentMenu;
+    private SoenMenu soenMenu;
 
 }
