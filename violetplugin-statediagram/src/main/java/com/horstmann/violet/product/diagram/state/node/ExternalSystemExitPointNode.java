@@ -1,19 +1,23 @@
 package com.horstmann.violet.product.diagram.state.node;
 
-import java.awt.*;
+import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 
-import com.horstmann.violet.framework.graphics.content.*;
+import com.horstmann.violet.framework.graphics.content.ContentBackground;
+import com.horstmann.violet.framework.graphics.content.ContentBorder;
+import com.horstmann.violet.framework.graphics.content.EmptyContent;
+import com.horstmann.violet.framework.graphics.content.TextContent;
+import com.horstmann.violet.framework.graphics.content.VerticalLayout;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
-import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
+import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 import com.horstmann.violet.product.diagram.state.StateDiagramConstant;
 
-public class ExternalSystemExitPointNode extends ColorableNode
+public class ExternalSystemExitPointNode extends AbstractNode
 {
 	protected static class ExternalSystemEntryPointShape implements ContentInsideCustomShape.ShapeCreator
 	{

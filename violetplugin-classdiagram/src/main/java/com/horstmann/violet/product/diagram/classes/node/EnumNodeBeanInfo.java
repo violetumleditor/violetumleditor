@@ -1,16 +1,16 @@
 package com.horstmann.violet.product.diagram.classes.node;
 
 
-import com.horstmann.violet.product.diagram.classes.ClassDiagramConstant;
-import com.horstmann.violet.product.diagram.common.node.ColorableNodeBeanInfo;
-
 import java.beans.PropertyDescriptor;
 import java.util.List;
+
+import com.horstmann.violet.product.diagram.abstracts.node.AbstractNodeBeanInfo;
+import com.horstmann.violet.product.diagram.classes.ClassDiagramConstant;
 
 /**
  * The bean info for the ClassNode type.
  */
-public class EnumNodeBeanInfo extends ColorableNodeBeanInfo
+public class EnumNodeBeanInfo extends AbstractNodeBeanInfo
 {
     public EnumNodeBeanInfo()
     {

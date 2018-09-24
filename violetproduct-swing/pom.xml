@@ -23,11 +23,11 @@
 			<artifactId>violetplugin-classdiagram</artifactId>
 			<version>${applicationVersion}</version>
 		</dependency>
-		<dependency>
+<!-- 		<dependency>
  			<groupId>com.horstmann.violet</groupId>
  			<artifactId>violetplugin-communicationdiagram</artifactId>
  			<version>${applicationVersion}</version>
- 		</dependency>
+ 		</dependency> -->
 		<dependency>
 			<groupId>com.horstmann.violet</groupId>
 			<artifactId>violetplugin-sequencediagram</artifactId>

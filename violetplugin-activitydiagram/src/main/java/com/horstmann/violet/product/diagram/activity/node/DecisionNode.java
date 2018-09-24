@@ -27,20 +27,18 @@ import java.awt.geom.Rectangle2D;
 import com.horstmann.violet.framework.graphics.content.ContentBackground;
 import com.horstmann.violet.framework.graphics.content.ContentBorder;
 import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
-import com.horstmann.violet.framework.graphics.content.EmptyContent;
 import com.horstmann.violet.framework.graphics.content.TextContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideDiamond;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
+import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
 import com.horstmann.violet.product.diagram.property.text.MultiLineText;
-import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 
 /**
  * A decision node_old in an activity diagram.
  */
-public class DecisionNode extends ColorableNode
+public class DecisionNode extends AbstractNode
 {
     /**
      * Construct a decision node_old with a default size

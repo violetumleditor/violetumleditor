@@ -1,10 +1,10 @@
 package com.horstmann.violet.product.diagram.classes.node;
 
-import com.horstmann.violet.product.diagram.classes.ClassDiagramConstant;
-import com.horstmann.violet.product.diagram.common.node.ColorableNodeBeanInfo;
-
 import java.beans.PropertyDescriptor;
 import java.util.List;
+
+import com.horstmann.violet.product.diagram.abstracts.node.AbstractNodeBeanInfo;
+import com.horstmann.violet.product.diagram.classes.ClassDiagramConstant;
 
 /**
  * TODO javadoc
@@ -13,7 +13,7 @@ import java.util.List;
  * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 06.03.2016
  */
-public class BallAndSocketNodeBeanInfo extends ColorableNodeBeanInfo
+public class BallAndSocketNodeBeanInfo extends AbstractNodeBeanInfo
 {
     public BallAndSocketNodeBeanInfo()
     {

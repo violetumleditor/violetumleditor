@@ -5,12 +5,18 @@ import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
-import com.horstmann.violet.framework.graphics.content.*;
+import com.horstmann.violet.framework.graphics.content.ContentBackground;
+import com.horstmann.violet.framework.graphics.content.ContentBorder;
+import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
+import com.horstmann.violet.framework.graphics.content.EmptyContent;
+import com.horstmann.violet.framework.graphics.content.HorizontalLayout;
+import com.horstmann.violet.framework.graphics.content.PaddingContent;
+import com.horstmann.violet.framework.graphics.content.RelativeLayout;
+import com.horstmann.violet.framework.graphics.content.TextContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
-import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.classes.ClassDiagramConstant;
 import com.horstmann.violet.product.diagram.property.text.LineText;
@@ -20,7 +26,7 @@ import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 /**
  * A package node in a class diagram.
  */
-public class PackageNode extends ColorableNode
+public class PackageNode extends AbstractNode
 {
     public PackageNode()
     {
@@ -61,7 +67,7 @@ public class PackageNode extends ColorableNode
         {
             if (isSupportedNode(child))
             {
-                nodesGroup.add(((ColorableNode) child).getContent(), getChildRelativeLocation(child));
+                nodesGroup.add(((AbstractNode) child).getContent(), getChildRelativeLocation(child));
             }
         }
 
@@ -169,7 +175,7 @@ public class PackageNode extends ColorableNode
             node.setLocation(point);
             addChild(node, getChildren().size());
 
-            ColorableNode colorableNode = (ColorableNode) node;
+            AbstractNode colorableNode = (AbstractNode) node;
             colorableNode.setTextColor(getTextColor());
             colorableNode.setBackgroundColor(getBackgroundColor());
             colorableNode.setBorderColor(getBorderColor());

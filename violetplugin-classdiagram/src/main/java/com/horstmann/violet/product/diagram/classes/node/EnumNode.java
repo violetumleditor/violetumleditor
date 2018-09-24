@@ -1,24 +1,28 @@
 package com.horstmann.violet.product.diagram.classes.node;
 
+import java.awt.Color;
+
 import com.horstmann.violet.framework.graphics.Separator;
-import com.horstmann.violet.framework.graphics.content.*;
+import com.horstmann.violet.framework.graphics.content.ContentBackground;
+import com.horstmann.violet.framework.graphics.content.ContentBorder;
+import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
+import com.horstmann.violet.framework.graphics.content.TextContent;
+import com.horstmann.violet.framework.graphics.content.VerticalLayout;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
-import com.horstmann.violet.product.diagram.classes.ClassDiagramConstant;
-import com.horstmann.violet.product.diagram.property.text.decorator.LargeSizeDecorator;
-import com.horstmann.violet.product.diagram.property.text.decorator.OneLineText;
-import com.horstmann.violet.product.diagram.property.text.decorator.PrefixDecorator;
-import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
+import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.classes.ClassDiagramConstant;
 import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.MultiLineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
-
-import java.awt.*;
+import com.horstmann.violet.product.diagram.property.text.decorator.LargeSizeDecorator;
+import com.horstmann.violet.product.diagram.property.text.decorator.OneLineText;
+import com.horstmann.violet.product.diagram.property.text.decorator.PrefixDecorator;
 
 /**
  * A class node in a class diagram.
  */
-public class EnumNode extends ColorableNode
+public class EnumNode extends AbstractNode
 {
 	/**
      * Construct a class node with a default size

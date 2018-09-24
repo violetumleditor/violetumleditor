@@ -21,16 +21,21 @@
 
 package com.horstmann.violet.product.diagram.sequence.node;
 
-import java.awt.*;
+import java.awt.Point;
+import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import com.horstmann.violet.framework.graphics.content.*;
+import com.horstmann.violet.framework.graphics.content.ContentBackground;
+import com.horstmann.violet.framework.graphics.content.ContentBorder;
+import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
+import com.horstmann.violet.framework.graphics.content.EmptyContent;
+import com.horstmann.violet.framework.graphics.content.RelativeLayout;
+import com.horstmann.violet.framework.graphics.content.VerticalLayout;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
-import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.sequence.SequenceDiagramConstant;
 import com.horstmann.violet.product.diagram.sequence.edge.CallEdge;
@@ -41,7 +46,7 @@ import com.horstmann.violet.product.diagram.sequence.edge.ReturnEdge;
  *
  * @author Adrian Bobrowski <adrian071993@gmail.com>
  */
-public class ActivationBarNode extends ColorableNode
+public class ActivationBarNode extends AbstractNode
 {
     protected static class ActivationBarShape implements ContentInsideCustomShape.ShapeCreator
     {

@@ -33,7 +33,7 @@ import com.horstmann.violet.framework.graphics.content.TextContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
+import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
 import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
@@ -41,7 +41,7 @@ import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 /**
  * An receive event node_old in an activity diagram.
  */
-public class SignalReceiptNode extends ColorableNode
+public class SignalReceiptNode extends AbstractNode
 {
     /**
      * Construct an receive event node_old with a default size

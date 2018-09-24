@@ -30,18 +30,23 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.horstmann.violet.framework.graphics.content.Content;
+import com.horstmann.violet.framework.graphics.content.ContentBackground;
+import com.horstmann.violet.framework.graphics.content.ContentBorder;
+import com.horstmann.violet.framework.graphics.content.EmptyContent;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideRoundRectangle;
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.Id;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 
 /**
  * A class that supplies convenience implementations for a number of methods in the Node interface
  * 
  * @author Cay Horstmann
  */
-public abstract class AbstractNode implements INode
+public abstract class AbstractNode implements INode, IColorableNode
 {
     private static class NodeGraph extends AbstractGraph
     {
@@ -104,7 +109,6 @@ public abstract class AbstractNode implements INode
     }
 
     @Override
-//    public AbstractNode clone(){
     public final AbstractNode clone()
     {
         try {
@@ -125,8 +129,13 @@ public abstract class AbstractNode implements INode
         return "";
     }
 
-    protected abstract void createContentStructure();
-
+    protected void createContentStructure()
+    {
+        setBorder(new ContentBorder(new ContentInsideRoundRectangle(new EmptyContent()), getBorderColor()));
+        setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
+        setContent(getBackground());
+    }
+    
     @Override
     public void draw(Graphics2D graphics)
     {
@@ -142,6 +151,10 @@ public abstract class AbstractNode implements INode
     }
 
     public boolean contains(Point2D p) {
+        if(null != getBackground())
+        {
+            return getBackground().contains(p);
+        }
         return getContent().contains(p);
     }
 
@@ -331,7 +344,14 @@ public abstract class AbstractNode implements INode
     @Override
     public boolean addConnection(IEdge edge)
     {
-        return edge.getEndNode() != null;
+    	// Self call (loop)
+    	INode endingNode = edge.getEndNode();
+    	if (endingNode == null) {
+    		edge.setEndNode(edge.getStartNode());
+    		edge.setEndLocation(edge.getStartLocation());
+    	}
+    	// Back to default behavior
+    	return edge.getEndNode() != null;
     }
 
     @Override
@@ -469,4 +489,100 @@ public abstract class AbstractNode implements INode
     private INode parent;
 
     private Point2D location;
+    
+    
+
+
+
+    protected final void setBackground(ContentBackground background)
+    {
+        this.background = background;
+    }
+    protected final ContentBackground getBackground()
+    {
+        if(null == background)
+        {
+            getContent();
+        }
+        return background;
+    }
+
+    protected final void setBorder(ContentBorder border)
+    {
+        this.border = border;
+    }
+    protected final ContentBorder getBorder()
+    {
+        if(null == border)
+        {
+            getContent();
+        }
+        return border;
+    }
+
+
+
+    @Override
+    public void setBackgroundColor(Color bgColor)
+    {
+        backgroundColor = bgColor;
+        if(null != background)
+        {
+            background.setBackgroundColor(bgColor);
+        }
+    }
+
+    @Override
+    public final Color getBackgroundColor()
+    {
+        if(null == backgroundColor)
+        {
+            return ColorToolsBarPanel.DEFAULT_COLOR.getBackgroundColor();
+        }
+        return backgroundColor;
+    }
+
+    @Override
+    public void setBorderColor(Color borderColor)
+    {
+        this.borderColor = borderColor;
+        if(null != border)
+        {
+            border.setBorderColor(borderColor);
+        }
+    }
+
+    @Override
+    public final Color getBorderColor()
+    {
+        if(null == borderColor)
+        {
+            return ColorToolsBarPanel.DEFAULT_COLOR.getBorderColor();
+        }
+        return borderColor;
+    }
+
+    @Override
+    public void setTextColor(Color textColor)
+    {
+        this.textColor = textColor;
+    }
+
+    @Override
+    public final Color getTextColor()
+    {
+        if(null == textColor)
+        {
+            return ColorToolsBarPanel.DEFAULT_COLOR.getTextColor();
+        }
+        return textColor;
+    }
+
+    
+    private transient ContentBackground background = null;
+    private transient ContentBorder border = null;
+
+    private Color backgroundColor;
+    private Color borderColor;
+    private Color textColor;
 }

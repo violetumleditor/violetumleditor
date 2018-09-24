@@ -30,7 +30,7 @@ import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
 import com.horstmann.violet.framework.graphics.content.TextContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideEllipse;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
+import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
@@ -39,7 +39,7 @@ import com.horstmann.violet.product.diagram.usecase.UseCaseDiagramConstant;
 /**
  * A use case node_old in a use case diagram.
  */
-public class UseCaseNode extends ColorableNode
+public class UseCaseNode extends AbstractNode
 {
     /**
      * Construct a use case node_old with a default size

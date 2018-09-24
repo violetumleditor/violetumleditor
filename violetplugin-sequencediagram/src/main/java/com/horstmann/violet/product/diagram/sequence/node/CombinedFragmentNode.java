@@ -27,7 +27,7 @@ import java.awt.geom.Rectangle2D;
  * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 21.02.2016
  */
-public class CombinedFragmentNode extends AbstractNode implements IResizableNode
+public class CombinedFragmentNode extends AbstractNode // implements IResizableNode
 {
     public CombinedFragmentNode()
     {
@@ -147,25 +147,25 @@ public class CombinedFragmentNode extends AbstractNode implements IResizableNode
         return false;
     }
 
-    @Override
-    public void setWantedSize(Rectangle2D size)
-    {
-        wantedWeight = size.getWidth();
-        wantedHeight = size.getHeight();
-        wantedSizeContent.setMinWidth(wantedWeight);
-        wantedSizeContent.setMinHeight(wantedHeight);
-    }
-
-    @Override
-    public Rectangle2D getResizablePoint()
-    {
-        Rectangle2D nodeBounds = getBounds();
-
-        double x = nodeBounds.getMaxX() - RESIZABLE_POINT_SIZE;
-        double y = nodeBounds.getMaxY() - RESIZABLE_POINT_SIZE;
-
-        return new Rectangle2D.Double(x, y, RESIZABLE_POINT_SIZE, RESIZABLE_POINT_SIZE);
-    }
+//    @Override
+//    public void setWantedSize(Rectangle2D size)
+//    {
+//        wantedWeight = size.getWidth();
+//        wantedHeight = size.getHeight();
+//        wantedSizeContent.setMinWidth(wantedWeight);
+//        wantedSizeContent.setMinHeight(wantedHeight);
+//    }
+//
+//    @Override
+//    public Rectangle2D getResizablePoint()
+//    {
+//        Rectangle2D nodeBounds = getBounds();
+//
+//        double x = nodeBounds.getMaxX() - RESIZABLE_POINT_SIZE;
+//        double y = nodeBounds.getMaxY() - RESIZABLE_POINT_SIZE;
+//
+//        return new Rectangle2D.Double(x, y, RESIZABLE_POINT_SIZE, RESIZABLE_POINT_SIZE);
+//    }
 
     /**
      * Sets the contents property value.

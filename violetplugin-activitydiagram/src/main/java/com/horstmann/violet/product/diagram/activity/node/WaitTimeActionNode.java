@@ -1,23 +1,27 @@
 package com.horstmann.violet.product.diagram.activity.node;
 
-import com.horstmann.violet.framework.graphics.content.*;
-import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
-import com.horstmann.violet.product.diagram.abstracts.Direction;
-import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
-import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
-import com.horstmann.violet.product.diagram.property.text.LineText;
-import com.horstmann.violet.product.diagram.property.text.SingleLineText;
-
-import java.awt.*;
+import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import com.horstmann.violet.framework.graphics.content.CenterContent;
+import com.horstmann.violet.framework.graphics.content.ContentBackground;
+import com.horstmann.violet.framework.graphics.content.ContentBorder;
+import com.horstmann.violet.framework.graphics.content.TextContent;
+import com.horstmann.violet.framework.graphics.content.VerticalLayout;
+import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
+import com.horstmann.violet.product.diagram.abstracts.Direction;
+import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
+import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
+import com.horstmann.violet.product.diagram.property.text.LineText;
+import com.horstmann.violet.product.diagram.property.text.SingleLineText;
+
 /**
  * An receive event node in an activity diagram.
  */
-public class WaitTimeActionNode extends ColorableNode
+public class WaitTimeActionNode extends AbstractNode
 {
     /**
      * Construct an receive event node with a default size

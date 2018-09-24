@@ -27,12 +27,15 @@ import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 
-import com.horstmann.violet.framework.graphics.content.*;
+import com.horstmann.violet.framework.graphics.content.ContentBackground;
+import com.horstmann.violet.framework.graphics.content.ContentBorder;
+import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
+import com.horstmann.violet.framework.graphics.content.TextContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
 import com.horstmann.violet.framework.theme.ThemeManager;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
+import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.property.text.MultiLineText;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
@@ -46,7 +49,7 @@ import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
  * INode n = getGraph().findNode(endPoint); if (n != end) end.setZ(n.getZ() + 1); } }
  * 
  */
-public class NoteNode extends ColorableNode
+public class NoteNode extends AbstractNode
 {
     /**
      * Construct a note node_old with a default size and color
