@@ -25,7 +25,8 @@
 		<module>violetproduct-web</module>
 	</modules>
 	<properties>
-		<applicationVersion>2.5.3</applicationVersion>
+		<applicationVersion>3.0.0</applicationVersion>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<build>
 		<resources>
