@@ -1,7 +1,7 @@
 How to get the software
 =======================
 
-Here, you will only find source code. If you just want to get and use the software, go to sourceforge, download it and enjoy easy diagram's drawing! https://sourceforge.net/projects/violet/
+Here, you will only find source code. If you just want to get and use the software, go to sourceforge, download it and enjoy easy diagram's drawing! https://github.com/violetumleditor/violetumleditor
 
 
 How to compile Violet's source code
