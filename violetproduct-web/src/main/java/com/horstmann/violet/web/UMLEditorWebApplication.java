@@ -49,7 +49,6 @@ import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WLength.Unit;
 import eu.webtoolkit.jwt.WLink;
 import eu.webtoolkit.jwt.WResource;
-import eu.webtoolkit.jwt.WWebWidget;
 import eu.webtoolkit.jwt.WWidget;
 import eu.webtoolkit.jwt.servlet.WebRequest;
 import eu.webtoolkit.jwt.servlet.WebResponse;

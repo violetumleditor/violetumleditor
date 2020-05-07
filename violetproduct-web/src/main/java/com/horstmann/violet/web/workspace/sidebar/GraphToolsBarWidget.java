@@ -2,7 +2,6 @@ package com.horstmann.violet.web.workspace.sidebar;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +29,6 @@ import eu.webtoolkit.jwt.WLabel;
 import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WLength.Unit;
 import eu.webtoolkit.jwt.WLink;
-import eu.webtoolkit.jwt.WMemoryResource;
 import eu.webtoolkit.jwt.WMenu;
 import eu.webtoolkit.jwt.WMenuItem;
 import eu.webtoolkit.jwt.WMouseEvent;
@@ -166,9 +164,6 @@ public class GraphToolsBarWidget extends WCompositeWidget {
 		iconResource.suggestFileName(aGraphTool.getLabel());
 		iconResource.generateUrl();
 		String url = iconResource.getUrl();
-		if (!url.startsWith(getDeploymentPath())) {
-			url = getDeploymentPath() + "/" + url;
-		}
 		WImage wImage = new WImage(new WLink(url));
 		WAnchor wAnchor = getAnchor(graphToolButton);
 		wAnchor.insertWidget(0, getSpaceText());

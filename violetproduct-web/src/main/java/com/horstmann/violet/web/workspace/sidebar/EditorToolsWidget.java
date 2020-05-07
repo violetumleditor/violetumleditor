@@ -227,9 +227,6 @@ public class EditorToolsWidget extends WContainerWidget {
 			}
 		};
 		String url = iconResource.getUrl();
-		if (!url.startsWith(getDeploymentPath())) {
-			url = getDeploymentPath() + "/" + url;
-		}
 		WLink wLink = new WLink(url);
 		return wLink;
 	}

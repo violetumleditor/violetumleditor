@@ -1,0 +1,43 @@
+ <project>
+  <parent>	
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>7</version>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>eu.webtoolkit</groupId>
+  <artifactId>jwt</artifactId>
+  <packaging>jar</packaging>
+  <name>Java Web Toolkit</name>
+  <version>3.1.11</version>
+  <description>Java library for developing web applications</description>
+  <url>http://webtoolkit.eu/jwt/</url>
+
+  <licenses>
+    <license>
+      <name>GNU General Public License, version 2</name>
+      <url>http://www.gnu.org/licenses/gpl-2.0.html</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <url>http://www.webtoolkit.eu/git/jwt.git</url>
+    <connection>http://www.webtoolkit.eu/git/jwt.git</connection>
+  </scm>
+
+  <dependencies>
+    <dependency>
+      <groupId>commons-fileupload</groupId>
+      <artifactId>commons-fileupload</artifactId>
+      <version>1.2.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>1.3.2</version>
+    </dependency>
+  </dependencies>
+</project>
