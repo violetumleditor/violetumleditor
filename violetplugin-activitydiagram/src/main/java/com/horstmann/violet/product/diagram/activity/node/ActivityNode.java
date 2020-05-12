@@ -22,12 +22,10 @@
 package com.horstmann.violet.product.diagram.activity.node;
 
 import java.awt.Color;
-import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.framework.graphics.content.ContentBackground;
 import com.horstmann.violet.framework.graphics.content.ContentBorder;
 import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
-import com.horstmann.violet.framework.graphics.content.EmptyContent;
 import com.horstmann.violet.framework.graphics.content.RelativeLayout;
 import com.horstmann.violet.framework.graphics.content.TextContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRoundRectangle;
@@ -36,12 +34,13 @@ import com.horstmann.violet.product.diagram.abstracts.node.IResizableNode;
 import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
 import com.horstmann.violet.product.diagram.property.text.MultiLineText;
 
-public class ActivityNode extends AbstractNode // implements IResizableNode
+public class ActivityNode extends AbstractNode implements IResizableNode
 {
     public ActivityNode()
     {
         super();
         name = new MultiLineText();
+        relativeGroupContent = new RelativeLayout();
         createContentStructure();
     }
 
@@ -49,6 +48,7 @@ public class ActivityNode extends AbstractNode // implements IResizableNode
     {
         super(node);
         name = node.name.clone();
+        relativeGroupContent = new RelativeLayout();
         createContentStructure();
     }
 
@@ -57,14 +57,13 @@ public class ActivityNode extends AbstractNode // implements IResizableNode
     {
         super.beforeReconstruction();
 
+        relativeGroupContent.setMinHeight(Math.max(MIN_HEIGHT, getPreferredSize().getHeight()));
+        relativeGroupContent.setMinWidth(Math.max(MIN_WIDTH, getPreferredSize().getWidth()));
         if(null == name)
         {
             name = new MultiLineText();
         }
         name.reconstruction();
-        
-        wantedSizeContent.setMinWidth(wantedWeight);
-        wantedSizeContent.setMinHeight(wantedHeight);
         
     }
 
@@ -77,15 +76,10 @@ public class ActivityNode extends AbstractNode // implements IResizableNode
     @Override
     protected void createContentStructure()
     {
-    	RelativeLayout relativeGroupContent = new RelativeLayout();
-        relativeGroupContent.setMinHeight(MIN_HEIGHT);
-        relativeGroupContent.setMinWidth(MIN_WIDTH);
-    	
     	TextContent nameContent = new TextContent(name);
         nameContent.setMinHeight(MIN_HEIGHT);
         nameContent.setMinWidth(MIN_WIDTH);
         
-        relativeGroupContent.add(wantedSizeContent);
         relativeGroupContent.add(nameContent);
 
         ContentInsideShape contentInsideShape = new ContentInsideRoundRectangle(relativeGroupContent, ARC_SIZE);
@@ -119,35 +113,11 @@ public class ActivityNode extends AbstractNode // implements IResizableNode
     {
         return name;
     }
-//    
-//    @Override
-//    public void setWantedSize(Rectangle2D size)
-//    {
-//        wantedWeight = size.getWidth();
-//        wantedHeight = size.getHeight();
-//        wantedSizeContent.setMinWidth(wantedWeight);
-//        wantedSizeContent.setMinHeight(wantedHeight);
-//    }
-//
-//    @Override
-//    public Rectangle2D getResizablePoint()
-//    {
-//        Rectangle2D nodeBounds = getBounds();
-//
-//        double x = nodeBounds.getMaxX() - RESIZABLE_POINT_SIZE;
-//        double y = nodeBounds.getMaxY() - RESIZABLE_POINT_SIZE;
-//
-//        return new Rectangle2D.Double(x, y, RESIZABLE_POINT_SIZE, RESIZABLE_POINT_SIZE);
-//    }
-
     
-    private double wantedWeight;
-    private double wantedHeight;
-    private transient EmptyContent wantedSizeContent = new EmptyContent();
-
-    private static final int RESIZABLE_POINT_SIZE = 10;
 
     private MultiLineText name;
+    private RelativeLayout relativeGroupContent;
+    
 
     private static final int ARC_SIZE = 20;
     private static final int MIN_WIDTH = 60;

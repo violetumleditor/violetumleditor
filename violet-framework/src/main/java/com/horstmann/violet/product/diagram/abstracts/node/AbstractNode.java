@@ -492,12 +492,12 @@ public abstract class AbstractNode implements INode, IColorableNode
     
     
 
-
-
     protected final void setBackground(ContentBackground background)
     {
         this.background = background;
     }
+    
+    
     protected final ContentBackground getBackground()
     {
         if(null == background)
@@ -579,10 +579,22 @@ public abstract class AbstractNode implements INode, IColorableNode
     }
 
     
-    private transient ContentBackground background = null;
+    public void setPreferredSize(Rectangle2D size) {
+    	this.preferredSize = size;
+    	beforeReconstruction();
+    }
+    
+    public Rectangle2D getPreferredSize() {
+    	return this.preferredSize;
+    }
+
+	private transient ContentBackground background = null;
     private transient ContentBorder border = null;
 
     private Color backgroundColor;
     private Color borderColor;
     private Color textColor;
+    
+    private Rectangle2D preferredSize = new Rectangle2D.Double();
+    
 }
