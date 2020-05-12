@@ -10,7 +10,7 @@ public class SignalSendingNodeBeanInfo extends AbstractNodeBeanInfo
 {
     public SignalSendingNodeBeanInfo()
     {
-        super(SignalReceiptNode.class);
+        super(SignalSendingNode.class);
         addResourceBundle(ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE);
     }
 

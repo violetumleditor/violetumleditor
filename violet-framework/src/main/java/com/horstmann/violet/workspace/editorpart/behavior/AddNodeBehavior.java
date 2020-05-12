@@ -153,6 +153,7 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior implements IGrap
 				editorPart.getSwingComponent().repaint();
 			} else {
 				moveDraggedNode(outEvent);
+				graphToolsBar.reset();
 			}
 			
 	        this.draggedNode = null;
