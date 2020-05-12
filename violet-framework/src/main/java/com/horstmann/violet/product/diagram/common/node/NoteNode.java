@@ -70,6 +70,9 @@ public class NoteNode extends AbstractNode implements IResizableNode
         text = node.text.clone();
         relativeGroupContent = new RelativeLayout();
         createContentStructure();
+        setBackgroundColor(node.getBackgroundColor());
+        setBorderColor(node.getBorderColor());
+        setTextColor(node.getTextColor());
     }
 
     @Override
@@ -115,9 +118,7 @@ public class NoteNode extends AbstractNode implements IResizableNode
         setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
         setContent(getBackground());
 
-        setBackgroundColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getBackgroundColor());
-        setBorderColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getBorderColor());
-        setTextColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getTextColor());
+
     }
 
     @Override

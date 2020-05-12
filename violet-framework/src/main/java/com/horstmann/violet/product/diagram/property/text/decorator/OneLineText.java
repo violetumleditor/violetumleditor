@@ -44,7 +44,7 @@ public class OneLineText implements Serializable, Cloneable, EditableText
         {
             text = "";
         }
-        this.text = removeDuplicateWhitespace(text);
+        this.text = text;
     }
 
     /**
@@ -122,7 +122,7 @@ public class OneLineText implements Serializable, Cloneable, EditableText
      * @param sentence
      * @return cleared string
      */
-    protected final String removeDuplicateWhitespace(String sentence)
+    private final String removeDuplicateWhitespace(String sentence)
     {
         return sentence.replaceAll("\\s+", " ").trim();
     }
