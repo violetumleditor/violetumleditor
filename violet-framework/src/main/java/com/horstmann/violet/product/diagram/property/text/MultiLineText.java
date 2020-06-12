@@ -25,11 +25,13 @@ public class MultiLineText extends LineText
         super();
         setPadding(7,8);
     }
+    
     public MultiLineText(Converter converter)
     {
         super(converter);
         setPadding(6,8);
     }
+    
     protected MultiLineText(MultiLineText lineText) throws CloneNotSupportedException
     {
         super(lineText);
@@ -61,13 +63,11 @@ public class MultiLineText extends LineText
     final public void setText(String text)
     {
         this.text = text;
-    	
         getRows().clear();
         String[] array = this.text.split("\n", -1);
-
         for (String rawRow: array)
         {
-            getRows().add(converter.toLineString(rawRow));
+        	getRows().add(converter.toLineString(rawRow));
         }
         setLabelText(toDisplay());
 

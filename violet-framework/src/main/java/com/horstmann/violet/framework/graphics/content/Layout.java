@@ -92,6 +92,23 @@ public abstract class Layout extends Content
     {
         return contents;
     }
+    
+    /**
+     * returns is this this layout has no content
+     * @return b
+     */
+    public boolean isEmpty() {
+    	return contents.isEmpty();
+    }
+    
+    
+    /**
+     * removes all elements from this layout
+     */
+    public void clear() {
+    	contents.clear();
+    }
+    
 
     /**
      * Refresh all the elements in layout

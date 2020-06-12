@@ -93,7 +93,6 @@ public class PackageNode extends AbstractNode
         nodesGroup.setMinHeight(DEFAULT_HEIGHT);
         nodesGroup.setMinWidth(DEFAULT_WIDTH);
 
-        RelativeLayout relativeGroupContent = new RelativeLayout();
 
         EmptyContent emptyContent = new EmptyContent();
         emptyContent.setMinWidth(NAME_GAP);
@@ -102,6 +101,7 @@ public class PackageNode extends AbstractNode
         horizontalName.add(nameContent);
         horizontalName.add(emptyContent);
 
+        RelativeLayout relativeGroupContent = new RelativeLayout();
         relativeGroupContent.add(
                 new PaddingContent(nodesGroup, CHILD_GAP), new Point2D.Double(0, DEFAULT_TOP_HEIGHT)
         );

@@ -93,10 +93,12 @@ public class NoteNode extends AbstractNode implements IResizableNode
     @Override
     protected void createContentStructure()
     {
-        TextContent textContent = new TextContent(text);
+    	
+    	TextContent textContent = new TextContent(text);
         textContent.setMinHeight(DEFAULT_HEIGHT);
         textContent.setMinWidth(DEFAULT_WIDTH);
 
+        relativeGroupContent.clear();
         relativeGroupContent.add(textContent);
         
         ContentInsideShape contentInsideShape = new ContentInsideCustomShape(relativeGroupContent, new ContentInsideCustomShape.ShapeCreator()

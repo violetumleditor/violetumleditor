@@ -126,6 +126,7 @@ public class CombinedFragmentNode extends AbstractNode // implements IResizableN
         horizontalLayout.add(nameBackground);
         horizontalLayout.add(nameMarginRight);
 
+        relativeGroupContent.clear();
         relativeGroupContent.add(wantedSizeContent);
         relativeGroupContent.add(horizontalLayout);
         relativeGroupContent.add(new ContentInsideRectangle(new TextContent(frameContent)), new Point2D.Double(0,DEFAULT_TYPE_HEIGHT+5));

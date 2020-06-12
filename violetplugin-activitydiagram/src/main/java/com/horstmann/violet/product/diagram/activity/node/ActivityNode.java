@@ -76,11 +76,13 @@ public class ActivityNode extends AbstractNode implements IResizableNode
     @Override
     protected void createContentStructure()
     {
+    	
     	TextContent nameContent = new TextContent(name);
-        nameContent.setMinHeight(MIN_HEIGHT);
-        nameContent.setMinWidth(MIN_WIDTH);
-        
-        relativeGroupContent.add(nameContent);
+    	nameContent.setMinHeight(MIN_HEIGHT);
+    	nameContent.setMinWidth(MIN_WIDTH);
+    	
+    	relativeGroupContent.clear();
+    	relativeGroupContent.add(nameContent);
 
         ContentInsideShape contentInsideShape = new ContentInsideRoundRectangle(relativeGroupContent, ARC_SIZE);
 
