@@ -68,11 +68,11 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior implements IGrap
         {
             selectionHandler.setSelectedElement(newNode);
             
-            if (!KeyModifierUtil.isCtrl(event)) {
-	            selectionHandler.setSelectedTool(GraphTool.SELECTION_TOOL);
-	            graphToolsBar.setSelectedTool(GraphTool.SELECTION_TOOL);
-	            graphToolsBar.getAWTComponent().invalidate();
-            }
+//            if (!KeyModifierUtil.isCtrl(event)) {
+//	            selectionHandler.setSelectedTool(GraphTool.SELECTION_TOOL);
+//	            graphToolsBar.setSelectedTool(GraphTool.SELECTION_TOOL);
+//	            graphToolsBar.getAWTComponent().invalidate();
+//            }
             
             editorPart.getSwingComponent().invalidate();
         }
@@ -103,19 +103,6 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior implements IGrap
         }
         return isAdded;
     }
-
-    private IEditorPart editorPart;
-
-    private IGraph graph;
-
-    private IEditorPartSelectionHandler selectionHandler;
-
-    private IEditorPartBehaviorManager behaviorManager;
-
-    private IGraphToolsBar graphToolsBar;
-
-    private boolean dragging;
-    private INode draggedNode;
 
 	@Override
 	public void onMouseToolClicked(GraphTool selectedTool)
@@ -166,6 +153,7 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior implements IGrap
 				editorPart.getSwingComponent().repaint();
 			} else {
 				moveDraggedNode(outEvent);
+				graphToolsBar.reset();
 			}
 			
 	        this.draggedNode = null;
@@ -184,4 +172,18 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior implements IGrap
         editorPart.getSwingComponent().invalidate();
         editorPart.getSwingComponent().repaint();
 	}
+	
+    private IEditorPart editorPart;
+
+    private IGraph graph;
+
+    private IEditorPartSelectionHandler selectionHandler;
+
+    private IEditorPartBehaviorManager behaviorManager;
+
+    private IGraphToolsBar graphToolsBar;
+
+    private boolean dragging;
+    
+    private INode draggedNode;
 }

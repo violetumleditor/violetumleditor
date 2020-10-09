@@ -21,21 +21,26 @@
 
 package com.horstmann.violet.product.diagram.activity.node;
 
-import java.awt.*;
+import java.awt.Color;
 
-import com.horstmann.violet.framework.graphics.content.*;
+import com.horstmann.violet.framework.graphics.content.ContentBackground;
+import com.horstmann.violet.framework.graphics.content.ContentBorder;
+import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
+import com.horstmann.violet.framework.graphics.content.RelativeLayout;
+import com.horstmann.violet.framework.graphics.content.TextContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRoundRectangle;
-import com.horstmann.violet.product.diagram.common.node.ColorableNode;
+import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
+import com.horstmann.violet.product.diagram.abstracts.node.IResizableNode;
 import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
-import com.horstmann.violet.product.diagram.property.text.LineText;
-import com.horstmann.violet.product.diagram.property.text.SingleLineText;
+import com.horstmann.violet.product.diagram.property.text.MultiLineText;
 
-public class ActivityNode extends ColorableNode
+public class ActivityNode extends AbstractNode implements IResizableNode
 {
     public ActivityNode()
     {
         super();
-        name = new SingleLineText();
+        name = new MultiLineText();
+        relativeGroupContent = new RelativeLayout();
         createContentStructure();
     }
 
@@ -43,6 +48,7 @@ public class ActivityNode extends ColorableNode
     {
         super(node);
         name = node.name.clone();
+        relativeGroupContent = new RelativeLayout();
         createContentStructure();
     }
 
@@ -51,11 +57,14 @@ public class ActivityNode extends ColorableNode
     {
         super.beforeReconstruction();
 
+        relativeGroupContent.setMinHeight(Math.max(MIN_HEIGHT, getPreferredSize().getHeight()));
+        relativeGroupContent.setMinWidth(Math.max(MIN_WIDTH, getPreferredSize().getWidth()));
         if(null == name)
         {
-            name = new SingleLineText();
+            name = new MultiLineText();
         }
         name.reconstruction();
+        
     }
 
     @Override
@@ -67,11 +76,15 @@ public class ActivityNode extends ColorableNode
     @Override
     protected void createContentStructure()
     {
-        TextContent nameContent = new TextContent(name);
-        nameContent.setMinHeight(MIN_HEIGHT);
-        nameContent.setMinWidth(MIN_WIDTH);
+    	
+    	TextContent nameContent = new TextContent(name);
+    	nameContent.setMinHeight(MIN_HEIGHT);
+    	nameContent.setMinWidth(MIN_WIDTH);
+    	
+    	relativeGroupContent.clear();
+    	relativeGroupContent.add(nameContent);
 
-        ContentInsideShape contentInsideShape = new ContentInsideRoundRectangle(nameContent, ARC_SIZE);
+        ContentInsideShape contentInsideShape = new ContentInsideRoundRectangle(relativeGroupContent, ARC_SIZE);
 
         setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
         setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
@@ -93,17 +106,20 @@ public class ActivityNode extends ColorableNode
         return ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE.getString("tooltip.activity_node");
     }
 
-    public void setName(LineText newValue)
+    public void setName(MultiLineText newValue)
     {
         name.setText(newValue.toEdit());
     }
 
-    public LineText getName()
+    public MultiLineText getName()
     {
         return name;
     }
+    
 
-    private SingleLineText name;
+    private MultiLineText name;
+    private RelativeLayout relativeGroupContent;
+    
 
     private static final int ARC_SIZE = 20;
     private static final int MIN_WIDTH = 60;

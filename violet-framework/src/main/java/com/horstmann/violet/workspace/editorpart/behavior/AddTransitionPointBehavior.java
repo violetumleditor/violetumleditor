@@ -76,7 +76,7 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
         {
             return;
         }
-        this.isReadyToAddTransitionPoint = true;
+        this.isReadyToAddTransitionPoint = false;
         double zoom = editorPart.getZoomFactor();
         IGridSticker gridSticker = editorPart.getGraph().getGridSticker();
         final Point2D mousePoint = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
@@ -88,7 +88,13 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
     @Override
     public void onMouseDragged(MouseEvent event)
     {
-        if (this.isReadyToAddTransitionPoint && !this.isTransitionPointAdded)
+    	if (!this.isReadyToAddTransitionPoint && this.newTransitionPointLocation != null) {
+    		if (!isMouseOnEdgePath(event)) {
+    			this.isReadyToAddTransitionPoint = true;
+    		}
+    	}
+    	
+    	if (this.isReadyToAddTransitionPoint && !this.isTransitionPointAdded)
         {
             // We add transition point only if a dragging action is detected.
             // If we added it on mouse pressed, it will produce a conflict with
@@ -263,5 +269,7 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
     private Cursor initialCursor = null;
 
     private Cursor transitionCursor = new Cursor(Cursor.CROSSHAIR_CURSOR);
+    
+    private static final int DRAG_TRIGGER_MIN_GAP = 50;
 
 }

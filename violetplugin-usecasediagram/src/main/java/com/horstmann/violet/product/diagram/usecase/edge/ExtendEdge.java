@@ -73,7 +73,7 @@ public class ExtendEdge extends LabeledLineEdge
         return UseCaseDiagramConstant.USE_CASE_DIAGRAM_RESOURCE.getString("tooltip.extend");
     }
 
-    private static final String EXTEND = "«extend»";
+    private static final String EXTEND = "&laquo;extend&raquo;";
     private static final LineText.Converter EXTEND_CONVERTER = new LineText.Converter()
     {
         @Override

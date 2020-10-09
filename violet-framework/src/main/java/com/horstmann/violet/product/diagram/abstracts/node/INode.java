@@ -33,7 +33,7 @@ import com.horstmann.violet.product.diagram.abstracts.IIdentifiable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 
 /**
- * A node_old in a graph. To be more precise, a node_old is an graphical entity that represents a class, a sequence, a state or all other
+ * A node in a graph. To be more precise, a node is an graphical entity that represents a class, a sequence, a state or all other
  * type of entities that can or not handle edges.
  * 
  * @author Cay Horstmann
@@ -44,7 +44,7 @@ public interface INode extends Serializable, Cloneable, IIdentifiable, Connected
     void reconstruction();
     
     /**
-     * Checks whether to add an edge that originates at this node_old.
+     * Checks whether to add an edge that originates at this node.
      * 
      * @param edge the edge to add
      * @return true if the edge was added
@@ -52,78 +52,78 @@ public interface INode extends Serializable, Cloneable, IIdentifiable, Connected
     boolean addConnection(IEdge edge);
 
     /**
-     * Notifies this node_old that an edge is being removed.
+     * Notifies this node that an edge is being removed.
      * 
      * @param edge the edge to be removed
      */
     void removeConnection(IEdge edge);
 
     /**
-     * Adds a node_old as a child node_old to this node_old.
+     * Adds a node as a child node to this node.
      * 
-     * @param node the child node_old
-     * @param point the point at which the node_old is being added
-     * @return true if this node_old accepts the given node_old as a child
+     * @param node the child node
+     * @param point the point at which the node is being added
+     * @return true if this node accepts the given node as a child
      */
     boolean addChild(INode node, Point2D point);
 
     /**
-     * Adds a child node_old and fires the graph modification event.
-     * @param node the child node_old to add
+     * Adds a child node and fires the graph modification event.
+     * @param node the child node to add
      * @param index the position at which to add the child
-     * @return true if this node_old accepts the given node_old as a child
+     * @return true if this node accepts the given node as a child
      */
     boolean addChild(INode node, int index);
 
     /**
-     * Notifies this node_old that a node_old is being removed.
+     * Notifies this node that a node is being removed.
      * 
-     * @param node the node_old to be removed
+     * @param node the node to be removed
      */
     void removeChild(INode node);
 
     /**
-     * Gets the children of this node_old.
+     * Gets the children of this node.
      * 
      * @return an unmodifiable list of the children
      */
     List<INode> getChildren();
 
     /**
-     * Gets the parent of this node_old.
+     * Gets the parent of this node.
      * 
-     * @return the parent node_old, or null if the node_old has no parent
+     * @return the parent node, or null if the node has no parent
      */
     INode getParent();
 
     /**
-     * Gets the three parents of this node_old.
+     * Gets the three parents of this node.
      *
-     * @return the three parents node_old, or null if the node_old has no parent
+     * @return the three parents node, or null if the node has no parent
      */
     List<INode> getParents();
 
     /**
-     * Sets node_old's parent (for decoder)
+     * Sets node's parent (for decoder)
      * 
      * @param parentNode p
      */
     void setParent(INode parentNode);
 
     /**
-     * Sets the graph that contains this node_old.
+     * Sets the graph that contains this node.
      * @param g the graph
      */
     void setGraph(IGraph g);
 
     /**
-     * Gets the graph that contains this node_old, or null if this node_old is not contained in any graph.
+     * Gets the graph that contains this node, or null if this node is not contained in any graph.
      * @return
      */
     IGraph getGraph();
 
     /**
-     * Translates the node_old by a given amount
+     * Translates the node by a given amount
      * 
      * @param dx the amount to translate in the x-direction
      * @param dy the amount to translate in the y-direction
@@ -131,16 +131,16 @@ public interface INode extends Serializable, Cloneable, IIdentifiable, Connected
     void translate(double dx, double dy);
     
     /**
-     * Tests whether the node_old contains a point.
+     * Tests whether the node contains a point.
      * 
      * @param aPoint the point to test
-     * @return true if this node_old contains aPoint
+     * @return true if this node contains aPoint
      */
     boolean contains(Point2D aPoint);
 
     /**
-     * Get the best connection point to connect this node_old with another node_old. This should be a point on the boundary of the shape of
-     * this node_old.
+     * Get the best connection point to connect this node with another node. This should be a point on the boundary of the shape of
+     * this node.
      * 
      * @param d the direction from the center of the bounding rectangle towards the boundary
      * @return the recommended connection point
@@ -148,32 +148,32 @@ public interface INode extends Serializable, Cloneable, IIdentifiable, Connected
     Point2D getConnectionPoint(IEdge edge);
 
     /**
-     * Set or change node_old location
+     * Set or change node location
      * @param aPoint
      */
     void setLocation(Point2D aPoint);
 
     /**
-     * Gets the location of this node_old on its parent (i.e. relative location)
+     * Gets the location of this node on its parent (i.e. relative location)
      * @return the location
      */
     Point2D getLocation();
 
     /**
-     * Gets the location of this node_old on the whole graph. (i.e. absolute location)
+     * Gets the location of this node on the whole graph. (i.e. absolute location)
      * @return
      */
     Point2D getLocationOnGraph();
 
     /**
-     * Get the visual bounding rectangle of the shape of this node_old
+     * Get the visual bounding rectangle of the shape of this node
      * 
      * @return the bounding rectangle
      */
     Rectangle2D getBounds();
 
     /**
-     * Draw the node_old.
+     * Draw the node.
      * 
      * @param graphics the graphics context
      */
@@ -195,7 +195,7 @@ public interface INode extends Serializable, Cloneable, IIdentifiable, Connected
     
     
     /**
-     * Gets current node_old tool tip
+     * Gets current node tool tip
      * @return
      */
     String getToolTip();

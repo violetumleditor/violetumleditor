@@ -21,22 +21,22 @@
 
 package com.horstmann.violet.product.diagram.activity.node;
 
+import java.awt.Color;
+
 import com.horstmann.violet.framework.graphics.content.ContentBackground;
 import com.horstmann.violet.framework.graphics.content.ContentBorder;
 import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
 import com.horstmann.violet.framework.graphics.content.TextContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideEllipse;
-import com.horstmann.violet.product.diagram.common.node.ColorableNode;
+import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
 import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 
-import java.awt.*;
-
 /**
  * An activity node in an activity diagram.
  */
-public class PageLinkNode extends ColorableNode
+public class PageLinkNode extends AbstractNode
 {
     /**
      * Construct an action node with a default size

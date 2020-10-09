@@ -1,6 +1,7 @@
 package com.horstmann.violet.product.diagram.abstracts.edge.arrowhead;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
@@ -11,15 +12,17 @@ import java.awt.geom.Point2D;
  * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 20.02.2016
  */
-public class Arrowhead
+public class Arrowhead implements Cloneable
 {
     public Arrowhead()
     {
+    	this.borderColor = Color.BLACK;
         this.filledColor = null;
     }
 
     public Arrowhead(Color filledColor)
     {
+    	this.borderColor = Color.BLACK;
         this.filledColor = filledColor;
     }
 
@@ -44,7 +47,7 @@ public class Arrowhead
             graphics.fill(path);
         }
 
-        graphics.setColor(Color.BLACK);
+        graphics.setColor(borderColor);
         graphics.draw(path);
         graphics.translate(-q.getX(), -q.getY());
         graphics.setColor(oldColor);
@@ -80,8 +83,39 @@ public class Arrowhead
     {
         return new GeneralPath();
     }
+    
+    
 
-    private Color filledColor;
+    public void setFilledColor(Color filledColor) {
+    	if (this.filledColor != null && !Color.WHITE.equals(this.filledColor)) {
+    		this.filledColor = filledColor;
+    	}
+	}
+
+	public void setBorderColor(Color borderColor) {
+		this.borderColor = borderColor;
+	}
+	
+	public Color getFilledColor() {
+		return this.filledColor;
+	}
+	
+	public Color getBorderColor() {
+		return this.borderColor;
+	}
+	
+	@Override
+	public Arrowhead clone() {
+		Arrowhead ah = new Arrowhead();
+		ah.setFilledColor(this.filledColor);
+		ah.setBorderColor(this.borderColor);
+		return ah;
+	}
+
+
+
+	private Color filledColor;
+    private Color borderColor;
 
     protected static final double ARROW_ANGLE = Math.PI / 6;
     protected static final double ARROW_LENGTH = 10;

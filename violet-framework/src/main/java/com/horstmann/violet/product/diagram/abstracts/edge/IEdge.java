@@ -115,6 +115,11 @@ public interface IEdge extends Serializable, Cloneable, IIdentifiable
      * @return true if the edge supports free path
      */
     boolean isTransitionPointsSupported();
+    
+    /**
+     * Remove all current transition points
+     */
+    void clearTransitionPoints();
 
     /**
      * Gets the points at which this edge is connected to its node.

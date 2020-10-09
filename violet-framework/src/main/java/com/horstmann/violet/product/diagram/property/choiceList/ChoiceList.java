@@ -73,6 +73,15 @@ public abstract class ChoiceList<K, V> implements Cloneable
     {
 		return keys;
 	}
+    
+    /**
+	 * @return the value list
+	 */
+    public V[] getValues()
+    {
+		return values;
+	}
+    
 
     /**
      * Selects an index in the list
@@ -112,7 +121,7 @@ public abstract class ChoiceList<K, V> implements Cloneable
      */
     public V getSelectedValue()
     {
-        return values[selectedPos];
+    	return values[selectedPos];
     }
 
     /**

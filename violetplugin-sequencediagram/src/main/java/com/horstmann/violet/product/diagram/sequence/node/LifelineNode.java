@@ -21,22 +21,36 @@
 
 package com.horstmann.violet.product.diagram.sequence.node;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
-import com.horstmann.violet.framework.graphics.content.*;
+import com.horstmann.violet.framework.graphics.content.CenterContent;
+import com.horstmann.violet.framework.graphics.content.ContentBackground;
+import com.horstmann.violet.framework.graphics.content.ContentBorder;
+import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
+import com.horstmann.violet.framework.graphics.content.EmptyContent;
+import com.horstmann.violet.framework.graphics.content.HorizontalLayout;
+import com.horstmann.violet.framework.graphics.content.RelativeLayout;
+import com.horstmann.violet.framework.graphics.content.TextContent;
+import com.horstmann.violet.framework.graphics.content.VerticalLayout;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
+import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
-import com.horstmann.violet.product.diagram.common.node.ColorableNode;
+import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
 import com.horstmann.violet.product.diagram.property.text.LineText;
-import com.horstmann.violet.product.diagram.property.text.decorator.*;
-import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
+import com.horstmann.violet.product.diagram.property.text.decorator.LargeSizeDecorator;
+import com.horstmann.violet.product.diagram.property.text.decorator.OneLineText;
+import com.horstmann.violet.product.diagram.property.text.decorator.PrefixDecorator;
+import com.horstmann.violet.product.diagram.property.text.decorator.RemoveSentenceDecorator;
 import com.horstmann.violet.product.diagram.sequence.SequenceDiagramConstant;
 import com.horstmann.violet.product.diagram.sequence.edge.CallEdge;
 
@@ -45,7 +59,7 @@ import com.horstmann.violet.product.diagram.sequence.edge.CallEdge;
  *
  * @author Adrian Bobrowski <adrian071993@gmail.com>
  */
-public class LifelineNode extends ColorableNode
+public class LifelineNode extends AbstractNode
 {
     /**
      * Construct an object node_old with a default size

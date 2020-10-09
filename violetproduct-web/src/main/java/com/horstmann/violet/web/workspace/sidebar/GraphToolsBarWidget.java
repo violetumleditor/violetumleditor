@@ -18,16 +18,17 @@ import com.horstmann.violet.workspace.sidebar.graphtools.GraphTool;
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBar;
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBarListener;
 
-import eu.webtoolkit.jwt.AlignmentFlag;
 import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WAnchor;
-import eu.webtoolkit.jwt.WBoxLayout;
+import eu.webtoolkit.jwt.WApplication;
 import eu.webtoolkit.jwt.WCompositeWidget;
 import eu.webtoolkit.jwt.WContainerWidget;
+import eu.webtoolkit.jwt.WEnvironment;
 import eu.webtoolkit.jwt.WImage;
 import eu.webtoolkit.jwt.WLabel;
 import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WLength.Unit;
+import eu.webtoolkit.jwt.WLink;
 import eu.webtoolkit.jwt.WMenu;
 import eu.webtoolkit.jwt.WMenuItem;
 import eu.webtoolkit.jwt.WMouseEvent;
@@ -59,6 +60,9 @@ public class GraphToolsBarWidget extends WCompositeWidget {
 	
 	@ResourceBundleBean(key = "title.diagramtools.text")
 	private String title;
+	
+	
+	private String deploymentPath;
 	
 
 	public GraphToolsBarWidget(final IGraphToolsBar graphToolsBar,
@@ -132,12 +136,15 @@ public class GraphToolsBarWidget extends WCompositeWidget {
 		});
 	}
 	
+	
+	
 
 	private WMenuItem getMenuItemFromGraphTool(
 			final IGraphToolsBar graphToolsBar, final GraphTool aGraphTool) {
 		if (this.graphToolCache.containsKey(aGraphTool)) {
 			return this.graphToolCache.get(aGraphTool);
 		}
+		final WMenuItem graphToolButton = new WMenuItem(aGraphTool.getLabel());
 		WResource iconResource = new WResource() {
 
 			@Override
@@ -154,8 +161,10 @@ public class GraphToolsBarWidget extends WCompositeWidget {
 				ImageIO.write(bi, "png", response.getOutputStream());
 			}
 		};
-		final WMenuItem graphToolButton = new WMenuItem(aGraphTool.getLabel());
-		WImage wImage = new WImage(iconResource, "icon");
+		iconResource.suggestFileName(aGraphTool.getLabel());
+		iconResource.generateUrl();
+		String url = iconResource.getUrl();
+		WImage wImage = new WImage(new WLink(url));
 		WAnchor wAnchor = getAnchor(graphToolButton);
 		wAnchor.insertWidget(0, getSpaceText());
 		wAnchor.insertWidget(0, wImage);
@@ -185,5 +194,15 @@ public class GraphToolsBarWidget extends WCompositeWidget {
 		WText spaceText = new WText(" ");
 		spaceText.setWidth(new WLength(10, Unit.Pixel));
 		return spaceText;
+	}
+	
+	
+	private String getDeploymentPath() {
+		if (this.deploymentPath == null) {
+			WApplication wApplication = WApplication.getInstance();
+			WEnvironment environment = wApplication.getEnvironment();
+			this.deploymentPath = environment.getDeploymentPath();
+		}
+		return this.deploymentPath;
 	}
 }

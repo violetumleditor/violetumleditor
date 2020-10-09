@@ -21,7 +21,6 @@ public class ColorToolsBarPanel extends JPanel implements IColorChoiceBar
         ResourceBundleInjector.getInjector().inject(this);
         this.ui = new ColorToolsBarPanelUI(this);
         setUI(this.ui);
-        setCursor(IColorChoiceBar.CUTSOM_CURSOR);
     }
 
     @Override
@@ -42,11 +41,6 @@ public class ColorToolsBarPanel extends JPanel implements IColorChoiceBar
         this.colorChoiceChangeListenersList.add(listener);
     }
 
-    @Override
-    public void resetSelection()
-    {
-        this.ui.resetChoice();
-    }
     
     public void fireColorChoiceChanged(ColorChoice newColorChoice)
     {

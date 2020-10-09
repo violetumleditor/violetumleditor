@@ -30,4 +30,9 @@ public class TriangleArrowhead extends Arrowhead
 
         return path;
     }
+    
+    @Override
+    public Arrowhead clone() {
+    	return new TriangleArrowhead(getFilledColor());
+    }
 }

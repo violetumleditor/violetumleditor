@@ -1,8 +1,10 @@
 package com.horstmann.violet.product.diagram.property.text.decorator;
 
-import com.horstmann.violet.product.diagram.property.text.EditableText;
-
 import java.io.Serializable;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import com.horstmann.violet.product.diagram.property.text.EditableText;
 
 /**
  * This ...
@@ -44,7 +46,7 @@ public class OneLineText implements Serializable, Cloneable, EditableText
         {
             text = "";
         }
-        this.text = removeDuplicateWhitespace(text);
+        this.text = text;
     }
 
     /**
@@ -116,16 +118,6 @@ public class OneLineText implements Serializable, Cloneable, EditableText
         return replaceForUnification(text).toLowerCase().indexOf(replaceForUnification(sentence).toLowerCase());
     }
 
-    /**
-     * Remove all multiple spaces to only one space
-     *
-     * @param sentence
-     * @return cleared string
-     */
-    protected final String removeDuplicateWhitespace(String sentence)
-    {
-        return sentence.replaceAll("\\s+", " ").trim();
-    }
 
     /**
      * Replace all special characters for unification text.
@@ -146,8 +138,83 @@ public class OneLineText implements Serializable, Cloneable, EditableText
      */
     private String escapeHtml(String sentence)
     {
-        return replaceForUnification(sentence).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;").replace("'", "&#x27;").replace("/", "&#x2F;");
+    	String result = replaceForUnification(sentence);
+    	result = replaceSpecialChars(result);
+    	result = result.replaceAll(" ", "&nbsp;");
+    	result = restoreHTMLTags(result);
+    	return result;
+    }
+    
+    /**
+     * Restore html tag because they previously be considered as special chars 
+     * @param input string
+     * @return the replaced string
+     */
+    private String restoreHTMLTags(String in) {
+    	Pattern pattern = Pattern.compile("&\\#60;(\\w+)(&nbsp;.+)*&\\#62;((.*))&\\#60;/\\1\\&#62;");
+    	Matcher matcher = pattern.matcher(in);
+    	StringBuffer stringBuffer = new StringBuffer();
+    	boolean somethingFound = false;
+        while (matcher.find()) {
+        	somethingFound = true;
+        	String tag = matcher.group(1);
+        	String attributes = matcher.group(2);
+        	String innerHtml = matcher.group(3);
+        	if (attributes == null) {
+        		attributes = "";
+        	}
+        	attributes = attributes.replace("&nbsp;", " ");
+        	attributes = restoreSpecialChars(attributes);
+        	if (innerHtml == null) {
+        		innerHtml = "";
+        	}
+            String result = "<" + tag + attributes + ">" + innerHtml + "</" + tag + ">";
+            matcher.appendReplacement(stringBuffer, result);
+        }
+        if (somethingFound) {
+        	matcher.appendTail(stringBuffer);
+        	return restoreHTMLTags(stringBuffer.toString());
+        }
+        if (stringBuffer.length() > 0) {
+        	return stringBuffer.toString();
+        }
+        return in;
+    }
+    
+    
+    /**
+     * Replace all non ascii chars to their unicode equivalent number 
+     * @param input string
+     * @return the replaced string
+     */
+    private String replaceSpecialChars(String in) {
+    	StringBuilder out = new StringBuilder();
+    	for(int i = 0; i < in.length(); i++) {
+    	    char c = in.charAt(i);
+    	    if(c < 31 || c > 126 || "<>\"'\\&".indexOf(c) >= 0) {
+    	        out.append("&#" + (int) c + ";");
+    	    } else {
+    	        out.append(c);
+    	    }
+    	}
+    	return out.toString();
     }
 
+    
+    /**
+     * Restore all non ascii chars from their unicode equivalent number 
+     * @param input string
+     * @return the replaced string
+     */
+    private String restoreSpecialChars(String in) {
+    	Pattern pattern = Pattern.compile("&\\#(\\d+);");
+    	Matcher matcher = pattern.matcher(in);
+    	StringBuffer stringBuffer = new StringBuffer();
+    	while (matcher.find()) {
+    		matcher.appendReplacement(stringBuffer, "" + ((char) Integer.parseInt(matcher.group(1))));
+    	}
+    	return stringBuffer.toString();
+    }
+    
     private String text;
 }

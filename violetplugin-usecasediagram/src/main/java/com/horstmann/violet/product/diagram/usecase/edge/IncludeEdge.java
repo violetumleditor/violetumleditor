@@ -73,7 +73,7 @@ public class IncludeEdge extends LabeledLineEdge
         return UseCaseDiagramConstant.USE_CASE_DIAGRAM_RESOURCE.getString("tooltip.include");
     }
 
-    private static final String INCLUDE = "«include»";
+    private static final String INCLUDE = "&laquo;include&raquo;";
     private static final LineText.Converter INCLUDE_CONVERTER = new LineText.Converter()
     {
         @Override

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 
 import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.dialog.DialogFactoryMode;
@@ -16,12 +17,13 @@ import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanFactory
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
 import com.horstmann.violet.framework.plugin.PluginLoader;
-import com.horstmann.violet.framework.theme.BlueAmbianceTheme;
+import com.horstmann.violet.framework.theme.ClassicMetalTheme;
 import com.horstmann.violet.framework.theme.ITheme;
 import com.horstmann.violet.framework.theme.ThemeManager;
 import com.horstmann.violet.framework.userpreferences.DefaultUserPreferencesDao;
 import com.horstmann.violet.framework.userpreferences.IUserPreferencesDao;
 
+@WebListener
 public class BeanFactoryServletContextListener implements ServletContextListener {
 
 	@InjectedBean
@@ -46,7 +48,7 @@ public class BeanFactoryServletContextListener implements ServletContextListener
 		BeanFactory.getFactory().register(IUserPreferencesDao.class, userPreferencesDao);
 
 		ThemeManager themeManager = new ThemeManager();
-		ITheme theme1 = new BlueAmbianceTheme();
+		ITheme theme1 = new ClassicMetalTheme();
 		List<ITheme> themeList = new ArrayList<ITheme>();
 		themeList.add(theme1);
 		themeManager.setInstalledThemes(themeList);

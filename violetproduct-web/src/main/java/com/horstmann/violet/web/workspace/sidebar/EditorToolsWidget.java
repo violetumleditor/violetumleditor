@@ -20,9 +20,11 @@ import com.horstmann.violet.workspace.sidebar.SideBar;
 
 import eu.webtoolkit.jwt.AlignmentFlag;
 import eu.webtoolkit.jwt.Signal1;
+import eu.webtoolkit.jwt.WApplication;
 import eu.webtoolkit.jwt.WBoxLayout;
 import eu.webtoolkit.jwt.WBoxLayout.Direction;
 import eu.webtoolkit.jwt.WContainerWidget;
+import eu.webtoolkit.jwt.WEnvironment;
 import eu.webtoolkit.jwt.WGridLayout;
 import eu.webtoolkit.jwt.WLabel;
 import eu.webtoolkit.jwt.WLength;
@@ -66,6 +68,8 @@ public class EditorToolsWidget extends WContainerWidget {
 	private WPushButton copyButton;
 	private WPushButton pasteButton;
 	private WPushButton deleteButton;
+	
+	private String deploymentPath;
 
 	public EditorToolsWidget(EditorPartWidget editorPartWidget) {
 		super();
@@ -80,7 +84,8 @@ public class EditorToolsWidget extends WContainerWidget {
 			this.mainLayout = new WBoxLayout(Direction.TopToBottom);
 			this.mainLayout.addWidget(getTitleLabel());
 			WContainerWidget wContainerWidget = new WContainerWidget();
-			wContainerWidget.setLayout(getButtonLayout(), AlignmentFlag.AlignCenter, AlignmentFlag.AlignMiddle);
+			wContainerWidget.setLayout(getButtonLayout());
+			wContainerWidget.setContentAlignment(AlignmentFlag.AlignCenter, AlignmentFlag.AlignMiddle);
 			this.mainLayout.addWidget(wContainerWidget);
 			this.mainLayout.setContentsMargins(0, 0, 0, 0);
 		}
@@ -221,7 +226,8 @@ public class EditorToolsWidget extends WContainerWidget {
 				ImageIO.write(bi, "png", response.getOutputStream());
 			}
 		};
-		WLink wLink = new WLink(iconResource);
+		String url = iconResource.getUrl();
+		WLink wLink = new WLink(url);
 		return wLink;
 	}
 
@@ -252,6 +258,15 @@ public class EditorToolsWidget extends WContainerWidget {
 			return null;
 		}
 		return found.get(0);
+	}
+	
+	private String getDeploymentPath() {
+		if (this.deploymentPath == null) {
+			WApplication wApplication = WApplication.getInstance();
+			WEnvironment environment = wApplication.getEnvironment();
+			this.deploymentPath = environment.getDeploymentPath();
+		}
+		return this.deploymentPath;
 	}
 
 }

@@ -1,0 +1,4 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Thu May 07 21:49:37 CEST 2020
+jwt-auth-3.6.0.jar>=
+jwt-auth-3.6.0.pom>=

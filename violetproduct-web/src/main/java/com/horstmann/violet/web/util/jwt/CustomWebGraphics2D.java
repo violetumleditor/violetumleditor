@@ -1,11 +1,18 @@
 package com.horstmann.violet.web.util.jwt;
 
-import java.awt.FontMetrics;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints.Key;
 import java.awt.image.BufferedImage;
 
+import eu.webtoolkit.jwt.WFont;
+import eu.webtoolkit.jwt.WLength;
+import eu.webtoolkit.jwt.WFont.GenericFamily;
+import eu.webtoolkit.jwt.WFont.Size;
+import eu.webtoolkit.jwt.WFont.Style;
+import eu.webtoolkit.jwt.WFont.Weight;
+import eu.webtoolkit.jwt.WLength.Unit;
 import eu.webtoolkit.jwt.WPainter;
 import eu.webtoolkit.jwt.utils.WebGraphics2D;
 
@@ -17,11 +24,29 @@ public class CustomWebGraphics2D extends WebGraphics2D {
 	 * platform
 	 */
 	private Graphics2D hostGraphics2D;
+	
+	private WPainter painter;
 
 	public CustomWebGraphics2D(WPainter painter) {
 		super(painter);
+		this.painter = painter;
 	}
 	
+	@Override
+	public void drawString(String s, int x, int y) {
+		WFont f = new WFont(GenericFamily.SansSerif);
+		Font swingFont = getFont();
+		int size = swingFont.getSize();
+		f.setSize(Size.FixedSize, new WLength(size, Unit.Pixel));
+		if (swingFont.isItalic()) {
+			f.setStyle(Style.Italic);
+		}
+		if (swingFont.isBold()) {
+			f.setWeight(Weight.Bold);
+		}
+		this.painter.setFont(f);
+		super.drawString(s, x, y);
+	}
 
 	@Override
 	public Graphics create() {

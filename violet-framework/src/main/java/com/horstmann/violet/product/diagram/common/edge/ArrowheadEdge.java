@@ -31,8 +31,8 @@ public abstract class ArrowheadEdge extends LineEdge
         super(arrowheadEdge);
         this.startArrowheadChoiceList = arrowheadEdge.startArrowheadChoiceList.clone();
         this.endArrowheadChoiceList = arrowheadEdge.endArrowheadChoiceList.clone();
-        this.selectedStartArrowhead = this.startArrowheadChoiceList.getSelectedPos();
-        this.selectedEndArrowhead = this.endArrowheadChoiceList.getSelectedPos();
+        this.selectedStartArrowhead = arrowheadEdge.startArrowheadChoiceList.getSelectedPos();
+        this.selectedEndArrowhead = arrowheadEdge.endArrowheadChoiceList.getSelectedPos();
     }
 
     @Override
@@ -46,6 +46,21 @@ public abstract class ArrowheadEdge extends LineEdge
         startArrowheadChoiceList.setSelectedIndex(selectedStartArrowhead);
         endArrowheadChoiceList.setSelectedIndex(selectedEndArrowhead);
     }
+    
+    @Override
+    public void setBorderColor(Color borderColor) {
+    	super.setBorderColor(borderColor);
+    	getStartArrowhead().setBorderColor(borderColor);
+    	getEndArrowhead().setBorderColor(borderColor);
+    }
+    
+    @Override
+    public void setBackgroundColor(Color bgColor) {
+    	super.setBackgroundColor(bgColor);
+    	getStartArrowhead().setFilledColor(bgColor);
+    	getEndArrowhead().setFilledColor(bgColor);
+    }
+    
 
     /**
      * Draws the edge.
@@ -55,7 +70,6 @@ public abstract class ArrowheadEdge extends LineEdge
     public void draw(Graphics2D graphics)
     {
         super.draw(graphics);
-
         getStartArrowhead().draw(graphics, contactPoints[1], contactPoints[0]);
         getEndArrowhead().draw(graphics, contactPoints[contactPoints.length-2], contactPoints[contactPoints.length-1]);
     }
@@ -123,7 +137,7 @@ public abstract class ArrowheadEdge extends LineEdge
 
     protected final void setStartArrowhead(Arrowhead startArrowhead)
     {
-        if(startArrowheadChoiceList.setSelectedValue(startArrowhead))
+    	if(startArrowheadChoiceList.setSelectedValue(startArrowhead))
         {
             this.selectedStartArrowhead = startArrowheadChoiceList.getSelectedPos();
         }
@@ -136,7 +150,7 @@ public abstract class ArrowheadEdge extends LineEdge
      */
     public final Arrowhead getEndArrowhead()
     {
-        return endArrowheadChoiceList.getSelectedValue();
+    	return endArrowheadChoiceList.getSelectedValue();
     }
 
     protected final void setEndArrowhead(Arrowhead endArrowhead)

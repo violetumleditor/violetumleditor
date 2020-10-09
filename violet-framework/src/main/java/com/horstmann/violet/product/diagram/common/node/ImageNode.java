@@ -39,12 +39,13 @@ import javax.swing.ImageIcon;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.property.text.MultiLineText;
 
 /**
  * A node_old in a diagram represented by an image
  */
-public class ImageNode extends ColorableNode
+public class ImageNode extends AbstractNode
 {
     /**
      * Default construct a note node_old with a default size and color

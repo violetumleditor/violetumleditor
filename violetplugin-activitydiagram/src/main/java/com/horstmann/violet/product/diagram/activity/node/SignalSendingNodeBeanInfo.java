@@ -1,17 +1,16 @@
 package com.horstmann.violet.product.diagram.activity.node;
 
-import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
-import com.horstmann.violet.product.diagram.common.node.ColorableNodeBeanInfo;
-import com.horstmann.violet.product.diagram.common.node.NodeBeanInfo;
-
 import java.beans.PropertyDescriptor;
 import java.util.List;
 
-public class SignalSendingNodeBeanInfo extends ColorableNodeBeanInfo
+import com.horstmann.violet.product.diagram.abstracts.node.AbstractNodeBeanInfo;
+import com.horstmann.violet.product.diagram.activity.ActivityDiagramConstant;
+
+public class SignalSendingNodeBeanInfo extends AbstractNodeBeanInfo
 {
     public SignalSendingNodeBeanInfo()
     {
-        super(SignalReceiptNode.class);
+        super(SignalSendingNode.class);
         addResourceBundle(ActivityDiagramConstant.ACTIVITY_DIAGRAM_RESOURCE);
     }
 

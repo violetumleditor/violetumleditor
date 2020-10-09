@@ -45,7 +45,7 @@ public class ShortcutDialog extends JDialog
         this.getContentPane().setLayout(new BorderLayout());
         this.getContentPane().add(buildShortcutPanel(), BorderLayout.CENTER);
         pack();
-        setCenterLocation(parent);
+        setLocation(parent);
     }
 
     private JPanel buildShortcutPanel()
@@ -96,8 +96,12 @@ public class ShortcutDialog extends JDialog
         return shortcutArray;
     }
     
-    private void setCenterLocation(JFrame parent)
+    private void setLocation(JFrame parent)
     {
-        setLocation((parent.getWidth() - getWidth()) / 2, (parent.getHeight() - getHeight()) / 2);
+        Point point = parent.getLocationOnScreen();
+        int x = (int) point.getX() + parent.getWidth() / 2;
+        int y = (int) point.getY() + parent.getHeight() / 2;
+        setLocation(x - getWidth() / 2, y - getHeight() / 2);
     }
+    
 }

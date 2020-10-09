@@ -1,15 +1,19 @@
 package com.horstmann.violet.product.diagram.property.text;
 
-import com.horstmann.violet.product.diagram.property.text.decorator.OneLineText;
-
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import com.horstmann.violet.product.diagram.property.text.decorator.OneLineText;
 
 /**
  * This class is a container for text
@@ -194,7 +198,7 @@ public abstract class LineText implements Serializable, Cloneable, EditableText
      */
     public final void draw(Graphics2D graphics, Point2D point)
     {
-        graphics.translate(point.getX(), point.getY());
+    	graphics.translate(point.getX(), point.getY());
         getLabel().paint(graphics);
         graphics.translate(-point.getX(), -point.getY());
     }
@@ -262,11 +266,15 @@ public abstract class LineText implements Serializable, Cloneable, EditableText
         }
         else
         {
-            Dimension dimension = getLabel().getPreferredSize();
+        	getLabel().setPreferredSize(null);
+        	getLabel().repaint();
+        	Dimension dimension = getLabel().getPreferredSize();
             this.bounds = new Rectangle2D.Double(0, 0, dimension.getWidth(), dimension.getHeight());
         }
     }
 
+    
+    
     /**
      * @return label
      * @see JLabel

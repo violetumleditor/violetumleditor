@@ -1,18 +1,18 @@
 package com.horstmann.violet.workspace.editorpart.behavior;
 
-import java.awt.*;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
-import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.IResizableNode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
-import com.horstmann.violet.workspace.sidebar.graphtools.GraphTool;
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBar;
 
 public class ResizeNodeBehavior extends AbstractEditorPartBehavior {
@@ -64,7 +64,7 @@ public class ResizeNodeBehavior extends AbstractEditorPartBehavior {
             editorPart.getSwingComponent().setCursor(Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR));
             IResizableNode resizableNode = (IResizableNode) node0;
             Dimension snapped = snap(evaluate(event.getPoint(), bounds));
-            resizableNode.setWantedSize(new Rectangle2D.Double(bounds.getX(), bounds.getY(), snapped.getWidth(), snapped.getHeight()));
+            resizableNode.setPreferredSize(new Rectangle2D.Double(bounds.getX(), bounds.getY(), snapped.getWidth(), snapped.getHeight()));
             editorPart.getSwingComponent().repaint();
         } else {
             isResizing = false;
@@ -103,13 +103,16 @@ public class ResizeNodeBehavior extends AbstractEditorPartBehavior {
         double x = currentLocation.getX() / zoom;
         double y = currentLocation.getY() / zoom;
         currentLocation.setLocation(x, y);
-
-        return getResizablePoint(node).contains(currentLocation);
+        Rectangle2D resizablePoint = getResizablePoint(node);
+        if (resizablePoint == null) {
+        	return false;
+        }
+		return resizablePoint.contains(currentLocation);
 
     }
 
     private Rectangle2D getResizablePoint(IResizableNode node) {
-        return node.getResizablePoint();
+        return node.getResizableDragPoint();
     }
 
 

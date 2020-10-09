@@ -13,6 +13,8 @@ JavaDoc/
 .classpath
 .project
 .settings/
+**/.attach*
+**/*.log
 
 # IDEA files #
 .idea/
@@ -28,3 +30,5 @@ target/
 # if you remove the above rule, at least ignore the following:
 
 
+## JRebel
+**/rebel.xml

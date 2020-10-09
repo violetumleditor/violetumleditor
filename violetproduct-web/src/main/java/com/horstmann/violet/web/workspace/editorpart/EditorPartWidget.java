@@ -3,9 +3,10 @@ package com.horstmann.violet.web.workspace.editorpart;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
-import java.awt.geom.Rectangle2D;
+import java.util.EnumSet;
 
 import com.horstmann.violet.web.util.jwt.CustomWebGraphics2D;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
@@ -14,8 +15,8 @@ import com.horstmann.violet.workspace.editorpart.IGrid;
 
 import eu.webtoolkit.jwt.Coordinates;
 import eu.webtoolkit.jwt.KeyboardModifier;
+import eu.webtoolkit.jwt.PaintFlag;
 import eu.webtoolkit.jwt.Signal1;
-import eu.webtoolkit.jwt.WFont;
 import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WLength.Unit;
 import eu.webtoolkit.jwt.WMouseEvent;
@@ -23,6 +24,7 @@ import eu.webtoolkit.jwt.WMouseEvent.Button;
 import eu.webtoolkit.jwt.WPaintDevice;
 import eu.webtoolkit.jwt.WPaintedWidget;
 import eu.webtoolkit.jwt.WPainter;
+import eu.webtoolkit.jwt.WTouchEvent;
 
 public class EditorPartWidget extends WPaintedWidget {
 
@@ -32,17 +34,14 @@ public class EditorPartWidget extends WPaintedWidget {
 	private int mouseDragGapY = 0;
 
 	private MouseEvent lastMouseEvent;
-	private boolean isDragDetected = false; // Used to avoid 'clicked' event after 'dragged" event
 
 	public EditorPartWidget(IEditorPart editorPart) {
-		setWidth(new WLength(100, Unit.Percentage));
-		setHeight(new WLength(100, Unit.Percentage));
+		setPreferredMethod(Method.HtmlCanvas);
 		this.editorPart = editorPart;
 		final IGrid grid = editorPart.getGrid();
 		grid.setVisible(false);
 		this.editorPart.getGraph().setGridSticker(grid.getGridSticker());
 		final IEditorPartBehaviorManager behaviorManager = editorPart.getBehaviorManager();
-		
 		mouseDragged().addListener(this, new Signal1.Listener<WMouseEvent>() {
 			@Override
 			public void trigger(WMouseEvent event) {
@@ -60,7 +59,13 @@ public class EditorPartWidget extends WPaintedWidget {
 					mouseDragGapY = deltaY;
 				}
 				lastMouseEvent = mouseEvent;
-				isDragDetected = true;
+			}
+		});
+		touchMoved().addListener(this,  new Signal1.Listener<WTouchEvent>() {
+			@Override
+			public void trigger(WTouchEvent arg) {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 		mouseWentDown().addListener(this, new Signal1.Listener<WMouseEvent>() {
@@ -93,10 +98,6 @@ public class EditorPartWidget extends WPaintedWidget {
 		clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
 			@Override
 			public void trigger(WMouseEvent event) {
-				if (isDragDetected) {
-					isDragDetected = false;
-					return;
-				}
 				MouseEvent mouseEvent = convertMouseEvent(event, MouseEvent.MOUSE_CLICKED, 1, EditorPartWidget.this.editorPart.getSwingComponent());
 				if (lastMouseEvent != null && isSameEvent(lastMouseEvent, mouseEvent)) {
 					return;
@@ -158,6 +159,28 @@ public class EditorPartWidget extends WPaintedWidget {
 		MouseEvent newMouseEvent = new MouseEvent(c, type, System.currentTimeMillis(), modifiers, event.getWidget().x, event.getWidget().y, clickCount, event.getButton() == Button.RightButton, button);
 		return newMouseEvent;
 	}
+	
+	
+//	private MouseEvent convertTouchEvent(WTouchEvent event, int type, Component c) {
+//		int modifiers = 0;
+//		int button = 0;
+//
+//		
+//		if (event.getButton() == Button.LeftButton) {
+//			modifiers |= MouseEvent.BUTTON1_DOWN_MASK;
+//			button = MouseEvent.BUTTON1;
+//		} else if (event.getButton() == Button.MiddleButton) {
+//			modifiers |= MouseEvent.BUTTON2_DOWN_MASK;
+//			button = MouseEvent.BUTTON2;
+//		} else if (event.getButton() == Button.RightButton) {
+//			modifiers |= MouseEvent.BUTTON3_DOWN_MASK;
+//			button = MouseEvent.BUTTON3;
+//		}
+//
+//		MouseEvent newMouseEvent = new MouseEvent(c, type, System.currentTimeMillis(), modifiers, event.getWidget().x, event.getWidget().y, clickCount, event.getButton() == Button.RightButton, button);
+//		return newMouseEvent;
+//	}
+	
 
 	private MouseWheelEvent convertMouseWheelEvent(WMouseEvent event, int type, Component c) {
 		int modifiers = 0;
@@ -178,16 +201,11 @@ public class EditorPartWidget extends WPaintedWidget {
 
 	@Override
 	protected void paintEvent(WPaintDevice paintDevice) {
-		WPainter painter = new WPainter(paintDevice) {
-			@Override
-			public WFont getFont() {
-				WFont font = super.getFont();
-				font.setSize(new WLength(12, Unit.Pixel));
-				return font;
-			}
-		};
-		painter.setClipping(false);
-		paintDevice.init();
+		WPainter painter = new WPainter(paintDevice);
+		this.editorPart.getSwingComponent().doLayout();
+		Rectangle bounds = this.editorPart.getSwingComponent().getBounds();
+		painter.setClipping(true);
+		painter.getClipPath().addRect(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
 		Graphics2D graphics = new CustomWebGraphics2D(painter);
 		this.editorPart.getSwingComponent().paint(graphics);
 		paintDevice.done();
@@ -217,13 +235,25 @@ public class EditorPartWidget extends WPaintedWidget {
 		this.editorPart.getSwingComponent().setSize(widthPixels, heightPixels);
 		super.resize(widthPixels, heightPixels);
 	}
+	
+	public void update(EnumSet<PaintFlag> flags) {
+		super.update(flags);
+		fixEditorSize(null);
+	}
+
 
 	private void fixEditorSize(WMouseEvent event) {
+		double currentWidth = getWidth().toPixels();
+		double currentHeigth = getHeight().toPixels();
 		Dimension preferredSize = this.editorPart.getSwingComponent().getPreferredSize();
 		int gap = 10;
-		Coordinates mouseLocationRelativeToEditorPart = event.getWidget();
-		double graphWidth = Math.max(preferredSize.getWidth() + gap, mouseLocationRelativeToEditorPart.x + gap);
-		double graphHeight = Math.max(preferredSize.getHeight() + gap, mouseLocationRelativeToEditorPart.y + gap);
+		double graphWidth = Math.max(preferredSize.getWidth() + gap, currentWidth);
+		double graphHeight = Math.max(preferredSize.getHeight() + gap, currentHeigth);
+		if (event != null) {
+			Coordinates mouseLocationRelativeToEditorPart = event.getWidget();
+			graphWidth = Math.max(graphWidth, mouseLocationRelativeToEditorPart.x + gap);
+			graphHeight = Math.max(graphHeight, mouseLocationRelativeToEditorPart.y + gap);
+		}
 		double editorPartWidth = getWidth().toPixels();
 		double editorPartHeight = getHeight().toPixels();
 		if (editorPartWidth != graphWidth || editorPartHeight != graphHeight) {

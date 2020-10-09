@@ -27,12 +27,18 @@ import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 
-import com.horstmann.violet.framework.graphics.content.*;
+import com.horstmann.violet.framework.graphics.content.ContentBackground;
+import com.horstmann.violet.framework.graphics.content.ContentBorder;
+import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
+import com.horstmann.violet.framework.graphics.content.RelativeLayout;
+import com.horstmann.violet.framework.graphics.content.TextContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
 import com.horstmann.violet.framework.theme.ThemeManager;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.abstracts.node.IResizableNode;
 import com.horstmann.violet.product.diagram.property.text.MultiLineText;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 
@@ -45,7 +51,7 @@ import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
  * INode n = getGraph().findNode(endPoint); if (n != end) end.setZ(n.getZ() + 1); } }
  * 
  */
-public class NoteNode extends ColorableNode
+public class NoteNode extends AbstractNode implements IResizableNode
 {
     /**
      * Construct a note node_old with a default size and color
@@ -54,6 +60,7 @@ public class NoteNode extends ColorableNode
     {
         super();
         text = new MultiLineText();
+        relativeGroupContent = new RelativeLayout();
         createContentStructure();
     }
 
@@ -61,13 +68,19 @@ public class NoteNode extends ColorableNode
     {
         super(node);
         text = node.text.clone();
+        relativeGroupContent = new RelativeLayout();
         createContentStructure();
+        setBackgroundColor(node.getBackgroundColor());
+        setBorderColor(node.getBorderColor());
+        setTextColor(node.getTextColor());
     }
 
     @Override
     protected void beforeReconstruction()
     {
         super.beforeReconstruction();
+        relativeGroupContent.setMinHeight(Math.max(DEFAULT_HEIGHT, getPreferredSize().getHeight()));
+        relativeGroupContent.setMinWidth(Math.max(DEFAULT_WIDTH, getPreferredSize().getWidth()));
         text.reconstruction();
     }
 
@@ -80,11 +93,15 @@ public class NoteNode extends ColorableNode
     @Override
     protected void createContentStructure()
     {
-        TextContent textContent = new TextContent(text);
+    	
+    	TextContent textContent = new TextContent(text);
         textContent.setMinHeight(DEFAULT_HEIGHT);
         textContent.setMinWidth(DEFAULT_WIDTH);
 
-        ContentInsideShape contentInsideShape = new ContentInsideCustomShape(textContent, new ContentInsideCustomShape.ShapeCreator()
+        relativeGroupContent.clear();
+        relativeGroupContent.add(textContent);
+        
+        ContentInsideShape contentInsideShape = new ContentInsideCustomShape(relativeGroupContent, new ContentInsideCustomShape.ShapeCreator()
         {
             @Override
             public Shape createShape(double contentWidth, double contentHeight) {
@@ -103,9 +120,7 @@ public class NoteNode extends ColorableNode
         setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
         setContent(getBackground());
 
-        setBackgroundColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getBackgroundColor());
-        setBorderColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getBorderColor());
-        setTextColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getTextColor());
+
     }
 
     @Override
@@ -192,6 +207,7 @@ public class NoteNode extends ColorableNode
     }
 
     private MultiLineText text;
+    private RelativeLayout relativeGroupContent;
 
     private static int DEFAULT_WIDTH = 60;
     private static int DEFAULT_HEIGHT = 40;

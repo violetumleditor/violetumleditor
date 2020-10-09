@@ -1,8 +1,11 @@
 package com.horstmann.violet.workspace.sidebar.graphtools;
 
 import java.awt.GridLayout;
+import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -270,13 +273,15 @@ public class GraphToolsBarPanel extends JPanel
      */
     private JPanel getButtonPanel(List<GraphToolsBarButton> buttons)
     {
-        JPanel buttonPanel = new JPanel();
+        final JPanel buttonPanel = new JPanel();
+        
         for (final GraphToolsBarButton button : buttons)
         {
             button.addMouseListener(new MouseAdapter()
             {
             	public void mousePressed(MouseEvent arg0) 
             	{
+            		setSelectedButton(button);
             		notifyMouseEvent(button, arg0);
             	}
             	
@@ -285,10 +290,6 @@ public class GraphToolsBarPanel extends JPanel
             		notifyMouseEvent(button, arg0);
             	}
 
-                public void mouseClicked(MouseEvent arg0)
-                {
-                    setSelectedButton(button);
-                }
             });
             button.addMouseMotionListener(new MouseAdapter() {
             	public void mouseDragged(MouseEvent arg0) 
@@ -300,27 +301,27 @@ public class GraphToolsBarPanel extends JPanel
         }
 
         buttonPanel.setLayout(new GridLayout(0, 1));
-//        buttonPanel.addMouseWheelListener(new MouseWheelListener()
-//        {
-//
-//            public void mouseWheelMoved(MouseWheelEvent e)
-//            {
-//                boolean isCtrl = (e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0;
-//                if (isCtrl) {
-//                    return;
-//                }
-//                int scroll = e.getUnitsToScroll();
-//                if (scroll > 0)
-//                {
-//                    selectNextButton();
-//                }
-//                if (scroll < 0)
-//                {
-//                    selectPreviousButton();
-//                }
-//            }
-//
-//        });
+        buttonPanel.addMouseWheelListener(new MouseWheelListener()
+        {
+
+            public void mouseWheelMoved(MouseWheelEvent e)
+            {
+                boolean isCtrl = (e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0;
+                if (isCtrl) {
+                    return;
+                }
+                int scroll = e.getUnitsToScroll();
+                if (scroll > 0)
+                {
+                    selectNextButton();
+                }
+                if (scroll < 0)
+                {
+                    selectPreviousButton();
+                }
+            }
+
+        });
         return buttonPanel;
     }
     

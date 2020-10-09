@@ -55,16 +55,11 @@ public abstract class LineEdge extends ShapeEdge
     @Override
     public void setTransitionPoints(Point2D[] transitionPoints)
     {
+    	if(transitionPoints != null && transitionPoints.length > 0)
+    	{
+    		setBentStyle(BentStyle.FREE);
+    	}
         super.setTransitionPoints(transitionPoints);
-
-        if(null == transitionPoints || 0 == transitionPoints.length)
-        {
-//            setBentStyle(BentStyle.AUTO);
-        }
-        else
-        {
-            setBentStyle(BentStyle.FREE);
-        }
     }
 
     @Override
@@ -85,7 +80,7 @@ public abstract class LineEdge extends ShapeEdge
         Color oldColor = graphics.getColor();
         Stroke oldStroke = graphics.getStroke();
 
-        graphics.setColor(Color.BLACK);
+        graphics.setColor(getBorderColor());
         graphics.setStroke(getLineStyle());
         graphics.draw(getPath());
         graphics.setStroke(oldStroke);
@@ -112,10 +107,6 @@ public abstract class LineEdge extends ShapeEdge
 
     protected void updateContactPoints()
     {
-        Line2D connectionPoints = getConnectionPoints();
-
-        Point2D startingPoint = connectionPoints.getP1();
-        Point2D endingPoint = connectionPoints.getP2();
 
         if (getStartNode().equals(getEndNode()))
         {
@@ -130,13 +121,31 @@ public abstract class LineEdge extends ShapeEdge
         }
         else
         {
-            List<Point2D> points = new ArrayList<Point2D>();
-
-            points.add(startingPoint);
+        	// Step 1 : update contacts points with node centers (to get correct edge directions)
+        	List<Point2D> points = new ArrayList<Point2D>();
+            Rectangle2D startBounds = getStartNode().getBounds();
+            Rectangle2D endBounds = getEndNode().getBounds();
+            Point2D startLocationOnGraph = getStartNode().getLocationOnGraph();
+            Point2D endLocationOnGraph = getEndNode().getLocationOnGraph();
+            Point2D startCenter = new Point2D.Double(startLocationOnGraph.getX() + startBounds.getWidth() / 2, startLocationOnGraph.getY() + startBounds.getHeight() / 2);
+            Point2D endCenter = new Point2D.Double(endLocationOnGraph.getX() + endBounds.getWidth() / 2, endLocationOnGraph.getY() + endBounds.getHeight() / 2);
+            points.add(startCenter);
+            points.addAll(Arrays.asList(getTransitionPoints()));
+            points.add(endCenter);
+            Point2D[] bentStylePointsAsArray = points.toArray(new Point2D[points.size()]);
+            points = getBentStyle().getPath(bentStylePointsAsArray);
+            contactPoints = new Point2D[points.size()];
+            points.toArray(contactPoints);
+            
+            // Step 2 : As direction are ok with previous step, connection points are also ok. Get real contact points.
+            Line2D connectionPoints = getConnectionPoints();
+        	Point2D startingPoint = connectionPoints.getP1();
+        	Point2D endingPoint = connectionPoints.getP2();
+        	points.clear();
+        	points.add(startingPoint);
             points.addAll(Arrays.asList(getTransitionPoints()));
             points.add(endingPoint);
-
-            Point2D[] bentStylePointsAsArray = points.toArray(new Point2D[points.size()]);
+            bentStylePointsAsArray = points.toArray(new Point2D[points.size()]);
             points = getBentStyle().getPath(bentStylePointsAsArray);
             contactPoints = new Point2D[points.size()];
             points.toArray(contactPoints);
@@ -210,7 +219,10 @@ public abstract class LineEdge extends ShapeEdge
      */
     public final BentStyle getBentStyle()
     {
-        if (!bentStyleChoiceList.getSelectedValue().equals(BentStyleChoiceList.AUTO))
+    	if (!bentStyleChoiceList.getSelectedValue().equals(BentStyle.FREE)) {
+    		clearTransitionPoints();
+    	}
+    	if (!bentStyleChoiceList.getSelectedValue().equals(BentStyleChoiceList.AUTO))
         {
             return bentStyleChoiceList.getSelectedValue();
         }
@@ -245,7 +257,7 @@ public abstract class LineEdge extends ShapeEdge
     {
         if(bentStyleChoiceList.setSelectedValue(bentStyle))
         {
-            this.selectedBentStyle = bentStyleChoiceList.getSelectedPos();
+        	this.selectedBentStyle = bentStyleChoiceList.getSelectedPos();
         }
     }
 

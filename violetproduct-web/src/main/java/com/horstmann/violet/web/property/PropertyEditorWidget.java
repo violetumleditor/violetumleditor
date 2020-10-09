@@ -14,9 +14,10 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
-import com.horstmann.violet.product.diagram.property.BentStyleChoiceList;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.property.choiceList.ChoiceList;
+import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.MultiLineText;
 import com.horstmann.violet.web.workspace.editorpart.EditorPartWidget;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
@@ -49,6 +50,8 @@ public class PropertyEditorWidget extends WCompositeWidget {
 
 		WContainerWidget container = new WContainerWidget();
 		WVBoxLayout vbox = new WVBoxLayout();
+		vbox.setSpacing(0);
+		vbox.setContentsMargins(0, 0, 0, 0);
 		try {
 			Introspector.flushFromCaches(bean.getClass());
 			BeanInfo info = Introspector.getBeanInfo(bean.getClass());
@@ -133,8 +136,11 @@ public class PropertyEditorWidget extends WCompositeWidget {
 		if (MultiLineText.class.equals(type)) {
 			editorWidget = new MultilineStringEditorWidget(bean, descriptor);
 		}
-		if (BentStyleChoiceList.class.equals(type)) {
-			editorWidget = new BentStyleEditorWidget(bean, descriptor);
+		if (LineText.class.equals(type)) {
+			editorWidget = new LineTextEditorWidget(bean, descriptor);
+		}
+		if (ChoiceList.class.equals(type)) {
+			editorWidget = new ChoiceListEditorWidget(bean, descriptor);
 		}
 		return editorWidget;
 	}

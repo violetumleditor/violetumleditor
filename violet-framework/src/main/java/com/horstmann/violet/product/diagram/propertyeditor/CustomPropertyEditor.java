@@ -96,7 +96,11 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
             ResourceBundle rs = ResourceBundle.getBundle(ResourceBundleConstant.NODE_AND_EDGE_STRINGS, Locale.getDefault());
             for (int i = 0; i < descriptors.length; i++)
             {
-                PropertyEditor editor = getEditor(bean, descriptors[i]);
+                if (Arrays.asList(PROPERTIES_TO_IGNORE).contains(descriptors[i].getName())) {
+                	continue;
+                }
+            	
+            	PropertyEditor editor = getEditor(bean, descriptors[i]);
                 if (null != editor)
                 {
                     String textLabel = (String) descriptors[i].getValue("label");
@@ -417,6 +421,9 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
     private static Map<Class<?>, Class<? extends PropertyEditor>> editors;
     private static Set<Class<?>> knownImmutables;
 
+    private static final String[] PROPERTIES_TO_IGNORE  = {"backgroundColor", "borderColor", "textColor"};
+    
+    
     static
     {
         editors = new HashMap<Class<?>, Class<? extends PropertyEditor>>();

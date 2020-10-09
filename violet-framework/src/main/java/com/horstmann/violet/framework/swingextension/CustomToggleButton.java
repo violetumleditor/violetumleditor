@@ -54,15 +54,6 @@ public class CustomToggleButton extends JPanel
      */
     public CustomToggleButton()
     {
-        addMouseListener(new MouseAdapter()
-        {
-            public void mouseClicked(MouseEvent arg0)
-            {
-                isSelected = true;
-                repaint();
-            }
-
-        });
         setDefaultLayout();
     }
     
@@ -85,17 +76,6 @@ public class CustomToggleButton extends JPanel
         this.iconLabel.setBorder(new EmptyBorder(VGAP, HGAP, VGAP, HGAP));
         this.textLabel.setBorder(new EmptyBorder(VGAP, 0, VGAP, HGAP));
         setToolTipText(text);
-
-        addMouseListener(new MouseAdapter()
-        {
-            public void mouseClicked(MouseEvent arg0)
-            {
-                isSelected = true;
-                repaint();
-            }
-
-        });
-
         setDefaultLayout();
         this.add(this.iconLabel);
         this.add(this.textLabel);
