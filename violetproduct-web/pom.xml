@@ -14,7 +14,7 @@
 		<version>1.0.0</version>
 	</parent>
 	<properties>
-		<jetty.version>9.4.31.v20200723</jetty.version>
+		<jetty.version>9.4.41.v20210516</jetty.version>
 	</properties>
 	<dependencies>
 		<!-- VIOLET (start) -->
