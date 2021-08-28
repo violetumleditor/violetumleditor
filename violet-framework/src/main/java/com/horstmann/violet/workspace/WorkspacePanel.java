@@ -22,6 +22,7 @@ import javax.swing.border.MatteBorder;
 
 import com.horstmann.violet.framework.swingextension.TinyScrollBarUI;
 import com.horstmann.violet.framework.theme.ThemeManager;
+import com.horstmann.violet.workspace.editorpart.EditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.sidebar.ISideBar;
 
@@ -63,7 +64,7 @@ public class WorkspacePanel extends JPanel
                 @Override
                 public void paint(Graphics g)
                 {
-                    editorPart.getSwingComponent().invalidate();
+                	editorPart.getSwingComponent().invalidate();
                     super.paint(g);
                 }
                 
@@ -75,7 +76,7 @@ public class WorkspacePanel extends JPanel
                 @Override
                 public void adjustmentValueChanged(AdjustmentEvent e)
                 {
-                    editorPart.getSwingComponent().invalidate();
+                	editorPart.getSwingComponent().invalidate();
                     editorPart.getSwingComponent().repaint();
                 }
             });

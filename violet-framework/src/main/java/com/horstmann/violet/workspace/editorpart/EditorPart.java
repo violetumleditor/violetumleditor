@@ -25,6 +25,10 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ContainerAdapter;
+import java.awt.event.ContainerEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -100,6 +104,12 @@ public class EditorPart extends JPanel implements IEditorPart
                 behaviorManager.fireOnMouseMoved(event);
             }
         });
+        addComponentListener(new ComponentAdapter() {
+        	@Override
+        	public void componentResized(ComponentEvent e) {
+        		initializeDrawingArea();
+        	}
+		});
         setBounds(0, 0, 0, 0);
         setDoubleBuffered(false);
     }
@@ -232,6 +242,16 @@ public class EditorPart extends JPanel implements IEditorPart
         repaint();
     }
 
+    private void initializeDrawingArea() {
+    	Dimension size = this.getSize();
+    	getGraph().setBounds(new Rectangle2D.Double(0, 0, 0, 0));
+    	Rectangle2D bounds = getGraph().getClipBounds();
+		getGraph().setBounds(new Double(0, 0, Math.max(size.getWidth(), bounds.getWidth()), Math.max(size.getHeight(), bounds.getHeight())));
+		invalidate();
+        repaint();
+    }
+    
+    
     public JComponent getSwingComponent()
     {
         return this;
