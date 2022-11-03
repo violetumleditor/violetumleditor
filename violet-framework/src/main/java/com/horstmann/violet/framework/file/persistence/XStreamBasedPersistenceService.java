@@ -1,6 +1,8 @@
 package com.horstmann.violet.framework.file.persistence;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -14,14 +16,16 @@ import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBea
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.ManagedBean;
 import com.horstmann.violet.framework.plugin.IDiagramPlugin;
 import com.horstmann.violet.framework.plugin.PluginRegistry;
-import com.horstmann.violet.product.diagram.property.LineStyleChoiceList;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
 import com.horstmann.violet.product.diagram.property.BentStyleChoiceList;
+import com.horstmann.violet.product.diagram.property.LineStyleChoiceList;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+import com.thoughtworks.xstream.security.AnyTypePermission;
+import com.thoughtworks.xstream.security.NoTypePermission;
 
 @ManagedBean(registeredManually=true)
 public class XStreamBasedPersistenceService implements IFilePersistenceService {
@@ -65,9 +69,13 @@ public class XStreamBasedPersistenceService implements IFilePersistenceService {
 	private XStream getConfiguredXStream(XStream xStream) {
 		xStream.autodetectAnnotations(true);
 		xStream.setMode(XStream.ID_REFERENCES);
-		xStream.useAttributeFor(Point2D.Double.class, "x");
-		xStream.useAttributeFor(Point2D.Double.class, "y");
-		xStream.alias("Point2D.Double", Point2D.Double.class);
+		xStream.addPermission(AnyTypePermission.ANY);
+		xStream.alias("Point", Point2D.Double.class);
+		xStream.alias("Rectangle", Rectangle2D.Double.class);
+		xStream.alias("RoundRectangle", RoundRectangle2D.Double.class);
+        xStream.registerConverter(new Point2DConverter());
+        xStream.registerConverter(new Rectangle2DConverter());
+        xStream.registerConverter(new RoundRectangle2DConverter());
 		xStream.addImmutableType(ArrowheadChoiceList.class);
         xStream.addImmutableType(LineStyleChoiceList.class);
         xStream.addImmutableType(BentStyleChoiceList.class);
