@@ -71,7 +71,6 @@ public class XStreamBasedPersistenceService implements IFilePersistenceService {
 		xStream.setMode(XStream.ID_REFERENCES);
 		xStream.addPermission(AnyTypePermission.ANY);
 		xStream.alias("Point", Point2D.Double.class);
-		// test
 		xStream.alias("Rectangle", Rectangle2D.Double.class);
 		xStream.alias("RoundRectangle", RoundRectangle2D.Double.class);
         xStream.registerConverter(new Point2DConverter());
