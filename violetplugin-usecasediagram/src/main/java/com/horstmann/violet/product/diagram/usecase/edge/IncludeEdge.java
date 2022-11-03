@@ -60,10 +60,6 @@ public class IncludeEdge extends LabeledLineEdge
     protected void beforeReconstruction()
     {
         super.beforeReconstruction();
-        setBentStyle(BentStyle.STRAIGHT);
-        setEndArrowhead(ArrowheadChoiceList.V);
-        setLineStyle(LineStyleChoiceList.DOTTED);
-        getCenterLabel().setConverter(INCLUDE_CONVERTER);
         setCenterLabel(getCenterLabel());
     }
 

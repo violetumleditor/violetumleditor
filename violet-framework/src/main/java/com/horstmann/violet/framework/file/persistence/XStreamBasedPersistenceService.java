@@ -84,7 +84,7 @@ public class XStreamBasedPersistenceService implements IFilePersistenceService {
 			Class<? extends IGraph> graphClass = aPlugin.getGraphClass();
 			xStream.alias(graphClass.getSimpleName(), graphClass);
 			try {
-				IGraph aDummyGraph = graphClass.newInstance();
+				IGraph aDummyGraph = graphClass.getDeclaredConstructor().newInstance();
 				List<IEdge> edgePrototypes = aDummyGraph.getEdgePrototypes();
 				List<INode> nodePrototypes = aDummyGraph.getNodePrototypes();
 				for (IEdge anEdgePrototype : edgePrototypes) {

@@ -60,10 +60,6 @@ public class ExtendEdge extends LabeledLineEdge
     protected void beforeReconstruction()
     {
         super.beforeReconstruction();
-        setBentStyle(BentStyle.STRAIGHT);
-        setEndArrowhead(ArrowheadChoiceList.V);
-        setLineStyle(LineStyleChoiceList.DOTTED);
-        getCenterLabel().setConverter(EXTEND_CONVERTER);
         setCenterLabel(getCenterLabel());
     }
 

@@ -49,13 +49,6 @@ public class GeneralizationEdge extends LabeledLineEdge
         return new GeneralizationEdge(this);
     }
 
-    @Override
-    protected void beforeReconstruction()
-    {
-        super.beforeReconstruction();
-        setBentStyle(BentStyle.STRAIGHT);
-        setEndArrowhead(ArrowheadChoiceList.TRIANGLE_WHITE);
-    }
 
     @Override
     public String getToolTip()

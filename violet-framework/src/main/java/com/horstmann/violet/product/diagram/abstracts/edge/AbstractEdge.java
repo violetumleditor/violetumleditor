@@ -49,7 +49,7 @@ public abstract class AbstractEdge implements IEdge
 
     protected AbstractEdge(AbstractEdge cloned) throws CloneNotSupportedException
     {
-        refreshContactPoints();
+    	refreshContactPoints();
     }
 
     @Override

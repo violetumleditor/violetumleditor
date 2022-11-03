@@ -47,12 +47,6 @@ public class InteractionEdge extends LabeledLineEdge
         return new InteractionEdge(this);
     }
 
-    @Override
-    protected void beforeReconstruction()
-    {
-        super.beforeReconstruction();
-        setBentStyle(BentStyle.STRAIGHT);
-    }
 
     @Override
     public String getToolTip()
