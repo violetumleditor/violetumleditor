@@ -20,10 +20,8 @@ import com.horstmann.violet.workspace.editorpart.behavior.AbstractEditorPartBeha
 import eu.webtoolkit.jwt.Signal;
 import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WDialog;
-import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WPushButton;
 import eu.webtoolkit.jwt.WText;
-import eu.webtoolkit.jwt.WLength.Unit;
 
 @ResourceBundleBean(resourceReference = com.horstmann.violet.workspace.editorpart.behavior.EditSelectedBehavior.class)
 public class EditSelectedBehavior extends AbstractEditorPartBehavior {
@@ -73,7 +71,7 @@ public class EditSelectedBehavior extends AbstractEditorPartBehavior {
 	}
 
 	public void editSelected() {
-		final Object edited = selectionHandler.isNodeSelectedAtLeast() ? selectionHandler.getLastSelectedNode() : selectionHandler.getLastSelectedEdge();
+		final Object edited = selectionHandler.getLastSelectedElement();
 		if (edited == null) {
 			return;
 		}

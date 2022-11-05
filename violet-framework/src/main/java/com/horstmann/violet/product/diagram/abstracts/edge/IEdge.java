@@ -29,12 +29,13 @@ import java.io.Serializable;
 
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.IIdentifiable;
+import com.horstmann.violet.product.diagram.abstracts.ISelectableGraphElement;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 
 /**
  * An edge in a graph.
  */
-public interface IEdge extends Serializable, Cloneable, IIdentifiable
+public interface IEdge extends Serializable, Cloneable, IIdentifiable, ISelectableGraphElement
 {
     void reconstruction();
 

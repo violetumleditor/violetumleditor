@@ -143,7 +143,8 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
         			resetSelectedElements();
         		}
         		this.selectionHandler.addSelectedElement(edge);
-        		if (this.selectionHandler.getSelectedEdges().size() == 1) {
+                List<IEdge> selectedEdges = selectionHandler.getSelectedElements().stream().filter(e -> IEdge.class.isInstance(e)).map(e -> (IEdge) e).toList();
+        		if (selectedEdges.size() == 1) {
         			this.behaviorManager.fireOnEdgeSelected(edge);
         		}
         	}
@@ -163,7 +164,8 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
                     resetSelectedElements();
                 }
                 this.selectionHandler.addSelectedElement(node);
-                if (this.selectionHandler.getSelectedNodes().size() == 1) {
+                List<INode> selectedNodes = selectionHandler.getSelectedElements().stream().filter(e -> INode.class.isInstance(e)).map(n -> (INode) n).toList();
+                if (selectedNodes.size() == 1) {
                 	this.behaviorManager.fireOnNodeSelected(node);
                 }
             }
@@ -205,7 +207,7 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
     @Override
     public void onPaint(Graphics2D g2)
     {
-        List<INode> nodes = selectionHandler.getSelectedNodes();
+        List<INode> nodes = selectionHandler.getSelectedElements().stream().filter(e -> INode.class.isInstance(e)).map(n -> (INode) n).toList();
         for (INode n : nodes)
         {
             if (graph.getAllNodes().contains(n))
@@ -218,7 +220,7 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
                 GrabberUtils.drawPurpleGrabber(g2, nodeLocationOnGraph.getX() + nodeBounds.getWidth(), nodeLocationOnGraph.getY() + nodeBounds.getHeight());
             }
         }
-        List<IEdge> edges = selectionHandler.getSelectedEdges();
+        List<IEdge> edges = selectionHandler.getSelectedElements().stream().filter(e -> IEdge.class.isInstance(e)).map(e -> (IEdge) e).toList();
         for (IEdge e : edges)
         {
             if (graph.getAllEdges().contains(e))

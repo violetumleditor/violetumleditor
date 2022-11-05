@@ -2,9 +2,8 @@ package com.horstmann.violet.workspace.editorpart.behavior;
 
 import java.util.List;
 
-import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.ISelectableGraphElement;
 import com.horstmann.violet.product.diagram.abstracts.node.IColorableNode;
-import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorChoice;
@@ -23,17 +22,10 @@ public class ColorizeBehavior extends AbstractEditorPartBehavior
             @Override
             public void onColorChoiceChange(ColorChoice newColorChoice)
             {
-                List<INode> selectedNodes = workspace.getEditorPart().getSelectedNodes();
-                List<IEdge> selectedEdges = workspace.getEditorPart().getSelectedEdges();
-            	for (INode node : selectedNodes) {
-            		if (node != null && IColorableNode.class.isInstance(node)) {
-                    	IColorableNode colorableElement = (IColorableNode) node;
-                    	updateColor(colorableElement, newColorChoice);
-            		}
-            	}
-            	for (IEdge edge : selectedEdges) {
-            		if (edge != null && IColorableNode.class.isInstance(edge)) {
-                    	IColorableNode colorableElement = (IColorableNode) edge;
+                List<ISelectableGraphElement> selectedElements = workspace.getEditorPart().getSelectionHandler().getSelectedElements();
+            	for (ISelectableGraphElement element : selectedElements) {
+            		if (element != null && IColorableNode.class.isInstance(element)) {
+                    	IColorableNode colorableElement = (IColorableNode) element;
                     	updateColor(colorableElement, newColorChoice);
             		}
             	}

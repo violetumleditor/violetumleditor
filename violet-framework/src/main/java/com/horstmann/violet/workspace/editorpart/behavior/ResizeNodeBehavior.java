@@ -9,7 +9,6 @@ import java.awt.geom.Rectangle2D;
 import java.util.List;
 
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
-import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.IResizableNode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
@@ -36,10 +35,11 @@ public class ResizeNodeBehavior extends AbstractEditorPartBehavior {
     public void onMouseMoved(MouseEvent event) {
         zoom = editorPart.getZoomFactor();
 
-        List<INode> sNodes = selectionHandler.getSelectedNodes();
+        List<IResizableNode> sNodes = this.selectionHandler.getSelectedElements().stream().filter(e -> IResizableNode.class.isInstance(e)).map(n -> (IResizableNode) n).toList();
+        
         if (sNodes.size() == 1) {
-            INode sNode = sNodes.get(0);
-            if (((sNode != null) && (sNode instanceof IResizableNode) && isCursorOnResizePoint((IResizableNode) sNode, event)) || isResizing) {
+        	IResizableNode sNode = sNodes.get(0);
+            if ((isCursorOnResizePoint(sNode, event)) || isResizing) {
                 editorPart.getSwingComponent().setCursor(Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR));
                 isReadyForResizing = true;
                 DragSelectedBehavior.lock();
@@ -56,15 +56,15 @@ public class ResizeNodeBehavior extends AbstractEditorPartBehavior {
         Point point = event.getPoint();
         lastMousePoint = new Point2D.Double(point.getX(), point.getY());
 
-        List<INode> selectedNodes = editorPart.getSelectedNodes();
+        List<IResizableNode> selectedNodes = this.selectionHandler.getSelectedElements().stream().filter(e -> IResizableNode.class.isInstance(e)).map(n -> (IResizableNode) n).toList();
+        
         if (isReadyForResizing) {
-            INode node0 = selectedNodes.get(0);
+            IResizableNode node0 = selectedNodes.get(0);
             Rectangle2D bounds = node0.getBounds();
             isResizing = true;
             editorPart.getSwingComponent().setCursor(Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR));
-            IResizableNode resizableNode = (IResizableNode) node0;
             Dimension snapped = snap(evaluate(event.getPoint(), bounds));
-            resizableNode.setPreferredSize(new Rectangle2D.Double(bounds.getX(), bounds.getY(), snapped.getWidth(), snapped.getHeight()));
+            node0.setPreferredSize(new Rectangle2D.Double(bounds.getX(), bounds.getY(), snapped.getWidth(), snapped.getHeight()));
             editorPart.getSwingComponent().repaint();
         } else {
             isResizing = false;

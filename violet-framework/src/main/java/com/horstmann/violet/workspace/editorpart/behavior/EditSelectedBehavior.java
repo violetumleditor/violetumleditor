@@ -63,7 +63,7 @@ public class EditSelectedBehavior extends AbstractEditorPartBehavior
         if (edge != null)
         {
         	this.selectionHandler.addSelectedElement(edge);
-        	if (this.selectionHandler.getSelectedEdges().size() == 1) {
+        	if (this.selectionHandler.getSelectedElements().size() == 1) {
         		this.behaviorManager.fireOnEdgeSelected(edge);
         	}
         	return;
@@ -71,7 +71,7 @@ public class EditSelectedBehavior extends AbstractEditorPartBehavior
         if (node != null)
         {
         	this.selectionHandler.addSelectedElement(node);
-        	if (this.selectionHandler.getSelectedNodes().size() == 1) {
+        	if (this.selectionHandler.getSelectedElements().size() == 1) {
         		this.behaviorManager.fireOnNodeSelected(node);
         	}
             return;
@@ -81,7 +81,7 @@ public class EditSelectedBehavior extends AbstractEditorPartBehavior
 
     public void editSelected()
     {
-        final Object edited = selectionHandler.isNodeSelectedAtLeast() ? selectionHandler.getLastSelectedNode() : selectionHandler.getLastSelectedEdge();
+        final Object edited = selectionHandler.getLastSelectedElement();
         if (edited == null)
         {
             return;

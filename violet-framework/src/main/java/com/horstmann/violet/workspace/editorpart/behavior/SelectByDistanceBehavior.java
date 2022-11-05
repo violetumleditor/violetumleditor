@@ -82,13 +82,9 @@ public class SelectByDistanceBehavior extends AbstractEditorPartBehavior
         });
         int index;
         Object lastSelected = null;
-        if (selectionHandler.isNodeSelectedAtLeast())
+        if (selectionHandler.isElementSelectedAtLeast())
         {
-            lastSelected = selectionHandler.getLastSelectedNode();
-        }
-        if (selectionHandler.isEdgeSelectedAtLeast())
-        {
-            lastSelected = selectionHandler.getLastSelectedEdge();
+            lastSelected = selectionHandler.getLastSelectedElement();
         }
         if (lastSelected == null) index = 0;
         else index = selectables.indexOf(lastSelected) + distanceFromCurrentElement;

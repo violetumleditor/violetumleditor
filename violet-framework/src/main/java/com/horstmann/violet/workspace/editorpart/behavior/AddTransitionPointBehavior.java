@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
+import com.horstmann.violet.product.diagram.abstracts.ISelectableGraphElement;
 import com.horstmann.violet.product.diagram.abstracts.edge.EdgeTransitionPoint;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.edge.ITransitionPoint;
@@ -84,7 +85,6 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
         final Point2D mousePoint = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
         this.newTransitionPointLocation = mousePoint;
         this.newTransitionPointLocation = gridSticker.snap(this.newTransitionPointLocation);
-        this.selectedEdge = this.selectionHandler.getSelectedEdges().get(0);
     }
 
     @Override
@@ -122,9 +122,12 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
     {
         if (this.selectedEdge == null)
         {
-            if (this.selectionHandler.getSelectedEdges().size() == 1)
+            if (this.selectionHandler.getSelectedElements().size() == 1)
             {
-                this.selectedEdge = this.selectionHandler.getSelectedEdges().get(0);
+            	ISelectableGraphElement element = this.selectionHandler.getSelectedElements().get(0);
+                if (IEdge.class.isInstance(element)) {
+                	this.selectedEdge = (IEdge) element;
+                }
             }
         }
         return this.selectedEdge;
@@ -132,9 +135,12 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
 
     private boolean isPrerequisitesOK()
     {
-        if (this.selectionHandler.getSelectedEdges().size() != 1)
+        if (this.selectionHandler.getSelectedElements().size() != 1)
         {
             return false;
+        }
+        if (getSelectedEdge() == null) {
+        	return false;
         }
         if (getSelectedEdge().isTransitionPointsSupported())
         {
@@ -252,6 +258,8 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
         }
         this.behaviorManager.fireAfterChangingTransitionPointsOnEdge(getSelectedEdge());
     }
+    
+   
 
     private IEditorPartBehaviorManager behaviorManager;
 

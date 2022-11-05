@@ -96,7 +96,9 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
         IGraphFile newGraphFile = new GraphFile(graphClass);
         IGraph newGraph = newGraphFile.getGraph();
         IEditorPartSelectionHandler selectionHandler = editorPart.getSelectionHandler();
-        List<INode> selectedNodes = selectionHandler.getSelectedNodes();
+        
+        
+        List<INode> selectedNodes = selectionHandler.getSelectedElements().stream().filter(e -> INode.class.isInstance(e)).map(n -> (INode) n).toList();
         // We use an mapper for ids because they are changed when each node_old is added to the newGraph
         Map<Id, Id> idMapper = new HashMap<Id, Id>();
         for (INode aSelectedNode : selectedNodes)
@@ -114,7 +116,7 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
             Id newId = clone.getId();
             idMapper.put(oldId, newId);
         }
-        List<IEdge> selectedEdges = selectionHandler.getSelectedEdges();
+        List<IEdge> selectedEdges = selectionHandler.getSelectedElements().stream().filter(e -> IEdge.class.isInstance(e)).map(e -> (IEdge) e).toList();
         for (IEdge aSelectedEdge : selectedEdges)
         {
             IEdge clone = aSelectedEdge.clone();

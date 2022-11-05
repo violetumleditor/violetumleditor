@@ -90,7 +90,7 @@ public class UndoRedoOnDragBehavior extends AbstractEditorPartBehavior
         {
             return;
         }
-        List<INode> selectedNodes = this.selectionHandler.getSelectedNodes();
+        List<INode> selectedNodes = this.selectionHandler.getSelectedElements().stream().filter(e -> INode.class.isInstance(e)).map(n -> (INode) n).toList();
         List<UndoableEdit> editList = new ArrayList<UndoableEdit>();
         for (final INode aSelectedNode : selectedNodes)
         {

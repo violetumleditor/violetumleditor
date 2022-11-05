@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
+import com.horstmann.violet.product.diagram.abstracts.ISelectableGraphElement;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.edge.ITransitionPoint;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
@@ -70,10 +71,11 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior {
         // TODO :
         // behaviorManager.fireOnElementsDragged(selectionHandler.getSelectedNodes(),
         // selectionHandler.getSelectedEdges());
-        INode lastNode = selectionHandler.getLastSelectedNode();
-        if (lastNode == null) {
-            return;
+        List<INode> selectedNodes = selectionHandler.getSelectedElements().stream().filter(e -> INode.class.isInstance(e)).map(n -> (INode) n).toList();
+        if (selectedNodes.isEmpty()) {
+        	return;
         }
+        INode lastNode = selectedNodes.get(selectedNodes.size() - 1);
 
         Rectangle2D bounds = lastNode.getBounds();
         double dx = mousePoint.getX() - lastMousePoint.getX();
@@ -82,7 +84,6 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior {
         // we don't want to drag node into negative coordinates
         // particularly with multiple selection, we might never be
         // able to get them back.
-        List<INode> selectedNodes = selectionHandler.getSelectedNodes();
         for (INode n : selectedNodes)
             bounds.add(n.getBounds());
         dx = Math.max(dx, -bounds.getX());
@@ -151,7 +152,7 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior {
         if (node == null) {
             return;
         }
-        List<INode> selectedNodes = this.selectionHandler.getSelectedNodes();
+        List<INode> selectedNodes = this.selectionHandler.getSelectedElements().stream().filter(e -> INode.class.isInstance(e)).map(n -> (INode) n).toList();
         if (!selectedNodes.contains(node)) {
             this.selectionHandler.clearSelection();
             this.selectionHandler.addSelectedElement(node);

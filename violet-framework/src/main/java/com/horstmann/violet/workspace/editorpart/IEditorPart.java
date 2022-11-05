@@ -27,28 +27,6 @@ public interface IEditorPart
      */
     public abstract void removeSelected();
 
-
-    /**
-     * @return currently selected node list
-     */
-    public abstract List<INode> getSelectedNodes();
-    
-    /**
-     * @return currently selected edge list
-     */
-    public abstract List<IEdge> getSelectedEdges();
-    
-    /**
-     * Clears node and edges selection
-     */
-    public void clearSelection();
-    
-    /**
-     * Selects a node_old
-     * @param node
-     */
-    public void selectElement(INode node);
-
     /**
      * Changes the zoom of this editor. The zoom is 1 by default and is multiplied by sqrt(2) for each positive stem or divided by
      * sqrt(2) for each negative step.

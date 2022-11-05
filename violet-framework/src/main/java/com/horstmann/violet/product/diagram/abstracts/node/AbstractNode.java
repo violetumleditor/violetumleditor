@@ -39,6 +39,7 @@ import com.horstmann.violet.framework.graphics.shape.ContentInsideRoundRectangle
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.abstracts.ISelectableGraphElement;
 import com.horstmann.violet.product.diagram.abstracts.Id;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;

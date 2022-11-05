@@ -12,6 +12,7 @@ import javax.swing.JPopupMenu;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.abstracts.ISelectableGraphElement;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
@@ -46,14 +47,14 @@ public class ShowMenuOnRightClickBehavior extends AbstractEditorPartBehavior
     {
         INode node = this.graph.findNode(mouseLocation);
         IEdge edge = this.graph.findEdge(mouseLocation);
-        List<INode> selectedNodes = this.selectionHandler.getSelectedNodes();
-        if (node != null && !selectedNodes.contains(node))
+        
+        List<ISelectableGraphElement> selectedElements = this.selectionHandler.getSelectedElements();
+        if (node != null && !selectedElements.contains(node))
         {
             this.selectionHandler.clearSelection();
             this.selectionHandler.addSelectedElement(node);
         }
-        List<IEdge> selectedEdges = this.selectionHandler.getSelectedEdges();
-        if (edge != null && !selectedEdges.contains(edge))
+        if (edge != null && !selectedElements.contains(edge))
         {
             this.selectionHandler.clearSelection();
             this.selectionHandler.addSelectedElement(edge);
