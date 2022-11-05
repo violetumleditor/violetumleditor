@@ -78,10 +78,9 @@ public interface IGraph
      * @param startLocation the point inside the start node_old where the edge begins
      * @param end the end node_old of the edge
      * @param endLocation the point inside the end node_old where the edge ends
-     * @param list a points for edge that supports free path 
      * @return isOK as true if successfully connected
      */
-    public abstract boolean connect(IEdge e, INode start, Point2D startLocation, INode end, Point2D endLocation, Point2D[] transitionPoints);
+    public abstract boolean connect(IEdge e, INode start, Point2D startLocation, INode end, Point2D endLocation);
 
 
     /**

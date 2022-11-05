@@ -26,14 +26,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.horstmann.violet.product.diagram.property.BentStyleChoiceList;
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.activity.edge.ActivityTransitionEdge;
-import com.horstmann.violet.product.diagram.activity.node.*;
+import com.horstmann.violet.product.diagram.activity.node.ActivityNode;
+import com.horstmann.violet.product.diagram.activity.node.DecisionNode;
+import com.horstmann.violet.product.diagram.activity.node.PageLinkNode;
+import com.horstmann.violet.product.diagram.activity.node.ScenarioEndNode;
+import com.horstmann.violet.product.diagram.activity.node.ScenarioStartNode;
+import com.horstmann.violet.product.diagram.activity.node.SignalReceiptNode;
+import com.horstmann.violet.product.diagram.activity.node.SignalSendingNode;
+import com.horstmann.violet.product.diagram.activity.node.SynchronizationBarNode;
+import com.horstmann.violet.product.diagram.activity.node.WaitTimeActionNode;
 import com.horstmann.violet.product.diagram.common.edge.NoteEdge;
 import com.horstmann.violet.product.diagram.common.node.NoteNode;
+import com.horstmann.violet.product.diagram.property.BentStyleChoiceList;
 
 /**
  * An UML activity diagram.
@@ -51,11 +59,11 @@ public class ActivityDiagramGraph extends AbstractGraph
     }
 
     @Override
-    public boolean connect(IEdge e, INode start, Point2D startLocation, INode end, Point2D endLocation, Point2D[] transitionPoints)
+    public boolean connect(IEdge e, INode start, Point2D startLocation, INode end, Point2D endLocation)
     {
         if (!ActivityTransitionEdge.class.isInstance(e))
         {
-            return super.connect(e, start, startLocation, end, endLocation, transitionPoints);
+            return super.connect(e, start, startLocation, end, endLocation);
         }
         ActivityTransitionEdge transitionEdge = (ActivityTransitionEdge) e;
         if (DecisionNode.class.isInstance(start))
@@ -72,7 +80,7 @@ public class ActivityDiagramGraph extends AbstractGraph
                 transitionEdge.getBentStyleChoiceList().setSelectedValue(BentStyleChoiceList.HV);
             }
         }
-        return super.connect(e, start, startLocation, end, endLocation, transitionPoints);
+        return super.connect(e, start, startLocation, end, endLocation);
     }
 
     private static final List<INode> NODE_PROTOTYPES = new ArrayList<INode>(Arrays.asList(

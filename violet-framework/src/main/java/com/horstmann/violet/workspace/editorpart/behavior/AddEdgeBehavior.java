@@ -61,11 +61,6 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior implements IGrap
         }
         if (this.isLinkingInProgress && this.isLinkBySeparatedClicks)
         {
-            if (isRecognizedAsTransitionAction())
-            {
-                transitionAction(event);
-                return;
-            }
             endAction(event);
             return;
         }
@@ -138,6 +133,9 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior implements IGrap
         {
             return false;
         }
+        if (isRecognizedAsTransitionAction()) {
+        	return false;
+        }
         return true;
     }
 
@@ -173,10 +171,7 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior implements IGrap
         this.newEdge.setId(new Id());
     }
 
-    private void transitionAction(MouseEvent event)
-    {
-        this.transitionPoints.add(this.lastMousePoint);
-    }
+
 
     private void endAction(MouseEvent event)
     {
@@ -187,7 +182,6 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior implements IGrap
         }
         this.isLinkingInProgress = false;
         this.isLinkBySeparatedClicks = false;
-        this.transitionPoints.clear();
         this.newEdge = null;
         
     }
@@ -196,7 +190,6 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior implements IGrap
     {
         this.isLinkingInProgress = false;
         this.isLinkBySeparatedClicks = false;
-        this.transitionPoints.clear();
         this.newEdge = null;
     }
 
@@ -220,7 +213,6 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior implements IGrap
                 INode endNode = graph.findNode(endPoint);
                 Point2D relativeStartPoint = null;
                 Point2D relativeEndPoint = null;
-                Point2D[] transitionPointsAsArray = this.transitionPoints.toArray(new Point2D[this.transitionPoints.size()]);
                 if (startNode != null)
                 {
                     Point2D startNodeLocationOnGraph = startNode.getLocationOnGraph();
@@ -235,7 +227,7 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior implements IGrap
                     double relativeEndY = endPoint.getY() - endNodeLocationOnGraph.getY();
                     relativeEndPoint = new Point2D.Double(relativeEndX, relativeEndY);
                 }
-                if (graph.connect(newEdge, startNode, relativeStartPoint, endNode, relativeEndPoint, transitionPointsAsArray))
+                if (graph.connect(newEdge, startNode, relativeStartPoint, endNode, relativeEndPoint))
                 {
                     newEdge.incrementRevision();
                     isAdded = true;
@@ -260,10 +252,6 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior implements IGrap
         g2.setColor(PURPLE);
         GeneralPath path = new GeneralPath();
         path.moveTo(this.firstMousePoint.getX(), this.firstMousePoint.getY());
-        for (Point2D aTransitionPoint : this.transitionPoints)
-        {
-            path.lineTo(aTransitionPoint.getX(), aTransitionPoint.getY());
-        }
         path.lineTo(this.lastMousePoint.getX(), this.lastMousePoint.getY());
         g2.draw(path);
         g2.setColor(oldColor);
@@ -319,8 +307,6 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior implements IGrap
     private boolean isLinkingInProgress = false;
 
     private boolean isLinkBySeparatedClicks = false;
-
-    private List<Point2D> transitionPoints = new ArrayList<Point2D>();
 
     private IEdge newEdge = null;
     

@@ -44,7 +44,7 @@ public abstract class AbstractEdge implements IEdge
         this.startLocation = null;
         this.endNode = null;
         this.endLocation = null;
-        this.transitionPoints = new Point2D[] {};
+        this.transitionPoints = new ITransitionPoint[] {};
     }
 
     protected AbstractEdge(AbstractEdge cloned) throws CloneNotSupportedException
@@ -176,18 +176,18 @@ public abstract class AbstractEdge implements IEdge
     }
     
     @Override
-    public void setTransitionPoints(Point2D[] transitionPoints)
+    public void setTransitionPoints(ITransitionPoint[] transitionPoints)
     {
         if(null == transitionPoints)
         {
-            transitionPoints = new Point2D[] {};
+            transitionPoints = new ITransitionPoint[] {};
         }
         this.transitionPoints = transitionPoints;
         refreshContactPoints();
     }
     
     @Override
-    public final Point2D[] getTransitionPoints()
+    public final ITransitionPoint[] getTransitionPoints()
     {
         return this.transitionPoints;
     }
@@ -200,7 +200,7 @@ public abstract class AbstractEdge implements IEdge
     
     @Override
     public void clearTransitionPoints() {
-    	this.transitionPoints = new Point2D[] {};
+    	this.transitionPoints = new ITransitionPoint[] {};
     }
 
     @Override
@@ -349,5 +349,5 @@ public abstract class AbstractEdge implements IEdge
     private Point2D endLocation;
     
     /** Points for free path */
-    private Point2D[] transitionPoints;
+    private ITransitionPoint[] transitionPoints;
 }

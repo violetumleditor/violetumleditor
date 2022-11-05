@@ -1,19 +1,24 @@
 package com.horstmann.violet.product.diagram.common.edge;
 
-import com.horstmann.violet.product.diagram.abstracts.edge.ShapeEdge;
-import com.horstmann.violet.product.diagram.property.BentStyleChoiceList;
-import com.horstmann.violet.product.diagram.property.LineStyleChoiceList;
-import com.horstmann.violet.product.diagram.property.choiceList.ChoiceList;
-import com.horstmann.violet.product.diagram.abstracts.Direction;
-import com.horstmann.violet.product.diagram.abstracts.edge.bentstyle.BentStyle;
-
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import com.horstmann.violet.product.diagram.abstracts.Direction;
+import com.horstmann.violet.product.diagram.abstracts.edge.ITransitionPoint;
+import com.horstmann.violet.product.diagram.abstracts.edge.ShapeEdge;
+import com.horstmann.violet.product.diagram.abstracts.edge.bentstyle.BentStyle;
+import com.horstmann.violet.product.diagram.property.BentStyleChoiceList;
+import com.horstmann.violet.product.diagram.property.LineStyleChoiceList;
+import com.horstmann.violet.product.diagram.property.choiceList.ChoiceList;
 
 /**
  * An edge that is composed of multiple line segments
@@ -53,7 +58,7 @@ public abstract class LineEdge extends ShapeEdge
     }
 
     @Override
-    public void setTransitionPoints(Point2D[] transitionPoints)
+    public void setTransitionPoints(ITransitionPoint[] transitionPoints)
     {
     	if(transitionPoints != null && transitionPoints.length > 0)
     	{
@@ -130,7 +135,7 @@ public abstract class LineEdge extends ShapeEdge
             Point2D startCenter = new Point2D.Double(startLocationOnGraph.getX() + startBounds.getWidth() / 2, startLocationOnGraph.getY() + startBounds.getHeight() / 2);
             Point2D endCenter = new Point2D.Double(endLocationOnGraph.getX() + endBounds.getWidth() / 2, endLocationOnGraph.getY() + endBounds.getHeight() / 2);
             points.add(startCenter);
-            points.addAll(Arrays.asList(getTransitionPoints()));
+            points.addAll(Arrays.stream(getTransitionPoints()).map(t -> t.toPoint2D()).toList());
             points.add(endCenter);
             Point2D[] bentStylePointsAsArray = points.toArray(new Point2D[points.size()]);
             points = getBentStyle().getPath(bentStylePointsAsArray);
@@ -143,7 +148,7 @@ public abstract class LineEdge extends ShapeEdge
         	Point2D endingPoint = connectionPoints.getP2();
         	points.clear();
         	points.add(startingPoint);
-            points.addAll(Arrays.asList(getTransitionPoints()));
+            points.addAll(Arrays.stream(getTransitionPoints()).map(t -> t.toPoint2D()).toList());
             points.add(endingPoint);
             bentStylePointsAsArray = points.toArray(new Point2D[points.size()]);
             points = getBentStyle().getPath(bentStylePointsAsArray);

@@ -10,6 +10,7 @@ import java.util.List;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.edge.ITransitionPoint;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
@@ -108,12 +109,14 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior {
             INode startingNode = e.getStartNode();
             INode endinNode = e.getEndNode();
             if (selectedNodes.contains(startingNode) && selectedNodes.contains(endinNode)) {
-                Point2D[] transitionPoints = e.getTransitionPoints();
-                for (Point2D aTransitionPoint : transitionPoints) {
+                ITransitionPoint[] transitionPoints = e.getTransitionPoints();
+                for (ITransitionPoint aTransitionPoint : transitionPoints) {
                     double newTransitionPointLocationX = aTransitionPoint.getX() + dx;
                     double newTransitionPointLocationY = aTransitionPoint.getY() + dy;
-                    aTransitionPoint.setLocation(newTransitionPointLocationX, newTransitionPointLocationY);
-                    aTransitionPoint = gridSticker.snap(aTransitionPoint);
+                    Point2D p = new Point2D.Double(newTransitionPointLocationX, newTransitionPointLocationY);
+                    p = gridSticker.snap(p);
+                    aTransitionPoint.setX(p.getX());
+                    aTransitionPoint.setY(p.getY());
                 }
                 e.setTransitionPoints(transitionPoints);
             }

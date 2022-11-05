@@ -104,12 +104,12 @@ public interface IEdge extends Serializable, Cloneable, IIdentifiable
      * Sets transition points for edge which supports free path 
      * @param transitionPoints
      */
-    void setTransitionPoints(Point2D[] transitionPoints);
+    void setTransitionPoints(ITransitionPoint[] transitionPoints);
     
     /**
      * @return transition points for edge which supports free path
      */
-    Point2D[] getTransitionPoints();
+    ITransitionPoint[] getTransitionPoints();
     
     /**
      * @return true if the edge supports free path

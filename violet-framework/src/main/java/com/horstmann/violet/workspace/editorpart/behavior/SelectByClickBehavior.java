@@ -11,6 +11,7 @@ import com.horstmann.violet.framework.util.GrabberUtils;
 import com.horstmann.violet.framework.util.KeyModifierUtil;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.edge.ITransitionPoint;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
@@ -225,8 +226,9 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
                 Line2D line = e.getConnectionPoints();
                 GrabberUtils.drawPurpleGrabber(g2, line.getX1(), line.getY1());
                 GrabberUtils.drawPurpleGrabber(g2, line.getX2(), line.getY2());
-                for (Point2D aTransitionPoint : e.getTransitionPoints()) {
-                    GrabberUtils.drawGrayGrabber(g2, aTransitionPoint.getX(), aTransitionPoint.getY());
+                for (ITransitionPoint aTransitionPoint : e.getTransitionPoints()) {
+                	Point2D p = aTransitionPoint.toPoint2D();
+                    GrabberUtils.drawGrayGrabber(g2, p.getX(), p.getY());
                 }
             }
         }

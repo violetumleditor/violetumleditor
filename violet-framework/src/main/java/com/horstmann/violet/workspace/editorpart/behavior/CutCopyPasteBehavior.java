@@ -120,7 +120,6 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
             IEdge clone = aSelectedEdge.clone();
             Point2D startLocation = clone.getStartLocation();
             Point2D endLocation = clone.getEndLocation();
-            Point2D[] transitionPoints = clone.getTransitionPoints();
             Id oldStartId = clone.getStartNode().getId();
             Id oldEndId = clone.getEndNode().getId();
             Id newStartId = idMapper.get(oldStartId);
@@ -129,7 +128,7 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
 			INode endNode = newGraph.findNode(newEndId);
             if (startNode != null && endNode != null)
             {
-                newGraph.connect(clone, startNode, startLocation, endNode, endLocation, transitionPoints);
+                newGraph.connect(clone, startNode, startLocation, endNode, endLocation);
             }
         }
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -177,12 +176,11 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
             {
                 Point2D startLocation = anEdge.getStartLocation();
                 Point2D endLocation = anEdge.getEndLocation();
-                Point2D[] transitionPoints = anEdge.getTransitionPoints();
                 INode startNode = graph.findNode(anEdge.getStartNode().getId());
                 INode endNode = graph.findNode(anEdge.getEndNode().getId());
                 if (startNode != null && endNode != null)
                 {
-                    boolean isConnected = graph.connect(anEdge, startNode, startLocation, endNode, endLocation, transitionPoints);
+                    boolean isConnected = graph.connect(anEdge, startNode, startLocation, endNode, endLocation);
                     if (isConnected)
                     {
                         edgesReallyPasted.add(anEdge);
@@ -260,7 +258,7 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
                 {
                     super.redo();
                     IGraph graph = editorPart.getGraph();
-                    graph.connect(anEdge, anEdge.getStartNode(), anEdge.getStartLocation(), anEdge.getEndNode(), anEdge.getEndLocation(), anEdge.getTransitionPoints());
+                    graph.connect(anEdge, anEdge.getStartNode(), anEdge.getStartLocation(), anEdge.getEndNode(), anEdge.getEndLocation());
                 }
             };
             capturedEdit.addEdit(edit);
