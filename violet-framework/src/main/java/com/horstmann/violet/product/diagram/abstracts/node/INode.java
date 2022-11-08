@@ -30,7 +30,7 @@ import java.util.List;
 import com.horstmann.violet.product.diagram.abstracts.ConnectedEdgeListener;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.IIdentifiable;
-import com.horstmann.violet.product.diagram.abstracts.ISelectableGraphElement;
+import com.horstmann.violet.product.diagram.abstracts.ISelectable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 
 /**
@@ -39,7 +39,7 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
  * 
  * @author Cay Horstmann
  */
-public interface INode extends Serializable, Cloneable, IIdentifiable, ConnectedEdgeListener, ISelectableGraphElement
+public interface INode extends Serializable, Cloneable, IIdentifiable, ConnectedEdgeListener, ISelectable
 {
 
     void reconstruction();

@@ -2,26 +2,26 @@ package com.horstmann.violet.workspace.editorpart;
 
 import java.util.List;
 
-import com.horstmann.violet.product.diagram.abstracts.ISelectableGraphElement;
+import com.horstmann.violet.product.diagram.abstracts.ISelectable;
 import com.horstmann.violet.workspace.sidebar.graphtools.GraphTool;
 
 public interface IEditorPartSelectionHandler {
 
-	public abstract void setSelectedElement(ISelectableGraphElement selectableGraphElement);
+	public abstract void setSelectedElement(ISelectable selectableGraphElement);
 
-	public abstract void addSelectedElement(ISelectableGraphElement selectableGraphElement);
+	public abstract void addSelectedElement(ISelectable selectableGraphElement);
 
-	public abstract void removeElementFromSelection(ISelectableGraphElement selectableGraphElement);
+	public abstract void removeElementFromSelection(ISelectable selectableGraphElement);
 
-	public abstract boolean isElementAlreadySelected(ISelectableGraphElement selectableGraphElement);
+	public abstract boolean isElementAlreadySelected(ISelectable selectableGraphElement);
 
 	public abstract void clearSelection();
 
-	public abstract ISelectableGraphElement getLastSelectedElement();
+	public abstract ISelectable getLastSelectedElement();
 
 	public abstract boolean isElementSelectedAtLeast();
 
-	public abstract List<ISelectableGraphElement> getSelectedElements();
+	public abstract List<ISelectable> getSelectedElements();
 
 	public abstract void setSelectedTool(GraphTool graphTool);
 	

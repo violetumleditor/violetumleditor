@@ -4,7 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 
 import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
-import com.horstmann.violet.product.diagram.abstracts.ISelectableGraphElement;
+import com.horstmann.violet.product.diagram.abstracts.ISelectable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.edge.ITransitionPoint;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
@@ -117,7 +117,7 @@ public class DragTransitionPointBehavior extends AbstractEditorPartBehavior
         {
             if (this.selectionHandler.getSelectedElements().size() == 1)
             {
-            	ISelectableGraphElement element = this.selectionHandler.getSelectedElements().get(0);
+            	ISelectable element = this.selectionHandler.getSelectedElements().get(0);
                 if (IEdge.class.isInstance(element)) {
                 	this.selectedEdge = (IEdge) element;
                 }

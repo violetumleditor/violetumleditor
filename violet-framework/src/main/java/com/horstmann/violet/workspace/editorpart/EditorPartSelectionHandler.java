@@ -4,20 +4,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.horstmann.violet.product.diagram.abstracts.ISelectableGraphElement;
+import com.horstmann.violet.product.diagram.abstracts.ISelectable;
 import com.horstmann.violet.workspace.sidebar.graphtools.GraphTool;
 
 public class EditorPartSelectionHandler implements IEditorPartSelectionHandler
 {
 
-    public void setSelectedElement(ISelectableGraphElement selectableGraphElement)
+    public void setSelectedElement(ISelectable selectableGraphElement)
     {
         this.selectedElements.clear();
         addSelectedElement(selectableGraphElement);
     }
 
 
-    public void updateSelectedElements(ISelectableGraphElement[] selectableGraphElement)
+    public void updateSelectedElements(ISelectable[] selectableGraphElement)
     {
         for (int i = 0; i < selectableGraphElement.length; i++)
         {
@@ -29,7 +29,7 @@ public class EditorPartSelectionHandler implements IEditorPartSelectionHandler
     }
 
 
-    public void addSelectedElement(ISelectableGraphElement selectableGraphElement)
+    public void addSelectedElement(ISelectable selectableGraphElement)
     {
         if (this.selectedElements.contains(selectableGraphElement))
         {
@@ -39,7 +39,7 @@ public class EditorPartSelectionHandler implements IEditorPartSelectionHandler
     }
 
 
-    public void removeElementFromSelection(ISelectableGraphElement selectableGraphElement)
+    public void removeElementFromSelection(ISelectable selectableGraphElement)
     {
         if (this.selectedElements.contains(selectableGraphElement))
         {
@@ -48,7 +48,7 @@ public class EditorPartSelectionHandler implements IEditorPartSelectionHandler
         }
     }
 
-    public boolean isElementAlreadySelected(ISelectableGraphElement selectableGraphElement)
+    public boolean isElementAlreadySelected(ISelectable selectableGraphElement)
     {
         if (this.selectedElements.contains(selectableGraphElement)) return true;
         return false;
@@ -59,7 +59,7 @@ public class EditorPartSelectionHandler implements IEditorPartSelectionHandler
         this.selectedElements.clear();
     }
 
-    public ISelectableGraphElement getLastSelectedElement()
+    public ISelectable getLastSelectedElement()
     {
         return getLastElement(this.selectedElements);
     }
@@ -71,7 +71,7 @@ public class EditorPartSelectionHandler implements IEditorPartSelectionHandler
     }
 
 
-    public List<ISelectableGraphElement> getSelectedElements()
+    public List<ISelectable> getSelectedElements()
     {
         return Collections.unmodifiableList(this.selectedElements);
     }
@@ -98,7 +98,7 @@ public class EditorPartSelectionHandler implements IEditorPartSelectionHandler
         return list.get(size - 1);
     }
 
-    private List<ISelectableGraphElement> selectedElements = new ArrayList<ISelectableGraphElement>();
+    private List<ISelectable> selectedElements = new ArrayList<ISelectable>();
     
     private GraphTool selectedTool;
 

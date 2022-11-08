@@ -27,6 +27,7 @@ import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -39,7 +40,7 @@ import com.horstmann.violet.framework.graphics.shape.ContentInsideRoundRectangle
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
-import com.horstmann.violet.product.diagram.abstracts.ISelectableGraphElement;
+import com.horstmann.violet.product.diagram.abstracts.ISelectable;
 import com.horstmann.violet.product.diagram.abstracts.Id;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
@@ -590,6 +591,27 @@ public abstract class AbstractNode implements INode, IColorableNode
     public Rectangle2D getPreferredSize() {
     	return this.preferredSize;
     }
+    
+    @Override
+    public List<Point2D> getSelectionPoints() {
+    	Rectangle2D bounds = getBounds();
+    	if (bounds == null) {
+    		return new ArrayList<>();
+    	}
+    	Point2D locationOnGraph = getLocationOnGraph();
+    	double locationOnGraphX = 0;
+    	double locationOnGraphY = 0;
+    	if (locationOnGraph != null) {
+    		locationOnGraphX = locationOnGraph.getX();
+    		locationOnGraphY = locationOnGraph.getY();
+    	}
+    	Point2D p1 = new Point2D.Double(locationOnGraphX, locationOnGraphY);
+    	Point2D p2 = new Point2D.Double(locationOnGraphX + bounds.getWidth(), locationOnGraphY);
+    	Point2D p3 = new Point2D.Double(locationOnGraphX, locationOnGraphY + bounds.getHeight());
+    	Point2D p4 = new Point2D.Double(locationOnGraphX + bounds.getWidth(), locationOnGraphY + bounds.getHeight());
+    	return Arrays.asList(p1, p2, p3, p4);
+    }
+    
 
 	private transient ContentBackground background = null;
     private transient ContentBorder border = null;

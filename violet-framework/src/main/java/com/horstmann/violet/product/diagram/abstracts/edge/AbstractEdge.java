@@ -24,11 +24,14 @@ package com.horstmann.violet.product.diagram.abstracts.edge;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D.Double;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
+import com.horstmann.violet.framework.util.GrabberUtils;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
-import com.horstmann.violet.product.diagram.abstracts.IGraph;
-import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
-import com.horstmann.violet.product.diagram.abstracts.ISelectableGraphElement;
+import com.horstmann.violet.product.diagram.abstracts.ISelectable;
 import com.horstmann.violet.product.diagram.abstracts.Id;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 
@@ -327,6 +330,24 @@ public abstract class AbstractEdge implements IEdge
             updateContactPoints();
         }
     }
+    
+    @Override
+    public List<Point2D> getSelectionPoints() {
+    	Line2D line = getConnectionPoints();
+    	if (line == null) {
+    		return new ArrayList<>();
+    	}
+    	Point2D p1 = new Point2D.Double(line.getX1(), line.getY1());
+    	Point2D p2 = new Point2D.Double(line.getX2(), line.getY2());
+    	return Arrays.asList(p1, p2);
+    }
+    
+    @Override
+    public ISelectable getParent() {
+    	// An edge has no parent by default
+    	return null;
+    }
+    
 
     /** Points of contact path */
     protected transient Point2D[] contactPoints;

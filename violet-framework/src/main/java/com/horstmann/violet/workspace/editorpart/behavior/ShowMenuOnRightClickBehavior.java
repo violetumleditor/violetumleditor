@@ -12,7 +12,7 @@ import javax.swing.JPopupMenu;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
-import com.horstmann.violet.product.diagram.abstracts.ISelectableGraphElement;
+import com.horstmann.violet.product.diagram.abstracts.ISelectable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
@@ -48,7 +48,7 @@ public class ShowMenuOnRightClickBehavior extends AbstractEditorPartBehavior
         INode node = this.graph.findNode(mouseLocation);
         IEdge edge = this.graph.findEdge(mouseLocation);
         
-        List<ISelectableGraphElement> selectedElements = this.selectionHandler.getSelectedElements();
+        List<ISelectable> selectedElements = this.selectionHandler.getSelectedElements();
         if (node != null && !selectedElements.contains(node))
         {
             this.selectionHandler.clearSelection();

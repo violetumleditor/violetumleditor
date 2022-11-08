@@ -10,6 +10,7 @@ import java.util.List;
 import com.horstmann.violet.framework.util.GrabberUtils;
 import com.horstmann.violet.framework.util.KeyModifierUtil;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.abstracts.ISelectable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.edge.ITransitionPoint;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
@@ -207,32 +208,9 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
     @Override
     public void onPaint(Graphics2D g2)
     {
-        List<INode> nodes = selectionHandler.getSelectedElements().stream().filter(e -> INode.class.isInstance(e)).map(n -> (INode) n).toList();
-        for (INode n : nodes)
-        {
-            if (graph.getAllNodes().contains(n))
-            {
-                Point2D nodeLocationOnGraph = n.getLocationOnGraph();
-                Rectangle2D nodeBounds = n.getBounds();
-                GrabberUtils.drawPurpleGrabber(g2, nodeLocationOnGraph.getX(), nodeLocationOnGraph.getY());
-                GrabberUtils.drawPurpleGrabber(g2, nodeLocationOnGraph.getX(), nodeLocationOnGraph.getY() + nodeBounds.getHeight());
-                GrabberUtils.drawPurpleGrabber(g2, nodeLocationOnGraph.getX() + nodeBounds.getWidth(), nodeLocationOnGraph.getY());
-                GrabberUtils.drawPurpleGrabber(g2, nodeLocationOnGraph.getX() + nodeBounds.getWidth(), nodeLocationOnGraph.getY() + nodeBounds.getHeight());
-            }
-        }
-        List<IEdge> edges = selectionHandler.getSelectedElements().stream().filter(e -> IEdge.class.isInstance(e)).map(e -> (IEdge) e).toList();
-        for (IEdge e : edges)
-        {
-            if (graph.getAllEdges().contains(e))
-            {
-                Line2D line = e.getConnectionPoints();
-                GrabberUtils.drawPurpleGrabber(g2, line.getX1(), line.getY1());
-                GrabberUtils.drawPurpleGrabber(g2, line.getX2(), line.getY2());
-                for (ITransitionPoint aTransitionPoint : e.getTransitionPoints()) {
-                	Point2D p = aTransitionPoint.toPoint2D();
-                    GrabberUtils.drawGrayGrabber(g2, p.getX(), p.getY());
-                }
-            }
+    	for (ISelectable element : selectionHandler.getSelectedElements()) {
+        	List<Point2D> selectionPoints = element.getSelectionPoints();
+        	selectionPoints.forEach(p -> GrabberUtils.drawPurpleGrabber(g2, p));
         }
     }
 

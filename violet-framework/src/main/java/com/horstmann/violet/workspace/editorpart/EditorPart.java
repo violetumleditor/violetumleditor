@@ -42,7 +42,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
-import com.horstmann.violet.product.diagram.abstracts.ISelectableGraphElement;
+import com.horstmann.violet.product.diagram.abstracts.ISelectable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.editorpart.behavior.IEditorPartBehavior;
@@ -135,7 +135,7 @@ public class EditorPart extends JPanel implements IEditorPart
         this.behaviorManager.fireBeforeRemovingSelectedElements();
         try
         {
-            List<ISelectableGraphElement> selectedElements = selectionHandler.getSelectedElements();
+            List<ISelectable> selectedElements = selectionHandler.getSelectedElements();
             selectedElements.stream().filter(e -> IEdge.class.isInstance(e)).toArray();
             IEdge[] edgesArray = (IEdge[]) selectedElements.stream().filter(e -> IEdge.class.isInstance(e)).toArray();
             INode[] nodesArray = (INode[]) selectedElements.stream().filter(e -> INode.class.isInstance(e)).toArray();

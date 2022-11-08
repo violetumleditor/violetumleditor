@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
-import com.horstmann.violet.product.diagram.abstracts.ISelectableGraphElement;
+import com.horstmann.violet.product.diagram.abstracts.ISelectable;
 import com.horstmann.violet.product.diagram.abstracts.edge.EdgeTransitionPoint;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.edge.ITransitionPoint;
@@ -124,7 +124,7 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
         {
             if (this.selectionHandler.getSelectedElements().size() == 1)
             {
-            	ISelectableGraphElement element = this.selectionHandler.getSelectedElements().get(0);
+            	ISelectable element = this.selectionHandler.getSelectedElements().get(0);
                 if (IEdge.class.isInstance(element)) {
                 	this.selectedEdge = (IEdge) element;
                 }
