@@ -7,6 +7,8 @@ public interface ISelectable {
 	
 	List<Point2D> getSelectionPoints();
 	
-	ISelectable getParent();
+	ISelectable getSelectableParent();
+	
+	List<ISelectable> getSelectableChildren();
 	
 }

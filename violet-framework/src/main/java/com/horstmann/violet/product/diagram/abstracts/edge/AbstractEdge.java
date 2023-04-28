@@ -342,11 +342,15 @@ public abstract class AbstractEdge implements IEdge
     	return Arrays.asList(p1, p2);
     }
     
-    @Override
-    public ISelectable getParent() {
-    	// An edge has no parent by default
-    	return null;
-    }
+	@Override
+	public ISelectable getSelectableParent() {
+		return null;
+	}
+	
+	@Override
+	public List<ISelectable> getSelectableChildren() {
+		return new ArrayList<>();
+	}
     
 
     /** Points of contact path */

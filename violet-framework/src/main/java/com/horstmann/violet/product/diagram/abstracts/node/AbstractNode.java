@@ -612,6 +612,19 @@ public abstract class AbstractNode implements INode, IColorableNode
     	return Arrays.asList(p1, p2, p3, p4);
     }
     
+    
+    @Override
+    public ISelectable getSelectableParent() {
+    	return getParent();
+    }
+    
+    @Override
+    public List<ISelectable> getSelectableChildren() {
+    	List<ISelectable> children = new ArrayList<>();
+    	children.addAll(getChildren());
+    	return children;
+    }
+    
 
 	private transient ContentBackground background = null;
     private transient ContentBorder border = null;

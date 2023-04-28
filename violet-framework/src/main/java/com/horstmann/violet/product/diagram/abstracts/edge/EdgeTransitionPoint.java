@@ -1,6 +1,7 @@
 package com.horstmann.violet.product.diagram.abstracts.edge;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -47,20 +48,24 @@ public class EdgeTransitionPoint implements ITransitionPoint {
 		return new Point2D.Double(this.x, this.y);
 	}
 
-	
 	@Override
 	public List<Point2D> getSelectionPoints() {
 		return Arrays.asList(this.toPoint2D());
 	}
+
 	
 	@Override
-	public ISelectable getParent() {
-		// Transition point are not relative the their edge but directory to their hosting graph
+	public ISelectable getSelectableParent() {
 		return null;
 	}
+		
+	@Override
+	public List<ISelectable> getSelectableChildren() {
+		return new ArrayList<>();
+	}
 	
-	
-	
+
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(x, y);
