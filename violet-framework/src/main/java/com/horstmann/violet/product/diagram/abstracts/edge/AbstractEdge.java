@@ -349,7 +349,8 @@ public abstract class AbstractEdge implements IEdge
 	
 	@Override
 	public List<ISelectable> getSelectableChildren() {
-		return new ArrayList<>();
+		ITransitionPoint[] tpArray = getTransitionPoints();
+		return Arrays.asList(tpArray);
 	}
     
 

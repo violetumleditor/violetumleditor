@@ -211,6 +211,11 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
     	for (ISelectable element : selectionHandler.getSelectedElements()) {
         	List<Point2D> selectionPoints = element.getSelectionPoints();
         	selectionPoints.forEach(p -> GrabberUtils.drawPurpleGrabber(g2, p));
+        	List<ISelectable> selectableChildren = element.getSelectableChildren();
+        	for (ISelectable child : selectableChildren) {
+        		List<Point2D> childPoints = child.getSelectionPoints();
+        		childPoints.forEach(p -> GrabberUtils.drawGrayGrabber(g2, p));
+        	}
         }
     }
 
