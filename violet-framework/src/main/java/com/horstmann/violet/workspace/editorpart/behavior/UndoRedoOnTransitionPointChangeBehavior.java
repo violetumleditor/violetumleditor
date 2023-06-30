@@ -64,24 +64,14 @@ public class UndoRedoOnTransitionPointChangeBehavior extends AbstractEditorPartB
 		captureDraggedPoints(edge, capturedEdit);
 		this.compoundBehavior.stopHistoryCapture();
 	}
-/* before, after after
- * 		else {
-			System.out.println("before changes skip occured.");
-		}*/
-	private static final String LOG_AFTER_EVENT = "after changes skip occured (before=%d > after=%d).";
-	private static final String LOG_BEFORE_EVENT = "before changes skip occured (after=%d > before=%d).";
+
+
 	private void captureDraggedPoints(final IEdge edge, CompoundEdit capturedEdit) {
 		int beforeSize = this.transitionPointsBeforeChanges.size();
 		int afterSize = this.transitionPointsAfterChanges.size();
 		boolean isSameQuantity = (beforeSize == afterSize);
 		boolean isSameLocation = true;
-		/* 
-		 * debugging: previously only beforeSize was tested, so log when beforeSize is greater than afterSize,
-		 * which would mean that indexing into transitionPointsAfterChanges would become invalid.
-		 */
-		if (beforeSize > afterSize) {
-			System.out.println(String.format(LOG_AFTER_EVENT, beforeSize, afterSize));
-		}
+ 
 		for (int i = 0; ((i < beforeSize) && (i < afterSize)); i++) {
             Point2D beforeDragPoint = this.transitionPointsBeforeChanges.get(i).toPoint2D();
             Point2D afterDragPoint = this.transitionPointsAfterChanges.get(i).toPoint2D();
@@ -98,13 +88,7 @@ public class UndoRedoOnTransitionPointChangeBehavior extends AbstractEditorPartB
 			public void undo() throws CannotUndoException {
 				int beforeCopySize = transitionPointsBeforeChangesCopy.size();
 				int afterCopySize = transitionPointsAfterChangesCopy.size();
-				/* 
-				 * debugging: previously only afterCopySize was tested, so log when afterCopySize is greater than beforeCopySize,
-				 * which would mean that indexing into transitionPointsBeforeChangesCopy would become invalid.
-				 */
-				if (afterCopySize > beforeCopySize) {
-					System.err.println(String.format(LOG_BEFORE_EVENT, afterCopySize, beforeCopySize));
-				}
+
 				for (int i = 0; ((i < beforeCopySize) && (i < afterCopySize)); i++) {
 					ITransitionPoint beforeDragPoint = transitionPointsBeforeChangesCopy.get(i);
 					ITransitionPoint afterDragPoint = transitionPointsAfterChangesCopy.get(i);
@@ -120,13 +104,7 @@ public class UndoRedoOnTransitionPointChangeBehavior extends AbstractEditorPartB
 			public void redo() throws CannotRedoException {
 				int beforeCopySize = transitionPointsBeforeChangesCopy.size();
 				int afterCopySize = transitionPointsAfterChangesCopy.size();
-				/* 
-				 * debugging: previously only afterCopySize was tested, so log when afterCopySize is greater than beforeCopySize,
-				 * which would mean that indexing into transitionPointsBeforeChangesCopy would become invalid.
-				 */
-				if (afterCopySize > beforeCopySize) {
-					System.err.println(String.format(LOG_BEFORE_EVENT, afterCopySize, beforeCopySize));
-				}
+
 				for (int i = 0; ((i < beforeCopySize) && (i < afterCopySize)); i++) {
 					ITransitionPoint beforeDragPoint = transitionPointsBeforeChangesCopy.get(i);
 					ITransitionPoint afterDragPoint = transitionPointsAfterChangesCopy.get(i);

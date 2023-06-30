@@ -136,9 +136,8 @@ public class EditorPart extends JPanel implements IEditorPart
         try
         {
             List<ISelectable> selectedElements = selectionHandler.getSelectedElements();
-            selectedElements.stream().filter(e -> IEdge.class.isInstance(e)).toArray();
-            IEdge[] edgesArray = (IEdge[]) selectedElements.stream().filter(e -> IEdge.class.isInstance(e)).toArray();
-            INode[] nodesArray = (INode[]) selectedElements.stream().filter(e -> INode.class.isInstance(e)).toArray();
+            IEdge[] edgesArray = selectedElements.stream().filter(e -> IEdge.class.isInstance(e)).toArray(IEdge[]::new);
+            INode[] nodesArray = selectedElements.stream().filter(e -> INode.class.isInstance(e)).toArray(INode[]::new);
             graph.removeNode(nodesArray);
             graph.removeEdge(edgesArray);
         }
