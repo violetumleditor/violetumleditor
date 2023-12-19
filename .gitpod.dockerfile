@@ -1,4 +1,4 @@
-FROM gitpod/workspace-full:latest
+FROM gitpod/workspace-full-vnc:latest
 
 SHELL ["/bin/bash", "-c"]
 RUN source "/home/gitpod/.sdkman/bin/sdkman-init.sh"  \

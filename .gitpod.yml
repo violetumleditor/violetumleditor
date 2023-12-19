@@ -4,8 +4,14 @@
 
 # Learn more from ready-to-use templates: https://www.gitpod.io/docs/introduction/getting-started/quickstart
 
+
+
 image:
     file: .gitpod.dockerfile
+
+ports:
+  - port: 6080
+    onOpen: open-preview
 
 tasks:
   - init: mvn install -DskipTests=false
