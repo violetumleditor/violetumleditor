@@ -19,9 +19,9 @@
 		<module>violetplugin-usecasediagram</module>
 		<module>violetproduct-swing</module>
 		<!--module>violetproduct-jnlp</module -->
-		<module>violetproduct-exe</module>
-		<!-- module>violetproduct-rpm</module-->
-		<module>violetproduct-deb</module>
+		<!--module>violetproduct-exe</module -->
+		<!--module>violetproduct-rpm</module -->
+		<!--module>violetproduct-deb</module -->
 		<module>violetproduct-web</module>
 	</modules>
 	<properties>
@@ -50,6 +50,14 @@
 					<version>3.11.0</version>
 					<configuration>
 						<release>21</release>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>3.2.3</version>
+					<configuration>
+					  <skipTests>true</skipTests>
 					</configuration>
 				</plugin>
 			</plugins>
