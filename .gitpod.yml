@@ -5,7 +5,7 @@
 # Learn more from ready-to-use templates: https://www.gitpod.io/docs/introduction/getting-started/quickstart
 
 image:
-    file: .gitpod.Dockerfile
+    file: .gitpod.dockerfile
 
 tasks:
   - init: mvn install -DskipTests=false
