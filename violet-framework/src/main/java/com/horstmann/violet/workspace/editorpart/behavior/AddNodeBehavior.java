@@ -5,7 +5,6 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 
 import javax.swing.SwingUtilities;
-import com.horstmann.violet.framework.util.KeyModifierUtil;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
 import com.horstmann.violet.product.diagram.abstracts.Id;
@@ -35,7 +34,7 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior implements IGrap
     }
     
     @Override
-    public void onMouseClicked(MouseEvent event)
+    public void onMouseReleased(MouseEvent event)
     {
     	this.draggedNode = null;
     	
