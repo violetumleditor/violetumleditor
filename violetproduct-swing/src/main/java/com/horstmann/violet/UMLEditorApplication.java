@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import javax.swing.JFrame;
+
 import com.horstmann.violet.application.gui.MainFrame;
 import com.horstmann.violet.application.gui.SplashScreen;
 import com.horstmann.violet.framework.dialog.DialogFactory;
@@ -55,8 +57,6 @@ import com.horstmann.violet.framework.userpreferences.UserPreferencesService;
 import com.horstmann.violet.framework.util.VersionChecker;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
-
-import javax.swing.*;
 
 /**
  * A program for editing UML diagrams.

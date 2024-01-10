@@ -11,10 +11,12 @@ import java.awt.geom.GeneralPath;
  */
 public class TriangleArrowhead extends Arrowhead
 {
-    public TriangleArrowhead(Color filledColor)
+
+    public TriangleArrowhead(String name, Color filledColor)
     {
-        super(filledColor);
+        super(name, filledColor);
     }
+
 
     @Override
     public GeneralPath getPath()
@@ -31,8 +33,5 @@ public class TriangleArrowhead extends Arrowhead
         return path;
     }
     
-    @Override
-    public Arrowhead clone() {
-    	return new TriangleArrowhead(getFilledColor());
-    }
+
 }

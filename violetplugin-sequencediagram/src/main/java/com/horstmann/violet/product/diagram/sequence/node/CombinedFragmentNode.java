@@ -1,25 +1,30 @@
 package com.horstmann.violet.product.diagram.sequence.node;
 
-import com.horstmann.violet.framework.graphics.content.*;
+import java.awt.Color;
+import java.awt.Shape;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
+
+import com.horstmann.violet.framework.graphics.content.ContentBackground;
+import com.horstmann.violet.framework.graphics.content.ContentBorder;
+import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
+import com.horstmann.violet.framework.graphics.content.EmptyContent;
+import com.horstmann.violet.framework.graphics.content.HorizontalLayout;
+import com.horstmann.violet.framework.graphics.content.RelativeLayout;
+import com.horstmann.violet.framework.graphics.content.TextContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
+import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.property.choiceList.ChoiceList;
 import com.horstmann.violet.product.diagram.property.choiceList.TextChoiceList;
-import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.abstracts.node.IResizableNode;
 import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.MultiLineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 import com.horstmann.violet.product.diagram.property.text.decorator.LargeSizeDecorator;
 import com.horstmann.violet.product.diagram.property.text.decorator.OneLineText;
 import com.horstmann.violet.product.diagram.sequence.SequenceDiagramConstant;
-
-import java.awt.*;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  * A Combined fragment node in a UML diagram.
@@ -32,7 +37,7 @@ public class CombinedFragmentNode extends AbstractNode // implements IResizableN
     public CombinedFragmentNode()
     {
         operator = new TextChoiceList<String>(TYPE_KEYS, TYPE_VALUE);
-        selectedType = operator.getSelectedPos();
+        selectedType = operator.getSelectedValue();
         operatorText = new SingleLineText(nameConverter);
         operatorText.setText(operator.getSelectedValue());
         operatorText.setPadding(0,8,0,18);
@@ -44,7 +49,7 @@ public class CombinedFragmentNode extends AbstractNode // implements IResizableN
     {
         super(node);
         operator = node.operator;
-        selectedType = operator.getSelectedPos();
+        selectedType = operator.getSelectedValue();
         operatorText = node.operatorText.clone();
         frameContent = node.frameContent.clone();
         createContentStructure();
@@ -69,7 +74,7 @@ public class CombinedFragmentNode extends AbstractNode // implements IResizableN
         operatorText.setPadding(0,8,0,18);
 
         operator = new TextChoiceList<String>(TYPE_KEYS, TYPE_VALUE);
-        operator.setSelectedIndex(selectedType);
+        operator.setSelectedValueFromString(selectedType);
     }
 
     @Override
@@ -205,15 +210,15 @@ public class CombinedFragmentNode extends AbstractNode // implements IResizableN
      */
     public void setOperator(ChoiceList type)
     {
-        this.operator = (TextChoiceList<String>)type;
-        selectedType = this.operator.getSelectedPos();
+        this.operator = (TextChoiceList<String>) type;
+        selectedType = this.operator.getSelectedValue();
         operatorText.setText(this.operator.getSelectedValue());
     }
 
     private SingleLineText operatorText;
     private MultiLineText frameContent;
 
-    private int selectedType;
+    private String selectedType;
     private transient TextChoiceList<String> operator;
 
     private double wantedWeight;

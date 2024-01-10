@@ -1,10 +1,11 @@
 package com.horstmann.violet.product.diagram.common.edge;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+
+import com.horstmann.violet.product.diagram.abstracts.edge.arrowhead.Arrowhead;
 import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
 import com.horstmann.violet.product.diagram.property.choiceList.ChoiceList;
-import com.horstmann.violet.product.diagram.abstracts.edge.arrowhead.Arrowhead;
-
-import java.awt.*;
 
 /**
  * TODO javadoc
@@ -31,8 +32,8 @@ public abstract class ArrowheadEdge extends LineEdge
         super(arrowheadEdge);
         this.startArrowheadChoiceList = arrowheadEdge.startArrowheadChoiceList.clone();
         this.endArrowheadChoiceList = arrowheadEdge.endArrowheadChoiceList.clone();
-        this.selectedStartArrowhead = arrowheadEdge.startArrowheadChoiceList.getSelectedPos();
-        this.selectedEndArrowhead = arrowheadEdge.endArrowheadChoiceList.getSelectedPos();
+        this.selectedStartArrowhead = arrowheadEdge.startArrowheadChoiceList.getSelectedValue() != null ? arrowheadEdge.startArrowheadChoiceList.getSelectedValue().toString() : "";
+        this.selectedEndArrowhead = arrowheadEdge.endArrowheadChoiceList.getSelectedValue() != null ? arrowheadEdge.endArrowheadChoiceList.getSelectedValue().toString() : "";
     }
 
     @Override
@@ -43,8 +44,8 @@ public abstract class ArrowheadEdge extends LineEdge
         startArrowheadChoiceList = new ArrowheadChoiceList();
         endArrowheadChoiceList = new ArrowheadChoiceList();
 
-        startArrowheadChoiceList.setSelectedIndex(selectedStartArrowhead);
-        endArrowheadChoiceList.setSelectedIndex(selectedEndArrowhead);
+        startArrowheadChoiceList.setSelectedValueFromString(selectedStartArrowhead);
+        endArrowheadChoiceList.setSelectedValueFromString(selectedEndArrowhead);
     }
     
     @Override
@@ -101,7 +102,7 @@ public abstract class ArrowheadEdge extends LineEdge
     public final void setStartArrowheadChoiceList(ChoiceList startArrowheadChoiceList)
     {
         this.startArrowheadChoiceList = (ArrowheadChoiceList)startArrowheadChoiceList;
-        this.selectedStartArrowhead = this.startArrowheadChoiceList.getSelectedPos();
+        this.selectedStartArrowhead = this.startArrowheadChoiceList.getSelectedValue() != null ? this.startArrowheadChoiceList.getSelectedValue().toString() : "";
     }
 
     /**
@@ -122,7 +123,7 @@ public abstract class ArrowheadEdge extends LineEdge
     public final void setEndArrowheadChoiceList(ChoiceList endArrowheadChoiceList)
     {
         this.endArrowheadChoiceList = (ArrowheadChoiceList)endArrowheadChoiceList;
-        this.selectedEndArrowhead = this.endArrowheadChoiceList.getSelectedPos();
+        this.selectedEndArrowhead = this.endArrowheadChoiceList.getSelectedValue() != null ? this.endArrowheadChoiceList.getSelectedValue().toString() : "";
     }
 
     /**
@@ -139,7 +140,7 @@ public abstract class ArrowheadEdge extends LineEdge
     {
     	if(startArrowheadChoiceList.setSelectedValue(startArrowhead))
         {
-            this.selectedStartArrowhead = startArrowheadChoiceList.getSelectedPos();
+            this.selectedStartArrowhead = startArrowheadChoiceList.getSelectedValue().toString();
         }
     }
 
@@ -157,13 +158,13 @@ public abstract class ArrowheadEdge extends LineEdge
     {
         if(endArrowheadChoiceList.setSelectedValue(endArrowhead))
         {
-            this.selectedEndArrowhead = endArrowheadChoiceList.getSelectedPos();
+            this.selectedEndArrowhead = endArrowheadChoiceList.getSelectedValue().toString();
         }
     }
 
     private transient ArrowheadChoiceList startArrowheadChoiceList = new ArrowheadChoiceList();
     private transient ArrowheadChoiceList endArrowheadChoiceList = new ArrowheadChoiceList();
 
-    private int selectedStartArrowhead;
-    private int selectedEndArrowhead;
+    private String selectedStartArrowhead;
+    private String selectedEndArrowhead;
 }

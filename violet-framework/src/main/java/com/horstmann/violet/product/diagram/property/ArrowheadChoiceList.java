@@ -21,15 +21,21 @@
 
 package com.horstmann.violet.product.diagram.property;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.geom.Point2D;
-import java.util.Arrays;
-import java.util.List;
 
+import javax.swing.Icon;
+
+import com.horstmann.violet.product.diagram.abstracts.edge.arrowhead.Arrowhead;
+import com.horstmann.violet.product.diagram.abstracts.edge.arrowhead.DiamondArrowhead;
+import com.horstmann.violet.product.diagram.abstracts.edge.arrowhead.TriangleArrowhead;
+import com.horstmann.violet.product.diagram.abstracts.edge.arrowhead.VArrowhead;
+import com.horstmann.violet.product.diagram.abstracts.edge.arrowhead.XArrowhead;
 import com.horstmann.violet.product.diagram.property.choiceList.IconChoiceList;
-import com.horstmann.violet.product.diagram.abstracts.edge.arrowhead.*;
-
-import javax.swing.*;
 
 /**
  * This class defines arrow heads of various shapes.
@@ -75,26 +81,18 @@ public class ArrowheadChoiceList extends IconChoiceList<Arrowhead>
                 X.clone(),
         };
     	ArrowheadChoiceList clone = new ArrowheadChoiceList(ARROWHEAD_ICONS, ARROWHEADS_CLONE);
-    	clone.setSelectedIndex(getSelectedPos());
+    	clone.setSelectedValue(getSelectedValue());
 		return clone;
     }
     
-    @Override
-    public boolean setSelectedValue(Arrowhead value) {
-    	List<Arrowhead> staticList = Arrays.asList(ARROWHEADS);
-		if (staticList.contains(value)) {
-    		int pos = staticList.indexOf(value);
-    		return super.setSelectedIndex(pos);
-    	}
-		return super.setSelectedValue(value);
-    }
 
-    public static final Arrowhead NONE= new Arrowhead();
+
+    public static final Arrowhead NONE= new Arrowhead("NONE");
     public static final Arrowhead V = new VArrowhead();
-    public static final Arrowhead TRIANGLE_WHITE = new TriangleArrowhead(Color.white);
-    public static final Arrowhead TRIANGLE_BLACK = new TriangleArrowhead(Color.black);
-    public static final Arrowhead DIAMOND_WHITE = new DiamondArrowhead(Color.white);
-    public static final Arrowhead DIAMOND_BLACK = new DiamondArrowhead(Color.black);
+    public static final Arrowhead TRIANGLE_WHITE = new TriangleArrowhead("Triangle White", Color.white);
+    public static final Arrowhead TRIANGLE_BLACK = new TriangleArrowhead("Triangle Black", Color.black);
+    public static final Arrowhead DIAMOND_WHITE = new DiamondArrowhead("Diamond White", Color.white);
+    public static final Arrowhead DIAMOND_BLACK = new DiamondArrowhead("Diamond Black", Color.black);
     public static final Arrowhead X = new XArrowhead();
 
     private static Arrowhead[] ARROWHEADS;

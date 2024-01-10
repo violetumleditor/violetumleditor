@@ -49,7 +49,7 @@ public abstract class ChoiceList<K, V> implements Cloneable
 
         this.values = values;
         this.keys = keys;
-        this.selectedPos = 0;
+        this.selectedKey = null;
     }
 
     /**
@@ -61,7 +61,7 @@ public abstract class ChoiceList<K, V> implements Cloneable
     {
         this.values = copyElement.values;
         this.keys = copyElement.keys;
-        this.selectedPos = copyElement.selectedPos;
+        this.selectedKey = copyElement.selectedKey;
     }
 
     public abstract ChoiceList clone();
@@ -83,20 +83,6 @@ public abstract class ChoiceList<K, V> implements Cloneable
 	}
     
 
-    /**
-     * Selects an index in the list
-     *
-     * @param index
-     */
-    public boolean setSelectedIndex(int index)
-    {
-        if(0>index || keys.length <= index)
-        {
-            return false;
-        }
-        selectedPos = index;
-        return true;
-    }
 
     /**
      * Selects an value in the list
@@ -105,11 +91,16 @@ public abstract class ChoiceList<K, V> implements Cloneable
      */
     public boolean setSelectedValue(V value)
     {
+        if (value == null) {
+            selectedKey = null;
+            return false;
+        }
+        
         for(int i = 0; i<values.length; ++i)
         {
             if(value.equals(values[i]))
             {
-                selectedPos = i;
+                selectedKey = keys[i];
                 return true;
             }
         }
@@ -117,25 +108,62 @@ public abstract class ChoiceList<K, V> implements Cloneable
     }
 
     /**
+     * Selects an value in the list
+     *
+     * @param value
+     */
+    public boolean setSelectedValueFromString(String value)
+    {
+        for(int i = 0; i<values.length; ++i)
+        {
+            if(value.equals(values[i].toString()))
+            {
+                selectedKey = keys[i];
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    /**
      * @return current selected value
      */
     public V getSelectedValue()
     {
-    	return values[selectedPos];
+        if (this.selectedKey == null) {
+            return null;
+        }
+
+        int selectedPos = -1;
+        for (int i = 0; i < keys.length; i++) {
+            if (selectedKey.equals(keys[i])) {
+                selectedPos = i;
+                break;
+            }
+        }
+        if (selectedPos != -1) {
+            return values[selectedPos];
+        } 
+        return null;
+    }
+
+    public void setSelectedKey(K selectedKey) {
+        this.selectedKey = selectedKey;
     }
 
     /**
-     * @return current selected position
+     * @return current selected key
      */
-    public int getSelectedPos()
+    public K getSelectedKey()
     {
-        return selectedPos;
+        return selectedKey;
     }
 
     /**
-     * Index for current selected item
+     * Key for current selected item
      */
-    private int selectedPos;
+    private K selectedKey;
 
     /**
      * Item keys list for selection

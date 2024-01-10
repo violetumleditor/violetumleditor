@@ -12,7 +12,7 @@ public class VArrowhead extends Arrowhead
 {
     public VArrowhead()
     {
-        super();
+        super("V");
     }
 
     @Override

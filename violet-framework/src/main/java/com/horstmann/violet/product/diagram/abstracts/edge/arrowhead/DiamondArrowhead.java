@@ -12,9 +12,10 @@ import java.io.ObjectInputStream.GetField;
  */
 public class DiamondArrowhead extends Arrowhead
 {
-    public DiamondArrowhead(Color filledColor)
+
+    public DiamondArrowhead(String name, Color filledColor)
     {
-        super(filledColor);
+        super(name, filledColor);
     }
 
     @Override
@@ -33,8 +34,4 @@ public class DiamondArrowhead extends Arrowhead
         return path;
     }
     
-	@Override
-	public Arrowhead clone() {
-		return new DiamondArrowhead(getFilledColor());
-	}
 }

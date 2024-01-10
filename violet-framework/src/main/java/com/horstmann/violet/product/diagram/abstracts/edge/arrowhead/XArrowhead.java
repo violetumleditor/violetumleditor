@@ -12,7 +12,7 @@ public class XArrowhead extends Arrowhead
 {
     public XArrowhead()
     {
-        super();
+        super("X");
     }
 
     @Override

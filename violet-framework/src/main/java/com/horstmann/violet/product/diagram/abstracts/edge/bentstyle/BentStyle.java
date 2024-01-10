@@ -13,9 +13,8 @@ import java.util.Arrays;
  */
 public class BentStyle
 {
-    /**
-     * Default constructor
-     */
+
+
     private BentStyle()
     {
     }
@@ -269,6 +268,7 @@ public class BentStyle
         r.add(new Point2D.Double(x3, y3));
         return r;
     }
+
 
     /** minimum segment size */
     private static final int MIN_SEGMENT = 15;

@@ -21,14 +21,13 @@
 
 package com.horstmann.violet.product.diagram.property;
 
-import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
-import com.horstmann.violet.framework.util.ResourceManager;
-import com.horstmann.violet.product.diagram.property.choiceList.TextChoiceList;
-import com.horstmann.violet.product.diagram.abstracts.edge.bentstyle.BentStyle;
-
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+
+import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
+import com.horstmann.violet.product.diagram.abstracts.edge.bentstyle.BentStyle;
+import com.horstmann.violet.product.diagram.property.choiceList.TextChoiceList;
 
 /**
  * A style for a segmented line that indicates the number and sequence of bends.
@@ -52,6 +51,61 @@ public class BentStyleChoiceList extends TextChoiceList<BentStyle>
     {
         super(copyElement);
     }
+
+
+    public String getSelectedStyleName() {
+        if (getSelectedValue() == null) {
+            return "AUTO";
+        }
+        else if (getSelectedValue().equals(FREE)) {
+            return "FREE";
+        }
+        else if (getSelectedValue().equals(STRAIGHT)) {
+            return "STRAIGHT";
+        }
+        else if (getSelectedValue().equals(HV)) {
+            return "HV";
+        }
+        else if (getSelectedValue().equals(VH)) {
+            return "VH";
+        }
+        else if (getSelectedValue().equals(HVH)) {
+            return "HVH";
+        }
+        else if (getSelectedValue().equals(VHV)) {
+            return "VHV";
+        }
+        else if (getSelectedValue().equals(AUTO)) {
+            return "AUTO";
+        }
+        return "AUTO";
+    }
+
+
+    public void setSelectedStyleName(String styleName) {
+        if (styleName.equals("AUTO")) {
+            setSelectedValue(AUTO);
+        }
+        else if (styleName.equals("FREE")) {
+            setSelectedValue(FREE);
+        }
+        else if (styleName.equals("STRAIGHT")) {
+            setSelectedValue(STRAIGHT);
+        }
+        else if (styleName.equals("HV")) {
+            setSelectedValue(HV);
+        }
+        else if (styleName.equals("VH")) {
+            setSelectedValue(VH);
+        }
+        else if (styleName.equals("HVH")) {
+            setSelectedValue(HVH);
+        }
+        else if (styleName.equals("VHV")) {
+            setSelectedValue(VHV);
+        }
+    }
+
 
     @Override
     public BentStyleChoiceList clone()

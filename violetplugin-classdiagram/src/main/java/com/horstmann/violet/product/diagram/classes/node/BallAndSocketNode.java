@@ -64,8 +64,8 @@ public class BallAndSocketNode extends AbstractNode
         type = new TextChoiceList<Types>(TYPE_KEYS, TYPE_VALUES);
         orientation = new TextChoiceList<Integer>(ORIENTATION_KEYS, ORIENTATION_VALUES);
 
-        this.selectedType = this.type.getSelectedPos();
-        this.selectedOrientation = this.orientation.getSelectedPos();
+        this.selectedType = this.type.getSelectedValue();
+        this.selectedOrientation = this.orientation.getSelectedValue();
     }
 
     protected BallAndSocketNode(BallAndSocketNode node) throws CloneNotSupportedException
@@ -76,8 +76,8 @@ public class BallAndSocketNode extends AbstractNode
         orientation = node.orientation.clone();
         name.setPadding(5,5,5,5);
 
-        this.selectedType = this.type.getSelectedPos();
-        this.selectedOrientation = this.orientation.getSelectedPos();
+        this.selectedType = this.type.getSelectedValue();
+        this.selectedOrientation = this.orientation.getSelectedValue();
 
         createContentStructure();
     }
@@ -97,8 +97,8 @@ public class BallAndSocketNode extends AbstractNode
         type = new TextChoiceList<Types>(TYPE_KEYS, TYPE_VALUES);
         orientation = new TextChoiceList<Integer>(ORIENTATION_KEYS, ORIENTATION_VALUES);
 
-        type.setSelectedIndex(selectedType);
-        orientation.setSelectedIndex(selectedOrientation);
+        type.setSelectedValue(selectedType);
+        orientation.setSelectedValue(selectedOrientation);
     }
 
     @Override
@@ -264,7 +264,7 @@ public class BallAndSocketNode extends AbstractNode
      *
      * @return orientation choice list
      */
-    public ChoiceList getOrientation()
+    public ChoiceList<String, Integer> getOrientation()
     {
         return orientation;
     }
@@ -275,33 +275,33 @@ public class BallAndSocketNode extends AbstractNode
      *
      * @param orientation
      */
-    public void setOrientation(ChoiceList orientation)
+    public void setOrientation(ChoiceList<String, Integer> orientation)
     {
-        if(this.orientation.setSelectedIndex(orientation.getSelectedPos()))
+        if(this.orientation.setSelectedValue(orientation.getSelectedValue()))
         {
-            this.selectedOrientation = orientation.getSelectedPos();
+            this.selectedOrientation = orientation.getSelectedValue();
             refreshBallAndSocketLayout();
         }
     }
 
-    public ChoiceList getType()
+    public ChoiceList<String, BallAndSocketNode.Types> getType()
     {
         return type;
     }
 
-    public void setType(ChoiceList type)
+    public void setType(ChoiceList<String, BallAndSocketNode.Types> type)
     {
-        if(this.type.setSelectedIndex(type.getSelectedPos()))
+        if(this.type.setSelectedValue(type.getSelectedValue()))
         {
-            this.selectedType = type.getSelectedPos();
+            this.selectedType = type.getSelectedValue();
             refreshBallAndSocketLayout();
         }
     }
 
     private SingleLineText name;
 
-    private int selectedOrientation;
-    private int selectedType;
+    private Integer selectedOrientation;
+    private BallAndSocketNode.Types selectedType;
 
     private transient TextChoiceList<Integer> orientation;
     private transient TextChoiceList<Types> type;

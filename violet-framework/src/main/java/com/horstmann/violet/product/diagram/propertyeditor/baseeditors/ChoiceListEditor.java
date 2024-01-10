@@ -60,13 +60,13 @@ public class ChoiceListEditor extends PropertyEditorSupport
 
         final ChoiceList list = ((ChoiceList) getValue()).clone();
         final JComboBox comboBox = new JComboBox(list.getKeys());
-        comboBox.setSelectedIndex(list.getSelectedPos());
+        comboBox.setSelectedItem(list.getSelectedValue());
         comboBox.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
             {
-                list.setSelectedIndex(comboBox.getSelectedIndex());
-                setValue(list);
+                list.setSelectedKey(comboBox.getSelectedItem());
+                setValue(list.getSelectedValue());
             }
 
         });

@@ -54,6 +54,30 @@ public class LineStyleChoiceList extends IconChoiceList<Stroke>
         super(copyElement);
     }
 
+    public String getSelectedStyleName() {
+        if (getSelectedValue() == null) {
+            return "SOLID";
+        }
+        else if (getSelectedValue().equals(SOLID)) {
+            return "SOLID";
+        }
+        else if (getSelectedValue().equals(DOTTED)) {
+            return "DOTTED";
+        }
+        return "SOLID";
+    }
+
+
+    public void setSelectedStyleName(String styleName) {
+        if (styleName.equals("SOLID")) {
+            setSelectedValue(SOLID);
+        }
+        else if (styleName.equals("DOTTED")) {
+            setSelectedValue(DOTTED);
+        }
+    }
+
+
     @Override
     public LineStyleChoiceList clone()
     {
@@ -80,6 +104,8 @@ public class LineStyleChoiceList extends IconChoiceList<Stroke>
         }
     }
 
+
+
     private static final class LineStyleIcon implements Icon
     {
         public LineStyleIcon(Stroke lineStyle)
@@ -105,7 +131,7 @@ public class LineStyleChoiceList extends IconChoiceList<Stroke>
             Graphics2D graphics = (Graphics2D)g;
             Color oldColor = graphics.getColor();
             Stroke oldStroke = graphics.getStroke();
-
+            
             Point2D startPoint = new Point2D.Double(WIDTH-1, HEIGHT/2 );
             Point2D endPoint = new Point2D.Double(5, HEIGHT/2 );
 

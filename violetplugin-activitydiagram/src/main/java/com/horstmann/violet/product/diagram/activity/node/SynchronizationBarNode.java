@@ -23,6 +23,7 @@ package com.horstmann.violet.product.diagram.activity.node;
 
 import java.util.List;
 import java.util.MissingResourceException;
+import java.util.Objects;
 
 import com.horstmann.violet.framework.graphics.content.Content;
 import com.horstmann.violet.framework.graphics.content.ContentBackground;
@@ -49,7 +50,7 @@ public class SynchronizationBarNode extends AbstractNode
                 STRETCH_STRATEGIES
         );
         orientation.setSelectedValue(HORIZONTAL);
-        selectedStretch = orientation.getSelectedPos();
+        selectedStretch = orientation.getSelectedValue().toString();
         createContentStructure();
     }
 
@@ -57,7 +58,7 @@ public class SynchronizationBarNode extends AbstractNode
     {
         super(node);
         orientation = node.orientation.clone();
-        selectedStretch = orientation.getSelectedPos();
+        selectedStretch = orientation.getSelectedValue().toString();
         createContentStructure();
     }
 
@@ -70,7 +71,7 @@ public class SynchronizationBarNode extends AbstractNode
                 STRETCH_KEYS,
                 STRETCH_STRATEGIES
         );
-        orientation.setSelectedIndex(selectedStretch);
+        orientation.setSelectedValueFromString(selectedStretch);
     }
 
     @Override
@@ -151,7 +152,7 @@ public class SynchronizationBarNode extends AbstractNode
         double length = currentStretch.getLength(content);
         double thickness = currentStretch.getThickness(content);
         this.orientation = orientation;
-        selectedStretch = this.orientation.getSelectedPos();
+        selectedStretch = this.orientation.getSelectedValue().toString();
 
         currentStretch = getStretch();
         currentStretch.setLength(content, length);
@@ -164,7 +165,7 @@ public class SynchronizationBarNode extends AbstractNode
         return ((StretchStrategy)orientation.getSelectedValue());
     }
 
-    private int selectedStretch;
+    private String selectedStretch;
 
     private transient ChoiceList orientation;
     private transient Content content;
@@ -210,6 +211,29 @@ public class SynchronizationBarNode extends AbstractNode
             return Direction.NORTH;
         }
 
+        @Override
+        public String toString() {
+            return "HORIZONTAL";
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null || getClass() != obj.getClass()) {
+                return false;
+            }
+            SynchronizationBarNode other = (SynchronizationBarNode) obj;
+            return toString().equals(other.toString());
+        }
+
+             @Override
+        public int hashCode() {
+            return Objects.hash(toString());
+        }
+        
+
     };
     public static final StretchStrategy VERTICAL = new StretchStrategy()
     {
@@ -236,6 +260,28 @@ public class SynchronizationBarNode extends AbstractNode
         @Override
         public Direction getCountingDirection() {
             return Direction.EAST;
+        }
+
+        @Override
+        public String toString() {
+            return "VERTICAL";
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null || getClass() != obj.getClass()) {
+                return false;
+            }
+            SynchronizationBarNode other = (SynchronizationBarNode) obj;
+            return toString().equals(other.toString());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(toString());
         }
     };
 

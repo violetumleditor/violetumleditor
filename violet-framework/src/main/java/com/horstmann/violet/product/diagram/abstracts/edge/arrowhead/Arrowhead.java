@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+import java.util.Objects;
 
 /**
  * This class defines arrow heads of various shapes.
@@ -14,15 +15,17 @@ import java.awt.geom.Point2D;
  */
 public class Arrowhead implements Cloneable
 {
-    public Arrowhead()
+    public Arrowhead(String name)
     {
+        this.name = name;
     	this.borderColor = Color.BLACK;
         this.filledColor = null;
     }
 
-    public Arrowhead(Color filledColor)
+    public Arrowhead(String name, Color filledColor)
     {
-    	this.borderColor = Color.BLACK;
+    	this.name = name;
+        this.borderColor = Color.BLACK;
         this.filledColor = filledColor;
     }
 
@@ -106,16 +109,39 @@ public class Arrowhead implements Cloneable
 	
 	@Override
 	public Arrowhead clone() {
-		Arrowhead ah = new Arrowhead();
+		Arrowhead ah = new Arrowhead(this.name);
 		ah.setFilledColor(this.filledColor);
 		ah.setBorderColor(this.borderColor);
 		return ah;
 	}
 
+    @Override
+    public String toString() {
+        return this.name;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Arrowhead other = (Arrowhead) obj;
+        return toString().equals(other.toString());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(toString());
+    }
+
 
 
 	private Color filledColor;
     private Color borderColor;
+    private String name;
 
     protected static final double ARROW_ANGLE = Math.PI / 6;
     protected static final double ARROW_LENGTH = 10;

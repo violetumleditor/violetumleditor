@@ -42,8 +42,8 @@ public abstract class LineEdge extends ShapeEdge
     {
         this.bentStyleChoiceList = lineEdge.bentStyleChoiceList.clone();
         this.lineStyleChoiceList = lineEdge.lineStyleChoiceList.clone();
-        this.selectedBentStyle = this.bentStyleChoiceList.getSelectedPos();
-        this.selectedLineStyle = this.lineStyleChoiceList.getSelectedPos();
+        this.selectedBentStyle = this.bentStyleChoiceList.getSelectedStyleName();
+        this.selectedLineStyle = this.lineStyleChoiceList.getSelectedStyleName();
     }
 
     @Override
@@ -53,8 +53,8 @@ public abstract class LineEdge extends ShapeEdge
         lineStyleChoiceList = new LineStyleChoiceList();
         bentStyleChoiceList = new BentStyleChoiceList();
 
-        lineStyleChoiceList.setSelectedIndex(selectedLineStyle);
-        bentStyleChoiceList.setSelectedIndex(selectedBentStyle);
+        lineStyleChoiceList.setSelectedStyleName(selectedLineStyle);
+        bentStyleChoiceList.setSelectedStyleName(selectedBentStyle);
     }
 
     @Override
@@ -175,7 +175,7 @@ public abstract class LineEdge extends ShapeEdge
     public final void setBentStyleChoiceList(ChoiceList bentStyleChoiceList)
     {
         this.bentStyleChoiceList = (BentStyleChoiceList)bentStyleChoiceList;
-        this.selectedBentStyle = this.bentStyleChoiceList.getSelectedPos();
+        this.selectedBentStyle = this.bentStyleChoiceList.getSelectedStyleName();
     }
 
     /**
@@ -196,7 +196,7 @@ public abstract class LineEdge extends ShapeEdge
     public final void setLineStyleChoiceList(ChoiceList lineStyleChoiceList)
     {
         this.lineStyleChoiceList = (LineStyleChoiceList)lineStyleChoiceList;
-        this.selectedLineStyle = this.lineStyleChoiceList.getSelectedPos();
+        this.selectedLineStyle = this.lineStyleChoiceList.getSelectedStyleName();
     }
 
     /**
@@ -213,7 +213,7 @@ public abstract class LineEdge extends ShapeEdge
     {
         if(lineStyleChoiceList.setSelectedValue(stroke))
         {
-            this.selectedLineStyle = lineStyleChoiceList.getSelectedPos();
+            this.selectedLineStyle = lineStyleChoiceList.getSelectedStyleName();
         }
     }
 
@@ -262,15 +262,15 @@ public abstract class LineEdge extends ShapeEdge
     {
         if(bentStyleChoiceList.setSelectedValue(bentStyle))
         {
-        	this.selectedBentStyle = bentStyleChoiceList.getSelectedPos();
+        	this.selectedBentStyle = bentStyleChoiceList.getSelectedStyleName();
         }
     }
 
     private transient LineStyleChoiceList lineStyleChoiceList;
     private transient BentStyleChoiceList bentStyleChoiceList;
 
-    private int selectedBentStyle;
-    private int selectedLineStyle;
+    private String selectedBentStyle;
+    private String selectedLineStyle;
 
     public static final int SELF_LOOP_GAP_X = 20;
     public static final int SELF_LOOP_GAP_Y = 22;
