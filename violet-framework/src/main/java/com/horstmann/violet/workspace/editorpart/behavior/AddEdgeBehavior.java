@@ -5,9 +5,12 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.List;
 
+import com.horstmann.violet.framework.dialog.DialogFactory;
+import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
+import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
+import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
+import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
 import com.horstmann.violet.product.diagram.abstracts.Id;
@@ -18,18 +21,23 @@ import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
 import com.horstmann.violet.workspace.sidebar.graphtools.GraphTool;
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBar;
+import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBarMouseListener;
 
-public class AddEdgeBehavior extends AbstractEditorPartBehavior
+public class AddEdgeBehavior extends AbstractEditorPartBehavior implements IGraphToolsBarMouseListener
 {
 
     public AddEdgeBehavior(IEditorPart editorPart, IGraphToolsBar graphToolsBar)
     {
-        this.editorPart = editorPart;
+    	BeanInjector.getInjector().inject(this);
+        ResourceBundleInjector.getInjector().inject(this);
+    	this.editorPart = editorPart;
         this.graph = editorPart.getGraph();
         this.grid = editorPart.getGraph().getGridSticker();
         this.selectionHandler = editorPart.getSelectionHandler();
         this.behaviorManager = editorPart.getBehaviorManager();
         this.graphToolsBar = graphToolsBar;
+        this.dragging = false;
+        graphToolsBar.addMouseListener(this);
     }
 
     @Override
@@ -47,11 +55,6 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior
         }
         if (this.isLinkingInProgress && this.isLinkBySeparatedClicks)
         {
-            if (isRecognizedAsTransitionAction())
-            {
-                transitionAction(event);
-                return;
-            }
             endAction(event);
             return;
         }
@@ -124,6 +127,9 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior
         {
             return false;
         }
+        if (isRecognizedAsTransitionAction()) {
+        	return false;
+        }
         return true;
     }
 
@@ -159,10 +165,7 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior
         this.newEdge.setId(new Id());
     }
 
-    private void transitionAction(MouseEvent event)
-    {
-        this.transitionPoints.add(this.lastMousePoint);
-    }
+
 
     private void endAction(MouseEvent event)
     {
@@ -173,7 +176,6 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior
         }
         this.isLinkingInProgress = false;
         this.isLinkBySeparatedClicks = false;
-        this.transitionPoints.clear();
         this.newEdge = null;
         
     }
@@ -182,7 +184,6 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior
     {
         this.isLinkingInProgress = false;
         this.isLinkBySeparatedClicks = false;
-        this.transitionPoints.clear();
         this.newEdge = null;
     }
 
@@ -206,7 +207,6 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior
                 INode endNode = graph.findNode(endPoint);
                 Point2D relativeStartPoint = null;
                 Point2D relativeEndPoint = null;
-                Point2D[] transitionPointsAsArray = this.transitionPoints.toArray(new Point2D[this.transitionPoints.size()]);
                 if (startNode != null)
                 {
                     Point2D startNodeLocationOnGraph = startNode.getLocationOnGraph();
@@ -221,7 +221,7 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior
                     double relativeEndY = endPoint.getY() - endNodeLocationOnGraph.getY();
                     relativeEndPoint = new Point2D.Double(relativeEndX, relativeEndY);
                 }
-                if (graph.connect(newEdge, startNode, relativeStartPoint, endNode, relativeEndPoint, transitionPointsAsArray))
+                if (graph.connect(newEdge, startNode, relativeStartPoint, endNode, relativeEndPoint))
                 {
                     newEdge.incrementRevision();
                     isAdded = true;
@@ -246,14 +246,37 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior
         g2.setColor(PURPLE);
         GeneralPath path = new GeneralPath();
         path.moveTo(this.firstMousePoint.getX(), this.firstMousePoint.getY());
-        for (Point2D aTransitionPoint : this.transitionPoints)
-        {
-            path.lineTo(aTransitionPoint.getX(), aTransitionPoint.getY());
-        }
         path.lineTo(this.lastMousePoint.getX(), this.lastMousePoint.getY());
         g2.draw(path);
         g2.setColor(oldColor);
     }
+    
+	@Override
+	public void onMouseToolClicked(GraphTool selectedTool)
+	{
+		Object obj = selectedTool.getNodeOrEdge();
+		if (obj instanceof IEdge)
+		{
+			this.dragging = true;
+		}
+	}
+
+	@Override
+	public void onMouseToolDragged(MouseEvent event)
+	{
+		if (this.dragging) {
+			this.dialogFactory.showWarningDialog(noDragMessage);
+			this.dragging = false;
+		}
+	}
+
+	@Override
+	public void onMouseToolReleased(MouseEvent event)
+	{
+		this.dragging = false;
+	}
+	
+	
 
     private static final Color PURPLE = new Color(0.7f, 0.4f, 0.7f);
 
@@ -279,8 +302,15 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior
 
     private boolean isLinkBySeparatedClicks = false;
 
-    private List<Point2D> transitionPoints = new ArrayList<Point2D>();
-
     private IEdge newEdge = null;
+    
+    private boolean dragging;
+    
+    @InjectedBean
+    private DialogFactory dialogFactory;
+    
+    @ResourceBundleBean(key = "addedge.properties.no_drag_message")
+    private String noDragMessage;
+
 
 }

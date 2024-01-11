@@ -2,12 +2,12 @@ package com.horstmann.violet.workspace.editorpart.behavior;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Iterator;
 
+import com.horstmann.violet.framework.util.KeyModifierUtil;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
@@ -57,8 +57,7 @@ public class SelectByLassoBehavior extends AbstractEditorPartBehavior
         {
             return;
         }
-        boolean isCtrl = (event.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0;
-        if (isCtrl) {
+        if (KeyModifierUtil.isCtrl(event)) {
             return;
         }
         

@@ -50,11 +50,11 @@ public class ActivityDiagramGraph extends AbstractGraph
     }
 
     @Override
-    public boolean connect(IEdge e, INode start, Point2D startLocation, INode end, Point2D endLocation, Point2D[] transitionPoints)
+    public boolean connect(IEdge e, INode start, Point2D startLocation, INode end, Point2D endLocation)
     {
         if (!ActivityTransitionEdge.class.isInstance(e))
         {
-            return super.connect(e, start, startLocation, end, endLocation, transitionPoints);
+            return super.connect(e, start, startLocation, end, endLocation);
         }
         ActivityTransitionEdge transitionEdge = (ActivityTransitionEdge) e;
         if (DecisionNode.class.isInstance(start))
@@ -71,7 +71,7 @@ public class ActivityDiagramGraph extends AbstractGraph
                 transitionEdge.setBentStyle(BentStyle.HV);
             }
         }
-        return super.connect(e, start, startLocation, end, endLocation, transitionPoints);
+        return super.connect(e, start, startLocation, end, endLocation);
     }
 
     private static final List<INode> NODE_PROTOTYPES = new ArrayList<INode>();

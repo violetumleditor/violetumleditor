@@ -20,10 +20,8 @@ import com.horstmann.violet.workspace.editorpart.behavior.AbstractEditorPartBeha
 import eu.webtoolkit.jwt.Signal;
 import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WDialog;
-import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WPushButton;
 import eu.webtoolkit.jwt.WText;
-import eu.webtoolkit.jwt.WLength.Unit;
 
 @ResourceBundleBean(resourceReference = com.horstmann.violet.workspace.editorpart.behavior.EditSelectedBehavior.class)
 public class EditSelectedBehavior extends AbstractEditorPartBehavior {
@@ -42,7 +40,6 @@ public class EditSelectedBehavior extends AbstractEditorPartBehavior {
 	@ResourceBundleBean(key = "edit.properties.empty_bean_message")
 	private String uneditableBeanMessage;
 	
-	private static final double MAX_CONTENT_HEIGHT = 400;
 
 	public EditSelectedBehavior(IEditorPart editorPart, EditorPartWidget editorPartWidget) {
 		BeanInjector.getInjector().inject(this);
@@ -74,7 +71,7 @@ public class EditSelectedBehavior extends AbstractEditorPartBehavior {
 	}
 
 	public void editSelected() {
-		final Object edited = selectionHandler.isNodeSelectedAtLeast() ? selectionHandler.getLastSelectedNode() : selectionHandler.getLastSelectedEdge();
+		final Object edited = selectionHandler.getLastSelectedElement();
 		if (edited == null) {
 			return;
 		}
@@ -84,7 +81,6 @@ public class EditSelectedBehavior extends AbstractEditorPartBehavior {
 		WContainerWidget dialogContainer = dialog.getContents();
 		if (editorWidget.isEditable()) {
 			dialogContainer.addWidget(editorWidget);
-			dialogContainer.setHeight(new WLength(MAX_CONTENT_HEIGHT, Unit.Pixel));
 		}
 		if (!editorWidget.isEditable()) {
 			WText wText = new WText(this.uneditableBeanMessage);
@@ -98,7 +94,7 @@ public class EditSelectedBehavior extends AbstractEditorPartBehavior {
 		});
 		WContainerWidget footerContainer = dialog.getFooter();
 		footerContainer.addWidget(doneButton);
-		dialog.setModal(true);
+		dialog.setModal(false);
 		dialog.rejectWhenEscapePressed(true);
 		dialog.show();
 	}

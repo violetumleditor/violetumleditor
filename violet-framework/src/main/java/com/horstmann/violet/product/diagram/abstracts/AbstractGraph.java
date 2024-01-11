@@ -280,7 +280,7 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
     }
 
     @Override
-    public boolean connect(IEdge e, INode start, Point2D startLocation, INode end, Point2D endLocation, Point2D[] transitionPoints)
+    public boolean connect(IEdge e, INode start, Point2D startLocation, INode end, Point2D endLocation)
     {
         // Step 1 : find if nodes exist
         Collection<INode> allNodes = getAllNodes();
@@ -295,8 +295,7 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
         e.setStart(start);
         e.setStartLocation(startLocation);
         e.setEnd(end);
-        e.setEndlocation(endLocation);
-        e.setTransitionPoints(transitionPoints);
+        e.setEndLocation(endLocation);
         if (start.addConnection(e))
         {
             e.setId(new Id());

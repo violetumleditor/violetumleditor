@@ -9,7 +9,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
+import com.horstmann.violet.product.diagram.abstracts.ISelectable;
+import com.horstmann.violet.product.diagram.abstracts.edge.EdgeTransitionPoint;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.edge.ITransitionPoint;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
@@ -76,19 +79,24 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
         {
             return;
         }
-        this.isReadyToAddTransitionPoint = true;
+        this.isReadyToAddTransitionPoint = false;
         double zoom = editorPart.getZoomFactor();
         IGridSticker gridSticker = editorPart.getGraph().getGridSticker();
         final Point2D mousePoint = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
         this.newTransitionPointLocation = mousePoint;
         this.newTransitionPointLocation = gridSticker.snap(this.newTransitionPointLocation);
-        this.selectedEdge = this.selectionHandler.getSelectedEdges().get(0);
     }
 
     @Override
     public void onMouseDragged(MouseEvent event)
     {
-        if (this.isReadyToAddTransitionPoint && !this.isTransitionPointAdded)
+    	if (!this.isReadyToAddTransitionPoint && this.newTransitionPointLocation != null) {
+    		if (!isMouseOnEdgePath(event)) {
+    			this.isReadyToAddTransitionPoint = true;
+    		}
+    	}
+    	
+    	if (this.isReadyToAddTransitionPoint && !this.isTransitionPointAdded)
         {
             // We add transition point only if a dragging action is detected.
             // If we added it on mouse pressed, it will produce a conflict with
@@ -114,9 +122,12 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
     {
         if (this.selectedEdge == null)
         {
-            if (this.selectionHandler.getSelectedEdges().size() == 1)
+            if (this.selectionHandler.getSelectedElements().size() == 1)
             {
-                this.selectedEdge = this.selectionHandler.getSelectedEdges().get(0);
+            	ISelectable element = this.selectionHandler.getSelectedElements().get(0);
+                if (IEdge.class.isInstance(element)) {
+                	this.selectedEdge = (IEdge) element;
+                }
             }
         }
         return this.selectedEdge;
@@ -124,9 +135,12 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
 
     private boolean isPrerequisitesOK()
     {
-        if (this.selectionHandler.getSelectedEdges().size() != 1)
+        if (this.selectionHandler.getSelectedElements().size() != 1)
         {
             return false;
+        }
+        if (getSelectedEdge() == null) {
+        	return false;
         }
         if (getSelectedEdge().isTransitionPointsSupported())
         {
@@ -162,9 +176,10 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
         double zoom = this.editorPart.getZoomFactor();
         final Point2D mousePoint = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
         final double MAX_DIST = 5;
-        for (Point2D aTransitionPoint : getSelectedEdge().getTransitionPoints())
+        for (ITransitionPoint aTransitionPoint : getSelectedEdge().getTransitionPoints())
         {
-            if (aTransitionPoint.distance(mousePoint) <= MAX_DIST)
+            Point2D p = aTransitionPoint.toPoint2D();
+        	if (p.distance(mousePoint) <= MAX_DIST)
             {
                 return true;
             }
@@ -178,12 +193,12 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
         {
             return;
         }
-        Point2D[] transitionPoints = getSelectedEdge().getTransitionPoints();
+        ITransitionPoint[] transitionPoints = getSelectedEdge().getTransitionPoints();
         if (transitionPoints.length == 0)
         {
-            List<Point2D> newTransitionPointList = new ArrayList<Point2D>();
-            newTransitionPointList.add(this.newTransitionPointLocation);
-            getSelectedEdge().setTransitionPoints(newTransitionPointList.toArray(new Point2D[newTransitionPointList.size()]));
+            List<ITransitionPoint> newTransitionPointList = new ArrayList<ITransitionPoint>();
+            newTransitionPointList.add(EdgeTransitionPoint.fromPoint2D(this.newTransitionPointLocation));
+            getSelectedEdge().setTransitionPoints(newTransitionPointList.toArray(new ITransitionPoint[newTransitionPointList.size()]));
             return;
         }
         if (transitionPoints.length > 0)
@@ -191,7 +206,7 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
             List<Point2D> pointsToTest = new ArrayList<Point2D>();
             Line2D connectionPoints = getSelectedEdge().getConnectionPoints();
             pointsToTest.add(connectionPoints.getP1());
-            pointsToTest.addAll(Arrays.asList(transitionPoints));
+            pointsToTest.addAll(Arrays.stream(transitionPoints).map(t -> t.toPoint2D()).toList());
             pointsToTest.add(connectionPoints.getP2());
             Point2D lineToTestStartingPoint = pointsToTest.get(0);
             final double MAX_DIST = 5;
@@ -201,11 +216,11 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
                 Line2D lineToTest = new Line2D.Double(lineToTestStartingPoint, lineToTestEndingPoint);
                 if (lineToTest.ptSegDist(this.newTransitionPointLocation) <= MAX_DIST)
                 {
-                    List<Point2D> newTransitionPointList = new ArrayList<Point2D>();
+                    List<ITransitionPoint> newTransitionPointList = new ArrayList<ITransitionPoint>();
                     newTransitionPointList.addAll(Arrays.asList(transitionPoints));
-                    newTransitionPointList.add(i - 1, this.newTransitionPointLocation);
+                    newTransitionPointList.add(i - 1, EdgeTransitionPoint.fromPoint2D(this.newTransitionPointLocation));
                     getSelectedEdge().setTransitionPoints(
-                            newTransitionPointList.toArray(new Point2D[newTransitionPointList.size()]));
+                            newTransitionPointList.toArray(new ITransitionPoint[newTransitionPointList.size()]));
                     return;
                 }
                 lineToTestStartingPoint = lineToTestEndingPoint;
@@ -243,6 +258,8 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
         }
         this.behaviorManager.fireAfterChangingTransitionPointsOnEdge(getSelectedEdge());
     }
+    
+   
 
     private IEditorPartBehaviorManager behaviorManager;
 
@@ -263,5 +280,7 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
     private Cursor initialCursor = null;
 
     private Cursor transitionCursor = new Cursor(Cursor.CROSSHAIR_CURSOR);
+    
+    private static final int DRAG_TRIGGER_MIN_GAP = 50;
 
 }

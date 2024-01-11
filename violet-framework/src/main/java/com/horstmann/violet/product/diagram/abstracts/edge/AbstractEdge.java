@@ -24,10 +24,14 @@ package com.horstmann.violet.product.diagram.abstracts.edge;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
+import com.horstmann.violet.product.diagram.abstracts.ISelectable;
 import com.horstmann.violet.product.diagram.abstracts.Id;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 
@@ -78,7 +82,22 @@ public abstract class AbstractEdge implements IEdge
     }
 
     @Override
-    public void setEndlocation(Point2D endLocation)
+    public final Point2D getStartLocationOnGraph()
+    {
+        if(null == start || null == startLocation)
+        {
+            return null;
+        }
+
+        Point2D nodeLocationOnGraph = start.getLocationOnGraph();
+        return new Point2D.Double(
+                nodeLocationOnGraph.getX() + startLocation.getX(),
+                nodeLocationOnGraph.getY() + startLocation.getY()
+        );
+    }
+
+    @Override
+    public final void setEndLocation(Point2D endLocation)
     {
         this.endLocation = endLocation;
     }
@@ -88,19 +107,34 @@ public abstract class AbstractEdge implements IEdge
     {
         return this.endLocation;
     }
-    
+
     @Override
-    public void setTransitionPoints(Point2D[] transitionPoints)
+    public final Point2D getEndLocationOnGraph()
     {
-        this.transitionPoints = transitionPoints;
+        if(null == end || null == endLocation)
+        {
+            return null;
+        }
+
+        Point2D nodeLocationOnGraph = end.getLocationOnGraph();
+        return new Point2D.Double(
+                nodeLocationOnGraph.getX() + endLocation.getX(),
+                nodeLocationOnGraph.getY() + endLocation.getY()
+        );
     }
     
     @Override
-    public Point2D[] getTransitionPoints()
+    public void setTransitionPoints(ITransitionPoint[] transitionPoints)
     {
-        if (this.transitionPoints == null) {
-            return new Point2D[] {};
+        if(null == transitionPoints)
+        {
+            transitionPoints = new ITransitionPoint[] {};
         }
+        this.transitionPoints = transitionPoints;
+    }
+    
+    public final ITransitionPoint[] getTransitionPoints()
+    {
         return this.transitionPoints;
     }
     
@@ -108,6 +142,11 @@ public abstract class AbstractEdge implements IEdge
     public boolean isTransitionPointsSupported()
     {
         return false;
+    }
+    
+    @Override
+    public void clearTransitionPoints() {
+    	this.transitionPoints = new ITransitionPoint[] {};
     }
 
     @Override
@@ -129,7 +168,7 @@ public abstract class AbstractEdge implements IEdge
         Point2D endCenter = new Point2D.Double(endLocationOnGraph.getX() + endBounds.getWidth() / 2, endLocationOnGraph.getY() + endBounds.getHeight() / 2);
         if (node.equals(start)) {
             if (isTransitionPointsSupported() && this.transitionPoints != null && this.transitionPoints.length > 0) {
-                Point2D firstTransitionPoint = this.transitionPoints[0];
+                Point2D firstTransitionPoint = this.transitionPoints[0].toPoint2D();
                 Direction fromStart = new Direction(firstTransitionPoint, startCenter);
                 return fromStart;
             }
@@ -138,7 +177,7 @@ public abstract class AbstractEdge implements IEdge
         }
         if (node.equals(end)) {
             if (isTransitionPointsSupported() && this.transitionPoints != null && this.transitionPoints.length > 0) {
-                Point2D lastTransitionPoint = this.transitionPoints[this.transitionPoints.length - 1];
+                Point2D lastTransitionPoint = this.transitionPoints[this.transitionPoints.length - 1].toPoint2D();
                 Direction toEnd = new Direction(lastTransitionPoint, endCenter);
                 return toEnd;
             }
@@ -151,22 +190,26 @@ public abstract class AbstractEdge implements IEdge
     @Override
     public Line2D getConnectionPoints()
     {
-        INode startingNode = getStart();
-        INode endingNode = getEnd();
-        Point2D startingNodeLocation = startingNode.getLocation();
-        Point2D endingNodeLocation = endingNode.getLocation();
-        Point2D startingNodeLocationOnGraph = startingNode.getLocationOnGraph();
-        Point2D endingNodeLocationOnGraph = endingNode.getLocationOnGraph();
-        Point2D relativeStartingConnectionPoint = startingNode.getConnectionPoint(this);
-        Point2D relativeEndingConnectionPoint = endingNode.getConnectionPoint(this);
-        Point2D absoluteStartingConnectionPoint = new Point2D.Double(startingNodeLocationOnGraph.getX() - startingNodeLocation.getX() + relativeStartingConnectionPoint.getX(), startingNodeLocationOnGraph.getY() - startingNodeLocation.getY() + relativeStartingConnectionPoint.getY());
-        Point2D absoluteEndingConnectionPoint = new Point2D.Double(endingNodeLocationOnGraph.getX() - endingNodeLocation.getX() + relativeEndingConnectionPoint.getX(), endingNodeLocationOnGraph.getY() - endingNodeLocation.getY() + relativeEndingConnectionPoint.getY());
-        IGraph graph = startingNode.getGraph();
-        IGridSticker positionCorrector = graph.getGridSticker();
-        absoluteStartingConnectionPoint = positionCorrector.snap(absoluteStartingConnectionPoint);
-        absoluteEndingConnectionPoint = positionCorrector.snap(absoluteEndingConnectionPoint);
-        return new Line2D.Double(absoluteStartingConnectionPoint, absoluteEndingConnectionPoint);
-    }
+    	Point2D startLocationOnGraph = start.getLocationOnGraph();
+        Point2D endLocationOnGraph = end.getLocationOnGraph();
+
+        Point2D relativeStarting = start.getConnectionPoint(this);
+        Point2D relativeEnding = end.getConnectionPoint(this);
+        
+        Point2D p1 = new Point2D.Double(
+		        startLocationOnGraph.getX() - relativeStarting.getX() + start.getBounds().getWidth() + start.getLocation().getX(),
+		        startLocationOnGraph.getY() - relativeStarting.getY() + start.getBounds().getHeight() + start.getLocation().getY()
+		);
+		Point2D p2 = new Point2D.Double(
+		        endLocationOnGraph.getX() - relativeEnding.getX() + end.getBounds().getWidth() + end.getLocation().getX(),
+		        endLocationOnGraph.getY() - relativeEnding.getY() + end.getBounds().getHeight() + end.getLocation().getY()
+		);
+
+        return new Line2D.Double(
+                p1,
+                p2
+        );
+       }
 
     @Override
     public Id getId()
@@ -182,6 +225,7 @@ public abstract class AbstractEdge implements IEdge
     {
         this.id = id;
     }
+
 
     @Override
     public AbstractEdge clone()
@@ -202,7 +246,7 @@ public abstract class AbstractEdge implements IEdge
     public Integer getRevision()
     {
         if (this.revision == null) {
-        	this.revision =  new Integer(0);
+        	this.revision =  0;
         }
     	return this.revision;
     }
@@ -217,7 +261,7 @@ public abstract class AbstractEdge implements IEdge
     {
         int i = getRevision().intValue();
         i++;
-        this.revision = new Integer(i);
+        this.revision = i;
     }
 
     /**
@@ -238,6 +282,29 @@ public abstract class AbstractEdge implements IEdge
         }
     	return this.toolTip;
     }
+    
+    @Override
+    public List<Point2D> getSelectionPoints() {
+    	Line2D line = getConnectionPoints();
+    	if (line == null) {
+    		return new ArrayList<>();
+    	}
+    	Point2D p1 = new Point2D.Double(line.getX1(), line.getY1());
+    	Point2D p2 = new Point2D.Double(line.getX2(), line.getY2());
+    	return Arrays.asList(p1, p2);
+    }
+    
+	@Override
+	public ISelectable getSelectableParent() {
+		return null;
+	}
+	
+	@Override
+	public List<ISelectable> getSelectableChildren() {
+		ITransitionPoint[] tpArray = getTransitionPoints();
+		return Arrays.asList(tpArray);
+	}
+    
 
     /** The node where the edge starts */
     private INode start;
@@ -252,7 +319,7 @@ public abstract class AbstractEdge implements IEdge
     private Point2D endLocation;
     
     /** Points for free path */
-    private Point2D[] transitionPoints;
+    private ITransitionPoint[] transitionPoints;
 
     /** Edge's current id (unique in all the graph) */
     private Id id;

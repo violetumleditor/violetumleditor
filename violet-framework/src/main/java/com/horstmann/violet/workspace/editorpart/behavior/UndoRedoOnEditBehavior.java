@@ -14,7 +14,7 @@ import com.horstmann.violet.product.diagram.abstracts.node.INode;
 
 
 /**
- * Undo/Redo behavior triggered when nodes and edges are edited
+ * Undo/Redo behavior triggered when node and edges are edited
  * 
  * @author Alexandre de Pellegrin
  *
@@ -81,9 +81,9 @@ public class UndoRedoOnEditBehavior extends AbstractEditorPartBehavior
         Object oldValue = event.getOldValue();
         if (oldValue == null && newValue == null) return;
 //        boolean isOldValueRecognized = oldValue != null
-//                && (String.class.isInstance(oldValue) || MultiLineString.class.isInstance(oldValue));
+//                && (String.class.isInstance(oldValue) || MultiLineText.class.isInstance(oldValue));
 //        boolean isNewValueRecognized = oldValue != null
-//                && (String.class.isInstance(newValue) || MultiLineString.class.isInstance(newValue));
+//                && (String.class.isInstance(newValue) || MultiLineText.class.isInstance(newValue));
 //        if (!isOldValueRecognized && !isNewValueRecognized) return;
         UndoableEdit edit = new AbstractUndoableEdit()
         {

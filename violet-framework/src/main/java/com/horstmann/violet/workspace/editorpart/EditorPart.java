@@ -25,6 +25,10 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ContainerAdapter;
+import java.awt.event.ContainerEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -38,6 +42,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.abstracts.ISelectable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.editorpart.behavior.IEditorPartBehavior;
@@ -100,6 +105,12 @@ public class EditorPart extends JPanel implements IEditorPart
                 behaviorManager.fireOnMouseMoved(event);
             }
         });
+        addComponentListener(new ComponentAdapter() {
+        	@Override
+        	public void componentResized(ComponentEvent e) {
+        		initializeDrawingArea();
+        	}
+		});
         setBounds(0, 0, 0, 0);
         setDoubleBuffered(false);
     }
@@ -124,10 +135,9 @@ public class EditorPart extends JPanel implements IEditorPart
         this.behaviorManager.fireBeforeRemovingSelectedElements();
         try
         {
-            List<INode> selectedNodes = selectionHandler.getSelectedNodes();
-            List<IEdge> selectedEdges = selectionHandler.getSelectedEdges();
-            IEdge[] edgesArray = selectedEdges.toArray(new IEdge[selectedEdges.size()]);
-            INode[] nodesArray = selectedNodes.toArray(new INode[selectedNodes.size()]);
+            List<ISelectable> selectedElements = selectionHandler.getSelectedElements();
+            IEdge[] edgesArray = selectedElements.stream().filter(e -> IEdge.class.isInstance(e)).toArray(IEdge[]::new);
+            INode[] nodesArray = selectedElements.stream().filter(e -> INode.class.isInstance(e)).toArray(INode[]::new);
             graph.removeNode(nodesArray);
             graph.removeEdge(edgesArray);
         }
@@ -138,20 +148,6 @@ public class EditorPart extends JPanel implements IEditorPart
         }
     }
 
-    public List<INode> getSelectedNodes()
-    {
-        return selectionHandler.getSelectedNodes();
-    }
-
-    public void clearSelection()
-    {
-        selectionHandler.clearSelection();
-    }
-
-    public void selectElement(INode node)
-    {
-        selectionHandler.addSelectedElement(node);
-    }
 
     @Override
     public Dimension getPreferredSize()
@@ -160,6 +156,10 @@ public class EditorPart extends JPanel implements IEditorPart
         Rectangle2D bounds = graph.getClipBounds();
         int width = Math.max((int) (zoom * bounds.getMaxX()), (int) parentSize.getWidth());
         int height = Math.max((int) (zoom * bounds.getMaxY()), (int) parentSize.getHeight());
+        if (this.lastWidth != width || this.lastHeight != height) {
+            this.lastWidth = width;
+            this.lastHeight = height;
+        }
         return new Dimension(width, height);
     }
 
@@ -223,6 +223,16 @@ public class EditorPart extends JPanel implements IEditorPart
         repaint();
     }
 
+    private void initializeDrawingArea() {
+    	Dimension size = this.getSize();
+    	getGraph().setBounds(new Rectangle2D.Double(0, 0, 0, 0));
+    	Rectangle2D bounds = getGraph().getClipBounds();
+		getGraph().setBounds(new Double(0, 0, Math.max(size.getWidth(), bounds.getWidth()), Math.max(size.getHeight(), bounds.getHeight())));
+		invalidate();
+        repaint();
+    }
+    
+    
     public JComponent getSwingComponent()
     {
         return this;
@@ -236,7 +246,7 @@ public class EditorPart extends JPanel implements IEditorPart
         super.paintImmediately(x, y, w, h);
     }
     
-
+    
     @Override
     protected void paintComponent(Graphics g)
     {
@@ -245,12 +255,12 @@ public class EditorPart extends JPanel implements IEditorPart
         {
             return;
         }
-        super.paintComponent(g);
         getSwingComponent().revalidate(); // to inform parent scrollpane container
         Graphics2D g2 = (Graphics2D) g;
         g2.scale(zoom, zoom);
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
         if (grid.isVisible()) grid.paint(g2);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         graph.draw(g2);
         for (IEditorPartBehavior behavior : this.behaviorManager.getBehaviors())
         {
@@ -273,6 +283,10 @@ public class EditorPart extends JPanel implements IEditorPart
         return this.behaviorManager;
     }
 
+    
+    
+
+    
     private IGraph graph;
 
     private IGrid grid;
@@ -280,6 +294,10 @@ public class EditorPart extends JPanel implements IEditorPart
     private double zoom;
 
     private IEditorPartSelectionHandler selectionHandler = new EditorPartSelectionHandler();
+    
+    private int lastWidth = 0;
+    
+    private int lastHeight = 0;
 
     /**
      * Scale factor used to grow drawing area
@@ -287,5 +305,7 @@ public class EditorPart extends JPanel implements IEditorPart
     private static final double GROW_SCALE_FACTOR = Math.sqrt(2);
 
     private IEditorPartBehaviorManager behaviorManager = new EditorPartBehaviorManager();
+    
+
 
 }

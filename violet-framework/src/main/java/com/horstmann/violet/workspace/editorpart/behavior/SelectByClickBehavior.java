@@ -1,7 +1,6 @@
 package com.horstmann.violet.workspace.editorpart.behavior;
 
 import java.awt.Graphics2D;
-import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -9,8 +8,11 @@ import java.awt.geom.Rectangle2D;
 import java.util.List;
 
 import com.horstmann.violet.framework.util.GrabberUtils;
+import com.horstmann.violet.framework.util.KeyModifierUtil;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.abstracts.ISelectable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.edge.ITransitionPoint;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
@@ -46,7 +48,7 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
         }
         double zoom = editorPart.getZoomFactor();
         Point2D mousePoint = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
-        boolean isCtrl = (event.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0;
+        boolean isCtrl = KeyModifierUtil.isCtrl(event);
         boolean isOnNodeOrEdge = isMouseOnNodeOrEdge(mousePoint);
         if (!isOnNodeOrEdge && !isCtrl)
         {
@@ -84,11 +86,9 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
         if (this.isDragGesture) {
             return;
         }
-        boolean isCtrl = (event.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0;
-        if (isCtrl) {
+        if (KeyModifierUtil.isCtrl(event)) {
             processSelectionInConflictWithDraggingEvents(false);
-        }
-        if (!isCtrl) {
+        } else {
             processSelectionInConflictWithDraggingEvents(true);
         }
         this.editorPart.getSwingComponent().invalidate();
@@ -120,7 +120,7 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
     
     
     /**
-     * Here, we add or remove the selected node or edge to the global selection. Under the wood, we can't remove anything.
+     * Here, we add or remove the selected node_old or edge to the global selection. Under the wood, we can't remove anything.
      * This can only made on 'mouse released' to avoid conflict to any dragging event.
      * 
      * @param mouseLocation
@@ -144,7 +144,8 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
         			resetSelectedElements();
         		}
         		this.selectionHandler.addSelectedElement(edge);
-        		if (this.selectionHandler.getSelectedEdges().size() == 1) {
+                List<IEdge> selectedEdges = selectionHandler.getSelectedElements().stream().filter(e -> IEdge.class.isInstance(e)).map(e -> (IEdge) e).toList();
+        		if (selectedEdges.size() == 1) {
         			this.behaviorManager.fireOnEdgeSelected(edge);
         		}
         	}
@@ -154,7 +155,7 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
         {
             if (this.selectionHandler.isElementAlreadySelected(node))
             {
-                // This node will be removed only on mouse button released
+                // This node_old will be removed only on mouse button released
                 // to avoid conflicts with dragging events
                 this.unprocessedNode = node;
             }
@@ -164,7 +165,8 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
                     resetSelectedElements();
                 }
                 this.selectionHandler.addSelectedElement(node);
-                if (this.selectionHandler.getSelectedNodes().size() == 1) {
+                List<INode> selectedNodes = selectionHandler.getSelectedElements().stream().filter(e -> INode.class.isInstance(e)).map(n -> (INode) n).toList();
+                if (selectedNodes.size() == 1) {
                 	this.behaviorManager.fireOnNodeSelected(node);
                 }
             }
@@ -173,7 +175,7 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
     }
     
     /**
-     * We process nodes or edges on 'mouse released' event because it's not possible to remove nodes or edges
+     * We process node or edges on 'mouse released' event because it's not possible to remove node or edges
      * from selection on 'mouse pressed' because it can be part of a dragging intention from the user. So,
      * unprocessed elements are removed from selection only on 'mouse released' if the user is pressing CTRL.
      * They are set as unique selection if the user isn't pressing CTRL.
@@ -206,31 +208,14 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
     @Override
     public void onPaint(Graphics2D g2)
     {
-        List<INode> nodes = selectionHandler.getSelectedNodes();
-        for (INode n : nodes)
-        {
-            if (graph.getAllNodes().contains(n))
-            {
-                Point2D nodeLocationOnGraph = n.getLocationOnGraph();
-                Rectangle2D nodeBounds = n.getBounds();
-                GrabberUtils.drawPurpleGrabber(g2, nodeLocationOnGraph.getX(), nodeLocationOnGraph.getY());
-                GrabberUtils.drawPurpleGrabber(g2, nodeLocationOnGraph.getX(), nodeLocationOnGraph.getY() + nodeBounds.getHeight());
-                GrabberUtils.drawPurpleGrabber(g2, nodeLocationOnGraph.getX() + nodeBounds.getWidth(), nodeLocationOnGraph.getY());
-                GrabberUtils.drawPurpleGrabber(g2, nodeLocationOnGraph.getX() + nodeBounds.getWidth(), nodeLocationOnGraph.getY() + nodeBounds.getHeight());
-            }
-        }
-        List<IEdge> edges = selectionHandler.getSelectedEdges();
-        for (IEdge e : edges)
-        {
-            if (graph.getAllEdges().contains(e))
-            {
-                Line2D line = e.getConnectionPoints();
-                GrabberUtils.drawPurpleGrabber(g2, line.getX1(), line.getY1());
-                GrabberUtils.drawPurpleGrabber(g2, line.getX2(), line.getY2());
-                for (Point2D aTransitionPoint : e.getTransitionPoints()) {
-                    GrabberUtils.drawGrayGrabber(g2, aTransitionPoint.getX(), aTransitionPoint.getY());
-                }
-            }
+    	for (ISelectable element : selectionHandler.getSelectedElements()) {
+        	List<Point2D> selectionPoints = element.getSelectionPoints();
+        	selectionPoints.forEach(p -> GrabberUtils.drawPurpleGrabber(g2, p));
+        	List<ISelectable> selectableChildren = element.getSelectableChildren();
+        	for (ISelectable child : selectableChildren) {
+        		List<Point2D> childPoints = child.getSelectionPoints();
+        		childPoints.forEach(p -> GrabberUtils.drawGrayGrabber(g2, p));
+        	}
         }
     }
 

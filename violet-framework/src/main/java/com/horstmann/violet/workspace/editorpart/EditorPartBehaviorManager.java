@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.IColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.editorpart.behavior.IEditorPartBehavior;
 
@@ -192,6 +193,21 @@ public class EditorPartBehaviorManager implements IEditorPartBehaviorManager
     {
         for (IEditorPartBehavior aBehavior : this.behaviors)
             aBehavior.afterChangingTransitionPointsOnEdge(edge);
+    }
+    
+    
+    @Override
+    public void fireBeforeChangingColorOnElement(IColorableNode element)
+    {
+        for (IEditorPartBehavior aBehavior : this.behaviors)
+            aBehavior.beforeChangingColorOnElement(element);
+    }
+    
+    @Override
+    public void fireAfterChangingColorOnElement(IColorableNode element)
+    {
+        for (IEditorPartBehavior aBehavior : this.behaviors)
+            aBehavior.afterChangingColorOnElement(element);
     }
     
 

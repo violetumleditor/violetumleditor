@@ -96,8 +96,10 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
         IGraphFile newGraphFile = new GraphFile(graphClass);
         IGraph newGraph = newGraphFile.getGraph();
         IEditorPartSelectionHandler selectionHandler = editorPart.getSelectionHandler();
-        List<INode> selectedNodes = selectionHandler.getSelectedNodes();
-        // We use an mapper for ids because they are changed when each node is added to the newGraph
+        
+        
+        List<INode> selectedNodes = selectionHandler.getSelectedElements().stream().filter(e -> INode.class.isInstance(e)).map(n -> (INode) n).toList();
+        // We use an mapper for ids because they are changed when each node_old is added to the newGraph
         Map<Id, Id> idMapper = new HashMap<Id, Id>();
         for (INode aSelectedNode : selectedNodes)
         {
@@ -114,13 +116,12 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
             Id newId = clone.getId();
             idMapper.put(oldId, newId);
         }
-        List<IEdge> selectedEdges = selectionHandler.getSelectedEdges();
+        List<IEdge> selectedEdges = selectionHandler.getSelectedElements().stream().filter(e -> IEdge.class.isInstance(e)).map(e -> (IEdge) e).toList();
         for (IEdge aSelectedEdge : selectedEdges)
         {
             IEdge clone = aSelectedEdge.clone();
             Point2D startLocation = clone.getStartLocation();
             Point2D endLocation = clone.getEndLocation();
-            Point2D[] transitionPoints = clone.getTransitionPoints();
             Id oldStartId = clone.getStart().getId();
             Id oldEndId = clone.getEnd().getId();
             Id newStartId = idMapper.get(oldStartId);
@@ -129,7 +130,7 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
 			INode endNode = newGraph.findNode(newEndId);
             if (startNode != null && endNode != null)
             {
-                newGraph.connect(clone, startNode, startLocation, endNode, endLocation, transitionPoints);
+                newGraph.connect(clone, startNode, startLocation, endNode, endLocation);
             }
         }
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -177,12 +178,11 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
             {
                 Point2D startLocation = anEdge.getStartLocation();
                 Point2D endLocation = anEdge.getEndLocation();
-                Point2D[] transitionPoints = anEdge.getTransitionPoints();
                 INode startNode = graph.findNode(anEdge.getStart().getId());
                 INode endNode = graph.findNode(anEdge.getEnd().getId());
                 if (startNode != null && endNode != null)
                 {
-                    boolean isConnected = graph.connect(anEdge, startNode, startLocation, endNode, endLocation, transitionPoints);
+                    boolean isConnected = graph.connect(anEdge, startNode, startLocation, endNode, endLocation);
                     if (isConnected)
                     {
                         edgesReallyPasted.add(anEdge);
@@ -260,7 +260,7 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
                 {
                     super.redo();
                     IGraph graph = editorPart.getGraph();
-                    graph.connect(anEdge, anEdge.getStart(), anEdge.getStartLocation(), anEdge.getEnd(), anEdge.getEndLocation(), anEdge.getTransitionPoints());
+                    graph.connect(anEdge, anEdge.getStart(), anEdge.getStartLocation(), anEdge.getEnd(), anEdge.getEndLocation());
                 }
             };
             capturedEdit.addEdit(edit);
@@ -283,10 +283,10 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
     }
 
     /**
-     * As we can copy/paste on many diagrams, we ensure that we paste only node types acceptable for the current diagram
+     * As we can copy/paste on many diagrams, we ensure that we paste only node_old types acceptable for the current diagram
      * 
      * @param nodes from clipboard
-     * @return nodes acceptable for the current diagram
+     * @return node acceptable for the current diagram
      */
     private List<INode> filterOnNodePrototypes(Collection<INode> nodes)
     {
@@ -339,7 +339,7 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
     }
 
     /**
-     * Moves all the nodes of a graph to a location
+     * Moves all the node of a graph to a location
      * 
      * @param graph
      * @param mouseLocation
@@ -431,7 +431,7 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
     }
 
     /**
-     * Checks if the given list contains an ancestor of the given node
+     * Checks if the given list contains an ancestor of the given node_old
      * 
      * @param childNode
      * @param ancestorList
@@ -448,7 +448,7 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
     }
 
     /**
-     * Checks if ancestorNode is a parent node of child node
+     * Checks if ancestorNode is a parent node_old of child node_old
      * 
      * @param childNode
      * @param ancestorNode

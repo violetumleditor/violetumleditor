@@ -30,6 +30,7 @@ import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.framework.theme.ThemeManager;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.IResizableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
 
@@ -42,7 +43,7 @@ import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
  * INode n = getGraph().findNode(endPoint); if (n != end) end.setZ(n.getZ() + 1); } }
  * 
  */
-public class NoteNode extends RectangularNode
+public class NoteNode extends RectangularNode implements IResizableNode
 {
     /**
      * Construct a note node with a default size and color

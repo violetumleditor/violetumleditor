@@ -64,13 +64,13 @@ public abstract class SegmentedLineEdge extends ShapeEdge
     }
     
     @Override
-    public void setTransitionPoints(Point2D[] transitionPoints)
-    {
-        super.setTransitionPoints(transitionPoints);
-        if (transitionPoints.length > 0) {
-            setBentStyle(BentStyle.FREE);
-        }
+    public void setTransitionPoints(ITransitionPoint[] transitionPoints) {
+    	super.setTransitionPoints(transitionPoints);
+    	if (transitionPoints.length > 0) {
+    		setBentStyle(BentStyle.FREE);
+    	}
     }
+    
 
     /**
      * Sets the bentStyle property
@@ -427,8 +427,8 @@ public abstract class SegmentedLineEdge extends ShapeEdge
         {
             List<Point2D> bentStylePoints = new ArrayList<Point2D>();
             bentStylePoints.add(startingPoint);
-            for (Point2D aTransitionPoint : getTransitionPoints()) {
-                bentStylePoints.add(aTransitionPoint);
+            for (ITransitionPoint aTransitionPoint : getTransitionPoints()) {
+                bentStylePoints.add(aTransitionPoint.toPoint2D());
             }
             bentStylePoints.add(endingPoint);
 

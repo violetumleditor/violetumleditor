@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.IColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.sidebar.graphtools.GraphTool;
 
@@ -173,6 +174,21 @@ public abstract class AbstractEditorPartBehavior implements IEditorPartBehavior
         // TODO Auto-generated method stub
         
     }
+    
+    @Override
+    public void beforeChangingColorOnElement(IColorableNode element)
+    {
+        // TODO Auto-generated method stub
+        
+    }
+    
+    @Override
+    public void afterChangingColorOnElement(IColorableNode element)
+    {
+        // TODO Auto-generated method stub
+        
+    }
+    
     
     @Override
     public void onPaint(Graphics2D g2)

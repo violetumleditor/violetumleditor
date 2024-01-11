@@ -4,131 +4,76 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.abstracts.ISelectable;
 import com.horstmann.violet.workspace.sidebar.graphtools.GraphTool;
 
 public class EditorPartSelectionHandler implements IEditorPartSelectionHandler
 {
 
-    public void setSelectedElement(INode node)
+    public void setSelectedElement(ISelectable selectableGraphElement)
     {
-        this.selectedNodes.clear();
-        this.selectedEdges.clear();
-        addSelectedElement(node);
+        this.selectedElements.clear();
+        addSelectedElement(selectableGraphElement);
     }
 
-    public void setSelectedElement(IEdge edge)
-    {
-        this.selectedNodes.clear();
-        this.selectedEdges.clear();
-        addSelectedElement(edge);
-    }
 
-    public void updateSelectedElements(INode[] nodes)
+    public void updateSelectedElements(ISelectable[] selectableGraphElement)
     {
-        for (int i = 0; i < nodes.length; i++)
+        for (int i = 0; i < selectableGraphElement.length; i++)
         {
-            if (isElementAlreadySelected(nodes[i]))
+            if (isElementAlreadySelected(selectableGraphElement[i]))
             {
-                addSelectedElement(nodes[i]);
+                addSelectedElement(selectableGraphElement[i]);
             }
         }
     }
 
-    public void updateSelectedElements(IEdge[] edges)
+
+    public void addSelectedElement(ISelectable selectableGraphElement)
     {
-        for (int i = 0; i < edges.length; i++)
+        if (this.selectedElements.contains(selectableGraphElement))
         {
-            if (isElementAlreadySelected(edges[i]))
-            {
-                addSelectedElement(edges[i]);
-            }
+            this.removeElementFromSelection(selectableGraphElement);
+        }
+        this.selectedElements.add(selectableGraphElement);
+    }
+
+
+    public void removeElementFromSelection(ISelectable selectableGraphElement)
+    {
+        if (this.selectedElements.contains(selectableGraphElement))
+        {
+            int i = this.selectedElements.indexOf(selectableGraphElement);
+            this.selectedElements.remove(i);
         }
     }
 
-    public void addSelectedElement(INode node)
+    public boolean isElementAlreadySelected(ISelectable selectableGraphElement)
     {
-        if (this.selectedNodes.contains(node))
-        {
-            this.removeElementFromSelection(node);
-        }
-        this.selectedNodes.add(node);
-    }
-
-    public void addSelectedElement(IEdge edge)
-    {
-        if (this.selectedEdges.contains(edge))
-        {
-            this.removeElementFromSelection(edge);
-        }
-        this.selectedEdges.add(edge);
-    }
-
-    public void removeElementFromSelection(INode node)
-    {
-        if (this.selectedNodes.contains(node))
-        {
-            int i = this.selectedNodes.indexOf(node);
-            this.selectedNodes.remove(i);
-        }
-    }
-
-    public void removeElementFromSelection(IEdge edge)
-    {
-        if (this.selectedEdges.contains(edge))
-        {
-            int i = this.selectedEdges.indexOf(edge);
-            this.selectedEdges.remove(i);
-        }
-    }
-
-    public boolean isElementAlreadySelected(INode node)
-    {
-        if (this.selectedNodes.contains(node)) return true;
-        return false;
-    }
-
-    public boolean isElementAlreadySelected(IEdge edge)
-    {
-        if (this.selectedEdges.contains(edge)) return true;
+        if (this.selectedElements.contains(selectableGraphElement)) return true;
         return false;
     }
 
     public void clearSelection()
     {
-        this.selectedNodes.clear();
-        this.selectedEdges.clear();
+        this.selectedElements.clear();
     }
 
-    public INode getLastSelectedNode()
+    public ISelectable getLastSelectedElement()
     {
-        return getLastElement(this.selectedNodes);
+        return getLastElement(this.selectedElements);
     }
 
-    public IEdge getLastSelectedEdge()
+
+    public boolean isElementSelectedAtLeast()
     {
-        return getLastElement(this.selectedEdges);
+        return this.selectedElements.size() > 0;
     }
 
-    public boolean isNodeSelectedAtLeast()
-    {
-        return this.selectedNodes.size() > 0;
-    }
 
-    public boolean isEdgeSelectedAtLeast()
+    public List<ISelectable> getSelectedElements()
     {
-        return this.selectedEdges.size() > 0;
-    }
-
-    public List<INode> getSelectedNodes()
-    {
-        return Collections.unmodifiableList(selectedNodes);
-    }
-
-    public List<IEdge> getSelectedEdges()
-    {
-        return Collections.unmodifiableList(selectedEdges);
+        return Collections.unmodifiableList(this.selectedElements);
     }
 
     @Override
@@ -153,8 +98,7 @@ public class EditorPartSelectionHandler implements IEditorPartSelectionHandler
         return list.get(size - 1);
     }
 
-    private List<INode> selectedNodes = new ArrayList<INode>();
-    private List<IEdge> selectedEdges = new ArrayList<IEdge>();
+    private List<ISelectable> selectedElements = new ArrayList<ISelectable>();
     
     private GraphTool selectedTool;
 

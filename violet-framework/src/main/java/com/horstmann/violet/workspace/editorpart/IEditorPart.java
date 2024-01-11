@@ -5,6 +5,7 @@ import java.util.List;
 import javax.swing.JComponent;
 
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 
 /**
@@ -22,26 +23,9 @@ public interface IEditorPart
     public abstract IGraph getGraph();
 
     /**
-     * Removes the selected nodes or edges.
+     * Removes the selected node or edges.
      */
     public abstract void removeSelected();
-
-
-    /**
-     * @return currently selected nodes
-     */
-    public abstract List<INode> getSelectedNodes();
-    
-    /**
-     * Clears nodes and edges selection 
-     */
-    public void clearSelection();
-    
-    /**
-     * Selects a node
-     * @param node
-     */
-    public void selectElement(INode node);
 
     /**
      * Changes the zoom of this editor. The zoom is 1 by default and is multiplied by sqrt(2) for each positive stem or divided by
@@ -77,7 +61,7 @@ public interface IEditorPart
     public JComponent getSwingComponent();
     
     /**
-     * @return object that manages nodes and edges selection
+     * @return object that manages node and edges selection
      */
     public IEditorPartSelectionHandler getSelectionHandler();
     
@@ -86,5 +70,6 @@ public interface IEditorPart
      */
     public IEditorPartBehaviorManager getBehaviorManager();
     
+   
 
 }

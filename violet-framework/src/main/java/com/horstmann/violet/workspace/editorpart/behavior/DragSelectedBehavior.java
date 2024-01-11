@@ -9,18 +9,18 @@ import java.util.List;
 
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
+import com.horstmann.violet.product.diagram.abstracts.ISelectable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.edge.ITransitionPoint;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
 import com.horstmann.violet.workspace.sidebar.graphtools.GraphTool;
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBar;
 
-public class DragSelectedBehavior extends AbstractEditorPartBehavior
-{
+public class DragSelectedBehavior extends AbstractEditorPartBehavior {
 
-    public DragSelectedBehavior(IEditorPart editorPart, IGraphToolsBar graphToolsBar)
-    {
+    public DragSelectedBehavior(IEditorPart editorPart, IGraphToolsBar graphToolsBar) {
         this.editorPart = editorPart;
         this.graph = editorPart.getGraph();
         this.selectionHandler = editorPart.getSelectionHandler();
@@ -28,25 +28,20 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior
     }
 
     @Override
-    public void onMousePressed(MouseEvent event)
-    {
-        if (event.getClickCount() > 1)
-        {
+    public void onMousePressed(MouseEvent event) {
+        if (event.getClickCount() > 1) {
             return;
         }
-        if (event.getButton() != MouseEvent.BUTTON1)
-        {
+        if (event.getButton() != MouseEvent.BUTTON1) {
             return;
         }
         GraphTool selectedTool = this.selectionHandler.getSelectedTool();
-        if (IEdge.class.isInstance(selectedTool.getNodeOrEdge()))
-        {
+        if (IEdge.class.isInstance(selectedTool.getNodeOrEdge())) {
             return;
         }
         double zoom = editorPart.getZoomFactor();
         final Point2D mousePoint = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
-        if (isMouseOnNode(mousePoint))
-        {
+        if (isMouseOnNode(mousePoint)) {
             changeSelectedElementIfNeeded(mousePoint);
             this.isReadyForDragging = true;
             this.lastMousePoint = mousePoint;
@@ -55,21 +50,20 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior
         }
     }
 
-    private boolean isMouseOnNode(Point2D mouseLocation)
-    {
+    private boolean isMouseOnNode(Point2D mouseLocation) {
+        if (isLocked) {
+            return false;
+        }
         INode node = this.graph.findNode(mouseLocation);
-        if (node == null)
-        {
+        if (node == null) {
             return false;
         }
         return true;
     }
 
     @Override
-    public void onMouseDragged(MouseEvent event)
-    {
-        if (!isReadyForDragging)
-        {
+    public void onMouseDragged(MouseEvent event) {
+        if (!isReadyForDragging) {
             return;
         }
         double zoom = editorPart.getZoomFactor();
@@ -77,20 +71,19 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior
         // TODO :
         // behaviorManager.fireOnElementsDragged(selectionHandler.getSelectedNodes(),
         // selectionHandler.getSelectedEdges());
-        INode lastNode = selectionHandler.getLastSelectedNode();
-        if (lastNode == null)
-        {
-            return;
+        List<INode> selectedNodes = selectionHandler.getSelectedElements().stream().filter(e -> INode.class.isInstance(e)).map(n -> (INode) n).toList();
+        if (selectedNodes.isEmpty()) {
+        	return;
         }
+        INode lastNode = selectedNodes.get(selectedNodes.size() - 1);
 
         Rectangle2D bounds = lastNode.getBounds();
         double dx = mousePoint.getX() - lastMousePoint.getX();
         double dy = mousePoint.getY() - lastMousePoint.getY();
 
-        // we don't want to drag nodes into negative coordinates
+        // we don't want to drag node into negative coordinates
         // particularly with multiple selection, we might never be
         // able to get them back.
-        List<INode> selectedNodes = selectionHandler.getSelectedNodes();
         for (INode n : selectedNodes)
             bounds.add(n.getBounds());
         dx = Math.max(dx, -bounds.getX());
@@ -98,15 +91,13 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior
 
         boolean isAtLeastOneNodeMoved = false;
         IGridSticker gridSticker = graph.getGridSticker();
-        for (INode n : selectedNodes)
-        {
+        for (INode n : selectedNodes) {
             if (selectedNodes.contains(n.getParent())) continue; // parents are responsible for translating their
             // children
             Point2D currentNodeLocation = n.getLocation();
             Point2D futureNodeLocation = new Point2D.Double(currentNodeLocation.getX() + dx, currentNodeLocation.getY() + dy);
             Point2D fixedFutureNodeLocation = gridSticker.snap(futureNodeLocation);
-            if (!currentNodeLocation.equals(fixedFutureNodeLocation))
-            {
+            if (!currentNodeLocation.equals(fixedFutureNodeLocation)) {
                 n.setLocation(fixedFutureNodeLocation);
                 isAtLeastOneNodeMoved = true;
             }
@@ -114,28 +105,26 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior
 
         // Drag transition points on edges
         Iterator<IEdge> iterOnEdges = graph.getAllEdges().iterator();
-        while (iterOnEdges.hasNext())
-        {
+        while (iterOnEdges.hasNext()) {
             IEdge e = (IEdge) iterOnEdges.next();
             INode startingNode = e.getStart();
             INode endinNode = e.getEnd();
-            if (selectedNodes.contains(startingNode) && selectedNodes.contains(endinNode))
-            {
-                Point2D[] transitionPoints = e.getTransitionPoints();
-                for (Point2D aTransitionPoint : transitionPoints)
-                {
+            if (selectedNodes.contains(startingNode) && selectedNodes.contains(endinNode)) {
+                ITransitionPoint[] transitionPoints = e.getTransitionPoints();
+                for (ITransitionPoint aTransitionPoint : transitionPoints) {
                     double newTransitionPointLocationX = aTransitionPoint.getX() + dx;
                     double newTransitionPointLocationY = aTransitionPoint.getY() + dy;
-                    aTransitionPoint.setLocation(newTransitionPointLocationX, newTransitionPointLocationY);
-                    aTransitionPoint = gridSticker.snap(aTransitionPoint);
+                    Point2D p = new Point2D.Double(newTransitionPointLocationX, newTransitionPointLocationY);
+                    p = gridSticker.snap(p);
+                    aTransitionPoint.setX(p.getX());
+                    aTransitionPoint.setY(p.getY());
                 }
                 e.setTransitionPoints(transitionPoints);
             }
         }
 
         // Save mouse location for next dragging sequence
-        if (isAtLeastOneNodeMoved)
-        {
+        if (isAtLeastOneNodeMoved) {
             Point2D snappedMousePoint = gridSticker.snap(mousePoint);
             if (!snappedMousePoint.equals(lastMousePoint)) {
                 editorPart.getSwingComponent().invalidate();
@@ -146,32 +135,37 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior
     }
 
     @Override
-    public void onMouseReleased(MouseEvent event)
-    {
+    public void onMouseReleased(MouseEvent event) {
         this.editorPart.getSwingComponent().setCursor(this.initialCursor);
         this.lastMousePoint = null;
         this.isReadyForDragging = false;
         this.initialCursor = null;
     }
 
-    private void changeSelectedElementIfNeeded(Point2D mouseLocation)
-    {
+    private void changeSelectedElementIfNeeded(Point2D mouseLocation) {
         IEdge edge = this.graph.findEdge(mouseLocation);
         if (edge != null) {
             // We don't want to drag edges
             return;
         }
         INode node = this.graph.findNode(mouseLocation);
-        if (node == null)
-        {
+        if (node == null) {
             return;
         }
-        List<INode> selectedNodes = this.selectionHandler.getSelectedNodes();
-        if (!selectedNodes.contains(node))
-        {
+        List<INode> selectedNodes = this.selectionHandler.getSelectedElements().stream().filter(e -> INode.class.isInstance(e)).map(n -> (INode) n).toList();
+        if (!selectedNodes.contains(node)) {
             this.selectionHandler.clearSelection();
             this.selectionHandler.addSelectedElement(node);
         }
+    }
+
+
+    public static void lock() {
+        isLocked = true;
+    }
+
+    public static void unlock() {
+        isLocked = false;
     }
 
 
@@ -186,8 +180,11 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior
     private IGraphToolsBar graphToolsBar;
 
     private boolean isReadyForDragging = false;
-    
+
     private Cursor initialCursor = null;
-    
+
     private Cursor dragCursor = new Cursor(Cursor.HAND_CURSOR);
+
+
+    private static volatile boolean isLocked = false;
 }

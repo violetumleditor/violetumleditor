@@ -22,8 +22,10 @@
 package com.horstmann.violet.workspace;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import com.horstmann.violet.framework.file.IFile;
 import com.horstmann.violet.framework.file.IGraphFile;
@@ -48,6 +50,7 @@ import com.horstmann.violet.workspace.editorpart.behavior.DragSelectedBehavior;
 import com.horstmann.violet.workspace.editorpart.behavior.DragTransitionPointBehavior;
 import com.horstmann.violet.workspace.editorpart.behavior.EditSelectedBehavior;
 import com.horstmann.violet.workspace.editorpart.behavior.FileCouldBeSavedBehavior;
+import com.horstmann.violet.workspace.editorpart.behavior.ResetGraphToolBarOnRightClickBehavior;
 import com.horstmann.violet.workspace.editorpart.behavior.ResizeNodeBehavior;
 import com.horstmann.violet.workspace.editorpart.behavior.SelectAllBehavior;
 import com.horstmann.violet.workspace.editorpart.behavior.SelectByClickBehavior;
@@ -133,7 +136,7 @@ public class Workspace implements IWorkspace
                return aDiagramPlugin.getName();
            }
        }
-       return "Unknown";
+       return resourceBundle.getString("workspace.unknown");
     }
     
     
@@ -165,6 +168,7 @@ public class Workspace implements IWorkspace
             behaviorManager.addBehavior(new ZoomByWheelBehavior(this.getEditorPart()));
             behaviorManager.addBehavior(new ChangeToolByWeelBehavior(this.getSideBar().getGraphToolsBar()));
             behaviorManager.addBehavior(new ShowMenuOnRightClickBehavior(this.graphEditor));
+            behaviorManager.addBehavior(new ResetGraphToolBarOnRightClickBehavior(this.getSideBar().getGraphToolsBar()));
             behaviorManager.addBehavior(new UndoRedoCompoundBehavior(this.graphEditor));
             behaviorManager.addBehavior(new CutCopyPasteBehavior(this.graphEditor));
             behaviorManager.addBehavior(new SwingRepaintingBehavior(this.graphEditor));
@@ -198,12 +202,8 @@ public class Workspace implements IWorkspace
         return title;
     }
 
-    /**
-     * Set graph title
-     * 
-     * @param newValue
-     */
-    private void setTitle(String newValue)
+    @Override
+    public void setTitle(String newValue)
     {
         title = newValue;
         fireTitleChanged(newValue);
@@ -216,13 +216,13 @@ public class Workspace implements IWorkspace
      */
     private void fireTitleChanged(String newTitle)
     {
-        Vector<IWorkspaceListener> tl = cloneListeners();
+        List<IWorkspaceListener> tl = cloneListeners();
         int size = tl.size();
         if (size == 0) return;
 
         for (int i = 0; i < size; ++i)
         {
-            IWorkspaceListener aListener = (IWorkspaceListener) tl.elementAt(i);
+            IWorkspaceListener aListener = tl.get(i);
             aListener.titleChanged(newTitle);
         }
     }
@@ -236,18 +236,19 @@ public class Workspace implements IWorkspace
     private void updateTitle(boolean isSaveNeeded)
     {
         String aTitle = getTitle();
+        String prefix = resourceBundle.getString("workspace.unsaved") + " ";
         if (isSaveNeeded)
         {
-            if (!aTitle.endsWith("*"))
+            if (!aTitle.startsWith(prefix))
             {
-                setTitle(aTitle + "*");
+                setTitle(prefix + aTitle);
             }
         }
         if (!isSaveNeeded)
         {
-            if (aTitle.endsWith("*"))
+            if (aTitle.startsWith(prefix))
             {
-                setTitle(aTitle.substring(0, aTitle.length() - 1));
+                setTitle(aTitle.substring(prefix.length(), aTitle.length() - 1));
             }
         }
     }
@@ -272,14 +273,14 @@ public class Workspace implements IWorkspace
     {
         if (!this.listeners.contains(l))
         {
-            this.listeners.addElement(l);
+            this.listeners.add(l);
         }
     }
 
     @SuppressWarnings("unchecked")
-    private synchronized Vector<IWorkspaceListener> cloneListeners()
+    private synchronized List<IWorkspaceListener> cloneListeners()
     {
-        return (Vector<IWorkspaceListener>) this.listeners.clone();
+        return (List<IWorkspaceListener>) new ArrayList<IWorkspaceListener>(this.listeners);
     }
 
     /**
@@ -287,12 +288,12 @@ public class Workspace implements IWorkspace
      */
     public void fireMustOpenFile(IFile aFile)
     {
-        Vector<IWorkspaceListener> tl = cloneListeners();
+        List<IWorkspaceListener> tl = cloneListeners();
         int size = tl.size();
         if (size == 0) return;
         for (int i = 0; i < size; ++i)
         {
-            IWorkspaceListener l = (IWorkspaceListener) tl.elementAt(i);
+            IWorkspaceListener l = tl.get(i);
             l.mustOpenfile(aFile);
         }
     }
@@ -302,12 +303,12 @@ public class Workspace implements IWorkspace
      */
     private void fireSaveNeeded()
     {
-        Vector<IWorkspaceListener> tl = cloneListeners();
+        List<IWorkspaceListener> tl = cloneListeners();
         int size = tl.size();
         if (size == 0) return;
         for (int i = 0; i < size; ++i)
         {
-            IWorkspaceListener l = (IWorkspaceListener) tl.elementAt(i);
+            IWorkspaceListener l = tl.get(i);
             l.graphCouldBeSaved();
         }
     }
@@ -344,9 +345,11 @@ public class Workspace implements IWorkspace
     private ISideBar sideBar;
     private String filePath;
     private String title;
-    private Vector<IWorkspaceListener> listeners = new Vector<IWorkspaceListener>();
+    private List<IWorkspaceListener> listeners = new ArrayList<IWorkspaceListener>();
     private Id id;
-    
+
+    protected static ResourceBundle resourceBundle = ResourceBundle.getBundle("properties.OtherStrings", Locale.getDefault());
+
     @InjectedBean
     private PluginRegistry pluginRegistry;
 

@@ -8,11 +8,13 @@ import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.sidebar.ISideBar;
 
+import eu.webtoolkit.jwt.Key;
+import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WHBoxLayout;
+import eu.webtoolkit.jwt.WKeyEvent;
 import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WLength.Unit;
-import eu.webtoolkit.jwt.WPanel;
 import eu.webtoolkit.jwt.WScrollArea;
 import eu.webtoolkit.jwt.WScrollArea.ScrollBarPolicy;
 
@@ -23,7 +25,6 @@ public class WorkspaceWidget extends WContainerWidget {
 	private EditorPartWidget editorPartWidget;
 	private IWorkspace workspace;
 	private WHBoxLayout mainLayout;
-	private WPanel editorPartPanel;
 	private WScrollArea editorPartScrollArea;
 	
 	public WorkspaceWidget(IWorkspace workspace) {
@@ -31,6 +32,12 @@ public class WorkspaceWidget extends WContainerWidget {
 		this.workspace = workspace;
 		setLayout(getMainLayout());
 		addSpecificBehavior();
+		setWidth(new WLength(100,  Unit.Percentage));
+		setHeight(new WLength(100,  Unit.Percentage));
+	}
+	
+	public IWorkspace getWorkspace() {
+		return this.workspace;
 	}
 	
 	private void addSpecificBehavior() {
@@ -43,7 +50,8 @@ public class WorkspaceWidget extends WContainerWidget {
 		if (this.mainLayout == null) {
 			this.mainLayout = new WHBoxLayout();
 			this.mainLayout.addWidget(getSideBarWidget());
-			this.mainLayout.addWidget(getEditorPartPanel(), 1);
+			this.mainLayout.addWidget(getEditorPartScrollArea());
+			this.mainLayout.setContentsMargins(0, 0, 0, 0);
 		}
 		return this.mainLayout;
 	}
@@ -52,40 +60,36 @@ public class WorkspaceWidget extends WContainerWidget {
 		if (this.sideBarWidget == null) {
 			ISideBar sideBar = this.workspace.getSideBar();
 			this.sideBarWidget = new SideBarWidget(sideBar, getEditorPartWidget());
+			this.sideBarWidget.setMinimumSize(new WLength(230, Unit.Pixel), new WLength(100, Unit.Percentage));
 			this.sideBarWidget.setWidth(new WLength(230, Unit.Pixel));
+			this.sideBarWidget.setHeight(new WLength(100, Unit.Percentage));
 		}
 		return this.sideBarWidget;
 	}
 	
-	private EditorPartWidget getEditorPartWidget() {
+	public EditorPartWidget getEditorPartWidget() {
 		if (this.editorPartWidget == null) {
 			IEditorPart editorPart = this.workspace.getEditorPart();
 			this.editorPartWidget = new EditorPartWidget(editorPart);
-			this.editorPartWidget.resize(2000, 768);
+			this.editorPartWidget.setWidth(new WLength(100, Unit.Percentage));
+			this.editorPartWidget.setHeight(new WLength(100, Unit.Percentage));
 		}
 		return this.editorPartWidget;
 	}
 	
-	private WPanel getEditorPartPanel() {
-		if (this.editorPartPanel == null) {
-			this.editorPartPanel = new WPanel();
-			this.editorPartPanel.setCentralWidget(getEditorPartScrollArea());
-			this.editorPartPanel.setWidth(new WLength(100, Unit.Percentage));
-			this.editorPartPanel.setHeight(new WLength(100, Unit.Percentage));
-		}
-		return this.editorPartPanel;
-	}
-
 	
 	private WScrollArea getEditorPartScrollArea() {
 		if (this.editorPartScrollArea == null) {
 			this.editorPartScrollArea = new WScrollArea();
 			this.editorPartScrollArea.setWidget(getEditorPartWidget());
-			this.editorPartScrollArea.setHorizontalScrollBarPolicy(ScrollBarPolicy.ScrollBarAlwaysOn);
-			this.editorPartScrollArea.setVerticalScrollBarPolicy(ScrollBarPolicy.ScrollBarAlwaysOn);
+			this.editorPartScrollArea.setHorizontalScrollBarPolicy(ScrollBarPolicy.ScrollBarAlwaysOff);
+			this.editorPartScrollArea.setVerticalScrollBarPolicy(ScrollBarPolicy.ScrollBarAlwaysOff);
 			this.editorPartScrollArea.setWidth(new WLength(100, Unit.Percentage));
 			this.editorPartScrollArea.setHeight(new WLength(100, Unit.Percentage));
 		}
 		return this.editorPartScrollArea;
 	}
+	
+	
+	
 }

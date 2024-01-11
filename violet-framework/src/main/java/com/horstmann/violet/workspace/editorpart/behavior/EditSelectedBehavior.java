@@ -63,7 +63,7 @@ public class EditSelectedBehavior extends AbstractEditorPartBehavior
         if (edge != null)
         {
         	this.selectionHandler.addSelectedElement(edge);
-        	if (this.selectionHandler.getSelectedEdges().size() == 1) {
+        	if (this.selectionHandler.getSelectedElements().size() == 1) {
         		this.behaviorManager.fireOnEdgeSelected(edge);
         	}
         	return;
@@ -71,7 +71,7 @@ public class EditSelectedBehavior extends AbstractEditorPartBehavior
         if (node != null)
         {
         	this.selectionHandler.addSelectedElement(node);
-        	if (this.selectionHandler.getSelectedNodes().size() == 1) {
+        	if (this.selectionHandler.getSelectedElements().size() == 1) {
         		this.behaviorManager.fireOnNodeSelected(node);
         	}
             return;
@@ -81,7 +81,7 @@ public class EditSelectedBehavior extends AbstractEditorPartBehavior
 
     public void editSelected()
     {
-        final Object edited = selectionHandler.isNodeSelectedAtLeast() ? selectionHandler.getLastSelectedNode() : selectionHandler.getLastSelectedEdge();
+        final Object edited = selectionHandler.getLastSelectedElement();
         if (edited == null)
         {
             return;
@@ -145,14 +145,17 @@ public class EditSelectedBehavior extends AbstractEditorPartBehavior
             }
         });
 
+        String tooltip = "";
         if (sheet.isEditable())
         {
             if (edited instanceof INode)
             {
+                tooltip = ((INode) edited).getToolTip();
                 this.behaviorManager.fireBeforeEditingNode((INode) edited);
             }
             if (edited instanceof IEdge)
             {
+                tooltip = ((IEdge) edited).getToolTip();
                 this.behaviorManager.fireBeforeEditingEdge((IEdge) edited);
             }
             optionPane.setMessage(sheet.getAWTComponent());
@@ -163,7 +166,7 @@ public class EditSelectedBehavior extends AbstractEditorPartBehavior
             label.setFont(label.getFont().deriveFont(Font.PLAIN));
             optionPane.setMessage(label);
         }
-        this.dialogFactory.showDialog(optionPane, this.dialogTitle, true);
+        this.dialogFactory.showDialog(optionPane, tooltip+": "+this.dialogTitle, true);
     }
     
   

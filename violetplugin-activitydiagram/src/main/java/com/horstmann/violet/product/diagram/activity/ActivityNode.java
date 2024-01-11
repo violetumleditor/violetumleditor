@@ -28,13 +28,14 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
+import com.horstmann.violet.product.diagram.abstracts.node.IResizableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
 
 /**
  * An activity node in an activity diagram.
  */
-public class ActivityNode extends RectangularNode
+public class ActivityNode extends RectangularNode implements IResizableNode
 {
     /**
      * Construct an action node with a default size

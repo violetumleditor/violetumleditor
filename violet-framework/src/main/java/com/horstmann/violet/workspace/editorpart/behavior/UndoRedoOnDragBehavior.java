@@ -20,7 +20,7 @@ import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
 
 /**
- * Undo/Redo behavior triggered when nodes and edges are dragged
+ * Undo/Redo behavior triggered when node and edges are dragged
  * 
  * @author Alexandre de Pellegrin
  *
@@ -44,12 +44,12 @@ public class UndoRedoOnDragBehavior extends AbstractEditorPartBehavior
     private IEditorPartSelectionHandler selectionHandler;
 
     /**
-     * Keeps node locations before dragging event
+     * Keeps node_old locations before dragging event
      */
     private Map<INode, Point2D> nodesLocationsBeforeDrag = new HashMap<INode, Point2D>();
 
     /**
-     * Used on node's drag'n drop
+     * Used on node_old's drag'n drop
      */
     private boolean isDragInProgress = false;
 
@@ -90,7 +90,7 @@ public class UndoRedoOnDragBehavior extends AbstractEditorPartBehavior
         {
             return;
         }
-        List<INode> selectedNodes = this.selectionHandler.getSelectedNodes();
+        List<INode> selectedNodes = this.selectionHandler.getSelectedElements().stream().filter(e -> INode.class.isInstance(e)).map(n -> (INode) n).toList();
         List<UndoableEdit> editList = new ArrayList<UndoableEdit>();
         for (final INode aSelectedNode : selectedNodes)
         {
@@ -139,7 +139,7 @@ public class UndoRedoOnDragBehavior extends AbstractEditorPartBehavior
     }
 
     /**
-     * Saves nodes locations
+     * Saves node locations
      */
     private void saveNodesLocationsBeforeDrag()
     {

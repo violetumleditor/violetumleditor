@@ -29,83 +29,100 @@ import java.io.Serializable;
 
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.IIdentifiable;
+import com.horstmann.violet.product.diagram.abstracts.ISelectable;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 
 /**
  * An edge in a graph.
  */
-public interface IEdge extends Serializable, Cloneable, IIdentifiable
+public interface IEdge extends Serializable, Cloneable, IIdentifiable, ISelectable
 {
+
     /**
-     * Sets the starting node
+     * Sets the starting node_old
      * 
      * @param startingNode
      */
     void setStart(INode startingNode);
 
     /**
-     * Gets the starting node.
+     * Gets the starting node_old.
      * 
-     * @return the starting node
+     * @return the starting node_old
      */
     INode getStart();
 
     /**
-     * Sets the ending node
+     * Sets the ending node_old
      * 
      * @param endingNode
      */
     void setEnd(INode endingNode);
 
     /**
-     * Gets the ending node.
+     * Gets the ending node_old.
      * 
-     * @return the ending node
+     * @return the ending node_old
      */
     INode getEnd();
 
     /**
-     * Sets the point from where this edge begins (relative to the starting node)
+     * Sets the point from where this edge begins (relative to the starting node_old)
      * 
      * @param startingLocation
      */
     void setStartLocation(Point2D startingLocation);
 
     /**
-     * @return the point from where this end begins location (relative to the starting node)
+     * @return the point from where this end begins location (relative to the starting node_old)
      */
     Point2D getStartLocation();
 
     /**
-     * Sets the point where this node ends (relative to the ending node)
+     * @return the point from where this end begins location (absolute location on graph)
+     */
+    Point2D getStartLocationOnGraph();
+
+    /**
+     * Sets the point where this node_old ends (relative to the ending node_old)
      * 
      * @param endingLocation
      */
-    void setEndlocation(Point2D endingLocation);
+    void setEndLocation(Point2D endingLocation);
 
     /**
-     * @return the point where this node ends (relative to the ending node)
+     * @return the point where this node_old ends (relative to the ending node_old)
      */
     Point2D getEndLocation();
+
+    /**
+     * @return the point where this node_old ends (absolute location on graph)
+     */
+    Point2D getEndLocationOnGraph();
     
     /**
      * Sets transition points for edge which supports free path 
      * @param transitionPoints
      */
-    void setTransitionPoints(Point2D[] transitionPoints);
+    void setTransitionPoints(ITransitionPoint[] transitionPoints);
     
     /**
      * @return transition points for edge which supports free path
      */
-    Point2D[] getTransitionPoints();
+    ITransitionPoint[] getTransitionPoints();
     
     /**
      * @return true if the edge supports free path
      */
     boolean isTransitionPointsSupported();
+    
+    /**
+     * Remove all current transition points
+     */
+    void clearTransitionPoints();
 
     /**
-     * Gets the points at which this edge is connected to its nodes.
+     * Gets the points at which this edge is connected to its node.
      * 
      * @return a line joining the two connection points
      */
@@ -128,9 +145,9 @@ public interface IEdge extends Serializable, Cloneable, IIdentifiable
     
     
     /**
-     * Gets edge's direction for this node 
+     * Gets edge's direction for this node_old
      * 
-     * @return direction or null if this edge is not connected to this node
+     * @return direction or null if this edge is not connected to this node_old
      */
     Direction getDirection(INode node);
 

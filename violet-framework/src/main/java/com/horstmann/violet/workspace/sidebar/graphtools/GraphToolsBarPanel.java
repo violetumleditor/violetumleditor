@@ -93,7 +93,7 @@ public class GraphToolsBarPanel extends JPanel
     }
     
     /**
-     * @return all node buttons
+     * @return all node_old buttons
      */
     public List<GraphToolsBarButton> getNodeButtons() {
         return this.nodeButtons;
@@ -221,13 +221,32 @@ public class GraphToolsBarPanel extends JPanel
         }
     }
 
+    private void notifyMouseEvent(GraphToolsBarButton selectedButton, MouseEvent event)
+    {
+        for (GraphToolsBarButton button : this.nodeButtons)
+        {
+            if (button == selectedButton)
+            {
+                int pos = this.nodeButtons.indexOf(button);
+                this.graphToolsPanel.notifyMouseEvent(this.graphToolsPanel.getNodeTools().get(pos), event);
+            }
+        }
+        for (GraphToolsBarButton button : this.edgeButtons)
+        {
+            if (button == selectedButton)
+            {
+                int pos = this.edgeButtons.indexOf(button);
+                this.graphToolsPanel.notifyMouseEvent(this.graphToolsPanel.getEdgeTools().get(pos), event);
+            }
+        }
+    }
 
 
 
 
 
     /**
-     * @return panel containing node buttons
+     * @return panel containing node_old buttons
      */
     public JPanel getNodeButtonsPanel() {
         if (this.nodeButtonsPanel == null) {
@@ -254,41 +273,55 @@ public class GraphToolsBarPanel extends JPanel
      */
     private JPanel getButtonPanel(List<GraphToolsBarButton> buttons)
     {
-        JPanel buttonPanel = new JPanel();
+        final JPanel buttonPanel = new JPanel();
+        
         for (final GraphToolsBarButton button : buttons)
         {
             button.addMouseListener(new MouseAdapter()
             {
-                public void mouseClicked(MouseEvent arg0)
-                {
-                    setSelectedButton(button);
-                }
+            	public void mousePressed(MouseEvent arg0) 
+            	{
+            		setSelectedButton(button);
+            		notifyMouseEvent(button, arg0);
+            	}
+            	
+            	public void mouseReleased(MouseEvent arg0) 
+            	{
+            		notifyMouseEvent(button, arg0);
+            	}
+
             });
+            button.addMouseMotionListener(new MouseAdapter() {
+            	public void mouseDragged(MouseEvent arg0) 
+            	{
+            		notifyMouseEvent(button, arg0);
+            	}
+            });            
             buttonPanel.add(button);
         }
 
         buttonPanel.setLayout(new GridLayout(0, 1));
-//        buttonPanel.addMouseWheelListener(new MouseWheelListener()
-//        {
-//
-//            public void mouseWheelMoved(MouseWheelEvent e)
-//            {
-//                boolean isCtrl = (e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0;
-//                if (isCtrl) {
-//                    return;
-//                }
-//                int scroll = e.getUnitsToScroll();
-//                if (scroll > 0)
-//                {
-//                    selectNextButton();
-//                }
-//                if (scroll < 0)
-//                {
-//                    selectPreviousButton();
-//                }
-//            }
-//
-//        });
+        buttonPanel.addMouseWheelListener(new MouseWheelListener()
+        {
+
+            public void mouseWheelMoved(MouseWheelEvent e)
+            {
+                boolean isCtrl = (e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0;
+                if (isCtrl) {
+                    return;
+                }
+                int scroll = e.getUnitsToScroll();
+                if (scroll > 0)
+                {
+                    selectNextButton();
+                }
+                if (scroll < 0)
+                {
+                    selectPreviousButton();
+                }
+            }
+
+        });
         return buttonPanel;
     }
     

@@ -1,8 +1,10 @@
 package com.horstmann.violet.workspace.editorpart.behavior;
 
+import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 
+import javax.swing.SwingUtilities;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
 import com.horstmann.violet.product.diagram.abstracts.Id;
@@ -12,22 +14,30 @@ import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
 import com.horstmann.violet.workspace.sidebar.graphtools.GraphTool;
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBar;
+import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBarMouseListener;
 
-public class AddNodeBehavior extends AbstractEditorPartBehavior
+public class AddNodeBehavior extends AbstractEditorPartBehavior implements IGraphToolsBarMouseListener
 {
+	private static final int OUTSIDE_SCREEN_POSITION = -1000;
 
     public AddNodeBehavior(IEditorPart editorPart, IGraphToolsBar graphToolsBar)
     {
-        this.editorPart = editorPart;
+    	this.editorPart = editorPart;
         this.graph = editorPart.getGraph();
         this.selectionHandler = editorPart.getSelectionHandler();
         this.behaviorManager = editorPart.getBehaviorManager();
         this.graphToolsBar = graphToolsBar;
+        
+        this.dragging = false;
+        this.draggedNode = null;
+        graphToolsBar.addMouseListener(this);
     }
-
+    
     @Override
-    public void onMouseClicked(MouseEvent event)
+    public void onMouseReleased(MouseEvent event)
     {
+    	this.draggedNode = null;
+    	
         if (event.getClickCount() > 1)
         {
             return;
@@ -56,6 +66,13 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior
         if (added)
         {
             selectionHandler.setSelectedElement(newNode);
+            
+//            if (!KeyModifierUtil.isCtrl(event)) {
+//	            selectionHandler.setSelectedTool(GraphTool.SELECTION_TOOL);
+//	            graphToolsBar.setSelectedTool(GraphTool.SELECTION_TOOL);
+//	            graphToolsBar.getAWTComponent().invalidate();
+//            }
+            
             editorPart.getSwingComponent().invalidate();
         }
     }
@@ -65,7 +82,7 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior
      * 
      * @param newNode to be added
      * @param location
-     * @return true if the node has been added
+     * @return true if the node_old has been added
      */
     public boolean addNodeAtPoint(INode newNode, Point2D location)
     {
@@ -86,6 +103,75 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior
         return isAdded;
     }
 
+	@Override
+	public void onMouseToolClicked(GraphTool selectedTool)
+	{
+		Object obj = selectedTool.getNodeOrEdge();
+		if (obj instanceof INode)
+		{
+			this.dragging = true;
+	        INode prototype = (INode) selectedTool.getNodeOrEdge();
+	        this.draggedNode = (INode) prototype.clone();
+	        this.draggedNode.setId(new Id());
+	        
+	        
+			double zoom = editorPart.getZoomFactor();
+	        final Point2D initialLocation = new Point2D.Double(OUTSIDE_SCREEN_POSITION / zoom, OUTSIDE_SCREEN_POSITION / zoom);
+	        IGridSticker gridSticker = graph.getGridSticker();
+	        Point2D newNodeLocation = gridSticker.snap(initialLocation);
+			
+	        boolean added = addNodeAtPoint(this.draggedNode, newNodeLocation);
+	        if (added)
+	        {
+	            selectionHandler.setSelectedElement(this.draggedNode);
+	            editorPart.getSwingComponent().invalidate();
+	        }
+		}
+	}
+
+	@Override
+	public void onMouseToolDragged(MouseEvent event)
+	{
+		if (this.dragging) {
+			MouseEvent outEvent = SwingUtilities.convertMouseEvent((Component)event.getSource(), event, editorPart.getSwingComponent());
+			
+			moveDraggedNode(outEvent);
+		}
+	}
+
+	@Override
+	public void onMouseToolReleased(MouseEvent event)
+	{
+		this.dragging = false;
+		if (this.draggedNode != null) {
+			MouseEvent outEvent = SwingUtilities.convertMouseEvent((Component)event.getSource(), event, editorPart.getSwingComponent());
+            
+			if (outEvent.getX() < 0 || outEvent.getY() < 0) {
+				this.graph.removeNode(this.draggedNode);
+				editorPart.getSwingComponent().invalidate();
+				editorPart.getSwingComponent().repaint();
+			} else {
+				moveDraggedNode(outEvent);
+				graphToolsBar.reset();
+			}
+			
+	        this.draggedNode = null;
+		}
+	}
+	
+	private void moveDraggedNode(MouseEvent convertedEvent) {
+		double zoom = editorPart.getZoomFactor();
+        final Point2D mousePoint = new Point2D.Double(convertedEvent.getX() / zoom, convertedEvent.getY() / zoom);
+        IGridSticker gridSticker = graph.getGridSticker();
+        Point2D newNodeLocation = gridSticker.snap(mousePoint);
+		
+        draggedNode.setLocation(newNodeLocation);
+        
+        selectionHandler.setSelectedElement(this.draggedNode);
+        editorPart.getSwingComponent().invalidate();
+        editorPart.getSwingComponent().repaint();
+	}
+	
     private IEditorPart editorPart;
 
     private IGraph graph;
@@ -95,4 +181,8 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior
     private IEditorPartBehaviorManager behaviorManager;
 
     private IGraphToolsBar graphToolsBar;
+
+    private boolean dragging;
+    
+    private INode draggedNode;
 }

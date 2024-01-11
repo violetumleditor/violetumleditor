@@ -13,7 +13,9 @@ import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.CompoundEdit;
 import javax.swing.undo.UndoableEdit;
 
+import com.horstmann.violet.product.diagram.abstracts.edge.EdgeTransitionPoint;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.edge.ITransitionPoint;
 
 /**
  * Undo/Redo behavior triggered when transition points change on free path edge
@@ -29,9 +31,9 @@ public class UndoRedoOnTransitionPointChangeBehavior extends AbstractEditorPartB
 	 */
 	private UndoRedoCompoundBehavior compoundBehavior;
 
-	private List<Point2D> transitionPointsBeforeChanges = new ArrayList<Point2D>();
+	private List<ITransitionPoint> transitionPointsBeforeChanges = new ArrayList<ITransitionPoint>();
 
-	private List<Point2D> transitionPointsAfterChanges = new ArrayList<Point2D>();
+	private List<ITransitionPoint> transitionPointsAfterChanges = new ArrayList<ITransitionPoint>();
 
 	/**
 	 * Default constructor
@@ -45,16 +47,16 @@ public class UndoRedoOnTransitionPointChangeBehavior extends AbstractEditorPartB
 	@Override
 	public void beforeChangingTransitionPointsOnEdge(IEdge edge) {
 		this.transitionPointsBeforeChanges.clear();
-		for (Point2D aTransitionPoint : edge.getTransitionPoints()) {
-			this.transitionPointsBeforeChanges.add(new Point2D.Double(aTransitionPoint.getX(), aTransitionPoint.getY()));
+		for (ITransitionPoint aTransitionPoint : edge.getTransitionPoints()) {
+			this.transitionPointsBeforeChanges.add(new EdgeTransitionPoint(aTransitionPoint.getX(), aTransitionPoint.getY()));
 		}
 	}
 
 	@Override
 	public void afterChangingTransitionPointsOnEdge(final IEdge edge) {
 		this.transitionPointsAfterChanges.clear();
-		for (Point2D aTransitionPoint : edge.getTransitionPoints()) {
-			this.transitionPointsAfterChanges.add(new Point2D.Double(aTransitionPoint.getX(), aTransitionPoint.getY()));
+		for (ITransitionPoint aTransitionPoint : edge.getTransitionPoints()) {
+			this.transitionPointsAfterChanges.add(new EdgeTransitionPoint(aTransitionPoint.getX(), aTransitionPoint.getY()));
 		}
 		this.compoundBehavior.startHistoryCapture();
 		CompoundEdit capturedEdit = this.compoundBehavior.getCurrentCapturedEdit();
@@ -63,43 +65,53 @@ public class UndoRedoOnTransitionPointChangeBehavior extends AbstractEditorPartB
 		this.compoundBehavior.stopHistoryCapture();
 	}
 
+
 	private void captureDraggedPoints(final IEdge edge, CompoundEdit capturedEdit) {
-		boolean isSameQuantity = (this.transitionPointsBeforeChanges.size() == this.transitionPointsAfterChanges.size());
+		int beforeSize = this.transitionPointsBeforeChanges.size();
+		int afterSize = this.transitionPointsAfterChanges.size();
+		boolean isSameQuantity = (beforeSize == afterSize);
 		boolean isSameLocation = true;
-		if (! this.transitionPointsAfterChanges.isEmpty()) { 
-			for (int i = 0; i < this.transitionPointsBeforeChanges.size(); i++) {
-	            Point2D beforeDragPoint = this.transitionPointsBeforeChanges.get(i);
-	            Point2D afterDragPoint = this.transitionPointsAfterChanges.get(i);
-	            isSameLocation = isSameLocation && beforeDragPoint.equals(afterDragPoint);
-			}
+ 
+		for (int i = 0; ((i < beforeSize) && (i < afterSize)); i++) {
+            Point2D beforeDragPoint = this.transitionPointsBeforeChanges.get(i).toPoint2D();
+            Point2D afterDragPoint = this.transitionPointsAfterChanges.get(i).toPoint2D();
+            isSameLocation = isSameLocation && beforeDragPoint.equals(afterDragPoint);
 		}
 		boolean isDragged = isSameQuantity && !isSameLocation;
 		if (!isDragged) {
 			return;
 		}
-		final List<Point2D> transitionPointsBeforeChangesCopy = new ArrayList<Point2D>(transitionPointsBeforeChanges);
-		final List<Point2D> transitionPointsAfterChangesCopy = new ArrayList<Point2D>(transitionPointsAfterChanges);
+		final List<ITransitionPoint> transitionPointsBeforeChangesCopy = new ArrayList<ITransitionPoint>(transitionPointsBeforeChanges);
+		final List<ITransitionPoint> transitionPointsAfterChangesCopy = new ArrayList<ITransitionPoint>(transitionPointsAfterChanges);
 		UndoableEdit edit = new AbstractUndoableEdit() {
 			@Override
 			public void undo() throws CannotUndoException {
-				for (int i = 0; i < transitionPointsAfterChangesCopy.size(); i++) {
-					Point2D beforeDragPoint = transitionPointsBeforeChangesCopy.get(i);
-					Point2D afterDragPoint = transitionPointsAfterChangesCopy.get(i);
+				int beforeCopySize = transitionPointsBeforeChangesCopy.size();
+				int afterCopySize = transitionPointsAfterChangesCopy.size();
+
+				for (int i = 0; ((i < beforeCopySize) && (i < afterCopySize)); i++) {
+					ITransitionPoint beforeDragPoint = transitionPointsBeforeChangesCopy.get(i);
+					ITransitionPoint afterDragPoint = transitionPointsAfterChangesCopy.get(i);
 					if (afterDragPoint.getX() != beforeDragPoint.getX() || afterDragPoint.getY() != beforeDragPoint.getY()) {
-						Point2D[] transitionPoints = edge.getTransitionPoints();
-						transitionPoints[i].setLocation(beforeDragPoint.getX(), beforeDragPoint.getY());
+						ITransitionPoint[] transitionPoints = edge.getTransitionPoints();
+						transitionPoints[i].setX(beforeDragPoint.getX());
+						transitionPoints[i].setY(beforeDragPoint.getY());
 					}
 				}
 			}
 
 			@Override
 			public void redo() throws CannotRedoException {
-				for (int i = 0; i < transitionPointsAfterChangesCopy.size(); i++) {
-					Point2D beforeDragPoint = transitionPointsBeforeChangesCopy.get(i);
-					Point2D afterDragPoint = transitionPointsAfterChangesCopy.get(i);
+				int beforeCopySize = transitionPointsBeforeChangesCopy.size();
+				int afterCopySize = transitionPointsAfterChangesCopy.size();
+
+				for (int i = 0; ((i < beforeCopySize) && (i < afterCopySize)); i++) {
+					ITransitionPoint beforeDragPoint = transitionPointsBeforeChangesCopy.get(i);
+					ITransitionPoint afterDragPoint = transitionPointsAfterChangesCopy.get(i);
 					if (afterDragPoint.getX() != beforeDragPoint.getX() || afterDragPoint.getY() != beforeDragPoint.getY()) {
-						Point2D[] transitionPoints = edge.getTransitionPoints();
-						transitionPoints[i].setLocation(afterDragPoint.getX(), afterDragPoint.getY());
+						ITransitionPoint[] transitionPoints = edge.getTransitionPoints();
+						transitionPoints[i].setX(afterDragPoint.getX());
+						transitionPoints[i].setY(afterDragPoint.getY());
 					}
 				}
 			}
@@ -112,9 +124,9 @@ public class UndoRedoOnTransitionPointChangeBehavior extends AbstractEditorPartB
 		if (!isAdded) {
 			return;
 		}
-		final Map<Integer, Point2D> pointsAndPosition = new HashMap<Integer, Point2D>();
+		final Map<Integer, ITransitionPoint> pointsAndPosition = new HashMap<Integer, ITransitionPoint>();
 		for (int i = 0; i < transitionPointsAfterChanges.size(); i++) {
-			Point2D aPoint = transitionPointsAfterChanges.get(i);
+			ITransitionPoint aPoint = transitionPointsAfterChanges.get(i);
 			if (!transitionPointsBeforeChanges.contains(aPoint)) {
 				pointsAndPosition.put(i, aPoint);
 			}
@@ -123,7 +135,7 @@ public class UndoRedoOnTransitionPointChangeBehavior extends AbstractEditorPartB
 			@Override
 			public void undo() throws CannotUndoException {
 				boolean isOKToRemove = true;
-				List<Point2D> transitionPoints = new ArrayList<Point2D>(Arrays.asList(edge.getTransitionPoints()));
+				List<ITransitionPoint> transitionPoints = new ArrayList<ITransitionPoint>(Arrays.asList(edge.getTransitionPoints()));
 				for (Integer i : pointsAndPosition.keySet()) {
 					isOKToRemove = isOKToRemove && (transitionPoints.size() >= i);
 					if (!isOKToRemove) {
@@ -135,25 +147,25 @@ public class UndoRedoOnTransitionPointChangeBehavior extends AbstractEditorPartB
 					return;
 				}
 				for (Integer i : pointsAndPosition.keySet()) {
-					Point2D pointToRemove = pointsAndPosition.get(i);
+					ITransitionPoint pointToRemove = pointsAndPosition.get(i);
 					transitionPoints.remove(pointToRemove);
 				}
-				Point2D[] transitionPointsAsArray = transitionPoints.toArray(new Point2D.Double[transitionPoints.size()]);
+				ITransitionPoint[] transitionPointsAsArray = transitionPoints.toArray(new ITransitionPoint[transitionPoints.size()]);
 				edge.setTransitionPoints(transitionPointsAsArray);
 			}
 
 			@Override
 			public void redo() throws CannotRedoException {
-				List<Point2D> transitionPoints = new ArrayList<Point2D>(Arrays.asList(edge.getTransitionPoints()));
+				List<ITransitionPoint> transitionPoints = new ArrayList<ITransitionPoint>(Arrays.asList(edge.getTransitionPoints()));
 				for (Integer i : pointsAndPosition.keySet()) {
-					Point2D pointToAdd = pointsAndPosition.get(i);
+					ITransitionPoint pointToAdd = pointsAndPosition.get(i);
 					if (transitionPoints.size() >= i) {
 						transitionPoints.add(i, pointToAdd);
 					} else {
 						transitionPoints.add(i, pointToAdd);
 					}
 				}
-				Point2D[] transitionPointsAsArray = transitionPoints.toArray(new Point2D.Double[transitionPoints.size()]);
+				ITransitionPoint[] transitionPointsAsArray = transitionPoints.toArray(new ITransitionPoint[transitionPoints.size()]);
 				edge.setTransitionPoints(transitionPointsAsArray);
 			}
 		};

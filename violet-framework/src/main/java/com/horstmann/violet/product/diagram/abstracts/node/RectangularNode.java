@@ -21,7 +21,6 @@
 
 package com.horstmann.violet.product.diagram.abstracts.node;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Point2D;
@@ -31,16 +30,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.horstmann.violet.framework.theme.ThemeManager;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
-import com.horstmann.violet.product.diagram.abstracts.IColorable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 
 /**
  * A node that has a rectangular shape.
  */
-public abstract class RectangularNode extends AbstractNode implements IColorable
+public abstract class RectangularNode extends AbstractNode
 {
 
     public RectangularNode()
@@ -59,7 +55,7 @@ public abstract class RectangularNode extends AbstractNode implements IColorable
     	INode endingNode = e.getEnd();
     	if (endingNode == null) {
     		e.setEnd(e.getStart());
-    		e.setEndlocation(e.getStartLocation());
+    		e.setEndLocation(e.getStartLocation());
     	}
     	// Back to default behavior
     	return super.addConnection(e);
@@ -170,35 +166,6 @@ public abstract class RectangularNode extends AbstractNode implements IColorable
 
    
     
-    public void setBackgroundColor(Color bgColor) {
-        this.backgroundColor = bgColor;
-    }
-    
-    public Color getBackgroundColor() {
-        return this.backgroundColor;
-    }
-    
-    public void setBorderColor(Color borderColor) {
-        this.borderColor = borderColor;
-    };
 
-    public Color getBorderColor() {
-        return this.borderColor;
-    }
-    
-    public void setTextColor(Color textColor) {
-        this.textColor = textColor;
-    }
-    
-    public Color getTextColor() {
-        return this.textColor;
-    }
-
-
-
-
-    private Color backgroundColor = ColorToolsBarPanel.DEFAULT_COLOR.getBackgroundColor();
-    private Color borderColor =  ColorToolsBarPanel.DEFAULT_COLOR.getBorderColor();
-    private Color textColor =  ColorToolsBarPanel.DEFAULT_COLOR.getTextColor();
     
 }

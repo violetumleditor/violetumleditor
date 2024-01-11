@@ -4,7 +4,9 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 
 import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
+import com.horstmann.violet.product.diagram.abstracts.ISelectable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.edge.ITransitionPoint;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
@@ -85,7 +87,8 @@ public class DragTransitionPointBehavior extends AbstractEditorPartBehavior
             double newTransitionPointLocationY = this.edgeTransitionPointToDrag.getY() + dy;
             Point2D newTransitionPoint = new Point2D.Double(newTransitionPointLocationX, newTransitionPointLocationY);
             newTransitionPoint = gridSticker.snap(newTransitionPoint);
-            this.edgeTransitionPointToDrag.setLocation(newTransitionPoint.getX(), newTransitionPoint.getY());
+            this.edgeTransitionPointToDrag.setX(newTransitionPoint.getX());
+            this.edgeTransitionPointToDrag.setY(newTransitionPoint.getY());
             // Save mouse location for next dragging sequence
             Point2D snappedMousePoint = gridSticker.snap(mousePoint);
             if (!snappedMousePoint.equals(lastMousePoint)) {
@@ -112,14 +115,17 @@ public class DragTransitionPointBehavior extends AbstractEditorPartBehavior
     {
         if (this.selectedEdge == null)
         {
-            if (this.selectionHandler.getSelectedEdges().size() == 1)
+            if (this.selectionHandler.getSelectedElements().size() == 1)
             {
-                this.selectedEdge = this.selectionHandler.getSelectedEdges().get(0);
+            	ISelectable element = this.selectionHandler.getSelectedElements().get(0);
+                if (IEdge.class.isInstance(element)) {
+                	this.selectedEdge = (IEdge) element;
+                }
             }
         }
         return this.selectedEdge;
-    }
-
+    }    
+    
     private boolean isPrerequisitesOK()
     {
         if (getSelectedEdge() == null)
@@ -151,7 +157,7 @@ public class DragTransitionPointBehavior extends AbstractEditorPartBehavior
         return false;
     }
 
-    private Point2D getEdgeTransitionPointToDrag()
+    private ITransitionPoint getEdgeTransitionPointToDrag()
     {
         if (getSelectedEdge() == null)
         {
@@ -162,9 +168,10 @@ public class DragTransitionPointBehavior extends AbstractEditorPartBehavior
             return null;
         }
         final double MAX_DIST = 5;
-        for (Point2D aTransitionPoint : getSelectedEdge().getTransitionPoints())
+        for (ITransitionPoint aTransitionPoint : getSelectedEdge().getTransitionPoints())
         {
-            if (aTransitionPoint.distance(this.firstMousePoint) <= MAX_DIST)
+            Point2D p = aTransitionPoint.toPoint2D();
+        	if (p.distance(this.firstMousePoint) <= MAX_DIST)
             {
                 return aTransitionPoint;
             }
@@ -204,7 +211,7 @@ public class DragTransitionPointBehavior extends AbstractEditorPartBehavior
 
     private boolean isReadyForDragging = false;
 
-    private Point2D edgeTransitionPointToDrag = null;
+    private ITransitionPoint edgeTransitionPointToDrag = null;
 
     private IEdge selectedEdge = null;
 }

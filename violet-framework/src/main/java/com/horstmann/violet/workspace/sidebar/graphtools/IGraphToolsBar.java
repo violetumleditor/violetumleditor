@@ -21,6 +21,7 @@
 
 package com.horstmann.violet.workspace.sidebar.graphtools;
 
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
@@ -36,7 +37,7 @@ public interface IGraphToolsBar extends ISideBarElement
 {
 
     /**
-     * Registers a new node tool to this panel.<br>
+     * Registers a new node_old tool to this panel.<br>
      * <br>
      * Example :<br>
      * ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("/icons/72x72/welcome_create.png"));<br>
@@ -78,6 +79,20 @@ public interface IGraphToolsBar extends ISideBarElement
     public void removeListener(IGraphToolsBarListener listener);
 
     /**
+     * Declares a new mouse listener
+     * 
+     * @param listener
+     */
+    public void addMouseListener(IGraphToolsBarMouseListener listener);
+
+    /**
+     * Removes a declared mouse listener
+     * 
+     * @param listener
+     */
+    public void removeMouseListener(IGraphToolsBarMouseListener listener);
+    
+    /**
      * @return currently selected tool
      */
     public GraphTool getSelectedTool();
@@ -88,9 +103,16 @@ public interface IGraphToolsBar extends ISideBarElement
      * @param tool
      */
     public void setSelectedTool(GraphTool t);
+
+    /**
+     * Notifies bar of tool click
+     * 
+     * @param tool
+     */
+    public void notifyMouseEvent(GraphTool t, MouseEvent event);
     
     /**
-     * @return current graph node tools
+     * @return current graph node_old tools
      */
     public List<GraphTool> getNodeTools();
     

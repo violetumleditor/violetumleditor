@@ -2,6 +2,7 @@ package com.horstmann.violet.framework.util;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -29,6 +30,17 @@ public class GrabberUtils
     }
 
     /**
+     * Draws a single "grabber", colored in purple
+     * 
+     * @param g2 the graphics context
+     * @param p the grabber point location
+     */
+    public static void drawPurpleGrabber(Graphics2D g2, Point2D p) {
+    	drawPurpleGrabber(g2, p.getX(), p.getY());
+    }
+    
+    
+    /**
      * Draws a single "grabber", colored in gray
      * 
      * @param g2 the graphics context
@@ -42,6 +54,17 @@ public class GrabberUtils
         g2.fill(new Rectangle2D.Double(x - GrabberUtils.GRABBER_WIDTH / 2, y - GrabberUtils.GRABBER_WIDTH / 2, GrabberUtils.GRABBER_WIDTH, GrabberUtils.GRABBER_WIDTH));
         g2.setColor(oldColor);
     }
+    
+    /**
+     * Draws a single "grabber", colored in gray
+     * 
+     * @param g2 the graphics context
+     * @param p the grabber point location
+     */
+    public static void drawGrayGrabber(Graphics2D g2, Point2D p) {
+    	drawGrayGrabber(g2, p.getX(), p.getY());
+    }
+    
     
     
     private static final Color PURPLE = new Color(0.7f, 0.4f, 0.7f);

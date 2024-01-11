@@ -22,6 +22,7 @@ import javax.swing.border.MatteBorder;
 
 import com.horstmann.violet.framework.swingextension.TinyScrollBarUI;
 import com.horstmann.violet.framework.theme.ThemeManager;
+import com.horstmann.violet.workspace.editorpart.EditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.sidebar.ISideBar;
 
@@ -40,7 +41,7 @@ public class WorkspacePanel extends JPanel
         JScrollPane scrollGPanel = getScrollableEditorPart();
         add(scrollGPanel, BorderLayout.CENTER);
         JScrollPane scrollSideBarPanel = getScrollableSideBar();
-        add(scrollSideBarPanel, BorderLayout.EAST);
+        add(scrollSideBarPanel, BorderLayout.WEST);
 //        JScrollPane scrollStatusBarPanel = getScrollableStatusBar();
 //        add(scrollStatusBarPanel, BorderLayout.SOUTH);
         refreshDisplay();
@@ -63,7 +64,7 @@ public class WorkspacePanel extends JPanel
                 @Override
                 public void paint(Graphics g)
                 {
-                    editorPart.getSwingComponent().invalidate();
+                	editorPart.getSwingComponent().invalidate();
                     super.paint(g);
                 }
                 
@@ -75,7 +76,7 @@ public class WorkspacePanel extends JPanel
                 @Override
                 public void adjustmentValueChanged(AdjustmentEvent e)
                 {
-                    editorPart.getSwingComponent().invalidate();
+                	editorPart.getSwingComponent().invalidate();
                     editorPart.getSwingComponent().repaint();
                 }
             });
@@ -109,8 +110,9 @@ public class WorkspacePanel extends JPanel
             this.scrollableSideBar.setAlignmentY(Component.TOP_ALIGNMENT);
             this.scrollableSideBar.getHorizontalScrollBar().setUI(new TinyScrollBarUI());
             this.scrollableSideBar.getVerticalScrollBar().setUI(new TinyScrollBarUI());
-            this.scrollableSideBar.setBorder(new MatteBorder(0, 1, 0, 0, ThemeManager.getInstance().getTheme()
-                    .getSidebarBorderColor()));
+//            this.scrollableSideBar.setBorder(new MatteBorder(0, 1, 0, 0, ThemeManager.getInstance().getTheme()
+//                    .getSidebarBorderColor()));
+            this.scrollableSideBar.setBorder(new EmptyBorder(0, 0, 0, 0));
             this.scrollableSideBar.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
             this.scrollableSideBar.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         }
@@ -125,6 +127,7 @@ public class WorkspacePanel extends JPanel
         {
             public void run()
             {
+                WorkspacePanel.this.revalidate();
                 WorkspacePanel.this.repaint();
             }
         });

@@ -12,7 +12,7 @@ import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
 
 /**
- * Allows to select the next or the previous element (node or edge) by specifying a distance with the current one
+ * Allows to select the next or the previous element (node_old or edge) by specifying a distance with the current one
  * 
  * @author Alexandre de Pellegrin
  * 
@@ -82,13 +82,9 @@ public class SelectByDistanceBehavior extends AbstractEditorPartBehavior
         });
         int index;
         Object lastSelected = null;
-        if (selectionHandler.isNodeSelectedAtLeast())
+        if (selectionHandler.isElementSelectedAtLeast())
         {
-            lastSelected = selectionHandler.getLastSelectedNode();
-        }
-        if (selectionHandler.isEdgeSelectedAtLeast())
-        {
-            lastSelected = selectionHandler.getLastSelectedEdge();
+            lastSelected = selectionHandler.getLastSelectedElement();
         }
         if (lastSelected == null) index = 0;
         else index = selectables.indexOf(lastSelected) + distanceFromCurrentElement;

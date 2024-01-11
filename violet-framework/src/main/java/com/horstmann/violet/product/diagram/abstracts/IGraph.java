@@ -71,7 +71,7 @@ public interface IGraph
     /**
      * Adds an edge to this graph. 
      * 
-     * @param e the new edge to add (don't forget to populate it withs the following nodes and points!)
+     * @param e the new edge to add (don't forget to populate it with the following nodes and points!)
      * @param start the start node of the edge
      * @param startLocation the point inside the start node where the edge begins
      * @param end the end node of the edge
@@ -79,7 +79,7 @@ public interface IGraph
      * @param list a points for edge that supports free path 
      * @return isOK as true if successfully connected
      */
-    public abstract boolean connect(IEdge e, INode start, Point2D startLocation, INode end, Point2D endLocation, Point2D[] transitionPoints);
+    public abstract boolean connect(IEdge e, INode start, Point2D startLocation, INode end, Point2D endLocation);
 
 
     /**
