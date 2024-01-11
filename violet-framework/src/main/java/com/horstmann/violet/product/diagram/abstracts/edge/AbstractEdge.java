@@ -135,7 +135,10 @@ public abstract class AbstractEdge implements IEdge
     
     public final ITransitionPoint[] getTransitionPoints()
     {
-        return this.transitionPoints;
+        if (this.transitionPoints == null) {
+        	this.transitionPoints = new ITransitionPoint[] {};
+        }
+    	return this.transitionPoints;
     }
     
     @Override
