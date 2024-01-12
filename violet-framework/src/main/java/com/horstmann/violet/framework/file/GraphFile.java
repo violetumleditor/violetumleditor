@@ -1,5 +1,7 @@
 package com.horstmann.violet.framework.file;
 
+
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -30,7 +32,7 @@ public class GraphFile implements IGraphFile
 {
     /**
      * Creates a new graph file with a new graph instance
-     * 
+     *
      * @param graphClass
      */
     public GraphFile(Class<? extends IGraph> graphClass)
@@ -39,7 +41,7 @@ public class GraphFile implements IGraphFile
         BeanInjector.getInjector().inject(this);
         try
         {
-            this.graph = graphClass.newInstance();
+			this.graph = graphClass.newInstance();
         }
         catch (Exception e)
         {
@@ -50,9 +52,8 @@ public class GraphFile implements IGraphFile
 
     /**
      * Constructs a graph file from an existing file
-     * 
+     *
      * @param file
-     * 
      */
     public GraphFile(IFile file) throws IOException
     {
@@ -66,13 +67,14 @@ public class GraphFile implements IGraphFile
         InputStream in = fileOpener.getInputStream();
         if (in != null)
         {
-            this.graph = this.filePersistenceService.read(in);
-            this.currentFilename = fileOpener.getFileDefinition().getFilename();
+			this.graph = this.filePersistenceService.read(in);
+			this.currentFilename = fileOpener.getFileDefinition().getFilename();
             this.currentDirectory = fileOpener.getFileDefinition().getDirectory();
         }
         else
         {
-            throw new IOException("Unable to read file " + fileOpener.getFileDefinition().getFilename() + " from location " + fileOpener.getFileDefinition().getDirectory());
+            throw new IOException("Unable to read file " + fileOpener.getFileDefinition().getFilename() + " from location " +
+                    fileOpener.getFileDefinition().getDirectory());
         }
     }
 
@@ -102,30 +104,34 @@ public class GraphFile implements IGraphFile
     }
 
     @Override
-    public boolean isSaveRequired() 
+    public boolean isSaveRequired()
     {
-    	return this.isSaveRequired;
+        return this.isSaveRequired;
     }
-    
+
     /**
      * Indicates if this file is new
+     *
      * @return b
      */
-    private boolean isNewFile() {
-    	if (this.currentFilename == null && this.currentDirectory == null) {
-    		return true;
-    	}
-    	return false;
+    private boolean isNewFile()
+    {
+        if (this.currentFilename == null && this.currentDirectory == null)
+        {
+            return true;
+        }
+        return false;
     }
-    
+
     @Override
     public void save()
     {
-        if (this.isNewFile()) {
-        	saveToNewLocation();
-        	return;
+        if (this.isNewFile())
+        {
+            saveToNewLocation();
+            return;
         }
-    	try
+        try
         {
             IFileWriter fileSaver = getFileSaver(false);
             OutputStream outputStream = fileSaver.getOutputStream();
@@ -140,16 +146,17 @@ public class GraphFile implements IGraphFile
             throw new RuntimeException(e);
         }
     }
-
+    
     @Override
     public void saveToNewLocation()
     {
         try
         {
             IFileWriter fileSaver = getFileSaver(true);
-            if (fileSaver == null) { 
-            	// This appends when the action is cancelled
-            	return;
+            if (fileSaver == null)
+            {
+                // This appends when the action is cancelled
+                return;
             }
             OutputStream outputStream = fileSaver.getOutputStream();
             this.filePersistenceService.write(this.graph, outputStream);
@@ -158,9 +165,10 @@ public class GraphFile implements IGraphFile
             this.currentDirectory = fileSaver.getFileDefinition().getDirectory();
             fireGraphSaved();
         }
-        catch (Exception e)
+        catch (IOException e1)
         {
-            throw new RuntimeException(e);
+            String message = MessageFormat.format(fileExportErrorMessage, e1.getMessage());
+            JOptionPane.showMessageDialog(null, message, fileExportError, JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -170,7 +178,7 @@ public class GraphFile implements IGraphFile
      * will open a dialog box to select a location. If not, the returned IFileSaver will automatically be bound to the last saving
      * location.<br/>
      * You can also force the FileChooserService to open the dialog box with the given argument.<br/>
-     * 
+     *
      * @param isAskedForNewLocation if true, then the FileChooser will open a dialog box to allow to choice a new location
      * @return f
      */
@@ -189,9 +197,11 @@ public class GraphFile implements IGraphFile
             }
             return this.fileChooserService.getFileWriter(this);
         }
-        catch (Exception e)
+        catch (IOException e1)
         {
-            throw new RuntimeException(e);
+            String message = MessageFormat.format(fileExportErrorMessage, e1.getMessage());
+            JOptionPane.showMessageDialog(null, message, fileExportError, JOptionPane.ERROR_MESSAGE);
+            return null;
         }
     }
 
@@ -220,8 +230,9 @@ public class GraphFile implements IGraphFile
     {
         synchronized (listeners)
         {
-            for (IGraphFileListener listener : listeners) {
-            	listener.onFileModified();
+            for (IGraphFileListener listener : listeners)
+            {
+                listener.onFileModified();
             }
         }
     }
@@ -233,8 +244,9 @@ public class GraphFile implements IGraphFile
     {
         synchronized (listeners)
         {
-            for (IGraphFileListener listener : listeners) {
-            	listener.onFileSaved();
+            for (IGraphFileListener listener : listeners)
+            {
+                listener.onFileSaved();
             }
         }
     }
@@ -257,9 +269,9 @@ public class GraphFile implements IGraphFile
         {
             MessageFormat formatter = new MessageFormat(this.exportImageErrorMessage);
             String message = formatter.format(new Object[]
-            {
-                format
-            });
+                    {
+                            format
+                    });
             JOptionPane optionPane = new JOptionPane();
             optionPane.setMessage(message);
             this.dialogFactory.showDialog(optionPane, this.exportImageDialogTitle, true);
@@ -284,6 +296,12 @@ public class GraphFile implements IGraphFile
     }
 
     @Override
+    public void exportToPdf(OutputStream out)
+    {
+        FileExportService.exportToPdf(graph, out);
+    }
+
+    @Override
     public void exportToPrinter()
     {
         PrintEngine engine = new PrintEngine(this.graph);
@@ -296,11 +314,13 @@ public class GraphFile implements IGraphFile
      * Needed to identify the physical file used to save the graph
      */
     private String currentFilename;
+    private String autoSaveFilename;
 
     /**
      * Needed to identify the physical file used to save the graph
      */
     private String currentDirectory;
+    private final String autoSaveDirectory = System.getProperty("user.home") + File.separator + "VioletUML" + File.separator;
 
     private boolean isSaveRequired = false;
 
@@ -327,6 +347,12 @@ public class GraphFile implements IGraphFile
 
     @InjectedBean
     private IFilePersistenceService filePersistenceService;
+
+    @ResourceBundleBean(key = "file.export.error.message")
+    private String fileExportErrorMessage;
+
+    @ResourceBundleBean(key = "file.export.error")
+    private String fileExportError;
 
     @InjectedBean
     private DialogFactory dialogFactory;

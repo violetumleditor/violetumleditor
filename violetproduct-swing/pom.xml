@@ -5,49 +5,55 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>violetproduct-swing</artifactId>
 	<name>Violet UML Editor Pure Java packaging</name>
-    <version>${applicationVersion}</version>
-    <packaging>jar</packaging>
-    <parent>
-        <groupId>com.horstmann.violet</groupId>
-        <artifactId>parent</artifactId>
-        <version>1.0.0</version>
-    </parent>
-    <dependencies>
-        <dependency>
-            <groupId>com.horstmann.violet</groupId>
-            <artifactId>violet-framework</artifactId>
-            <version>${applicationVersion}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.horstmann.violet</groupId>
-            <artifactId>violetplugin-classdiagram</artifactId>
-            <version>${applicationVersion}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.horstmann.violet</groupId>
-            <artifactId>violetplugin-sequencediagram</artifactId>
-            <version>${applicationVersion}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.horstmann.violet</groupId>
-            <artifactId>violetplugin-statediagram</artifactId>
-            <version>${applicationVersion}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.horstmann.violet</groupId>
-            <artifactId>violetplugin-usecasediagram</artifactId>
-            <version>${applicationVersion}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.horstmann.violet</groupId>
-            <artifactId>violetplugin-activitydiagram</artifactId>
-            <version>${applicationVersion}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.horstmann.violet</groupId>
-            <artifactId>violetplugin-objectdiagram</artifactId>
-            <version>${applicationVersion}</version>
-        </dependency>	</dependencies>
+	<version>${applicationVersion}</version>
+	<packaging>jar</packaging>
+	<parent>
+		<groupId>com.horstmann.violet</groupId>
+		<artifactId>parent</artifactId>
+		<version>1.0.0</version>
+	</parent>
+	<dependencies>
+		<dependency>
+			<groupId>com.horstmann.violet</groupId>
+			<artifactId>violet-framework</artifactId>
+			<version>${applicationVersion}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.horstmann.violet</groupId>
+			<artifactId>violetplugin-classdiagram</artifactId>
+			<version>${applicationVersion}</version>
+		</dependency>
+<!-- 		<dependency>
+ 			<groupId>com.horstmann.violet</groupId>
+ 			<artifactId>violetplugin-communicationdiagram</artifactId>
+ 			<version>${applicationVersion}</version>
+ 		</dependency> -->
+		<dependency>
+			<groupId>com.horstmann.violet</groupId>
+			<artifactId>violetplugin-sequencediagram</artifactId>
+			<version>${applicationVersion}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.horstmann.violet</groupId>
+			<artifactId>violetplugin-statediagram</artifactId>
+			<version>${applicationVersion}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.horstmann.violet</groupId>
+			<artifactId>violetplugin-usecasediagram</artifactId>
+			<version>${applicationVersion}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.horstmann.violet</groupId>
+			<artifactId>violetplugin-activitydiagram</artifactId>
+			<version>${applicationVersion}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.horstmann.violet</groupId>
+			<artifactId>violetplugin-objectdiagram</artifactId>
+			<version>${applicationVersion}</version>
+		</dependency>
+	</dependencies>
 	<build>
 		<finalName>violetumleditor-${project.version}</finalName>
 		<resources>
@@ -57,8 +63,36 @@
 					<include>**/*</include>
 				</includes>
 			</resource>
-		</resources>	
+		</resources>
 		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<dependencies>
+					<dependency>
+						<groupId>org.springframework</groupId>
+						<artifactId>springloaded</artifactId>
+						<version>1.2.0.RELEASE</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<jvmArguments>
+						-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8008
+					</jvmArguments>
+					<mainClass>com.horstmann.violet.UMLEditorApplication</mainClass>
+					<folders>
+						<folder>${project.parent.build.directory}../../violet-framework/target/classes</folder>
+						<folder>${project.parent.build.directory}../../violetplugin-classdiagram/target/classes</folder>
+						<folder>${project.parent.build.directory}../../violetplugin-communicationdiagram/target/classes</folder>
+						<folder>${project.parent.build.directory}../../violetplugin-sequencediagram/target/classes</folder>
+						<folder>${project.parent.build.directory}../../violetplugin-statediagram/target/classes</folder>
+						<folder>${project.parent.build.directory}../../violetplugin-usecasediagram/target/classes</folder>
+						<folder>${project.parent.build.directory}../../violetplugin-activitydiagram/target/classes</folder>
+						<folder>${project.parent.build.directory}../../violetplugin-objectdiagram/target/classes</folder>
+					</folders>
+					<excludeArtifactIds>violet-framework,violetplugin-classdiagram,violetplugin-communicationdiagram,violetplugin-sequencediagram,violetplugin-statediagram,violetplugin-usecasediagram,violetplugin-activitydiagram,violetplugin-objectdiagram</excludeArtifactIds>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>

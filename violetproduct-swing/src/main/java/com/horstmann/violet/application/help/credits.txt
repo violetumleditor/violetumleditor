@@ -2,22 +2,8 @@
 
 
 
-By Cay S. Horstmann (http://www.horstmann.com)
-and Alexandre de Pellegrin (http://alexdp.free.fr)
-
-
-
-
-
-
-
-
-
-
-
-
-
-This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions.
+By Cay S. Horstmann (http://www.horstmann.com),
+Alexandre de Pellegrin (http://alexdp.free.fr),
 
 
 
@@ -35,7 +21,7 @@ Avi Bercovich
 Andrew Brandt
 Lars Arne Brekken
 Chandler Burgess
-Jørgen Cederberg
+Jorgen Cederberg
 Robert Colburn
 Piyush Devnani
 Jeremy Driver
@@ -46,7 +32,7 @@ Igor Garcia
 Mark George
 Mike Godfrey
 Daniel Guerrero
-Stefan Gründel
+Stefan Gr�ndel
 Wee Jin Goh
 Laurent Hayoun
 Graham King
@@ -58,14 +44,14 @@ Matijs Moest
 Tri Nguyen
 Evelyn Obaid
 Norbert Oertel
-Johannes Päivinen
+Johannes P�ivinen
 Bill Pine
 Bruce Raggett
 Zack Rubinstein
 Grant Talarico
 Jordan Thompson
 Simon Tokumine
-Jesper Trägårdh
+Jesper Tr�gardh
 Trygve Utstumo
 Glenn Vanmarcke
 Sam Watkins
@@ -76,6 +62,17 @@ Marc Godin
 Victor Freches
 Alexandre Debril
 Martin Schleyer
+Adrian Bobrowski
+Artur Ratajczak
+Dawid Pohling
+Piotr Fedi�w
+Micha� Le�niak
+Piotr Janik
+Bartosz Boguniewicz
+Wojtek Pazio
+Maciej Knicha�
+Pawe� Majka
+Jacek Pi�tek
 [Your name must be here] <- contribute!
 
 
@@ -90,6 +87,20 @@ Martin Schleyer
 
 
 Special thanks from Alexandre de Pellegrin : to my wife for her patience and her encouragements.
+
+
+
+
+
+
+
+
+
+
+
+
+
+This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions.
 
 
 
@@ -119,7 +130,5 @@ If you like this software, don't hesitate to talk about it around you. Any sugge
 
 By Cay S. Horstmann (http://www.horstmann.com)
 and Alexandre de Pellegrin (http://alexdp.free.fr)
-
-
 
 

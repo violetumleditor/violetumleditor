@@ -55,7 +55,7 @@ import com.horstmann.violet.framework.injection.resources.annotation.ResourceBun
 import com.horstmann.violet.framework.util.VersionChecker;
 
 /**
- * The About dialog box of ganttproject
+ * The About dialog box
  */
 public class AboutDialog extends JDialog
 {

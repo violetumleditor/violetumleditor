@@ -143,6 +143,21 @@ public class FileNamingService
         return filters;
     }
 
+    /**
+     * @return the extension filter for pdf export
+     */
+    public ExtensionFilter getPdfExtensionFilter()
+    {
+        ExtensionFilter filter = new ExtensionFilter(this.pdfFileTypeFilterName, this.pdfFileTypeExtension);
+        return filter;
+    }
+
+
+    @ResourceBundleBean(key="files.pdf.name")
+    private String pdfFileTypeFilterName;
+
+    @ResourceBundleBean(key="files.pdf.extension")
+    private String pdfFileTypeExtension;
 
     @ResourceBundleBean(key="files.image.type1.name")
     private String imageFileType1FilterName;
