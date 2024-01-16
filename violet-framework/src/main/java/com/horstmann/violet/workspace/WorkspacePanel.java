@@ -1,6 +1,7 @@
 package com.horstmann.violet.workspace;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.LayoutManager;
@@ -18,6 +19,7 @@ import javax.swing.RepaintManager;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
 import com.horstmann.violet.framework.swingextension.TinyScrollBarUI;

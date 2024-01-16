@@ -1,6 +1,7 @@
 package com.horstmann.violet.workspace.sidebar;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -12,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JRootPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.plaf.PanelUI;
 
@@ -50,6 +52,7 @@ public class SideBarUI extends PanelUI
         }
         c.add(taskPane, BorderLayout.NORTH);
         c.setBorder(new MatteBorder(0, 0, 0, 0, ThemeManager.getInstance().getTheme().getSidebarBorderColor()));
+        c.setBackground(this.sideBar.getColorChoiceBar().getAWTComponent().getBackground());
         this.sideBar.doLayout();
         JRootPane rootPane = SwingUtilities.getRootPane(this.sideBar);
         if (rootPane != null) {

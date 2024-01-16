@@ -34,6 +34,11 @@
 			<version>1.1.1</version>
 		</dependency>
 		<dependency>
+			<groupId>com.formdev</groupId>
+			<artifactId>flatlaf</artifactId>
+			<version>3.3</version>
+		</dependency>
+		<dependency>
 			<groupId>com.l2fprod.common</groupId>
 			<artifactId>l2fprod-common-tasks</artifactId>
 			<version>7.3</version>
@@ -62,7 +67,7 @@
 			<groupId>org.freehep</groupId>
 			<artifactId>freehep-graphicsio-pdf</artifactId>
 			<version>2.4</version>
-		</dependency>		
+		</dependency>
 	</dependencies>
 	<build>
 		<resources>
