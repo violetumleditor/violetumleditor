@@ -30,7 +30,6 @@ import java.awt.image.FilteredImageSource;
 import java.awt.image.ImageFilter;
 import java.awt.image.ImageProducer;
 import java.awt.image.RGBImageFilter;
-import java.awt.image.ReplicateScaleFilter;
 
 import javax.swing.AbstractButton;
 import javax.swing.ButtonModel;
@@ -41,6 +40,8 @@ import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.IconUIResource;
 import javax.swing.plaf.basic.BasicButtonUI;
+
+import com.horstmann.violet.framework.util.SmoothImageIcon;
 
 public class IconButtonUI extends BasicButtonUI
 {
@@ -144,7 +145,7 @@ public class IconButtonUI extends BasicButtonUI
      */
     private Icon getIcon(Image img)
     {
-        return new IconUIResource(new ImageIcon(img));
+        return new IconUIResource(new SmoothImageIcon(img));
     }
     
     /**

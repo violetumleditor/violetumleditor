@@ -37,6 +37,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.KeyStroke;
 
+import com.horstmann.violet.framework.util.SmoothImageIcon;
+
 public class ResourceFactory
 {
     public ResourceFactory(ResourceBundle bundle)
@@ -134,7 +136,7 @@ public class ResourceFactory
             String iconPath = bundle.getString(prefix + ".icon");
             if (iconPath != null)
             {
-                ImageIcon icon = new ImageIcon(this.referenceClass.getResource(iconPath));
+                ImageIcon icon = new SmoothImageIcon(this.referenceClass.getResource(iconPath));
                 menuItem.setIcon(icon);
             }
         }
@@ -192,7 +194,7 @@ public class ResourceFactory
             String iconPath = bundle.getString(prefix + ".icon");
             if (iconPath != null)
             {
-                ImageIcon icon = new ImageIcon(this.referenceClass.getResource(iconPath));
+                ImageIcon icon = new SmoothImageIcon(this.referenceClass.getResource(iconPath));
                 menu.setIcon(icon);
             }
         }
@@ -216,7 +218,7 @@ public class ResourceFactory
         }
         try
         {
-            ImageIcon icon = new ImageIcon(this.referenceClass.getResource(this.bundle.getString(prefix + ".icon")));
+            ImageIcon icon = new SmoothImageIcon(this.referenceClass.getResource(this.bundle.getString(prefix + ".icon")));
             button.setIcon(icon);
         }
         catch (MissingResourceException exception)
@@ -291,7 +293,7 @@ public class ResourceFactory
      */
     public ImageIcon createIcon(String resourceName)
     {
-        return new ImageIcon(this.referenceClass.getResource(bundle.getString(resourceName)));
+        return new SmoothImageIcon(this.referenceClass.getResource(bundle.getString(resourceName)));
     }
 
     private ResourceBundle bundle;

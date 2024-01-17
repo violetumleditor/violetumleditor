@@ -9,5 +9,8 @@
 .project
 .settings/
 
+# Visual Studio Code #
+.vscode/
+
 # Maven build files #
 target/
