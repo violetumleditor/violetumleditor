@@ -21,9 +21,11 @@
 
 package com.horstmann.violet.workspace.editorpart;
 
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -75,6 +77,7 @@ public class EditorPart extends JPanel implements IEditorPart
             public void mouseReleased(MouseEvent event)
             {
                 behaviorManager.fireOnMouseReleased(event);
+                changePreferredSize();
             }
 
             public void mouseClicked(MouseEvent event)
@@ -97,6 +100,7 @@ public class EditorPart extends JPanel implements IEditorPart
             public void mouseDragged(MouseEvent event)
             {
                 behaviorManager.fireOnMouseDragged(event);
+                changePreferredSize();
             }
 
             @Override
@@ -109,6 +113,7 @@ public class EditorPart extends JPanel implements IEditorPart
         	@Override
         	public void componentResized(ComponentEvent e) {
         		initializeDrawingArea();
+        		changePreferredSize();
         	}
 		});
         setBounds(0, 0, 0, 0);
@@ -149,19 +154,23 @@ public class EditorPart extends JPanel implements IEditorPart
     }
 
 
-    @Override
-    public Dimension getPreferredSize()
+    private void changePreferredSize()
     {
-        Dimension parentSize = getParent().getSize();
+        Container parent = getParent();
+        if (parent == null) {
+        	return;
+        }
+		Dimension parentSize = parent.getSize();
         Rectangle2D bounds = graph.getClipBounds();
-        int width = Math.max((int) (zoom * bounds.getMaxX()), (int) parentSize.getWidth());
-        int height = Math.max((int) (zoom * bounds.getMaxY()), (int) parentSize.getHeight());
+        int width = (int) (Math.max((int) (bounds.getMaxX()), (int) parentSize.getWidth()) * this.getZoomFactor());
+        int height = (int) (Math.max((int) (bounds.getMaxY()), (int) parentSize.getHeight()) * this.getZoomFactor());
         if (this.lastWidth != width || this.lastHeight != height) {
             this.lastWidth = width;
             this.lastHeight = height;
         }
-        return new Dimension(width, height);
+        setPreferredSize(new Dimension(width, height));
     }
+
 
     /*
      * (non-Javadoc)
@@ -175,6 +184,7 @@ public class EditorPart extends JPanel implements IEditorPart
             zoom *= FACTOR;
         for (int i = 1; i <= -steps; i++)
             zoom /= FACTOR;
+        changePreferredSize();
         invalidate();
         repaint();
     }
@@ -247,6 +257,7 @@ public class EditorPart extends JPanel implements IEditorPart
     }
     
     
+   
     @Override
     protected void paintComponent(Graphics g)
     {

@@ -23,9 +23,10 @@ package com.horstmann.violet.workspace.editorpart;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.Stroke;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -93,20 +94,8 @@ public class PlainGrid implements IGrid
     private Rectangle2D.Double getBounds(Graphics2D g2)
     {
         Component editorPartComponent = editorPart.getSwingComponent();
-        IGraph graph = editorPart.getGraph();
-
-        Rectangle2D bounds = editorPartComponent.getBounds();
-        Rectangle2D graphBounds = graph.getClipBounds();
-        double scaleX = 1;
-        double scaleY = 1;
-        AffineTransform transform = g2.getTransform();
-        if (transform != null) {
-            scaleX = transform.getScaleX();
-            scaleY = transform.getScaleY();
-        }
-        return new Rectangle2D.Double(0, 0, Math.max(bounds.getMaxX() / scaleX, graphBounds.getMaxX()), Math.max(bounds
-                .getMaxY()
-                / scaleY, graphBounds.getMaxY()));
+        Dimension parentSize = editorPartComponent.getSize();
+        return new Rectangle.Double(0, 0, (int) (parentSize.getWidth() / editorPart.getZoomFactor()), (int) (parentSize.getHeight() / editorPart.getZoomFactor()));
     }
 
     @Override
