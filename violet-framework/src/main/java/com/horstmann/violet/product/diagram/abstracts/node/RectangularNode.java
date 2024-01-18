@@ -95,7 +95,7 @@ public abstract class RectangularNode extends AbstractNode
                     Direction d2 = e2.getDirection(RectangularNode.this);
                     double x1 = d1.getX();
                     double x2 = d2.getX();
-                    return Double.compare(x1, x2);
+                    return Double.compare(x2, x1);
                 }
             });
         }
@@ -107,7 +107,7 @@ public abstract class RectangularNode extends AbstractNode
                     Direction d2 = e2.getDirection(RectangularNode.this);
                     double y1 = d1.getY();
                     double y2 = d2.getY();
-                    return Double.compare(y1, y2);
+                    return Double.compare(y2, y1);
                 }
             });
         }
