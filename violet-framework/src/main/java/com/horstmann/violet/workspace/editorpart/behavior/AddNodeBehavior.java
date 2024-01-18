@@ -28,15 +28,28 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior implements IGrap
         this.behaviorManager = editorPart.getBehaviorManager();
         this.graphToolsBar = graphToolsBar;
         
-        this.dragging = false;
-        this.draggedNode = null;
+        this.isDraggingFromTools = false;
+        this.isDraggingFromGraph = false;
+        this.draggedNodeFromTools = null;
         graphToolsBar.addMouseListener(this);
     }
     
     @Override
+    public void onMouseDragged(MouseEvent event) {
+    	this.isDraggingFromGraph = true;
+    }
+    
+    
+    @Override
     public void onMouseReleased(MouseEvent event)
     {
-    	this.draggedNode = null;
+    	if (this.isDraggingFromGraph)
+    	{
+    		this.isDraggingFromGraph = false;
+    		return;
+    	}
+    	
+    	this.draggedNodeFromTools = null;
     	
         if (event.getClickCount() > 1)
         {
@@ -54,6 +67,7 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior implements IGrap
         {
             return;
         }
+        
         double zoom = editorPart.getZoomFactor();
         final Point2D mousePoint = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
         IGridSticker gridSticker = graph.getGridSticker();
@@ -109,10 +123,10 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior implements IGrap
 		Object obj = selectedTool.getNodeOrEdge();
 		if (obj instanceof INode)
 		{
-			this.dragging = true;
+			this.isDraggingFromTools = true;
 	        INode prototype = (INode) selectedTool.getNodeOrEdge();
-	        this.draggedNode = (INode) prototype.clone();
-	        this.draggedNode.setId(new Id());
+	        this.draggedNodeFromTools = (INode) prototype.clone();
+	        this.draggedNodeFromTools.setId(new Id());
 	        
 	        
 			double zoom = editorPart.getZoomFactor();
@@ -120,10 +134,10 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior implements IGrap
 	        IGridSticker gridSticker = graph.getGridSticker();
 	        Point2D newNodeLocation = gridSticker.snap(initialLocation);
 			
-	        boolean added = addNodeAtPoint(this.draggedNode, newNodeLocation);
+	        boolean added = addNodeAtPoint(this.draggedNodeFromTools, newNodeLocation);
 	        if (added)
 	        {
-	            selectionHandler.setSelectedElement(this.draggedNode);
+	            selectionHandler.setSelectedElement(this.draggedNodeFromTools);
 	            editorPart.getSwingComponent().invalidate();
 	        }
 		}
@@ -132,7 +146,7 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior implements IGrap
 	@Override
 	public void onMouseToolDragged(MouseEvent event)
 	{
-		if (this.dragging) {
+		if (this.isDraggingFromTools) {
 			MouseEvent outEvent = SwingUtilities.convertMouseEvent((Component)event.getSource(), event, editorPart.getSwingComponent());
 			
 			moveDraggedNode(outEvent);
@@ -142,12 +156,12 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior implements IGrap
 	@Override
 	public void onMouseToolReleased(MouseEvent event)
 	{
-		this.dragging = false;
-		if (this.draggedNode != null) {
+		this.isDraggingFromTools = false;
+		if (this.draggedNodeFromTools != null) {
 			MouseEvent outEvent = SwingUtilities.convertMouseEvent((Component)event.getSource(), event, editorPart.getSwingComponent());
             
 			if (outEvent.getX() < 0 || outEvent.getY() < 0) {
-				this.graph.removeNode(this.draggedNode);
+				this.graph.removeNode(this.draggedNodeFromTools);
 				editorPart.getSwingComponent().invalidate();
 				editorPart.getSwingComponent().repaint();
 			} else {
@@ -155,7 +169,7 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior implements IGrap
 				graphToolsBar.reset();
 			}
 			
-	        this.draggedNode = null;
+	        this.draggedNodeFromTools = null;
 		}
 	}
 	
@@ -165,9 +179,9 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior implements IGrap
         IGridSticker gridSticker = graph.getGridSticker();
         Point2D newNodeLocation = gridSticker.snap(mousePoint);
 		
-        draggedNode.setLocation(newNodeLocation);
+        draggedNodeFromTools.setLocation(newNodeLocation);
         
-        selectionHandler.setSelectedElement(this.draggedNode);
+        selectionHandler.setSelectedElement(this.draggedNodeFromTools);
         editorPart.getSwingComponent().invalidate();
         editorPart.getSwingComponent().repaint();
 	}
@@ -182,7 +196,9 @@ public class AddNodeBehavior extends AbstractEditorPartBehavior implements IGrap
 
     private IGraphToolsBar graphToolsBar;
 
-    private boolean dragging;
+    private boolean isDraggingFromTools;
     
-    private INode draggedNode;
+    private boolean isDraggingFromGraph;
+    
+    private INode draggedNodeFromTools;
 }
