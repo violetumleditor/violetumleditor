@@ -28,6 +28,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.product.diagram.abstracts.node.EllipticalNode;
+import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 
 /**
  * An initial or final node (bull's eye) in a state or activity diagram.
@@ -35,6 +36,12 @@ import com.horstmann.violet.product.diagram.abstracts.node.EllipticalNode;
 public class CircularInitialStateNode extends EllipticalNode
 {
 
+	public CircularInitialStateNode() {
+		super();
+		setBorderColor(DEFAULT_BORDER_COLOR);
+	}
+	
+	
     @Override
     public Rectangle2D getBounds()
     {
@@ -77,5 +84,8 @@ public class CircularInitialStateNode extends EllipticalNode
 
     /** default node diameter */
     private static int DEFAULT_DIAMETER = 20;
+    
+    /** Default color */
+    private static Color DEFAULT_BORDER_COLOR = ColorToolsBarPanel.PASTEL_GREY.getBorderColor();
 
 }
