@@ -74,6 +74,7 @@ public class XStreamBasedPersistenceService implements IFilePersistenceService {
         xStream.registerConverter(new Point2DConverter());
         xStream.registerConverter(new Rectangle2DConverter());
         xStream.registerConverter(new RoundRectangle2DConverter());
+        xStream.ignoreUnknownElements();
 		xStream.addImmutableType(ArrowHead.class);
         xStream.addImmutableType(LineStyle.class);
         xStream.addImmutableType(BentStyle.class);

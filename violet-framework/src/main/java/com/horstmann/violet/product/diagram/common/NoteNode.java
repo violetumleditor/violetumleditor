@@ -30,9 +30,9 @@ import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.framework.theme.ThemeManager;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.abstracts.node.IResizableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
+import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 
 /**
  * A note node in a UML diagram.
@@ -43,7 +43,7 @@ import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
  * INode n = getGraph().findNode(endPoint); if (n != end) end.setZ(n.getZ() + 1); } }
  * 
  */
-public class NoteNode extends RectangularNode implements IResizableNode
+public class NoteNode extends RectangularNode
 {
     /**
      * Construct a note node with a default size and color
@@ -52,7 +52,8 @@ public class NoteNode extends RectangularNode implements IResizableNode
     {
         text = new MultiLineString();
         text.setJustification(MultiLineString.LEFT);
-        color = DEFAULT_COLOR;
+        setBackgroundColor(DEFAULT_BACKGROUND_COLOR);
+        setBorderColor(DEFAULT_BORDER_COLOR);
     }
 
     @Override
@@ -106,25 +107,6 @@ public class NoteNode extends RectangularNode implements IResizableNode
         text = newValue;
     }
 
-    /**
-     * Gets the value of the color property.
-     * 
-     * @return the background color of the note
-     */
-    public Color getColor()
-    {
-        return color;
-    }
-
-    /**
-     * Sets the value of the color property.
-     * 
-     * @param newValue the background color of the note
-     */
-    public void setColor(Color newValue)
-    {
-        color = newValue;
-    }
 
     @Override
     public void draw(Graphics2D g2)
@@ -133,7 +115,7 @@ public class NoteNode extends RectangularNode implements IResizableNode
         Color oldColor = g2.getColor();
 
         // Perform drawing
-        g2.setColor(color);
+        g2.setColor(getBackgroundColor());
         Shape path = getShape();
         g2.fill(path);
         g2.setColor(getBorderColor());
@@ -180,11 +162,11 @@ public class NoteNode extends RectangularNode implements IResizableNode
     }
 
     private MultiLineString text;
-    private Color color;
 
     private static int DEFAULT_WIDTH = 60;
     private static int DEFAULT_HEIGHT = 40;
-    private static Color DEFAULT_COLOR = new Color(255, 228, 181); // very pale pink
+    private static Color DEFAULT_BACKGROUND_COLOR = ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getBackgroundColor();
+    private static Color DEFAULT_BORDER_COLOR = ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getBorderColor();
     private static int FOLD_X = 8;
     private static int FOLD_Y = 8;
     private static int INFINITE_Z_LEVEL = 10000;

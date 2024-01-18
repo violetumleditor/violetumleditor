@@ -35,7 +35,7 @@ import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
 /**
  * An activity node in an activity diagram.
  */
-public class ActivityNode extends RectangularNode implements IResizableNode
+public class ActivityNode extends RectangularNode
 {
     /**
      * Construct an action node with a default size
