@@ -62,22 +62,4 @@
 		</pluginManagement>
 	</build>
 
-
-	<distributionManagement>
-		<repository>
-			<id>web.sourceforge.net</id>
-			<name>Violet's Maven Repository</name>
-			<url>
-                sftp://web.sourceforge.net/home/groups/v/vi/violet/htdocs/maven2/repo
-            </url>
-		</repository>
-	</distributionManagement>
-	<repositories>
-		<repository>
-			<id>violet.repo</id>
-			<name>Violet's Maven repository (public access)</name>
-			<url>https://violet.sourceforge.net/maven2/repo/
-            </url>
-		</repository>
-	</repositories>
 </project>
