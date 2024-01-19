@@ -63,6 +63,14 @@
 	</build>
 
 
+	<distributionManagement>
+		<repository>
+		<id>github</id>
+		<name>GitHub Packages</name>
+		<url>https://maven.pkg.github.com/violetumleditor/violetumleditor</url>
+		</repository>
+	</distributionManagement>
+
 	<repositories>
 		<repository>
 			<id>violet.repo</id>
