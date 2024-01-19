@@ -6,7 +6,7 @@ name: Maven Package
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build:
@@ -33,3 +33,5 @@ jobs:
       run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
       env:
         GITHUB_TOKEN: ${{ github.token }}
+
+
