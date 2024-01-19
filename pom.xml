@@ -24,7 +24,7 @@
 		<!--module>violetproduct-web</module-->
 	</modules>
 	<properties>
-		<applicationVersion>2.1.0</applicationVersion>
+		<applicationVersion>3.0.0</applicationVersion>
 	</properties>
 	<build>
 		<resources>
