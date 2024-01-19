@@ -62,4 +62,13 @@
 		</pluginManagement>
 	</build>
 
+
+	<repositories>
+		<repository>
+			<id>violet.repo</id>
+			<name>Violet's Maven repository (public access)</name>
+			<url>https://violet.sourceforge.net/maven2/repo/
+            </url>
+		</repository>
+	</repositories>
 </project>
