@@ -3,6 +3,11 @@
 
 name: Maven Package
 
+env:
+  # Setting environment variables with values of configuration variables
+  SOURCEFORCE_USERNAME: ${{ vars.SOURCEFORGE_USERNAME }}
+  SOURCEFORCE_PASSWORD: ${{ vars.SOURCEFORGE_PASSWORD }}
+
 on:
   push:
     branches:
