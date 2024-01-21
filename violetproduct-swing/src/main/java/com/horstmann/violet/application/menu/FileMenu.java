@@ -71,7 +71,6 @@ import com.horstmann.violet.framework.userpreferences.UserPreferencesService;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
-import com.thoughtworks.xstream.io.StreamException;
 
 /**
  * Represents the file menu on the editor frame
@@ -479,10 +478,6 @@ public class FileMenu extends JMenu
                     mainFrame.addWorkspace(workspace);
                     userPreferencesService.addOpenedFile(graphFile);
                     userPreferencesService.addRecentFile(graphFile);
-                }
-                catch (StreamException se)
-                {
-                    dialogFactory.showErrorDialog(dialogOpenFileIncompatibilityMessage);
                 }
                 catch (Exception e)
                 {
