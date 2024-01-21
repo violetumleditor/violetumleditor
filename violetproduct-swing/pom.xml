@@ -137,7 +137,7 @@
 						<goals>
 							<goal>run</goal>
 						</goals>
-						<phase>deploy</phase>
+						<phase>package</phase>
 						<configuration>
 							<serverId>sourceforge</serverId>
 							<skip>false</skip>
