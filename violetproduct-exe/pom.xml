@@ -75,6 +75,42 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-- DEPLOY ON SOURCEFORGE (start) -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<phase>package</phase>
+						<configuration>
+							<serverId>sourceforge</serverId>
+							<skip>false</skip>
+							<target>
+								<property environment="env" />
+								<echo message="Push to Sourceforge" />
+								<copy file="target/${project.build.finalName}.exe"
+									todir="target/${project.version}" />
+								<scp password="${env.SOURCEFORGE_PASSWORD}" trust="yes"
+									todir="${env.SOURCEFORGE_USERNAME}@frs.sourceforge.net:/home/frs/project/violet/violetumleditor">
+									<fileset dir="target">
+										<include name="${project.version}/*.exe" />
+									</fileset>
+								</scp>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.ant</groupId>
+						<artifactId>ant-jsch</artifactId>
+						<version>1.10.12</version>
+					</dependency>
+				</dependencies>
+			</plugin>			
 		</plugins>
 	</build>
 </project>
