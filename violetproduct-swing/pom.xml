@@ -132,23 +132,24 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
+				<version>3.1.0</version>
 				<executions>
 					<execution>
+						<phase>deploy</phase>
 						<goals>
 							<goal>run</goal>
 						</goals>
-						<phase>install</phase>
 						<configuration>
 							<serverId>sourceforge</serverId>
 							<skip>false</skip>
 							<target>
 								<property environment="env" />
 								<echo message="Push to Sourceforge" />
-								<copy file="violetproduct-swing/target/${project.build.finalName}.jar"
-									todir="violetproduct-swing/target/${project.version}" />
+								<copy file="target/${project.build.finalName}.jar"
+									todir="target/${project.version}" />
 								<scp password="${env.SOURCEFORGE_PASSWORD}" trust="yes"
 									todir="${env.SOURCEFORGE_USERNAME}@frs.sourceforge.net:/home/frs/project/violet/violetumleditor">
-									<fileset dir="violetproduct-swing/target">
+									<fileset dir="target">
 										<include name="${project.version}/*.jar" />
 									</fileset>
 								</scp>
