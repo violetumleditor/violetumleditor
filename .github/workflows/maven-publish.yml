@@ -4,7 +4,7 @@
 name: Maven Package
 
 env:
-  # Setting environment variables with values of configuration variables
+  # Setting environment variables with values of secrets (organisation wide)
   SOURCEFORGE_USERNAME: ${{ secrets.SOURCEFORGE_USERNAME }}
   SOURCEFORGE_PASSWORD: ${{ secrets.SOURCEFORGE_PASSWORD }}
 
