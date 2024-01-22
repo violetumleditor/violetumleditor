@@ -144,11 +144,11 @@
 							<target>
 								<property environment="env" />
 								<echo message="Push to Sourceforge" />
-								<copy file="target/${project.build.finalName}.jar"
-									todir="target/${project.version}" />
+								<copy file="violetproduct-swing/target/${project.build.finalName}.jar"
+									todir="violetproduct-swing/target/${project.version}" />
 								<scp password="${env.SOURCEFORGE_PASSWORD}" trust="yes"
 									todir="${env.SOURCEFORGE_USERNAME}@frs.sourceforge.net:/home/frs/project/violet/violetumleditor">
-									<fileset dir="target">
+									<fileset dir="violetproduct-swing/target">
 										<include name="${project.version}/*.jar" />
 									</fileset>
 								</scp>
