@@ -19,7 +19,7 @@
 				<executions>
 					<execution>
 						<id>copy</id>
-						<phase>prepare-package</phase>
+						<phase>package</phase>
 						<goals>
 							<goal>copy</goal>
 						</goals>
@@ -45,14 +45,14 @@
 				<executions>
 					<execution>
 						<id>l4j-clui</id>
-						<phase>package</phase>
+						<phase>deploy</phase>
 						<goals>
 							<goal>launch4j</goal>
 						</goals>
 						<configuration>
 							<headerType>gui</headerType>
-							<jar>target/${project.build.finalName}.jar</jar>
-							<outfile>target/${project.build.finalName}.exe</outfile>
+							<jar>${project.build.directory}/dependency/violetumleditor-${project.version}.jar</jar>
+							<outfile>${project.build.directory}/violetumleditor-${project.version}.exe</outfile>
 							<downloadUrl>https://learn.microsoft.com/java/openjdk/download</downloadUrl>
 							<icon>src/main/resources/icon/violet.ico</icon>
 							<jre>
@@ -69,7 +69,7 @@
 								<productName>Violet UML Editor</productName>
 								<companyName>Cay S. Horstman and Alexandre de Pellegrin</companyName>
 								<internalName>Violet UML Editor</internalName>
-								<originalFilename>${project.build.finalName}.exe</originalFilename>
+								<originalFilename>violetumleditor-${project.version}.exe</originalFilename>
 							</versionInfo>
 						</configuration>
 					</execution>
