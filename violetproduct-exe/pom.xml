@@ -41,7 +41,7 @@
 			<plugin>
 				<groupId>com.akathist.maven.plugins.launch4j</groupId>
 				<artifactId>launch4j-maven-plugin</artifactId>
-				<version>1.5.2</version>
+				<version>2.5.0</version>
 				<executions>
 					<execution>
 						<id>l4j-clui</id>
@@ -53,10 +53,10 @@
 							<headerType>gui</headerType>
 							<jar>${project.build.directory}/dependency/violetumleditor-${project.version}.jar</jar>
 							<outfile>${project.build.directory}/violetumleditor-${project.version}.exe</outfile>
-							<downloadUrl>http://java.com/download</downloadUrl>
+							<downloadUrl>https://learn.microsoft.com/java/openjdk/download</downloadUrl>
 							<icon>src/main/resources/icon/violet.ico</icon>
 							<jre>
-								<minVersion>1.6.0</minVersion>
+								<minVersion>17</minVersion>
 								<jdkPreference>preferJre</jdkPreference>
 							</jre>
 							<versionInfo>
