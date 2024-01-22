@@ -19,7 +19,7 @@
 				<executions>
 					<execution>
 						<id>copy</id>
-						<phase>package</phase>
+						<phase>prepare-package</phase>
 						<goals>
 							<goal>copy</goal>
 						</goals>
@@ -45,7 +45,7 @@
 				<executions>
 					<execution>
 						<id>l4j-clui</id>
-						<phase>deploy</phase>
+						<phase>package</phase>
 						<goals>
 							<goal>launch4j</goal>
 						</goals>
@@ -84,14 +84,14 @@
 						<goals>
 							<goal>run</goal>
 						</goals>
-						<phase>package</phase>
+						<phase>deploy</phase>
 						<configuration>
 							<serverId>sourceforge</serverId>
 							<skip>false</skip>
 							<target>
 								<property environment="env" />
 								<echo message="Push to Sourceforge" />
-								<copy file="target/${project.build.finalName}.exe"
+								<copy file="${project.build.directory}/violetumleditor-${project.version}.exe"
 									todir="target/${project.version}" />
 								<scp password="${env.SOURCEFORGE_PASSWORD}" trust="yes"
 									todir="${env.SOURCEFORGE_USERNAME}@frs.sourceforge.net:/home/frs/project/violet/violetumleditor">
