@@ -144,12 +144,12 @@
 							<target>
 								<property environment="env" />
 								<echo message="Push to Sourceforge" />
-								<copy file="target/${project.build.finalName}.war"
+								<copy file="target/${project.build.finalName}.jar"
 									todir="target/${project.version}" />
 								<scp password="${env.SOURCEFORGE_PASSWORD}" trust="yes"
-									todir="${env.SOURCEFORGE_USERNAME}@frs.sourceforge.net:/home/frs/project/violet">
+									todir="${env.SOURCEFORGE_USERNAME}@frs.sourceforge.net:/home/frs/project/violet/violetumleditor">
 									<fileset dir="target">
-										<include name="${project.version}/*.war" />
+										<include name="${project.version}/*.jar" />
 									</fileset>
 								</scp>
 							</target>
