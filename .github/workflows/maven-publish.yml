@@ -5,8 +5,8 @@ name: Maven Package
 
 env:
   # Setting environment variables with values of configuration variables
-  SOURCEFORCE_USERNAME: ${{ vars.SOURCEFORGE_USERNAME }}
-  SOURCEFORCE_PASSWORD: ${{ vars.SOURCEFORGE_PASSWORD }}
+  SOURCEFORGE_USERNAME: ${{ vars.SOURCEFORGE_USERNAME }}
+  SOURCEFORGE_PASSWORD: ${{ vars.SOURCEFORGE_PASSWORD }}
 
 on:
   push:
@@ -32,7 +32,7 @@ jobs:
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
     - name: Build with Maven
-      run: mvn -B install --file pom.xml
+      run: mvn -B package --file pom.xml
 
     - name: Publish to GitHub Packages Apache Maven
       run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
