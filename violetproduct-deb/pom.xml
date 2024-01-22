@@ -41,7 +41,7 @@
 			<plugin>
 				<artifactId>jdeb</artifactId>
 				<groupId>org.vafer</groupId>
-				<version>1.0</version>
+				<version>1.11</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -49,7 +49,7 @@
 							<goal>jdeb</goal>
 						</goals>
 						<configuration>
-							<deb>${project.build.directory}/violetumleditor-${version}.deb</deb>
+							<deb>${project.build.directory}/violetumleditor-${project.version}.deb</deb>
 							<controlDir>${basedir}/src/main/resources/control</controlDir>
 							<dataSet>
 								<data>
@@ -77,6 +77,43 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-- DEPLOY ON SOURCEFORGE (start) -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<phase>deploy</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<serverId>sourceforge</serverId>
+							<skip>false</skip>
+							<target>
+								<property environment="env" />
+								<echo message="Push to Sourceforge" />
+								<copy file="${project.build.directory}/violetumleditor-${project.version}.deb"
+									todir="target/${project.version}" />
+								<scp password="${env.SOURCEFORGE_PASSWORD}" trust="yes"
+									todir="${env.SOURCEFORGE_USERNAME}@frs.sourceforge.net:/home/frs/project/violet/violetumleditor">
+									<fileset dir="target">
+										<include name="${project.version}/*.deb" />
+									</fileset>
+								</scp>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.ant</groupId>
+						<artifactId>ant-jsch</artifactId>
+						<version>1.10.12</version>
+					</dependency>
+				</dependencies>
+			</plugin>						
 		</plugins>
 	</build>
 </project>
