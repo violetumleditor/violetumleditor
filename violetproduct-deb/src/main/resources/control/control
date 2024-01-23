@@ -3,7 +3,7 @@ Version: [[version]]
 Section: misc
 Priority: optional
 Architecture: all
-Depends: default-jre | java6-runtime
+Depends: default-jre | openjdk-17-jre
 Maintainer: Alexandre de Pellegrin / Cay S. Horstmann
 Distribution: production
 Description: Violet UML Editor
