@@ -57,22 +57,22 @@ public class DecisionNode extends RectangularNode
         Direction d = e.getDirection(this);
 
         Direction nearestCardinalDirection = d.getNearestCardinalDirection();
-        if (Direction.NORTH.equals(nearestCardinalDirection))
+        if (Direction.SOUTH.equals(nearestCardinalDirection))
         {
             x = b.getMaxX() - (b.getWidth() / 2);
             y = b.getMaxY();
         }
-        if (Direction.SOUTH.equals(nearestCardinalDirection))
+        if (Direction.NORTH.equals(nearestCardinalDirection))
         {
             x = b.getMaxX() - (b.getWidth() / 2);
             y = b.getMinY();
         }
-        if (Direction.EAST.equals(nearestCardinalDirection))
+        if (Direction.WEST.equals(nearestCardinalDirection))
         {
             x = b.getMinX();
             y = b.getMaxY() - (b.getHeight() / 2);
         }
-        if (Direction.WEST.equals(nearestCardinalDirection))
+        if (Direction.EAST.equals(nearestCardinalDirection))
         {
             x = b.getMaxX();
             y = b.getMaxY() - (b.getHeight() / 2);

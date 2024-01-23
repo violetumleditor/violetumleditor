@@ -21,6 +21,7 @@
 
 package com.horstmann.violet.product.diagram.activity;
 
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -47,32 +48,6 @@ public class ActivityTransitionEdge extends SegmentedLineEdge
     @Override
     public Direction getDirection(INode node)
     {
-        BentStyle bStyle = getBentStyle();
-        Direction straightDirection = super.getDirection(node);
-        double x = straightDirection.getX();
-        double y = straightDirection.getY();
-        if (node.equals(getStart()))
-        {
-            if (BentStyle.HV.equals(bStyle) || BentStyle.HVH.equals(bStyle))
-            {
-                return (x >= 0) ? Direction.EAST : Direction.WEST;
-            }
-            if (BentStyle.VH.equals(bStyle) || BentStyle.VHV.equals(bStyle))
-            {
-                return (y >= 0) ? Direction.SOUTH : Direction.NORTH;
-            }
-        }
-        if (node.equals(getEnd()))
-        {
-            if (BentStyle.HV.equals(bStyle) || BentStyle.VHV.equals(bStyle))
-            {
-                return (y >= 0) ? Direction.SOUTH : Direction.NORTH;
-            }
-            if (BentStyle.VH.equals(bStyle) || BentStyle.HVH.equals(bStyle))
-            {
-                return (x >= 0) ? Direction.EAST : Direction.WEST;
-            }
-        }
         if (SynchronizationBarNode.class.isInstance(getStart()) || SynchronizationBarNode.class.isInstance(getEnd())) {
         	if (node.equals(getStart())) {
         		Point2D p1 = node.getLocationOnGraph();
@@ -95,8 +70,43 @@ public class ActivityTransitionEdge extends SegmentedLineEdge
         		}
         	}
         }
-        return straightDirection;
+        return super.getDirection(node);
     }
+    
+    
+    @Override
+    public Line2D getConnectionPoints()
+    {
+    
+    	INode start = getStart();
+    	INode end = getEnd();
+		if (SynchronizationBarNode.class.isInstance(start) || SynchronizationBarNode.class.isInstance(end)) {
+			Point2D startLocationOnGraph = start.getLocationOnGraph();
+			Point2D endLocationOnGraph = end.getLocationOnGraph();
+			
+			Point2D relativeStarting = start.getConnectionPoint(this);
+			Point2D relativeEnding = end.getConnectionPoint(this);
+			
+			Point2D p1 = new Point2D.Double(
+					startLocationOnGraph.getX() - start.getLocation().getX() + relativeStarting.getX(),
+					startLocationOnGraph.getY() - relativeStarting.getY() + start.getBounds().getHeight() + start.getLocation().getY()
+					);
+
+			Point2D p2 = new Point2D.Double(
+					endLocationOnGraph.getX() - end.getLocation().getX() + relativeEnding.getX(),
+					endLocationOnGraph.getY() - relativeEnding.getY() + end.getBounds().getHeight() + end.getLocation().getY()
+					);
+			
+			return new Line2D.Double(
+					p1,
+					p2
+					);
+    		
+    		
+    	}
+    	return super.getConnectionPoints();
+    	
+       }
 
 
 }

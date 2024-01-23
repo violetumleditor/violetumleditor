@@ -47,7 +47,7 @@ public class SynchronizationBarNode extends RectangularNode
     @Override
     public Point2D getConnectionPoint(IEdge e)
     {
-        Point2D defaultConnectionPoint = super.getConnectionPoint(e);
+    	Point2D defaultConnectionPoint = super.getConnectionPoint(e);
         if (!ActivityTransitionEdge.class.isInstance(e))
         {
             return defaultConnectionPoint;
@@ -64,7 +64,7 @@ public class SynchronizationBarNode extends RectangularNode
         }
         if (this == end)
         {
-            Point2D startConnectionPoint = start.getConnectionPoint(e);
+        	Point2D startConnectionPoint = start.getConnectionPoint(e);
             double y = defaultConnectionPoint.getY();
             double x = startConnectionPoint.getX();
             return new Point2D.Double(x, y);
@@ -76,44 +76,47 @@ public class SynchronizationBarNode extends RectangularNode
     @Override
     public Rectangle2D getBounds()
     {
-        Rectangle2D b = getDefaultBounds();
+        double w = DEFAULT_WIDTH;
+        Point2D location = getLocation();
+        double x = location.getX();
+        double y = location.getY();
         List<INode> connectedNodes = getConnectedNodes();
         if (connectedNodes.size() > 0)
         {
-            double minX = Double.MAX_VALUE;
+        	double minX = Double.MAX_VALUE;
             double maxX = Double.MIN_VALUE;
             for (INode n : connectedNodes)
             {
                 Rectangle2D b2 = n.getBounds();
-                minX = Math.min(minX, b2.getMinX());
-                maxX = Math.max(maxX, b2.getMaxX());
+                minX = Math.min(minX, b2.getX());
+                maxX = Math.max(maxX, b2.getX() + b2.getWidth());
+            }
+            w = maxX - minX;
+        }
+        return new Rectangle2D.Double(x, y, EXTRA_WIDTH + w + EXTRA_WIDTH, DEFAULT_HEIGHT);
+    }
+    
+
+    @Override
+    public Point2D getLocation() {
+    	Point2D defaultLocation = super.getLocation();
+    	double x = defaultLocation.getX();
+    	double y = defaultLocation.getY();
+    	List<INode> connectedNodes = getConnectedNodes();
+        if (connectedNodes.size() > 0)
+        {
+            double minX = Double.MAX_VALUE;
+            for (INode n : connectedNodes)
+            {
+                Point2D p = n.getLocation();
+                minX = Math.min(minX, p.getX());
             }
 
-            minX -= EXTRA_WIDTH;
-            maxX += EXTRA_WIDTH;
-            // calling translate() hare is a hack but this node (at the opposite of other nodes)
-            // can have its location changed when it is connected to other nodes.
-            // Other nodes are usually only moved with a drag and drop action.
-            translate(minX - b.getX(), 0);
-            b = new Rectangle2D.Double(minX, b.getY(), maxX - minX, DEFAULT_HEIGHT);
+            x = minX - EXTRA_WIDTH;
         }
-        return b;
+    	return new Point2D.Double(x, y);
     }
-
-    /**
-     * 
-     * @return minimal bounds (location + default width and default height
-     */
-    private Rectangle2D getDefaultBounds()
-    {
-        Point2D currentLocation = getLocation();
-        double x = currentLocation.getX();
-        double y = currentLocation.getY();
-        double w = DEFAULT_WIDTH;
-        double h = DEFAULT_HEIGHT;
-        Rectangle2D currentBounds = new Rectangle2D.Double(x, y, w, h);
-        return currentBounds;
-    }
+    
 
     /**
      * 
@@ -121,9 +124,9 @@ public class SynchronizationBarNode extends RectangularNode
      */
     private List<INode> getConnectedNodes()
     {
-        List<INode> connectedNodes = new ArrayList<INode>();
+    	List<INode> connectedNodes = new ArrayList<INode>();
         // needs to contain all incoming and outgoing edges
-        for (IEdge e : getGraph().getAllEdges())
+        for (IEdge e : getConnectedEdges())
         {
             if (e.getStart() == this) connectedNodes.add(e.getEnd());
             if (e.getEnd() == this) connectedNodes.add(e.getStart());
