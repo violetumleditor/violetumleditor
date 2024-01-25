@@ -7,8 +7,6 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import com.horstmann.violet.product.diagram.abstracts.Direction;
-import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
@@ -28,28 +26,8 @@ public class PackageNode extends RectangularNode
         content = new MultiLineString();
     }
 
-    @Override
-    public Point2D getConnectionPoint(IEdge e)
-    {
-        Point2D connectionPoint = super.getConnectionPoint(e);
 
-        // Fix location to stick to shape (because of the top rectangle)
-        Direction d = e.getDirection(this);
-        Direction nearestCardinalDirection = d.getNearestCardinalDirection();
-        if (Direction.SOUTH.equals(nearestCardinalDirection))
-        {
-            Rectangle2D topRectangleBounds = getTopRectangleBounds();
-            if (!topRectangleBounds.contains(connectionPoint))
-            {
-                double x = connectionPoint.getX();
-                double y = connectionPoint.getY();
-                double h = topRectangleBounds.getHeight();
-                connectionPoint = new Point2D.Double(x, y + h);
-            }
-        }
-
-        return connectionPoint;
-    }
+    
 
 
 

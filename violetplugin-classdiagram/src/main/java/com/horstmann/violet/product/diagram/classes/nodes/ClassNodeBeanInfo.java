@@ -20,11 +20,11 @@ public class ClassNodeBeanInfo extends SimpleBeanInfo
         try
         {
             PropertyDescriptor nameDescriptor = new PropertyDescriptor("name", ClassNode.class);
-            nameDescriptor.setValue("priority", new Integer(1));
+            nameDescriptor.setValue("priority", 1);
             PropertyDescriptor attributesDescriptor = new PropertyDescriptor("attributes", ClassNode.class);
-            attributesDescriptor.setValue("priority", new Integer(2));
+            attributesDescriptor.setValue("priority", 2);
             PropertyDescriptor methodsDescriptor = new PropertyDescriptor("methods", ClassNode.class);
-            methodsDescriptor.setValue("priority", new Integer(3));
+            methodsDescriptor.setValue("priority", 3);
             return new PropertyDescriptor[]
             {
                     nameDescriptor,

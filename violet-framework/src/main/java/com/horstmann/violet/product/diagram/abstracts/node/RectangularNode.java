@@ -95,7 +95,7 @@ public abstract class RectangularNode extends AbstractNode
                     Direction d2 = e2.getDirection(RectangularNode.this);
                     double x1 = d1.getX();
                     double x2 = d2.getX();
-                    return Double.compare(x2, x1);
+                    return Double.compare(x1, x2);
                 }
             });
         }
@@ -107,7 +107,7 @@ public abstract class RectangularNode extends AbstractNode
                     Direction d2 = e2.getDirection(RectangularNode.this);
                     double y1 = d1.getY();
                     double y2 = d2.getY();
-                    return Double.compare(y2, y1);
+                    return Double.compare(y1, y2);
                 }
             });
         }
@@ -128,19 +128,19 @@ public abstract class RectangularNode extends AbstractNode
 
         Direction d = e.getDirection(this);
         Direction nearestCardinalDirection = d.getNearestCardinalDirection();
-        if (Direction.SOUTH.equals(nearestCardinalDirection)) {
+        if (Direction.NORTH.equals(nearestCardinalDirection)) {
             x = b.getMaxX() - (b.getWidth() / (size + 1)) * (position + 1);
             y = b.getMaxY();
         }
-        if (Direction.NORTH.equals(nearestCardinalDirection)) {
+        if (Direction.SOUTH.equals(nearestCardinalDirection)) {
             x = b.getMaxX() - (b.getWidth() / (size + 1)) * (position + 1);
             y = b.getMinY();
         }
-        if (Direction.WEST.equals(nearestCardinalDirection)) {
+        if (Direction.EAST.equals(nearestCardinalDirection)) {
             x = b.getMinX();
             y = b.getMaxY() - (b.getHeight() / (size + 1)) * (position + 1);
         }
-        if (Direction.EAST.equals(nearestCardinalDirection)) {
+        if (Direction.WEST.equals(nearestCardinalDirection)) {
             x = b.getMaxX();
             y = b.getMaxY() - (b.getHeight() / (size + 1)) * (position + 1);
         }

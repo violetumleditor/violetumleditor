@@ -66,7 +66,7 @@ public class ApplicationStopper
             // ask user if it is ok to close
             String message = MessageFormat.format(this.dialogExitMessage, new Object[]
             {
-                new Integer(unsavedCount)
+                unsavedCount
             });
             JOptionPane optionPane = new JOptionPane(message, JOptionPane.CLOSED_OPTION, JOptionPane.YES_NO_CANCEL_OPTION,
                     this.dialogExitIcon);

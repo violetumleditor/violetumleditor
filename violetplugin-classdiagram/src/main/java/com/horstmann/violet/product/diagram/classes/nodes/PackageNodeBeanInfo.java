@@ -17,9 +17,9 @@ public class PackageNodeBeanInfo extends SimpleBeanInfo
         try
         {
             PropertyDescriptor nameDescriptor = new PropertyDescriptor("name", PackageNode.class);
-            nameDescriptor.setValue("priority", new Integer(1));
+            nameDescriptor.setValue("priority", 1);
             PropertyDescriptor contentDescriptor = new PropertyDescriptor("content", PackageNode.class);
-            contentDescriptor.setValue("priority", new Integer(2));
+            contentDescriptor.setValue("priority", 2);
             return new PropertyDescriptor[]
             {
                     nameDescriptor,

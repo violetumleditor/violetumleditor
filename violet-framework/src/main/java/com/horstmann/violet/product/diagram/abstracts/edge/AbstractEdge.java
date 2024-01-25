@@ -195,22 +195,25 @@ public abstract class AbstractEdge implements IEdge
     {
     	Point2D startLocationOnGraph = start.getLocationOnGraph();
         Point2D endLocationOnGraph = end.getLocationOnGraph();
-
-        Point2D relativeStarting = start.getConnectionPoint(this);
-        Point2D relativeEnding = end.getConnectionPoint(this);
+        
+        Point2D startLocation = start.getLocation();
+        Point2D endLocation = end.getLocation();
+        
+        Point2D startingEdgeConnectionPoint = start.getConnectionPoint(this);
+        Point2D endingEdgeConnectionPoint = end.getConnectionPoint(this);
         
         Point2D p1 = new Point2D.Double(
-		        startLocationOnGraph.getX() - relativeStarting.getX() + start.getBounds().getWidth() + start.getLocation().getX(),
-		        startLocationOnGraph.getY() - relativeStarting.getY() + start.getBounds().getHeight() + start.getLocation().getY()
+        		startLocationOnGraph.getX() - startLocation.getX() + startingEdgeConnectionPoint.getX(),
+        		startLocationOnGraph.getY() - startLocation.getY() + startingEdgeConnectionPoint.getY()
 		);
 		Point2D p2 = new Point2D.Double(
-		        endLocationOnGraph.getX() - relativeEnding.getX() + end.getBounds().getWidth() + end.getLocation().getX(),
-		        endLocationOnGraph.getY() - relativeEnding.getY() + end.getBounds().getHeight() + end.getLocation().getY()
+				endLocationOnGraph.getX() - endLocation.getX() + endingEdgeConnectionPoint.getX(),
+				endLocationOnGraph.getY() - endLocation.getY() + endingEdgeConnectionPoint.getY()
 		);
 
         return new Line2D.Double(
-                p1,
-                p2
+        		p1,
+        		p2
         );
        }
 

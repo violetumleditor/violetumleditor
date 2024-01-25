@@ -16,9 +16,9 @@ public class InterfaceNodeBeanInfo extends SimpleBeanInfo
         try
         {
             PropertyDescriptor nameDescriptor = new PropertyDescriptor("name", InterfaceNode.class);
-            nameDescriptor.setValue("priority", new Integer(1));
+            nameDescriptor.setValue("priority", 1);
             PropertyDescriptor methodsDescriptor = new PropertyDescriptor("methods", InterfaceNode.class);
-            methodsDescriptor.setValue("priority", new Integer(2));
+            methodsDescriptor.setValue("priority", 2);
             return new PropertyDescriptor[]
             {
                     nameDescriptor,

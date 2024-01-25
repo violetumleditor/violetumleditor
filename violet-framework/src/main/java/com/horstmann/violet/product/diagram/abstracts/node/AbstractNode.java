@@ -119,7 +119,7 @@ public abstract class AbstractNode implements INode, IColorableNode
     public Integer getRevision()
     {
         if (this.revision == null) {
-        	this.revision = new Integer(0);
+        	this.revision = 0;
         }
     	return this.revision;
     }
@@ -135,7 +135,7 @@ public abstract class AbstractNode implements INode, IColorableNode
     {
         int i = getRevision().intValue();
         i++;
-        this.revision = new Integer(i);
+        this.revision = i;
     }
 
     @Override

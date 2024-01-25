@@ -28,7 +28,7 @@ public class ClassRelationshipEdgeBeanInfo extends SimpleBeanInfo
             };
             for (int i = 0; i < descriptors.length; i++)
             {
-                descriptors[i].setValue("priority", new Integer(i));
+                descriptors[i].setValue("priority", i);
             }
             return descriptors;
         }

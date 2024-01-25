@@ -21,16 +21,12 @@
 
 package com.horstmann.violet.product.diagram.activity;
 
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.SegmentedLineEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
-import com.horstmann.violet.product.diagram.abstracts.property.BentStyle;
 
 /**
  * An edge that is shaped like a line with up to three segments with an arrowhead
@@ -73,40 +69,6 @@ public class ActivityTransitionEdge extends SegmentedLineEdge
         return super.getDirection(node);
     }
     
-    
-    @Override
-    public Line2D getConnectionPoints()
-    {
-    
-    	INode start = getStart();
-    	INode end = getEnd();
-		if (SynchronizationBarNode.class.isInstance(start) || SynchronizationBarNode.class.isInstance(end)) {
-			Point2D startLocationOnGraph = start.getLocationOnGraph();
-			Point2D endLocationOnGraph = end.getLocationOnGraph();
-			
-			Point2D relativeStarting = start.getConnectionPoint(this);
-			Point2D relativeEnding = end.getConnectionPoint(this);
-			
-			Point2D p1 = new Point2D.Double(
-					startLocationOnGraph.getX() - start.getLocation().getX() + relativeStarting.getX(),
-					startLocationOnGraph.getY() - relativeStarting.getY() + start.getBounds().getHeight() + start.getLocation().getY()
-					);
-
-			Point2D p2 = new Point2D.Double(
-					endLocationOnGraph.getX() - end.getLocation().getX() + relativeEnding.getX(),
-					endLocationOnGraph.getY() - relativeEnding.getY() + end.getBounds().getHeight() + end.getLocation().getY()
-					);
-			
-			return new Line2D.Double(
-					p1,
-					p2
-					);
-    		
-    		
-    	}
-    	return super.getConnectionPoints();
-    	
-       }
 
 
 }

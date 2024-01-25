@@ -39,7 +39,7 @@ public abstract class EllipticalNode extends RectangularNode
     @Override
     public Point2D getConnectionPoint(IEdge e)
     {
-        Direction d = e.getDirection(this);
+        Direction d = e.getDirection(this).turn(180);
         Rectangle2D bounds = getBounds();
         double a = bounds.getWidth() / 2;
         double b = bounds.getHeight() / 2;
