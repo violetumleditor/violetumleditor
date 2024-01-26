@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.util.StringTokenizer;
 
 /**
  * Multiline label Class grabbed from java2s.com (
@@ -46,12 +45,9 @@ public class MultiLineLabel extends Canvas {
 	// This method breaks a specified label up into an array of lines.
 	// It uses the StringTokenizer utility class.
 	protected void newLabel(String label) {
-		StringTokenizer t = new StringTokenizer(label, "\n");
-		num_lines = t.countTokens();
-		lines = new String[num_lines];
+		lines = label.split("\n");
+		num_lines = lines.length;
 		line_widths = new int[num_lines];
-		for (int i = 0; i < num_lines; i++)
-			lines[i] = t.nextToken();
 	}
 
 	// This method figures out how the font is, and how wide each
