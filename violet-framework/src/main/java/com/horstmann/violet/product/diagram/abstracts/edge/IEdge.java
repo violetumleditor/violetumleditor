@@ -111,6 +111,15 @@ public interface IEdge extends Serializable, Cloneable, IIdentifiable, ISelectab
      */
     ITransitionPoint[] getTransitionPoints();
     
+    
+    /**
+     * Finds a transition point on this edge for the given point.
+     * 
+     * @param p a point
+     * @return a transition point t or null if nothing
+     */
+    ITransitionPoint findTransitionPoint(Point2D p);
+    
     /**
      * @return true if the edge supports free path
      */

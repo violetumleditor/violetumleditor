@@ -71,6 +71,15 @@ public abstract class SegmentedLineEdge extends ShapeEdge
     	}
     }
     
+    
+    @Override
+    public ITransitionPoint[] getTransitionPoints() {
+    	if (!BentStyle.FREE.equals(getBentStyle())) {
+    		return new ITransitionPoint[] {};
+    	}
+    	return super.getTransitionPoints();
+    }
+    
 
     /**
      * Sets the bentStyle property

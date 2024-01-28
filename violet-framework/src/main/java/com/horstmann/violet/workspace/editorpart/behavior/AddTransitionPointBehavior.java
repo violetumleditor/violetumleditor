@@ -30,31 +30,7 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
         this.behaviorManager = editorPart.getBehaviorManager();
     }
 
-    @Override
-    public void onMouseMoved(MouseEvent event)
-    {
-        if (!isPrerequisitesOK())
-        {
-            return;
-        }
-        boolean isMouseOnEdgePath = isMouseOnEdgePath(event);
-        if (isMouseOnEdgePath)
-        {
-            if (this.initialCursor == null)
-            {
-                this.initialCursor = this.editorPart.getSwingComponent().getCursor();
-            }
-            this.editorPart.getSwingComponent().setCursor(this.transitionCursor);
-        }
-        if (!isMouseOnEdgePath)
-        {
-            if (this.initialCursor != null)
-            {
-                this.editorPart.getSwingComponent().setCursor(this.initialCursor);
-                this.initialCursor = null;
-            }
-        }
-    }
+
 
     @Override
     public void onMousePressed(MouseEvent event)
@@ -85,6 +61,7 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
         final Point2D mousePoint = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
         this.newTransitionPointLocation = mousePoint;
         this.newTransitionPointLocation = gridSticker.snap(this.newTransitionPointLocation);
+        updateMouseCursor(event);
     }
 
     @Override
@@ -112,33 +89,58 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
     @Override
     public void onMouseReleased(MouseEvent event)
     {
-        this.newTransitionPointLocation = null;
+    	updateMouseCursor(event);
+    	this.newTransitionPointLocation = null;
         this.isReadyToAddTransitionPoint = false;
         this.isTransitionPointAdded = false;
         this.selectedEdge = null;
     }
+    
+    @Override
+    public void onMouseMoved(MouseEvent event)
+    {
+    	updateMouseCursor(event);
+    }
+   
+    
+	private void updateMouseCursor(MouseEvent event) {
+		if (!isPrerequisitesOK())
+		{
+			return;
+		}
+        boolean isMouseOnEdgePath = isMouseOnEdgePath(event);
+        if (isMouseOnEdgePath)
+        {
+            if (this.initialCursor == null)
+            {
+                this.initialCursor = this.editorPart.getSwingComponent().getCursor();
+            }
+            this.editorPart.getSwingComponent().setCursor(this.transitionCursor);
+        }
+        if (!isMouseOnEdgePath)
+        {
+            if (this.initialCursor != null)
+            {
+                this.editorPart.getSwingComponent().setCursor(this.initialCursor);
+                this.initialCursor = null;
+            }
+        }
+	}
 
     private IEdge getSelectedEdge()
     {
         if (this.selectedEdge == null)
         {
-            if (this.selectionHandler.getSelectedElements().size() == 1)
-            {
-            	ISelectable element = this.selectionHandler.getSelectedElements().get(0);
-                if (IEdge.class.isInstance(element)) {
-                	this.selectedEdge = (IEdge) element;
-                }
-            }
+        	List<IEdge> selectedEdges = selectionHandler.getSelectedElements().stream().filter(e -> IEdge.class.isInstance(e)).map(e -> (IEdge) e).toList();
+        	if (selectedEdges.size() == 1) {
+        		this.selectedEdge = selectedEdges.get(0);
+        	}
         }
         return this.selectedEdge;
     }
 
     private boolean isPrerequisitesOK()
     {
-        if (this.selectionHandler.getSelectedElements().size() != 1)
-        {
-            return false;
-        }
         if (getSelectedEdge() == null) {
         	return false;
         }

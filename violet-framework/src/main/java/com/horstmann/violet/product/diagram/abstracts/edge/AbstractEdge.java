@@ -133,12 +133,31 @@ public abstract class AbstractEdge implements IEdge
         this.transitionPoints = transitionPoints;
     }
     
-    public final ITransitionPoint[] getTransitionPoints()
+    @Override
+    public ITransitionPoint[] getTransitionPoints()
     {
         if (this.transitionPoints == null) {
         	this.transitionPoints = new ITransitionPoint[] {};
         }
     	return this.transitionPoints;
+    }
+    
+    
+    @Override
+    public ITransitionPoint findTransitionPoint(Point2D p) {
+    	if (!isTransitionPointsSupported()) {
+    		return null;
+    	}
+    	final double MAX_DIST = 5;
+        for (ITransitionPoint aTransitionPoint : getTransitionPoints())
+        {
+            Point2D location = aTransitionPoint.toPoint2D();
+        	if (location.distance(p) <= MAX_DIST)
+            {
+                return aTransitionPoint;
+            }
+        }
+    	return null;
     }
     
     @Override

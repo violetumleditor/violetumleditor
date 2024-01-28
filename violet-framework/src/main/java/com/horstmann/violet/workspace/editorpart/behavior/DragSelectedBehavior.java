@@ -136,7 +136,9 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior {
 
     @Override
     public void onMouseReleased(MouseEvent event) {
-        this.editorPart.getSwingComponent().setCursor(this.initialCursor);
+    	if (this.editorPart.getSwingComponent().getCursor().equals(this.dragCursor)) {
+    		this.editorPart.getSwingComponent().setCursor(this.initialCursor);
+    	}
         this.lastMousePoint = null;
         this.isReadyForDragging = false;
         this.initialCursor = null;

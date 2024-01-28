@@ -2,9 +2,8 @@ package com.horstmann.violet.workspace.editorpart.behavior;
 
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.horstmann.violet.framework.util.GrabberUtils;
@@ -97,8 +96,7 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
     private void resetEventAttributes()
     {
         this.isDragGesture = false;
-        this.unprocessedNode = null;
-        this.unprocessedEdge = null;
+        this.unprocessedSelectedElements.clear();
     }
 
     
@@ -130,49 +128,79 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
     {
         INode node = this.graph.findNode(mouseLocation);
         IEdge edge = this.graph.findEdge(mouseLocation);
+        ITransitionPoint transitionPoint = null;
+        if (edge != null) {
+        	transitionPoint = edge.findTransitionPoint(mouseLocation);
+        }
+
+        if (edge != null) {
+        	node = null;
+        }
+        
+        if (isResetSelectionFirst) {
+        	if (edge != null && !this.selectionHandler.isElementAlreadySelected(edge)) {
+        		resetSelectedElements();
+        	}
+        	if (transitionPoint != null && !this.selectionHandler.isElementAlreadySelected(transitionPoint)) {
+        		resetSelectedElements();
+        	}
+        	if (node != null && !this.selectionHandler.isElementAlreadySelected(node)) {
+        		resetSelectedElements();
+        	}
+        }
+        
         if (edge != null)
         {
         	if (this.selectionHandler.isElementAlreadySelected(edge))
         	{
         		// This edge will be removed only on mouse button released
         		// to avoid conflicts with dragging events
-        		this.unprocessedEdge = edge;
+        		this.unprocessedSelectedElements.add(edge);
         	}
         	else
         	{
-        		if (isResetSelectionFirst) {
-        			resetSelectedElements();
-        		}
         		this.selectionHandler.addSelectedElement(edge);
                 List<IEdge> selectedEdges = selectionHandler.getSelectedElements().stream().filter(e -> IEdge.class.isInstance(e)).map(e -> (IEdge) e).toList();
         		if (selectedEdges.size() == 1) {
         			this.behaviorManager.fireOnEdgeSelected(edge);
         		}
         	}
-        	return;
         }
+        
+        if (transitionPoint != null) {
+        	if (this.selectionHandler.isElementAlreadySelected(transitionPoint))
+        	{
+        		// This transition point will be removed only on mouse button released
+        		// to avoid conflicts with dragging events
+        		this.unprocessedSelectedElements.add(transitionPoint);
+        	}
+        	else
+        	{
+        		this.selectionHandler.addSelectedElement(transitionPoint);
+        		this.behaviorManager.fireOnEdgeSelected(edge);
+        	}
+        }
+        
         if (node != null)
         {
             if (this.selectionHandler.isElementAlreadySelected(node))
             {
                 // This node_old will be removed only on mouse button released
                 // to avoid conflicts with dragging events
-                this.unprocessedNode = node;
+                this.unprocessedSelectedElements.add(node);
             }
             else
             {
-                if (isResetSelectionFirst) {
-                    resetSelectedElements();
-                }
                 this.selectionHandler.addSelectedElement(node);
                 List<INode> selectedNodes = selectionHandler.getSelectedElements().stream().filter(e -> INode.class.isInstance(e)).map(n -> (INode) n).toList();
                 if (selectedNodes.size() == 1) {
                 	this.behaviorManager.fireOnNodeSelected(node);
                 }
             }
-            return;
         }
     }
+    
+    
     
     /**
      * We process node or edges on 'mouse released' event because it's not possible to remove node or edges
@@ -183,24 +211,19 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
      * @param isResetSelectionFirst
      */
     private void processSelectionInConflictWithDraggingEvents(boolean isResetSelectionFirst) {
-        if (this.unprocessedNode == null && this.unprocessedEdge == null) {
+        if (this.unprocessedSelectedElements.isEmpty()) {
             return;
         }
         if (isResetSelectionFirst) {
             resetSelectedElements();
-            if (this.unprocessedNode != null) {
-                this.selectionHandler.addSelectedElement(this.unprocessedNode);
-            }
-            if (this.unprocessedEdge != null) {
-                this.selectionHandler.addSelectedElement(this.unprocessedEdge);
+
+            for (ISelectable selectable : this.unprocessedSelectedElements) {
+            	this.selectionHandler.addSelectedElement(selectable);
             }
         }
         if (!isResetSelectionFirst) {
-            if (this.unprocessedNode != null) {
-                this.selectionHandler.removeElementFromSelection(this.unprocessedNode);
-            }
-            if (this.unprocessedEdge != null) {
-                this.selectionHandler.removeElementFromSelection(this.unprocessedEdge);
+            for (ISelectable selectable : this.unprocessedSelectedElements) {
+            	this.selectionHandler.removeElementFromSelection(selectable);
             }
         }
     }
@@ -209,13 +232,15 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
     public void onPaint(Graphics2D g2)
     {
     	for (ISelectable element : selectionHandler.getSelectedElements()) {
-        	List<Point2D> selectionPoints = element.getSelectionPoints();
-        	selectionPoints.forEach(p -> GrabberUtils.drawPurpleGrabber(g2, p));
-        	List<ISelectable> selectableChildren = element.getSelectableChildren();
-        	for (ISelectable child : selectableChildren) {
-        		List<Point2D> childPoints = child.getSelectionPoints();
-        		childPoints.forEach(p -> GrabberUtils.drawGrayGrabber(g2, p));
-        	}
+    		List<ISelectable> selectableChildren = element.getSelectableChildren();
+    		for (ISelectable child : selectableChildren) {
+    			List<Point2D> childPoints = child.getSelectionPoints();
+    			childPoints.forEach(p -> GrabberUtils.drawGrayGrabber(g2, p));
+    		}
+        }
+    	for (ISelectable element : selectionHandler.getSelectedElements()) {
+    		List<Point2D> selectionPoints = element.getSelectionPoints();
+    		selectionPoints.forEach(p -> GrabberUtils.drawPurpleGrabber(g2, p));
         }
     }
 
@@ -231,9 +256,9 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
     
     private boolean isDragGesture = false;
     
-    private INode unprocessedNode = null; 
+    private List<ISelectable> unprocessedSelectedElements = new ArrayList<>();	
+    
 
-    private IEdge unprocessedEdge = null; 
 
     
 }

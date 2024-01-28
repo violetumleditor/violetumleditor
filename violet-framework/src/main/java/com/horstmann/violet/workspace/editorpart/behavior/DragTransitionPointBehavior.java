@@ -2,6 +2,7 @@ package com.horstmann.violet.workspace.editorpart.behavior;
 
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.util.List;
 
 import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
 import com.horstmann.violet.product.diagram.abstracts.ISelectable;
@@ -37,7 +38,7 @@ public class DragTransitionPointBehavior extends AbstractEditorPartBehavior
         }
         if (!isPrerequisitesOK())
         {
-            return;
+        	return;
         }
         if (!isSelectedToolOK())
         {
@@ -115,13 +116,10 @@ public class DragTransitionPointBehavior extends AbstractEditorPartBehavior
     {
         if (this.selectedEdge == null)
         {
-            if (this.selectionHandler.getSelectedElements().size() == 1)
-            {
-            	ISelectable element = this.selectionHandler.getSelectedElements().get(0);
-                if (IEdge.class.isInstance(element)) {
-                	this.selectedEdge = (IEdge) element;
-                }
-            }
+        	List<IEdge> selectedEdges = selectionHandler.getSelectedElements().stream().filter(e -> IEdge.class.isInstance(e)).map(e -> (IEdge) e).toList();
+        	if (selectedEdges.size() == 1) {
+        		this.selectedEdge = selectedEdges.get(0);
+        	}
         }
         return this.selectedEdge;
     }    
