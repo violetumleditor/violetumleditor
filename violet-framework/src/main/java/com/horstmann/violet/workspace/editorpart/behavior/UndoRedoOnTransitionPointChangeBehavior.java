@@ -30,6 +30,8 @@ public class UndoRedoOnTransitionPointChangeBehavior extends AbstractEditorPartB
 	 * behaviors
 	 */
 	private UndoRedoCompoundBehavior compoundBehavior;
+	
+	private IEdge selectedEdge;
 
 	private List<ITransitionPoint> transitionPointsBeforeChanges = new ArrayList<ITransitionPoint>();
 
@@ -47,6 +49,8 @@ public class UndoRedoOnTransitionPointChangeBehavior extends AbstractEditorPartB
 	@Override
 	public void beforeChangingTransitionPointsOnEdge(IEdge edge) {
 		this.transitionPointsBeforeChanges.clear();
+		this.transitionPointsAfterChanges.clear();
+		this.selectedEdge = edge;
 		for (ITransitionPoint aTransitionPoint : edge.getTransitionPoints()) {
 			this.transitionPointsBeforeChanges.add(new EdgeTransitionPoint(aTransitionPoint.getX(), aTransitionPoint.getY()));
 		}
@@ -54,15 +58,17 @@ public class UndoRedoOnTransitionPointChangeBehavior extends AbstractEditorPartB
 
 	@Override
 	public void afterChangingTransitionPointsOnEdge(final IEdge edge) {
-		this.transitionPointsAfterChanges.clear();
-		for (ITransitionPoint aTransitionPoint : edge.getTransitionPoints()) {
+		if (!edge.equals(this.selectedEdge)) {
+			return;
+		}
+		for (ITransitionPoint aTransitionPoint : this.selectedEdge.getTransitionPoints()) {
 			this.transitionPointsAfterChanges.add(new EdgeTransitionPoint(aTransitionPoint.getX(), aTransitionPoint.getY()));
 		}
 		this.compoundBehavior.startHistoryCapture();
 		CompoundEdit capturedEdit = this.compoundBehavior.getCurrentCapturedEdit();
-		captureAddedPoints(edge, capturedEdit);
-		captureDraggedPoints(edge, capturedEdit);
-		captureRemovedPoints(edge, capturedEdit);
+		captureAddedPoints(this.selectedEdge, capturedEdit);
+		captureDraggedPoints(this.selectedEdge, capturedEdit);
+		captureRemovedPoints(this.selectedEdge, capturedEdit);
 		this.compoundBehavior.stopHistoryCapture();
 	}
 
@@ -90,7 +96,7 @@ public class UndoRedoOnTransitionPointChangeBehavior extends AbstractEditorPartB
 				int beforeCopySize = transitionPointsBeforeChangesCopy.size();
 				int afterCopySize = transitionPointsAfterChangesCopy.size();
 
-				for (int i = 0; ((i < beforeCopySize) && (i < afterCopySize)); i++) {
+				for (int i = 0; ((i < beforeCopySize) && (i < afterCopySize) && (i < edge.getTransitionPoints().length)); i++) {
 					ITransitionPoint beforeDragPoint = transitionPointsBeforeChangesCopy.get(i);
 					ITransitionPoint afterDragPoint = transitionPointsAfterChangesCopy.get(i);
 					if (afterDragPoint.getX() != beforeDragPoint.getX() || afterDragPoint.getY() != beforeDragPoint.getY()) {
@@ -106,7 +112,7 @@ public class UndoRedoOnTransitionPointChangeBehavior extends AbstractEditorPartB
 				int beforeCopySize = transitionPointsBeforeChangesCopy.size();
 				int afterCopySize = transitionPointsAfterChangesCopy.size();
 
-				for (int i = 0; ((i < beforeCopySize) && (i < afterCopySize)); i++) {
+				for (int i = 0; ((i < beforeCopySize) && (i < afterCopySize) && (i < edge.getTransitionPoints().length)); i++) {
 					ITransitionPoint beforeDragPoint = transitionPointsBeforeChangesCopy.get(i);
 					ITransitionPoint afterDragPoint = transitionPointsAfterChangesCopy.get(i);
 					if (afterDragPoint.getX() != beforeDragPoint.getX() || afterDragPoint.getY() != beforeDragPoint.getY()) {
