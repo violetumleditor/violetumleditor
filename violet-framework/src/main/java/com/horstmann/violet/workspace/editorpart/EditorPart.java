@@ -25,12 +25,9 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.ContainerAdapter;
-import java.awt.event.ContainerEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -38,6 +35,8 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Double;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -46,6 +45,7 @@ import javax.swing.JPanel;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.ISelectable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.edge.ITransitionPoint;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.editorpart.behavior.IEditorPartBehavior;
 
@@ -141,10 +141,24 @@ public class EditorPart extends JPanel implements IEditorPart
         try
         {
             List<ISelectable> selectedElements = selectionHandler.getSelectedElements();
-            IEdge[] edgesArray = selectedElements.stream().filter(e -> IEdge.class.isInstance(e)).toArray(IEdge[]::new);
-            INode[] nodesArray = selectedElements.stream().filter(e -> INode.class.isInstance(e)).toArray(INode[]::new);
-            graph.removeNode(nodesArray);
-            graph.removeEdge(edgesArray);
+            List<IEdge> edges = new ArrayList<IEdge>(selectedElements.stream().filter(e -> IEdge.class.isInstance(e)).map(e -> (IEdge) e).toList());
+            List<INode> nodes = selectedElements.stream().filter(e -> INode.class.isInstance(e)).map(e -> (INode) e).toList();
+            List<ITransitionPoint> transitionPoints = selectedElements.stream().filter(e -> ITransitionPoint.class.isInstance(e)).map(e -> (ITransitionPoint) e).toList();
+            
+            // Remove only transition points and bypass concerned edges
+            for (ITransitionPoint aTransitionPoint : transitionPoints) {
+            	List<IEdge> edgesWithTransitionPointToRemove = new ArrayList<IEdge>(edges.stream().filter(e -> Arrays.asList(e.getTransitionPoints()).contains(aTransitionPoint)).toList());
+            	for (IEdge edgeContainingTransitionPointToRemove : edgesWithTransitionPointToRemove) {
+            		this.behaviorManager.fireBeforeChangingTransitionPointsOnEdge(edgeContainingTransitionPointToRemove);
+            		edgeContainingTransitionPointToRemove.removeTransitionPoint(aTransitionPoint);
+            		this.behaviorManager.fireAfterChangingTransitionPointsOnEdge(edgeContainingTransitionPointToRemove);
+            		edges.remove(edgeContainingTransitionPointToRemove);
+            	}
+            }
+            
+            // Remove other nodes and edges
+            graph.removeNode(nodes.stream().toArray(INode[]::new));
+            graph.removeEdge(edges.stream().toArray(IEdge[]::new));
         }
         finally
         {

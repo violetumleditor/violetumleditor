@@ -121,6 +121,13 @@ public interface IEdge extends Serializable, Cloneable, IIdentifiable, ISelectab
     ITransitionPoint findTransitionPoint(Point2D p);
     
     /**
+     * Remove transition points
+     * 
+     * @param iTransitionPoints
+     */
+    void removeTransitionPoint(ITransitionPoint... iTransitionPoints);
+    
+    /**
      * @return true if the edge supports free path
      */
     boolean isTransitionPointsSupported();
