@@ -1,11 +1,8 @@
 package com.horstmann.violet.workspace.editorpart.behavior;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
@@ -13,9 +10,14 @@ import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.CompoundEdit;
 import javax.swing.undo.UndoableEdit;
 
+import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.abstracts.ISelectable;
+import com.horstmann.violet.product.diagram.abstracts.Id;
 import com.horstmann.violet.product.diagram.abstracts.edge.EdgeTransitionPoint;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.edge.ITransitionPoint;
+import com.horstmann.violet.workspace.editorpart.IEditorPart;
+import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
 
 /**
  * Undo/Redo behavior triggered when transition points change on free path edge
@@ -31,29 +33,31 @@ public class UndoRedoOnTransitionPointChangeBehavior extends AbstractEditorPartB
 	 */
 	private UndoRedoCompoundBehavior compoundBehavior;
 	
+    private IEditorPartSelectionHandler selectionHandler;
+  
 	private IEdge selectedEdge;
+	
+	private IGraph graph;
 
-	private List<ITransitionPoint> transitionPointsBeforeChanges = new ArrayList<ITransitionPoint>();
+	private ITransitionPoint[] transitionPointsBeforeChanges;
 
-	private List<ITransitionPoint> transitionPointsAfterChanges = new ArrayList<ITransitionPoint>();
+	private ITransitionPoint[] transitionPointsAfterChanges;
 
 	/**
 	 * Default constructor
 	 * 
 	 * @param editorPart
 	 */
-	public UndoRedoOnTransitionPointChangeBehavior(UndoRedoCompoundBehavior compoundBehavior) {
+	public UndoRedoOnTransitionPointChangeBehavior(IEditorPart editorPart, UndoRedoCompoundBehavior compoundBehavior) {
 		this.compoundBehavior = compoundBehavior;
+		this.selectionHandler = editorPart.getSelectionHandler();
+		this.graph = editorPart.getGraph();
 	}
 
 	@Override
 	public void beforeChangingTransitionPointsOnEdge(IEdge edge) {
-		this.transitionPointsBeforeChanges.clear();
-		this.transitionPointsAfterChanges.clear();
 		this.selectedEdge = edge;
-		for (ITransitionPoint aTransitionPoint : edge.getTransitionPoints()) {
-			this.transitionPointsBeforeChanges.add(new EdgeTransitionPoint(aTransitionPoint.getX(), aTransitionPoint.getY()));
-		}
+		this.transitionPointsBeforeChanges = Arrays.stream(edge.getTransitionPoints()).map(p -> EdgeTransitionPoint.fromPoint2D(p.toPoint2D())).toArray(ITransitionPoint[]::new);
 	}
 
 	@Override
@@ -61,176 +65,61 @@ public class UndoRedoOnTransitionPointChangeBehavior extends AbstractEditorPartB
 		if (!edge.equals(this.selectedEdge)) {
 			return;
 		}
-		for (ITransitionPoint aTransitionPoint : this.selectedEdge.getTransitionPoints()) {
-			this.transitionPointsAfterChanges.add(new EdgeTransitionPoint(aTransitionPoint.getX(), aTransitionPoint.getY()));
-		}
+		this.transitionPointsAfterChanges = Arrays.stream(edge.getTransitionPoints()).map(p -> EdgeTransitionPoint.fromPoint2D(p.toPoint2D())).toArray(ITransitionPoint[]::new);
 		this.compoundBehavior.startHistoryCapture();
 		CompoundEdit capturedEdit = this.compoundBehavior.getCurrentCapturedEdit();
-		captureAddedPoints(this.selectedEdge, capturedEdit);
-		captureDraggedPoints(this.selectedEdge, capturedEdit);
-		captureRemovedPoints(this.selectedEdge, capturedEdit);
+		captureChanges(this.graph, this.selectedEdge, this.transitionPointsBeforeChanges, this.transitionPointsAfterChanges, capturedEdit);
 		this.compoundBehavior.stopHistoryCapture();
 	}
 
 
-	private void captureDraggedPoints(final IEdge edge, CompoundEdit capturedEdit) {
-		int beforeSize = this.transitionPointsBeforeChanges.size();
-		int afterSize = this.transitionPointsAfterChanges.size();
-		boolean isSameQuantity = (beforeSize == afterSize);
-		boolean isSameLocation = true;
- 
-		for (int i = 0; ((i < beforeSize) && (i < afterSize)); i++) {
-            Point2D beforeDragPoint = this.transitionPointsBeforeChanges.get(i).toPoint2D();
-            Point2D afterDragPoint = this.transitionPointsAfterChanges.get(i).toPoint2D();
-            isSameLocation = isSameLocation && beforeDragPoint.equals(afterDragPoint);
-		}
-		boolean isDragged = isSameQuantity && !isSameLocation;
-		if (!isDragged) {
-			return;
-		}
-		final List<ITransitionPoint> transitionPointsBeforeChangesCopy = new ArrayList<ITransitionPoint>(transitionPointsBeforeChanges);
-		final List<ITransitionPoint> transitionPointsAfterChangesCopy = new ArrayList<ITransitionPoint>(transitionPointsAfterChanges);
+	private void captureChanges(final IGraph graph, final IEdge selectedEdge, final ITransitionPoint[] transitionPointsBeforeChanges, final ITransitionPoint[] transitionPointsAfterChanges, CompoundEdit capturedEdit) {
+		Id selectedEdgeId = selectedEdge.getId();
+		final ITransitionPoint[] transitionPointsBeforeChangesCopy = Arrays.stream(transitionPointsBeforeChanges).map(p -> EdgeTransitionPoint.fromPoint2D(p.toPoint2D())).toArray(ITransitionPoint[]::new);
+		final ITransitionPoint[] transitionPointsAfterChangesCopy = Arrays.stream(transitionPointsAfterChanges).map(p -> EdgeTransitionPoint.fromPoint2D(p.toPoint2D())).toArray(ITransitionPoint[]::new);
+		
 		UndoableEdit edit = new AbstractUndoableEdit() {
 			@Override
 			public void undo() throws CannotUndoException {
-				int beforeCopySize = transitionPointsBeforeChangesCopy.size();
-				int afterCopySize = transitionPointsAfterChangesCopy.size();
-
-				for (int i = 0; ((i < beforeCopySize) && (i < afterCopySize) && (i < edge.getTransitionPoints().length)); i++) {
-					ITransitionPoint beforeDragPoint = transitionPointsBeforeChangesCopy.get(i);
-					ITransitionPoint afterDragPoint = transitionPointsAfterChangesCopy.get(i);
-					if (afterDragPoint.getX() != beforeDragPoint.getX() || afterDragPoint.getY() != beforeDragPoint.getY()) {
-						ITransitionPoint[] transitionPoints = edge.getTransitionPoints();
-						transitionPoints[i].setX(beforeDragPoint.getX());
-						transitionPoints[i].setY(beforeDragPoint.getY());
-					}
+				IEdge edge = graph.findEdge(selectedEdgeId);
+				if (edge == null) {
+					return;
 				}
+
+				edge.setTransitionPoints(transitionPointsBeforeChangesCopy);
+				removeAllTransitionPointsFromSelectionHandler(edge);
 			}
 
 			@Override
 			public void redo() throws CannotRedoException {
-				int beforeCopySize = transitionPointsBeforeChangesCopy.size();
-				int afterCopySize = transitionPointsAfterChangesCopy.size();
-
-				for (int i = 0; ((i < beforeCopySize) && (i < afterCopySize) && (i < edge.getTransitionPoints().length)); i++) {
-					ITransitionPoint beforeDragPoint = transitionPointsBeforeChangesCopy.get(i);
-					ITransitionPoint afterDragPoint = transitionPointsAfterChangesCopy.get(i);
-					if (afterDragPoint.getX() != beforeDragPoint.getX() || afterDragPoint.getY() != beforeDragPoint.getY()) {
-						ITransitionPoint[] transitionPoints = edge.getTransitionPoints();
-						transitionPoints[i].setX(afterDragPoint.getX());
-						transitionPoints[i].setY(afterDragPoint.getY());
-					}
+				IEdge edge = graph.findEdge(selectedEdgeId);
+				if (edge == null) {
+					return;
 				}
+				
+				edge.setTransitionPoints(transitionPointsAfterChangesCopy);
+				removeAllTransitionPointsFromSelectionHandler(edge);
 			}
 		};
 		capturedEdit.addEdit(edit);
 	}
 
-	private void captureAddedPoints(final IEdge edge, CompoundEdit capturedEdit) {
-		boolean isAdded = (this.transitionPointsBeforeChanges.size() < this.transitionPointsAfterChanges.size());
-		if (!isAdded) {
-			return;
-		}
-		final Map<Integer, ITransitionPoint> pointsAndPosition = new HashMap<Integer, ITransitionPoint>();
-		for (int i = 0; i < transitionPointsAfterChanges.size(); i++) {
-			ITransitionPoint aPoint = transitionPointsAfterChanges.get(i);
-			if (!transitionPointsBeforeChanges.contains(aPoint)) {
-				pointsAndPosition.put(i, aPoint);
-			}
-		}
-		UndoableEdit edit = new AbstractUndoableEdit() {
-			@Override
-			public void undo() throws CannotUndoException {
-				boolean isOKToRemove = true;
-				List<ITransitionPoint> transitionPoints = new ArrayList<ITransitionPoint>(Arrays.asList(edge.getTransitionPoints()));
-				for (Integer i : pointsAndPosition.keySet()) {
-					isOKToRemove = isOKToRemove && (transitionPoints.size() >= i);
-					if (!isOKToRemove) {
-						break;
-					}
-					isOKToRemove = isOKToRemove && (pointsAndPosition.get(i).equals(transitionPoints.get(i)));
-				}
-				if (!isOKToRemove) {
-					return;
-				}
-				for (Integer i : pointsAndPosition.keySet()) {
-					ITransitionPoint pointToRemove = pointsAndPosition.get(i);
-					transitionPoints.remove(pointToRemove);
-				}
-				ITransitionPoint[] transitionPointsAsArray = transitionPoints.toArray(new ITransitionPoint[transitionPoints.size()]);
-				edge.setTransitionPoints(transitionPointsAsArray);
-			}
-
-			@Override
-			public void redo() throws CannotRedoException {
-				List<ITransitionPoint> transitionPoints = new ArrayList<ITransitionPoint>(Arrays.asList(edge.getTransitionPoints()));
-				for (Integer i : pointsAndPosition.keySet()) {
-					ITransitionPoint pointToAdd = pointsAndPosition.get(i);
-					if (transitionPoints.size() >= i) {
-						transitionPoints.add(i, pointToAdd);
-					} else {
-						transitionPoints.add(i, pointToAdd);
-					}
-				}
-				ITransitionPoint[] transitionPointsAsArray = transitionPoints.toArray(new ITransitionPoint[transitionPoints.size()]);
-				edge.setTransitionPoints(transitionPointsAsArray);
-			}
-		};
-		capturedEdit.addEdit(edit);
-	}
 	
 	
-	private void captureRemovedPoints(final IEdge edge, CompoundEdit capturedEdit) {
-		boolean isRemoved = (this.transitionPointsBeforeChanges.size() > this.transitionPointsAfterChanges.size());
-		if (!isRemoved) {
+	private void removeAllTransitionPointsFromSelectionHandler(IEdge edge) {
+		List<ISelectable> selectableListToRemove = new ArrayList<>();
+		if (edge == null) {
 			return;
 		}
-		final Map<Integer, ITransitionPoint> pointsAndPosition = new HashMap<Integer, ITransitionPoint>();
-		for (int i = 0; i < transitionPointsBeforeChanges.size(); i++) {
-			ITransitionPoint aPoint = transitionPointsBeforeChanges.get(i);
-			if (!transitionPointsAfterChanges.contains(aPoint)) {
-				pointsAndPosition.put(i, aPoint);
+
+		for (ISelectable aSelectable : this.selectionHandler.getSelectedElements()) {
+			if (ITransitionPoint.class.isInstance(aSelectable)) {
+				selectableListToRemove.add(aSelectable);
 			}
 		}
-		UndoableEdit edit = new AbstractUndoableEdit() {
-			@Override
-			public void undo() throws CannotUndoException {
-				List<ITransitionPoint> transitionPoints = new ArrayList<ITransitionPoint>(Arrays.asList(edge.getTransitionPoints()));
-				for (Integer i : pointsAndPosition.keySet()) {
-					ITransitionPoint pointToAdd = pointsAndPosition.get(i);
-					if (transitionPoints.size() >= i) {
-						transitionPoints.add(i, pointToAdd);
-					} else {
-						transitionPoints.add(i, pointToAdd);
-					}
-				}
-				ITransitionPoint[] transitionPointsAsArray = transitionPoints.toArray(new ITransitionPoint[transitionPoints.size()]);
-				edge.setTransitionPoints(transitionPointsAsArray);
-			}
-
-			@Override
-			public void redo() throws CannotRedoException {
-				boolean isOKToAdd = true;
-				List<ITransitionPoint> transitionPoints = new ArrayList<ITransitionPoint>(Arrays.asList(edge.getTransitionPoints()));
-				for (Integer i : pointsAndPosition.keySet()) {
-					isOKToAdd = isOKToAdd && (transitionPoints.size() >= i);
-					if (!isOKToAdd) {
-						break;
-					}
-					isOKToAdd = isOKToAdd && (pointsAndPosition.get(i).equals(transitionPoints.get(i)));
-				}
-				if (!isOKToAdd) {
-					return;
-				}				
-				for (Integer i : pointsAndPosition.keySet()) {
-					ITransitionPoint pointToRemove = pointsAndPosition.get(i);
-					transitionPoints.remove(pointToRemove);
-				}
-				ITransitionPoint[] transitionPointsAsArray = transitionPoints.toArray(new ITransitionPoint[transitionPoints.size()]);
-				edge.setTransitionPoints(transitionPointsAsArray);
-			}
-		};
-		capturedEdit.addEdit(edit);
+		for (ISelectable aSelectableToRemove : selectableListToRemove) {
+			this.selectionHandler.removeElementFromSelection(aSelectableToRemove);
+		}
 	}
 
 }
