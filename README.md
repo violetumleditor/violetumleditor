@@ -9,8 +9,8 @@ How to compile Violet's source code
 
 Violet is developped in Java and is packaged with Maven.
 So, prerequisites are :
-+ Java Development Kit 6 or greater (http://www.oracle.com/technetwork/java/javase/downloads/index.html)
-+ Maven 2 or greater (http://maven.apache.org/)
++ Java Development Kit 17 or greater (http://www.oracle.com/technetwork/java/javase/downloads/index.html)
++ Maven 3 or greater (http://maven.apache.org/)
  
 Once you grabbed the source code (git pull), just run 'mvn clean package' from the root directory. This command will compile and package everything. 
 
