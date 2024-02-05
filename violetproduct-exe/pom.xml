@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
@@ -7,11 +8,46 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>violetproduct-exe</artifactId>
-	<packaging>jar</packaging>
+	<packaging>pom</packaging>
 	<name>Violet UML Editor Microsoft Windows packaging</name>
 	<version>${applicationVersion}</version>
 	<build>
 		<plugins>
+			<!-- PREPARE AUTOSIGNED CERTIFICATE TO SIGN WIN32 EXECUTABLE (start) -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>keytool-maven-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>clean</goal>
+							<goal>generateKeyPair</goal>
+							<goal>generateCertificateRequest</goal>
+							<goal>generateCertificate</goal>
+						</goals>
+						<phase>generate-resources</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<keystore>${project.build.directory}/certificate/self-signed.jks</keystore>
+					<keysize>1024</keysize>
+					<storepass>violetumleditor</storepass>
+					<keyalg>DSA</keyalg>
+					<passwordProtected>false</passwordProtected>
+					<dname>cn=violetumleditor.github.io, ou=None, L=Paris,ST=Ile-de-France, o=violetumleditor, c=FR</dname>
+					<alias>violetumleditor</alias>
+					<file>${project.build.directory}/certificate/self-signed.csr</file>
+					<infile>${project.build.directory}/certificate/self-signed.csr</infile>
+					<outfile>${project.build.directory}/certificate/self-signed.cer</outfile>
+					<sigalg>SHA1withDSA</sigalg>
+					<ext></ext>
+					<validity>10000</validity>
+					<startdate>2024/01/01</startdate>
+				</configuration>
+			</plugin>
+			<!-- PREPARE AUTOSIGNED CERTIFICATE TO SIGN WIN32 EXECUTABLE (end) -->
+			<!-- PACKAGE JAR INTO WIN32 EXECUTABLE (start) -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
@@ -52,6 +88,9 @@
 						<configuration>
 							<headerType>gui</headerType>
 							<jar>${project.build.directory}/dependency/violetumleditor-${project.version}.jar</jar>
+							<classPath>
+								<mainClass>com.horstmann.violet.UMLEditorApplication</mainClass>
+							</classPath>
 							<outfile>${project.build.directory}/violetumleditor-${project.version}.exe</outfile>
 							<downloadUrl>https://learn.microsoft.com/java/openjdk/download</downloadUrl>
 							<icon>src/main/resources/icon/violet.ico</icon>
@@ -61,7 +100,7 @@
 							</jre>
 							<versionInfo>
 								<fileVersion>1.0.0.0</fileVersion>
-								<txtFileVersion>${project.version}</txtFileVersion>
+								<txtFileVersion>1.0.0.0</txtFileVersion>
 								<fileDescription>${project.name}</fileDescription>
 								<copyright>Under GPL license</copyright>
 								<productVersion>1.0.0.0</productVersion>
@@ -75,6 +114,29 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-- PACKAGE JAR INTO WIN32 EXECUTABLE (end) -->
+			<!-- SIGN WIN32 EXECUTABLE (start) -->
+			<plugin>
+				<groupId>net.jsign</groupId>
+				<artifactId>jsign-maven-plugin</artifactId>
+				<version>6.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+						<configuration>
+							<file>${project.build.directory}/violetumleditor-${project.version}.exe</file>
+							<name>Violet UML Editor</name>
+							<url>https://alexdp.free.fr/violetumleditor</url>
+							<keystore>${project.build.directory}/certificate/self-signed.jks</keystore>
+							<alias>violetumleditor</alias>
+							<storepass>violetumleditor</storepass>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- SIGN WIN32 EXECUTABLE (end) -->
 			<!-- DEPLOY ON SOURCEFORGE (start) -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -92,9 +154,11 @@
 							<target>
 								<property environment="env" />
 								<echo message="Push to Sourceforge" />
-								<copy file="${project.build.directory}/violetumleditor-${project.version}.exe"
+								<copy
+									file="${project.build.directory}/violetumleditor-${project.version}.exe"
 									todir="target/${project.version}" />
-								<scp password="${env.SOURCEFORGE_PASSWORD}" trust="yes"
+								<scp password="${env.SOURCEFORGE_PASSWORD}"
+									trust="yes"
 									todir="${env.SOURCEFORGE_USERNAME}@frs.sourceforge.net:/home/frs/project/violet/violetumleditor">
 									<fileset dir="target">
 										<include name="${project.version}/*.exe" />
@@ -111,7 +175,8 @@
 						<version>1.10.12</version>
 					</dependency>
 				</dependencies>
-			</plugin>			
+			</plugin>
+			<!-- DEPLOY ON SOURCEFORGE (end) -->
 		</plugins>
 	</build>
 </project>
