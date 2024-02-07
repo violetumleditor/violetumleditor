@@ -13,40 +13,6 @@
 	<version>${applicationVersion}</version>
 	<build>
 		<plugins>
-			<!-- PREPARE AUTOSIGNED CERTIFICATE TO SIGN WIN32 EXECUTABLE (start) -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>keytool-maven-plugin</artifactId>
-				<version>1.7</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>clean</goal>
-							<goal>generateKeyPair</goal>
-							<goal>generateCertificateRequest</goal>
-							<goal>generateCertificate</goal>
-						</goals>
-						<phase>generate-resources</phase>
-					</execution>
-				</executions>
-				<configuration>
-					<keystore>${project.build.directory}/certificate/self-signed.jks</keystore>
-					<keysize>1024</keysize>
-					<storepass>violetumleditor</storepass>
-					<keyalg>DSA</keyalg>
-					<passwordProtected>false</passwordProtected>
-					<dname>cn=violetumleditor.github.io, ou=None, L=Paris,ST=Ile-de-France, o=violetumleditor, c=FR</dname>
-					<alias>violetumleditor</alias>
-					<file>${project.build.directory}/certificate/self-signed.csr</file>
-					<infile>${project.build.directory}/certificate/self-signed.csr</infile>
-					<outfile>${project.build.directory}/certificate/self-signed.cer</outfile>
-					<sigalg>SHA1withDSA</sigalg>
-					<ext></ext>
-					<validity>10000</validity>
-					<startdate>2024/01/01</startdate>
-				</configuration>
-			</plugin>
-			<!-- PREPARE AUTOSIGNED CERTIFICATE TO SIGN WIN32 EXECUTABLE (end) -->
 			<!-- PACKAGE JAR INTO WIN32 EXECUTABLE (start) -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -115,29 +81,6 @@
 				</executions>
 			</plugin>
 			<!-- PACKAGE JAR INTO WIN32 EXECUTABLE (end) -->
-			<!-- SIGN WIN32 EXECUTABLE (start) -->
-			<plugin>
-				<groupId>net.jsign</groupId>
-				<artifactId>jsign-maven-plugin</artifactId>
-				<version>6.0</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>sign</goal>
-						</goals>
-						<configuration>
-							<file>${project.build.directory}/violetumleditor-${project.version}.exe</file>
-							<name>Violet UML Editor</name>
-							<url>https://alexdp.free.fr/violetumleditor</url>
-							<keystore>${project.build.directory}/certificate/self-signed.jks</keystore>
-							<alias>violetumleditor</alias>
-							<storepass>violetumleditor</storepass>
-							<tsaurl>http://timestamp.sectigo.com</tsaurl>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<!-- SIGN WIN32 EXECUTABLE (end) -->
 			<!-- DEPLOY ON SOURCEFORGE (start) -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
