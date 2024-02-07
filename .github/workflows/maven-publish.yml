@@ -20,9 +20,15 @@ jobs:
     permissions:
       contents: read
       packages: write
+      id-token: write
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout source code
+      uses: actions/checkout@v3
+
+    - name: install python
+      run: python -m pip install .
+    
     - name: Set up JDK
       uses: actions/setup-java@v3
       with:
@@ -34,6 +40,12 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
+    
+    - name: Sign artefacts
+      uses: sigstore/gh-action-sigstore-python@v2.1.1
+      with:
+        inputs: /home/runner/work/violetumleditor/violetumleditor/violetproduct-exe/target/*.exe     
+    
     - name: Publish to GitHub Packages Apache Maven and Sourceforge.net
       run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
       env:
