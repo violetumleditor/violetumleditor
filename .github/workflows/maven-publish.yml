@@ -41,7 +41,8 @@ jobs:
     - name: Sign artefacts
       uses: sigstore/gh-action-sigstore-python@v2.1.1
       with:
-        inputs: /home/runner/work/violetumleditor/violetumleditor/violetproduct-exe/target/*.exe     
+        inputs: /home/runner/work/violetumleditor/violetumleditor/violetproduct-exe/target/*.exe
+      run: ls -lisa /home/runner/work/violetumleditor/violetumleditor/violetproduct-exe/target
     
     - name: Publish to GitHub Packages Apache Maven and Sourceforge.net
       run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
