@@ -38,10 +38,13 @@ jobs:
       run: mvn -B package --file pom.xml
 
     
-    - name: Sign artefacts
-      uses: sigstore/gh-action-sigstore-python@v2.1.1
-      with:
-        inputs: /home/runner/work/violetumleditor/violetumleditor/violetproduct-exe/target/*.exe
+    - name: Install cosign
+      uses: sigstore/cosign-installer@main
+
+    - name: Sign the executable
+      env:
+        COSIGN_EXPERIMENTAL: "true"
+      run: cosign sign /home/runner/work/violetumleditor/violetumleditor/violetproduct-exe/target/*.exe
       
     - name: Show signed artefacts details  
       run: ls -lisa /home/runner/work/violetumleditor/violetumleditor/violetproduct-exe/target
