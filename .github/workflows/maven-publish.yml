@@ -7,6 +7,8 @@ env:
   # Setting environment variables with values of secrets (organisation wide)
   SOURCEFORGE_USERNAME: ${{ secrets.SOURCEFORGE_USERNAME }}
   SOURCEFORGE_PASSWORD: ${{ secrets.SOURCEFORGE_PASSWORD }}
+  COSIGN_EXPERIMENTAL: "true"
+  COSIGN_YES: "true"  
 
 on:
   push:
@@ -42,8 +44,6 @@ jobs:
       uses: sigstore/cosign-installer@main
 
     - name: Sign the executable
-      env:
-        COSIGN_EXPERIMENTAL: "true"
       run: cosign sign /home/runner/work/violetumleditor/violetumleditor/violetproduct-exe/target/*.exe
       
     - name: Show signed artefacts details  
