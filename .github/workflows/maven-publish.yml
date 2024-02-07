@@ -42,6 +42,8 @@ jobs:
       uses: sigstore/gh-action-sigstore-python@v2.1.1
       with:
         inputs: /home/runner/work/violetumleditor/violetumleditor/violetproduct-exe/target/*.exe
+      
+    - name: Show signed artefacts details  
       run: ls -lisa /home/runner/work/violetumleditor/violetumleditor/violetproduct-exe/target
     
     - name: Publish to GitHub Packages Apache Maven and Sourceforge.net
