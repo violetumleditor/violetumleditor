@@ -1,0 +1,17 @@
+name: Get Certificate
+on:
+  # Déclencher l'action lors de la création d'une pull request
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Retrieve certificate
+      uses: sigstore/gh-action-sigstore-python@v2.1.1
+      with:
+        certificate: fulcio-certificate.crt
+
+    - name: Show files 
+      run: ls -lisa
