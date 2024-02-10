@@ -41,8 +41,8 @@ jobs:
 
     - name: Create Java Keystore
       run: 
-        keytool -importcert -alias cosign -file cosign.crt -keystore cosign.jks -storepass cosign -noprompt
-        && keytool -v -list -storetype jks -keystore cosign.jks -storepass cosign -noprompt
+        keytool -importcert -alias cosign -file cosign.pem -keystore cosign.jks -storepass cosign -noprompt
+        && keytool -v -list -keystore cosign.jks -storepass cosign -noprompt
       
     - name: Show signed artefacts details  
       run: pwd && ls -lisa
