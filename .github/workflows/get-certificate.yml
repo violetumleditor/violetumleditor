@@ -1,4 +1,10 @@
 name: Get Certificate
+
+
+env:
+  COSIGN_EXPERIMENTAL: "true"
+  COSIGN_YES: "true"  
+
 on:
   push:
     branches:
@@ -12,10 +18,11 @@ jobs:
       id-token: write
       
     steps:
-    - name: Retrieve certificate
-      uses: sigstore/gh-action-sigstore-python@v2.1.1
-      with:
-        certificate: fulcio-certificate.crt
+    - name: Install cosign
+      uses: sigstore/cosign-installer@main
 
-    - name: Show files 
+    - name: Sign the executable
+      run: cosign sign --help
+      
+    - name: Show signed artefacts details  
       run: ls -lisa
