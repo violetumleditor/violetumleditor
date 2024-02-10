@@ -53,7 +53,7 @@ jobs:
         && keytool -v -list -storetype jks -keystore cosign.jks -storepass violetumleditor -noprompt
 
     - name: Build and publish to GitHub Packages Apache Maven and Sourceforge.net
-      run: mvn -X -B package deploy -s $GITHUB_WORKSPACE/settings.xml
+      run: mvn -B package deploy -s $GITHUB_WORKSPACE/settings.xml
       env:
         GITHUB_TOKEN: ${{ github.token }}
 
