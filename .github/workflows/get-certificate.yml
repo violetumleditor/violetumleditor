@@ -28,7 +28,9 @@ jobs:
       run: 
         touch test.txt 
         && cosign generate-key-pair 
-        && cosign sign-blob test.txt --yes --key cosign.key --output-certificate cosign.pem --output-signature cosign.sig
+        && cosign sign-blob test.txt --yes --output-certificate cosign.crt.base64 --output-signature cosign.sig
+        && base64 -d cosign.crt.base64 cosign.crt
+        && step certificate inspect cosign.crt
         
       
     - name: Show signed artefacts details  
