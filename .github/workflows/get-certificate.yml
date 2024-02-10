@@ -21,19 +21,24 @@ jobs:
     - name: Install cosign
       uses: sigstore/cosign-installer@main
 
-    - name: Generate private key
-      run : openssl genrsa -out private.key 2048
-
     - name: Sign the executable
       run: 
-        touch test.txt 
+        touch dummy.txt 
         && cosign generate-key-pair 
-        && cosign sign-blob test.txt --yes --key cosign.key --output-certificate cosign.crt.base64 --output-signature cosign.sig
+        && cosign sign-blob test.txt --yes --output-certificate cosign.crt.base64 --output-signature cosign.sig
         && base64 --decode cosign.crt.base64 > cosign.crt
         && openssl x509 -text -noout -in cosign.crt
-        && openssl rsa -noout -modulus -in cosign.key | openssl md5
-        && openssl x509 -noout -modulus -in cosign.crt | openssl md5
-        
+
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+        settings-path: ${{ github.workspace }} # location for the settings.xml file
+
+    - name: Create Java Keystore
+      run: keytool -importcert -alias cosign -file cosign.crt -keystore cosign.jks -storepass cosign -noprompt
       
     - name: Show signed artefacts details  
       run: ls -lisa
