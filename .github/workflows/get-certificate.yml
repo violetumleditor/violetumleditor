@@ -8,7 +8,7 @@ env:
 on:
   push:
     branches:
-      - test-cert
+      - master
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -38,7 +38,9 @@ jobs:
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
     - name: Create Java Keystore
-      run: keytool -importcert -alias cosign -file cosign.crt -keystore cosign.jks -storepass cosign -noprompt
+      run: 
+        keytool -importcert -alias cosign -file cosign.crt -keystore cosign.jks -storepass cosign -noprompt
+        && keytool -v -list -storetype jks -keystore cosign.jks.jks -storepass cosign -noprompt
       
     - name: Show signed artefacts details  
       run: pwd && ls -lisa
