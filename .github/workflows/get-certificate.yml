@@ -28,7 +28,7 @@ jobs:
       run: 
         touch test.txt 
         && cosign generate-key-pair 
-        && cosign sign-blob test.txt --yes --output-certificate cosign.crt.base64 --output-signature cosign.sig
+        && cosign sign-blob test.txt --yes --key cosign.key --output-certificate cosign.crt.base64 --output-signature cosign.sig
         && base64 --decode cosign.crt.base64 > cosign.crt
         && openssl x509 -text -noout -in cosign.crt
         && openssl rsa -noout -modulus -in cosign.key | openssl md5
