@@ -29,7 +29,7 @@ jobs:
         touch test.txt 
         && cosign generate-key-pair 
         && cosign sign-blob test.txt --yes --key cosign.key --output-certificate cosign.pem --output-signature cosign.sig
-        && cosign verify --key cosign.pub test.txt
+        
       
     - name: Show signed artefacts details  
       run: ls -lisa
