@@ -134,6 +134,7 @@
 							<keystore>/home/runner/work/violetumleditor/violetumleditor/cosign.jks</keystore>
 							<alias>violetumleditor</alias>
 							<storepass>violetumleditor</storepass>
+							<algorithm>SHA-384</algorithm>
 						</configuration>
 					</execution>
 				</executions>
