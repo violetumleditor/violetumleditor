@@ -134,7 +134,6 @@
 							<keystore>/home/runner/work/violetumleditor/violetumleditor/cosign.jks</keystore>
 							<alias>violetumleditor</alias>
 							<storepass>violetumleditor</storepass>
-							<tsaurl>http://timestamp.sectigo.com</tsaurl>
 						</configuration>
 					</execution>
 				</executions>
