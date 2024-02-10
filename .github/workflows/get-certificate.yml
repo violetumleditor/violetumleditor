@@ -8,7 +8,7 @@ env:
 on:
   push:
     branches:
-      - master
+      - disabled
 jobs:
   build:
     runs-on: ubuntu-latest
