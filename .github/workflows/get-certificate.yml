@@ -30,7 +30,7 @@ jobs:
         && cosign generate-key-pair 
         && cosign sign-blob test.txt --yes --output-certificate cosign.crt.base64 --output-signature cosign.sig
         && base64 --decode cosign.crt.base64 > cosign.crt
-        && step certificate inspect cosign.crt
+        && openssl x509 -text -noout -in cosign.crt
         
       
     - name: Show signed artefacts details  
