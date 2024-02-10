@@ -26,8 +26,8 @@ jobs:
 
     - name: Sign the executable
       run: 
-        touch test.txt
-        cosign generate-key-pair --help
+        touch test.txt 
+        && cosign generate-key-pair --help
       
     - name: Show signed artefacts details  
       run: ls -lisa
