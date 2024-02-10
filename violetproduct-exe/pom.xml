@@ -132,7 +132,7 @@
 							<url>https://alexdp.free.fr/violetumleditor</url>
 							<!--keystore>${project.build.directory}/certificate/self-signed.jks</!keystore-->
 							<keystore>/home/runner/work/violetumleditor/violetumleditor/cosign.jks</keystore>
-							<alias>violetumleditor</alias>
+							<!--alias>violetumleditor</alias-->
 							<storepass>violetumleditor</storepass>
 							<algorithm>SHA-384</algorithm>
 						</configuration>
