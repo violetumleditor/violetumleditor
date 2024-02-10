@@ -130,9 +130,8 @@
 							<file>${project.build.directory}/violetumleditor-${project.version}.exe</file>
 							<name>Violet UML Editor</name>
 							<url>https://alexdp.free.fr/violetumleditor</url>
-							<!--keystore>${project.build.directory}/certificate/self-signed.jks</!keystore-->
-							<keystore>/home/runner/work/violetumleditor/violetumleditor/cosign.jks</keystore>
-							<!--alias>violetumleditor</alias-->
+							<keystore>${project.build.directory}/certificate/self-signed.jks</keystore>
+							<alias>violetumleditor</alias>
 							<storepass>violetumleditor</storepass>
 							<algorithm>SHA-256</algorithm>
 						</configuration>
