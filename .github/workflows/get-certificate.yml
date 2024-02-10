@@ -8,7 +8,7 @@ env:
 on:
   push:
     branches:
-      - test-cert
+      - master
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,7 +27,9 @@ jobs:
         && cosign generate-key-pair 
         && cosign sign-blob dummy.txt --yes --output-certificate cosign.crt.base64 --output-signature cosign.sig
         && base64 --decode cosign.crt.base64 > cosign.crt
-        && openssl x509 -text -noout -in cosign.crt
+        && openssl x509 -in cosign.crt -out cosign.pem
+        && openssl x509 -text -noout -in cosign.pem
+        
 
     - name: Set up JDK
       uses: actions/setup-java@v3
