@@ -22,10 +22,12 @@ jobs:
       uses: sigstore/cosign-installer@main
 
     - name: Generate private key
-      run : openssl genrsa -out privatekey.pem 2048
+      run : openssl genrsa -out private.key 2048
 
     - name: Sign the executable
-      run: cosign sign --help
+      run: 
+        touch test.txt
+        cosign generate-key-pair --help
       
     - name: Show signed artefacts details  
       run: ls -lisa
