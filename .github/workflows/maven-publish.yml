@@ -50,7 +50,7 @@ jobs:
 
     - name: Create Java keystore
       run: 
-        keytool -importcert -alias violetumleditor -file cosign.pem -keystore cosign.jks -storepass violetumleditor -noprompt
+        keytool -import -trustcacerts -alias violetumleditor -file cosign.pem -keystore cosign.jks -storepass violetumleditor -noprompt
         && keytool -v -list -keystore cosign.jks -storepass violetumleditor -noprompt
 
     - name: Build and publish to GitHub Packages Apache Maven and Sourceforge.net
