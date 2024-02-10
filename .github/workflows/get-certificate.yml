@@ -8,7 +8,7 @@ env:
 on:
   push:
     branches:
-      - disabled
+      - master
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,7 +25,7 @@ jobs:
       run: 
         touch dummy.txt 
         && cosign generate-key-pair 
-        && cosign sign-blob dummy.txt --yes --output-certificate cosign.crt.base64 --output-signature cosign.sig
+        && cosign sign-blob dummy.txt --yes --key cosign.pub --output-certificate cosign.crt.base64 --output-signature cosign.sig
         && base64 --decode cosign.crt.base64 > cosign.crt
         && openssl x509 -in cosign.crt -out cosign.pem
         && openssl x509 -text -noout -in cosign.pem
