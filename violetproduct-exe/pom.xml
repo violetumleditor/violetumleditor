@@ -11,6 +11,11 @@
 	<packaging>pom</packaging>
 	<name>Violet UML Editor Microsoft Windows packaging</name>
 	<version>${applicationVersion}</version>
+	<organization>
+    	<name>Violet UML Editor</name>
+    </organization>
+    <inceptionYear>2007</inceptionYear>
+    <description>Violet (Very Intuitive Object Layout Editing Tool) is a diagram editor</description>
 	<build>
 		<plugins>
 			<!-- PREPARE AUTOSIGNED CERTIFICATE TO SIGN WIN32 EXECUTABLE (start) -->
@@ -31,7 +36,7 @@
 				</executions>
 				<configuration>
 					<keystore>${project.build.directory}/certificate/self-signed.jks</keystore>
-					<keysize>1024</keysize>
+					<keysize>2048</keysize>
 					<storepass>violetumleditor</storepass>
 					<keyalg>DSA</keyalg>
 					<passwordProtected>false</passwordProtected>
@@ -40,8 +45,10 @@
 					<file>${project.build.directory}/certificate/self-signed.csr</file>
 					<infile>${project.build.directory}/certificate/self-signed.csr</infile>
 					<outfile>${project.build.directory}/certificate/self-signed.cer</outfile>
-					<sigalg>SHA1withDSA</sigalg>
-					<ext></ext>
+					<sigalg>SHA256withDSA</sigalg>
+					<ext>basicConstraints=CA:FALSE</ext>
+					<ext>keyUsage=digitalSignature</ext>
+					<ext>ExtendedKeyUsage=codeSigning</ext>
 					<validity>10000</validity>
 					<startdate>2024/01/01</startdate>
 				</configuration>
@@ -92,7 +99,7 @@
 								<mainClass>com.horstmann.violet.UMLEditorApplication</mainClass>
 							</classPath>
 							<outfile>${project.build.directory}/violetumleditor-${project.version}.exe</outfile>
-							<downloadUrl>https://learn.microsoft.com/java/openjdk/download</downloadUrl>
+							<downloadUrl>https://aka.ms/download-jdk/microsoft-jdk-21.0.2-windows-x64.msi</downloadUrl>
 							<icon>src/main/resources/icon/violet.ico</icon>
 							<jre>
 								<minVersion>17</minVersion>
