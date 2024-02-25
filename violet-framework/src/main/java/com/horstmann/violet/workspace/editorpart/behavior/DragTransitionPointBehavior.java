@@ -36,6 +36,9 @@ public class DragTransitionPointBehavior extends AbstractEditorPartBehavior
         {
             return;
         }
+        if (BehaviorUtils.isCursorOnResizePoint(editorPart, event)) {
+        	return;
+        }
         if (!isPrerequisitesOK())
         {
         	return;

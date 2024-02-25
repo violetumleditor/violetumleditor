@@ -38,13 +38,14 @@ import javax.swing.ImageIcon;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.IResizableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
 
 /**
  * A node in a diagram represented by an image
  */
-public class ImageNode extends RectangularNode
+public class ImageNode extends RectangularNode implements IResizableNode
 {
     /**
      * Default construct a note node with a default size and color
@@ -73,7 +74,8 @@ public class ImageNode extends RectangularNode
      */
     public void setImage(Image img)
     {
-        this.imageIcon = new ImageIcon(img);
+        this.image = img;
+    	this.imageIcon = new ImageIcon(img);
     }
 
     @Override
@@ -83,8 +85,8 @@ public class ImageNode extends RectangularNode
         Point2D currentLocation = getLocation();
         double x = currentLocation.getX();
         double y = currentLocation.getY();
-        double w = Math.max(b.getWidth(), this.imageIcon.getIconWidth());
-        double h = b.getHeight() + this.imageIcon.getIconHeight();
+        double w = Math.max(b.getWidth(), this.getImageIcon().getIconWidth());
+        double h = b.getHeight() + this.getImageIcon().getIconHeight();
         Rectangle2D currentBounds = new Rectangle2D.Double(x, y, w, h);
         Rectangle2D snapperBounds = getGraph().getGridSticker().snap(currentBounds);
         return snapperBounds;
@@ -124,11 +126,38 @@ public class ImageNode extends RectangularNode
     
     
     public ImageIcon getImageIcon() {
-		return imageIcon;
+    	if (this.imageIcon == null) 
+    	{
+    		this.imageIcon = new ImageIcon(image);
+    		Rectangle2D preferredSize = getPreferredSize();
+    		if (preferredSize != null) {
+    			int iconHeight = this.imageIcon.getIconHeight();
+    			int iconWidth = this.imageIcon.getIconWidth();
+    			double iconRatio = iconHeight/iconWidth;
+    			double preferredWidth = preferredSize.getWidth();
+    			double preferredHeight = preferredSize.getHeight();
+    			double preferredRatio = preferredHeight/preferredWidth;
+    			if (preferredRatio >= iconRatio) 
+    			{
+    				this.imageIcon.setImage(this.imageIcon.getImage().getScaledInstance(-1, (int) preferredHeight, Image.SCALE_SMOOTH));
+    			}
+    			if (preferredRatio < iconRatio) 
+    			{
+    				this.imageIcon.setImage(this.imageIcon.getImage().getScaledInstance((int) preferredWidth, -1, Image.SCALE_SMOOTH));
+    			}
+    		}
+    	}
+		return this.imageIcon;
 	}
 
 	public void setImageIcon(ImageIcon imageIcon) {
 		this.imageIcon = imageIcon;
+	}
+	
+	@Override
+	public void setPreferredSize(Rectangle2D size) {
+		super.setPreferredSize(size);
+		this.imageIcon = null;
 	}
 
 	/*
@@ -142,12 +171,12 @@ public class ImageNode extends RectangularNode
         Color oldColor = g2.getColor();
         // Draw image
         Rectangle2D bounds = getBounds();
-        g2.drawImage(this.imageIcon.getImage(), (int) bounds.getCenterX() - this.imageIcon.getIconWidth() / 2, (int) bounds.getY(),
-                this.imageIcon.getImageObserver());
+        g2.drawImage(this.getImageIcon().getImage(), (int) bounds.getCenterX() - this.getImageIcon().getIconWidth() / 2, (int) bounds.getY(),
+                this.getImageIcon().getImageObserver());
         // Draw text
         g2.setColor(getTextColor());
         Rectangle2D b = text.getBounds();
-        Rectangle2D textBounds = new Rectangle2D.Double(bounds.getX(), bounds.getY() + this.imageIcon.getIconHeight(),
+        Rectangle2D textBounds = new Rectangle2D.Double(bounds.getX(), bounds.getY() + this.getImageIcon().getIconHeight(),
                 b.getWidth(), b.getHeight());
         text.draw(g2, textBounds);
         // Restore first color
@@ -180,9 +209,11 @@ public class ImageNode extends RectangularNode
      */
     public String getImageContent() throws InterruptedException
     {
-        Image img = this.imageIcon.getImage();
-        int width = this.imageIcon.getIconWidth();
-        int height = this.imageIcon.getIconHeight();
+        Image img = this.getImageIcon().getImage();
+        
+        
+        int width = this.getImageIcon().getIconWidth();
+        int height = this.getImageIcon().getIconHeight();
         int[] pixels = new int[width * height];
         PixelGrabber pg = new PixelGrabber(img, 0, 0, width, height, pixels, 0, width);
         pg.grabPixels();
@@ -201,7 +232,7 @@ public class ImageNode extends RectangularNode
      */
     public int getImageWidth()
     {
-        return this.imageIcon.getIconWidth();
+        return this.getImageIcon().getIconWidth();
     }
 
     /**
@@ -209,7 +240,7 @@ public class ImageNode extends RectangularNode
      */
     public int getImageHeight()
     {
-        return this.imageIcon.getIconHeight();
+        return this.getImageIcon().getIconHeight();
     }
 
     /**
@@ -247,7 +278,7 @@ public class ImageNode extends RectangularNode
     {
         ImageNode cloned = (ImageNode) super.clone();
         cloned.text = text.clone();
-        cloned.imageIcon = imageIcon;
+        cloned.image = image;
         return cloned;
     }
 
@@ -255,6 +286,8 @@ public class ImageNode extends RectangularNode
 
     @ResourceBundleBean(key = "imagenode.icon")
     private ImageIcon imageIcon;
-
+    
+    private Image image;
+    
     private MultiLineString text;
 }

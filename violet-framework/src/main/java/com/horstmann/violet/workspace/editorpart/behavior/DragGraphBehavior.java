@@ -63,6 +63,10 @@ public class DragGraphBehavior extends AbstractEditorPartBehavior
             return;
         }
         
+        if (BehaviorUtils.isCursorOnResizePoint(editorPart, event)) {
+        	return;
+        }
+        
         IEditorPart editorPart = this.workspace.getEditorPart();
         double zoom = editorPart.getZoomFactor();
         final Point2D mousePointOnGraph = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);

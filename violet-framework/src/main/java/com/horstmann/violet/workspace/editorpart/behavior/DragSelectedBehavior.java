@@ -35,6 +35,10 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior {
         if (event.getButton() != MouseEvent.BUTTON1) {
             return;
         }
+        if (BehaviorUtils.isCursorOnResizePoint(editorPart, event)) {
+        	return;
+        }
+        
         GraphTool selectedTool = this.selectionHandler.getSelectedTool();
         if (IEdge.class.isInstance(selectedTool.getNodeOrEdge())) {
             return;

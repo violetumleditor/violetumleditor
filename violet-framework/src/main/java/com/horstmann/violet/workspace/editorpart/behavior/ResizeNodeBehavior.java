@@ -9,6 +9,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.List;
 
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.IResizableNode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
@@ -25,27 +26,29 @@ public class ResizeNodeBehavior extends AbstractEditorPartBehavior {
 
     @Override
     public void onMouseClicked(MouseEvent event) {
+    	this.isReadyForResizing = false;
     }
 
     @Override
     public void onMousePressed(MouseEvent event) {
+    	this.isReadyForResizing = false;
+    	if (Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR).equals(editorPart.getSwingComponent().getCursor())) {
+    		this.isReadyForResizing = true;
+    	};
     }
 
     @Override
     public void onMouseMoved(MouseEvent event) {
         zoom = editorPart.getZoomFactor();
 
-        List<IResizableNode> sNodes = this.selectionHandler.getSelectedElements().stream().filter(e -> IResizableNode.class.isInstance(e)).map(n -> (IResizableNode) n).toList();
+        List<INode> sNodes = this.selectionHandler.getSelectedElements().stream().filter(e -> IResizableNode.class.isInstance(e)).map(n -> (INode) n).toList();
         
         if (sNodes.size() == 1) {
-        	IResizableNode sNode = sNodes.get(0);
-            if ((isCursorOnResizePoint(sNode, event)) || isResizing) {
+            if ((BehaviorUtils.isCursorOnResizePoint(editorPart, event)) || isResizing) {
                 editorPart.getSwingComponent().setCursor(Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR));
-                isReadyForResizing = true;
                 DragSelectedBehavior.lock();
             } else {
                 editorPart.getSwingComponent().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                isReadyForResizing = false;
                 DragSelectedBehavior.unlock();
             }
         }
@@ -98,22 +101,8 @@ public class ResizeNodeBehavior extends AbstractEditorPartBehavior {
         return new Dimension(width, height);
     }
 
-    private boolean isCursorOnResizePoint(IResizableNode node, MouseEvent event) {
-        Point currentLocation = event.getPoint();
-        double x = currentLocation.getX() / zoom;
-        double y = currentLocation.getY() / zoom;
-        currentLocation.setLocation(x, y);
-        Rectangle2D resizablePoint = getResizablePoint(node);
-        if (resizablePoint == null) {
-        	return false;
-        }
-		return resizablePoint.contains(currentLocation);
 
-    }
 
-    private Rectangle2D getResizablePoint(IResizableNode node) {
-        return node.getResizableDragPoint();
-    }
 
 
     private IGraph graph;

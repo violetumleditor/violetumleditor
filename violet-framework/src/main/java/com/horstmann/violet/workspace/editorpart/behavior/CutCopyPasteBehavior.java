@@ -1,5 +1,6 @@
 package com.horstmann.violet.workspace.editorpart.behavior;
 
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
@@ -14,6 +15,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +36,7 @@ import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.Id;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.common.ImageNode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
@@ -149,50 +152,20 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
         IGraph graph = this.editorPart.getGraph();
         try
         {
-            String xmlContent = getContentFromSystemClipboard();
-            if (xmlContent == null)
+            String xmlContent = getContentFromSystemClipboard(String.class);
+            if (xmlContent != null)
             {
-                return; // If no content, we stop here
+            	pasteNodesAndEdges(graph, xmlContent);
             }
-            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(xmlContent.getBytes());
-            IGraph deserializedGraph = persistenceService.read(byteArrayInputStream);
-            deserializedGraph = translateToMouseLocation(deserializedGraph, this.lastMouseLocation);
-
-            Collection<INode> nodesFromClipboard = deserializedGraph.getAllNodes();
-            List<INode> nodes = filterOnNodePrototypes(nodesFromClipboard);
-            List<INode> nodesReallyPasted = new ArrayList<INode>();
-            for (INode aNode : nodes)
+            Image imageContent = getContentFromSystemClipboard(Image.class);
+            if (imageContent != null)
             {
-                if (isAncestorInCollection(aNode, nodes)) continue;
-                boolean isAdded = graph.addNode(aNode, aNode.getLocationOnGraph());
-                if (isAdded)
-                {
-                    nodesReallyPasted.add(aNode);
-                }
+            	ImageNode imageNode = new ImageNode(imageContent);
+            	graph.addNode(imageNode, this.lastMouseLocation);
+            	addUndoRedoSupport(Arrays.asList(imageNode), new ArrayList<IEdge>());
+        		selectPastedElements(Arrays.asList(imageNode), new ArrayList<IEdge>());
             }
-
-            Collection<IEdge> edgesFromClipboard = deserializedGraph.getAllEdges();
-            List<IEdge> edges = filterOnEdgePrototypes(edgesFromClipboard);
-            List<IEdge> edgesReallyPasted = new ArrayList<IEdge>();
-            for (IEdge anEdge : edges)
-            {
-                Point2D startLocation = anEdge.getStartLocation();
-                Point2D endLocation = anEdge.getEndLocation();
-                INode startNode = graph.findNode(anEdge.getStart().getId());
-                INode endNode = graph.findNode(anEdge.getEnd().getId());
-                if (startNode != null && endNode != null)
-                {
-                    boolean isConnected = graph.connect(anEdge, startNode, startLocation, endNode, endLocation);
-                    if (isConnected)
-                    {
-                        edgesReallyPasted.add(anEdge);
-                    }
-                }
-            }
-
-            addUndoRedoSupport(nodesReallyPasted, edgesReallyPasted);
-            selectPastedElements(nodesReallyPasted, edgesReallyPasted);
-
+            
             editorPart.getSwingComponent().invalidate();
             editorPart.getSwingComponent().repaint();
         }
@@ -201,6 +174,47 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
             // Nothing to do
         }
     }
+
+	private void pasteNodesAndEdges(IGraph graph, String xmlContent) throws IOException {
+		ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(xmlContent.getBytes());
+		IGraph deserializedGraph = persistenceService.read(byteArrayInputStream);
+		deserializedGraph = translateToMouseLocation(deserializedGraph, this.lastMouseLocation);
+		
+		Collection<INode> nodesFromClipboard = deserializedGraph.getAllNodes();
+		List<INode> nodes = filterOnNodePrototypes(nodesFromClipboard);
+		List<INode> nodesReallyPasted = new ArrayList<INode>();
+		for (INode aNode : nodes)
+		{
+			if (isAncestorInCollection(aNode, nodes)) continue;
+			boolean isAdded = graph.addNode(aNode, aNode.getLocationOnGraph());
+			if (isAdded)
+			{
+				nodesReallyPasted.add(aNode);
+			}
+		}
+		
+		Collection<IEdge> edgesFromClipboard = deserializedGraph.getAllEdges();
+		List<IEdge> edges = filterOnEdgePrototypes(edgesFromClipboard);
+		List<IEdge> edgesReallyPasted = new ArrayList<IEdge>();
+		for (IEdge anEdge : edges)
+		{
+			Point2D startLocation = anEdge.getStartLocation();
+			Point2D endLocation = anEdge.getEndLocation();
+			INode startNode = graph.findNode(anEdge.getStart().getId());
+			INode endNode = graph.findNode(anEdge.getEnd().getId());
+			if (startNode != null && endNode != null)
+			{
+				boolean isConnected = graph.connect(anEdge, startNode, startLocation, endNode, endLocation);
+				if (isConnected)
+				{
+					edgesReallyPasted.add(anEdge);
+				}
+			}
+		}
+		
+		addUndoRedoSupport(nodesReallyPasted, edgesReallyPasted);
+		selectPastedElements(nodesReallyPasted, edgesReallyPasted);
+	}
 
     /**
      * Adds Undo/Redo support to copy pastes
@@ -379,7 +393,7 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
      * 
      * @return
      */
-    private String getContentFromSystemClipboard()
+    private <T> T getContentFromSystemClipboard(Class<? extends T> exceptedType)
     {
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         Transferable clipData = clipboard.getContents(clipboard);
@@ -387,10 +401,15 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
         {
             try
             {
-                if (clipData.isDataFlavorSupported(DataFlavor.stringFlavor))
+            	if (Image.class.equals(exceptedType) && clipData.isDataFlavorSupported(DataFlavor.imageFlavor))
+            	{
+            		Image img = (Image) (clipData.getTransferData(DataFlavor.imageFlavor));
+            		return (T) img;
+            	}
+                if (String.class.equals(exceptedType) && clipData.isDataFlavorSupported(DataFlavor.stringFlavor))
                 {
                     String s = (String) (clipData.getTransferData(DataFlavor.stringFlavor));
-                    return s;
+                    return (T) s;
                 }
             }
             catch (UnsupportedFlavorException ufe)
