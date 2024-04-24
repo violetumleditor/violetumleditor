@@ -87,20 +87,13 @@ public class UMLEditorWebApplication extends WApplication {
 			@Override
 			protected void handleRequest(WebRequest request, WebResponse response) throws IOException {
 				ClassLoader classLoader = this.getClass().getClassLoader();
-				ServletOutputStream outputStream = response.getOutputStream();
 				response.setContentType("text/css");
-				InputStream inputStream = classLoader.getResourceAsStream("/violet.css");
-				IOUtils.copy(inputStream, outputStream);
+				InputStream inputStream = classLoader.getResourceAsStream("violet.css");
+				IOUtils.copy(inputStream, response.getOutputStream());
 				inputStream.close();
-				outputStream.close();
 			}
 		};
-		cssResource.generateUrl();
-		String url = cssResource.getUrl();
-		if (!url.startsWith(getDeploymentPath())) {
-			url = getDeploymentPath() + "/" + url;
-		}
-		useStyleSheet(new WLink(url));
+		useStyleSheet(new WLink(cssResource.getUrl()));
 		//URL resource = getClass().getResource("test.class.violet.html");
 		//IFile aFile = new LocalFile(new File(resource.getFile()));
 		GraphFile graphFile = new GraphFile(ClassDiagramGraph.class);

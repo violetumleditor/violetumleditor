@@ -20,6 +20,7 @@ import com.horstmann.violet.workspace.sidebar.SideBar;
 
 import eu.webtoolkit.jwt.AlignmentFlag;
 import eu.webtoolkit.jwt.Signal1;
+import eu.webtoolkit.jwt.WAnchor;
 import eu.webtoolkit.jwt.WApplication;
 import eu.webtoolkit.jwt.WBoxLayout;
 import eu.webtoolkit.jwt.WBoxLayout.Direction;
@@ -62,6 +63,7 @@ public class EditorToolsWidget extends WContainerWidget {
 	private WBoxLayout mainLayout;
 	private WLabel titleLabel;
 	private WGridLayout buttonLayout;
+
 	private WPushButton undoButton;
 	private WPushButton redoButton;
 	private WPushButton cutButton;
@@ -116,6 +118,8 @@ public class EditorToolsWidget extends WContainerWidget {
 		return this.buttonLayout;
 	}
 
+
+	
 	private WPushButton getUndoButton() {
 		if (this.undoButton == null) {
 			this.undoButton = getWPushButton(this.bUndo);
@@ -209,8 +213,13 @@ public class EditorToolsWidget extends WContainerWidget {
 		Icon icon = aSwingButton.getIcon();
 		WLink iconLink = getIconLink(icon);
 		aPushButton.setIcon(iconLink);
+		aPushButton.setStyleClass("editortools");
+		aPushButton.setWidth(new WLength(24));
+		aPushButton.setHeight(new WLength(24));
 		return aPushButton;
 	}
+	
+
 
 	private WLink getIconLink(final Icon icon) {
 		WResource iconResource = new WResource() {
@@ -231,6 +240,8 @@ public class EditorToolsWidget extends WContainerWidget {
 		return wLink;
 	}
 
+	
+	
 	/**
 	 * Looks for UndoRedoBehavior on the current editor part
 	 * 
