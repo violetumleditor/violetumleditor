@@ -21,10 +21,7 @@
 package com.horstmann.violet.web;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
-
-import javax.servlet.ServletOutputStream;
 
 import org.apache.commons.io.IOUtils;
 
@@ -48,10 +45,8 @@ import eu.webtoolkit.jwt.WKeyEvent;
 import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WLength.Unit;
 import eu.webtoolkit.jwt.WLink;
-import eu.webtoolkit.jwt.WResource;
+import eu.webtoolkit.jwt.WMemoryResource;
 import eu.webtoolkit.jwt.WWidget;
-import eu.webtoolkit.jwt.servlet.WebRequest;
-import eu.webtoolkit.jwt.servlet.WebResponse;
 
 /**
  * A program for editing UML diagrams.
@@ -71,31 +66,30 @@ public class UMLEditorWebApplication extends WApplication {
 	 * @param filesToOpen
 	 * @throws IOException
 	 */
-	public UMLEditorWebApplication(WEnvironment env) throws IOException {
+	public UMLEditorWebApplication(WEnvironment env) {
 		super(env);
-		createDefaultWorkspace();
-		addGlobalKeyListener();
 	}
 
 	
+	public void init() throws IOException {
+		setConfiguration();
+		createDefaultWorkspace();
+		addGlobalKeyListener();
+	}
 	
+	private void setConfiguration() throws IOException {
+		WMemoryResource faviconResource = new WMemoryResource("image/png");
+		faviconResource.setData(IOUtils.resourceToByteArray("/violet.png"));
+		getEnvironment().getServer().getConfiguration().setFavicon(faviconResource.getUrl());
+	}
 	
 	private void createDefaultWorkspace() throws IOException {
 		WBootstrapTheme theme = new WBootstrapTheme();
 		setTheme(theme);
-		WResource cssResource = new WResource() {
-			@Override
-			protected void handleRequest(WebRequest request, WebResponse response) throws IOException {
-				ClassLoader classLoader = this.getClass().getClassLoader();
-				response.setContentType("text/css");
-				InputStream inputStream = classLoader.getResourceAsStream("violet.css");
-				IOUtils.copy(inputStream, response.getOutputStream());
-				inputStream.close();
-			}
-		};
-		useStyleSheet(new WLink(cssResource.getUrl()));
-		//URL resource = getClass().getResource("test.class.violet.html");
-		//IFile aFile = new LocalFile(new File(resource.getFile()));
+		WMemoryResource cssResource = new WMemoryResource("text/css");
+		cssResource.setData(IOUtils.resourceToByteArray("/violet.css"));
+		useStyleSheet(new WLink(cssResource));
+		
 		GraphFile graphFile = new GraphFile(ClassDiagramGraph.class);
 		IWorkspace workspace = new Workspace(graphFile);
 		workspace.getAWTComponent().prepareLayout();

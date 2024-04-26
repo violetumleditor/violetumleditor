@@ -2,6 +2,7 @@ package com.horstmann.violet.web.workspace.sidebar;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -20,7 +21,6 @@ import com.horstmann.violet.workspace.sidebar.SideBar;
 
 import eu.webtoolkit.jwt.AlignmentFlag;
 import eu.webtoolkit.jwt.Signal1;
-import eu.webtoolkit.jwt.WAnchor;
 import eu.webtoolkit.jwt.WApplication;
 import eu.webtoolkit.jwt.WBoxLayout;
 import eu.webtoolkit.jwt.WBoxLayout.Direction;
@@ -31,6 +31,7 @@ import eu.webtoolkit.jwt.WLabel;
 import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WLength.Unit;
 import eu.webtoolkit.jwt.WLink;
+import eu.webtoolkit.jwt.WMemoryResource;
 import eu.webtoolkit.jwt.WMouseEvent;
 import eu.webtoolkit.jwt.WPushButton;
 import eu.webtoolkit.jwt.WResource;
@@ -70,7 +71,7 @@ public class EditorToolsWidget extends WContainerWidget {
 	private WPushButton copyButton;
 	private WPushButton pasteButton;
 	private WPushButton deleteButton;
-	
+
 	private String deploymentPath;
 
 	public EditorToolsWidget(EditorPartWidget editorPartWidget) {
@@ -80,7 +81,7 @@ public class EditorToolsWidget extends WContainerWidget {
 		setLayout(getMainLayout());
 		setMinimumSize(new WLength(100, Unit.Percentage), new WLength(120, Unit.Pixel));
 	}
-	
+
 	private WBoxLayout getMainLayout() {
 		if (this.mainLayout == null) {
 			this.mainLayout = new WBoxLayout(Direction.TopToBottom);
@@ -93,18 +94,17 @@ public class EditorToolsWidget extends WContainerWidget {
 		}
 		return this.mainLayout;
 	}
-	
+
 	private WLabel getTitleLabel() {
 		if (this.titleLabel == null) {
 			this.titleLabel = new WLabel(this.title);
 			this.titleLabel.setStyleClass("darktitle");
-			this.titleLabel.setMinimumSize(new WLength(100, Unit.Percentage),new WLength(22, Unit.Pixel));
-			this.titleLabel.setMaximumSize(new WLength(100, Unit.Percentage),new WLength(22, Unit.Pixel));
+			this.titleLabel.setMinimumSize(new WLength(100, Unit.Percentage), new WLength(22, Unit.Pixel));
+			this.titleLabel.setMaximumSize(new WLength(100, Unit.Percentage), new WLength(22, Unit.Pixel));
 		}
 		return this.titleLabel;
 	}
-	
-	
+
 	private WGridLayout getButtonLayout() {
 		if (this.buttonLayout == null) {
 			this.buttonLayout = new WGridLayout();
@@ -118,8 +118,6 @@ public class EditorToolsWidget extends WContainerWidget {
 		return this.buttonLayout;
 	}
 
-
-	
 	private WPushButton getUndoButton() {
 		if (this.undoButton == null) {
 			this.undoButton = getWPushButton(this.bUndo);
@@ -218,30 +216,28 @@ public class EditorToolsWidget extends WContainerWidget {
 		aPushButton.setHeight(new WLength(24));
 		return aPushButton;
 	}
-	
-
 
 	private WLink getIconLink(final Icon icon) {
-		WResource iconResource = new WResource() {
-
-			@Override
-			protected void handleRequest(WebRequest request, WebResponse response) throws IOException {
-				BufferedImage bi = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
-
-				Graphics g = bi.createGraphics();
-				// paint the Icon to the BufferedImage.
-				icon.paintIcon(null, g, 0, 0);
-				response.setContentType("image/png");
-				ImageIO.write(bi, "png", response.getOutputStream());
-			}
-		};
-		String url = iconResource.getUrl();
-		WLink wLink = new WLink(url);
-		return wLink;
+		try {
+			BufferedImage bi = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+			Graphics g = bi.createGraphics();
+			// paint the Icon to the BufferedImage.
+			icon.paintIcon(null, g, 0, 0);
+			// convert to byte array
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ImageIO.write(bi, "png", baos);
+			byte[] bytes = baos.toByteArray();
+			// inject byte array to memory resource
+			WMemoryResource iconResource = new WMemoryResource("image/png");
+			iconResource.setData(bytes);
+			// set dynamic url to memory resource
+			WLink wLink = new WLink(iconResource);
+			return wLink;
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
-	
-	
 	/**
 	 * Looks for UndoRedoBehavior on the current editor part
 	 * 
@@ -270,7 +266,7 @@ public class EditorToolsWidget extends WContainerWidget {
 		}
 		return found.get(0);
 	}
-	
+
 	private String getDeploymentPath() {
 		if (this.deploymentPath == null) {
 			WApplication wApplication = WApplication.getInstance();

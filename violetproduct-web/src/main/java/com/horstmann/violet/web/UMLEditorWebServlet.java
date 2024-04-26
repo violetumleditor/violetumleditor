@@ -26,7 +26,9 @@ public class UMLEditorWebServlet extends WtServlet
          */
         try
         {
-            return new UMLEditorWebApplication(env);
+        	UMLEditorWebApplication app = new UMLEditorWebApplication(env);
+        	app.init();
+        	return app;
         }
         catch (IOException e)
         {
