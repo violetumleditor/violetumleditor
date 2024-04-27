@@ -35,8 +35,8 @@ import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 
+import eu.webtoolkit.jwt.EventSignal1;
 import eu.webtoolkit.jwt.Key;
-import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WApplication;
 import eu.webtoolkit.jwt.WBootstrapTheme;
 import eu.webtoolkit.jwt.WContainerWidget;
@@ -104,21 +104,18 @@ public class UMLEditorWebApplication extends WApplication {
 	
 	
 	private void addGlobalKeyListener() {
-		globalKeyPressed().addListener(this, new Signal1.Listener<WKeyEvent>() {
-			@Override
-			public void trigger(WKeyEvent event) {
-				Key key = event.getKey();
-				List<WWidget> children = getRoot().getChildren();
-				for (WWidget aWidget : children) {
-					if (WorkspaceWidget.class.isInstance(aWidget)) {
-						WorkspaceWidget workspaceWidget = (WorkspaceWidget) aWidget;
-						if (Key.Key_Delete.equals(key)) {
-							IWorkspace workspace = workspaceWidget.getWorkspace();
-							IEditorPart editorPart = workspace.getEditorPart();
-							editorPart.removeSelected();
-							EditorPartWidget editorPartWidget = workspaceWidget.getEditorPartWidget();
-							editorPartWidget.update();
-						}
+		globalKeyWentUp().addListener(this, (WKeyEvent event) -> {
+			Key key = event.getKey();
+			List<WWidget> children = getRoot().getChildren();
+			for (WWidget aWidget : children) {
+				if (WorkspaceWidget.class.isInstance(aWidget)) {
+					WorkspaceWidget workspaceWidget = (WorkspaceWidget) aWidget;
+					if (Key.Key_Delete.equals(key)) {
+						IWorkspace workspace = workspaceWidget.getWorkspace();
+						IEditorPart editorPart = workspace.getEditorPart();
+						editorPart.removeSelected();
+						EditorPartWidget editorPartWidget = workspaceWidget.getEditorPartWidget();
+						editorPartWidget.update();
 					}
 				}
 			}

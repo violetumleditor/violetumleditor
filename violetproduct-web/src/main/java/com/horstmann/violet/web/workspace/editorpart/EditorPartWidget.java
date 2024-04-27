@@ -1,12 +1,10 @@
 package com.horstmann.violet.web.workspace.editorpart;
 
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
-import java.util.EnumSet;
+import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.web.util.jwt.CustomWebGraphics2D;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
@@ -14,9 +12,11 @@ import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.IGrid;
 
 import eu.webtoolkit.jwt.Coordinates;
+import eu.webtoolkit.jwt.Key;
 import eu.webtoolkit.jwt.KeyboardModifier;
-import eu.webtoolkit.jwt.PaintFlag;
+import eu.webtoolkit.jwt.Signal;
 import eu.webtoolkit.jwt.Signal1;
+import eu.webtoolkit.jwt.WKeyEvent;
 import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WLength.Unit;
 import eu.webtoolkit.jwt.WMouseEvent;
@@ -34,6 +34,7 @@ public class EditorPartWidget extends WPaintedWidget {
 	private int mouseDragGapY = 0;
 
 	private MouseEvent lastMouseEvent;
+	
 
 	public EditorPartWidget(IEditorPart editorPart) {
 		setPreferredMethod(Method.HtmlCanvas);
@@ -76,9 +77,9 @@ public class EditorPartWidget extends WPaintedWidget {
 					return;
 				}
 				behaviorManager.fireOnMousePressed(mouseEvent);
+				lastMouseEvent = mouseEvent;
 				// No need to call update() that will be done on drag on button
 				// release;
-				lastMouseEvent = mouseEvent;
 			}
 		});
 
@@ -90,11 +91,18 @@ public class EditorPartWidget extends WPaintedWidget {
 					return;
 				}
 				behaviorManager.fireOnMouseReleased(mouseEvent);
-				update();
+
+				if (lastMouseEvent != null && isClickEvent(lastMouseEvent, mouseEvent)) {
+					// Don't need to update canvas because click event will be also raised by the framework and perform canvas repaint
+					return;
+				}
+				
 				lastMouseEvent = mouseEvent;
 				fixEditorSize(event);
+				update();
 			}
 		});
+		
 		clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
 			@Override
 			public void trigger(WMouseEvent event) {
@@ -202,10 +210,6 @@ public class EditorPartWidget extends WPaintedWidget {
 	@Override
 	protected void paintEvent(WPaintDevice paintDevice) {
 		WPainter painter = new WPainter(paintDevice);
-		this.editorPart.getSwingComponent().doLayout();
-		Rectangle bounds = this.editorPart.getSwingComponent().getBounds();
-		painter.setClipping(true);
-		painter.getClipPath().addRect(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
 		Graphics2D graphics = new CustomWebGraphics2D(painter);
 		this.editorPart.getSwingComponent().paint(graphics);
 		paintDevice.done();
@@ -225,6 +229,16 @@ public class EditorPartWidget extends WPaintedWidget {
 		return isSameEvent;
 	}
 	
+	private boolean isClickEvent(MouseEvent firstMouseEvent, MouseEvent secondMouseEvent) {
+		if (firstMouseEvent == null || secondMouseEvent == null) {
+			return false;
+		}
+		if (firstMouseEvent.getID() == MouseEvent.MOUSE_PRESSED && secondMouseEvent.getID() == MouseEvent.MOUSE_RELEASED) {
+			return true;
+		}
+		return false;
+	}
+	
 	public IEditorPart getEditorPart() {
 		return this.editorPart;
 	}
@@ -236,24 +250,18 @@ public class EditorPartWidget extends WPaintedWidget {
 		super.resize(widthPixels, heightPixels);
 	}
 	
-	public void update(EnumSet<PaintFlag> flags) {
-		super.update(flags);
-		fixEditorSize(null);
-	}
 
 
 	private void fixEditorSize(WMouseEvent event) {
 		double currentWidth = getWidth().toPixels();
 		double currentHeigth = getHeight().toPixels();
-		Dimension preferredSize = this.editorPart.getSwingComponent().getPreferredSize();
+		Rectangle2D clipBounds = editorPart.getGraph().getClipBounds();
 		int gap = 10;
-		double graphWidth = Math.max(preferredSize.getWidth() + gap, currentWidth);
-		double graphHeight = Math.max(preferredSize.getHeight() + gap, currentHeigth);
-		if (event != null) {
-			Coordinates mouseLocationRelativeToEditorPart = event.getWidget();
-			graphWidth = Math.max(graphWidth, mouseLocationRelativeToEditorPart.x + gap);
-			graphHeight = Math.max(graphHeight, mouseLocationRelativeToEditorPart.y + gap);
-		}
+		double graphWidth = Math.max(clipBounds.getX() + clipBounds.getWidth() + gap, currentWidth);
+		double graphHeight = Math.max(clipBounds.getY() + clipBounds.getHeight() + gap, currentHeigth);
+		Coordinates mouseLocationRelativeToEditorPart = event.getWidget();
+		graphWidth = Math.max(graphWidth, mouseLocationRelativeToEditorPart.x + gap);
+		graphHeight = Math.max(graphHeight, mouseLocationRelativeToEditorPart.y + gap);
 		double editorPartWidth = getWidth().toPixels();
 		double editorPartHeight = getHeight().toPixels();
 		if (editorPartWidth != graphWidth || editorPartHeight != graphHeight) {
