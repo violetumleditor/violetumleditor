@@ -253,12 +253,10 @@ public class EditorPartWidget extends WPaintedWidget {
 
 
 	private void fixEditorSize(WMouseEvent event) {
-		double currentWidth = getWidth().toPixels();
-		double currentHeigth = getHeight().toPixels();
 		Rectangle2D clipBounds = editorPart.getGraph().getClipBounds();
 		int gap = 10;
-		double graphWidth = Math.max(clipBounds.getX() + clipBounds.getWidth() + gap, currentWidth);
-		double graphHeight = Math.max(clipBounds.getY() + clipBounds.getHeight() + gap, currentHeigth);
+		double graphWidth = clipBounds.getX() + clipBounds.getWidth() + gap;
+		double graphHeight = clipBounds.getY() + clipBounds.getHeight() + gap;
 		Coordinates mouseLocationRelativeToEditorPart = event.getWidget();
 		graphWidth = Math.max(graphWidth, mouseLocationRelativeToEditorPart.x + gap);
 		graphHeight = Math.max(graphHeight, mouseLocationRelativeToEditorPart.y + gap);
