@@ -22,6 +22,7 @@ public class MultilineStringEditorWidget extends AbstractPropertyEditorWidget<Mu
 	
 	public MultilineStringEditorWidget(Object bean, PropertyDescriptor propertyDescriptor) {
 		super(bean, propertyDescriptor);
+		
 	}
 
 	private WContainerWidget getEditorWidget() {
@@ -49,11 +50,12 @@ public class MultilineStringEditorWidget extends AbstractPropertyEditorWidget<Mu
 			this.textAreaComponent = new WTextArea();
 			this.textAreaComponent.setWidth(new WLength(300, Unit.Pixel));
 			this.textAreaComponent.setHeight(new WLength(100, Unit.Pixel));
+			this.textAreaComponent.setText(getValue().getText());
 			this.textAreaComponent.changed().addListener(this, new Signal.Listener() {
 				public void trigger() {
 					MultiLineString currentValue = getValue();
 					currentValue.setText(getTextAreaComponent().getText());
-					setValue(currentValue);
+					setValue(currentValue); // Needed to fire PropertyChangeEvent
 				}
 			});
 		}
@@ -65,9 +67,5 @@ public class MultilineStringEditorWidget extends AbstractPropertyEditorWidget<Mu
 		return getEditorWidget();
 	}
 
-	@Override
-	protected void updateCustomEditor() {
-		getTextAreaComponent().setText(super.getValue().getText());
-	}
 
 }

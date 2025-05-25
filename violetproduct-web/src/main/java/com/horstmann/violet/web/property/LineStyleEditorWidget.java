@@ -18,6 +18,7 @@ public class LineStyleEditorWidget extends AbstractPropertyEditorWidget<LineStyl
 
 	public LineStyleEditorWidget(Object bean, PropertyDescriptor propertyDescriptor) {
 		super(bean, propertyDescriptor);
+		initializeWidget();
 	}
 
 	@Override
@@ -25,8 +26,7 @@ public class LineStyleEditorWidget extends AbstractPropertyEditorWidget<LineStyl
 		return getComboBoxComponent();
 	}
 
-	@Override
-	protected void updateCustomEditor() {
+	private void initializeWidget() {
 		LineStyle selectedLineStyle = getValue();
 		int newIndex = 0;
 		for (int i = 0; i < LineStyleEditor.VALUES.length; i++) {

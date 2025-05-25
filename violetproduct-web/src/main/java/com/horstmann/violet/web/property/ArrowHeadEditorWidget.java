@@ -18,6 +18,7 @@ public class ArrowHeadEditorWidget extends AbstractPropertyEditorWidget<ArrowHea
 
 	public ArrowHeadEditorWidget(Object bean, PropertyDescriptor propertyDescriptor) {
 		super(bean, propertyDescriptor);
+		initializeWidget();
 	}
 
 	@Override
@@ -25,8 +26,7 @@ public class ArrowHeadEditorWidget extends AbstractPropertyEditorWidget<ArrowHea
 		return getComboBoxComponent();
 	}
 
-	@Override
-	protected void updateCustomEditor() {
+	private void initializeWidget() {
 		ArrowHead selectedArrowHead = getValue();
 		int newIndex = 0;
 		for (int i = 0; i < ArrowHeadEditor.VALUES.length; i++) {
@@ -53,6 +53,7 @@ public class ArrowHeadEditorWidget extends AbstractPropertyEditorWidget<ArrowHea
 					setValue(selectedArrowHead);
 				}
 			});
+			
 		}
 		return this.comboBoxComponent;
 	}

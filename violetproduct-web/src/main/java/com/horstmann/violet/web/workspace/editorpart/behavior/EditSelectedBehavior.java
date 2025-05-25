@@ -11,7 +11,7 @@ import com.horstmann.violet.framework.injection.resources.annotation.ResourceBun
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.web.property.PropertyEditorWidget;
+import com.horstmann.violet.web.property.CompositeEditorWidget;
 import com.horstmann.violet.web.workspace.editorpart.EditorPartWidget;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
@@ -75,7 +75,7 @@ public class EditSelectedBehavior extends AbstractEditorPartBehavior {
 		if (edited == null) {
 			return;
 		}
-		PropertyEditorWidget editorWidget = new PropertyEditorWidget(edited, this.editorPart, this.editorPartWidget);
+		CompositeEditorWidget editorWidget = new CompositeEditorWidget(edited, this.editorPart, this.editorPartWidget);
 
 		final WDialog dialog = new WDialog(this.dialogTitle);
 		WContainerWidget dialogContainer = dialog.getContents();

@@ -29,14 +29,14 @@ import eu.webtoolkit.jwt.WLength.Unit;
 import eu.webtoolkit.jwt.WScrollArea;
 import eu.webtoolkit.jwt.WVBoxLayout;
 
-public class PropertyEditorWidget extends WCompositeWidget {
+public class CompositeEditorWidget extends WCompositeWidget {
 
 	private Object bean;
 	private EditorPartWidget editorPartWidget;
 	private IEditorPartBehaviorManager behaviorManager;
 	private boolean isSomethingToEdit = false;
 
-	public PropertyEditorWidget(Object bean, IEditorPart editorPart, EditorPartWidget editorPartWidget) {
+	public CompositeEditorWidget(Object bean, IEditorPart editorPart, EditorPartWidget editorPartWidget) {
 		super();
 		this.bean = bean;
 		this.editorPartWidget = editorPartWidget;
@@ -133,6 +133,12 @@ public class PropertyEditorWidget extends WCompositeWidget {
 
 	private AbstractPropertyEditorWidget<?> getEditorWidget(Class<?> type, Object bean, PropertyDescriptor descriptor) {
 		AbstractPropertyEditorWidget editorWidget = null;
+		if (String.class.equals(type)) {
+			editorWidget = new PrimitiveTypeEditorWidget<String>(bean, descriptor, (String str) -> str, (String value) -> value);
+		}
+		if (Integer.class.equals(type)) {
+			editorWidget = new PrimitiveTypeEditorWidget<Integer>(bean, descriptor, (String str) -> Integer.parseInt(str), (Integer value) -> value.toString());
+		}
 		if (MultiLineString.class.equals(type)) {
 			editorWidget = new MultilineStringEditorWidget(bean, descriptor);
 		}

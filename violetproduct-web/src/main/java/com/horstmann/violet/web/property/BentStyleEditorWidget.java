@@ -18,6 +18,7 @@ public class BentStyleEditorWidget extends AbstractPropertyEditorWidget<BentStyl
 
 	public BentStyleEditorWidget(Object bean, PropertyDescriptor propertyDescriptor) {
 		super(bean, propertyDescriptor);
+		initializeWidget();
 	}
 
 	@Override
@@ -25,8 +26,7 @@ public class BentStyleEditorWidget extends AbstractPropertyEditorWidget<BentStyl
 		return getComboBoxComponent();
 	}
 
-	@Override
-	protected void updateCustomEditor() {
+	private void initializeWidget() {
 		BentStyle selectedBentStyle = getValue();
 		int newIndex = 0;
 		for (int i = 0; i < BentStyleEditor.VALUES.length; i++) {
