@@ -17,7 +17,6 @@ import com.horstmann.violet.product.diagram.classes.edges.InterfaceInheritanceEd
 import com.horstmann.violet.product.diagram.classes.nodes.ClassNode;
 import com.horstmann.violet.product.diagram.classes.nodes.InterfaceNode;
 import com.horstmann.violet.product.diagram.classes.nodes.PackageNode;
-import com.horstmann.violet.product.diagram.common.ImageNode;
 import com.horstmann.violet.product.diagram.common.NoteEdge;
 import com.horstmann.violet.product.diagram.common.NoteNode;
 

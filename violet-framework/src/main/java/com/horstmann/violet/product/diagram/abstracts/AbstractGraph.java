@@ -33,7 +33,6 @@ import java.util.List;
 
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.common.NoteNode;
 
 /**
@@ -160,8 +159,7 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
      */
     public Rectangle2D getClipBounds()
     {
-        Rectangle2D r = minBounds;
-        r = null;
+        Rectangle2D r = null;
         for (INode n : nodes)
         {
             Rectangle2D b = n.getBounds();
