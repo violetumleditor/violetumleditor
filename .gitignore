@@ -8,6 +8,9 @@
 .classpath
 .project
 .settings/
+#**/.classpath
+#**/.project
+#**/.settings/
 
 # Visual Studio Code #
 .vscode/

@@ -296,37 +296,7 @@ public class ActivationBarNode extends RectangularNode
 
 
 
-    /**
-     * 
-     * @return true if this activation bar is connected to another one from another lifeline with a CallEdge AND if this activation
-     *         bar is the STARTING node of this edge
-     */
-    private boolean isCallingNode()
-    {
-        LifelineNode currentLifelineNode = getImplicitParameter();
-        for (IEdge edge : getGraph().getAllEdges())
-        {
-            if (edge.getStart() != this)
-            {
-                continue;
-            }
-            if (!edge.getClass().isAssignableFrom(CallEdge.class))
-            {
-                continue;
-            }
-            INode endingNode = edge.getEnd();
-            if (!endingNode.getClass().isAssignableFrom(ActivationBarNode.class))
-            {
-                continue;
-            }
-            if (((ActivationBarNode) endingNode).getImplicitParameter() == currentLifelineNode)
-            {
-                continue;
-            }
-            return true;
-        }
-        return false;
-    }
+
 
     /**
      * 
@@ -720,22 +690,7 @@ public class ActivationBarNode extends RectangularNode
         return false;
     }
 
-    /**
-     * Finds an edge in the graph connected to start and end nodes
-     * 
-     * @param g the graph
-     * @param start the start node
-     * @param end the end node
-     * @return the edge or null if no one is found
-     */
-    private IEdge findEdge(INode start, INode end)
-    {
-        for (IEdge e : getGraph().getAllEdges())
-        {
-            if (e.getStart() == start && e.getEnd() == end) return e;
-        }
-        return null;
-    }
+
 
     /**
      * @return x location relative to the parent

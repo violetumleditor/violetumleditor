@@ -34,7 +34,7 @@ public class ApplicationStopper
         boolean ok = isItReadyToExit(mainFrame);
         if (ok)
         {
-        	for (IWorkspace workspace: mainFrame.getWorkspaceList())
+        	for (@SuppressWarnings("unused") IWorkspace workspace: mainFrame.getWorkspaceList())
         	{
         		// Perform what you want here before exit!!!
         	}

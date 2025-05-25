@@ -1,9 +1,10 @@
 package com.horstmann.violet.product.diagram.classes.edges;
 
+import com.horstmann.violet.product.diagram.abstracts.edge.SegmentedLineEdge;
 import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
 import com.horstmann.violet.product.diagram.abstracts.property.LineStyle;
 
-public class InterfaceInheritanceEdge extends ClassRelationshipEdge
+public class InterfaceInheritanceEdge extends SegmentedLineEdge
 {
     
     @Override

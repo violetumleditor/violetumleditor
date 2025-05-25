@@ -300,7 +300,6 @@ public class FileMenu extends JMenu
                             throw new IOException("Unable to get output stream for extension "
                                                     + extensionFilter.getExtension());
                         }
-                        String filename = fileSaver.getFileDefinition().getFilename();
                         workspace.getGraphFile().exportToPdf(out);
                     }
                     catch (IOException e1)

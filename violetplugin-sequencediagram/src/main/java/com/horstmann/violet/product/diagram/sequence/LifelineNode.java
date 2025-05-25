@@ -91,49 +91,7 @@ public class LifelineNode extends RectangularNode
         return true;
     }
 
-    /**
-     * Looks for the node which is located just after the given point
-     * 
-     * @param p
-     * @return the node we found or null if there's no node after this point
-     */
-    private INode getNearestNodeAfterThisPoint(Point2D p)
-    {
-        double y = p.getY();
-        INode nearestNodeAfterThisPoint = null;
-        // Step 1 : we look for the closest node
-        for (INode childNode : getChildren())
-        {
-            if (nearestNodeAfterThisPoint == null)
-            {
-                nearestNodeAfterThisPoint = childNode;
-            }
-            Point2D childLocation = childNode.getLocation();
-            Point2D nearestNodeLocation = nearestNodeAfterThisPoint.getLocation();
-            double childY = childLocation.getY();
-            double nearestY = nearestNodeLocation.getY();
-            double currentNodeGap = childY - y;
-            double nearestNodeGap = nearestY - y;
-            if (currentNodeGap > 0 && Math.abs(currentNodeGap) < Math.abs(nearestNodeGap))
-            {
-                nearestNodeAfterThisPoint = childNode;
-            }
-        }
-        // Step 2 : if nothing found, we return null
-        if (nearestNodeAfterThisPoint == null)
-        {
-            return null;
-        }
-        // Step 3 : as by default we set the first child node as the nearest one
-        // We check if it is not before p
-        Point2D nearestChildLocation = nearestNodeAfterThisPoint.getLocation();
-        if (y > nearestChildLocation.getY())
-        {
-            return null;
-        }
-        // Step 4 : we return the closest node after p
-        return nearestNodeAfterThisPoint;
-    }
+
 
     @Override
     public Point2D getConnectionPoint(IEdge e)
@@ -338,5 +296,4 @@ public class LifelineNode extends RectangularNode
     private transient double maxYOverAllLifeLineNodes = 0;
     private static int DEFAULT_TOP_HEIGHT = 60;
     private static int DEFAULT_WIDTH = 80;
-    private static int DEFAULT_HEIGHT = 120;
 }

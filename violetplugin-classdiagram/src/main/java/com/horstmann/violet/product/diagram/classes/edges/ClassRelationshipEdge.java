@@ -4,9 +4,8 @@ import com.horstmann.violet.product.diagram.abstracts.edge.SegmentedLineEdge;
 
 /**
  * An edge that is shaped like a line with up to three segments with an arrowhead
- * @deprecated kept for compatibility
+ * IMPORTANT : kept for compatibility with Violet 0.16 only
  */
-@Deprecated
 public class ClassRelationshipEdge extends SegmentedLineEdge
 {
         

@@ -135,7 +135,6 @@ public class FieldNode extends RectangularNode
                 - nodeLocation.getY());
         g2.translate(g2Location.getX(), g2Location.getY());
         // Perform drawing
-        Rectangle2D b = getBounds();
         g2.setColor(getTextColor());
         name.draw(g2, getNameBounds());
         equalSeparator.draw(g2, getEqualSeparatorBounds());
@@ -327,8 +326,6 @@ public class FieldNode extends RectangularNode
 
     private static int DEFAULT_WIDTH = 60;
     private static int DEFAULT_HEIGHT = 20;
-    private static int XGAP = 5;
-    private static int YGAP = 5;
 
     private transient double verticalLocation = 0;
     private transient double horizontalLocation = 0;
