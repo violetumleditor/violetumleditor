@@ -46,7 +46,11 @@ public class FlatLightTheme extends AbstractTheme
 	@Override
 	public ThemeInfo getThemeInfo() {
 		try {
-			return new ThemeInfo("Flat Light", FlatLightTheme.class, (Class<? extends LookAndFeel>) Class.forName(FlatLightLaf.class.getName()));
+			// This cast is necessary as Class.forName returns Class<?>.
+			// FlatLightLaf.class.getName() ensures it's a LookAndFeel subclass.
+			@SuppressWarnings("unchecked")
+			Class<? extends LookAndFeel> lnfClass = (Class<? extends LookAndFeel>) Class.forName(FlatLightLaf.class.getName());
+			return new ThemeInfo("Flat Light", FlatLightTheme.class, lnfClass);
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}

@@ -106,10 +106,10 @@ public class DiagramLink
             LocalFile localFile = new LocalFile(this.file);
             File fileImpl = localFile.toFile();
             if (fileImpl.exists()) {
-                return fileImpl.toURL();
+                return fileImpl.toURI().toURL();
             }
             return null;
-        } catch (IOException e) {
+        } catch (IOException e) { // MalformedURLException is subclass of IOException
             throw new RuntimeException (e);
         }
     }

@@ -404,12 +404,18 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
             	if (Image.class.equals(exceptedType) && clipData.isDataFlavorSupported(DataFlavor.imageFlavor))
             	{
             		Image img = (Image) (clipData.getTransferData(DataFlavor.imageFlavor));
-            		return (T) img;
+            		// Safe cast: type T is Image due to the preceding Image.class.equals(exceptedType) check
+            		@SuppressWarnings("unchecked")
+            		T result = (T) img;
+            		return result;
             	}
                 if (String.class.equals(exceptedType) && clipData.isDataFlavorSupported(DataFlavor.stringFlavor))
                 {
                     String s = (String) (clipData.getTransferData(DataFlavor.stringFlavor));
-                    return (T) s;
+                    // Safe cast: type T is String due to the preceding String.class.equals(exceptedType) check
+                    @SuppressWarnings("unchecked")
+                    T result = (T) s;
+                    return result;
                 }
             }
             catch (UnsupportedFlavorException ufe)

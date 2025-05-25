@@ -73,6 +73,9 @@ public abstract class AbstractPropertyEditorWidget<T> extends WCompositeWidget {
 
 	public void setValue(T value) {
 		try {
+			// This cast is contextually safe; type T is determined by the specific property being edited.
+            // It's assumed that the property's actual type matches T.
+            @SuppressWarnings("unchecked")
 			T oldValue = (T) getPropertyDescriptor().getReadMethod().invoke(this.bean);
 			this.propertyDescriptor.getWriteMethod().invoke(this.bean, value);
 			firePropertyChanged(oldValue, value);
@@ -83,7 +86,11 @@ public abstract class AbstractPropertyEditorWidget<T> extends WCompositeWidget {
 
 	public T getValue() {
 		try {
-			return (T) getPropertyDescriptor().getReadMethod().invoke(this.bean);
+			// This cast is contextually safe; type T is determined by the specific property being edited.
+            // It's assumed that the property's actual type matches T.
+            @SuppressWarnings("unchecked")
+			T result = (T) getPropertyDescriptor().getReadMethod().invoke(this.bean);
+			return result;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

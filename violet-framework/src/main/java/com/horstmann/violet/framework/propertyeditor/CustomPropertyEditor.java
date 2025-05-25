@@ -172,7 +172,7 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
             final PropertyEditor editor;
             Class<?> editorClass = descriptor.getPropertyEditorClass();
             if (editorClass == null && editors.containsKey(type)) editorClass = (Class<?>) editors.get(type);
-            if (editorClass != null) editor = (PropertyEditor) editorClass.newInstance();
+            if (editorClass != null) editor = (PropertyEditor) editorClass.getDeclaredConstructor().newInstance();
             else editor = PropertyEditorManager.findEditor(type);
             if (editor == null) return null;
 
@@ -213,17 +213,7 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
             });
             return editor;
         }
-        catch (InstantiationException exception)
-        {
-            exception.printStackTrace();
-            return null;
-        }
-        catch (IllegalAccessException exception)
-        {
-            exception.printStackTrace();
-            return null;
-        }
-        catch (InvocationTargetException exception)
+        catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException exception)
         {
             exception.printStackTrace();
             return null;
@@ -272,7 +262,7 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
         else if (tags != null)
         {
             // make a combo box that shows all tags
-            final JComboBox comboBox = new JComboBox(tags);
+            final JComboBox<String> comboBox = new JComboBox<String>(tags);
             comboBox.setSelectedItem(text);
             comboBox.addItemListener(new ItemListener()
             {

@@ -10,6 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -591,9 +592,12 @@ public class ManiocFramework {
                         Constructor<T> defaultConstructor = getDefaultConstructor(classType);
                         if (defaultConstructor != null) {
                                 try {
-                                        T newInstance = classType.newInstance();
+                                        // Ensure constructor is accessible if it's not public by default from getDeclaredConstructor
+                                        // However, getDefaultConstructor likely returns a public one.
+                                        // For consistency with the request, using getDeclaredConstructor().newInstance()
+                                        T newInstance = classType.getDeclaredConstructor().newInstance();
                                         return newInstance;
-                                } catch (Exception e) {
+                                } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
                                         throw new ManiocException("BeanFactory failed to create bean of type " + classType.getName() + " from its default constructor.  Application context is " + this.context.getSimpleName(), e);
                                 }
                         }

@@ -51,7 +51,7 @@ public class ChoiceListEditor extends PropertyEditorSupport
     public Component getCustomEditor()
     {
         ChoiceList list = (ChoiceList) getValue();
-        final JComboBox comboBox = new JComboBox(list.getList());
+        final JComboBox<String> comboBox = new JComboBox<String>(list.getList());
         comboBox.setSelectedItem(list.getSelectedItem());
         comboBox.addActionListener(new ActionListener()
         {

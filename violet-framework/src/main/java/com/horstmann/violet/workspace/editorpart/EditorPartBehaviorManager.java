@@ -33,9 +33,12 @@ public class EditorPartBehaviorManager implements IEditorPartBehaviorManager
         List<T> result = new ArrayList<T>();
         for (IEditorPartBehavior aBehavior : this.behaviors)
         {
-            if (aBehavior.getClass().isAssignableFrom(type))
+            if (type.isInstance(aBehavior))
             {
-                result.add((T) aBehavior);
+                // Safe cast to T, type ensured by type.isInstance(aBehavior) check.
+                @SuppressWarnings("unchecked")
+                T castedBehavior = (T) aBehavior;
+                result.add(castedBehavior);
             }
         }
         return result;

@@ -75,9 +75,9 @@ public class XStreamBasedPersistenceService implements IFilePersistenceService {
         xStream.registerConverter(new Rectangle2DConverter());
         xStream.registerConverter(new RoundRectangle2DConverter());
         xStream.ignoreUnknownElements();
-		xStream.addImmutableType(ArrowHead.class);
-        xStream.addImmutableType(LineStyle.class);
-        xStream.addImmutableType(BentStyle.class);
+		xStream.addImmutableType(ArrowHead.class, false);
+        xStream.addImmutableType(LineStyle.class, false);
+        xStream.addImmutableType(BentStyle.class, false);
 		List<IDiagramPlugin> diagramPlugins = this.pluginRegistry.getDiagramPlugins();
 		for (IDiagramPlugin aPlugin : diagramPlugins) {
 			Class<? extends IGraph> graphClass = aPlugin.getGraphClass();
