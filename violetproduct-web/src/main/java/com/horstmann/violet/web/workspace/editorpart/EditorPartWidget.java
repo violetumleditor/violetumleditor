@@ -12,11 +12,8 @@ import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.IGrid;
 
 import eu.webtoolkit.jwt.Coordinates;
-import eu.webtoolkit.jwt.Key;
 import eu.webtoolkit.jwt.KeyboardModifier;
-import eu.webtoolkit.jwt.Signal;
 import eu.webtoolkit.jwt.Signal1;
-import eu.webtoolkit.jwt.WKeyEvent;
 import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WLength.Unit;
 import eu.webtoolkit.jwt.WMouseEvent;

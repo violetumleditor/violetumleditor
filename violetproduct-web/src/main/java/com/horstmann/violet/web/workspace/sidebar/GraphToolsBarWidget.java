@@ -21,10 +21,8 @@ import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBarListener;
 
 import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WAnchor;
-import eu.webtoolkit.jwt.WApplication;
 import eu.webtoolkit.jwt.WCompositeWidget;
 import eu.webtoolkit.jwt.WContainerWidget;
-import eu.webtoolkit.jwt.WEnvironment;
 import eu.webtoolkit.jwt.WImage;
 import eu.webtoolkit.jwt.WLabel;
 import eu.webtoolkit.jwt.WLength;
@@ -45,10 +43,6 @@ public class GraphToolsBarWidget extends WCompositeWidget {
 
 	private List<WMenuItem> graphToolButtonList = new ArrayList<WMenuItem>();
 
-	private static final String UNSELECTED_GRAPHTOOL_CSS_CLASS = "btn-info";
-
-	private static final String SELECTED_GRAPHTOOL_CSS_CLASS = "btn-primary";
-
 	private Map<GraphTool, WMenuItem> graphToolCache = new HashMap<GraphTool, WMenuItem>();
 
 	private WContainerWidget mainContainerWidget;
@@ -58,7 +52,6 @@ public class GraphToolsBarWidget extends WCompositeWidget {
 	@ResourceBundleBean(key = "title.diagramtools.text")
 	private String title;
 
-	private String deploymentPath;
 
 	public GraphToolsBarWidget(final IGraphToolsBar graphToolsBar, WContainerWidget parent) {
 		super(parent);
@@ -181,12 +174,5 @@ public class GraphToolsBarWidget extends WCompositeWidget {
 		return spaceText;
 	}
 
-	private String getDeploymentPath() {
-		if (this.deploymentPath == null) {
-			WApplication wApplication = WApplication.getInstance();
-			WEnvironment environment = wApplication.getEnvironment();
-			this.deploymentPath = environment.getDeploymentPath();
-		}
-		return this.deploymentPath;
-	}
+
 }

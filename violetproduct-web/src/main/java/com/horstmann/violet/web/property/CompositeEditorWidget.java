@@ -10,10 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
-import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.BentStyle;
@@ -24,9 +21,6 @@ import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 
 import eu.webtoolkit.jwt.WCompositeWidget;
 import eu.webtoolkit.jwt.WContainerWidget;
-import eu.webtoolkit.jwt.WLength;
-import eu.webtoolkit.jwt.WLength.Unit;
-import eu.webtoolkit.jwt.WScrollArea;
 import eu.webtoolkit.jwt.WVBoxLayout;
 
 public class CompositeEditorWidget extends WCompositeWidget {
@@ -70,7 +64,6 @@ public class CompositeEditorWidget extends WCompositeWidget {
 				}
 			});
 
-			ResourceBundle rs = ResourceBundle.getBundle(ResourceBundleConstant.NODE_AND_EDGE_STRINGS, Locale.getDefault());
 			for (int i = 0; i < descriptors.length; i++) {
 				AbstractPropertyEditorWidget<?> editor = getEditorWidget(bean, descriptors[i]);
 				if (editor != null) {
@@ -94,12 +87,13 @@ public class CompositeEditorWidget extends WCompositeWidget {
 			if (setter == null)
 				return null;
 			Class<?> type = descriptor.getPropertyType();
-			Class<?> editorClass = descriptor.getPropertyEditorClass();
-			final AbstractPropertyEditorWidget editorWidget = getEditorWidget(type, bean, descriptor);
+			final AbstractPropertyEditorWidget<?> editorWidget = getEditorWidget(type, bean, descriptor);
 			if (editorWidget == null)
 				return null;
 			Object value = getter.invoke(bean);
-			editorWidget.setValue(value);
+			@SuppressWarnings("unchecked")
+			AbstractPropertyEditorWidget<Object> uncheckedEditor = (AbstractPropertyEditorWidget<Object>) editorWidget;
+			uncheckedEditor.setValue(value);
 			editorWidget.addPropertyChangeListener(new PropertyChangeListener() {
 
 				@Override
@@ -132,7 +126,7 @@ public class CompositeEditorWidget extends WCompositeWidget {
 	}
 
 	private AbstractPropertyEditorWidget<?> getEditorWidget(Class<?> type, Object bean, PropertyDescriptor descriptor) {
-		AbstractPropertyEditorWidget editorWidget = null;
+		AbstractPropertyEditorWidget<?> editorWidget = null;
 		if (String.class.equals(type)) {
 			editorWidget = new PrimitiveTypeEditorWidget<String>(bean, descriptor, (String str) -> str, (String value) -> value);
 		}

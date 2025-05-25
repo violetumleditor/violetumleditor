@@ -35,7 +35,6 @@ import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 
-import eu.webtoolkit.jwt.EventSignal1;
 import eu.webtoolkit.jwt.Key;
 import eu.webtoolkit.jwt.WApplication;
 import eu.webtoolkit.jwt.WBootstrapTheme;
@@ -52,10 +51,6 @@ import eu.webtoolkit.jwt.WWidget;
  * A program for editing UML diagrams.
  */
 public class UMLEditorWebApplication extends WApplication {
-
-	private static boolean FACTORY_INITIALIZED = false;
-	
-	private String deploymentPath;
 
 	@InjectedBean
 	private PluginLoader pluginLoader;
@@ -122,13 +117,6 @@ public class UMLEditorWebApplication extends WApplication {
 		});
 	}
 	
-	private String getDeploymentPath() {
-		if (this.deploymentPath == null) {
-			WApplication wApplication = WApplication.getInstance();
-			WEnvironment environment = wApplication.getEnvironment();
-			this.deploymentPath = environment.getDeploymentPath();
-		}
-		return this.deploymentPath;
-	}
+
 
 }
