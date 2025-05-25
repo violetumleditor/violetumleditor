@@ -250,7 +250,7 @@ public class DialogFactory
             {
                     optionPane,
                     title,
-                    new Boolean(isModal)
+                    Boolean.valueOf(isModal)
             });
         }
     }
