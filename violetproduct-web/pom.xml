@@ -14,7 +14,7 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<properties>
-		<jetty.version>9.4.55.v20240627</jetty.version>
+		<jetty.version>9.4.56.v20240826</jetty.version>
 	</properties>
 	<dependencies>
 		<!-- VIOLET (start) -->
