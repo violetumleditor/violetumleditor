@@ -222,7 +222,7 @@ public class EditorPartWidget extends WPaintedWidget {
 		}
 		boolean isSameButton = (firstMouseEvent.getButton() == secondMouseEvent.getButton());
 		boolean isSameLocation = firstMouseEvent.getPoint().equals(secondMouseEvent.getPoint());
-		boolean isSameModifiers = (firstMouseEvent.getModifiers() == secondMouseEvent.getModifiers());
+		boolean isSameModifiers = (firstMouseEvent.getModifiersEx() == secondMouseEvent.getModifiersEx());
 		boolean isSameClickCount = (firstMouseEvent.getClickCount() == secondMouseEvent.getClickCount());
 		boolean isSameType = (firstMouseEvent.getID() == secondMouseEvent.getID());
 		boolean isSameEvent = isSameButton && isSameLocation && isSameModifiers && isSameClickCount && isSameType;

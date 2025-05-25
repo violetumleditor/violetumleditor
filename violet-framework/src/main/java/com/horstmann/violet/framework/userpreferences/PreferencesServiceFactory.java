@@ -47,12 +47,14 @@ public abstract class PreferencesServiceFactory
         try
         {
             // we load this lazily so that the JAR can load without WebStart
-            service = (IUserPreferencesDao) Class.forName("com.horstmann.violet.framework.JNLPPreferencesService").newInstance();
+            Class<?> daoClass = Class.forName("com.horstmann.violet.framework.JNLPPreferencesService");
+            service = (IUserPreferencesDao) daoClass.getDeclaredConstructor().newInstance();
             return service;
         }
-        catch (Throwable exception)
+        catch (ReflectiveOperationException exception)
         {
             // that happens when we are an applet
+            // ClassNotFoundException is a subclass of ReflectiveOperationException
         }
 
         return new AppletUserPreferencesDao();

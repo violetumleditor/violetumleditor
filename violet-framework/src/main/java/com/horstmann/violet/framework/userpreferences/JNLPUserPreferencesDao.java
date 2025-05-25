@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 import javax.jnlp.BasicService;
@@ -52,7 +53,7 @@ public class JNLPUserPreferencesDao implements IUserPreferencesDao
             URL codeBase = basic.getCodeBase();
 
             PersistenceService service = (PersistenceService) ServiceManager.lookup("javax.jnlp.PersistenceService");
-            URL keyURL = new URL(codeBase, key.toString());
+            URL keyURL = codeBase.toURI().resolve(key.toString()).toURL();
 
             FileContents contents = service.get(keyURL);
             InputStream in = contents.getInputStream();
@@ -60,15 +61,7 @@ public class JNLPUserPreferencesDao implements IUserPreferencesDao
             String r = reader.readLine();
             if (r != null) return r;
         }
-        catch (UnavailableServiceException e)
-        {
-            e.printStackTrace();
-        }
-        catch (MalformedURLException e)
-        {
-            e.printStackTrace();
-        }
-        catch (IOException e)
+        catch (UnavailableServiceException | URISyntaxException | IOException e)
         {
             e.printStackTrace();
         }
@@ -83,7 +76,7 @@ public class JNLPUserPreferencesDao implements IUserPreferencesDao
             URL codeBase = basic.getCodeBase();
 
             PersistenceService service = (PersistenceService) ServiceManager.lookup("javax.jnlp.PersistenceService");
-            URL keyURL = new URL(codeBase, key.toString());
+            URL keyURL = codeBase.toURI().resolve(key.toString()).toURL();
             try
             {
                 service.delete(keyURL);
@@ -98,15 +91,7 @@ public class JNLPUserPreferencesDao implements IUserPreferencesDao
             out.write(bytes);
             out.close();
         }
-        catch (UnavailableServiceException e)
-        {
-            e.printStackTrace();
-        }
-        catch (MalformedURLException e)
-        {
-            e.printStackTrace();
-        }
-        catch (IOException e)
+        catch (UnavailableServiceException | URISyntaxException | IOException e)
         {
             e.printStackTrace();
         }
@@ -122,7 +107,7 @@ public class JNLPUserPreferencesDao implements IUserPreferencesDao
             PersistenceService service = (PersistenceService) ServiceManager.lookup("javax.jnlp.PersistenceService");
             for (int i = 0; i < PreferencesConstant.LIST.length; i++)
             {
-                URL keyURL = new URL(codeBase, PreferencesConstant.LIST[i].toString());
+                URL keyURL = codeBase.toURI().resolve(PreferencesConstant.LIST[i].toString()).toURL();
                 try
                 {
                     service.delete(keyURL);
@@ -132,11 +117,7 @@ public class JNLPUserPreferencesDao implements IUserPreferencesDao
                 }
             }
         }
-        catch (UnavailableServiceException e)
-        {
-            e.printStackTrace();
-        }
-        catch (MalformedURLException e)
+        catch (UnavailableServiceException | URISyntaxException | MalformedURLException e)
         {
             e.printStackTrace();
         }

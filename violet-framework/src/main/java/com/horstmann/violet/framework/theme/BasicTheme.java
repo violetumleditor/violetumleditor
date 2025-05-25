@@ -47,7 +47,11 @@ public class BasicTheme extends AbstractTheme
      */
     public BasicTheme(String className) throws ClassNotFoundException
     {
-        this.lookAndFeelClass = (Class<? extends LookAndFeel>) Class.forName(className);
+        // This cast is necessary as Class.forName returns Class<?>.
+        // It is assumed that the provided className is a valid LookAndFeel subclass.
+        @SuppressWarnings("unchecked")
+        Class<? extends LookAndFeel> lnfClass = (Class<? extends LookAndFeel>) Class.forName(className);
+        this.lookAndFeelClass = lnfClass;
     }
 
 	@Override

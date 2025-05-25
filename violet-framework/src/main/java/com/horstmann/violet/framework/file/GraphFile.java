@@ -41,9 +41,9 @@ public class GraphFile implements IGraphFile
         BeanInjector.getInjector().inject(this);
         try
         {
-			this.graph = graphClass.newInstance();
+			this.graph = graphClass.getDeclaredConstructor().newInstance();
         }
-        catch (Exception e)
+        catch (InstantiationException | IllegalAccessException | NoSuchMethodException | java.lang.reflect.InvocationTargetException e)
         {
             DialogFactory.getInstance().showErrorDialog(e.getMessage());
             throw new RuntimeException(e);

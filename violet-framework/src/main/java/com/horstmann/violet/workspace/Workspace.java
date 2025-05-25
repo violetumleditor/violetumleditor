@@ -128,7 +128,7 @@ public class Workspace implements IWorkspace
            return filename;
        }
        List<IDiagramPlugin> diagramPlugins = this.pluginRegistry.getDiagramPlugins();
-       Class<? extends IGraph> searchedClass = this.graphFile.getGraph().getClass();
+       Class<? extends IGraph> searchedClass = (Class<? extends IGraph>) this.graphFile.getGraph().getClass();
        for (IDiagramPlugin aDiagramPlugin : diagramPlugins)
        {
            if (aDiagramPlugin.getGraphClass().equals(searchedClass))

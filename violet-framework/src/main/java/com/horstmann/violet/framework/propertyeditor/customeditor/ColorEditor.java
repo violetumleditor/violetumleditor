@@ -42,7 +42,7 @@ public class ColorEditor extends PropertyEditorSupport
 {
     public ColorEditor()
     {
-        combo = new JComboBox(colors);
+        combo = new JComboBox<ColorIcon>(colors);
         combo.addItemListener(new ItemListener()
         {
             public void itemStateChanged(ItemEvent event)
@@ -106,7 +106,7 @@ public class ColorEditor extends PropertyEditorSupport
         private static final int HEIGHT = 15;
     }
 
-    private JComboBox combo;
+    private JComboBox<ColorIcon> combo;
 
     private static int[] colorValues =
     {

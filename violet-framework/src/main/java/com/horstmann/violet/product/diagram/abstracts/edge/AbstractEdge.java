@@ -162,7 +162,7 @@ public abstract class AbstractEdge implements IEdge
     
     @Override
     public void removeTransitionPoint(ITransitionPoint... transitionPointsToRemove) {
-    	List<ITransitionPoint> transitionPointList  = new ArrayList<ITransitionPoint>(Arrays.asList(getTransitionPoints()));
+    	List<ITransitionPoint> transitionPointList  = new ArrayList<>(Arrays.asList(getTransitionPoints()));
     	for (ITransitionPoint aTransitionPointToRemove : transitionPointsToRemove) {
     		transitionPointList.remove(aTransitionPointToRemove);
     	}
