@@ -118,6 +118,7 @@ public class AboutDialog extends JDialog
         setLocation(x - getWidth() / 2, y - getHeight() / 2);
     }
 
+    @SuppressWarnings("removal")
     private JPanel getSystemInfoPanel()
     {
         if (this.systemInfoPanel == null)

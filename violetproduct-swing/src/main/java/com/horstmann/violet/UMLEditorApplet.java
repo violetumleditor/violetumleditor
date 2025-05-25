@@ -25,7 +25,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JApplet;
+import javax.swing.JApplet; // deprecated
 import javax.swing.JFrame;
 
 import com.horstmann.violet.application.gui.MainFrame;
@@ -50,6 +50,7 @@ import com.horstmann.violet.framework.userpreferences.IUserPreferencesDao;
 /**
  * A program for editing UML diagrams.
  */
+@SuppressWarnings("deprecation")
 public class UMLEditorApplet extends JApplet
 {
 

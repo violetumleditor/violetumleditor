@@ -100,8 +100,8 @@ public class StandardJavaFilePersistenceService implements IFilePersistenceServi
                 Point2D p = (Point2D) oldInstance;
                 out.writeStatement(new Statement(oldInstance, "setLocation", new Object[]
                 {
-                        new Double(p.getX()),
-                        new Double(p.getY())
+                        Double.valueOf(p.getX()),
+                        Double.valueOf(p.getY())
                 }));
             }
         });
@@ -113,10 +113,10 @@ public class StandardJavaFilePersistenceService implements IFilePersistenceServi
                 Line2D l = (Line2D) oldInstance;
                 out.writeStatement(new Statement(oldInstance, "setLine", new Object[]
                 {
-                        new Double(l.getX1()),
-                        new Double(l.getY1()),
-                        new Double(l.getX2()),
-                        new Double(l.getY2())
+                        Double.valueOf(l.getX1()),
+                        Double.valueOf(l.getY1()),
+                        Double.valueOf(l.getX2()),
+                        Double.valueOf(l.getY2())
                 }));
             }
         });
@@ -128,10 +128,10 @@ public class StandardJavaFilePersistenceService implements IFilePersistenceServi
                 Rectangle2D r = (Rectangle2D) oldInstance;
                 out.writeStatement(new Statement(oldInstance, "setRect", new Object[]
                 {
-                        new Double(r.getX()),
-                        new Double(r.getY()),
-                        new Double(r.getWidth()),
-                        new Double(r.getHeight())
+                        Double.valueOf(r.getX()),
+                        Double.valueOf(r.getY()),
+                        Double.valueOf(r.getWidth()),
+                        Double.valueOf(r.getHeight())
                 }));
             }
         });

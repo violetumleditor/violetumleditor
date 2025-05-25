@@ -46,7 +46,7 @@ public class DiagramLink
     /**
      * Flag to indicate if file needs to be opened
      */
-    private Boolean openFlag = new Boolean(false);
+    private Boolean openFlag = Boolean.valueOf(false);
 
     public DiagramLink()
     {
@@ -96,6 +96,7 @@ public class DiagramLink
     /**
      * @deprecated kept for compatibility
      */
+    @Deprecated
     public URL getURL()
     {
         if (this.file == null) {
@@ -116,6 +117,7 @@ public class DiagramLink
     /**
      * @deprecated kept for compatibility
      */
+    @Deprecated
     public void setURL(URL url)
     {
         try {
