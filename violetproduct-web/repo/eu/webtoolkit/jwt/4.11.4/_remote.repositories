@@ -1,0 +1,4 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Sat May 31 18:55:13 CEST 2025
+jwt-4.11.4.jar>=
+jwt-4.11.4.pom>=
