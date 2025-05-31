@@ -29,7 +29,6 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
-import java.security.AccessControlException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -118,7 +117,6 @@ public class AboutDialog extends JDialog
         setLocation(x - getWidth() / 2, y - getHeight() / 2);
     }
 
-    @SuppressWarnings("removal")
     private JPanel getSystemInfoPanel()
     {
         if (this.systemInfoPanel == null)
@@ -143,7 +141,7 @@ public class AboutDialog extends JDialog
                     });
                 }
             }
-            catch (AccessControlException e)
+            catch (Exception e)
             {
                 // Well, we tried...
             }
