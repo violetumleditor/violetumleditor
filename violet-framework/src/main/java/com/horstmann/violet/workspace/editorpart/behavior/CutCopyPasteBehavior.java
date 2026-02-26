@@ -13,7 +13,6 @@ import java.awt.geom.Rectangle2D;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -431,31 +430,6 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
     }
 
     /**
-     * Converts a string into a bytebuffer
-     * 
-     * @param msg
-     * @return
-     */
-    private ByteBuffer convertToByteBuffer(String msg)
-    {
-        return ByteBuffer.wrap(msg.getBytes());
-    }
-
-    /**
-     * Converts a bytebuffer into a string
-     * 
-     * @param bytebuffer
-     * @return
-     */
-    private String convertToString(ByteBuffer bytebuffer)
-    {
-        byte[] bytearray = new byte[bytebuffer.remaining()];
-        bytebuffer.get(bytearray);
-        String s = new String(bytearray);
-        return s;
-    }
-
-    /**
      * Checks if the given list contains an ancestor of the given node_old
      * 
      * @param childNode
@@ -503,19 +477,6 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
             }
         }
         return false;
-    }
-    
-    private List<INode> getFamily(INode aParentNode) {
-    	List<INode> family = new ArrayList<INode>();
-    	List<INode> fifo = new ArrayList<INode>();
-    	fifo.addAll(aParentNode.getChildren());
-    	while (!fifo.isEmpty()) {
-    		INode aFamilyMember = fifo.get(0);
-    		family.add(aFamilyMember);
-    		fifo.addAll(aFamilyMember.getChildren());
-    		fifo.remove(0);
-    	}
-    	return family;
     }
 
 }

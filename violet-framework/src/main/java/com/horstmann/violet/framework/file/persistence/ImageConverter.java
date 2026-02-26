@@ -1,6 +1,5 @@
 package com.horstmann.violet.framework.file.persistence;
 
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -13,6 +12,7 @@ import com.thoughtworks.xstream.converters.basic.AbstractSingleValueConverter;
 public class ImageConverter extends AbstractSingleValueConverter {
 
     @Override
+    @SuppressWarnings("rawtypes")
     public boolean canConvert(final Class type) {
         return BufferedImage.class.isAssignableFrom(type);
     }

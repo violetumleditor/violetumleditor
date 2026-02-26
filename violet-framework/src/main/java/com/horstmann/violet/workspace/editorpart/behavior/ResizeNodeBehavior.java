@@ -4,11 +4,9 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
-import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.IResizableNode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
@@ -19,9 +17,7 @@ public class ResizeNodeBehavior extends AbstractEditorPartBehavior {
 
     public ResizeNodeBehavior(IEditorPart editorPart, IGraphToolsBar graphToolsBar) {
         this.editorPart = editorPart;
-        this.graph = editorPart.getGraph();
         this.selectionHandler = editorPart.getSelectionHandler();
-        this.graphToolsBar = graphToolsBar;
     }
 
     @Override
@@ -56,11 +52,9 @@ public class ResizeNodeBehavior extends AbstractEditorPartBehavior {
 
     @Override
     public void onMouseDragged(MouseEvent event) {
-        Point point = event.getPoint();
-        lastMousePoint = new Point2D.Double(point.getX(), point.getY());
+        List<IResizableNode> selectedNodes = this.selectionHandler.getSelectedElements().stream()
+                .filter(e -> IResizableNode.class.isInstance(e)).map(n -> (IResizableNode) n).toList();
 
-        List<IResizableNode> selectedNodes = this.selectionHandler.getSelectedElements().stream().filter(e -> IResizableNode.class.isInstance(e)).map(n -> (IResizableNode) n).toList();
-        
         if (isReadyForResizing) {
             IResizableNode node0 = selectedNodes.get(0);
             Rectangle2D bounds = node0.getBounds();
@@ -105,17 +99,9 @@ public class ResizeNodeBehavior extends AbstractEditorPartBehavior {
 
 
 
-    private IGraph graph;
-
-    private Point2D lastMousePoint = null;
-
     private IEditorPartSelectionHandler selectionHandler;
 
     private IEditorPart editorPart;
-
-    private IGraphToolsBar graphToolsBar;
-
-    private boolean isReadyForDragging = false;
 
     private boolean isReadyForResizing = false;
 

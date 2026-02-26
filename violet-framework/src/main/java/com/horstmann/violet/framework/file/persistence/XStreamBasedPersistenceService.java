@@ -1,6 +1,5 @@
 package com.horstmann.violet.framework.file.persistence;
 
-import java.awt.Image;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
@@ -10,7 +9,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.nio.Buffer;
 import java.util.Collection;
 import java.util.List;
 

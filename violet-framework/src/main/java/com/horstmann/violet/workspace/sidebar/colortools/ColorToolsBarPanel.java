@@ -53,6 +53,7 @@ public class ColorToolsBarPanel extends JPanel implements IColorChoiceBar
     /**
      * Current diagram panel
      */
+    @SuppressWarnings("unused")
     private IWorkspace diagramPanel;
 
     // Source : http://www.tinygorilla.com/Easter_eggs/pallatehex.html

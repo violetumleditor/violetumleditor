@@ -1,30 +1,20 @@
 package com.horstmann.violet.workspace;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.LayoutManager;
-import java.awt.Rectangle;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.ContainerEvent;
-import java.awt.event.ContainerListener;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.RepaintManager;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.border.MatteBorder;
 
 import com.horstmann.violet.framework.swingextension.TinyScrollBarUI;
 import com.horstmann.violet.framework.theme.ThemeManager;
-import com.horstmann.violet.workspace.editorpart.EditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.sidebar.ISideBar;
 
@@ -140,7 +130,5 @@ public class WorkspacePanel extends JPanel
     private IWorkspace workspace;
     private JScrollPane scrollableSideBar;
     private JScrollPane scrollableEditorPart;
-    private JScrollPane scrollableStatusBar;
-
 
 }

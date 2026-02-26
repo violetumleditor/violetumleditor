@@ -14,6 +14,7 @@ import com.thoughtworks.xstream.converters.basic.AbstractSingleValueConverter;
  */
 public class Rectangle2DConverter extends AbstractSingleValueConverter {
 	@Override
+	@SuppressWarnings("rawtypes")
 	public boolean canConvert(final Class type) {
 		return Rectangle2D.class.isAssignableFrom(type);
 	}

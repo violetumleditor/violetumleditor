@@ -1,7 +1,6 @@
 package com.horstmann.violet.framework.file;
 
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -314,13 +313,11 @@ public class GraphFile implements IGraphFile
      * Needed to identify the physical file used to save the graph
      */
     private String currentFilename;
-    private String autoSaveFilename;
 
     /**
      * Needed to identify the physical file used to save the graph
      */
     private String currentDirectory;
-    private final String autoSaveDirectory = System.getProperty("user.home") + File.separator + "VioletUML" + File.separator;
 
     private boolean isSaveRequired = false;
 

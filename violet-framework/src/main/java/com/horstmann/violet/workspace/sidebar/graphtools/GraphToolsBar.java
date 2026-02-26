@@ -32,12 +32,11 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
-import com.horstmann.violet.workspace.sidebar.ISideBarElement;
 
 /**
  * A tool bar that contains node_old and edge prototype icons. Exactly one icon is selected at any time.
  */
-public class GraphToolsBar implements IGraphToolsBar, ISideBarElement
+public class GraphToolsBar implements IGraphToolsBar
 {
 
 
@@ -297,7 +296,6 @@ public class GraphToolsBar implements IGraphToolsBar, ISideBarElement
     private List<IGraphToolsBarMouseListener> clickListeners = new ArrayList<IGraphToolsBarMouseListener>();
     private List<GraphTool> nodeTools;
     private List<GraphTool> edgeTools;
-    private GraphTool selectionTool = GraphTool.SELECTION_TOOL;
     private GraphTool selectedTool;
     private GraphToolsBarPanel panel;
 

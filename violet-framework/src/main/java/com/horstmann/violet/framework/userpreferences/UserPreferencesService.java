@@ -7,7 +7,6 @@ import java.util.List;
 import com.horstmann.violet.framework.file.IFile;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.ManagedBean;
-import com.horstmann.violet.framework.theme.BlueAmbianceTheme;
 import com.horstmann.violet.framework.theme.FlatLightTheme;
 
 /**

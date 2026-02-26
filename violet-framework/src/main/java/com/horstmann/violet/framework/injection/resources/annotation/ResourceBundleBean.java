@@ -9,6 +9,6 @@ public @interface ResourceBundleBean
 
     public String key() default "";
 
-    public Class resourceReference() default Object.class;
+    public Class<?> resourceReference() default Object.class;
 
 }

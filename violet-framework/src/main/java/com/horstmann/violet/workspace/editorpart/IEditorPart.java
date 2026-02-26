@@ -1,12 +1,8 @@
 package com.horstmann.violet.workspace.editorpart;
 
-import java.util.List;
-
 import javax.swing.JComponent;
 
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
-import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.abstracts.node.INode;
 
 /**
  * Defines the editor behaviour (an editor is something embedding an IGraph)

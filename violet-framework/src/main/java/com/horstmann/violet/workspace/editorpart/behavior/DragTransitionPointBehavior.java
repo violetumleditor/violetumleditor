@@ -5,7 +5,6 @@ import java.awt.geom.Point2D;
 import java.util.List;
 
 import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
-import com.horstmann.violet.product.diagram.abstracts.ISelectable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.edge.ITransitionPoint;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;

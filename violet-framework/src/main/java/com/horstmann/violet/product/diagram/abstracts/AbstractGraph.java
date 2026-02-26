@@ -348,6 +348,7 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
 
     private ArrayList<INode> nodes;
     private ArrayList<IEdge> edges;
-    private transient Rectangle2D minBounds;
     private transient IGridSticker gridSticker;
+    @SuppressWarnings("unused")
+    private transient Rectangle2D minBounds;
 }

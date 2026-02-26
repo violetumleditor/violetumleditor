@@ -72,6 +72,7 @@ public abstract class AbstractDiagramLinkEditor extends PropertyEditorSupport
      * 
      * @return a value of type 'String'
      */
+    @SuppressWarnings("deprecation")
     public String getJavaInitializationString()
     {
 

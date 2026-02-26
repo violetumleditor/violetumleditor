@@ -277,10 +277,9 @@ public class Workspace implements IWorkspace
         }
     }
 
-    @SuppressWarnings("unchecked")
     private synchronized List<IWorkspaceListener> cloneListeners()
     {
-        return (List<IWorkspaceListener>) new ArrayList<IWorkspaceListener>(this.listeners);
+        return new ArrayList<IWorkspaceListener>(this.listeners);
     }
 
     /**

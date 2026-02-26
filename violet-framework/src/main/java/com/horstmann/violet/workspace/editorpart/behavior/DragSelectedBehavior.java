@@ -9,7 +9,6 @@ import java.util.List;
 
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
-import com.horstmann.violet.product.diagram.abstracts.ISelectable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.edge.ITransitionPoint;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
@@ -24,7 +23,6 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior {
         this.editorPart = editorPart;
         this.graph = editorPart.getGraph();
         this.selectionHandler = editorPart.getSelectionHandler();
-        this.graphToolsBar = graphToolsBar;
     }
 
     @Override
@@ -182,8 +180,6 @@ public class DragSelectedBehavior extends AbstractEditorPartBehavior {
     private IEditorPartSelectionHandler selectionHandler;
 
     private IEditorPart editorPart;
-
-    private IGraphToolsBar graphToolsBar;
 
     private boolean isReadyForDragging = false;
 

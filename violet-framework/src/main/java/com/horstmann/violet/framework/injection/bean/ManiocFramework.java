@@ -443,6 +443,7 @@ public class ManiocFramework {
                  * @param classType
                  * @return
                  */
+                @SuppressWarnings("unchecked")
                 private <T> T getAlreadyExistingBean(Class<T> classType) {
                         if (singletonsMap.containsKey(classType)) {
                                 Object object = singletonsMap.get(classType);
@@ -478,6 +479,7 @@ public class ManiocFramework {
                  * @param childContext
                  * @return the parent context or null if there's no parent
                  */
+                @SuppressWarnings("unchecked")
                 private Class<? extends DefaultApplicationContext> getParentContext() {
                         Class<?> aSuperClass = this.context.getSuperclass();
                         if (aSuperClass != null && aSuperClass.isAssignableFrom(DefaultApplicationContext.class)) {
@@ -492,6 +494,7 @@ public class ManiocFramework {
                  * @param childContext
                  * @return a list of contexts from the child to the oldest parent
                  */
+                @SuppressWarnings({"unchecked", "unused"})
                 private List<Class<? extends DefaultApplicationContext>> getContextHierarchy(Class<? extends DefaultApplicationContext> childContext) {
                         List<Class<? extends DefaultApplicationContext>> result = new ArrayList<Class<? extends DefaultApplicationContext>>();
                         List<Class<? extends DefaultApplicationContext>> fifo = new ArrayList<Class<? extends DefaultApplicationContext>>();
@@ -609,6 +612,7 @@ public class ManiocFramework {
                  * @param classType
                  * @return newly created bean
                  */
+                @SuppressWarnings("unchecked")
                 private <T> T createBeanFromAnnotatedFactoryMethod(Class<T> classType) {
                         Method annotatedFactoryMethod = getAnnotatedFactoryMethod(classType);
                         if (annotatedFactoryMethod != null) {
@@ -762,6 +766,7 @@ public class ManiocFramework {
                  * @return the constructor annotated with \@Constructor or null if no
                  *         one is found
                  */
+                @SuppressWarnings("unchecked")
                 private <T> Constructor<T> getAnnotatedConstructor(Class<T> classType) {
                         Constructor<T>[] constructors = (Constructor<T>[]) classType.getConstructors();
                         List<Constructor<T>> result = new ArrayList<Constructor<T>>();
@@ -822,6 +827,7 @@ public class ManiocFramework {
                  * @param classType
                  * @return the constructor with no parameter or null if no one if found
                  */
+                @SuppressWarnings("unchecked")
                 private <T> Constructor<T> getDefaultConstructor(Class<T> classType) {
                         Constructor<T>[] constructors = (Constructor<T>[]) classType.getConstructors();
                         for (Constructor<T> aConstructor : constructors) {

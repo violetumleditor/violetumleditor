@@ -29,7 +29,6 @@ public class EditorPartUI extends PanelUI
     public void paint(Graphics g, JComponent c)
     {
         IEditorPart editor = (IEditorPart) c;
-        IEditorPartSelectionHandler selectionHandler = editor.getSelectionHandler();
         IGraph graph = editor.getGraph();
         double zoom = editor.getZoomFactor();
         IGrid grid = editor.getGrid();

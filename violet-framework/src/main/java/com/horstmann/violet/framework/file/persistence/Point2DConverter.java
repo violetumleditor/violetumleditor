@@ -14,6 +14,7 @@ import com.thoughtworks.xstream.converters.basic.AbstractSingleValueConverter;
  */
 public class Point2DConverter extends AbstractSingleValueConverter {
 	@Override
+	@SuppressWarnings("rawtypes")
 	public boolean canConvert(final Class type) {
 		return Point2D.class.isAssignableFrom(type);
 	}

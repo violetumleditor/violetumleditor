@@ -38,9 +38,6 @@ public class OptionalToolsPanelUI extends PanelUI
 
         this.optionalToolsPanel.setBackground(ThemeManager.getInstance().getTheme().getSidebarElementBackgroundColor());
 
-        JButton bHelp = this.optionalToolsPanel.getHelpButton();
-        // addButton(bHelp);
-
         JButton bPrint = this.optionalToolsPanel.getPrintButton();
         addButton(bPrint);
 

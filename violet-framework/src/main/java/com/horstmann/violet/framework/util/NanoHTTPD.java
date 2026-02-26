@@ -188,6 +188,7 @@ public class NanoHTTPD
     {
         myTcpPort = port;
 
+        @SuppressWarnings("resource")
         final ServerSocket ss = new ServerSocket(myTcpPort);
         Thread t = new Thread(new Runnable()
         {

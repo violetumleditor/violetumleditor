@@ -44,6 +44,7 @@ public class BentStyle extends SerializableEnumeration
     /**
      * Gets the four connecting points at which a bent line connects to a rectangle.
      */
+    @SuppressWarnings("unused")
     private Point2D[] connectionPoints(Rectangle2D r)
     {
         Point2D[] a = new Point2D[4];

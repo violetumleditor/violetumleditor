@@ -25,13 +25,10 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Shape;
-import java.awt.Toolkit;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.MemoryImageSource;
 import java.awt.image.PixelGrabber;
-import java.util.StringTokenizer;
 
 import javax.swing.ImageIcon;
 
@@ -214,6 +211,7 @@ public class ImageNode extends RectangularNode implements IResizableNode
      * @return image content as an array
      * @throws InterruptedException
      */
+    @SuppressWarnings("unused")
     private String getImageContent() throws InterruptedException
     {
         Image img = this.getImageIcon().getImage();

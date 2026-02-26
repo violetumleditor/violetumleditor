@@ -46,6 +46,7 @@ public class PluginLoader extends ClassLoader
         }
     }
 
+    @SuppressWarnings("unused")
     private ClassLoader getExternalClassLoader()
     {
         String pluginDirName = System.getProperty("violet.plugin.dir");
@@ -73,6 +74,7 @@ public class PluginLoader extends ClassLoader
         return new URLClassLoader(pluginJarUrls);
     }
 
+    @SuppressWarnings("unused")
     private ClassLoader getJarInJarClassLoader()
     {
         try
@@ -96,15 +98,17 @@ public class PluginLoader extends ClassLoader
                 {
                     continue;
                 }
-                JarFile jarFile = new JarFile(testingFile);
-                Enumeration<JarEntry> jarEntries = jarFile.entries();
-                while (jarEntries.hasMoreElements())
+                try (JarFile jarFile = new JarFile(testingFile))
                 {
-                    JarEntry entry = jarEntries.nextElement();
-                    if (entry.isDirectory()) continue;
-                    if (!entry.getName().toLowerCase().endsWith(".jar")) continue;
-                    FileObject innetJarFile = fsManager.resolveFile("jar:" + entry.getName());
-                    innerJarFiles.add(innetJarFile);
+                    Enumeration<JarEntry> jarEntries = jarFile.entries();
+                    while (jarEntries.hasMoreElements())
+                    {
+                        JarEntry entry = jarEntries.nextElement();
+                        if (entry.isDirectory()) continue;
+                        if (!entry.getName().toLowerCase().endsWith(".jar")) continue;
+                        FileObject innetJarFile = fsManager.resolveFile("jar:" + entry.getName());
+                        innerJarFiles.add(innetJarFile);
+                    }
                 }
             }
             VFSClassLoader cl = new VFSClassLoader(innerJarFiles.toArray(new FileObject[innerJarFiles.size()]), fsManager);

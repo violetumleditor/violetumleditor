@@ -15,6 +15,7 @@ import com.thoughtworks.xstream.converters.basic.AbstractSingleValueConverter;
  */
 public class RoundRectangle2DConverter extends AbstractSingleValueConverter {
 	@Override
+	@SuppressWarnings("rawtypes")
 	public boolean canConvert(final Class type) {
 		return RoundRectangle2D.class.isAssignableFrom(type);
 	}

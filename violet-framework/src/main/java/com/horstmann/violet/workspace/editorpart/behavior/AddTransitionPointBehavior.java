@@ -9,7 +9,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
-import com.horstmann.violet.product.diagram.abstracts.ISelectable;
 import com.horstmann.violet.product.diagram.abstracts.edge.EdgeTransitionPoint;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.edge.ITransitionPoint;
@@ -151,6 +150,7 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
         return false;
     }
 
+    @SuppressWarnings("unused")
     private boolean isSelectedToolOK()
     {
         if (getSelectedEdge() == null)
@@ -288,6 +288,7 @@ public class AddTransitionPointBehavior extends AbstractEditorPartBehavior
 
     private Cursor transitionCursor = new Cursor(Cursor.CROSSHAIR_CURSOR);
     
+    @SuppressWarnings("unused")
     private static final int DRAG_TRIGGER_MIN_GAP = 50;
 
 }
