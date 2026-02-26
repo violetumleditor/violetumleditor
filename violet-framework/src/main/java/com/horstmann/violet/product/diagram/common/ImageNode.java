@@ -75,7 +75,6 @@ public class ImageNode extends RectangularNode implements IResizableNode
     public void setImage(Image img)
     {
         this.image = img;
-    	this.imageIcon = new ImageIcon(img);
     }
 
     @Override
@@ -85,8 +84,12 @@ public class ImageNode extends RectangularNode implements IResizableNode
         Point2D currentLocation = getLocation();
         double x = currentLocation.getX();
         double y = currentLocation.getY();
-        double w = Math.max(b.getWidth(), this.getImageIcon().getIconWidth());
-        double h = b.getHeight() + this.getImageIcon().getIconHeight();
+        double w = b.getWidth();
+        double h = b.getHeight();
+        if (this.image != null) {
+            w = Math.max(b.getWidth(), this.getImageIcon().getIconWidth());
+            h = b.getHeight() + this.getImageIcon().getIconHeight();
+        }
         Rectangle2D currentBounds = new Rectangle2D.Double(x, y, w, h);
         Rectangle2D snapperBounds = getGraph().getGridSticker().snap(currentBounds);
         return snapperBounds;
@@ -125,10 +128,10 @@ public class ImageNode extends RectangularNode implements IResizableNode
     }
     
     
-    public ImageIcon getImageIcon() {
+    private ImageIcon getImageIcon() {
     	if (this.imageIcon == null) 
     	{
-    		this.imageIcon = new ImageIcon(image);
+            this.imageIcon = new ImageIcon(image);
     		Rectangle2D preferredSize = getPreferredSize();
     		if (preferredSize != null) {
     			int iconHeight = this.imageIcon.getIconHeight();
@@ -150,9 +153,7 @@ public class ImageNode extends RectangularNode implements IResizableNode
 		return this.imageIcon;
 	}
 
-	public void setImageIcon(ImageIcon imageIcon) {
-		this.imageIcon = imageIcon;
-	}
+
 	
 	@Override
 	public void setPreferredSize(Rectangle2D size) {
@@ -171,13 +172,19 @@ public class ImageNode extends RectangularNode implements IResizableNode
         Color oldColor = g2.getColor();
         // Draw image
         Rectangle2D bounds = getBounds();
-        g2.drawImage(this.getImageIcon().getImage(), (int) bounds.getCenterX() - this.getImageIcon().getIconWidth() / 2, (int) bounds.getY(),
-                this.getImageIcon().getImageObserver());
+        if (this.image != null) {
+            g2.drawImage(this.getImageIcon().getImage(), (int) bounds.getCenterX() - this.getImageIcon().getIconWidth() / 2, (int) bounds.getY(),
+                    this.getImageIcon().getImageObserver());
+        }
         // Draw text
         g2.setColor(getTextColor());
         Rectangle2D b = text.getBounds();
-        Rectangle2D textBounds = new Rectangle2D.Double(bounds.getX(), bounds.getY() + this.getImageIcon().getIconHeight(),
+        Rectangle2D textBounds = new Rectangle2D.Double(bounds.getX(), bounds.getY(),
                 b.getWidth(), b.getHeight());
+        if (this.image != null) {
+            textBounds = new Rectangle2D.Double(bounds.getX(), bounds.getY() + this.getImageIcon().getIconHeight(),
+                    b.getWidth(), b.getHeight());
+        }
         text.draw(g2, textBounds);
         // Restore first color
         g2.setColor(oldColor);
@@ -207,7 +214,7 @@ public class ImageNode extends RectangularNode implements IResizableNode
      * @return image content as an array
      * @throws InterruptedException
      */
-    public String getImageContent() throws InterruptedException
+    private String getImageContent() throws InterruptedException
     {
         Image img = this.getImageIcon().getImage();
         
@@ -251,7 +258,7 @@ public class ImageNode extends RectangularNode implements IResizableNode
      * @param width image width
      * @param height image height
      */
-    @SuppressWarnings("unused")
+/*     @SuppressWarnings("unused")
     public void setImageContent(String imageContent, int width, int height)
     {
         StringTokenizer tokenizer = new StringTokenizer(imageContent, PIXEL_SEPARATOR);
@@ -267,7 +274,7 @@ public class ImageNode extends RectangularNode implements IResizableNode
         Toolkit tk = Toolkit.getDefaultToolkit();
         Image img = tk.createImage(mis);
         this.setImage(img);
-    }
+    } */
 
     /*
      * (non-Javadoc)
@@ -284,9 +291,9 @@ public class ImageNode extends RectangularNode implements IResizableNode
 
     private static final String PIXEL_SEPARATOR = ":";
 
-    @ResourceBundleBean(key = "imagenode.icon")
-    private ImageIcon imageIcon;
+    private transient ImageIcon imageIcon;
     
+    @ResourceBundleBean(key = "imagenode.icon")
     private Image image;
     
     private MultiLineString text;

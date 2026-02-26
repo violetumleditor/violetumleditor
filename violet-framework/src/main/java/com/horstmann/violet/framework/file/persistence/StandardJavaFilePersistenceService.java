@@ -236,6 +236,7 @@ public class StandardJavaFilePersistenceService implements IFilePersistenceServi
 //                }));
 //            }
 //        });
+/**
         encoder.setPersistenceDelegate(ImageNode.class, new DefaultPersistenceDelegate()
         {
             protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out)
@@ -259,7 +260,7 @@ public class StandardJavaFilePersistenceService implements IFilePersistenceServi
                     throw new RuntimeException("Error while serializing ImageNode", e);
                 }
             }
-        });
+        }); */
     }
     
 

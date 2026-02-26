@@ -1,13 +1,16 @@
 package com.horstmann.violet.framework.file.persistence;
 
+import java.awt.Image;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.nio.Buffer;
 import java.util.Collection;
 import java.util.List;
 
@@ -71,9 +74,11 @@ public class XStreamBasedPersistenceService implements IFilePersistenceService {
 		xStream.alias("Point", Point2D.Double.class);
 		xStream.alias("Rectangle", Rectangle2D.Double.class);
 		xStream.alias("RoundRectangle", RoundRectangle2D.Double.class);
+		xStream.alias("Image", BufferedImage.class);
         xStream.registerConverter(new Point2DConverter());
         xStream.registerConverter(new Rectangle2DConverter());
         xStream.registerConverter(new RoundRectangle2DConverter());
+		xStream.registerConverter(new ImageConverter());
         xStream.ignoreUnknownElements();
 		xStream.addImmutableType(ArrowHead.class, false);
         xStream.addImmutableType(LineStyle.class, false);
