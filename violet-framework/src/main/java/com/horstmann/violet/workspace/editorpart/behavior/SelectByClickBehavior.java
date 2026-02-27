@@ -12,6 +12,7 @@ import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.ISelectable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.edge.ITransitionPoint;
+import com.horstmann.violet.product.diagram.abstracts.node.ICroppableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.IResizableNode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
@@ -240,19 +241,27 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
     			childPoints.forEach(p -> GrabberUtils.drawGrayGrabber(g2, p));
     		}
         }
-        // Draw selection/resize handles (purple)
+        // Draw selection/resize handles (purple) and crop handles (teal)
     	for (ISelectable element : selectionHandler.getSelectedElements()) {
     		if (element instanceof IResizableNode) {
-    			// For resizable nodes: draw a directional indicator at every resize handle
+    			// Corner resize handles
     			IResizableNode resizable = (IResizableNode) element;
     			resizable.getResizableDragPoints().forEach((direction, rect) -> {
     				Point2D center = new Point2D.Double(rect.getCenterX(), rect.getCenterY());
     				GrabberUtils.drawPurpleResizeGrabber(g2, center, direction);
     			});
     		} else {
-    			// For regular nodes/edges: draw plain purple squares at selection points
+    			// Regular purple squares for non-resizable nodes/edges
     			List<Point2D> selectionPoints = element.getSelectionPoints();
     			selectionPoints.forEach(p -> GrabberUtils.drawPurpleGrabber(g2, p));
+    		}
+    		if (element instanceof ICroppableNode) {
+    			// Edge crop handles (teal)
+    			ICroppableNode croppable = (ICroppableNode) element;
+    			croppable.getCropDragPoints().forEach((direction, rect) -> {
+    				Point2D center = new Point2D.Double(rect.getCenterX(), rect.getCenterY());
+    				GrabberUtils.drawTealCropGrabber(g2, center, direction);
+    			});
     		}
         }
     }

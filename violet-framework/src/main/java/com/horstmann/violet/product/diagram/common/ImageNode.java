@@ -37,6 +37,8 @@ import javax.swing.ImageIcon;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.CropInsets;
+import com.horstmann.violet.product.diagram.abstracts.node.ICroppableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.IResizableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
 import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
@@ -44,7 +46,7 @@ import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
 /**
  * A node in a diagram represented by an image
  */
-public class ImageNode extends RectangularNode implements IResizableNode
+public class ImageNode extends RectangularNode implements IResizableNode, ICroppableNode
 {
     /**
      * Default construct a note node with a default size and color
@@ -125,6 +127,47 @@ public class ImageNode extends RectangularNode implements IResizableNode
     {
         text = newValue;
     }
+
+    // ------------------------------------------------------------------
+    // ICroppableNode
+    // ------------------------------------------------------------------
+
+    @Override
+    public CropInsets getCropInsets()
+    {
+        return this.cropInsets;
+    }
+
+    @Override
+    public void setCropInsets(CropInsets insets)
+    {
+        this.cropInsets = (insets != null) ? insets : new CropInsets();
+    }
+
+    @Override
+    protected Rectangle2D getBoundsForConnectionPoint()
+    {
+        return getVisibleBounds();
+    }
+
+    @Override
+    public java.util.Map<com.horstmann.violet.product.diagram.abstracts.node.ResizeDirection, Rectangle2D> getResizableDragPoints()
+    {
+        // Anchor resize handles to the corners of the visible (cropped) bounds
+        Rectangle2D v = getVisibleBounds();
+        int s = RESIZABLE_POINT_SIZE;
+        java.util.Map<com.horstmann.violet.product.diagram.abstracts.node.ResizeDirection, Rectangle2D> points = new java.util.LinkedHashMap<>();
+        points.put(com.horstmann.violet.product.diagram.abstracts.node.ResizeDirection.NW, makeVisibleHandle(v.getMinX(), v.getMinY(), s));
+        points.put(com.horstmann.violet.product.diagram.abstracts.node.ResizeDirection.NE, makeVisibleHandle(v.getMaxX(), v.getMinY(), s));
+        points.put(com.horstmann.violet.product.diagram.abstracts.node.ResizeDirection.SW, makeVisibleHandle(v.getMinX(), v.getMaxY(), s));
+        points.put(com.horstmann.violet.product.diagram.abstracts.node.ResizeDirection.SE, makeVisibleHandle(v.getMaxX(), v.getMaxY(), s));
+        return points;
+    }
+
+    private static Rectangle2D makeVisibleHandle(double cx, double cy, int size)
+    {
+        return new Rectangle2D.Double(cx - size / 2.0, cy - size / 2.0, size, size);
+    }
     
     
     private ImageIcon getImageIcon() {
@@ -182,19 +225,25 @@ public class ImageNode extends RectangularNode implements IResizableNode
      */
     public void draw(Graphics2D g2)
     {
-        // Backup current color and rendering hints
-        Color oldColor = g2.getColor();
+        // Backup state
+        Color oldColor  = g2.getColor();
+        Shape oldClip   = g2.getClip();
         Object oldInterpolation = g2.getRenderingHint(RenderingHints.KEY_INTERPOLATION);
-        Object oldRendering = g2.getRenderingHint(RenderingHints.KEY_RENDERING);
-        Object oldAntialiasing = g2.getRenderingHint(RenderingHints.KEY_ANTIALIASING);
-        // Set high-quality rendering hints for smooth image display
+        Object oldRendering     = g2.getRenderingHint(RenderingHints.KEY_RENDERING);
+        Object oldAntialiasing  = g2.getRenderingHint(RenderingHints.KEY_ANTIALIASING);
+        // High-quality rendering hints
         g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-        g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_RENDERING,     RenderingHints.VALUE_RENDER_QUALITY);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,  RenderingHints.VALUE_ANTIALIAS_ON);
+        // Clip to the visible (cropped) bounds so only the uncropped area is painted
+        Rectangle2D visibleBounds = getVisibleBounds();
+        g2.clip(visibleBounds);
         // Draw image
         Rectangle2D bounds = getBounds();
         if (this.image != null) {
-            g2.drawImage(this.getImageIcon().getImage(), (int) bounds.getCenterX() - this.getImageIcon().getIconWidth() / 2, (int) bounds.getY(),
+            g2.drawImage(this.getImageIcon().getImage(),
+                    (int) bounds.getCenterX() - this.getImageIcon().getIconWidth() / 2,
+                    (int) bounds.getY(),
                     this.getImageIcon().getImageObserver());
         }
         // Draw text
@@ -203,15 +252,17 @@ public class ImageNode extends RectangularNode implements IResizableNode
         Rectangle2D textBounds = new Rectangle2D.Double(bounds.getX(), bounds.getY(),
                 b.getWidth(), b.getHeight());
         if (this.image != null) {
-            textBounds = new Rectangle2D.Double(bounds.getX(), bounds.getY() + this.getImageIcon().getIconHeight(),
+            textBounds = new Rectangle2D.Double(bounds.getX(),
+                    bounds.getY() + this.getImageIcon().getIconHeight(),
                     b.getWidth(), b.getHeight());
         }
         text.draw(g2, textBounds);
-        // Restore previous color and rendering hints
+        // Restore state
+        g2.setClip(oldClip);
         g2.setColor(oldColor);
         if (oldInterpolation != null) g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, oldInterpolation);
-        if (oldRendering != null) g2.setRenderingHint(RenderingHints.KEY_RENDERING, oldRendering);
-        if (oldAntialiasing != null) g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, oldAntialiasing);
+        if (oldRendering     != null) g2.setRenderingHint(RenderingHints.KEY_RENDERING,     oldRendering);
+        if (oldAntialiasing  != null) g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,  oldAntialiasing);
     }
 
     /*
@@ -221,13 +272,13 @@ public class ImageNode extends RectangularNode implements IResizableNode
      */
     public Shape getShape()
     {
-        Rectangle2D bounds = getBounds();
+        // Use visible (cropped) bounds so the selection outline matches the painted area
+        Rectangle2D bounds = getVisibleBounds();
         GeneralPath path = new GeneralPath();
-        path.moveTo((float) bounds.getX(), (float) bounds.getY());
-        path.lineTo((float) bounds.getMaxX(), (float) bounds.getY());
+        path.moveTo((float) bounds.getX(),    (float) bounds.getY());
         path.lineTo((float) bounds.getMaxX(), (float) bounds.getY());
         path.lineTo((float) bounds.getMaxX(), (float) bounds.getMaxY());
-        path.lineTo((float) bounds.getX(), (float) bounds.getMaxY());
+        path.lineTo((float) bounds.getX(),    (float) bounds.getMaxY());
         path.closePath();
         return path;
     }
@@ -311,13 +362,17 @@ public class ImageNode extends RectangularNode implements IResizableNode
         ImageNode cloned = (ImageNode) super.clone();
         cloned.text = text.clone();
         cloned.image = image;
+        cloned.cropInsets = (cropInsets != null) ? cropInsets.clone() : null;
         return cloned;
     }
 
     private static final String PIXEL_SEPARATOR = ":";
 
     private transient ImageIcon imageIcon;
-    
+
+    /** Crop offsets applied to the displayed image area. */
+    private CropInsets cropInsets = new CropInsets();
+
     @ResourceBundleBean(key = "imagenode.icon")
     private Image image;
     

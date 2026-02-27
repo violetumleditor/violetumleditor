@@ -131,6 +131,51 @@ public class GrabberUtils
         drawPurpleResizeGrabber(g2, p, ResizeDirection.SE);
     }
 
+    /**
+     * Draws a directional crop handle at the given point.
+     * Uses a teal (cyan-green) colour to distinguish crop handles from resize
+     * handles.  Edge directions (N/S = horizontal bar, W/E = vertical bar)
+     * are rendered as a short, thick dash with arrow-like notches pointing
+     * inward to indicate the crop boundary.
+     *
+     * @param g2        the graphics context
+     * @param p         the centre of the handle
+     * @param direction the crop edge this handle represents (N, S, W, or E)
+     */
+    public static void drawTealCropGrabber(Graphics2D g2, Point2D p, ResizeDirection direction)
+    {
+        Color oldColor  = g2.getColor();
+        Stroke oldStroke = g2.getStroke();
+        g2.setColor(TEAL);
+        g2.setStroke(new BasicStroke(2f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER));
+        int arm = GRABBER_WIDTH * 2;
+        int cx  = (int) p.getX();
+        int cy  = (int) p.getY();
+        switch (direction)
+        {
+            case N: // horizontal bar + inward tick pointing down
+                g2.drawLine(cx - arm, cy, cx + arm, cy);
+                g2.drawLine(cx, cy, cx, cy + arm / 2);
+                break;
+            case S: // horizontal bar + inward tick pointing up
+                g2.drawLine(cx - arm, cy, cx + arm, cy);
+                g2.drawLine(cx, cy - arm / 2, cx, cy);
+                break;
+            case W: // vertical bar + inward tick pointing right
+                g2.drawLine(cx, cy - arm, cx, cy + arm);
+                g2.drawLine(cx, cy, cx + arm / 2, cy);
+                break;
+            case E: // vertical bar + inward tick pointing left
+                g2.drawLine(cx, cy - arm, cx, cy + arm);
+                g2.drawLine(cx - arm / 2, cy, cx, cy);
+                break;
+            default: break;
+        }
+        g2.setColor(oldColor);
+        g2.setStroke(oldStroke);
+    }
+
+    private static final Color TEAL   = new Color(0.0f, 0.6f, 0.5f);
     private static final Color PURPLE = new Color(0.7f, 0.4f, 0.7f);
     private static final Color GRAY = Color.GRAY.brighter();
     public static final int GRABBER_WIDTH = 5;

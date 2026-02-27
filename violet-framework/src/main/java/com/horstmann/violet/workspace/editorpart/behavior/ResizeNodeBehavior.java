@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
+import com.horstmann.violet.product.diagram.abstracts.node.ICroppableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.IResizableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.ResizeDirection;
@@ -42,7 +43,7 @@ public class ResizeNodeBehavior extends AbstractEditorPartBehavior
             if (!selectedNodes.isEmpty())
             {
                 IResizableNode node0 = selectedNodes.get(0);
-                this.initialBounds = node0.getBounds();
+                this.initialBounds = effectiveBoundsForResize(node0);
                 if (node0 instanceof INode)
                 {
                     this.initialLocation = ((INode) node0).getLocation();
@@ -185,6 +186,20 @@ public class ResizeNodeBehavior extends AbstractEditorPartBehavior
                 .filter(e -> e instanceof IResizableNode)
                 .map(n -> (IResizableNode) n)
                 .toList();
+    }
+
+    /**
+     * Returns the bounds to use as the resize baseline.
+     * For croppable nodes the visible (cropped) bounds are used so that the
+     * resize drag anchors match where the corner handles are actually drawn.
+     */
+    private static Rectangle2D effectiveBoundsForResize(IResizableNode node)
+    {
+        if (node instanceof ICroppableNode)
+        {
+            return ((ICroppableNode) node).getVisibleBounds();
+        }
+        return node.getBounds();
     }
 
     private Dimension snap(Dimension dimension)

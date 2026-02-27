@@ -121,7 +121,7 @@ public abstract class RectangularNode extends AbstractNode
         List<IEdge> edgesOnSameSide = getEdgesOnSameSide(e);
         int position = edgesOnSameSide.indexOf(e);
         int size = edgesOnSameSide.size();
-        Rectangle2D b = getBounds();
+        Rectangle2D b = getBoundsForConnectionPoint();
         
         double x = b.getCenterX();
         double y = b.getCenterY();
@@ -154,6 +154,16 @@ public abstract class RectangularNode extends AbstractNode
     public void draw(Graphics2D g2)
     {
         
+    }
+    
+    /**
+     * Returns the bounds used for connection-point calculation.
+     * Subclasses that support cropping should override this to return
+     * the visible (cropped) bounds so that edges attach to the visible edge.
+     */
+    protected Rectangle2D getBoundsForConnectionPoint()
+    {
+        return getBounds();
     }
     
     
