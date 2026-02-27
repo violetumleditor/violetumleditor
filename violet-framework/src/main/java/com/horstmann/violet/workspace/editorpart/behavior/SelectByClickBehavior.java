@@ -13,6 +13,7 @@ import com.horstmann.violet.product.diagram.abstracts.ISelectable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.edge.ITransitionPoint;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.abstracts.node.IResizableNode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
@@ -239,8 +240,24 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
     		}
         }
     	for (ISelectable element : selectionHandler.getSelectedElements()) {
+    		Point2D resizeAnchor = null;
+    		if (element instanceof IResizableNode) {
+    			IResizableNode resizable = (IResizableNode) element;
+    			java.awt.geom.Rectangle2D dragPoint = resizable.getResizableDragPoint();
+    			resizeAnchor = new Point2D.Double(dragPoint.getCenterX(), dragPoint.getCenterY());
+    		}
+    		final Point2D finalResizeAnchor = resizeAnchor;
     		List<Point2D> selectionPoints = element.getSelectionPoints();
-    		selectionPoints.forEach(p -> GrabberUtils.drawPurpleGrabber(g2, p));
+    		for (Point2D p : selectionPoints) {
+    			if (finalResizeAnchor != null && p.distance(finalResizeAnchor) < 1.0) {
+    				GrabberUtils.drawPurpleResizeGrabber(g2, p);
+    			} else {
+    				GrabberUtils.drawPurpleGrabber(g2, p);
+    			}
+    		}
+    		if (finalResizeAnchor != null) {
+    			GrabberUtils.drawPurpleResizeGrabber(g2, finalResizeAnchor);
+    		}
         }
     }
 
