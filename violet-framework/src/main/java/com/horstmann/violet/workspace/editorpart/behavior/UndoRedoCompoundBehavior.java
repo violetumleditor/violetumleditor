@@ -57,6 +57,7 @@ public class UndoRedoCompoundBehavior extends AbstractEditorPartBehavior
         behaviors.add(new UndoRedoOnRemoveBehavior(editorPart, this));
         behaviors.add(new UndoRedoOnTransitionPointChangeBehavior(editorPart, this));
         behaviors.add(new UndoRedoOnColorizeBehavior(this));
+        behaviors.add(new UndoRedoOnResizeBehavior(editorPart, this));
     }
 
     
