@@ -54,7 +54,7 @@ public class ImageNode extends RectangularNode implements IResizableNode, ICropp
     public ImageNode(Image img)
     {
         text = new MultiLineString();
-        text.setJustification(MultiLineString.RIGHT);
+        text.setJustification(MultiLineString.CENTER);
         this.setImage(img);
     }
 
@@ -65,7 +65,7 @@ public class ImageNode extends RectangularNode implements IResizableNode, ICropp
     {
     	ResourceBundleInjector.getInjector().inject(this);
     	text = new MultiLineString();
-        text.setJustification(MultiLineString.RIGHT);
+        text.setJustification(MultiLineString.CENTER);
     }
 
     /**
@@ -294,17 +294,15 @@ public class ImageNode extends RectangularNode implements IResizableNode, ICropp
                     (int) bounds.getY(),
                     this.getImageIcon().getImageObserver());
         }
-        // Draw text
+        // Draw text — pass full node width so CENTER justification has room to work,
+        // exactly like LifelineNode does with its name label.
         g2.setColor(getTextColor());
         Rectangle2D b = text.getBounds();
-        Rectangle2D textBounds = new Rectangle2D.Double(bounds.getX(), bounds.getY(),
-                b.getWidth(), b.getHeight());
+        double textY = bounds.getY();
         if (this.image != null) {
-            textBounds = new Rectangle2D.Double(bounds.getX(),
-                    bounds.getY() + this.getImageIcon().getIconHeight(),
-                    b.getWidth(), b.getHeight());
+            textY = bounds.getY() + this.getImageIcon().getIconHeight();
         }
-        text.draw(g2, textBounds);
+        text.draw(g2, new Rectangle2D.Double(bounds.getX(), textY, bounds.getWidth(), b.getHeight()));
         // Restore state
         g2.setClip(oldClip);
         g2.setColor(oldColor);
