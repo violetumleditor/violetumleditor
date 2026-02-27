@@ -232,6 +232,7 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
     @Override
     public void onPaint(Graphics2D g2)
     {
+        // Draw child selection points (gray)
     	for (ISelectable element : selectionHandler.getSelectedElements()) {
     		List<ISelectable> selectableChildren = element.getSelectableChildren();
     		for (ISelectable child : selectableChildren) {
@@ -239,24 +240,19 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
     			childPoints.forEach(p -> GrabberUtils.drawGrayGrabber(g2, p));
     		}
         }
+        // Draw selection/resize handles (purple)
     	for (ISelectable element : selectionHandler.getSelectedElements()) {
-    		Point2D resizeAnchor = null;
     		if (element instanceof IResizableNode) {
+    			// For resizable nodes: draw a directional indicator at every resize handle
     			IResizableNode resizable = (IResizableNode) element;
-    			java.awt.geom.Rectangle2D dragPoint = resizable.getResizableDragPoint();
-    			resizeAnchor = new Point2D.Double(dragPoint.getCenterX(), dragPoint.getCenterY());
-    		}
-    		final Point2D finalResizeAnchor = resizeAnchor;
-    		List<Point2D> selectionPoints = element.getSelectionPoints();
-    		for (Point2D p : selectionPoints) {
-    			if (finalResizeAnchor != null && p.distance(finalResizeAnchor) < 1.0) {
-    				GrabberUtils.drawPurpleResizeGrabber(g2, p);
-    			} else {
-    				GrabberUtils.drawPurpleGrabber(g2, p);
-    			}
-    		}
-    		if (finalResizeAnchor != null) {
-    			GrabberUtils.drawPurpleResizeGrabber(g2, finalResizeAnchor);
+    			resizable.getResizableDragPoints().forEach((direction, rect) -> {
+    				Point2D center = new Point2D.Double(rect.getCenterX(), rect.getCenterY());
+    				GrabberUtils.drawPurpleResizeGrabber(g2, center, direction);
+    			});
+    		} else {
+    			// For regular nodes/edges: draw plain purple squares at selection points
+    			List<Point2D> selectionPoints = element.getSelectionPoints();
+    			selectionPoints.forEach(p -> GrabberUtils.drawPurpleGrabber(g2, p));
     		}
         }
     }

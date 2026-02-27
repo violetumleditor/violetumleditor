@@ -7,6 +7,8 @@ import java.awt.Stroke;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import com.horstmann.violet.product.diagram.abstracts.node.ResizeDirection;
+
 /**
  * Utility class to draw "grabber", filled squares
  * 
@@ -70,37 +72,63 @@ public class GrabberUtils
     
     
     /**
-     * Draws a resize corner indicator as a small purple L-shaped bracket.
-     * Suitable for the resize anchor of resizable nodes.
+     * Draws a directional resize indicator at the given point.
+     * Corners use an L-shaped bracket; edge midpoints use a straight dash.
+     * The bracket arms always point <em>inwards</em> toward the node interior.
      *
-     * @param g2 the graphics context
-     * @param x the x coordinate of the corner (bottom-right anchor)
-     * @param y the y coordinate of the corner (bottom-right anchor)
+     * @param g2        the graphics context
+     * @param p         the anchor location of the handle
+     * @param direction the resize direction this handle represents
      */
-    public static void drawPurpleResizeGrabber(Graphics2D g2, double x, double y)
+    public static void drawPurpleResizeGrabber(Graphics2D g2, Point2D p, ResizeDirection direction)
     {
         Color oldColor = g2.getColor();
         Stroke oldStroke = g2.getStroke();
         g2.setColor(PURPLE);
         g2.setStroke(new BasicStroke(2f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER));
         int arm = GRABBER_WIDTH * 2;
-        // Horizontal arm going left from the corner
-        g2.drawLine((int) (x - arm), (int) y, (int) x, (int) y);
-        // Vertical arm going up from the corner
-        g2.drawLine((int) x, (int) (y - arm), (int) x, (int) y);
+        int cx = (int) p.getX();
+        int cy = (int) p.getY();
+        switch (direction)
+        {
+            case SE: // L pointing left + up
+                g2.drawLine(cx - arm, cy,       cx,       cy      );
+                g2.drawLine(cx,       cy - arm, cx,       cy      );
+                break;
+            case NW: // L pointing right + down
+                g2.drawLine(cx,       cy,       cx + arm, cy      );
+                g2.drawLine(cx,       cy,       cx,       cy + arm);
+                break;
+            case NE: // L pointing left + down
+                g2.drawLine(cx - arm, cy,       cx,       cy      );
+                g2.drawLine(cx,       cy,       cx,       cy + arm);
+                break;
+            case SW: // L pointing right + up
+                g2.drawLine(cx,       cy,       cx + arm, cy      );
+                g2.drawLine(cx,       cy - arm, cx,       cy      );
+                break;
+            case N:  // horizontal dash
+            case S:
+                g2.drawLine(cx - arm, cy,       cx + arm, cy      );
+                break;
+            case W:  // vertical dash
+            case E:
+                g2.drawLine(cx,       cy - arm, cx,       cy + arm);
+                break;
+        }
         g2.setColor(oldColor);
         g2.setStroke(oldStroke);
     }
 
     /**
-     * Draws a resize corner indicator as a small purple L-shaped bracket.
+     * Draws a resize corner indicator as a small purple L-shaped bracket (SE direction).
      *
      * @param g2 the graphics context
-     * @param p  the corner (bottom-right anchor) location
+     * @param p  the corner anchor location
      */
     public static void drawPurpleResizeGrabber(Graphics2D g2, Point2D p)
     {
-        drawPurpleResizeGrabber(g2, p.getX(), p.getY());
+        drawPurpleResizeGrabber(g2, p, ResizeDirection.SE);
     }
 
     private static final Color PURPLE = new Color(0.7f, 0.4f, 0.7f);
