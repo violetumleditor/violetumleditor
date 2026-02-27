@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.horstmann.violet.product.diagram.abstracts.node.CropInsets;
 import com.horstmann.violet.product.diagram.abstracts.node.ICroppableNode;
-import com.horstmann.violet.product.diagram.abstracts.node.IResizableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.ResizeDirection;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
