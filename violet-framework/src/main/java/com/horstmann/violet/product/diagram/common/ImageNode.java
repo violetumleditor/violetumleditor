@@ -204,6 +204,9 @@ public class ImageNode extends RectangularNode implements IResizableNode, ICropp
     		if (preferredSize != null) {
     			int iconHeight = this.imageIcon.getIconHeight();
     			int iconWidth = this.imageIcon.getIconWidth();
+    			if (iconWidth <= 0 || iconHeight <= 0) {
+    				return this.imageIcon;
+    			}
     			double iconRatio = (double) iconHeight / iconWidth;
     			double preferredWidth = preferredSize.getWidth();
     			double preferredHeight = preferredSize.getHeight();
@@ -219,13 +222,17 @@ public class ImageNode extends RectangularNode implements IResizableNode, ICropp
     				targetWidth = (int) preferredWidth;
     				targetHeight = (int) Math.round((double) iconHeight * preferredWidth / iconWidth);
     			}
-    			this.imageIcon.setImage(scaleImageHighQuality(this.imageIcon.getImage(), iconWidth, iconHeight, targetWidth, targetHeight));
+    			if (targetWidth > 0 && targetHeight > 0) {
+				this.imageIcon.setImage(scaleImageHighQuality(this.imageIcon.getImage(), iconWidth, iconHeight, targetWidth, targetHeight));
+			}
     		}
     	}
 		return this.imageIcon;
 	}
 
 	private Image scaleImageHighQuality(Image img, int srcWidth, int srcHeight, int targetWidth, int targetHeight) {
+		targetWidth = Math.max(1, targetWidth);
+		targetHeight = Math.max(1, targetHeight);
 		BufferedImage result = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2d = result.createGraphics();
 		g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
