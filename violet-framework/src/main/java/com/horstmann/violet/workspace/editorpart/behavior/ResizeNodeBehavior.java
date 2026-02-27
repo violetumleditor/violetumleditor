@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
+import com.horstmann.violet.product.diagram.abstracts.node.CropInsets;
 import com.horstmann.violet.product.diagram.abstracts.node.ICroppableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.node.IResizableNode;
@@ -140,6 +141,19 @@ public class ResizeNodeBehavior extends AbstractEditorPartBehavior
             {
                 case NW: case NE: case N: desiredMinY = initMaxY - newH; break;
                 default: break;
+            }
+        }
+
+        // For cropped nodes newW/newH are desired *visible* dimensions (because
+        // effectiveBoundsForResize used visible bounds as the baseline). Convert
+        // to *full* node size by adding back the crop margins on each axis.
+        if (node0 instanceof ICroppableNode)
+        {
+            CropInsets ci = ((ICroppableNode) node0).getCropInsets();
+            if (ci != null && !ci.isEmpty())
+            {
+                newW += ci.getLeft() + ci.getRight();
+                newH += ci.getTop()  + ci.getBottom();
             }
         }
 
