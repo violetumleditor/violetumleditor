@@ -24,10 +24,12 @@ package com.horstmann.violet.product.diagram.common;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.awt.image.PixelGrabber;
 
 import javax.swing.ImageIcon;
@@ -133,21 +135,36 @@ public class ImageNode extends RectangularNode implements IResizableNode
     		if (preferredSize != null) {
     			int iconHeight = this.imageIcon.getIconHeight();
     			int iconWidth = this.imageIcon.getIconWidth();
-    			double iconRatio = iconHeight/iconWidth;
+    			double iconRatio = (double) iconHeight / iconWidth;
     			double preferredWidth = preferredSize.getWidth();
     			double preferredHeight = preferredSize.getHeight();
-    			double preferredRatio = preferredHeight/preferredWidth;
+    			double preferredRatio = preferredHeight / preferredWidth;
+    			int targetWidth, targetHeight;
     			if (preferredRatio >= iconRatio) 
     			{
-    				this.imageIcon.setImage(this.imageIcon.getImage().getScaledInstance(-1, (int) preferredHeight, Image.SCALE_SMOOTH));
+    				targetWidth = (int) Math.round((double) iconWidth * preferredHeight / iconHeight);
+    				targetHeight = (int) preferredHeight;
     			}
-    			if (preferredRatio < iconRatio) 
+    			else 
     			{
-    				this.imageIcon.setImage(this.imageIcon.getImage().getScaledInstance((int) preferredWidth, -1, Image.SCALE_SMOOTH));
+    				targetWidth = (int) preferredWidth;
+    				targetHeight = (int) Math.round((double) iconHeight * preferredWidth / iconWidth);
     			}
+    			this.imageIcon.setImage(scaleImageHighQuality(this.imageIcon.getImage(), iconWidth, iconHeight, targetWidth, targetHeight));
     		}
     	}
 		return this.imageIcon;
+	}
+
+	private Image scaleImageHighQuality(Image img, int srcWidth, int srcHeight, int targetWidth, int targetHeight) {
+		BufferedImage result = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g2d = result.createGraphics();
+		g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+		g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2d.drawImage(img, 0, 0, targetWidth, targetHeight, null);
+		g2d.dispose();
+		return result;
 	}
 
 
@@ -165,8 +182,15 @@ public class ImageNode extends RectangularNode implements IResizableNode
      */
     public void draw(Graphics2D g2)
     {
-        // Backup current color;
+        // Backup current color and rendering hints
         Color oldColor = g2.getColor();
+        Object oldInterpolation = g2.getRenderingHint(RenderingHints.KEY_INTERPOLATION);
+        Object oldRendering = g2.getRenderingHint(RenderingHints.KEY_RENDERING);
+        Object oldAntialiasing = g2.getRenderingHint(RenderingHints.KEY_ANTIALIASING);
+        // Set high-quality rendering hints for smooth image display
+        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+        g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         // Draw image
         Rectangle2D bounds = getBounds();
         if (this.image != null) {
@@ -183,8 +207,11 @@ public class ImageNode extends RectangularNode implements IResizableNode
                     b.getWidth(), b.getHeight());
         }
         text.draw(g2, textBounds);
-        // Restore first color
+        // Restore previous color and rendering hints
         g2.setColor(oldColor);
+        if (oldInterpolation != null) g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, oldInterpolation);
+        if (oldRendering != null) g2.setRenderingHint(RenderingHints.KEY_RENDERING, oldRendering);
+        if (oldAntialiasing != null) g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, oldAntialiasing);
     }
 
     /*
