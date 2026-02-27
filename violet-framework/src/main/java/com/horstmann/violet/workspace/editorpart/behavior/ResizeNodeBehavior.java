@@ -45,6 +45,14 @@ public class ResizeNodeBehavior extends AbstractEditorPartBehavior
             {
                 IResizableNode node0 = selectedNodes.get(0);
                 this.initialBounds = effectiveBoundsForResize(node0);
+                this.initialFullBounds = null;
+                this.initialCropInsets = null;
+                if (node0 instanceof ICroppableNode)
+                {
+                    this.initialFullBounds = node0.getBounds();
+                    CropInsets ci = ((ICroppableNode) node0).getCropInsets();
+                    this.initialCropInsets = (ci != null) ? ci.clone() : new CropInsets();
+                }
                 if (node0 instanceof INode)
                 {
                     this.initialLocation = ((INode) node0).getLocation();
@@ -144,35 +152,65 @@ public class ResizeNodeBehavior extends AbstractEditorPartBehavior
             }
         }
 
-        // For cropped nodes newW/newH are desired *visible* dimensions (because
-        // effectiveBoundsForResize used visible bounds as the baseline). Convert
-        // to *full* node size by adding back the crop margins on each axis.
-        if (node0 instanceof ICroppableNode)
+        // Apply size and position changes
+        if (node0 instanceof ICroppableNode && initialFullBounds != null && initialCropInsets != null)
         {
-            CropInsets ci = ((ICroppableNode) node0).getCropInsets();
-            if (ci != null && !ci.isEmpty())
+            // newW/newH are desired *visible* dimensions.
+            // Scale the full bounds and all four crop insets proportionally so the
+            // content the user sees zooms uniformly (crop is preserved as a fraction).
+            double initVisW = initW;
+            double initVisH = initH;
+            double scaleX = newW / initVisW;
+            double scaleY = newH / initVisH;
+
+            double newFullW = initialFullBounds.getWidth()  * scaleX;
+            double newFullH = initialFullBounds.getHeight() * scaleY;
+
+            // Snap the full size, then recompute actual scale from snapped result
+            // so crop insets stay consistent with the snapped dimensions.
+            Dimension snapped = snap(new Dimension((int) newFullW, (int) newFullH));
+            double snappedW = snapped.getWidth();
+            double snappedH = snapped.getHeight();
+            double actualScaleX = snappedW / initialFullBounds.getWidth();
+            double actualScaleY = snappedH / initialFullBounds.getHeight();
+
+            double newCropL = initialCropInsets.getLeft()   * actualScaleX;
+            double newCropR = initialCropInsets.getRight()  * actualScaleX;
+            double newCropT = initialCropInsets.getTop()    * actualScaleY;
+            double newCropB = initialCropInsets.getBottom() * actualScaleY;
+
+            // Position the node so the dragged visible corner sits exactly at desiredMinX/Y.
+            // desiredMinX/Y already equals the desired visible-edge position (initVisMinX when
+            // the edge is fixed, mouseX/Y when it is being dragged).
+            if (node0 instanceof INode)
             {
-                newW += ci.getLeft() + ci.getRight();
-                newH += ci.getTop()  + ci.getBottom();
+                double newNodeX = desiredMinX - newCropL;
+                double newNodeY = desiredMinY - newCropT;
+                ((INode) node0).setLocation(new Point2D.Double(newNodeX, newNodeY));
             }
+
+            node0.setPreferredSize(new Rectangle2D.Double(0, 0, snappedW, snappedH));
+            ((ICroppableNode) node0).setCropInsets(new CropInsets(newCropT, newCropL, newCropB, newCropR));
         }
-
-        Dimension snapped = snap(new Dimension((int) newW, (int) newH));
-
-        // Reposition the node when pulling its top-left corner/edge
-        if (node0 instanceof INode && initialLocation != null)
+        else
         {
-            double dx = desiredMinX - initMinX;
-            double dy = desiredMinY - initMinY;
-            if (dx != 0.0 || dy != 0.0)
-            {
-                ((INode) node0).setLocation(new Point2D.Double(
-                        initialLocation.getX() + dx,
-                        initialLocation.getY() + dy));
-            }
-        }
+            Dimension snapped = snap(new Dimension((int) newW, (int) newH));
 
-        node0.setPreferredSize(new Rectangle2D.Double(0, 0, snapped.getWidth(), snapped.getHeight()));
+            // Reposition the node when pulling its top-left corner/edge
+            if (node0 instanceof INode && initialLocation != null)
+            {
+                double dx = desiredMinX - initMinX;
+                double dy = desiredMinY - initMinY;
+                if (dx != 0.0 || dy != 0.0)
+                {
+                    ((INode) node0).setLocation(new Point2D.Double(
+                            initialLocation.getX() + dx,
+                            initialLocation.getY() + dy));
+                }
+            }
+
+            node0.setPreferredSize(new Rectangle2D.Double(0, 0, snapped.getWidth(), snapped.getHeight()));
+        }
         isResizing = true;
         editorPart.getSwingComponent().setCursor(
                 Cursor.getPredefinedCursor(activeDirection.getCursorType()));
@@ -186,6 +224,8 @@ public class ResizeNodeBehavior extends AbstractEditorPartBehavior
         isReadyForResizing = false;
         activeDirection = null;
         initialBounds = null;
+        initialFullBounds = null;
+        initialCropInsets = null;
         initialLocation = null;
         DragSelectedBehavior.unlock();
     }
@@ -246,6 +286,12 @@ public class ResizeNodeBehavior extends AbstractEditorPartBehavior
 
     /** Node bounds captured at the start of the drag gesture. */
     private Rectangle2D     initialBounds      = null;
+
+    /** Full (uncropped) node bounds captured at drag start, for ICroppableNode. */
+    private Rectangle2D     initialFullBounds  = null;
+
+    /** Crop insets captured at drag start, for ICroppableNode. */
+    private CropInsets      initialCropInsets  = null;
 
     /** Node location captured at the start of the drag gesture. */
     private Point2D         initialLocation    = null;
