@@ -69,13 +69,39 @@ public class ImageNode extends RectangularNode implements IResizableNode, ICropp
     }
 
     /**
-     * Sets current image
-     * 
-     * @param img
+     * Sets current image.
+     * The image is immediately converted to {@link BufferedImage} so that
+     * XStream can serialize it via {@code ImageConverter} regardless of the
+     * concrete AWT implementation supplied by the OS clipboard or elsewhere.
+     *
+     * @param img the source image (any AWT Image subtype)
      */
     public void setImage(Image img)
     {
-        this.image = img;
+        if (img == null)
+        {
+            this.image = null;
+            return;
+        }
+        if (img instanceof BufferedImage)
+        {
+            this.image = (BufferedImage) img;
+            return;
+        }
+        // Force loading so getWidth/getHeight are available
+        ImageIcon loader = new ImageIcon(img);
+        int w = loader.getIconWidth();
+        int h = loader.getIconHeight();
+        if (w <= 0 || h <= 0)
+        {
+            this.image = img;   // fallback – keep as-is
+            return;
+        }
+        BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = bi.createGraphics();
+        g.drawImage(img, 0, 0, null);
+        g.dispose();
+        this.image = bi;
     }
 
     @Override
