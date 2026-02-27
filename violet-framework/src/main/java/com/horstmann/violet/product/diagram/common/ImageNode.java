@@ -69,6 +69,20 @@ public class ImageNode extends RectangularNode implements IResizableNode, ICropp
     }
 
     /**
+     * Returns the current image displayed by this node.
+     * <p>
+     * If no image has been pasted or loaded from a file yet, returns the
+     * default placeholder icon injected from the resource bundle.
+     * </p>
+     *
+     * @return the current {@link Image}, never {@code null} in normal use
+     */
+    public Image getImage()
+    {
+        return this.image;
+    }
+
+    /**
      * Sets current image.
      * The image is immediately converted to {@link BufferedImage} so that
      * XStream can serialize it via {@code ImageConverter} regardless of the
@@ -78,6 +92,7 @@ public class ImageNode extends RectangularNode implements IResizableNode, ICropp
      */
     public void setImage(Image img)
     {
+        this.imageIcon = null; // invalidate scaled-icon cache
         if (img == null)
         {
             this.image = null;

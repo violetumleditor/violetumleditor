@@ -61,6 +61,7 @@ import com.horstmann.violet.framework.propertyeditor.customeditor.ArrowHeadEdito
 import com.horstmann.violet.framework.propertyeditor.customeditor.BentStyleEditor;
 import com.horstmann.violet.framework.propertyeditor.customeditor.ChoiceListEditor;
 import com.horstmann.violet.framework.propertyeditor.customeditor.ColorEditor;
+import com.horstmann.violet.framework.propertyeditor.customeditor.ImageEditor;
 import com.horstmann.violet.framework.propertyeditor.customeditor.ImageIconEditor;
 import com.horstmann.violet.framework.propertyeditor.customeditor.LineStyleEditor;
 import com.horstmann.violet.framework.propertyeditor.customeditor.MultiLineStringEditor;
@@ -392,6 +393,7 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
         editors.put(MultiLineString.class, MultiLineStringEditor.class);
         editors.put(String.class, StringEditor.class);
         editors.put(ImageIcon.class, ImageIconEditor.class);
+        editors.put(java.awt.Image.class, ImageEditor.class);
     }
 
     private static Set<Class<?>> knownImmutables = new HashSet<Class<?>>();
