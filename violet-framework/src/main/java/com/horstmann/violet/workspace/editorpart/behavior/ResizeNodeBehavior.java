@@ -68,7 +68,7 @@ public class ResizeNodeBehavior extends AbstractEditorPartBehavior
                 editorPart.getSwingComponent().setCursor(Cursor.getPredefinedCursor(cursorType));
                 DragSelectedBehavior.lock();
             }
-            else
+            else if (!BehaviorUtils.isCursorOnCropPoint(editorPart, event))
             {
                 editorPart.getSwingComponent().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 DragSelectedBehavior.unlock();
