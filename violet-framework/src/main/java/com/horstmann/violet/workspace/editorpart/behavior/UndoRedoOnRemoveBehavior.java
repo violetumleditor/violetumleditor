@@ -108,6 +108,10 @@ public class UndoRedoOnRemoveBehavior extends AbstractEditorPartBehavior
         List<INode> filteredNodes = removeChildren(nodesReallyRemoved);
         for (final INode aSelectedNode : filteredNodes)
         {
+            // Capture the raw location now; getLocationOnGraph() may include
+            // offsets (e.g. crop insets on ImageNode) that would shift the node
+            // when re-added via addNode (which calls setLocation with the point).
+            final java.awt.geom.Point2D savedLocation = aSelectedNode.getLocation();
 
             UndoableEdit edit = new AbstractUndoableEdit()
             {
@@ -115,7 +119,7 @@ public class UndoRedoOnRemoveBehavior extends AbstractEditorPartBehavior
                 public void undo() throws CannotUndoException
                 {
                     IGraph graph = editorPart.getGraph();
-                    graph.addNode(aSelectedNode, aSelectedNode.getLocationOnGraph());
+                    graph.addNode(aSelectedNode, savedLocation);
                     super.undo();
                 }
 
