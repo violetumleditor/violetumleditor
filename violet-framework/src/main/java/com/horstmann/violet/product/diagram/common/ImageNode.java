@@ -109,7 +109,9 @@ public class ImageNode extends RectangularNode implements IResizableNode, ICropp
         int h = loader.getIconHeight();
         if (w <= 0 || h <= 0)
         {
-            this.image = img;   // fallback – keep as-is
+            // Cannot determine dimensions; store a 1×1 transparent placeholder
+            // so that the field always holds a BufferedImage (required for XStream).
+            this.image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
             return;
         }
         BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);

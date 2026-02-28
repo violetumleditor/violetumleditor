@@ -1,5 +1,7 @@
 package com.horstmann.violet.framework.file.persistence;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -9,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.converters.MarshallingContext;
@@ -47,13 +50,13 @@ public class ImageConverter implements Converter {
     @Override
     @SuppressWarnings("rawtypes")
     public boolean canConvert(final Class type) {
-        return BufferedImage.class.isAssignableFrom(type);
+        return Image.class.isAssignableFrom(type);
     }
 
     @Override
     public void marshal(final Object source, final HierarchicalStreamWriter writer,
                         final MarshallingContext context) {
-        BufferedImage image = (BufferedImage) source;
+        BufferedImage image = toBufferedImage((Image) source);
         String base64 = imageToBase64(image);
         String hash = sha256Hex(base64);
 
@@ -114,6 +117,29 @@ public class ImageConverter implements Converter {
         } catch (Exception e) {
             throw new RuntimeException("Error converting base64 to image: " + e.getMessage(), e);
         }
+    }
+
+    /**
+     * Converts any AWT {@link Image} to a {@link BufferedImage}.
+     * If the source is already a BufferedImage it is returned as-is.
+     */
+    private BufferedImage toBufferedImage(Image img) {
+        if (img instanceof BufferedImage) {
+            return (BufferedImage) img;
+        }
+        // Force loading so dimensions are available
+        ImageIcon loader = new ImageIcon(img);
+        int w = loader.getIconWidth();
+        int h = loader.getIconHeight();
+        if (w <= 0 || h <= 0) {
+            // Absolute fallback: 1×1 transparent pixel
+            return new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+        }
+        BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = bi.createGraphics();
+        g.drawImage(img, 0, 0, null);
+        g.dispose();
+        return bi;
     }
 
     private String sha256Hex(String input) {
