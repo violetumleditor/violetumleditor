@@ -83,9 +83,9 @@ public class ImageEditor extends PropertyEditorSupport
     @Override
     public java.awt.Component getCustomEditor()
     {
-        JPanel panel = new JPanel(new BorderLayout(4, 4));
-        panel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
-
+        JPanel panel = new JPanel(new BorderLayout(5, 5));
+        panel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+        
         // ── Thumbnail ──────────────────────────────────────────────────────────
         final JLabel thumbnailLabel = new JLabel();
         thumbnailLabel.setPreferredSize(new Dimension(THUMB_W, THUMB_H));
