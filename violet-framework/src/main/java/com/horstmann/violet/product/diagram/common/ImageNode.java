@@ -31,6 +31,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.PixelGrabber;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 
@@ -41,6 +43,7 @@ import com.horstmann.violet.product.diagram.abstracts.node.CropInsets;
 import com.horstmann.violet.product.diagram.abstracts.node.ICroppableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.IResizableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
+import com.horstmann.violet.product.diagram.abstracts.node.ResizeDirection;
 import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
 
 /**
@@ -124,7 +127,8 @@ public class ImageNode extends RectangularNode implements IResizableNode, ICropp
     @Override
     public Rectangle2D getBounds()
     {
-        return getCroppedBounds();
+        Rectangle2D cropped = getCroppedBounds();
+        return getGraph().getGridSticker().snap(cropped);
     }
 
     @Override
@@ -198,25 +202,47 @@ public class ImageNode extends RectangularNode implements IResizableNode, ICropp
     @Override
     protected Rectangle2D getBoundsForConnectionPoint()
     {
-        // Use the uncropped origin (matching getLocation()) with cropped dimensions.
-        // AbstractEdge.getConnectionPoints() adds (locationOnGraph - location) which
-        // already accounts for the crop offset, so the origin here must NOT include it.
-        Rectangle2D cropped = getCroppedBounds();
-        Point2D loc = getLocation();
-        return new Rectangle2D.Double(loc.getX(), loc.getY(), cropped.getWidth(), cropped.getHeight());
+        // AbstractEdge.getConnectionPoints() adds (locationOnGraph − location) =
+        // (ci.left, ci.top) to every point returned here.  So to guarantee the
+        // result lands exactly on the *snapped* visible bounds we subtract the
+        // crop offset from the snapped origin:
+        //   result_origin + (ci.left, ci.top) == getBounds().origin
+        Rectangle2D b = getBounds();
+        CropInsets ci = getCropInsets();
+        double dx = (ci != null) ? ci.getLeft() : 0;
+        double dy = (ci != null) ? ci.getTop()  : 0;
+        return new Rectangle2D.Double(
+                b.getX() - dx,
+                b.getY() - dy,
+                b.getWidth(),
+                b.getHeight());
     }
 
     @Override
-    public java.util.Map<com.horstmann.violet.product.diagram.abstracts.node.ResizeDirection, Rectangle2D> getResizableDragPoints()
+    public Map<ResizeDirection, Rectangle2D> getResizableDragPoints()
     {
         // Anchor resize handles to the corners of the visible (cropped) bounds
         Rectangle2D v = getBounds();
         int s = RESIZABLE_POINT_SIZE;
-        java.util.Map<com.horstmann.violet.product.diagram.abstracts.node.ResizeDirection, Rectangle2D> points = new java.util.LinkedHashMap<>();
-        points.put(com.horstmann.violet.product.diagram.abstracts.node.ResizeDirection.NW, makeVisibleHandle(v.getMinX(), v.getMinY(), s));
-        points.put(com.horstmann.violet.product.diagram.abstracts.node.ResizeDirection.NE, makeVisibleHandle(v.getMaxX(), v.getMinY(), s));
-        points.put(com.horstmann.violet.product.diagram.abstracts.node.ResizeDirection.SW, makeVisibleHandle(v.getMinX(), v.getMaxY(), s));
-        points.put(com.horstmann.violet.product.diagram.abstracts.node.ResizeDirection.SE, makeVisibleHandle(v.getMaxX(), v.getMaxY(), s));
+        Map<ResizeDirection, Rectangle2D> points = new LinkedHashMap<>();
+        points.put(ResizeDirection.NW, makeVisibleHandle(v.getMinX(), v.getMinY(), s));
+        points.put(ResizeDirection.NE, makeVisibleHandle(v.getMaxX(), v.getMinY(), s));
+        points.put(ResizeDirection.SW, makeVisibleHandle(v.getMinX(), v.getMaxY(), s));
+        points.put(ResizeDirection.SE, makeVisibleHandle(v.getMaxX(), v.getMaxY(), s));
+        return points;
+    }
+
+    @Override
+    public Map<ResizeDirection, Rectangle2D> getCropDragPoints()
+    {
+        // Use snapped bounds so crop handles align with the visible painted area
+        Rectangle2D v = getBounds();
+        int s = ICroppableNode.CROP_POINT_SIZE;
+        Map<ResizeDirection, Rectangle2D> points = new LinkedHashMap<>();
+        points.put(ResizeDirection.N, makeVisibleHandle(v.getCenterX(), v.getMinY(), s));
+        points.put(ResizeDirection.S, makeVisibleHandle(v.getCenterX(), v.getMaxY(), s));
+        points.put(ResizeDirection.W, makeVisibleHandle(v.getMinX(),    v.getCenterY(), s));
+        points.put(ResizeDirection.E, makeVisibleHandle(v.getMaxX(),    v.getCenterY(), s));
         return points;
     }
 
