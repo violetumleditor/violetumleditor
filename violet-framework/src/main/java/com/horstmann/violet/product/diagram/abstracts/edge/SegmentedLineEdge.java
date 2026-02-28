@@ -281,7 +281,15 @@ public abstract class SegmentedLineEdge extends ShapeEdge
     	g2.setColor(Color.BLACK);
     	ArrayList<Point2D> points = getPoints();
         Stroke oldStroke = g2.getStroke();
-        g2.setStroke(getLineStyle().getStroke());
+        Stroke lineStroke = getLineStyle().getStroke();
+        int bw = getBorderWidth();
+        if (bw > 1 && lineStroke instanceof java.awt.BasicStroke)
+        {
+            java.awt.BasicStroke bs = (java.awt.BasicStroke) lineStroke;
+            lineStroke = new java.awt.BasicStroke(bw, bs.getEndCap(), bs.getLineJoin(),
+                    bs.getMiterLimit(), bs.getDashArray(), bs.getDashPhase());
+        }
+        g2.setStroke(lineStroke);
         g2.draw(getSegmentPath());
         g2.setStroke(oldStroke);
         getStartArrowHead().draw(g2, (Point2D) points.get(1), (Point2D) points.get(0));

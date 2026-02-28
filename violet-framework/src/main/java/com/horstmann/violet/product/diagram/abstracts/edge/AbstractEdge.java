@@ -362,4 +362,16 @@ public abstract class AbstractEdge implements IEdge
 
     /** Edge tool tip */
     private transient String toolTip;
+
+    private int borderWidth = 1;
+
+    public void setBorderWidth(int borderWidth)
+    {
+        this.borderWidth = Math.max(1, borderWidth);
+    }
+
+    public int getBorderWidth()
+    {
+        return this.borderWidth;
+    }
 }

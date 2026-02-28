@@ -25,6 +25,7 @@ import java.awt.Component;
 
 import com.horstmann.violet.workspace.sidebar.colortools.IColorChoiceBar;
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBar;
+import com.horstmann.violet.workspace.sidebar.thicknesstools.IThicknessChoiceBar;
 
 /**
  * Side bar interface definition
@@ -55,6 +56,11 @@ public interface ISideBar
      * @return the color choice bar
      */
     public IColorChoiceBar getColorChoiceBar();
+
+    /**
+     * @return the thickness choice bar
+     */
+    public IThicknessChoiceBar getThicknessChoiceBar();
 
     
     /**

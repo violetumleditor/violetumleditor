@@ -21,8 +21,10 @@
 
 package com.horstmann.violet.product.diagram.abstracts;
 
+import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Stroke;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
@@ -31,7 +33,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import com.horstmann.violet.product.diagram.abstracts.edge.AbstractEdge;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.common.NoteNode;
 
@@ -123,7 +127,13 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
                     }
                     else
                     {
+                        Stroke savedStroke = g2.getStroke();
+                        if (n instanceof AbstractNode && ((AbstractNode) n).getBorderWidth() > 1)
+                        {
+                            g2.setStroke(new BasicStroke(((AbstractNode) n).getBorderWidth()));
+                        }
                         n.draw(g2);
+                        g2.setStroke(savedStroke);
                     }
                     count++;
                 }
@@ -134,7 +144,13 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
         for (int i = 0; i < edges.size(); i++)
         {
             IEdge e = (IEdge) edges.get(i);
+            Stroke savedEdgeStroke = g2.getStroke();
+            if (e instanceof AbstractEdge && ((AbstractEdge) e).getBorderWidth() > 1)
+            {
+                g2.setStroke(new BasicStroke(((AbstractEdge) e).getBorderWidth()));
+            }
             e.draw(g2);
+            g2.setStroke(savedEdgeStroke);
         }
         // Special nodes are always drawn upon other elements
         for (INode n : specialNodes)
@@ -145,7 +161,13 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
             Point2D g2Location = new Point2D.Double(nodeLocationOnGraph.getX() - nodeLocation.getX(), nodeLocationOnGraph.getY()
                     - nodeLocation.getY());
             g2.translate(g2Location.getX(), g2Location.getY());
+            Stroke savedSpecialStroke = g2.getStroke();
+            if (n instanceof AbstractNode && ((AbstractNode) n).getBorderWidth() > 1)
+            {
+                g2.setStroke(new BasicStroke(((AbstractNode) n).getBorderWidth()));
+            }
             n.draw(g2);
+            g2.setStroke(savedSpecialStroke);
             // Restore g2 original location
             g2.translate(-g2Location.getX(), -g2Location.getY());
         }

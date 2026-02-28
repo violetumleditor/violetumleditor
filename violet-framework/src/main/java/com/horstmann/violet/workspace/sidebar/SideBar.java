@@ -34,6 +34,8 @@ import com.horstmann.violet.workspace.sidebar.editortools.EditorToolsPanel;
 import com.horstmann.violet.workspace.sidebar.graphtools.GraphToolsBar;
 import com.horstmann.violet.workspace.sidebar.graphtools.IGraphToolsBar;
 import com.horstmann.violet.workspace.sidebar.optionaltools.OptionalToolsPanel;
+import com.horstmann.violet.workspace.sidebar.thicknesstools.IThicknessChoiceBar;
+import com.horstmann.violet.workspace.sidebar.thicknesstools.ThicknessToolsBarPanel;
 
 public class SideBar extends JPanel implements ISideBar
 {
@@ -103,6 +105,16 @@ public class SideBar extends JPanel implements ISideBar
 
     }
 
+    public IThicknessChoiceBar getThicknessChoiceBar()
+    {
+        if (this.thicknessChoiceBar == null)
+        {
+            this.thicknessChoiceBar = new ThicknessToolsBarPanel();
+            this.thicknessChoiceBar.install(this.diagramPanel);
+        }
+        return this.thicknessChoiceBar;
+    }
+
     protected Map<ISideBarElement, String> getExternalContributionElements()
     {
         return this.externalContributionElements;
@@ -123,6 +135,7 @@ public class SideBar extends JPanel implements ISideBar
     private ISideBarElement editorToolsBar;
     private ISideBarElement optionalToolsBar;
     private IColorChoiceBar colorChoiceBar;
+    private IThicknessChoiceBar thicknessChoiceBar;
     private Map<ISideBarElement, String> externalContributionElements = new HashMap<ISideBarElement, String>();
 
 }

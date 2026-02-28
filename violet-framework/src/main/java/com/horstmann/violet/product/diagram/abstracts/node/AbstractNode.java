@@ -404,4 +404,16 @@ public abstract class AbstractNode implements INode, IColorableNode
     private Color textColor =  ColorToolsBarPanel.DEFAULT_COLOR.getTextColor();
     
     private Rectangle2D preferredSize = new Rectangle2D.Double();
+
+    private int borderWidth = 1;
+
+    public void setBorderWidth(int borderWidth)
+    {
+        this.borderWidth = Math.max(1, borderWidth);
+    }
+
+    public int getBorderWidth()
+    {
+        return this.borderWidth;
+    }
 }
