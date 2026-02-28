@@ -68,7 +68,7 @@ public class ArrowHead extends SerializableEnumeration
         if (this != V && this != HALF_V && this != NONE)
         {
            if (this == BLACK_DIAMOND || this == BLACK_TRIANGLE)
-              g2.setColor(Color.BLACK);
+              g2.setColor(g2.getColor()); // keep current edge color for filled arrows
            else
               g2.setColor(Color.WHITE);
            g2.fill(path);

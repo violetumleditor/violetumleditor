@@ -42,11 +42,12 @@ import com.horstmann.violet.product.diagram.abstracts.property.AngleStyle;
 import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
 import com.horstmann.violet.product.diagram.abstracts.property.BentStyle;
 import com.horstmann.violet.product.diagram.abstracts.property.LineStyle;
+import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 
 /**
  * An edge that is composed of multiple line segments
  */
-public abstract class SegmentedLineEdge extends ShapeEdge
+public abstract class SegmentedLineEdge extends ShapeEdge implements IColorableEdge
 {
     /**
      * Constructs an edge with no adornments.
@@ -278,7 +279,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge
     public void draw(Graphics2D g2)
     {
     	Color oldColor = g2.getColor();
-    	g2.setColor(Color.BLACK);
+    	g2.setColor(getBorderColor());
     	ArrayList<Point2D> points = getPoints();
         Stroke oldStroke = g2.getStroke();
         g2.setStroke(getLineStyle().getStroke(getBorderWidth()));
@@ -633,6 +634,58 @@ public abstract class SegmentedLineEdge extends ShapeEdge
     private String startLabel;
     private String middleLabel;
     private String endLabel;
+
+    private Color backgroundColor;
+    private Color borderColor;
+    private Color textColor;
+
+    @Override
+    public void setBackgroundColor(Color bgColor)
+    {
+        this.backgroundColor = bgColor;
+    }
+
+    @Override
+    public Color getBackgroundColor()
+    {
+        if (backgroundColor == null)
+        {
+            return ColorToolsBarPanel.DEFAULT_COLOR.getBackgroundColor();
+        }
+        return backgroundColor;
+    }
+
+    @Override
+    public void setBorderColor(Color borderColor)
+    {
+        this.borderColor = borderColor;
+    }
+
+    @Override
+    public Color getBorderColor()
+    {
+        if (borderColor == null)
+        {
+            return Color.BLACK;
+        }
+        return borderColor;
+    }
+
+    @Override
+    public void setTextColor(Color textColor)
+    {
+        this.textColor = textColor;
+    }
+
+    @Override
+    public Color getTextColor()
+    {
+        if (textColor == null)
+        {
+            return ColorToolsBarPanel.DEFAULT_COLOR.getTextColor();
+        }
+        return textColor;
+    }
 
     private static JLabel label = new JLabel();
 }
