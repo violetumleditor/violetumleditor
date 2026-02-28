@@ -54,10 +54,18 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
     {
         for (INode n : getAllNodes())
         {
-            Point2D locationOnGraph = n.getLocationOnGraph();
-            Rectangle2D bounds = n.getBounds();
-            Rectangle2D boundsToCheck = new Rectangle2D.Double(locationOnGraph.getX(), locationOnGraph.getY(), bounds.getWidth(),
-                    bounds.getHeight());
+            Rectangle2D boundsToCheck;
+            if (n instanceof com.horstmann.violet.product.diagram.abstracts.node.ICroppableNode)
+            {
+                boundsToCheck = ((com.horstmann.violet.product.diagram.abstracts.node.ICroppableNode) n).getVisibleBounds();
+            }
+            else
+            {
+                Point2D locationOnGraph = n.getLocationOnGraph();
+                Rectangle2D bounds = n.getBounds();
+                boundsToCheck = new Rectangle2D.Double(locationOnGraph.getX(), locationOnGraph.getY(), bounds.getWidth(),
+                        bounds.getHeight());
+            }
             if (boundsToCheck.contains(p))
             {
                 return n;
