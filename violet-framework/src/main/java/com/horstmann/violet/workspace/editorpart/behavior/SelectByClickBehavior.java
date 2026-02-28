@@ -70,6 +70,12 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
 
     
     @Override
+    public void onMouseMoved(MouseEvent event)
+    {
+        updateHoveredTransitionPoint(event);
+    }
+
+    @Override
     public void onMouseDragged(MouseEvent event)
     {
         this.isDragGesture = true;
@@ -241,6 +247,13 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
     			childPoints.forEach(p -> GrabberUtils.drawGrayGrabber(g2, p));
     		}
         }
+        // Draw hover target square on transition point under mouse cursor
+        if (this.hoveredTransitionPoint != null)
+        {
+            Point2D hp = this.hoveredTransitionPoint.toPoint2D();
+            boolean isSelected = this.selectionHandler.isElementAlreadySelected(this.hoveredTransitionPoint);
+            GrabberUtils.drawTransitionPointTarget(g2, hp, isSelected);
+        }
         // Draw selection/resize handles (purple) and crop handles (teal)
     	for (ISelectable element : selectionHandler.getSelectedElements()) {
     		if (element instanceof IResizableNode) {
@@ -278,9 +291,42 @@ public class SelectByClickBehavior extends AbstractEditorPartBehavior
     
     private boolean isDragGesture = false;
     
-    private List<ISelectable> unprocessedSelectedElements = new ArrayList<>();	
-    
+    private List<ISelectable> unprocessedSelectedElements = new ArrayList<>();
 
+    /** The transition point currently under the mouse cursor (or {@code null}). */
+    private ITransitionPoint hoveredTransitionPoint = null;
 
-    
+    /**
+     * Detects whether the mouse is hovering over a transition point of a
+     * selected edge and triggers a repaint so the target square is drawn.
+     */
+    private void updateHoveredTransitionPoint(MouseEvent event)
+    {
+        if (!GraphTool.SELECTION_TOOL.equals(this.graphToolsBar.getSelectedTool()))
+        {
+            if (this.hoveredTransitionPoint != null)
+            {
+                this.hoveredTransitionPoint = null;
+                this.editorPart.getSwingComponent().repaint();
+            }
+            return;
+        }
+        double zoom = editorPart.getZoomFactor();
+        Point2D mousePoint = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
+        ITransitionPoint found = null;
+        for (ISelectable element : selectionHandler.getSelectedElements())
+        {
+            if (element instanceof IEdge)
+            {
+                IEdge edge = (IEdge) element;
+                found = edge.findTransitionPoint(mousePoint);
+                if (found != null) break;
+            }
+        }
+        if (found != this.hoveredTransitionPoint)
+        {
+            this.hoveredTransitionPoint = found;
+            this.editorPart.getSwingComponent().repaint();
+        }
+    }
 }

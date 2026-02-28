@@ -175,10 +175,31 @@ public class GrabberUtils
         g2.setStroke(oldStroke);
     }
 
+    /**
+     * Draws a hollow "target" square around a transition point to indicate
+     * that the user can interact with it (select, drag or delete).
+     *
+     * @param g2       the graphics context
+     * @param p        the centre of the target square
+     * @param selected {@code true} for purple (selected), {@code false} for gray
+     */
+    public static void drawTransitionPointTarget(Graphics2D g2, Point2D p, boolean selected)
+    {
+        Color oldColor  = g2.getColor();
+        Stroke oldStroke = g2.getStroke();
+        g2.setColor(selected ? PURPLE : GRAY);
+        g2.setStroke(new BasicStroke(1.5f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER));
+        double half = TARGET_SIZE / 2.0;
+        g2.draw(new Rectangle2D.Double(p.getX() - half, p.getY() - half, TARGET_SIZE, TARGET_SIZE));
+        g2.setColor(oldColor);
+        g2.setStroke(oldStroke);
+    }
+
     private static final Color TEAL   = new Color(0.0f, 0.6f, 0.5f);
     private static final Color PURPLE = new Color(0.7f, 0.4f, 0.7f);
     private static final Color GRAY = Color.GRAY.brighter();
     public static final int GRABBER_WIDTH = 5;
-    
-    
+    /** Size (in pixels) of the hover target square drawn around transition points. */
+    public static final int TARGET_SIZE = 16;
+
 }
