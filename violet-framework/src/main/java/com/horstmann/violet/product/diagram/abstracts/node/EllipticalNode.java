@@ -27,6 +27,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import com.horstmann.violet.product.diagram.abstracts.Direction;
+import com.horstmann.violet.product.diagram.abstracts.edge.AbstractEdge;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 
 /**
@@ -50,7 +51,21 @@ public abstract class EllipticalNode extends RectangularNode
         if (a != 0 && b != 0 && !(x == 0 && y == 0))
         {
             double t = Math.sqrt((x * x) / (a * a) + (y * y) / (b * b));
-            return new Point2D.Double(cx + x / t, cy + y / t);
+            double px = cx + x / t;
+            double py = cy + y / t;
+
+            // Offset outward so thick strokes don't overlap the node.
+            // Total offset = nodeBW/2 + edgeBW/2
+            int nodeBorderWidth = getBorderWidth();
+            int edgeBorderWidth = (e instanceof AbstractEdge) ? ((AbstractEdge) e).getBorderWidth() : 1;
+            double offset = nodeBorderWidth / 2.0 + edgeBorderWidth / 2.0;
+            if (offset > 0.5)
+            {
+                px += offset * d.getX();
+                py += offset * d.getY();
+            }
+
+            return new Point2D.Double(px, py);
         }
         else
         {

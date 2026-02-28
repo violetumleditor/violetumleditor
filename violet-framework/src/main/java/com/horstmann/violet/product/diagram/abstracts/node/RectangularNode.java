@@ -31,6 +31,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.horstmann.violet.product.diagram.abstracts.Direction;
+import com.horstmann.violet.product.diagram.abstracts.edge.AbstractEdge;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 
 /**
@@ -145,6 +146,34 @@ public abstract class RectangularNode extends AbstractNode
             y = b.getMaxY() - (b.getHeight() / (size + 1)) * (position + 1);
         }
         Point2D rawPoint = new Point2D.Double(x, y);
+
+        // Offset outward so thick strokes don't overlap the node.
+        // Node border is centered on bounds: extends nodeBW/2 outward.
+        // Edge stroke is centered on path: extends edgeBW/2 inward.
+        // Total offset = nodeBW/2 + edgeBW/2
+        int nodeBorderWidth = getBorderWidth();
+        int edgeBorderWidth = (e instanceof AbstractEdge) ? ((AbstractEdge) e).getBorderWidth() : 1;
+        double offset = nodeBorderWidth / 2.0 + edgeBorderWidth / 2.0;
+        if (offset > 0.5)
+        {
+            if (Direction.NORTH.equals(nearestCardinalDirection))
+            {
+                rawPoint = new Point2D.Double(rawPoint.getX(), rawPoint.getY() + offset);
+            }
+            else if (Direction.SOUTH.equals(nearestCardinalDirection))
+            {
+                rawPoint = new Point2D.Double(rawPoint.getX(), rawPoint.getY() - offset);
+            }
+            else if (Direction.EAST.equals(nearestCardinalDirection))
+            {
+                rawPoint = new Point2D.Double(rawPoint.getX() - offset, rawPoint.getY());
+            }
+            else if (Direction.WEST.equals(nearestCardinalDirection))
+            {
+                rawPoint = new Point2D.Double(rawPoint.getX() + offset, rawPoint.getY());
+            }
+        }
+
         return rawPoint;
     }
     
