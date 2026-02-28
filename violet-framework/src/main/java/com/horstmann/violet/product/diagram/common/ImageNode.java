@@ -139,16 +139,10 @@ public class ImageNode extends RectangularNode implements IResizableNode, ICropp
         return snapperBounds;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.horstmann.violet.product.diagram.abstracts.AbstractNode#checkRemoveEdge(com.horstmann.violet.product.diagram.abstracts
-     * .Edge)
-     */
+    @Override
     public void removeConnection(IEdge e)
     {
-        if (e.getStart() == this) getGraph().removeNode(e.getEnd());
+        // Nothing special to do – just let the framework remove the edge.
     }
 
     /**
