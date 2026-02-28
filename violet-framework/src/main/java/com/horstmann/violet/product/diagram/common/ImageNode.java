@@ -139,11 +139,7 @@ public class ImageNode extends RectangularNode implements IResizableNode, ICropp
         return snapperBounds;
     }
 
-    @Override
-    public void removeConnection(IEdge e)
-    {
-        // Nothing special to do – just let the framework remove the edge.
-    }
+
 
     /**
      * Gets the value of the text property.
