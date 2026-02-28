@@ -42,6 +42,7 @@ public class ActivityTransitionEdgeBeanInfo extends SimpleBeanInfo
                     new PropertyDescriptor("middleLabel", ActivityTransitionEdge.class),
                     new PropertyDescriptor("endLabel", ActivityTransitionEdge.class),
                     new PropertyDescriptor("bentStyle", ActivityTransitionEdge.class),
+                    new PropertyDescriptor("angleStyle", ActivityTransitionEdge.class),
             };
             for (int i = 0; i < descriptors.length; i++)
             {

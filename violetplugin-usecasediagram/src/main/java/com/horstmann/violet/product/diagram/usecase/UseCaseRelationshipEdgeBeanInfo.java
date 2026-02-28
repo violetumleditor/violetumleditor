@@ -43,6 +43,7 @@ public class UseCaseRelationshipEdgeBeanInfo extends SimpleBeanInfo
             {
                     new PropertyDescriptor("middleLabel", UseCaseRelationshipEdge.class),
                     new PropertyDescriptor("bentStyle", UseCaseRelationshipEdge.class),
+                    new PropertyDescriptor("angleStyle", UseCaseRelationshipEdge.class),
             };
             for (int i = 0; i < descriptors.length; i++)
             {

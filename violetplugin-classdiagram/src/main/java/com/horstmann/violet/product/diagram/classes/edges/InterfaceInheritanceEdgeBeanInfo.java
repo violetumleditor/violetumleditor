@@ -21,6 +21,7 @@ public class InterfaceInheritanceEdgeBeanInfo extends SimpleBeanInfo
                     new PropertyDescriptor("middleLabel", InterfaceInheritanceEdge.class),
                     new PropertyDescriptor("endLabel", InterfaceInheritanceEdge.class),
                     new PropertyDescriptor("bentStyle", InterfaceInheritanceEdge.class),
+                    new PropertyDescriptor("angleStyle", InterfaceInheritanceEdge.class),
             };
             for (int i = 0; i < descriptors.length; i++)
             {

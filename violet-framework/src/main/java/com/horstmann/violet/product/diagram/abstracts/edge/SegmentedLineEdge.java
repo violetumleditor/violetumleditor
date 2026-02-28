@@ -38,6 +38,7 @@ import javax.swing.JLabel;
 
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.abstracts.property.AngleStyle;
 import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
 import com.horstmann.violet.product.diagram.abstracts.property.BentStyle;
 import com.horstmann.violet.product.diagram.abstracts.property.LineStyle;
@@ -103,6 +104,30 @@ public abstract class SegmentedLineEdge extends ShapeEdge
             this.bentStyle = BentStyle.AUTO;
         }
         return bentStyle;
+    }
+
+    /**
+     * Sets the angle style property.
+     * 
+     * @param newValue the new value
+     */
+    public void setAngleStyle(AngleStyle newValue)
+    {
+        this.angleStyle = newValue;
+    }
+
+    /**
+     * Gets the angle style property.
+     * 
+     * @return the angle style
+     */
+    public AngleStyle getAngleStyle()
+    {
+        if (this.angleStyle == null)
+        {
+            this.angleStyle = AngleStyle.RAW;
+        }
+        return this.angleStyle;
     }
 
     /**
@@ -389,15 +414,69 @@ public abstract class SegmentedLineEdge extends ShapeEdge
     private GeneralPath getSegmentPath()
     {
         ArrayList<Point2D> points = getPoints();
+        int radius = getAngleStyle().getRadius();
 
         GeneralPath path = new GeneralPath();
-        Point2D p = (Point2D) points.get(points.size() - 1);
-        path.moveTo((float) p.getX(), (float) p.getY());
-        for (int i = points.size() - 2; i >= 0; i--)
+
+        if (radius <= 0 || points.size() < 3)
         {
-            p = (Point2D) points.get(i);
-            path.lineTo((float) p.getX(), (float) p.getY());
+            // RAW mode or simple line: straight segments only
+            Point2D p = points.get(points.size() - 1);
+            path.moveTo((float) p.getX(), (float) p.getY());
+            for (int i = points.size() - 2; i >= 0; i--)
+            {
+                p = points.get(i);
+                path.lineTo((float) p.getX(), (float) p.getY());
+            }
+            return path;
         }
+
+        // Rounded mode: draw arcs at each interior point
+        // We iterate forward (0 → last) so the path direction matches the logical edge direction.
+        Point2D first = points.get(0);
+        path.moveTo((float) first.getX(), (float) first.getY());
+
+        for (int i = 1; i < points.size() - 1; i++)
+        {
+            Point2D prev = points.get(i - 1);
+            Point2D curr = points.get(i);
+            Point2D next = points.get(i + 1);
+
+            // Compute the maximum radius we can use so we don't overshoot
+            // either of the two segments adjacent to the corner.
+            double segLenBefore = prev.distance(curr);
+            double segLenAfter  = curr.distance(next);
+            double r = Math.min(radius, Math.min(segLenBefore / 2.0, segLenAfter / 2.0));
+            if (r < 1)
+            {
+                // Segments too short – fall back to sharp corner
+                path.lineTo((float) curr.getX(), (float) curr.getY());
+                continue;
+            }
+
+            // Points where the arc begins and ends
+            double dxIn  = curr.getX() - prev.getX();
+            double dyIn  = curr.getY() - prev.getY();
+            double lenIn = segLenBefore;
+            double arcStartX = curr.getX() - r * dxIn / lenIn;
+            double arcStartY = curr.getY() - r * dyIn / lenIn;
+
+            double dxOut  = next.getX() - curr.getX();
+            double dyOut  = next.getY() - curr.getY();
+            double lenOut = segLenAfter;
+            double arcEndX = curr.getX() + r * dxOut / lenOut;
+            double arcEndY = curr.getY() + r * dyOut / lenOut;
+
+            // Line to the arc start, then a quadratic curve using
+            // the corner point as the control point.
+            path.lineTo((float) arcStartX, (float) arcStartY);
+            path.quadTo((float) curr.getX(), (float) curr.getY(),
+                        (float) arcEndX,     (float) arcEndY);
+        }
+
+        // Final segment to last point
+        Point2D last = points.get(points.size() - 1);
+        path.lineTo((float) last.getX(), (float) last.getY());
         return path;
     }
 
@@ -503,6 +582,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge
     }
 
     private LineStyle lineStyle;
+    private AngleStyle angleStyle;
     private ArrowHead startArrowHead;
     private ArrowHead endArrowHead;
     private BentStyle bentStyle;

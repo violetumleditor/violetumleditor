@@ -21,6 +21,7 @@ public class AggregationEdgeBeanInfo extends SimpleBeanInfo
                     new PropertyDescriptor("middleLabel", AggregationEdge.class),
                     new PropertyDescriptor("endLabel", AggregationEdge.class),
                     new PropertyDescriptor("bentStyle", AggregationEdge.class),
+                    new PropertyDescriptor("angleStyle", AggregationEdge.class),
             };
             for (int i = 0; i < descriptors.length; i++)
             {

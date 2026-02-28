@@ -57,6 +57,7 @@ import javax.swing.event.DocumentListener;
 
 import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
 import com.horstmann.violet.framework.propertyeditor.customeditor.AbstractDiagramLinkEditor;
+import com.horstmann.violet.framework.propertyeditor.customeditor.AngleStyleEditor;
 import com.horstmann.violet.framework.propertyeditor.customeditor.ArrowHeadEditor;
 import com.horstmann.violet.framework.propertyeditor.customeditor.BentStyleEditor;
 import com.horstmann.violet.framework.propertyeditor.customeditor.ChoiceListEditor;
@@ -67,6 +68,7 @@ import com.horstmann.violet.framework.propertyeditor.customeditor.LineStyleEdito
 import com.horstmann.violet.framework.propertyeditor.customeditor.MultiLineStringEditor;
 import com.horstmann.violet.framework.propertyeditor.customeditor.StringEditor;
 import com.horstmann.violet.framework.util.SerializableEnumeration;
+import com.horstmann.violet.product.diagram.abstracts.property.AngleStyle;
 import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
 import com.horstmann.violet.product.diagram.abstracts.property.BentStyle;
 import com.horstmann.violet.product.diagram.abstracts.property.ChoiceList;
@@ -384,6 +386,7 @@ public class CustomPropertyEditor implements ICustomPropertyEditor
     static
     {
         editors = new HashMap<Class<?>, Class<? extends PropertyEditor>>();
+        editors.put(AngleStyle.class, AngleStyleEditor.class);
         editors.put(ArrowHead.class, ArrowHeadEditor.class);
         editors.put(BentStyle.class, BentStyleEditor.class);
         editors.put(ChoiceList.class, ChoiceListEditor.class);

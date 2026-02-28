@@ -21,6 +21,7 @@ public class AssociationEdgeBeanInfo extends SimpleBeanInfo
                     new PropertyDescriptor("middleLabel", AssociationEdge.class),
                     new PropertyDescriptor("endLabel", AssociationEdge.class),
                     new PropertyDescriptor("bentStyle", AssociationEdge.class),
+                    new PropertyDescriptor("angleStyle", AssociationEdge.class),
             };
             for (int i = 0; i < descriptors.length; i++)
             {

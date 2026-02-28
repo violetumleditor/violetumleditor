@@ -25,6 +25,7 @@ public class ClassRelationshipEdgeBeanInfo extends SimpleBeanInfo
                     new PropertyDescriptor("endArrowHead", ClassRelationshipEdge.class),
                     new PropertyDescriptor("bentStyle", ClassRelationshipEdge.class),
                     new PropertyDescriptor("lineStyle", ClassRelationshipEdge.class),
+                    new PropertyDescriptor("angleStyle", ClassRelationshipEdge.class),
             };
             for (int i = 0; i < descriptors.length; i++)
             {

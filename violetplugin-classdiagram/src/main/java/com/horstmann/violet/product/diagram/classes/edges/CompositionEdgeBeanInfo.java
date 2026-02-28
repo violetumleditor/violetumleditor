@@ -21,6 +21,7 @@ public class CompositionEdgeBeanInfo extends SimpleBeanInfo
                     new PropertyDescriptor("middleLabel", CompositionEdge.class),
                     new PropertyDescriptor("endLabel", CompositionEdge.class),
                     new PropertyDescriptor("bentStyle", CompositionEdge.class),
+                    new PropertyDescriptor("angleStyle", CompositionEdge.class),
             };
             for (int i = 0; i < descriptors.length; i++)
             {

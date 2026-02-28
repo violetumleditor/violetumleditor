@@ -21,6 +21,7 @@ public class DependencyEdgeBeanInfo extends SimpleBeanInfo
                     new PropertyDescriptor("middleLabel", DependencyEdge.class),
                     new PropertyDescriptor("endLabel", DependencyEdge.class),
                     new PropertyDescriptor("bentStyle", DependencyEdge.class),
+                    new PropertyDescriptor("angleStyle", DependencyEdge.class),
             };
             for (int i = 0; i < descriptors.length; i++)
             {
