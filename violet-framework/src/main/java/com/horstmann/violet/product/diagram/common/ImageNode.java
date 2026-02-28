@@ -124,6 +124,24 @@ public class ImageNode extends RectangularNode implements IResizableNode, ICropp
     @Override
     public Rectangle2D getBounds()
     {
+        return getCroppedBounds();
+    }
+
+    @Override
+    public Point2D getLocationOnGraph()
+    {
+        Point2D base = super.getLocationOnGraph();
+        CropInsets ci = getCropInsets();
+        if (ci == null || ci.isEmpty())
+        {
+            return base;
+        }
+        return new Point2D.Double(base.getX() + ci.getLeft(), base.getY() + ci.getTop());
+    }
+
+    @Override
+    public Rectangle2D getUncroppedBounds()
+    {
         Rectangle2D b = text.getBounds();
         Point2D currentLocation = getLocation();
         double x = currentLocation.getX();
@@ -180,14 +198,19 @@ public class ImageNode extends RectangularNode implements IResizableNode, ICropp
     @Override
     protected Rectangle2D getBoundsForConnectionPoint()
     {
-        return getVisibleBounds();
+        // Use the uncropped origin (matching getLocation()) with cropped dimensions.
+        // AbstractEdge.getConnectionPoints() adds (locationOnGraph - location) which
+        // already accounts for the crop offset, so the origin here must NOT include it.
+        Rectangle2D cropped = getCroppedBounds();
+        Point2D loc = getLocation();
+        return new Rectangle2D.Double(loc.getX(), loc.getY(), cropped.getWidth(), cropped.getHeight());
     }
 
     @Override
     public java.util.Map<com.horstmann.violet.product.diagram.abstracts.node.ResizeDirection, Rectangle2D> getResizableDragPoints()
     {
         // Anchor resize handles to the corners of the visible (cropped) bounds
-        Rectangle2D v = getVisibleBounds();
+        Rectangle2D v = getBounds();
         int s = RESIZABLE_POINT_SIZE;
         java.util.Map<com.horstmann.violet.product.diagram.abstracts.node.ResizeDirection, Rectangle2D> points = new java.util.LinkedHashMap<>();
         points.put(com.horstmann.violet.product.diagram.abstracts.node.ResizeDirection.NW, makeVisibleHandle(v.getMinX(), v.getMinY(), s));
@@ -276,10 +299,10 @@ public class ImageNode extends RectangularNode implements IResizableNode, ICropp
         g2.setRenderingHint(RenderingHints.KEY_RENDERING,     RenderingHints.VALUE_RENDER_QUALITY);
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,  RenderingHints.VALUE_ANTIALIAS_ON);
         // Clip to the visible (cropped) bounds so only the uncropped area is painted
-        Rectangle2D visibleBounds = getVisibleBounds();
+        Rectangle2D visibleBounds = getBounds();
         g2.clip(visibleBounds);
         // Draw image
-        Rectangle2D bounds = getBounds();
+        Rectangle2D bounds = getUncroppedBounds();
         if (this.image != null) {
             g2.drawImage(this.getImageIcon().getImage(),
                     (int) bounds.getCenterX() - this.getImageIcon().getIconWidth() / 2,
@@ -311,7 +334,7 @@ public class ImageNode extends RectangularNode implements IResizableNode, ICropp
     public Shape getShape()
     {
         // Use visible (cropped) bounds so the selection outline matches the painted area
-        Rectangle2D bounds = getVisibleBounds();
+        Rectangle2D bounds = getBounds();
         GeneralPath path = new GeneralPath();
         path.moveTo((float) bounds.getX(),    (float) bounds.getY());
         path.lineTo((float) bounds.getMaxX(), (float) bounds.getY());

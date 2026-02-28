@@ -49,7 +49,7 @@ public class CropNodeBehavior extends AbstractEditorPartBehavior
             if (!nodes.isEmpty())
             {
                 ICroppableNode node0 = nodes.get(0);
-                this.initialFullBounds = node0.getBounds();
+                this.initialFullBounds = node0.getUncroppedBounds();
                 CropInsets ci = node0.getCropInsets();
                 this.initialInsets = (ci != null) ? ci.clone() : new CropInsets();
                 this.isReadyForCropping = true;

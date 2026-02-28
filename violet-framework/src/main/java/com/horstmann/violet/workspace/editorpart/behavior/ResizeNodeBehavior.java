@@ -249,10 +249,6 @@ public class ResizeNodeBehavior extends AbstractEditorPartBehavior
      */
     private static Rectangle2D effectiveBoundsForResize(IResizableNode node)
     {
-        if (node instanceof ICroppableNode)
-        {
-            return ((ICroppableNode) node).getVisibleBounds();
-        }
         return node.getBounds();
     }
 

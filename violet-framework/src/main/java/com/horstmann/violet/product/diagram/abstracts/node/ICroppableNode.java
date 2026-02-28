@@ -33,9 +33,9 @@ public interface ICroppableNode
 
     /**
      * Returns the full (uncropped) bounds of the node.
-     * Used as the basis for computing the visible bounds.
+     * Used as the basis for computing the visible (cropped) bounds.
      */
-    Rectangle2D getBounds();
+    Rectangle2D getUncroppedBounds();
 
     // ------------------------------------------------------------------
     // Default helpers
@@ -44,10 +44,13 @@ public interface ICroppableNode
     /**
      * Returns the visible (cropped) bounds: the subset of the full bounds
      * that remains after subtracting all four crop insets.
+     * <p>Implementing classes should override {@code getBounds()} to delegate
+     * to this method so that hit-testing, painting and connection points
+     * all use the cropped area.</p>
      */
-    default Rectangle2D getVisibleBounds()
+    default Rectangle2D getCroppedBounds()
     {
-        Rectangle2D full = getBounds();
+        Rectangle2D full = getUncroppedBounds();
         CropInsets ci = getCropInsets();
         if (ci == null || ci.isEmpty())
         {
@@ -70,7 +73,7 @@ public interface ICroppableNode
      */
     default Map<ResizeDirection, Rectangle2D> getCropDragPoints()
     {
-        Rectangle2D v = getVisibleBounds();
+        Rectangle2D v = getCroppedBounds();
         int s = CROP_POINT_SIZE;
         Map<ResizeDirection, Rectangle2D> points = new LinkedHashMap<>();
         points.put(ResizeDirection.N, makeHandle(v.getCenterX(), v.getMinY(), s));
