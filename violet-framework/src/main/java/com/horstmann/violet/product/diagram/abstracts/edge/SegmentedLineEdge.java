@@ -424,17 +424,52 @@ public abstract class SegmentedLineEdge extends ShapeEdge
     {
         ArrayList<Point2D> points = getPoints();
         int radius = getAngleStyle().getRadius();
+        float bw = getBorderWidth();
+
+        // Shorten start and end to avoid the thick line showing behind arrows
+        double startCut = getStartArrowHead().getArrowBaseLength(bw);
+        double endCut = getEndArrowHead().getArrowBaseLength(bw);
+
+        // Clone points so we can modify endpoints without affecting the originals
+        ArrayList<Point2D> pts = new ArrayList<>(points);
+        if (startCut > 0 && pts.size() >= 2)
+        {
+            Point2D p0 = pts.get(0);
+            Point2D p1 = pts.get(1);
+            double len = p0.distance(p1);
+            if (len > startCut)
+            {
+                double ratio = startCut / len;
+                pts.set(0, new Point2D.Double(
+                    p0.getX() + (p1.getX() - p0.getX()) * ratio,
+                    p0.getY() + (p1.getY() - p0.getY()) * ratio));
+            }
+        }
+        if (endCut > 0 && pts.size() >= 2)
+        {
+            int last = pts.size() - 1;
+            Point2D pLast = pts.get(last);
+            Point2D pPrev = pts.get(last - 1);
+            double len = pLast.distance(pPrev);
+            if (len > endCut)
+            {
+                double ratio = endCut / len;
+                pts.set(last, new Point2D.Double(
+                    pLast.getX() + (pPrev.getX() - pLast.getX()) * ratio,
+                    pLast.getY() + (pPrev.getY() - pLast.getY()) * ratio));
+            }
+        }
 
         GeneralPath path = new GeneralPath();
 
-        if (radius <= 0 || points.size() < 3)
+        if (radius <= 0 || pts.size() < 3)
         {
             // RAW mode or simple line: straight segments only
-            Point2D p = points.get(points.size() - 1);
+            Point2D p = pts.get(pts.size() - 1);
             path.moveTo((float) p.getX(), (float) p.getY());
-            for (int i = points.size() - 2; i >= 0; i--)
+            for (int i = pts.size() - 2; i >= 0; i--)
             {
-                p = points.get(i);
+                p = pts.get(i);
                 path.lineTo((float) p.getX(), (float) p.getY());
             }
             return path;
@@ -442,14 +477,14 @@ public abstract class SegmentedLineEdge extends ShapeEdge
 
         // Rounded mode: draw arcs at each interior point
         // We iterate forward (0 → last) so the path direction matches the logical edge direction.
-        Point2D first = points.get(0);
+        Point2D first = pts.get(0);
         path.moveTo((float) first.getX(), (float) first.getY());
 
-        for (int i = 1; i < points.size() - 1; i++)
+        for (int i = 1; i < pts.size() - 1; i++)
         {
-            Point2D prev = points.get(i - 1);
-            Point2D curr = points.get(i);
-            Point2D next = points.get(i + 1);
+            Point2D prev = pts.get(i - 1);
+            Point2D curr = pts.get(i);
+            Point2D next = pts.get(i + 1);
 
             // Compute the maximum radius we can use so we don't overshoot
             // either of the two segments adjacent to the corner.
@@ -484,7 +519,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge
         }
 
         // Final segment to last point
-        Point2D last = points.get(points.size() - 1);
+        Point2D last = pts.get(pts.size() - 1);
         path.lineTo((float) last.getX(), (float) last.getY());
         return path;
     }

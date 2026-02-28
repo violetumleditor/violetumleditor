@@ -33,6 +33,8 @@ import java.util.List;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.AbstractEdge;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.edge.SegmentedLineEdge;
+import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
 
 /**
  * A node that has a rectangular shape.
@@ -148,12 +150,19 @@ public abstract class RectangularNode extends AbstractNode
         Point2D rawPoint = new Point2D.Double(x, y);
 
         // Offset outward so thick strokes don't overlap the node.
-        // Node border is centered on bounds: extends nodeBW/2 outward.
-        // Edge stroke is centered on path: extends edgeBW/2 inward.
-        // Total offset = nodeBW/2 + edgeBW/2
+        // Arrow miter extends edgeBW beyond the tip, while a plain
+        // line cap (CAP_SQUARE) only extends edgeBW/2.
         int nodeBorderWidth = getBorderWidth();
         int edgeBorderWidth = (e instanceof AbstractEdge) ? ((AbstractEdge) e).getBorderWidth() : 1;
-        double offset = nodeBorderWidth / 2.0 + edgeBorderWidth / 2.0;
+        boolean hasArrowAtThisEnd = false;
+        if (e instanceof SegmentedLineEdge)
+        {
+            SegmentedLineEdge sle = (SegmentedLineEdge) e;
+            ArrowHead ah = this.equals(e.getStart()) ? sle.getStartArrowHead() : sle.getEndArrowHead();
+            hasArrowAtThisEnd = (ah != null && ah != ArrowHead.NONE);
+        }
+        double edgeOffset = hasArrowAtThisEnd ? edgeBorderWidth : edgeBorderWidth / 2.0;
+        double offset = nodeBorderWidth / 2.0 + edgeOffset;
         if (offset > 0.5)
         {
             if (Direction.NORTH.equals(nearestCardinalDirection))

@@ -29,6 +29,8 @@ import java.awt.geom.Rectangle2D;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.AbstractEdge;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.edge.SegmentedLineEdge;
+import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
 
 /**
  * An elliptical (or circular) node.
@@ -55,10 +57,17 @@ public abstract class EllipticalNode extends RectangularNode
             double py = cy + y / t;
 
             // Offset outward so thick strokes don't overlap the node.
-            // Total offset = nodeBW/2 + edgeBW/2
             int nodeBorderWidth = getBorderWidth();
             int edgeBorderWidth = (e instanceof AbstractEdge) ? ((AbstractEdge) e).getBorderWidth() : 1;
-            double offset = nodeBorderWidth / 2.0 + edgeBorderWidth / 2.0;
+            boolean hasArrowAtThisEnd = false;
+            if (e instanceof SegmentedLineEdge)
+            {
+                SegmentedLineEdge sle = (SegmentedLineEdge) e;
+                ArrowHead ah = this.equals(e.getStart()) ? sle.getStartArrowHead() : sle.getEndArrowHead();
+                hasArrowAtThisEnd = (ah != null && ah != ArrowHead.NONE);
+            }
+            double edgeOffset = hasArrowAtThisEnd ? edgeBorderWidth : edgeBorderWidth / 2.0;
+            double offset = nodeBorderWidth / 2.0 + edgeOffset;
             if (offset > 0.5)
             {
                 px += offset * d.getX();

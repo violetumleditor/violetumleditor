@@ -143,6 +143,26 @@ public class ArrowHead extends SerializableEnumeration
         return path;
     }
 
+    /**
+     * Returns the length of the arrow head along its axis for a given scale.
+     * This is how far the base of the arrow is from the tip.
+     * Used to shorten the edge line so it doesn't show behind the arrow.
+     *
+     * @param scale the scale factor
+     * @return the arrow base length in pixels, 0 for NONE
+     */
+    public double getArrowBaseLength(float scale)
+    {
+        if (this == NONE) return 0;
+        double arrowLength = 5 * (1 + scale);
+        if (this == DIAMOND || this == BLACK_DIAMOND)
+        {
+            // Diamond is twice the arrow length along the axis
+            return 2 * arrowLength * Math.cos(Math.PI / 6);
+        }
+        return arrowLength * Math.cos(Math.PI / 6);
+    }
+
     /** Array head type : this head has no shape */
     public static final ArrowHead NONE = new ArrowHead();
 
