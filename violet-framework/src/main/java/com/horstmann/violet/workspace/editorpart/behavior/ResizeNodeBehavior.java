@@ -49,7 +49,7 @@ public class ResizeNodeBehavior extends AbstractEditorPartBehavior
                 this.initialCropInsets = null;
                 if (node0 instanceof ICroppableNode)
                 {
-                    this.initialFullBounds = node0.getBounds();
+                    this.initialFullBounds = ((ICroppableNode) node0).getUncroppedBounds();
                     CropInsets ci = ((ICroppableNode) node0).getCropInsets();
                     this.initialCropInsets = (ci != null) ? ci.clone() : new CropInsets();
                 }
