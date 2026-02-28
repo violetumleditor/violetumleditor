@@ -80,7 +80,15 @@ public abstract class SegmentedLineEdge extends ShapeEdge
     	}
     	return super.getTransitionPoints();
     }
-    
+
+    @Override
+    public boolean contains(Point2D aPoint)
+    {
+        // When angle style is rounded, the Bézier path skirts around corner
+        // points so the default shape-based hit test misses transition points.
+        if (super.contains(aPoint)) return true;
+        return findTransitionPoint(aPoint) != null;
+    }
 
     /**
      * Sets the bentStyle property
