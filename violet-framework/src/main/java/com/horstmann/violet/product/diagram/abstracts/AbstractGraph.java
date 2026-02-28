@@ -144,13 +144,7 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
         for (int i = 0; i < edges.size(); i++)
         {
             IEdge e = (IEdge) edges.get(i);
-            Stroke savedEdgeStroke = g2.getStroke();
-            if (e instanceof AbstractEdge && ((AbstractEdge) e).getBorderWidth() > 1)
-            {
-                g2.setStroke(new BasicStroke(((AbstractEdge) e).getBorderWidth()));
-            }
             e.draw(g2);
-            g2.setStroke(savedEdgeStroke);
         }
         // Special nodes are always drawn upon other elements
         for (INode n : specialNodes)

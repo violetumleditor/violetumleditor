@@ -281,19 +281,12 @@ public abstract class SegmentedLineEdge extends ShapeEdge
     	g2.setColor(Color.BLACK);
     	ArrayList<Point2D> points = getPoints();
         Stroke oldStroke = g2.getStroke();
-        Stroke lineStroke = getLineStyle().getStroke();
-        int bw = getBorderWidth();
-        if (bw > 1 && lineStroke instanceof java.awt.BasicStroke)
-        {
-            java.awt.BasicStroke bs = (java.awt.BasicStroke) lineStroke;
-            lineStroke = new java.awt.BasicStroke(bw, bs.getEndCap(), bs.getLineJoin(),
-                    bs.getMiterLimit(), bs.getDashArray(), bs.getDashPhase());
-        }
-        g2.setStroke(lineStroke);
+        g2.setStroke(getLineStyle().getStroke(getBorderWidth()));
         g2.draw(getSegmentPath());
         g2.setStroke(oldStroke);
-        getStartArrowHead().draw(g2, (Point2D) points.get(1), (Point2D) points.get(0));
-        getEndArrowHead().draw(g2, (Point2D) points.get(points.size() - 2), (Point2D) points.get(points.size() - 1));
+        float arrowScale = getBorderWidth();
+        getStartArrowHead().draw(g2, (Point2D) points.get(1), (Point2D) points.get(0), arrowScale);
+        getEndArrowHead().draw(g2, (Point2D) points.get(points.size() - 2), (Point2D) points.get(points.size() - 1), arrowScale);
 
         drawString(g2, (Point2D) points.get(1), (Point2D) points.get(0), getStartArrowHead(), startLabel, false);
         drawString(g2, (Point2D) points.get(points.size() / 2 - 1), (Point2D) points.get(points.size() / 2), null, middleLabel,

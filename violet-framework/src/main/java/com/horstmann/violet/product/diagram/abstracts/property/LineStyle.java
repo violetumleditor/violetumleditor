@@ -39,50 +39,36 @@ public class LineStyle extends SerializableEnumeration
     }
 
     /**
-     * Gets a stroke with which to draw this line style.
+     * Gets a stroke with which to draw this line style (default width 1).
      * 
      * @return the stroke object that strokes this line style
      */
     public Stroke getStroke()
     {
-        if (this == DOTTED) return getDottedStroke();
-        return getSolidStroke();
+        return getStroke(1.0f);
     }
 
     /**
-     * @return a dotted stroke
+     * Gets a stroke with the given width. For dotted lines, the dash
+     * pattern is scaled proportionally to the width.
+     * 
+     * @param width the desired line width in pixels
+     * @return the stroke object that strokes this line style at the given width
      */
-    private Stroke getDottedStroke()
+    public Stroke getStroke(float width)
     {
-        if (dottedStroke == null)
+        if (width < 1.0f) width = 1.0f;
+        if (this == DOTTED)
         {
             float[] dash = new float[]
             {
-                    3.0f,
-                    3.0f
+                    3.0f * width,
+                    3.0f * width
             };
-            dottedStroke = new BasicStroke(1.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 10.0f, dash, 0.0f);
+            return new BasicStroke(width, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 10.0f, dash, 0.0f);
         }
-        return dottedStroke;
+        return new BasicStroke(width);
     }
-
-    /**
-     * @return a solid stroke
-     */
-    private Stroke getSolidStroke()
-    {
-        if (solidStroke == null)
-        {
-            solidStroke = new BasicStroke();
-        }
-        return solidStroke;
-    }
-
-    /** a solid stroke */
-    private transient Stroke solidStroke;
-
-    /** a dotted stroke */
-    private transient Stroke dottedStroke;
 
     /** The unique solid linestyle instance */
     public static final LineStyle SOLID = new LineStyle();
