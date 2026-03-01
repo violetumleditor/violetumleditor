@@ -76,6 +76,7 @@ public class ColorToolsBarPanel extends JPanel implements IColorChoiceBar
     private static final ColorChoice PASTEL_VIOLET_MAGENTA = new ColorChoice(new Color(217,190,219), new Color(188,141,191), new Color(51,51,51));
     private static final ColorChoice PASTEL_MAGENTA = new ColorChoice(new Color(249,200,222), new Color(241,131,180), new Color(51,51,51));
     private static final ColorChoice PASTEL_MAGENTA_RED = new ColorChoice(new Color(250,199,202), new Color(244,129,135), new Color(51,51,51));
+    private static final ColorChoice PASTEL_BLACK = new ColorChoice(new Color(191,191,191), new Color(0,0,0), new Color(0,0,0));
 
     protected static final List<ColorChoice> CHOICE_LIST = new ArrayList<ColorChoice>();
     private List<IColorChoiceChangeListener> colorChoiceChangeListenersList = new ArrayList<IColorChoiceChangeListener>();
@@ -102,6 +103,7 @@ public class ColorToolsBarPanel extends JPanel implements IColorChoiceBar
         CHOICE_LIST.add(PASTEL_VIOLET_MAGENTA);
         CHOICE_LIST.add(PASTEL_MAGENTA);
         CHOICE_LIST.add(PASTEL_MAGENTA_RED);
+        CHOICE_LIST.add(PASTEL_BLACK);
     }
 
 }
