@@ -160,19 +160,23 @@ public class ResizeNodeBehavior extends AbstractEditorPartBehavior
             // content the user sees zooms uniformly (crop is preserved as a fraction).
             double initVisW = initW;
             double initVisH = initH;
+
+            // In some cases (e.g. aspect ratio keeping), the node might adjust its own dimensions.
+            // We set the preferred size on the node and let it snap/adjust, then read back the
+            // actual full dimensions to ensure crop insets remain perfectly proportional.
             double scaleX = newW / initVisW;
             double scaleY = newH / initVisH;
 
             double newFullW = initialFullBounds.getWidth()  * scaleX;
             double newFullH = initialFullBounds.getHeight() * scaleY;
 
-            // Snap the full size, then recompute actual scale from snapped result
-            // so crop insets stay consistent with the snapped dimensions.
-            Dimension snapped = snap(new Dimension((int) newFullW, (int) newFullH));
-            double snappedW = snapped.getWidth();
-            double snappedH = snapped.getHeight();
-            double actualScaleX = snappedW / initialFullBounds.getWidth();
-            double actualScaleY = snappedH / initialFullBounds.getHeight();
+            node0.setPreferredSize(new Rectangle2D.Double(0, 0, newFullW, newFullH));
+            Rectangle2D actualFullBounds = ((ICroppableNode) node0).getUncroppedBounds();
+            double actualFullW = actualFullBounds.getWidth();
+            double actualFullH = actualFullBounds.getHeight();
+
+            double actualScaleX = actualFullW / initialFullBounds.getWidth();
+            double actualScaleY = actualFullH / initialFullBounds.getHeight();
 
             double newCropL = initialCropInsets.getLeft()   * actualScaleX;
             double newCropR = initialCropInsets.getRight()  * actualScaleX;
@@ -180,8 +184,6 @@ public class ResizeNodeBehavior extends AbstractEditorPartBehavior
             double newCropB = initialCropInsets.getBottom() * actualScaleY;
 
             // Position the node so the dragged visible corner sits exactly at desiredMinX/Y.
-            // desiredMinX/Y already equals the desired visible-edge position (initVisMinX when
-            // the edge is fixed, mouseX/Y when it is being dragged).
             if (node0 instanceof INode)
             {
                 double newNodeX = desiredMinX - newCropL;
@@ -189,7 +191,6 @@ public class ResizeNodeBehavior extends AbstractEditorPartBehavior
                 ((INode) node0).setLocation(new Point2D.Double(newNodeX, newNodeY));
             }
 
-            node0.setPreferredSize(new Rectangle2D.Double(0, 0, snappedW, snappedH));
             ((ICroppableNode) node0).setCropInsets(new CropInsets(newCropT, newCropL, newCropB, newCropR));
         }
         else
