@@ -126,8 +126,7 @@ public class ImageNode extends RectangularNode implements IResizableNode, ICropp
     @Override
     public Rectangle2D getBounds()
     {
-        Rectangle2D cropped = getCroppedBounds();
-        return getGraph().getGridSticker().snap(cropped);
+        return getCroppedBounds();
     }
 
     @Override
@@ -159,9 +158,7 @@ public class ImageNode extends RectangularNode implements IResizableNode, ICropp
                 h = preferredSize.getHeight();
             }
         }
-        Rectangle2D currentBounds = new Rectangle2D.Double(x, y, w, h);
-        Rectangle2D snapperBounds = getGraph().getGridSticker().snap(currentBounds);
-        return snapperBounds;
+        return new Rectangle2D.Double(x, y, w, h);
     }
 
 
