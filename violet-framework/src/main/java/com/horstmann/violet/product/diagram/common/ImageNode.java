@@ -145,15 +145,19 @@ public class ImageNode extends RectangularNode implements IResizableNode, ICropp
     @Override
     public Rectangle2D getUncroppedBounds()
     {
-        Rectangle2D b = text.getBounds();
         Point2D currentLocation = getLocation();
         double x = currentLocation.getX();
         double y = currentLocation.getY();
-        double w = b.getWidth();
-        double h = b.getHeight();
+        double w = 0;
+        double h = 0;
         if (this.image != null) {
-            w = Math.max(b.getWidth(), this.getImageIcon().getIconWidth());
-            h = b.getHeight() + this.getImageIcon().getIconHeight();
+            w = this.getImageWidth();
+            h = this.getImageHeight();
+            Rectangle2D preferredSize = getPreferredSize();
+            if (preferredSize != null) {
+                w = preferredSize.getWidth();
+                h = preferredSize.getHeight();
+            }
         }
         Rectangle2D currentBounds = new Rectangle2D.Double(x, y, w, h);
         Rectangle2D snapperBounds = getGraph().getGridSticker().snap(currentBounds);
@@ -302,6 +306,17 @@ public class ImageNode extends RectangularNode implements IResizableNode, ICropp
 	
 	@Override
 	public void setPreferredSize(Rectangle2D size) {
+		if (this.image != null && size.getWidth() > 0 && size.getHeight() > 0) {
+			double iconRatio = (double) this.getImageHeight() / this.getImageWidth();
+			double targetWidth = size.getWidth();
+			double targetHeight = size.getHeight();
+			if (targetHeight / targetWidth > iconRatio) {
+				targetHeight = targetWidth * iconRatio;
+			} else {
+				targetWidth = targetHeight / iconRatio;
+			}
+			size = new Rectangle2D.Double(size.getX(), size.getY(), targetWidth, targetHeight);
+		}
 		super.setPreferredSize(size);
 		this.imageIcon = null;
 	}
@@ -330,21 +345,27 @@ public class ImageNode extends RectangularNode implements IResizableNode, ICropp
         Rectangle2D bounds = getUncroppedBounds();
         if (this.image != null) {
             g2.drawImage(this.getImageIcon().getImage(),
-                    (int) bounds.getCenterX() - this.getImageIcon().getIconWidth() / 2,
+                    (int) bounds.getX(),
                     (int) bounds.getY(),
+                    (int) bounds.getWidth(),
+                    (int) bounds.getHeight(),
                     this.getImageIcon().getImageObserver());
         }
-        // Draw text — pass full node width so CENTER justification has room to work,
-        // exactly like LifelineNode does with its name label.
-        g2.setColor(getTextColor());
-        Rectangle2D b = text.getBounds();
-        double textY = bounds.getY();
-        if (this.image != null) {
-            textY = bounds.getY() + this.getImageIcon().getIconHeight();
-        }
-        text.draw(g2, new Rectangle2D.Double(bounds.getX(), textY, bounds.getWidth(), b.getHeight()));
-        // Restore state
+        // Restore clip to draw text outside the cropped visible bounds
         g2.setClip(oldClip);
+
+        // Draw text — draw it below the node's bounds in a dedicated textBounds area.
+        // It has the same width as the node but an automatic height based on text content.
+        g2.setColor(getTextColor());
+        Rectangle2D textContentBounds = text.getBounds();
+        Rectangle2D textBounds = new Rectangle2D.Double(
+                visibleBounds.getX(),
+                visibleBounds.getMaxY(),
+                visibleBounds.getWidth(),
+                textContentBounds.getHeight());
+        text.draw(g2, textBounds);
+
+        // Restore state
         g2.setColor(oldColor);
         if (oldInterpolation != null) g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, oldInterpolation);
         if (oldRendering     != null) g2.setRenderingHint(RenderingHints.KEY_RENDERING,     oldRendering);
