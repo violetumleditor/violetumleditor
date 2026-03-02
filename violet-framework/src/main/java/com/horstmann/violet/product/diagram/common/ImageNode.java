@@ -342,7 +342,6 @@ public class ImageNode extends RectangularNode implements IResizableNode, ICropp
         g2.clip(visibleBounds);
         // Draw image
         Rectangle2D bounds = getUncroppedBounds();
-        System.out.println(bounds);
         if (this.image != null) {
             g2.drawImage(this.getImageIcon().getImage(),
                     (int) bounds.getX(),

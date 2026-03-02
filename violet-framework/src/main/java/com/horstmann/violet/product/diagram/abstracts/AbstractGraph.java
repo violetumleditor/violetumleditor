@@ -231,10 +231,19 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
     {
         newNode.setId(new Id());
         newNode.setGraph(this);
+
+        // Calculate location offset for cropped nodes (e.g. ImageNode)
+        // so that the visible top-left corner matches the paste point 'p'.
+        Point2D locationOnGraph = newNode.getLocationOnGraph();
+        Point2D rawLocation = newNode.getLocation();
+        double offsetX = locationOnGraph.getX() - rawLocation.getX();
+        double offsetY = locationOnGraph.getY() - rawLocation.getY();
+        Point2D adjustedPoint = new Point2D.Double(p.getX() - offsetX, p.getY() - offsetY);
+
         // Case 1 : Note node always attached to the graph
         if (newNode instanceof NoteNode)
         {
-            newNode.setLocation(p);
+            newNode.setLocation(adjustedPoint);
             nodes.add(newNode);
             return true;
         }
@@ -243,12 +252,12 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
         if (potentialParentNode != null)
         {
             Point2D parentLocationOnGraph = potentialParentNode.getLocationOnGraph();
-            Point2D relativeLocation = new Point2D.Double(p.getX() - parentLocationOnGraph.getX(), p.getY()
+            Point2D relativeLocation = new Point2D.Double(adjustedPoint.getX() - parentLocationOnGraph.getX(), adjustedPoint.getY()
                     - parentLocationOnGraph.getY());
             return potentialParentNode.addChild(newNode, relativeLocation);
         }
         // Case 3 : attached directly to the graph
-        newNode.setLocation(p);
+        newNode.setLocation(adjustedPoint);
         newNode.setParent(null);
         nodes.add(newNode);
         return true;
