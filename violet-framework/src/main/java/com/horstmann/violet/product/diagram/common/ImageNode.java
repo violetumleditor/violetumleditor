@@ -152,12 +152,14 @@ public class ImageNode extends RectangularNode implements IResizableNode, ICropp
         if (this.image != null) {
             w = this.getImageWidth();
             h = this.getImageHeight();
-            Rectangle2D preferredSize = getPreferredSize();
-            if (preferredSize != null) {
-                w = preferredSize.getWidth();
-                h = preferredSize.getHeight();
-            }
         }
+        Rectangle2D preferredSize = getPreferredSize();
+        if (preferredSize != null) {
+            if (preferredSize.getWidth() > 0) w = preferredSize.getWidth();
+            if (preferredSize.getHeight() > 0) h = preferredSize.getHeight();
+        }
+        if (w <= 0) w = 100; // Use a sensible default if everything else is missing
+        if (h <= 0) h = 100;
         return new Rectangle2D.Double(x, y, w, h);
     }
 
@@ -340,6 +342,7 @@ public class ImageNode extends RectangularNode implements IResizableNode, ICropp
         g2.clip(visibleBounds);
         // Draw image
         Rectangle2D bounds = getUncroppedBounds();
+        System.out.println(bounds);
         if (this.image != null) {
             g2.drawImage(this.getImageIcon().getImage(),
                     (int) bounds.getX(),
