@@ -42,7 +42,7 @@ public class ThicknessToolsBarPanelUI extends PanelUI
             this.panel = new JPanel();
             this.panel.setOpaque(false);
             this.panel.setBorder(new EmptyBorder(0, 0, 0, 0));
-            this.panel.setPreferredSize(new Dimension(215, 30));
+            this.panel.setPreferredSize(new Dimension(215, 26));
             FlowLayout layout = new FlowLayout(FlowLayout.LEFT, 6, 5);
             this.panel.setLayout(layout);
             for (ThicknessTool aTool : getThicknessToolList())
