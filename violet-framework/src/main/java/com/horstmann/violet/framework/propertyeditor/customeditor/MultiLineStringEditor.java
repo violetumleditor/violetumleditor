@@ -21,27 +21,51 @@
 
 package com.horstmann.violet.framework.propertyeditor.customeditor;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.KeyboardFocusManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyEditorSupport;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.swing.JComponent;
+import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.JTextPane;
+import javax.swing.JToggleButton;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
+import javax.swing.text.StyledEditorKit;
 
+import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
+import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
+import com.horstmann.violet.framework.util.SmoothImageIcon;
 import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
 
 /**
  * A property editor for the MultiLineString type.
  */
+@ResourceBundleBean
 public class MultiLineStringEditor extends PropertyEditorSupport
 {
+    public MultiLineStringEditor()
+    {
+        ResourceBundleInjector.getInjector().inject(this);
+    }
+
     public boolean supportsCustomEditor()
     {
         return true;
@@ -50,49 +74,286 @@ public class MultiLineStringEditor extends PropertyEditorSupport
     public Component getCustomEditor()
     {
         this.source = (MultiLineString) getValue();
-        final JPanel panel = new JPanel();
-        panel.add(getTextEditorComponent());
+        final JPanel panel = new JPanel(new BorderLayout());
+        
+        this.textPane = new JTextPane();
+        
+        // Map MultiLineString size constants to pixel values
+        int pixelSize = 12; // Default
+        if (source.getSize() == MultiLineString.LARGE) pixelSize = 16;
+        if (source.getSize() == MultiLineString.SMALL) pixelSize = 10;
+
+        // Set the font before setting the content type to influence the default attributes
+        Font defaultFont = new Font(Font.SANS_SERIF, Font.PLAIN, pixelSize);
+        textPane.setFont(defaultFont);
+        textPane.setContentType("text/html");
+
+        // Force a default font and size using px (not pt, which gets scaled by Swing's HTML engine)
+        String bodyRule = "body { font-family: " + defaultFont.getFamily() + "; " +
+                "font-size: " + pixelSize + "px; }";
+        ((javax.swing.text.html.HTMLDocument)textPane.getDocument()).getStyleSheet().addRule(bodyRule);
+
+        textPane.setText(source.getText());
+
+        textPane.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, tab);
+        textPane.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, shiftTab);
+
+        JPanel toolbar = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        
+        this.boldBtn = new JToggleButton(boldIcon);
+        boldBtn.setFocusable(false);
+        boldBtn.setSelected(false);
+        boldBtn.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                javax.swing.text.MutableAttributeSet attrs = textPane.getInputAttributes();
+                boolean isNowBold = !StyleConstants.isBold(attrs);
+                SimpleAttributeSet sas = new SimpleAttributeSet();
+                StyleConstants.setBold(sas, isNowBold);
+                setCharacterAttributes(sas);
+                textPane.requestFocusInWindow();
+            }
+        });
+        toolbar.add(boldBtn);
+
+        this.italicBtn = new JToggleButton(italicIcon);
+        italicBtn.setFocusable(false);
+        italicBtn.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                javax.swing.text.MutableAttributeSet attrs = textPane.getInputAttributes();
+                boolean isNowItalic = !StyleConstants.isItalic(attrs);
+                SimpleAttributeSet sas = new SimpleAttributeSet();
+                StyleConstants.setItalic(sas, isNowItalic);
+                setCharacterAttributes(sas);
+                textPane.requestFocusInWindow();
+            }
+        });
+        toolbar.add(italicBtn);
+
+        this.leftAlignBtn = new JToggleButton(alignLeftIcon);
+        leftAlignBtn.setFocusable(false);
+        leftAlignBtn.setSelected(source.getJustification() == MultiLineString.LEFT);
+        leftAlignBtn.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                applyAlignment(StyleConstants.ALIGN_LEFT);
+                textPane.requestFocusInWindow();
+            }
+        });
+        toolbar.add(leftAlignBtn);
+
+        this.centerAlignBtn = new JToggleButton(alignCenterIcon);
+        centerAlignBtn.setFocusable(false);
+        centerAlignBtn.setSelected(source.getJustification() == MultiLineString.CENTER);
+        centerAlignBtn.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                applyAlignment(StyleConstants.ALIGN_CENTER);
+                textPane.requestFocusInWindow();
+            }
+        });
+        toolbar.add(centerAlignBtn);
+
+        this.rightAlignBtn = new JToggleButton(alignRightIcon);
+        rightAlignBtn.setFocusable(false);
+        rightAlignBtn.setSelected(source.getJustification() == MultiLineString.RIGHT);
+        rightAlignBtn.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                applyAlignment(StyleConstants.ALIGN_RIGHT);
+                textPane.requestFocusInWindow();
+            }
+        });
+        toolbar.add(rightAlignBtn);
+
+        String[] sizes = {"10", "12", "14", "16", "18", "20", "24", "32"};
+        this.sizeBox = new JComboBox<String>(sizes);
+        sizeBox.setFocusable(false);
+
+        // Map MultiLineString size constants to pixel values
+        int initialSize = 12; // Default
+        if (source.getSize() == MultiLineString.LARGE) initialSize = 16;
+        if (source.getSize() == MultiLineString.SMALL) initialSize = 10;
+        
+        // Track the intended font size ourselves (HTML document attributes are CSS-scaled)
+        this.currentFontSize = initialSize;
+        
+        // Determine initial alignment from source
+        int initialAlignment = StyleConstants.ALIGN_CENTER;
+        if (source.getJustification() == MultiLineString.LEFT) initialAlignment = StyleConstants.ALIGN_LEFT;
+        if (source.getJustification() == MultiLineString.RIGHT) initialAlignment = StyleConstants.ALIGN_RIGHT;
+        this.currentAlignment = initialAlignment;
+        
+        // Ensure the JComboBox reflects the size
+        sizeBox.setSelectedItem(String.valueOf(initialSize));
+        // Set the input attributes so newly typed text uses the correct font size
+        javax.swing.text.MutableAttributeSet inputAttrs = textPane.getInputAttributes();
+        StyleConstants.setFontSize(inputAttrs, initialSize);
+        
+        // Apply initial alignment directly to the document's paragraph attributes
+        SimpleAttributeSet alignAttr = new SimpleAttributeSet();
+        StyleConstants.setAlignment(alignAttr, initialAlignment);
+        StyledDocument styledDoc = textPane.getStyledDocument();
+        styledDoc.setParagraphAttributes(0, styledDoc.getLength() + 1, alignAttr, false);
+
+        sizeBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!isUpdatingToolbar && sizeBox.getSelectedItem() != null) {
+                    int size = Integer.parseInt((String) sizeBox.getSelectedItem());
+                    currentFontSize = size;
+                    SimpleAttributeSet sas = new SimpleAttributeSet();
+                    StyleConstants.setFontSize(sas, size);
+                    setCharacterAttributes(sas);
+                    textPane.requestFocusInWindow();
+                }
+            }
+        });
+        toolbar.add(sizeBox);
+
+        textPane.addCaretListener(new CaretListener()
+        {
+            @Override
+            public void caretUpdate(CaretEvent e)
+            {
+                if (!isUpdating) {
+                    updateToolbarState();
+                }
+            }
+        });
+
+        textPane.getDocument().addDocumentListener(new DocumentListener()
+        {
+            private void update() {
+                isUpdating = true;
+                try {
+                    source.setText(textPane.getText());
+                    firePropertyChange();
+                    
+                    // Run UI updates on the next event loop to avoid "Attempt to mutate in notification"
+                    SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateToolbarState();
+                        }
+                    });
+                } finally {
+                    isUpdating = false;
+                }
+            }
+            public void insertUpdate(DocumentEvent e) { update(); }
+            public void removeUpdate(DocumentEvent e) { update(); }
+            public void changedUpdate(DocumentEvent e) { update(); }
+        });
+
+        panel.add(toolbar, BorderLayout.NORTH);
+        JScrollPane scrollPane = new JScrollPane(textPane);
+        
+        // Ensure the editor has a 5-line height based on the default font size (12pt)
+        Font fontForHeight = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
+        int fontHeight = textPane.getFontMetrics(fontForHeight).getHeight();
+        scrollPane.setPreferredSize(new java.awt.Dimension(300, 5 * fontHeight + 30)); // +30 for breathing room
+        
+        panel.add(scrollPane, BorderLayout.CENTER);
+        
         return panel;
     }
 
-    private JComponent getTextEditorComponent()
+    private void setCharacterAttributes(AttributeSet attrs)
     {
-        if (this.textEditorComponent == null)
-        {
-            final JTextArea textArea = new JTextArea(ROWS, COLUMNS);
-
-            textArea.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, tab);
-            textArea.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, shiftTab);
-
-            textArea.setText(source.getText());
-            textArea.getDocument().addDocumentListener(new DocumentListener()
-            {
-                public void insertUpdate(DocumentEvent e)
-                {
-                    source.setText(textArea.getText());
-                    firePropertyChange();
-                }
-
-                public void removeUpdate(DocumentEvent e)
-                {
-                    source.setText(textArea.getText());
-                    firePropertyChange();
-                }
-
-                public void changedUpdate(DocumentEvent e)
-                {
-                }
-            });
-            this.textEditorComponent = new JScrollPane(textArea);
+        int start = textPane.getSelectionStart();
+        int end = textPane.getSelectionEnd();
+        if (start != end) {
+            StyledDocument doc = textPane.getStyledDocument();
+            doc.setCharacterAttributes(start, end - start, attrs, false);
         }
-        return this.textEditorComponent;
+        // Always update input attributes for future typing
+        javax.swing.text.MutableAttributeSet inputAttrs = textPane.getInputAttributes();
+        inputAttrs.addAttributes(attrs);
     }
 
-    private MultiLineString source;
-    private JComponent textEditorComponent;
+    private void applyAlignment(int alignment)
+    {
+        currentAlignment = alignment;
+        SimpleAttributeSet sas = new SimpleAttributeSet();
+        StyleConstants.setAlignment(sas, alignment);
+        StyledDocument doc = textPane.getStyledDocument();
+        doc.setParagraphAttributes(0, doc.getLength() + 1, sas, false);
+        // Propagate alignment change back to source model
+        if (alignment == StyleConstants.ALIGN_LEFT) source.setJustification(MultiLineString.LEFT);
+        else if (alignment == StyleConstants.ALIGN_CENTER) source.setJustification(MultiLineString.CENTER);
+        else if (alignment == StyleConstants.ALIGN_RIGHT) source.setJustification(MultiLineString.RIGHT);
+        // Re-save HTML so it includes the updated alignment for next editor open
+        source.setText(textPane.getText());
+        firePropertyChange();
+    }
 
-    private static final int ROWS = 5;
-    private static final int COLUMNS = 30;
+    private void updateToolbarState()
+    {
+        isUpdatingToolbar = true;
+        try {
+            int pos = textPane.getCaretPosition();
+            StyledDocument doc = textPane.getStyledDocument();
+            
+            // Use character attributes at caret position (or selection start)
+            AttributeSet attr = textPane.getInputAttributes();
+            if (pos > 0 && (textPane.getSelectedText() == null)) {
+                attr = doc.getCharacterElement(pos - 1).getAttributes();
+            }
+            
+            boldBtn.setSelected(StyleConstants.isBold(attr));
+            italicBtn.setSelected(StyleConstants.isItalic(attr));
+            
+            // Use tracked alignment and font size instead of reading from HTML document
+            // (HTML paragraph/character attributes may have defaults that differ from source)
+            leftAlignBtn.setSelected(currentAlignment == StyleConstants.ALIGN_LEFT);
+            centerAlignBtn.setSelected(currentAlignment == StyleConstants.ALIGN_CENTER);
+            rightAlignBtn.setSelected(currentAlignment == StyleConstants.ALIGN_RIGHT);
+            
+            sizeBox.setSelectedItem(String.valueOf(currentFontSize));
+        } finally {
+            isUpdatingToolbar = false;
+        }
+    }
+
+    @ResourceBundleBean(key = "editor.bold.icon")
+    private ImageIcon boldIcon;
+
+    @ResourceBundleBean(key = "editor.italic.icon")
+    private ImageIcon italicIcon;
+
+    @ResourceBundleBean(key = "editor.align_left.icon")
+    private ImageIcon alignLeftIcon;
+
+    @ResourceBundleBean(key = "editor.align_center.icon")
+    private ImageIcon alignCenterIcon;
+
+    @ResourceBundleBean(key = "editor.align_right.icon")
+    private ImageIcon alignRightIcon;
+
+    private MultiLineString source;
+    private JTextPane textPane;
+    private JToggleButton boldBtn;
+    private JToggleButton italicBtn;
+    private JToggleButton leftAlignBtn;
+    private JToggleButton centerAlignBtn;
+    private JToggleButton rightAlignBtn;
+    private JComboBox<String> sizeBox;
+    private int currentFontSize = 12;
+    private int currentAlignment = StyleConstants.ALIGN_CENTER;
+    private boolean isUpdating = false;
+    private boolean isUpdatingToolbar = false;
 
     private static Set<KeyStroke> tab = new HashSet<KeyStroke>(1);
     private static Set<KeyStroke> shiftTab = new HashSet<KeyStroke>(1);

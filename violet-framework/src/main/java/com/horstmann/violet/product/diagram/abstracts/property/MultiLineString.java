@@ -28,6 +28,8 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
+import javax.swing.JLabel;
+
 import com.horstmann.violet.framework.swingextension.MultiLineLabel;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
@@ -116,6 +118,9 @@ public class MultiLineString implements Serializable, Cloneable {
 	 *            the size, one of SMALL, NORMAL, LARGE
 	 */
 	public void setSize(int newValue) {
+		int a = 1;
+		if (a == 1)
+			return;
 		size = newValue;
 		setLabelText();
 		isBoundsDirty = true;
@@ -131,18 +136,45 @@ public class MultiLineString implements Serializable, Cloneable {
 	}
 
 	public String toString() {
-		return text.replace('\n', '|');
+		return text;
 	}
 
 	private void setLabelText() {
-		getLabel().setLabel(text);
-		if (justification == LEFT)
-			getLabel().setAlignment(MultiLineLabel.LEFT);
-		else if (justification == CENTER)
-			getLabel().setAlignment(MultiLineLabel.CENTER);
-		else if (justification == RIGHT)
-			getLabel().setAlignment(MultiLineLabel.RIGHT);
-		
+		String alignStr = "center";
+		if (justification == LEFT) alignStr = "left";
+		else if (justification == RIGHT) alignStr = "right";
+		String pAttrs = "align=\"" + alignStr + "\" style=\"margin-top:0;margin-bottom:0;\"";
+
+		String html = text;
+		if (!html.toLowerCase().startsWith("<html>")) {
+			html = "<html><p " + pAttrs + ">" + html + "</p></html>";
+		} else {
+			// JTextPane serializes each line as a separate <p>. Collapse adjacent </p><p>
+			// boundaries into <br> so there is only one paragraph block — this eliminates
+			// Swing's default paragraph top/bottom margins that produce blank-line gaps.
+			html = html.replaceAll("(?i)</p>\\s*<p[^>]*>", "<br>");
+			// Stamp alignment and zero margins on the single remaining <p>
+			html = html.replaceAll("(?i)<p(\\s[^>]*)?>", "<p " + pAttrs + ">");
+		}
+		// Preserve leading/trailing spaces (HTML collapses whitespace at text-node boundaries)
+		html = java.util.regex.Pattern.compile(">([ ]+)")
+				.matcher(html)
+				.replaceAll(m -> ">" + m.group(1).replace(" ", "&nbsp;"));
+		html = java.util.regex.Pattern.compile("([ ]+)<")
+				.matcher(html)
+				.replaceAll(m -> m.group(1).replace(" ", "&nbsp;") + "<");
+		// Preserve multiple consecutive spaces in the middle of text content:
+		// keep the first space as a normal space (so line-wrap still works) and
+		// replace every additional space in the run with &nbsp;
+		html = java.util.regex.Pattern.compile(" {2,}")
+				.matcher(html)
+				.replaceAll(m -> {
+					int n = m.group().length();
+					StringBuilder sb = new StringBuilder(" ");
+					for (int i = 1; i < n; i++) sb.append("&nbsp;");
+					return sb.toString();
+				});
+		getLabel().setText(html);
 	}
 
 	/**
@@ -154,7 +186,6 @@ public class MultiLineString implements Serializable, Cloneable {
 	 */
 	private Rectangle2D getBounds(Graphics2D g2) {
 		setLabelText();
-		getLabel().validate();
 		if (text.length() == 0)
 			return new Rectangle2D.Double(0, 0, 0, 0);
 		Dimension dim = getLabel().getPreferredSize();
@@ -168,7 +199,7 @@ public class MultiLineString implements Serializable, Cloneable {
 	 */
 	public Rectangle2D getBounds() {
 		if (this.isBoundsDirty || this.bounds == null) {
-			BufferedImage image = new BufferedImage(1000, 1000, BufferedImage.TYPE_INT_RGB);
+			BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
 			Graphics2D g2 = (Graphics2D) image.getGraphics();
 			this.bounds = getBounds(g2);
 			this.isBoundsDirty = false;
@@ -188,6 +219,12 @@ public class MultiLineString implements Serializable, Cloneable {
 		getLabel().setBounds(0, 0, (int) r.getWidth(), (int) r.getHeight());
 		g2.translate(r.getX(), r.getY());
 		getLabel().paint(g2);
+		// to remove after debugging (start)
+		java.awt.Color savedColor = g2.getColor();
+		g2.setColor(java.awt.Color.RED);
+		g2.draw(new Rectangle2D.Double(0, 0, r.getWidth() - 1, r.getHeight() - 1));
+		g2.setColor(savedColor);
+		// to remove after debugging (end)
 		g2.translate(-r.getX(), -r.getY());
 	}
 
@@ -201,18 +238,9 @@ public class MultiLineString implements Serializable, Cloneable {
 		return cloned;
 	}
 
-	private MultiLineLabel getLabel() {
+	private JLabel getLabel() {
 		if (this.label == null) {
-			this.label = new MultiLineLabel("");
-			Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
-			if (size == LARGE) {
-				font = font.deriveFont(Font.BOLD);
-			}
-			if (size == SMALL) {
-				font = font.deriveFont(Font.PLAIN);
-			}
-			this.label.setFont(font);
-			this.label.setMarginWidth(2);
+			this.label = new JLabel();
 		}
 		return this.label;
 	}
@@ -231,7 +259,7 @@ public class MultiLineString implements Serializable, Cloneable {
 	private int size;
 	@XStreamAsAttribute
 	private boolean underlined;
-	private transient MultiLineLabel label;
+	private transient JLabel label;
 	private transient boolean isBoundsDirty = true;
 	private transient Rectangle2D bounds;
 }
