@@ -353,14 +353,17 @@ public class ImageNode extends RectangularNode implements IResizableNode, ICropp
         // Restore clip to draw text outside the cropped visible bounds
         g2.setClip(oldClip);
 
-        // Draw text — draw it below the node's bounds in a dedicated textBounds area.
-        // It has the same width as the node but an automatic height based on text content.
+        // Draw text — draw it centered below the image.
+        // If image is smaller than text, text remains centered relative to the image's center.
         g2.setColor(getTextColor());
         Rectangle2D textContentBounds = text.getBounds();
+        double textWidth = Math.max(visibleBounds.getWidth(), textContentBounds.getWidth());
+        double textX = visibleBounds.getCenterX() - textWidth / 2.0;
+        
         Rectangle2D textBounds = new Rectangle2D.Double(
-                visibleBounds.getX(),
+                textX,
                 visibleBounds.getMaxY(),
-                visibleBounds.getWidth(),
+                textWidth,
                 textContentBounds.getHeight());
         text.draw(g2, textBounds);
 
