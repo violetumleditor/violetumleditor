@@ -219,12 +219,6 @@ public class MultiLineString implements Serializable, Cloneable {
 		getLabel().setBounds(0, 0, (int) r.getWidth(), (int) r.getHeight());
 		g2.translate(r.getX(), r.getY());
 		getLabel().paint(g2);
-		// to remove after debugging (start)
-		java.awt.Color savedColor = g2.getColor();
-		g2.setColor(java.awt.Color.RED);
-		g2.draw(new Rectangle2D.Double(0, 0, r.getWidth() - 1, r.getHeight() - 1));
-		g2.setColor(savedColor);
-		// to remove after debugging (end)
 		g2.translate(-r.getX(), -r.getY());
 	}
 

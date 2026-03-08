@@ -135,6 +135,25 @@ public class MultiLineStringEditor extends PropertyEditorSupport
         });
         toolbar.add(italicBtn);
 
+        this.underlineBtn = new JToggleButton(underlineIcon);
+        underlineBtn.setFocusable(false);
+        underlineBtn.setSelected(source.isUnderlined());
+        underlineBtn.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                javax.swing.text.MutableAttributeSet attrs = textPane.getInputAttributes();
+                boolean isNowUnderline = !StyleConstants.isUnderline(attrs);
+                currentUnderline = isNowUnderline;
+                SimpleAttributeSet sas = new SimpleAttributeSet();
+                StyleConstants.setUnderline(sas, isNowUnderline);
+                setCharacterAttributes(sas);
+                textPane.requestFocusInWindow();
+            }
+        });
+        toolbar.add(underlineBtn);
+
         this.leftAlignBtn = new JToggleButton(alignLeftIcon);
         leftAlignBtn.setFocusable(false);
         leftAlignBtn.setSelected(source.getJustification() == MultiLineString.LEFT);
@@ -189,6 +208,9 @@ public class MultiLineStringEditor extends PropertyEditorSupport
         // Track the intended font size ourselves (HTML document attributes are CSS-scaled)
         this.currentFontSize = initialSize;
         
+        // Determine initial underline from source
+        this.currentUnderline = source.isUnderlined();
+        
         // Determine initial alignment from source
         int initialAlignment = StyleConstants.ALIGN_CENTER;
         if (source.getJustification() == MultiLineString.LEFT) initialAlignment = StyleConstants.ALIGN_LEFT;
@@ -200,6 +222,8 @@ public class MultiLineStringEditor extends PropertyEditorSupport
         // Set the input attributes so newly typed text uses the correct font size
         javax.swing.text.MutableAttributeSet inputAttrs = textPane.getInputAttributes();
         StyleConstants.setFontSize(inputAttrs, initialSize);
+        // Seed underline state so newly typed text inherits the source default
+        StyleConstants.setUnderline(inputAttrs, source.isUnderlined());
         
         // Apply initial alignment directly to the document's paragraph attributes
         SimpleAttributeSet alignAttr = new SimpleAttributeSet();
@@ -314,6 +338,7 @@ public class MultiLineStringEditor extends PropertyEditorSupport
             
             boldBtn.setSelected(StyleConstants.isBold(attr));
             italicBtn.setSelected(StyleConstants.isItalic(attr));
+            underlineBtn.setSelected(StyleConstants.isUnderline(attr));
             
             // Use tracked alignment and font size instead of reading from HTML document
             // (HTML paragraph/character attributes may have defaults that differ from source)
@@ -333,6 +358,9 @@ public class MultiLineStringEditor extends PropertyEditorSupport
     @ResourceBundleBean(key = "editor.italic.icon")
     private ImageIcon italicIcon;
 
+    @ResourceBundleBean(key = "editor.underline.icon")
+    private ImageIcon underlineIcon;
+
     @ResourceBundleBean(key = "editor.align_left.icon")
     private ImageIcon alignLeftIcon;
 
@@ -346,12 +374,14 @@ public class MultiLineStringEditor extends PropertyEditorSupport
     private JTextPane textPane;
     private JToggleButton boldBtn;
     private JToggleButton italicBtn;
+    private JToggleButton underlineBtn;
     private JToggleButton leftAlignBtn;
     private JToggleButton centerAlignBtn;
     private JToggleButton rightAlignBtn;
     private JComboBox<String> sizeBox;
     private int currentFontSize = 12;
     private int currentAlignment = StyleConstants.ALIGN_CENTER;
+    private boolean currentUnderline = false;
     private boolean isUpdating = false;
     private boolean isUpdatingToolbar = false;
 
