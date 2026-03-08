@@ -51,7 +51,7 @@ public class NoteNode extends RectangularNode
     public NoteNode()
     {
         text = new MultiLineString();
-        text.setJustification(MultiLineString.LEFT);
+        text.setJustification(MultiLineString.Justification.LEFT);
         setBackgroundColor(DEFAULT_BACKGROUND_COLOR);
         setBorderColor(DEFAULT_BORDER_COLOR);
     }

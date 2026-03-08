@@ -43,8 +43,8 @@ public class MultiLineString implements Serializable, Cloneable {
 	 */
 	public MultiLineString() {
 		text = "";
-		justification = CENTER;
-		size = NORMAL;
+		justification = Justification.CENTER;
+		size = FontSize.NORMAL;
 		underlined = false;
 	}
 
@@ -118,9 +118,6 @@ public class MultiLineString implements Serializable, Cloneable {
 	 *            the size, one of SMALL, NORMAL, LARGE
 	 */
 	public void setSize(int newValue) {
-		int a = 1;
-		if (a == 1)
-			return;
 		size = newValue;
 		setLabelText();
 		isBoundsDirty = true;
@@ -141,8 +138,8 @@ public class MultiLineString implements Serializable, Cloneable {
 
 	private void setLabelText() {
 		String alignStr = "center";
-		if (justification == LEFT) alignStr = "left";
-		else if (justification == RIGHT) alignStr = "right";
+		if (justification == Justification.LEFT) alignStr = "left";
+		else if (justification == Justification.RIGHT) alignStr = "right";
 		String pAttrs = "align=\"" + alignStr + "\" style=\"margin-top:0;margin-bottom:0;\"";
 
 		String html = text;
@@ -239,12 +236,18 @@ public class MultiLineString implements Serializable, Cloneable {
 		return this.label;
 	}
 
-	public static final int LEFT = 0;
-	public static final int CENTER = 1;
-	public static final int RIGHT = 2;
-	public static final int LARGE = 3;
-	public static final int NORMAL = 4;
-	public static final int SMALL = 5;
+	public interface Justification {
+		public static final int LEFT = 0;
+		public static final int CENTER = 1;
+		public static final int RIGHT = 2;
+	}
+
+	public interface FontSize {
+
+		public static final int SMALL = 10;
+		public static final int NORMAL = 12;
+		public static final int LARGE = 16;
+	}
 
 	private String text;
 	@XStreamAsAttribute

@@ -56,7 +56,7 @@ public class ImageNode extends RectangularNode implements IResizableNode, ICropp
     public ImageNode(Image img)
     {
         text = new MultiLineString();
-        text.setJustification(MultiLineString.CENTER);
+        text.setJustification(MultiLineString.Justification.CENTER);
         this.setImage(img);
     }
 
@@ -67,7 +67,7 @@ public class ImageNode extends RectangularNode implements IResizableNode, ICropp
     {
     	ResourceBundleInjector.getInjector().inject(this);
     	text = new MultiLineString();
-        text.setJustification(MultiLineString.CENTER);
+        text.setJustification(MultiLineString.Justification.CENTER);
     }
 
     /**

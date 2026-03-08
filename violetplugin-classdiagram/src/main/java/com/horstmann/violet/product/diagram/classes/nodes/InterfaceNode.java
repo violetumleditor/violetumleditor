@@ -21,10 +21,10 @@ public class InterfaceNode extends RectangularNode
     public InterfaceNode()
     {
         name = new MultiLineString();
-        name.setSize(MultiLineString.LARGE);
+        name.setSize(MultiLineString.FontSize.LARGE);
         name.setText("\u00ABinterface\u00BB");
         methods = new MultiLineString();
-        methods.setJustification(MultiLineString.LEFT);
+        methods.setJustification(MultiLineString.Justification.LEFT);
     }
 
     private Rectangle2D getTopRectangleBounds()

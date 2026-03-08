@@ -45,7 +45,7 @@ public class ObjectNode extends RectangularNode
     {
         name = new MultiLineString();
         name.setUnderlined(true);
-        name.setSize(MultiLineString.LARGE);
+        name.setSize(MultiLineString.FontSize.LARGE);
     }
 
     public void draw(Graphics2D g2)

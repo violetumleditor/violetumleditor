@@ -81,18 +81,19 @@ public class MultiLineStringEditor extends PropertyEditorSupport
         // Map MultiLineString size constants to pixel values
         // Apply a 1.25x zoom factor in the editor so it matches the visual scale in the diagram nodes
         double zoom = 1.25;
-        int pixelSize = (int) (12 * zoom); // Default
-        if (source.getSize() == MultiLineString.LARGE) pixelSize = (int) (16 * zoom);
-        if (source.getSize() == MultiLineString.SMALL) pixelSize = (int) (10 * zoom);
+        int pixelSize = MultiLineString.FontSize.NORMAL; // Default
+        if (source.getSize() == MultiLineString.FontSize.LARGE) pixelSize = MultiLineString.FontSize.LARGE;
+        if (source.getSize() == MultiLineString.FontSize.SMALL) pixelSize = MultiLineString.FontSize.SMALL;
+        int zoomedPixelSize = (int) (pixelSize * zoom);
 
         // Set the font before setting the content type to influence the default attributes
-        Font defaultFont = new Font(Font.SANS_SERIF, Font.PLAIN, pixelSize);
+        Font defaultFont = new Font(Font.SANS_SERIF, Font.PLAIN, zoomedPixelSize);
         textPane.setFont(defaultFont);
         textPane.setContentType("text/html");
 
         // Force a default font and size using px (not pt, which gets scaled by Swing's HTML engine)
         String bodyRule = "body { font-family: " + defaultFont.getFamily() + "; " +
-                "font-size: " + pixelSize + "px; }";
+                "font-size: " + zoomedPixelSize + "px; }";
         ((javax.swing.text.html.HTMLDocument)textPane.getDocument()).getStyleSheet().addRule(bodyRule);
 
         textPane.setText(source.getText());
@@ -158,7 +159,7 @@ public class MultiLineStringEditor extends PropertyEditorSupport
 
         this.leftAlignBtn = new JToggleButton(alignLeftIcon);
         leftAlignBtn.setFocusable(false);
-        leftAlignBtn.setSelected(source.getJustification() == MultiLineString.LEFT);
+        leftAlignBtn.setSelected(source.getJustification() == MultiLineString.Justification.LEFT);
         leftAlignBtn.addActionListener(new ActionListener()
         {
             @Override
@@ -172,7 +173,7 @@ public class MultiLineStringEditor extends PropertyEditorSupport
 
         this.centerAlignBtn = new JToggleButton(alignCenterIcon);
         centerAlignBtn.setFocusable(false);
-        centerAlignBtn.setSelected(source.getJustification() == MultiLineString.CENTER);
+        centerAlignBtn.setSelected(source.getJustification() == MultiLineString.Justification.CENTER);
         centerAlignBtn.addActionListener(new ActionListener()
         {
             @Override
@@ -186,7 +187,7 @@ public class MultiLineStringEditor extends PropertyEditorSupport
 
         this.rightAlignBtn = new JToggleButton(alignRightIcon);
         rightAlignBtn.setFocusable(false);
-        rightAlignBtn.setSelected(source.getJustification() == MultiLineString.RIGHT);
+        rightAlignBtn.setSelected(source.getJustification() == MultiLineString.Justification.RIGHT);
         rightAlignBtn.addActionListener(new ActionListener()
         {
             @Override
@@ -203,9 +204,9 @@ public class MultiLineStringEditor extends PropertyEditorSupport
         sizeBox.setFocusable(false);
 
         // Map MultiLineString size constants to pixel values
-        int initialSize = 12; // Default
-        if (source.getSize() == MultiLineString.LARGE) initialSize = 16;
-        if (source.getSize() == MultiLineString.SMALL) initialSize = 10;
+        int initialSize = MultiLineString.FontSize.NORMAL; // Default
+        if (source.getSize() == MultiLineString.FontSize.LARGE) initialSize = MultiLineString.FontSize.LARGE;
+        if (source.getSize() == MultiLineString.FontSize.SMALL) initialSize = MultiLineString.FontSize.SMALL;
         
         // Track the intended font size ourselves (HTML document attributes are CSS-scaled)
         this.currentFontSize = initialSize;
@@ -215,8 +216,8 @@ public class MultiLineStringEditor extends PropertyEditorSupport
         
         // Determine initial alignment from source
         int initialAlignment = StyleConstants.ALIGN_CENTER;
-        if (source.getJustification() == MultiLineString.LEFT) initialAlignment = StyleConstants.ALIGN_LEFT;
-        if (source.getJustification() == MultiLineString.RIGHT) initialAlignment = StyleConstants.ALIGN_RIGHT;
+        if (source.getJustification() == MultiLineString.Justification.LEFT) initialAlignment = StyleConstants.ALIGN_LEFT;
+        if (source.getJustification() == MultiLineString.Justification.RIGHT) initialAlignment = StyleConstants.ALIGN_RIGHT;
         this.currentAlignment = initialAlignment;
         
         // Ensure the JComboBox reflects the size
@@ -317,9 +318,9 @@ public class MultiLineStringEditor extends PropertyEditorSupport
         StyledDocument doc = textPane.getStyledDocument();
         doc.setParagraphAttributes(0, doc.getLength() + 1, sas, false);
         // Propagate alignment change back to source model
-        if (alignment == StyleConstants.ALIGN_LEFT) source.setJustification(MultiLineString.LEFT);
-        else if (alignment == StyleConstants.ALIGN_CENTER) source.setJustification(MultiLineString.CENTER);
-        else if (alignment == StyleConstants.ALIGN_RIGHT) source.setJustification(MultiLineString.RIGHT);
+        if (alignment == StyleConstants.ALIGN_LEFT) source.setJustification(MultiLineString.Justification.LEFT);
+        if (alignment == StyleConstants.ALIGN_CENTER) source.setJustification(MultiLineString.Justification.CENTER);
+        if (alignment == StyleConstants.ALIGN_RIGHT) source.setJustification(MultiLineString.Justification.RIGHT);
         // Re-save HTML so it includes the updated alignment for next editor open
         source.setText(textPane.getText());
         firePropertyChange();
@@ -381,7 +382,7 @@ public class MultiLineStringEditor extends PropertyEditorSupport
     private JToggleButton centerAlignBtn;
     private JToggleButton rightAlignBtn;
     private JComboBox<String> sizeBox;
-    private int currentFontSize = 12;
+    private int currentFontSize = MultiLineString.FontSize.NORMAL;
     private int currentAlignment = StyleConstants.ALIGN_CENTER;
     private boolean currentUnderline = false;
     private boolean isUpdating = false;

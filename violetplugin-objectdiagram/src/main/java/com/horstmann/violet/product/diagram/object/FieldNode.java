@@ -43,7 +43,7 @@ public class FieldNode extends RectangularNode
     public FieldNode()
     {
         name = new MultiLineString();
-        name.setJustification(MultiLineString.RIGHT);
+        name.setJustification(MultiLineString.Justification.RIGHT);
         value = new MultiLineString();
         equalSeparator = new MultiLineString();
         equalSeparator.setText(" = ");

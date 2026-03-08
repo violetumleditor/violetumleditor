@@ -143,7 +143,7 @@ public class JavaFileModel
             text.append("\n");
         }
         mls.setText(text.toString());
-        mls.setJustification(MultiLineString.LEFT);
+        mls.setJustification(MultiLineString.Justification.LEFT);
         classNode.setMethods(mls);
         // Set attributs
         mls = new MultiLineString();
@@ -154,12 +154,12 @@ public class JavaFileModel
             text.append("\n");
         }
         mls.setText(text.toString());
-        mls.setJustification(MultiLineString.LEFT);
+        mls.setJustification(MultiLineString.Justification.LEFT);
         classNode.setAttributes(mls);
         // Set class name
         mls = new MultiLineString();
         mls.setText(this.getClassName());
-        mls.setSize(MultiLineString.LARGE);
+        mls.setSize(MultiLineString.FontSize.LARGE);
         classNode.setName(mls);
         return classNode;
     }

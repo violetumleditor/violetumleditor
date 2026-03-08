@@ -21,11 +21,11 @@ public class ClassNode extends RectangularNode
     public ClassNode()
     {
         name = new MultiLineString();
-        name.setSize(MultiLineString.LARGE);
+        name.setSize(MultiLineString.FontSize.LARGE);
         attributes = new MultiLineString();
-        attributes.setJustification(MultiLineString.LEFT);
+        attributes.setJustification(MultiLineString.Justification.LEFT);
         methods = new MultiLineString();
-        methods.setJustification(MultiLineString.LEFT);
+        methods.setJustification(MultiLineString.Justification.LEFT);
     }
     
     private Rectangle2D getTopRectangleBounds() {

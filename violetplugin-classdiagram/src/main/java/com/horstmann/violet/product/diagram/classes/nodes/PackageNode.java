@@ -22,7 +22,7 @@ public class PackageNode extends RectangularNode
     public PackageNode()
     {
         name = new MultiLineString();
-        name.setSize(MultiLineString.LARGE);
+        name.setSize(MultiLineString.FontSize.LARGE);
         content = new MultiLineString();
     }
 
