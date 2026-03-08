@@ -31,6 +31,7 @@ import java.util.List;
 
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.abstracts.IColorable;
 import com.horstmann.violet.product.diagram.abstracts.ISelectable;
 import com.horstmann.violet.product.diagram.abstracts.Id;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
@@ -41,7 +42,7 @@ import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
  * 
  * @author Cay Horstmann
  */
-public abstract class AbstractNode implements INode, IColorableNode
+public abstract class AbstractNode implements INode, IColorable
 {
     /**
      * Constructs a node with no parents or children at location (0, 0).
