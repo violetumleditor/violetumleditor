@@ -1,20 +1,7 @@
 package com.horstmann.violet.product.diagram.abstracts.node;
 
-import java.awt.Color;
+import com.horstmann.violet.product.diagram.abstracts.IColorable;
 
-public interface IColorableNode
+public interface IColorableNode extends IColorable
 {
-
-    void setBackgroundColor(Color bgColor);
-    
-    Color getBackgroundColor();
-    
-    void setBorderColor(Color borderColor);
-
-    Color getBorderColor();
-    
-    void setTextColor(Color textColor);
-    
-    Color getTextColor();
-    
 }

@@ -49,7 +49,9 @@ public class ColorizeBehavior extends AbstractEditorPartBehavior
     }
 
     private void updateEdgeColor(IColorableEdge colorableEdge, ColorChoice currentColorChoice) {
+    	this.behaviorManager.fireBeforeChangingColorOnElement(colorableEdge);
         colorableEdge.setBorderColor(currentColorChoice.getBorderColor());
+        this.behaviorManager.fireAfterChangingColorOnElement(colorableEdge);
     }
 
 

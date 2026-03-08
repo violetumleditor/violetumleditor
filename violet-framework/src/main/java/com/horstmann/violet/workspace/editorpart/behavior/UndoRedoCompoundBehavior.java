@@ -9,8 +9,8 @@ import java.util.List;
 import javax.swing.undo.CompoundEdit;
 import javax.swing.undo.UndoManager;
 
+import com.horstmann.violet.product.diagram.abstracts.IColorable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.abstracts.node.IColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 
@@ -156,7 +156,7 @@ public class UndoRedoCompoundBehavior extends AbstractEditorPartBehavior
     }
     
     @Override
-    public void beforeChangingColorOnElement(IColorableNode element)
+    public void beforeChangingColorOnElement(IColorable element)
     {
         for (IEditorPartBehavior aBehavior : this.behaviors) {
             aBehavior.beforeChangingColorOnElement(element);
@@ -164,7 +164,7 @@ public class UndoRedoCompoundBehavior extends AbstractEditorPartBehavior
     }
     
     @Override
-    public void afterChangingColorOnElement(IColorableNode element)
+    public void afterChangingColorOnElement(IColorable element)
     {
         for (IEditorPartBehavior aBehavior : this.behaviors) {
             aBehavior.afterChangingColorOnElement(element);

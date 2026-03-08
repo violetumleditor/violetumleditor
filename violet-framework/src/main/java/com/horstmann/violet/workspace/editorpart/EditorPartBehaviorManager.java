@@ -7,8 +7,8 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.horstmann.violet.product.diagram.abstracts.IColorable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.abstracts.node.IColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.workspace.editorpart.behavior.IEditorPartBehavior;
 
@@ -200,14 +200,14 @@ public class EditorPartBehaviorManager implements IEditorPartBehaviorManager
     
     
     @Override
-    public void fireBeforeChangingColorOnElement(IColorableNode element)
+    public void fireBeforeChangingColorOnElement(IColorable element)
     {
         for (IEditorPartBehavior aBehavior : this.behaviors)
             aBehavior.beforeChangingColorOnElement(element);
     }
     
     @Override
-    public void fireAfterChangingColorOnElement(IColorableNode element)
+    public void fireAfterChangingColorOnElement(IColorable element)
     {
         for (IEditorPartBehavior aBehavior : this.behaviors)
             aBehavior.afterChangingColorOnElement(element);
