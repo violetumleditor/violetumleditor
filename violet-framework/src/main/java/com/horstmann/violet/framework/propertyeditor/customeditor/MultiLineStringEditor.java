@@ -79,9 +79,11 @@ public class MultiLineStringEditor extends PropertyEditorSupport
         this.textPane = new JTextPane();
         
         // Map MultiLineString size constants to pixel values
-        int pixelSize = 12; // Default
-        if (source.getSize() == MultiLineString.LARGE) pixelSize = 16;
-        if (source.getSize() == MultiLineString.SMALL) pixelSize = 10;
+        // Apply a 1.25x zoom factor in the editor so it matches the visual scale in the diagram nodes
+        double zoom = 1.25;
+        int pixelSize = (int) (12 * zoom); // Default
+        if (source.getSize() == MultiLineString.LARGE) pixelSize = (int) (16 * zoom);
+        if (source.getSize() == MultiLineString.SMALL) pixelSize = (int) (10 * zoom);
 
         // Set the font before setting the content type to influence the default attributes
         Font defaultFont = new Font(Font.SANS_SERIF, Font.PLAIN, pixelSize);
