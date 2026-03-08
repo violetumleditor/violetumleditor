@@ -243,3 +243,7 @@ All behaviors implement `IEditorPartBehavior` and are fired by the behavior mana
 - JWT API Javadoc: https://www.webtoolkit.eu/jwt/latest/doc/javadoc/
 - JWT Widget Gallery : https://jwt.emweb.be/jwt-gallery/gallery/layout/
 - JWT GitHub: https://github.com/emweb/jwt
+
+
+### Special notes :
+- Don't use MultiLineLabel.java in MultilineString.java which can only use JLabel to display text using HTML. This is because MultiLineLabel.java uses a custom implementation to display text and does not support HTML rendering, which is necessary for displaying multiline text properly in the application.
