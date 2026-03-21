@@ -25,8 +25,8 @@
 	</modules>
 	<properties>
 		<applicationVersion>2.3.1-SNAPSHOT</applicationVersion>
-		<java.version>21</java.version>
-		<maven.compiler.release>21</maven.compiler.release>
+		<java.version>17</java.version>
+		<maven.compiler.release>17</maven.compiler.release>
 	</properties>
 	<build>
 		<resources>
