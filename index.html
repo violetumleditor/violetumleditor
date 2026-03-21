@@ -4,7 +4,9 @@
 </head>
 <body>
   <script type="module">
-    await cheerpjInit();
+    await cheerpjInit({
+        version: 17
+    });
     cheerpjCreateDisplay(800, 600);
     await cheerpjRunJar("/app/violetumleditor/violetumleditor-latest.jar");
   </script>
