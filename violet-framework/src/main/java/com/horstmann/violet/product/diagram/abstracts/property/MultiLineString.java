@@ -31,7 +31,6 @@ import java.io.Serializable;
 import javax.swing.JLabel;
 
 import com.horstmann.violet.framework.swingextension.MultiLineLabel;
-import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 /**
  * A string that can extend over multiple lines.
@@ -250,11 +249,8 @@ public class MultiLineString implements Serializable, Cloneable {
 	}
 
 	private String text;
-	@XStreamAsAttribute
 	private int justification;
-	@XStreamAsAttribute
 	private int size;
-	@XStreamAsAttribute
 	private boolean underlined;
 	private transient JLabel label;
 	private transient boolean isBoundsDirty = true;

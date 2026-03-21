@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 
 import javax.imageio.ImageIO;
 import javax.swing.text.MutableAttributeSet;
@@ -40,7 +41,7 @@ public class XHTMLPersistenceService implements IFilePersistenceService
 
     private static final String TEMPLATE_XMLCONTENT_KEY = "${content}";
 
-    private XStreamBasedPersistenceService xstreamService = new XStreamBasedPersistenceService();
+    private IFilePersistenceService graphPersistenceService = new CompatibleFilePersistenceService();
 
     @InjectedBean
     private VersionChecker versionChecker;
@@ -50,20 +51,20 @@ public class XHTMLPersistenceService implements IFilePersistenceService
     {
         try
         {
-            OutputStreamWriter writer = new OutputStreamWriter(out, "UTF-8");
+            OutputStreamWriter writer = new OutputStreamWriter(out, StandardCharsets.UTF_8);
         	InputStream templateAsStream = this.getClass().getResourceAsStream(TEMPLATE_FILE);
             String template = getInputStreamContent(templateAsStream);
             ByteArrayOutputStream graphOutputStream = new ByteArrayOutputStream();
-            xstreamService.write(graph, graphOutputStream);
-            String graphString = graphOutputStream.toString();
+            graphPersistenceService.write(graph, graphOutputStream);
+            String graphString = graphOutputStream.toString(StandardCharsets.UTF_8);
             ByteArrayOutputStream imageOutputStream = new ByteArrayOutputStream();
             Base64OutputStream base64ImageOutputStream = new Base64OutputStream(imageOutputStream);
             ImageIO.write(FileExportService.getImage(graph), IMAGE_TYPE, base64ImageOutputStream);
-            String imageString = HTML_INLINE_IMAGE_PREFIX + imageOutputStream.toString();
+            String imageString = HTML_INLINE_IMAGE_PREFIX + imageOutputStream.toString(StandardCharsets.UTF_8);
             template = template.replace(TEMPLATE_VERSION_KEY, this.versionChecker.getAppVersionNumber());
             template = template.replace(TEMPLATE_XMLCONTENT_KEY, graphString);
             template = template.replace(TEMPLATE_IMAGE_KEY, imageString);
-            writer.write(new String(template.getBytes()));
+            writer.write(template);
             templateAsStream.close();
             imageOutputStream.close();
             base64ImageOutputStream.close();
@@ -78,16 +79,15 @@ public class XHTMLPersistenceService implements IFilePersistenceService
     @Override
     public IGraph read(InputStream in) throws IOException
     {
-        InputStreamReader reader = new InputStreamReader(in, "UTF-8");
+        InputStreamReader reader = new InputStreamReader(in, StandardCharsets.UTF_8);
     	XHTMLPersistenceServiceParserGetter kit = new XHTMLPersistenceServiceParserGetter();
         HTMLEditorKit.Parser parser = kit.getParser();
         StringWriter writer = new StringWriter();
         HTMLEditorKit.ParserCallback callback = new XHTMLPersistenceServiceParserCallback(writer);
         parser.parse(reader, callback, true);
         String xmlContent = writer.toString();
-        InputStream xmlContentStream = new ByteArrayInputStream(xmlContent.getBytes());
-        IGraph graph = this.xstreamService.read(xmlContentStream);
-        reader.close();
+        InputStream xmlContentStream = new ByteArrayInputStream(xmlContent.getBytes(StandardCharsets.UTF_8));
+        IGraph graph = this.graphPersistenceService.read(xmlContentStream);
         xmlContentStream.close();
         reader.close();
         writer.close();
@@ -105,7 +105,7 @@ public class XHTMLPersistenceService implements IFilePersistenceService
             buf.write(b);
             result = bis.read();
         }
-        String content = buf.toString("UTF-8");
+        String content = buf.toString(StandardCharsets.UTF_8);
         bis.close();
         buf.close();
         in.close();

@@ -86,9 +86,9 @@ public class ImageNode extends RectangularNode implements IResizableNode, ICropp
 
     /**
      * Sets current image.
-     * The image is immediately converted to {@link BufferedImage} so that
-     * XStream can serialize it via {@code ImageConverter} regardless of the
-     * concrete AWT implementation supplied by the OS clipboard or elsewhere.
+      * The image is immediately converted to {@link BufferedImage} so diagram
+      * persistence remains stable regardless of the concrete AWT implementation
+      * supplied by the OS clipboard or elsewhere.
      *
      * @param img the source image (any AWT Image subtype)
      */
@@ -112,7 +112,7 @@ public class ImageNode extends RectangularNode implements IResizableNode, ICropp
         if (w <= 0 || h <= 0)
         {
             // Cannot determine dimensions; store a 1×1 transparent placeholder
-            // so that the field always holds a BufferedImage (required for XStream).
+            // so that the field always holds a BufferedImage.
             this.image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
             return;
         }
