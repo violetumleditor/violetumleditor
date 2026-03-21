@@ -19,7 +19,7 @@ jobs:
 
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       packages: write
       id-token: write
 
@@ -39,5 +39,28 @@ jobs:
       run: mvn -B package deploy -s $GITHUB_WORKSPACE/settings.xml
       env:
         GITHUB_TOKEN: ${{ github.token }}
+
+    - name: Prepare latest Swing jar for GitHub Pages
+      run: |
+        set -euo pipefail
+        mkdir -p gh-pages-download
+        LATEST_JAR=$(find violetproduct-swing/target -maxdepth 1 -type f -name 'violetumleditor-*.jar' ! -name '*-sources.jar' ! -name '*-javadoc.jar' | sort -V | tail -n 1)
+        if [ -z "$LATEST_JAR" ]; then
+          echo "No violetumleditor jar found in violetproduct-swing/target"
+          exit 1
+        fi
+        cp "$LATEST_JAR" gh-pages-download/violetumleditor-latest.jar
+        JAR_FILENAME=$(basename "$LATEST_JAR")
+        VERSION=${JAR_FILENAME#violetumleditor-}
+        VERSION=${VERSION%.jar}
+        printf '%s\n' "$VERSION" > gh-pages-download/violetumleditor-latest-version.txt
+
+    - name: Publish latest Swing jar to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ github.token }}
+        publish_branch: gh-pages
+        publish_dir: gh-pages-download
+        keep_files: true
 
 
