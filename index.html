@@ -5,7 +5,8 @@
 <body>
   <script type="module">
     await cheerpjInit({
-        version: 17
+        version: 17,
+        javaProperties: ["java.vm.vendor=CheeprJ"] 
     });
     cheerpjCreateDisplay(800, 600);
     await cheerpjRunJar("/app/violetumleditor/violetumleditor-latest.jar");
