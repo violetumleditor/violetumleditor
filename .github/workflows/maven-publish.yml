@@ -58,9 +58,8 @@ jobs:
     - name: Publish latest Swing jar to GitHub Pages
       uses: peaceiris/actions-gh-pages@v4
       with:
-        personal_token: ${{ secrets.PAGES_REPO_TOKEN }}
-        external_repository: ${{ github.repository_owner }}/violetumleditor.github.io
-        publish_branch: master
+        github_token: ${{ github.token }}
+        publish_branch: gh-pages
         publish_dir: gh-pages-download
         keep_files: true
 
