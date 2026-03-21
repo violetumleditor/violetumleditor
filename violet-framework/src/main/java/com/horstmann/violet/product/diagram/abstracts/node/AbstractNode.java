@@ -25,6 +25,7 @@ import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.beans.Transient;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -244,6 +245,7 @@ public abstract class AbstractNode implements INode, IColorable
     }
 
     @Override
+    @Transient
     public IGraph getGraph()
     {
         if (this.graph == null) {

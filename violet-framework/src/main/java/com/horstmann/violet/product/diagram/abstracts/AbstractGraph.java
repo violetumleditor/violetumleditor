@@ -27,6 +27,7 @@ import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.beans.Transient;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -343,6 +344,7 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
     }
 
     @Override
+    @Transient
     public IGridSticker getGridSticker()
     {
         if (this.gridSticker == null)

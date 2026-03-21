@@ -1,6 +1,8 @@
 package com.horstmann.violet.framework.file.persistence;
 
 import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
@@ -14,12 +16,14 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
 
+import javax.imageio.ImageIO;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -201,33 +205,37 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
 
         if (valueClass.equals(Point2D.Double.class))
         {
-            Point2D.Double point = new Point2D.Double(parseDoubleAttribute(element, "x"), parseDoubleAttribute(element, "y"));
+            Point2D.Double point = readPoint2D(element);
             registerIdIfNeeded(element, point, context);
             return point;
         }
 
         if (valueClass.equals(Rectangle2D.Double.class))
         {
-            Rectangle2D.Double rectangle = new Rectangle2D.Double(
-                    parseDoubleAttribute(element, "x"),
-                    parseDoubleAttribute(element, "y"),
-                    parseDoubleAttribute(element, "width"),
-                    parseDoubleAttribute(element, "height"));
+            Rectangle2D.Double rectangle = readRectangle2D(element);
             registerIdIfNeeded(element, rectangle, context);
             return rectangle;
         }
 
         if (valueClass.equals(RoundRectangle2D.Double.class))
         {
-            RoundRectangle2D.Double rectangle = new RoundRectangle2D.Double(
-                    parseDoubleAttribute(element, "x"),
-                    parseDoubleAttribute(element, "y"),
-                    parseDoubleAttribute(element, "width"),
-                    parseDoubleAttribute(element, "height"),
-                    parseDoubleAttribute(element, "arcwidth"),
-                    parseDoubleAttribute(element, "archeight"));
+            RoundRectangle2D.Double rectangle = readRoundRectangle2D(element);
             registerIdIfNeeded(element, rectangle, context);
             return rectangle;
+        }
+
+        if (BufferedImage.class.equals(valueClass))
+        {
+            BufferedImage image = readImage(element, context);
+            registerIdIfNeeded(element, image, context);
+            return image;
+        }
+
+        if (ITransitionPoint.class.isAssignableFrom(valueClass))
+        {
+            ITransitionPoint transitionPoint = readTransitionPoint(element);
+            registerIdIfNeeded(element, transitionPoint, context);
+            return transitionPoint;
         }
 
         if (valueClass.equals(Color.class))
@@ -356,9 +364,13 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
 
     private Class<?> resolveClassAlias(String classAlias)
     {
+        if ("Point".equals(classAlias)) return Point2D.Double.class;
         if ("Point2D.Double".equals(classAlias)) return Point2D.Double.class;
+        if ("Rectangle".equals(classAlias)) return Rectangle2D.Double.class;
         if ("Rectangle2D.Double".equals(classAlias)) return Rectangle2D.Double.class;
+        if ("RoundRectangle".equals(classAlias)) return RoundRectangle2D.Double.class;
         if ("RoundRectangle2D.Double".equals(classAlias)) return RoundRectangle2D.Double.class;
+        if ("Image".equals(classAlias)) return BufferedImage.class;
 
         Class<?> resolved = this.classAliases.get(classAlias);
         if (resolved != null) return resolved;
@@ -482,6 +494,134 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         return new Color(red, green, blue, alpha);
     }
 
+    private static Point2D.Double readPoint2D(Element element)
+    {
+        String x = element.getAttribute("x");
+        String y = element.getAttribute("y");
+        if (!x.isEmpty() && !y.isEmpty())
+        {
+            return new Point2D.Double(Double.parseDouble(x), Double.parseDouble(y));
+        }
+        double[] values = parseCsvDoubles(element.getTextContent(), 2);
+        return new Point2D.Double(values[0], values[1]);
+    }
+
+    private static Rectangle2D.Double readRectangle2D(Element element)
+    {
+        String x = element.getAttribute("x");
+        String y = element.getAttribute("y");
+        String width = element.getAttribute("width");
+        String height = element.getAttribute("height");
+        if (!x.isEmpty() && !y.isEmpty() && !width.isEmpty() && !height.isEmpty())
+        {
+            return new Rectangle2D.Double(
+                    Double.parseDouble(x),
+                    Double.parseDouble(y),
+                    Double.parseDouble(width),
+                    Double.parseDouble(height));
+        }
+        double[] values = parseCsvDoubles(element.getTextContent(), 4);
+        return new Rectangle2D.Double(values[0], values[1], values[2], values[3]);
+    }
+
+    private static RoundRectangle2D.Double readRoundRectangle2D(Element element)
+    {
+        String x = element.getAttribute("x");
+        String y = element.getAttribute("y");
+        String width = element.getAttribute("width");
+        String height = element.getAttribute("height");
+        String arcWidth = element.getAttribute("arcwidth");
+        String arcHeight = element.getAttribute("archeight");
+        if (!x.isEmpty() && !y.isEmpty() && !width.isEmpty() && !height.isEmpty() && !arcWidth.isEmpty() && !arcHeight.isEmpty())
+        {
+            return new RoundRectangle2D.Double(
+                    Double.parseDouble(x),
+                    Double.parseDouble(y),
+                    Double.parseDouble(width),
+                    Double.parseDouble(height),
+                    Double.parseDouble(arcWidth),
+                    Double.parseDouble(arcHeight));
+        }
+        double[] values = parseCsvDoubles(element.getTextContent(), 6);
+        return new RoundRectangle2D.Double(values[0], values[1], values[2], values[3], values[4], values[5]);
+    }
+
+    private static BufferedImage readImage(Element element, LegacyContext context) throws IOException
+    {
+        String imgRef = element.getAttribute("imgRef");
+        if (!imgRef.isEmpty())
+        {
+            BufferedImage existing = context.imageIdMap.get(imgRef);
+            if (existing != null)
+            {
+                return existing;
+            }
+        }
+
+        String raw = element.getTextContent();
+        String base64 = raw == null ? "" : raw.replaceAll("\\s+", "");
+        if (base64.isEmpty())
+        {
+            return null;
+        }
+
+        byte[] bytes = Base64.getDecoder().decode(base64);
+        BufferedImage image = ImageIO.read(new ByteArrayInputStream(bytes));
+
+        String imgId = element.getAttribute("imgId");
+        if (!imgId.isEmpty() && image != null)
+        {
+            context.imageIdMap.put(imgId, image);
+        }
+        return image;
+    }
+
+    private static ITransitionPoint readTransitionPoint(Element element)
+    {
+        String xAttribute = element.getAttribute("x");
+        String yAttribute = element.getAttribute("y");
+        if (!xAttribute.isEmpty() && !yAttribute.isEmpty())
+        {
+            return new EdgeTransitionPoint(Double.parseDouble(xAttribute), Double.parseDouble(yAttribute));
+        }
+
+        Double x = null;
+        Double y = null;
+        for (Element child : getChildElements(element))
+        {
+            if ("x".equals(child.getTagName()))
+            {
+                x = Double.parseDouble(child.getTextContent().trim());
+            }
+            else if ("y".equals(child.getTagName()))
+            {
+                y = Double.parseDouble(child.getTextContent().trim());
+            }
+        }
+
+        if (x != null && y != null)
+        {
+            return new EdgeTransitionPoint(x.doubleValue(), y.doubleValue());
+        }
+
+        return new EdgeTransitionPoint(0d, 0d);
+    }
+
+    private static double[] parseCsvDoubles(String csv, int expectedLength)
+    {
+        String[] parts = csv == null ? new String[0] : csv.trim().split(",");
+        if (parts.length < expectedLength)
+        {
+            throw new IllegalArgumentException("Invalid numeric CSV format: " + csv);
+        }
+        double[] values = new double[expectedLength];
+        for (int i = 0; i < expectedLength; i++)
+        {
+            values[i] = Double.parseDouble(parts[i].trim());
+        }
+        return values;
+    }
+
     private static String readAll(InputStream in) throws IOException
     {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
@@ -497,5 +637,7 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     private static class LegacyContext
     {
         private final Map<String, Object> idMap = new HashMap<String, Object>();
+
+        private final Map<String, BufferedImage> imageIdMap = new HashMap<String, BufferedImage>();
     }
 }

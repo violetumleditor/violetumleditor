@@ -3,20 +3,28 @@ package com.horstmann.violet.framework.file.persistence;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.beans.DefaultPersistenceDelegate;
 import java.beans.Encoder;
+import java.beans.Expression;
 import java.beans.ExceptionListener;
+import java.beans.PersistenceDelegate;
 import java.beans.Statement;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import javax.imageio.ImageIO;
 
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.ManagedBean;
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
@@ -134,6 +142,23 @@ public class StandardJavaFilePersistenceService implements IFilePersistenceServi
                 }));
             }
         });
+        encoder.setPersistenceDelegate(BufferedImage.class, new PersistenceDelegate()
+        {
+            @Override
+            protected Expression instantiate(Object oldInstance, Encoder out)
+            {
+                BufferedImage image = (BufferedImage) oldInstance;
+                return new Expression(StandardJavaFilePersistenceService.class,
+                        "decodePngImage",
+                        new Object[] { encodePngImage(image) });
+            }
+
+            @Override
+            protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out)
+            {
+                // Image is fully reconstructed by instantiate().
+            }
+        });
     
         encoder.setPersistenceDelegate(BentStyle.class, new CustomPersistenceDelegate());
         encoder.setPersistenceDelegate(LineStyle.class, new CustomPersistenceDelegate());
@@ -195,7 +220,8 @@ public class StandardJavaFilePersistenceService implements IFilePersistenceServi
         {
             protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out)
             {
-                super.initialize(type, oldInstance, newInstance, out);
+                // Do not call super.initialize here: it would serialize bean properties
+                // such as gridSticker, which can be anonymous runtime classes.
                 AbstractGraph g = (AbstractGraph) oldInstance;
 
                 for ( INode n : g.getAllNodes())
@@ -260,6 +286,41 @@ public class StandardJavaFilePersistenceService implements IFilePersistenceServi
                 }
             }
         }); */
+    }
+
+    public static BufferedImage decodePngImage(String base64Png)
+    {
+        if (base64Png == null || base64Png.isEmpty())
+        {
+            return null;
+        }
+        try
+        {
+            byte[] bytes = Base64.getDecoder().decode(base64Png);
+            return ImageIO.read(new ByteArrayInputStream(bytes));
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException("Unable to decode buffered image", e);
+        }
+    }
+
+    private static String encodePngImage(BufferedImage image)
+    {
+        if (image == null)
+        {
+            return "";
+        }
+        try
+        {
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            ImageIO.write(image, "png", bytes);
+            return Base64.getEncoder().encodeToString(bytes.toByteArray());
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException("Unable to encode buffered image", e);
+        }
     }
     
 

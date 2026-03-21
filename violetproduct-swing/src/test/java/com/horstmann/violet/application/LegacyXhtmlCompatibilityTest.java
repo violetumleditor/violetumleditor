@@ -2,10 +2,16 @@ package com.horstmann.violet.application;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -39,6 +45,22 @@ class LegacyXhtmlCompatibilityTest
             assertNotNull(graph.getAllEdges(), "Graph edges collection should not be null in " + resourceName);
             org.junit.jupiter.api.Assertions.assertEquals(graphClassSimpleName, graph.getClass().getSimpleName(),
                     "Unexpected graph type for " + resourceName);
+        }
+    }
+
+    @Test
+    void shouldReadProvidedLegacyXstreamFile() throws IOException
+    {
+        Path legacyFile = Paths.get("..", "violet-framework", "src", "test", "resources", "test.class.violet.html").normalize();
+        assertTrue(Files.exists(legacyFile), "Missing legacy test file: " + legacyFile);
+
+        try (InputStream inputStream = new FileInputStream(legacyFile.toFile()))
+        {
+            IGraph graph = this.persistenceService.read(inputStream);
+            assertNotNull(graph, "Graph should be deserialized from provided legacy file");
+            assertFalse(graph.getAllNodes().isEmpty(), "Provided legacy file should contain nodes");
+            org.junit.jupiter.api.Assertions.assertEquals("ClassDiagramGraph", graph.getClass().getSimpleName(),
+                    "Unexpected graph type for provided legacy file");
         }
     }
 }

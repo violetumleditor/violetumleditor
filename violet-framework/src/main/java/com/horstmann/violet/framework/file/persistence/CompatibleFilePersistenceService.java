@@ -29,21 +29,51 @@ public class CompatibleFilePersistenceService implements IFilePersistenceService
     {
         String xmlContent = readAll(in);
 
+        if (isLikelyStandardJavaXml(xmlContent))
+        {
+            return readWithFallback(xmlContent, this.standardService, this.legacyService);
+        }
+
+        return readWithFallback(xmlContent, this.legacyService, this.standardService);
+    }
+
+    private IGraph readWithFallback(String xmlContent, IFilePersistenceService primaryService, IFilePersistenceService fallbackService)
+            throws IOException
+    {
+
         try
         {
-            return this.standardService.read(new ByteArrayInputStream(xmlContent.getBytes(StandardCharsets.UTF_8)));
+            return primaryService.read(new ByteArrayInputStream(xmlContent.getBytes(StandardCharsets.UTF_8)));
         }
-        catch (Exception standardFormatException)
+        catch (Exception primaryException)
         {
             try
             {
-                return this.legacyService.read(new ByteArrayInputStream(xmlContent.getBytes(StandardCharsets.UTF_8)));
+                return fallbackService.read(new ByteArrayInputStream(xmlContent.getBytes(StandardCharsets.UTF_8)));
             }
-            catch (Exception legacyFormatException)
+            catch (Exception fallbackException)
             {
-                throw new IOException("Unable to read graph content using standard or legacy format", legacyFormatException);
+                throw new IOException("Unable to read graph content using standard or legacy format", fallbackException);
             }
         }
+    }
+
+    private boolean isLikelyStandardJavaXml(String xmlContent)
+    {
+        if (xmlContent == null)
+        {
+            return false;
+        }
+        String trimmed = xmlContent.trim();
+        if (trimmed.startsWith("<?xml"))
+        {
+            int closing = trimmed.indexOf("?>");
+            if (closing >= 0 && closing + 2 < trimmed.length())
+            {
+                trimmed = trimmed.substring(closing + 2).trim();
+            }
+        }
+        return trimmed.startsWith("<java");
     }
 
     private String readAll(InputStream in) throws IOException

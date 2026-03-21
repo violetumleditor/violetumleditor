@@ -31,10 +31,16 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.PixelGrabber;
+import java.beans.Transient;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Base64;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.swing.ImageIcon;
+import javax.imageio.ImageIO;
 
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
@@ -79,9 +85,53 @@ public class ImageNode extends RectangularNode implements IResizableNode, ICropp
      *
      * @return the current {@link Image}, never {@code null} in normal use
      */
+    @Transient
     public Image getImage()
     {
         return this.image;
+    }
+
+    /**
+     * JavaBeans persistence property used to store image pixels reliably.
+     */
+    public String getImageBase64()
+    {
+        if (!(this.image instanceof BufferedImage))
+        {
+            return "";
+        }
+        try
+        {
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            ImageIO.write((BufferedImage) this.image, "png", bytes);
+            return Base64.getEncoder().encodeToString(bytes.toByteArray());
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException("Unable to encode image for persistence", e);
+        }
+    }
+
+    /**
+     * JavaBeans persistence setter paired with getImageBase64().
+     */
+    public void setImageBase64(String imageBase64)
+    {
+        if (imageBase64 == null || imageBase64.isEmpty())
+        {
+            setImage((Image) null);
+            return;
+        }
+        try
+        {
+            byte[] bytes = Base64.getDecoder().decode(imageBase64);
+            BufferedImage decoded = ImageIO.read(new ByteArrayInputStream(bytes));
+            setImage(decoded);
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException("Unable to decode persisted image", e);
+        }
     }
 
     /**
