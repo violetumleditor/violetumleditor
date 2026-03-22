@@ -432,7 +432,6 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     {
         indent(xml, indentLevel);
         xml.append('<').append(elementName)
-            .append(" id=\"").append(id).append("\"")
             .append(" red=\"").append(color.getRed()).append("\"")
             .append(" green=\"").append(color.getGreen()).append("\"")
             .append(" blue=\"").append(color.getBlue()).append("\"")

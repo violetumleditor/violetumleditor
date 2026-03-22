@@ -75,8 +75,8 @@ class LegacyXmlWriteCompatibilityTest
                 "textColor should be serialized inline, not by reference");
         assertFalse(xml.contains("<borderColor reference="),
                 "borderColor should be serialized inline, not by reference");
-        assertTrue(xml.matches("(?s).*<backgroundColor id=\"\\d+\" red=\"\\d+\" green=\"\\d+\" blue=\"\\d+\" alpha=\"\\d+\"/>.*"),
-                "backgroundColor should use attribute-based compact XML representation with id");
+        assertTrue(xml.matches("(?s).*<backgroundColor red=\"\\d+\" green=\"\\d+\" blue=\"\\d+\" alpha=\"\\d+\"/>.*"),
+                "backgroundColor should use attribute-based compact XML representation without id");
         assertTrue(xml.contains("<ressources>"), "Legacy writer should extract images into a root ressources element");
         assertTrue(xml.contains("<image reference=\"img-"), "Legacy writer should store image binaries in ressources");
         assertTrue(xml.contains("<image reference=\"img-"), "Legacy writer should reference extracted images from nodes");
