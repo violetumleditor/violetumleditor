@@ -96,6 +96,8 @@ class LegacyXmlWriteCompatibilityTest
                 "Legacy writer should not emit default preferredSize values");
         assertFalse(xml.contains("<cropInsets"),
                 "Legacy writer should not emit default cropInsets values");
+        assertTrue(xml.matches("(?s).*<cropInsets id=\"\\d+\" top=\"[\\d.]+\" left=\"[\\d.]+\" bottom=\"[\\d.]+\" right=\"[\\d.]+\"/>.*") || !xml.contains("cropInsets"),
+                "Legacy writer should use compact attribute format for cropInsets or omit if default");
         assertFalse(xml.contains("<preferredSize class="),
                 "Compact preferredSize should not declare a class attribute");
         assertFalse(xml.contains("<preferredSize id="),

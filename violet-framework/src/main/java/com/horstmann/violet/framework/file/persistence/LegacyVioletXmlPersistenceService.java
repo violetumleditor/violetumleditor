@@ -271,6 +271,12 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
             return;
         }
 
+        if (value instanceof CropInsets)
+        {
+            writeCropInsetsElement(xml, elementName, (CropInsets) value, id, indentLevel);
+            return;
+        }
+
         if (value instanceof ITransitionPoint)
         {
             Point2D point = ((ITransitionPoint) value).toPoint2D();
@@ -429,6 +435,18 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
             .append(" green=\"").append(color.getGreen()).append("\"")
             .append(" blue=\"").append(color.getBlue()).append("\"")
             .append(" alpha=\"").append(color.getAlpha()).append("\"/>")
+            .append('\n');
+    }
+
+    private void writeCropInsetsElement(StringBuilder xml, String elementName, CropInsets crop, String id, int indentLevel)
+    {
+        indent(xml, indentLevel);
+        xml.append('<').append(elementName)
+            .append(" id=\"").append(id).append("\"")
+            .append(" top=\"").append(formatDouble(crop.getTop())).append("\"")
+            .append(" left=\"").append(formatDouble(crop.getLeft())).append("\"")
+            .append(" bottom=\"").append(formatDouble(crop.getBottom())).append("\"")
+            .append(" right=\"").append(formatDouble(crop.getRight())).append("\"/>")
             .append('\n');
     }
 
@@ -821,6 +839,13 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
             return color;
         }
 
+        if (CropInsets.class.isAssignableFrom(valueClass))
+        {
+            CropInsets crop = readCropInsets(element);
+            registerIdIfNeeded(element, crop, context);
+            return crop;
+        }
+
         Object instance = newInstance(valueClass);
         registerIdIfNeeded(element, instance, context);
         applyAttributes(instance, element, expectedClass);
@@ -1104,6 +1129,30 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         }
 
         return new Color(red, green, blue, alpha);
+    }
+
+    private static CropInsets readCropInsets(Element element)
+    {
+        double top = parseDoubleAttribute(element, "top");
+        double left = parseDoubleAttribute(element, "left");
+        double bottom = parseDoubleAttribute(element, "bottom");
+        double right = parseDoubleAttribute(element, "right");
+
+        // Fallback to child elements for backward compatibility with old format
+        if (top == 0d && left == 0d && bottom == 0d && right == 0d)
+        {
+            for (Element child : getChildElements(element))
+            {
+                String text = child.getTextContent();
+                if (text == null || text.isEmpty()) continue;
+                if ("top".equals(child.getTagName())) top = Double.parseDouble(text);
+                else if ("left".equals(child.getTagName())) left = Double.parseDouble(text);
+                else if ("bottom".equals(child.getTagName())) bottom = Double.parseDouble(text);
+                else if ("right".equals(child.getTagName())) right = Double.parseDouble(text);
+            }
+        }
+
+        return new CropInsets(top, left, bottom, right);
     }
 
     private static int parseIntAttribute(Element element, String attribute, int defaultValue)
