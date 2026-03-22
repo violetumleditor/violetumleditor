@@ -223,15 +223,20 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
             return;
         }
 
-        String existingId = context.objectIds.get(value);
+        boolean isReferenceableNode = value instanceof INode;
+        String existingId = isReferenceableNode ? context.objectIds.get(value) : null;
         if (existingId != null)
         {
             writeReferenceElement(xml, elementName, expectedClass, valueClass, existingId, indentLevel, isRoot);
             return;
         }
 
-        String id = context.nextId();
-        context.objectIds.put(value, id);
+        String id = null;
+        if (isReferenceableNode)
+        {
+            id = context.nextId();
+            context.objectIds.put(value, id);
+        }
 
         if (value instanceof Collection<?>)
         {
@@ -318,7 +323,6 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     {
         indent(xml, indentLevel);
         xml.append('<').append(elementName);
-        xml.append(" id=\"").append(id).append("\"");
         if (values.isEmpty())
         {
             xml.append("/>").append('\n');
@@ -343,7 +347,6 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     {
         indent(xml, indentLevel);
         xml.append('<').append(elementName);
-        xml.append(" id=\"").append(id).append("\"");
         int length = java.lang.reflect.Array.getLength(array);
         if (length == 0)
         {
@@ -381,7 +384,6 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     {
         indent(xml, indentLevel);
         xml.append('<').append(elementName);
-        xml.append(" id=\"").append(id).append("\"");
         xml.append(" x=\"").append(formatDouble(point.getX())).append("\"");
         xml.append(" y=\"").append(formatDouble(point.getY())).append("\"/>").append('\n');
     }
@@ -399,7 +401,6 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     {
         indent(xml, indentLevel);
         xml.append('<').append(elementName);
-        xml.append(" id=\"").append(id).append("\"");
         xml.append(" x=\"").append(formatDouble(rectangle.getX())).append("\"");
         xml.append(" y=\"").append(formatDouble(rectangle.getY())).append("\"");
         xml.append(" width=\"").append(formatDouble(rectangle.getWidth())).append("\"");
@@ -419,7 +420,6 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     {
         indent(xml, indentLevel);
         xml.append('<').append(elementName);
-        xml.append(" id=\"").append(id).append("\"");
         xml.append(" x=\"").append(formatDouble(rectangle.getX())).append("\"");
         xml.append(" y=\"").append(formatDouble(rectangle.getY())).append("\"");
         xml.append(" width=\"").append(formatDouble(rectangle.getWidth())).append("\"");
@@ -443,7 +443,6 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     {
         indent(xml, indentLevel);
         xml.append('<').append(elementName)
-            .append(" id=\"").append(id).append("\"")
             .append(" top=\"").append(formatDouble(crop.getTop())).append("\"")
             .append(" left=\"").append(formatDouble(crop.getLeft())).append("\"")
             .append(" bottom=\"").append(formatDouble(crop.getBottom())).append("\"")
@@ -456,7 +455,6 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     {
         indent(xml, indentLevel);
         xml.append('<').append(elementName);
-        xml.append(" id=\"").append(id).append("\"");
         xml.append(">");
         xml.append(encodePngImage(image));
         xml.append("</").append(elementName).append('>').append('\n');
@@ -505,7 +503,10 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     {
         indent(xml, indentLevel);
         xml.append('<').append(elementName);
-        xml.append(" id=\"").append(id).append("\"");
+        if (value instanceof INode)
+        {
+            xml.append(" id=\"").append(id).append("\"");
+        }
 
         List<Field> fields = getSerializableFields(valueClass);
         List<Field> attributeFields = new ArrayList<Field>();
