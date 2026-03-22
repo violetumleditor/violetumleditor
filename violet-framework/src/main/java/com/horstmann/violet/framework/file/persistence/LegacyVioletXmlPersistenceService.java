@@ -531,6 +531,12 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
             {
                 continue;
             }
+            if ("children".equals(field.getName())
+                    && fieldValue instanceof Collection<?>
+                    && ((Collection<?>) fieldValue).isEmpty())
+            {
+                continue;
+            }
             writeElement(xml, field.getName(), fieldValue, field.getGenericType(), context, indentLevel + 1, false);
         }
         if (isRoot)
