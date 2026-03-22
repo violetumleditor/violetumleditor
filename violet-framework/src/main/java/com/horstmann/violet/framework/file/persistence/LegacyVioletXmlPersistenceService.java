@@ -422,13 +422,13 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     private void writeColorElement(StringBuilder xml, String elementName, Color color, String id, int indentLevel)
     {
         indent(xml, indentLevel);
-        xml.append('<').append(elementName).append(" id=\"").append(id).append("\">").append('\n');
-        writeSimpleElement(xml, "red", Integer.valueOf(color.getRed()), indentLevel + 1);
-        writeSimpleElement(xml, "green", Integer.valueOf(color.getGreen()), indentLevel + 1);
-        writeSimpleElement(xml, "blue", Integer.valueOf(color.getBlue()), indentLevel + 1);
-        writeSimpleElement(xml, "alpha", Integer.valueOf(color.getAlpha()), indentLevel + 1);
-        indent(xml, indentLevel);
-        xml.append("</").append(elementName).append('>').append('\n');
+        xml.append('<').append(elementName)
+            .append(" id=\"").append(id).append("\"")
+            .append(" red=\"").append(color.getRed()).append("\"")
+            .append(" green=\"").append(color.getGreen()).append("\"")
+            .append(" blue=\"").append(color.getBlue()).append("\"")
+            .append(" alpha=\"").append(color.getAlpha()).append("\"/>")
+            .append('\n');
     }
 
     private void writeImageElement(StringBuilder xml, String elementName, BufferedImage image, Class<?> expectedClass,
@@ -1050,10 +1050,10 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
 
     private static Color readColor(Element element)
     {
-        int red = 0;
-        int green = 0;
-        int blue = 0;
-        int alpha = 255;
+        int red = parseIntAttribute(element, "red", 0);
+        int green = parseIntAttribute(element, "green", 0);
+        int blue = parseIntAttribute(element, "blue", 0);
+        int alpha = parseIntAttribute(element, "alpha", 255);
 
         for (Element child : getChildElements(element))
         {
@@ -1066,6 +1066,16 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         }
 
         return new Color(red, green, blue, alpha);
+    }
+
+    private static int parseIntAttribute(Element element, String attribute, int defaultValue)
+    {
+        String value = element.getAttribute(attribute);
+        if (value == null || value.isEmpty())
+        {
+            return defaultValue;
+        }
+        return Integer.parseInt(value);
     }
 
     private static Point2D.Double readPoint2D(Element element)
