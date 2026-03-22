@@ -3,9 +3,11 @@ package com.horstmann.violet.application;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.Image;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -34,6 +36,8 @@ class LegacyXmlWriteCompatibilityTest
         ClassNode sourceNode = new ClassNode();
         ClassNode targetNode = new ClassNode();
         ImageNode imageNode = new ImageNode(createImage());
+        Rectangle2D preferredSize = new Rectangle2D.Double(0d, 0d, 288.9729729729727d, 577.9459459459454d);
+        sourceNode.setPreferredSize(preferredSize);
 
         graph.addNode(sourceNode, sourceNode.getLocationOnGraph());
         graph.addNode(targetNode, new java.awt.geom.Point2D.Double(220, 120));
@@ -57,6 +61,18 @@ class LegacyXmlWriteCompatibilityTest
         assertTrue(xml.contains("<transitionPoints"), "Legacy writer should emit transition point container");
         assertTrue(xml.contains("<Point2D.Double"), "Legacy writer should encode transition points as Point2D entries");
         assertTrue(xml.contains("<image class=\"Image\""), "Legacy writer should encode embedded images in legacy form");
+        assertTrue(xml.contains("<preferredSize width=\"288.9729729729727\""),
+                "Legacy writer should emit compact preferredSize width");
+        assertTrue(xml.contains("height=\"577.9459459459454\"/>"),
+                "Legacy writer should emit compact preferredSize height");
+        assertFalse(xml.contains("<preferredSize class="),
+                "Compact preferredSize should not declare a class attribute");
+        assertFalse(xml.contains("<preferredSize id="),
+                "Compact preferredSize should not declare an id attribute");
+        assertFalse(xml.contains("<preferredSize x="),
+                "Compact preferredSize should not serialize x attributes");
+        assertFalse(xml.contains("<preferredSize y="),
+                "Compact preferredSize should not serialize y attributes");
 
         IGraph reloaded = persistenceService.read(new ByteArrayInputStream(out.toByteArray()));
         assertNotNull(reloaded, "Reloaded graph should not be null");
@@ -77,6 +93,21 @@ class LegacyXmlWriteCompatibilityTest
                 .orElseThrow();
         assertEquals(0xFF3366CC, toBufferedImage(reloadedImageNode.getImage()).getRGB(1, 1),
                 "Reloaded image should preserve pixel content");
+        ClassNode reloadedSizedClassNode = (ClassNode) reloaded.getAllNodes().stream()
+                .filter(ClassNode.class::isInstance)
+                .map(ClassNode.class::cast)
+                .filter(node -> node.getPreferredSize() != null && node.getPreferredSize().getWidth() > 200d)
+                .findFirst()
+                .orElseThrow();
+        assertNotNull(reloadedSizedClassNode.getPreferredSize(), "Reloaded preferred size should be available");
+        assertEquals(0d, reloadedSizedClassNode.getPreferredSize().getX(), 0.001d,
+                "Reloaded preferred size x should default to zero");
+        assertEquals(0d, reloadedSizedClassNode.getPreferredSize().getY(), 0.001d,
+                "Reloaded preferred size y should default to zero");
+        assertEquals(288.9729729729727d, reloadedSizedClassNode.getPreferredSize().getWidth(), 0.001d,
+                "Reloaded preferred size width should match serialized value");
+        assertEquals(577.9459459459454d, reloadedSizedClassNode.getPreferredSize().getHeight(), 0.001d,
+                "Reloaded preferred size height should match serialized value");
     }
 
     private static BufferedImage createImage()

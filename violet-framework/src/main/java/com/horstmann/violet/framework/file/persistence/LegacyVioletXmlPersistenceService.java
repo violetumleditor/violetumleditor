@@ -189,6 +189,12 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         Class<?> expectedClass = getRawClass(expectedType);
         Class<?> valueClass = value.getClass();
 
+        if (isCompactPreferredSize(elementName, value))
+        {
+            writePreferredSizeElement(xml, elementName, (Rectangle2D) value, indentLevel);
+            return;
+        }
+
         if (isSimpleType(valueClass))
         {
             writeSimpleElement(xml, elementName, value, indentLevel);
@@ -380,6 +386,14 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         xml.append(" height=\"").append(formatDouble(rectangle.getHeight())).append("\"/>").append('\n');
     }
 
+    private void writePreferredSizeElement(StringBuilder xml, String elementName, Rectangle2D rectangle, int indentLevel)
+    {
+        indent(xml, indentLevel);
+        xml.append('<').append(elementName);
+        xml.append(" width=\"").append(formatDouble(rectangle.getWidth())).append("\"");
+        xml.append(" height=\"").append(formatDouble(rectangle.getHeight())).append("\"/>").append('\n');
+    }
+
     private void writeRoundRectangleElement(StringBuilder xml, String elementName, RoundRectangle2D.Double rectangle,
             Class<?> expectedClass, Class<?> valueClass, String id, int indentLevel, boolean isRoot)
     {
@@ -522,6 +536,11 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     private static boolean isAttributeField(Field field)
     {
         return "value".equals(field.getName()) && String.class.equals(field.getType());
+    }
+
+    private static boolean isCompactPreferredSize(String elementName, Object value)
+    {
+        return "preferredSize".equals(elementName) && value instanceof Rectangle2D;
     }
 
     private static boolean shouldWriteClassAttribute(Class<?> expectedClass, Class<?> valueClass)
@@ -819,6 +838,27 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         Class<?> fromTagName = resolveClassAlias(tagName);
         if (fromTagName != null) return fromTagName;
 
+        if (expectedClass != null)
+        {
+            if (Rectangle2D.class.isAssignableFrom(expectedClass)
+                    && !element.getAttribute("width").isEmpty()
+                    && !element.getAttribute("height").isEmpty())
+            {
+                if (!element.getAttribute("arcwidth").isEmpty() || !element.getAttribute("archeight").isEmpty())
+                {
+                    return RoundRectangle2D.Double.class;
+                }
+                return Rectangle2D.Double.class;
+            }
+
+            if (Point2D.class.isAssignableFrom(expectedClass)
+                    && !element.getAttribute("x").isEmpty()
+                    && !element.getAttribute("y").isEmpty())
+            {
+                return Point2D.Double.class;
+            }
+        }
+
         if (expectedClass != null) return expectedClass;
         return String.class;
     }
@@ -973,11 +1013,11 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         String y = element.getAttribute("y");
         String width = element.getAttribute("width");
         String height = element.getAttribute("height");
-        if (!x.isEmpty() && !y.isEmpty() && !width.isEmpty() && !height.isEmpty())
+        if (!width.isEmpty() && !height.isEmpty())
         {
             return new Rectangle2D.Double(
-                    Double.parseDouble(x),
-                    Double.parseDouble(y),
+                    x.isEmpty() ? 0d : Double.parseDouble(x),
+                    y.isEmpty() ? 0d : Double.parseDouble(y),
                     Double.parseDouble(width),
                     Double.parseDouble(height));
         }
