@@ -192,6 +192,12 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         Class<?> expectedClass = getRawClass(expectedType);
         Class<?> valueClass = value.getClass();
 
+        if (isDuplicatedColorField(elementName, value))
+        {
+            writeColorElement(xml, elementName, (Color) value, context.nextId(), indentLevel);
+            return;
+        }
+
         if (value instanceof BufferedImage)
         {
             writeImageReferenceElement(xml, elementName, (BufferedImage) value, context, indentLevel);
@@ -598,6 +604,17 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     private static boolean isCompactLocation(String elementName, Object value)
     {
         return "location".equals(elementName) && value instanceof Point2D;
+    }
+
+    private static boolean isDuplicatedColorField(String elementName, Object value)
+    {
+        if (!(value instanceof Color))
+        {
+            return false;
+        }
+        return "backgroundColor".equals(elementName)
+                || "textColor".equals(elementName)
+                || "borderColor".equals(elementName);
     }
 
     private static String getLegacyElementName(Object value)

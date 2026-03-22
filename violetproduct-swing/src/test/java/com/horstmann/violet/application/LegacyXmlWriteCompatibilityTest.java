@@ -60,6 +60,12 @@ class LegacyXmlWriteCompatibilityTest
         assertTrue(xml.contains("reference=\""), "Legacy writer should reuse ids for shared node references");
         assertTrue(xml.contains("<transitionPoints"), "Legacy writer should emit transition point container");
         assertTrue(xml.contains("<Point2D.Double"), "Legacy writer should encode transition points as Point2D entries");
+        assertFalse(xml.contains("<backgroundColor reference="),
+                "backgroundColor should be serialized inline, not by reference");
+        assertFalse(xml.contains("<textColor reference="),
+                "textColor should be serialized inline, not by reference");
+        assertFalse(xml.contains("<borderColor reference="),
+                "borderColor should be serialized inline, not by reference");
         assertTrue(xml.contains("<ressources>"), "Legacy writer should extract images into a root ressources element");
         assertTrue(xml.contains("<image reference=\"img-"), "Legacy writer should store image binaries in ressources");
         assertTrue(xml.contains("<image reference=\"img-"), "Legacy writer should reference extracted images from nodes");
