@@ -464,7 +464,7 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         for (Map.Entry<String, BufferedImage> entry : context.imageResources.entrySet())
         {
             indent(xml, indentLevel + 1);
-            xml.append("<image imgId=\"").append(entry.getKey()).append("\">");
+            xml.append("<image reference=\"").append(entry.getKey()).append("\">");
             xml.append(encodePngImage(entry.getValue()));
             xml.append("</image>").append('\n');
         }
@@ -1120,7 +1120,11 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         byte[] bytes = Base64.getDecoder().decode(base64);
         BufferedImage image = ImageIO.read(new ByteArrayInputStream(bytes));
 
-        String imgId = element.getAttribute("imgId");
+        String imgId = element.getAttribute("reference");
+        if (imgId.isEmpty())
+        {
+            imgId = element.getAttribute("imgId");
+        }
         if (!imgId.isEmpty() && image != null)
         {
             context.imageIdMap.put(imgId, image);

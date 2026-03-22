@@ -61,7 +61,7 @@ class LegacyXmlWriteCompatibilityTest
         assertTrue(xml.contains("<transitionPoints"), "Legacy writer should emit transition point container");
         assertTrue(xml.contains("<Point2D.Double"), "Legacy writer should encode transition points as Point2D entries");
         assertTrue(xml.contains("<ressources>"), "Legacy writer should extract images into a root ressources element");
-        assertTrue(xml.contains("<image imgId=\"img-"), "Legacy writer should store image binaries in ressources");
+        assertTrue(xml.contains("<image reference=\"img-"), "Legacy writer should store image binaries in ressources");
         assertTrue(xml.contains("<image imgRef=\"img-"), "Legacy writer should reference extracted images from nodes");
         assertFalse(xml.contains("<image id=\""), "Legacy writer should not serialize images inline with id attributes");
         assertFalse(xml.contains(" class=\""), "Legacy writer should not emit class attributes");
