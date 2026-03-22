@@ -45,6 +45,7 @@ import com.horstmann.violet.framework.plugin.PluginRegistry;
 import com.horstmann.violet.framework.util.SerializableEnumeration;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.IIdentifiable;
+import com.horstmann.violet.product.diagram.abstracts.Id;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.edge.EdgeTransitionPoint;
 import com.horstmann.violet.product.diagram.abstracts.edge.ITransitionPoint;
@@ -504,10 +505,6 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     {
         indent(xml, indentLevel);
         xml.append('<').append(elementName);
-        if (value instanceof INode)
-        {
-            xml.append(" id=\"").append(id).append("\"");
-        }
 
         List<Field> fields = getSerializableFields(valueClass);
         List<Field> attributeFields = new ArrayList<Field>();
@@ -878,6 +875,7 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
             if (fieldValue != null || !field.getType().isPrimitive())
             {
                 field.set(instance, fieldValue);
+                registerStableIdentityFromField(instance, field.getName(), fieldValue, context);
                 if ("children".equals(field.getName()) && fieldValue instanceof Collection<?> && instance instanceof INode)
                 {
                     for (Object childNode : (Collection<?>) fieldValue)
@@ -1120,6 +1118,21 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         {
             context.idMap.put(id, value);
         }
+    }
+
+    private static void registerStableIdentityFromField(Object instance, String fieldName, Object fieldValue,
+            LegacyContext context)
+    {
+        if (!(instance instanceof IIdentifiable) || !"id".equals(fieldName) || !(fieldValue instanceof Id))
+        {
+            return;
+        }
+        Id stableId = (Id) fieldValue;
+        if (stableId.getValue() == null || stableId.getValue().isEmpty())
+        {
+            return;
+        }
+        context.idMap.put(stableId.getValue(), instance);
     }
 
     private static double parseDoubleAttribute(Element element, String attribute)
