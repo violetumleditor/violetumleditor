@@ -60,7 +60,8 @@ class LegacyXmlWriteCompatibilityTest
         assertTrue(xml.contains("reference=\""), "Legacy writer should reuse ids for shared node references");
         assertTrue(xml.contains("<transitionPoints"), "Legacy writer should emit transition point container");
         assertTrue(xml.contains("<Point2D.Double"), "Legacy writer should encode transition points as Point2D entries");
-        assertTrue(xml.contains("<image class=\"Image\""), "Legacy writer should encode embedded images in legacy form");
+        assertTrue(xml.contains("<image id=\""), "Legacy writer should encode embedded images in legacy form");
+        assertFalse(xml.contains(" class=\""), "Legacy writer should not emit class attributes");
         assertTrue(xml.contains("<location x=\""),
                 "Legacy writer should emit compact location elements");
         assertFalse(xml.contains("<location class="),

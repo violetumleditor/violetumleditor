@@ -1,6 +1,7 @@
 package com.horstmann.violet.framework.file.persistence;
 
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.awt.geom.Point2D;
@@ -294,10 +295,6 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     {
         indent(xml, indentLevel);
         xml.append('<').append(elementName);
-        if (!isRoot && shouldWriteClassAttribute(expectedClass, valueClass))
-        {
-            xml.append(" class=\"").append(getLegacyClassAlias(valueClass)).append("\"");
-        }
         xml.append(" reference=\"").append(referenceId).append("\"/>").append('\n');
     }
 
@@ -367,10 +364,6 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     {
         indent(xml, indentLevel);
         xml.append('<').append(elementName);
-        if (!isRoot && shouldWriteClassAttribute(expectedClass, valueClass))
-        {
-            xml.append(" class=\"").append(getLegacyClassAlias(valueClass)).append("\"");
-        }
         xml.append(" id=\"").append(id).append("\"");
         xml.append(" x=\"").append(formatDouble(point.getX())).append("\"");
         xml.append(" y=\"").append(formatDouble(point.getY())).append("\"/>").append('\n');
@@ -389,10 +382,6 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     {
         indent(xml, indentLevel);
         xml.append('<').append(elementName);
-        if (!isRoot && shouldWriteClassAttribute(expectedClass, valueClass))
-        {
-            xml.append(" class=\"").append(getLegacyClassAlias(valueClass)).append("\"");
-        }
         xml.append(" id=\"").append(id).append("\"");
         xml.append(" x=\"").append(formatDouble(rectangle.getX())).append("\"");
         xml.append(" y=\"").append(formatDouble(rectangle.getY())).append("\"");
@@ -413,10 +402,6 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     {
         indent(xml, indentLevel);
         xml.append('<').append(elementName);
-        if (!isRoot && shouldWriteClassAttribute(expectedClass, valueClass))
-        {
-            xml.append(" class=\"").append(getLegacyClassAlias(valueClass)).append("\"");
-        }
         xml.append(" id=\"").append(id).append("\"");
         xml.append(" x=\"").append(formatDouble(rectangle.getX())).append("\"");
         xml.append(" y=\"").append(formatDouble(rectangle.getY())).append("\"");
@@ -443,10 +428,6 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     {
         indent(xml, indentLevel);
         xml.append('<').append(elementName);
-        if (!isRoot && shouldWriteClassAttribute(expectedClass, valueClass))
-        {
-            xml.append(" class=\"").append(getLegacyClassAlias(valueClass)).append("\"");
-        }
         xml.append(" id=\"").append(id).append("\">");
         xml.append(encodePngImage(image));
         xml.append("</").append(elementName).append('>').append('\n');
@@ -458,10 +439,6 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     {
         indent(xml, indentLevel);
         xml.append('<').append(elementName);
-        if (!isRoot && shouldWriteClassAttribute(expectedClass, valueClass))
-        {
-            xml.append(" class=\"").append(getLegacyClassAlias(valueClass)).append("\"");
-        }
         xml.append(" id=\"").append(id).append("\"");
 
         List<Field> fields = getSerializableFields(valueClass);
@@ -560,17 +537,6 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     private static boolean isCompactLocation(String elementName, Object value)
     {
         return "location".equals(elementName) && value instanceof Point2D;
-    }
-
-    private static boolean shouldWriteClassAttribute(Class<?> expectedClass, Class<?> valueClass)
-    {
-        if (expectedClass == null)
-        {
-            return true;
-        }
-        return expectedClass.isInterface()
-                || Modifier.isAbstract(expectedClass.getModifiers())
-                || !expectedClass.equals(valueClass);
     }
 
     private static String getLegacyElementName(Object value)
@@ -859,6 +825,11 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
 
         if (expectedClass != null)
         {
+            if (Image.class.isAssignableFrom(expectedClass))
+            {
+                return BufferedImage.class;
+            }
+
             if (Rectangle2D.class.isAssignableFrom(expectedClass)
                     && !element.getAttribute("width").isEmpty()
                     && !element.getAttribute("height").isEmpty())
