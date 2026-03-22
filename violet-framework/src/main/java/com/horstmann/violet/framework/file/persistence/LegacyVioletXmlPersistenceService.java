@@ -21,6 +21,7 @@ import java.util.Base64;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
@@ -170,6 +171,7 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
             Document document = builder.parse(new InputSource(new java.io.StringReader(xml)));
             Element root = document.getDocumentElement();
             LegacyContext context = new LegacyContext();
+            preloadResources(root, context);
             return readElement(root, null, context);
         }
         catch (Exception e)
@@ -189,6 +191,12 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
 
         Class<?> expectedClass = getRawClass(expectedType);
         Class<?> valueClass = value.getClass();
+
+        if (value instanceof BufferedImage)
+        {
+            writeImageReferenceElement(xml, elementName, (BufferedImage) value, context, indentLevel);
+            return;
+        }
 
         if (isCompactLocation(elementName, value))
         {
@@ -253,12 +261,6 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         if (value instanceof Color)
         {
             writeColorElement(xml, elementName, (Color) value, id, indentLevel);
-            return;
-        }
-
-        if (value instanceof BufferedImage)
-        {
-            writeImageElement(xml, elementName, (BufferedImage) value, expectedClass, valueClass, id, indentLevel, isRoot);
             return;
         }
 
@@ -433,6 +435,43 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         xml.append("</").append(elementName).append('>').append('\n');
     }
 
+    private void writeImageReferenceElement(StringBuilder xml, String elementName, BufferedImage image,
+            LegacyWriteContext context, int indentLevel) throws IOException
+    {
+        String imageResourceId = context.imageResourceIds.get(image);
+        if (imageResourceId == null)
+        {
+            imageResourceId = context.nextImageId();
+            context.imageResourceIds.put(image, imageResourceId);
+            context.imageResources.put(imageResourceId, image);
+        }
+
+        indent(xml, indentLevel);
+        xml.append('<').append(elementName)
+                .append(" imgRef=\"").append(imageResourceId).append("\"/>")
+                .append('\n');
+    }
+
+    private void writeResourcesElement(StringBuilder xml, LegacyWriteContext context, int indentLevel) throws IOException
+    {
+        if (context.imageResources.isEmpty())
+        {
+            return;
+        }
+
+        indent(xml, indentLevel);
+        xml.append("<ressources>").append('\n');
+        for (Map.Entry<String, BufferedImage> entry : context.imageResources.entrySet())
+        {
+            indent(xml, indentLevel + 1);
+            xml.append("<image imgId=\"").append(entry.getKey()).append("\">");
+            xml.append(encodePngImage(entry.getValue()));
+            xml.append("</image>").append('\n');
+        }
+        indent(xml, indentLevel);
+        xml.append("</ressources>").append('\n');
+    }
+
     private void writeObjectElement(StringBuilder xml, String elementName, Object value, Class<?> expectedClass,
             Class<?> valueClass, String id, LegacyWriteContext context, int indentLevel, boolean isRoot)
             throws ReflectiveOperationException, IOException
@@ -488,8 +527,30 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
             }
             writeElement(xml, field.getName(), fieldValue, field.getGenericType(), context, indentLevel + 1, false);
         }
+        if (isRoot)
+        {
+            writeResourcesElement(xml, context, indentLevel + 1);
+        }
         indent(xml, indentLevel);
         xml.append("</").append(elementName).append('>').append('\n');
+    }
+
+    private static void preloadResources(Element root, LegacyContext context) throws IOException
+    {
+        for (Element child : getChildElements(root))
+        {
+            if (!"ressources".equals(child.getTagName()))
+            {
+                continue;
+            }
+            for (Element resource : getChildElements(child))
+            {
+                if ("image".equals(resource.getTagName()))
+                {
+                    readImage(resource, context);
+                }
+            }
+        }
     }
 
     private static List<Field> getSerializableFields(Class<?> type)
@@ -1136,11 +1197,22 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     {
         private final Map<Object, String> objectIds = new IdentityHashMap<Object, String>();
 
+        private final Map<BufferedImage, String> imageResourceIds = new IdentityHashMap<BufferedImage, String>();
+
+        private final Map<String, BufferedImage> imageResources = new LinkedHashMap<String, BufferedImage>();
+
         private int nextId = 1;
+
+        private int nextImageId = 1;
 
         private String nextId()
         {
             return String.valueOf(this.nextId++);
+        }
+
+        private String nextImageId()
+        {
+            return "img-" + this.nextImageId++;
         }
     }
 }

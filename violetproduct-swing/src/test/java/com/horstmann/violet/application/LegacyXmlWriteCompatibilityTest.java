@@ -60,7 +60,10 @@ class LegacyXmlWriteCompatibilityTest
         assertTrue(xml.contains("reference=\""), "Legacy writer should reuse ids for shared node references");
         assertTrue(xml.contains("<transitionPoints"), "Legacy writer should emit transition point container");
         assertTrue(xml.contains("<Point2D.Double"), "Legacy writer should encode transition points as Point2D entries");
-        assertTrue(xml.contains("<image id=\""), "Legacy writer should encode embedded images in legacy form");
+        assertTrue(xml.contains("<ressources>"), "Legacy writer should extract images into a root ressources element");
+        assertTrue(xml.contains("<image imgId=\"img-"), "Legacy writer should store image binaries in ressources");
+        assertTrue(xml.contains("<image imgRef=\"img-"), "Legacy writer should reference extracted images from nodes");
+        assertFalse(xml.contains("<image id=\""), "Legacy writer should not serialize images inline with id attributes");
         assertFalse(xml.contains(" class=\""), "Legacy writer should not emit class attributes");
         assertTrue(xml.contains("<location x=\""),
                 "Legacy writer should emit compact location elements");
@@ -80,6 +83,8 @@ class LegacyXmlWriteCompatibilityTest
                 "Compact preferredSize should not serialize x attributes");
         assertFalse(xml.contains("<preferredSize y="),
                 "Compact preferredSize should not serialize y attributes");
+        assertTrue(xml.indexOf("<ressources>") > xml.indexOf("</edges>"),
+                "Ressources should be emitted under the root diagram element after edges");
 
         IGraph reloaded = persistenceService.read(new ByteArrayInputStream(out.toByteArray()));
         assertNotNull(reloaded, "Reloaded graph should not be null");
