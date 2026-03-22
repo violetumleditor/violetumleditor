@@ -317,7 +317,7 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
             String id, LegacyWriteContext context, int indentLevel) throws ReflectiveOperationException, IOException
     {
         indent(xml, indentLevel);
-        xml.append('<').append(elementName).append(" id=\"").append(id).append("\"");
+        xml.append('<').append(elementName);
         if (values.isEmpty())
         {
             xml.append("/>").append('\n');
@@ -341,7 +341,7 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
             LegacyWriteContext context, int indentLevel) throws ReflectiveOperationException, IOException
     {
         indent(xml, indentLevel);
-        xml.append('<').append(elementName).append(" id=\"").append(id).append("\"");
+        xml.append('<').append(elementName);
         int length = java.lang.reflect.Array.getLength(array);
         if (length == 0)
         {
@@ -379,7 +379,6 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     {
         indent(xml, indentLevel);
         xml.append('<').append(elementName);
-        xml.append(" id=\"").append(id).append("\"");
         xml.append(" x=\"").append(formatDouble(point.getX())).append("\"");
         xml.append(" y=\"").append(formatDouble(point.getY())).append("\"/>").append('\n');
     }
@@ -397,7 +396,6 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     {
         indent(xml, indentLevel);
         xml.append('<').append(elementName);
-        xml.append(" id=\"").append(id).append("\"");
         xml.append(" x=\"").append(formatDouble(rectangle.getX())).append("\"");
         xml.append(" y=\"").append(formatDouble(rectangle.getY())).append("\"");
         xml.append(" width=\"").append(formatDouble(rectangle.getWidth())).append("\"");
@@ -417,7 +415,6 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     {
         indent(xml, indentLevel);
         xml.append('<').append(elementName);
-        xml.append(" id=\"").append(id).append("\"");
         xml.append(" x=\"").append(formatDouble(rectangle.getX())).append("\"");
         xml.append(" y=\"").append(formatDouble(rectangle.getY())).append("\"");
         xml.append(" width=\"").append(formatDouble(rectangle.getWidth())).append("\"");
@@ -430,7 +427,6 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     {
         indent(xml, indentLevel);
         xml.append('<').append(elementName)
-            .append(" id=\"").append(id).append("\"")
             .append(" red=\"").append(color.getRed()).append("\"")
             .append(" green=\"").append(color.getGreen()).append("\"")
             .append(" blue=\"").append(color.getBlue()).append("\"")
@@ -442,7 +438,6 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     {
         indent(xml, indentLevel);
         xml.append('<').append(elementName)
-            .append(" id=\"").append(id).append("\"")
             .append(" top=\"").append(formatDouble(crop.getTop())).append("\"")
             .append(" left=\"").append(formatDouble(crop.getLeft())).append("\"")
             .append(" bottom=\"").append(formatDouble(crop.getBottom())).append("\"")
@@ -455,7 +450,7 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     {
         indent(xml, indentLevel);
         xml.append('<').append(elementName);
-        xml.append(" id=\"").append(id).append("\">");
+        xml.append(">");
         xml.append(encodePngImage(image));
         xml.append("</").append(elementName).append('>').append('\n');
     }
@@ -503,7 +498,6 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     {
         indent(xml, indentLevel);
         xml.append('<').append(elementName);
-        xml.append(" id=\"").append(id).append("\"");
 
         List<Field> fields = getSerializableFields(valueClass);
         List<Field> attributeFields = new ArrayList<Field>();
