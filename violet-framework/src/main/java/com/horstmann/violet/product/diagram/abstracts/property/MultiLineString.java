@@ -42,9 +42,9 @@ public class MultiLineString implements Serializable, Cloneable {
 	 */
 	public MultiLineString() {
 		text = "";
-		justification = Justification.CENTER;
-		size = FontSize.NORMAL;
-		underlined = false;
+		defaultJustification = Justification.CENTER;
+		defaultSize = FontSize.NORMAL;
+		defaultUnderlined = false;
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class MultiLineString implements Serializable, Cloneable {
 	 *            the justification, one of LEFT, CENTER, RIGHT
 	 */
 	public void setJustification(int newValue) {
-		justification = newValue;
+		defaultJustification = newValue;
 		setLabelText();
 		isBoundsDirty = true;
 	}
@@ -86,7 +86,7 @@ public class MultiLineString implements Serializable, Cloneable {
 	 * @return the justification, one of LEFT, CENTER, RIGHT
 	 */
 	public int getJustification() {
-		return justification;
+		return defaultJustification;
 	}
 
 	/**
@@ -95,7 +95,7 @@ public class MultiLineString implements Serializable, Cloneable {
 	 * @return true if the text is underlined
 	 */
 	public boolean isUnderlined() {
-		return underlined;
+		return defaultUnderlined;
 	}
 
 	/**
@@ -105,7 +105,7 @@ public class MultiLineString implements Serializable, Cloneable {
 	 *            true to underline the text
 	 */
 	public void setUnderlined(boolean newValue) {
-		underlined = newValue;
+		defaultUnderlined = newValue;
 		setLabelText();
 		isBoundsDirty = true;
 	}
@@ -117,7 +117,7 @@ public class MultiLineString implements Serializable, Cloneable {
 	 *            the size, one of SMALL, NORMAL, LARGE
 	 */
 	public void setSize(int newValue) {
-		size = newValue;
+		defaultSize = newValue;
 		setLabelText();
 		isBoundsDirty = true;
 	}
@@ -128,7 +128,7 @@ public class MultiLineString implements Serializable, Cloneable {
 	 * @return the size, one of SMALL, NORMAL, LARGE
 	 */
 	public int getSize() {
-		return size;
+		return defaultSize;
 	}
 
 	public String toString() {
@@ -137,8 +137,8 @@ public class MultiLineString implements Serializable, Cloneable {
 
 	private void setLabelText() {
 		String alignStr = "center";
-		if (justification == Justification.LEFT) alignStr = "left";
-		else if (justification == Justification.RIGHT) alignStr = "right";
+		if (defaultJustification == Justification.LEFT) alignStr = "left";
+		else if (defaultJustification == Justification.RIGHT) alignStr = "right";
 		String pAttrs = "align=\"" + alignStr + "\" style=\"margin-top:0;margin-bottom:0;\"";
 
 		String html = text;
@@ -221,9 +221,9 @@ public class MultiLineString implements Serializable, Cloneable {
 	public MultiLineString clone() {
 		MultiLineString cloned = new MultiLineString();
 		cloned.text = text;
-		cloned.justification = justification;
-		cloned.size = size;
-		cloned.underlined = underlined;
+		cloned.defaultJustification = defaultJustification;
+		cloned.defaultSize = defaultSize;
+		cloned.defaultUnderlined = defaultUnderlined;
 		cloned.setLabelText();
 		return cloned;
 	}
@@ -249,9 +249,9 @@ public class MultiLineString implements Serializable, Cloneable {
 	}
 
 	private String text;
-	private transient int justification;
-	private transient int size;
-	private transient boolean underlined;
+	private transient int defaultJustification;
+	private transient int defaultSize;
+	private transient boolean defaultUnderlined;
 	private transient JLabel label;
 	private transient boolean isBoundsDirty = true;
 	private transient Rectangle2D bounds;
