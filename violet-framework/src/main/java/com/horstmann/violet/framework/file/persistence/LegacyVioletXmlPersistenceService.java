@@ -47,6 +47,7 @@ import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.edge.EdgeTransitionPoint;
 import com.horstmann.violet.product.diagram.abstracts.edge.ITransitionPoint;
+import com.horstmann.violet.product.diagram.abstracts.node.CropInsets;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 
 @ManagedBean(registeredManually=true)
@@ -541,6 +542,18 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
             {
                 continue;
             }
+            if ("preferredSize".equals(field.getName())
+                    && fieldValue instanceof Rectangle2D
+                    && isDefaultPreferredSize((Rectangle2D) fieldValue))
+            {
+                continue;
+            }
+            if ("cropInsets".equals(field.getName())
+                    && fieldValue instanceof CropInsets
+                    && ((CropInsets) fieldValue).isEmpty())
+            {
+                continue;
+            }
             writeElement(xml, field.getName(), fieldValue, field.getGenericType(), context, indentLevel + 1, false);
         }
         if (isRoot)
@@ -609,6 +622,11 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     private static boolean isCompactPreferredSize(String elementName, Object value)
     {
         return "preferredSize".equals(elementName) && value instanceof Rectangle2D;
+    }
+
+    private static boolean isDefaultPreferredSize(Rectangle2D rectangle)
+    {
+        return rectangle.getWidth() == 0d && rectangle.getHeight() == 0d;
     }
 
     private static boolean isCompactLocation(String elementName, Object value)

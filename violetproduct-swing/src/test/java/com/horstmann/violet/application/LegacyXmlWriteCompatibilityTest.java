@@ -92,6 +92,10 @@ class LegacyXmlWriteCompatibilityTest
                 "Legacy writer should emit compact preferredSize width");
         assertTrue(xml.contains("height=\"577.9459459459454\"/>"),
                 "Legacy writer should emit compact preferredSize height");
+        assertFalse(xml.contains("<preferredSize width=\"0.0\" height=\"0.0\"/>"),
+                "Legacy writer should not emit default preferredSize values");
+        assertFalse(xml.contains("<cropInsets"),
+                "Legacy writer should not emit default cropInsets values");
         assertFalse(xml.contains("<preferredSize class="),
                 "Compact preferredSize should not declare a class attribute");
         assertFalse(xml.contains("<preferredSize id="),
