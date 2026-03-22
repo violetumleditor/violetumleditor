@@ -448,7 +448,7 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
 
         indent(xml, indentLevel);
         xml.append('<').append(elementName)
-                .append(" imgRef=\"").append(imageResourceId).append("\"/>")
+            .append(" reference=\"").append(imageResourceId).append("\"/>")
                 .append('\n');
     }
 
@@ -687,7 +687,12 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         String reference = element.getAttribute("reference");
         if (reference != null && !reference.isEmpty())
         {
-            return context.idMap.get(reference);
+            Object referencedObject = context.idMap.get(reference);
+            if (referencedObject != null)
+            {
+                return referencedObject;
+            }
+            return context.imageIdMap.get(reference);
         }
 
         Class<?> expectedClass = getRawClass(expectedType);
@@ -1100,6 +1105,16 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
 
     private static BufferedImage readImage(Element element, LegacyContext context) throws IOException
     {
+        String reference = element.getAttribute("reference");
+        if (!reference.isEmpty())
+        {
+            BufferedImage existing = context.imageIdMap.get(reference);
+            if (existing != null)
+            {
+                return existing;
+            }
+        }
+
         String imgRef = element.getAttribute("imgRef");
         if (!imgRef.isEmpty())
         {
