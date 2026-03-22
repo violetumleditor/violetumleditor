@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
@@ -64,7 +65,27 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     @Override
     public void write(IGraph graph, java.io.OutputStream out)
     {
-        throw new UnsupportedOperationException("LegacyVioletXmlPersistenceService supports read only");
+        if (graph == null)
+        {
+            throw new IllegalArgumentException("Graph must not be null");
+        }
+
+        try
+        {
+            StringBuilder xml = new StringBuilder(4096);
+            LegacyWriteContext context = new LegacyWriteContext();
+            writeElement(xml, graph.getClass().getSimpleName(), graph, graph.getClass(), context, 0, true);
+            out.write(xml.toString().getBytes(StandardCharsets.UTF_8));
+            out.flush();
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException("Unable to write legacy XML", e);
+        }
+        catch (ReflectiveOperationException e)
+        {
+            throw new RuntimeException("Unable to serialize graph to legacy XML", e);
+        }
     }
 
     @Override
@@ -153,6 +174,446 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         catch (Exception e)
         {
             throw new IOException("Unable to parse legacy XML", e);
+        }
+    }
+
+    private void writeElement(StringBuilder xml, String elementName, Object value, Type expectedType,
+            LegacyWriteContext context, int indentLevel, boolean isRoot)
+            throws ReflectiveOperationException, IOException
+    {
+        if (value == null)
+        {
+            return;
+        }
+
+        Class<?> expectedClass = getRawClass(expectedType);
+        Class<?> valueClass = value.getClass();
+
+        if (isSimpleType(valueClass))
+        {
+            writeSimpleElement(xml, elementName, value, indentLevel);
+            return;
+        }
+
+        String existingId = context.objectIds.get(value);
+        if (existingId != null)
+        {
+            writeReferenceElement(xml, elementName, expectedClass, valueClass, existingId, indentLevel, isRoot);
+            return;
+        }
+
+        String id = context.nextId();
+        context.objectIds.put(value, id);
+
+        if (value instanceof Collection<?>)
+        {
+            writeCollectionElement(xml, elementName, (Collection<?>) value, expectedType, id, context, indentLevel);
+            return;
+        }
+
+        if (valueClass.isArray())
+        {
+            writeArrayElement(xml, elementName, value, expectedType, id, context, indentLevel);
+            return;
+        }
+
+        if (value instanceof Point2D)
+        {
+            writePointElement(xml, elementName, (Point2D) value, expectedClass, valueClass, id, indentLevel, isRoot);
+            return;
+        }
+
+        if (value instanceof Rectangle2D.Double)
+        {
+            writeRectangleElement(xml, elementName, (Rectangle2D.Double) value, expectedClass, valueClass, id, indentLevel,
+                    isRoot);
+            return;
+        }
+
+        if (value instanceof RoundRectangle2D.Double)
+        {
+            writeRoundRectangleElement(xml, elementName, (RoundRectangle2D.Double) value, expectedClass, valueClass, id,
+                    indentLevel, isRoot);
+            return;
+        }
+
+        if (value instanceof Color)
+        {
+            writeColorElement(xml, elementName, (Color) value, id, indentLevel);
+            return;
+        }
+
+        if (value instanceof BufferedImage)
+        {
+            writeImageElement(xml, elementName, (BufferedImage) value, expectedClass, valueClass, id, indentLevel, isRoot);
+            return;
+        }
+
+        if (value instanceof ITransitionPoint)
+        {
+            Point2D point = ((ITransitionPoint) value).toPoint2D();
+            writePointElement(xml, elementName, point, expectedClass, Point2D.Double.class, id, indentLevel, isRoot);
+            return;
+        }
+
+        writeObjectElement(xml, elementName, value, expectedClass, valueClass, id, context, indentLevel, isRoot);
+    }
+
+    private void writeSimpleElement(StringBuilder xml, String elementName, Object value, int indentLevel)
+    {
+        indent(xml, indentLevel);
+        xml.append('<').append(elementName);
+        if (value instanceof Enum<?>)
+        {
+            xml.append(" name=\"").append(escapeXml(((Enum<?>) value).name())).append("\"/>").append('\n');
+            return;
+        }
+        if (value instanceof SerializableEnumeration)
+        {
+            xml.append(" name=\"").append(escapeXml(getSerializableEnumerationName((SerializableEnumeration) value)))
+                    .append("\"/>").append('\n');
+            return;
+        }
+        xml.append('>').append(escapeXml(String.valueOf(value))).append("</").append(elementName).append('>').append('\n');
+    }
+
+    private void writeReferenceElement(StringBuilder xml, String elementName, Class<?> expectedClass, Class<?> valueClass,
+            String referenceId, int indentLevel, boolean isRoot)
+    {
+        indent(xml, indentLevel);
+        xml.append('<').append(elementName);
+        if (!isRoot && shouldWriteClassAttribute(expectedClass, valueClass))
+        {
+            xml.append(" class=\"").append(getLegacyClassAlias(valueClass)).append("\"");
+        }
+        xml.append(" reference=\"").append(referenceId).append("\"/>").append('\n');
+    }
+
+    private void writeCollectionElement(StringBuilder xml, String elementName, Collection<?> values, Type expectedType,
+            String id, LegacyWriteContext context, int indentLevel) throws ReflectiveOperationException, IOException
+    {
+        indent(xml, indentLevel);
+        xml.append('<').append(elementName).append(" id=\"").append(id).append("\"");
+        if (values.isEmpty())
+        {
+            xml.append("/>").append('\n');
+            return;
+        }
+        xml.append('>').append('\n');
+        Class<?> childType = getCollectionType(expectedType);
+        for (Object child : values)
+        {
+            if (child == null)
+            {
+                continue;
+            }
+            writeElement(xml, getLegacyElementName(child), child, childType, context, indentLevel + 1, false);
+        }
+        indent(xml, indentLevel);
+        xml.append("</").append(elementName).append('>').append('\n');
+    }
+
+    private void writeArrayElement(StringBuilder xml, String elementName, Object array, Type expectedType, String id,
+            LegacyWriteContext context, int indentLevel) throws ReflectiveOperationException, IOException
+    {
+        indent(xml, indentLevel);
+        xml.append('<').append(elementName).append(" id=\"").append(id).append("\"");
+        int length = java.lang.reflect.Array.getLength(array);
+        if (length == 0)
+        {
+            xml.append("/>").append('\n');
+            return;
+        }
+        xml.append('>').append('\n');
+        Class<?> componentType = getRawClass(expectedType);
+        if (componentType != null && componentType.isArray())
+        {
+            componentType = componentType.getComponentType();
+        }
+        for (int i = 0; i < length; i++)
+        {
+            Object child = java.lang.reflect.Array.get(array, i);
+            if (child == null)
+            {
+                continue;
+            }
+            if (componentType != null && ITransitionPoint.class.isAssignableFrom(componentType) && child instanceof ITransitionPoint)
+            {
+                Point2D transitionPoint = ((ITransitionPoint) child).toPoint2D();
+                writeElement(xml, getLegacyClassAlias(Point2D.Double.class), transitionPoint, Point2D.Double.class, context,
+                        indentLevel + 1, false);
+                continue;
+            }
+            writeElement(xml, getLegacyElementName(child), child, componentType, context, indentLevel + 1, false);
+        }
+        indent(xml, indentLevel);
+        xml.append("</").append(elementName).append('>').append('\n');
+    }
+
+    private void writePointElement(StringBuilder xml, String elementName, Point2D point, Class<?> expectedClass,
+            Class<?> valueClass, String id, int indentLevel, boolean isRoot)
+    {
+        indent(xml, indentLevel);
+        xml.append('<').append(elementName);
+        if (!isRoot && shouldWriteClassAttribute(expectedClass, valueClass))
+        {
+            xml.append(" class=\"").append(getLegacyClassAlias(valueClass)).append("\"");
+        }
+        xml.append(" id=\"").append(id).append("\"");
+        xml.append(" x=\"").append(formatDouble(point.getX())).append("\"");
+        xml.append(" y=\"").append(formatDouble(point.getY())).append("\"/>").append('\n');
+    }
+
+    private void writeRectangleElement(StringBuilder xml, String elementName, Rectangle2D.Double rectangle,
+            Class<?> expectedClass, Class<?> valueClass, String id, int indentLevel, boolean isRoot)
+    {
+        indent(xml, indentLevel);
+        xml.append('<').append(elementName);
+        if (!isRoot && shouldWriteClassAttribute(expectedClass, valueClass))
+        {
+            xml.append(" class=\"").append(getLegacyClassAlias(valueClass)).append("\"");
+        }
+        xml.append(" id=\"").append(id).append("\"");
+        xml.append(" x=\"").append(formatDouble(rectangle.getX())).append("\"");
+        xml.append(" y=\"").append(formatDouble(rectangle.getY())).append("\"");
+        xml.append(" width=\"").append(formatDouble(rectangle.getWidth())).append("\"");
+        xml.append(" height=\"").append(formatDouble(rectangle.getHeight())).append("\"/>").append('\n');
+    }
+
+    private void writeRoundRectangleElement(StringBuilder xml, String elementName, RoundRectangle2D.Double rectangle,
+            Class<?> expectedClass, Class<?> valueClass, String id, int indentLevel, boolean isRoot)
+    {
+        indent(xml, indentLevel);
+        xml.append('<').append(elementName);
+        if (!isRoot && shouldWriteClassAttribute(expectedClass, valueClass))
+        {
+            xml.append(" class=\"").append(getLegacyClassAlias(valueClass)).append("\"");
+        }
+        xml.append(" id=\"").append(id).append("\"");
+        xml.append(" x=\"").append(formatDouble(rectangle.getX())).append("\"");
+        xml.append(" y=\"").append(formatDouble(rectangle.getY())).append("\"");
+        xml.append(" width=\"").append(formatDouble(rectangle.getWidth())).append("\"");
+        xml.append(" height=\"").append(formatDouble(rectangle.getHeight())).append("\"");
+        xml.append(" arcwidth=\"").append(formatDouble(rectangle.getArcWidth())).append("\"");
+        xml.append(" archeight=\"").append(formatDouble(rectangle.getArcHeight())).append("\"/>").append('\n');
+    }
+
+    private void writeColorElement(StringBuilder xml, String elementName, Color color, String id, int indentLevel)
+    {
+        indent(xml, indentLevel);
+        xml.append('<').append(elementName).append(" id=\"").append(id).append("\">").append('\n');
+        writeSimpleElement(xml, "red", Integer.valueOf(color.getRed()), indentLevel + 1);
+        writeSimpleElement(xml, "green", Integer.valueOf(color.getGreen()), indentLevel + 1);
+        writeSimpleElement(xml, "blue", Integer.valueOf(color.getBlue()), indentLevel + 1);
+        writeSimpleElement(xml, "alpha", Integer.valueOf(color.getAlpha()), indentLevel + 1);
+        indent(xml, indentLevel);
+        xml.append("</").append(elementName).append('>').append('\n');
+    }
+
+    private void writeImageElement(StringBuilder xml, String elementName, BufferedImage image, Class<?> expectedClass,
+            Class<?> valueClass, String id, int indentLevel, boolean isRoot) throws IOException
+    {
+        indent(xml, indentLevel);
+        xml.append('<').append(elementName);
+        if (!isRoot && shouldWriteClassAttribute(expectedClass, valueClass))
+        {
+            xml.append(" class=\"").append(getLegacyClassAlias(valueClass)).append("\"");
+        }
+        xml.append(" id=\"").append(id).append("\">");
+        xml.append(encodePngImage(image));
+        xml.append("</").append(elementName).append('>').append('\n');
+    }
+
+    private void writeObjectElement(StringBuilder xml, String elementName, Object value, Class<?> expectedClass,
+            Class<?> valueClass, String id, LegacyWriteContext context, int indentLevel, boolean isRoot)
+            throws ReflectiveOperationException, IOException
+    {
+        indent(xml, indentLevel);
+        xml.append('<').append(elementName);
+        if (!isRoot && shouldWriteClassAttribute(expectedClass, valueClass))
+        {
+            xml.append(" class=\"").append(getLegacyClassAlias(valueClass)).append("\"");
+        }
+        xml.append(" id=\"").append(id).append("\"");
+
+        List<Field> fields = getSerializableFields(valueClass);
+        List<Field> attributeFields = new ArrayList<Field>();
+        List<Field> childFields = new ArrayList<Field>();
+        for (Field field : fields)
+        {
+            if (isAttributeField(field))
+            {
+                attributeFields.add(field);
+            }
+            else
+            {
+                childFields.add(field);
+            }
+        }
+
+        for (Field field : attributeFields)
+        {
+            field.setAccessible(true);
+            Object fieldValue = field.get(value);
+            if (fieldValue == null)
+            {
+                continue;
+            }
+            xml.append(' ')
+                    .append(field.getName())
+                    .append("=\"")
+                    .append(escapeXml(String.valueOf(fieldValue)))
+                    .append("\"");
+        }
+
+        if (childFields.isEmpty())
+        {
+            xml.append("/>").append('\n');
+            return;
+        }
+
+        xml.append('>').append('\n');
+        for (Field field : childFields)
+        {
+            field.setAccessible(true);
+            Object fieldValue = field.get(value);
+            if (fieldValue == null)
+            {
+                continue;
+            }
+            writeElement(xml, field.getName(), fieldValue, field.getGenericType(), context, indentLevel + 1, false);
+        }
+        indent(xml, indentLevel);
+        xml.append("</").append(elementName).append('>').append('\n');
+    }
+
+    private static List<Field> getSerializableFields(Class<?> type)
+    {
+        List<Field> fields = new ArrayList<Field>();
+        collectSerializableFields(type, fields);
+        return fields;
+    }
+
+    private static void collectSerializableFields(Class<?> type, List<Field> fields)
+    {
+        if (type == null || Object.class.equals(type))
+        {
+            return;
+        }
+        collectSerializableFields(type.getSuperclass(), fields);
+        for (Field field : type.getDeclaredFields())
+        {
+            if (!shouldSerializeField(field))
+            {
+                continue;
+            }
+            fields.add(field);
+        }
+    }
+
+    private static boolean shouldSerializeField(Field field)
+    {
+        int modifiers = field.getModifiers();
+        return !Modifier.isStatic(modifiers)
+                && !Modifier.isTransient(modifiers)
+                && !field.isSynthetic();
+    }
+
+    private static boolean isAttributeField(Field field)
+    {
+        return "value".equals(field.getName()) && String.class.equals(field.getType());
+    }
+
+    private static boolean shouldWriteClassAttribute(Class<?> expectedClass, Class<?> valueClass)
+    {
+        if (expectedClass == null)
+        {
+            return true;
+        }
+        return expectedClass.isInterface()
+                || Modifier.isAbstract(expectedClass.getModifiers())
+                || !expectedClass.equals(valueClass);
+    }
+
+    private static String getLegacyElementName(Object value)
+    {
+        if (value instanceof ITransitionPoint)
+        {
+            return getLegacyClassAlias(Point2D.Double.class);
+        }
+        return getLegacyClassAlias(value.getClass());
+    }
+
+    private static String getLegacyClassAlias(Class<?> type)
+    {
+        if (Point2D.Double.class.equals(type) || Point2D.class.equals(type))
+        {
+            return "Point2D.Double";
+        }
+        if (Rectangle2D.Double.class.equals(type) || Rectangle2D.class.equals(type))
+        {
+            return "Rectangle2D.Double";
+        }
+        if (RoundRectangle2D.Double.class.equals(type) || RoundRectangle2D.class.equals(type))
+        {
+            return "RoundRectangle2D.Double";
+        }
+        if (BufferedImage.class.isAssignableFrom(type))
+        {
+            return "Image";
+        }
+        return type.getSimpleName();
+    }
+
+    private static String getSerializableEnumerationName(SerializableEnumeration enumeration)
+    {
+        String raw = enumeration.toString();
+        int lastDot = raw.lastIndexOf('.');
+        if (lastDot >= 0 && lastDot + 1 < raw.length())
+        {
+            return raw.substring(lastDot + 1);
+        }
+        return raw;
+    }
+
+    private static String encodePngImage(BufferedImage image) throws IOException
+    {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        try
+        {
+            ImageIO.write(image, "png", bytes);
+            return Base64.getEncoder().encodeToString(bytes.toByteArray());
+        }
+        finally
+        {
+            bytes.close();
+        }
+    }
+
+    private static String formatDouble(double value)
+    {
+        return Double.toString(value);
+    }
+
+    private static String escapeXml(String value)
+    {
+        if (value == null)
+        {
+            return "";
+        }
+        return value
+                .replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;")
+                .replace("\"", "&quot;")
+                .replace("'", "&apos;");
+    }
+
+    private static void indent(StringBuilder xml, int indentLevel)
+    {
+        for (int i = 0; i < indentLevel; i++)
+        {
+            xml.append("  ");
         }
     }
 
@@ -639,5 +1100,17 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         private final Map<String, Object> idMap = new HashMap<String, Object>();
 
         private final Map<String, BufferedImage> imageIdMap = new HashMap<String, BufferedImage>();
+    }
+
+    private static class LegacyWriteContext
+    {
+        private final Map<Object, String> objectIds = new IdentityHashMap<Object, String>();
+
+        private int nextId = 1;
+
+        private String nextId()
+        {
+            return String.valueOf(this.nextId++);
+        }
     }
 }

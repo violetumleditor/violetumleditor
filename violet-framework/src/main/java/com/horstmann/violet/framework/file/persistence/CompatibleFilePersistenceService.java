@@ -21,19 +21,20 @@ public class CompatibleFilePersistenceService implements IFilePersistenceService
     @Override
     public void write(IGraph graph, OutputStream out)
     {
-        this.standardService.write(graph, out);
+        try
+        {
+            this.legacyService.write(graph, out);
+        }
+        catch (RuntimeException legacyException)
+        {
+            this.standardService.write(graph, out);
+        }
     }
 
     @Override
     public IGraph read(InputStream in) throws IOException
     {
         String xmlContent = readAll(in);
-
-        if (isLikelyStandardJavaXml(xmlContent))
-        {
-            return readWithFallback(xmlContent, this.standardService, this.legacyService);
-        }
-
         return readWithFallback(xmlContent, this.legacyService, this.standardService);
     }
 
@@ -56,24 +57,6 @@ public class CompatibleFilePersistenceService implements IFilePersistenceService
                 throw new IOException("Unable to read graph content using standard or legacy format", fallbackException);
             }
         }
-    }
-
-    private boolean isLikelyStandardJavaXml(String xmlContent)
-    {
-        if (xmlContent == null)
-        {
-            return false;
-        }
-        String trimmed = xmlContent.trim();
-        if (trimmed.startsWith("<?xml"))
-        {
-            int closing = trimmed.indexOf("?>");
-            if (closing >= 0 && closing + 2 < trimmed.length())
-            {
-                trimmed = trimmed.substring(closing + 2).trim();
-            }
-        }
-        return trimmed.startsWith("<java");
     }
 
     private String readAll(InputStream in) throws IOException

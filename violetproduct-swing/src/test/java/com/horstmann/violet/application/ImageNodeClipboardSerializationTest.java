@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
 
@@ -36,6 +37,12 @@ class ImageNodeClipboardSerializationTest
         IFilePersistenceService persistenceService = new CompatibleFilePersistenceService();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         persistenceService.write(graph, out);
+
+        String serialized = out.toString(StandardCharsets.UTF_8);
+        assertTrue(serialized.contains("<ClassDiagramGraph"),
+            "Compatible persistence should now write legacy XML first");
+        assertTrue(!serialized.startsWith("<java"),
+            "Compatible persistence should not default to Java XMLEncoder XML");
 
         IGraph reloaded = persistenceService.read(new ByteArrayInputStream(out.toByteArray()));
         assertNotNull(reloaded, "Deserialized graph should not be null");
