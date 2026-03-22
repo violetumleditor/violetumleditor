@@ -249,9 +249,9 @@ public class MultiLineString implements Serializable, Cloneable {
 	}
 
 	private String text;
-	private int justification;
-	private int size;
-	private boolean underlined;
+	private transient int justification;
+	private transient int size;
+	private transient boolean underlined;
 	private transient JLabel label;
 	private transient boolean isBoundsDirty = true;
 	private transient Rectangle2D bounds;
