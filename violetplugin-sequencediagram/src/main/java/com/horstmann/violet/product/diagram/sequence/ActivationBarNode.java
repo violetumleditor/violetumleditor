@@ -65,8 +65,8 @@ public class ActivationBarNode extends RectangularNode
     @Override
     public boolean addConnection(IEdge edge)
     {
-        INode endingNode = edge.getEnd();
-        INode startingNode = edge.getStart();
+        INode endingNode = edge.getEndNode();
+        INode startingNode = edge.getStartNode();
         if (startingNode == endingNode)
         {
             return false;
@@ -94,16 +94,16 @@ public class ActivationBarNode extends RectangularNode
     {
         boolean isCallEdge = e.getClass().isAssignableFrom(CallEdge.class);
         boolean isReturnEdge = e.getClass().isAssignableFrom(ReturnEdge.class);
-        boolean isActivationBarNodeOnStart = e.getStart() != null
-                && e.getStart().getClass().isAssignableFrom(ActivationBarNode.class);
-        boolean isActivationBarNodeOnEnd = e.getEnd() != null && e.getEnd().getClass().isAssignableFrom(ActivationBarNode.class);
-        boolean isLifelineNodeOnEnd = e.getEnd() != null && e.getEnd().getClass().isAssignableFrom(LifelineNode.class);
+        boolean isActivationBarNodeOnStart = e.getStartNode() != null
+                && e.getStartNode().getClass().isAssignableFrom(ActivationBarNode.class);
+        boolean isActivationBarNodeOnEnd = e.getEndNode() != null && e.getEndNode().getClass().isAssignableFrom(ActivationBarNode.class);
+        boolean isLifelineNodeOnEnd = e.getEndNode() != null && e.getEndNode().getClass().isAssignableFrom(LifelineNode.class);
         if (isCallEdge)
         {
             if (isActivationBarNodeOnStart && isActivationBarNodeOnEnd)
             {
-                ActivationBarNode startingNode = (ActivationBarNode) e.getStart();
-                ActivationBarNode endingNode = (ActivationBarNode) e.getEnd();
+                ActivationBarNode startingNode = (ActivationBarNode) e.getStartNode();
+                ActivationBarNode endingNode = (ActivationBarNode) e.getEndNode();
                 LifelineNode startingLifelineNode = startingNode.getImplicitParameter();
                 LifelineNode endingLifelineNode = endingNode.getImplicitParameter();
                 boolean isSameLifelineNode = startingLifelineNode != null && endingLifelineNode != null
@@ -114,12 +114,12 @@ public class ActivationBarNode extends RectangularNode
                 // LifeLines
                 if (isDifferentLifelineNodes && isActivationBarNodeOnStart && isActivationBarNodeOnEnd)
                 {
-                    boolean isStartingNode = this.equals(e.getStart());
-                    boolean isEndingNode = this.equals(e.getEnd());
+                    boolean isStartingNode = this.equals(e.getStartNode());
+                    boolean isEndingNode = this.equals(e.getEndNode());
                     if (isStartingNode)
                     {
                         Point2D startingNodeLocation = getLocationOnGraph();
-                        Point2D endingNodeLocation = e.getEnd().getLocationOnGraph();
+                        Point2D endingNodeLocation = e.getEndNode().getLocationOnGraph();
                         Direction d = e.getDirection(this);
                         if (d.getX() > 0)
                         {
@@ -164,12 +164,12 @@ public class ActivationBarNode extends RectangularNode
                 // call)
                 if (isSameLifelineNode && isActivationBarNodeOnStart && isActivationBarNodeOnEnd)
                 {
-                	boolean isStartingNode = this.equals(e.getStart());
-                    boolean isEndingNode = this.equals(e.getEnd());
+                	boolean isStartingNode = this.equals(e.getStartNode());
+                    boolean isEndingNode = this.equals(e.getEndNode());
                     if (isStartingNode)
                     {
                         Point2D startingNodeLocation = getLocationOnGraph();
-                        Point2D endingNodeLocation = e.getEnd().getLocation();
+                        Point2D endingNodeLocation = e.getEndNode().getLocation();
                         double x = startingNodeLocation.getX() + DEFAULT_WIDTH;
                         double y = startingNodeLocation.getY() + endingNodeLocation.getY() - CALL_YGAP / 2;
                         Point2D p = new Point2D.Double(x, y);
@@ -213,8 +213,8 @@ public class ActivationBarNode extends RectangularNode
         {
             if (isActivationBarNodeOnStart && isActivationBarNodeOnEnd)
             {
-                ActivationBarNode startingNode = (ActivationBarNode) e.getStart();
-                ActivationBarNode endingNode = (ActivationBarNode) e.getEnd();
+                ActivationBarNode startingNode = (ActivationBarNode) e.getStartNode();
+                ActivationBarNode endingNode = (ActivationBarNode) e.getEndNode();
                 LifelineNode startingLifelineNode = startingNode.getImplicitParameter();
                 LifelineNode endingLifelineNode = endingNode.getImplicitParameter();
                 boolean isDifferentLifelineNodes = startingLifelineNode != null && endingLifelineNode != null
@@ -223,8 +223,8 @@ public class ActivationBarNode extends RectangularNode
                 // LifeLines
                 if (isDifferentLifelineNodes && isActivationBarNodeOnStart && isActivationBarNodeOnEnd)
                 {
-                    boolean isStartingNode = this.equals(e.getStart());
-                    boolean isEndingNode = this.equals(e.getEnd());
+                    boolean isStartingNode = this.equals(e.getStartNode());
+                    boolean isEndingNode = this.equals(e.getEndNode());
                     if (isStartingNode)
                     {
                         Point2D startingNodeLocation = getLocationOnGraph();
@@ -249,8 +249,8 @@ public class ActivationBarNode extends RectangularNode
                     }
                     if (isEndingNode)
                     {
-                        Point2D startingNodeLocation = e.getStart().getLocationOnGraph();
-                        Rectangle2D startingNodeBounds = e.getStart().getBounds();
+                        Point2D startingNodeLocation = e.getStartNode().getLocationOnGraph();
+                        Rectangle2D startingNodeBounds = e.getStartNode().getBounds();
                         Point2D endingNodeLocation = getLocationOnGraph();
                         Direction d = e.getDirection(this);
                         if (d.getX() > 0)
@@ -307,7 +307,7 @@ public class ActivationBarNode extends RectangularNode
         LifelineNode currentLifelineNode = getImplicitParameter();
         for (IEdge edge : getGraph().getAllEdges())
         {
-            if (edge.getEnd() != this)
+            if (edge.getEndNode() != this)
             {
                 continue;
             }
@@ -315,7 +315,7 @@ public class ActivationBarNode extends RectangularNode
             {
                 continue;
             }
-            INode startingNode = edge.getStart();
+            INode startingNode = edge.getStartNode();
             if (!startingNode.getClass().isAssignableFrom(ActivationBarNode.class))
             {
                 continue;
@@ -364,9 +364,9 @@ public class ActivationBarNode extends RectangularNode
             {
                 continue;
             }
-            if (edge.getStart() == this)
+            if (edge.getStartNode() == this)
             {
-                INode endingNode = edge.getEnd();
+                INode endingNode = edge.getEndNode();
                 boolean isActivationBarNode = endingNode instanceof ActivationBarNode;
 				if (isActivationBarNode)
                 {
@@ -473,9 +473,9 @@ public class ActivationBarNode extends RectangularNode
                 {
                     continue;
                 }
-                if (edge.getEnd() == this)
+                if (edge.getEndNode() == this)
                 {
-                    INode startingNode = edge.getStart();
+                    INode startingNode = edge.getStartNode();
                     Point2D startingNodeLocationOnGraph = startingNode.getLocationOnGraph();
                     Point2D endingNodeParentLocationOnGraph = getParent().getLocationOnGraph();
                     double yGap = rawLocation.getY() - startingNodeLocationOnGraph.getY() + endingNodeParentLocationOnGraph.getY();
@@ -575,8 +575,8 @@ public class ActivationBarNode extends RectangularNode
 
     private boolean isReturnEdgeAcceptable(ReturnEdge edge)
     {
-        INode endingNode = edge.getEnd();
-        INode startingNode = edge.getStart();
+        INode endingNode = edge.getEndNode();
+        INode startingNode = edge.getStartNode();
         if (startingNode == null || endingNode == null) {
         	return false;
         }
@@ -602,8 +602,8 @@ public class ActivationBarNode extends RectangularNode
 
     private boolean isCallEdgeAcceptable(CallEdge edge)
     {
-        INode endingNode = edge.getEnd();
-        INode startingNode = edge.getStart();
+        INode endingNode = edge.getEndNode();
+        INode startingNode = edge.getStartNode();
         Point2D endingNodePoint = edge.getEndLocation();
         Class<?> startingNodeClass = (startingNode != null ? startingNode.getClass() : NullType.class);
         Class<?> endingNodeClass = (endingNode != null ? endingNode.getClass() : NullType.class);
@@ -613,8 +613,8 @@ public class ActivationBarNode extends RectangularNode
         		if (!anEdge.getClass().isAssignableFrom(CallEdge.class)) {
         			continue;
         		}
-        		INode anEdgeStartingNode = anEdge.getStart();
-        		INode anEdgeEndingNode = anEdge.getEnd();
+        		INode anEdgeStartingNode = anEdge.getStartNode();
+        		INode anEdgeEndingNode = anEdge.getEndNode();
         		if (startingNode.equals(anEdgeStartingNode) && endingNode.equals(anEdgeEndingNode)) {
         			return false;
         		}
@@ -654,7 +654,7 @@ public class ActivationBarNode extends RectangularNode
                 double y = edgeStartLocation.getY();
                 Point2D newActivationBarLocation = new Point2D.Double(x, y);
                 endingNode.addChild(newActivationBar, newActivationBarLocation);
-                edge.setEnd(newActivationBar);
+                edge.setEndNode(newActivationBar);
                 return true;
             }
         }
@@ -673,7 +673,7 @@ public class ActivationBarNode extends RectangularNode
                 double y = edgeStartLocation.getY() + CALL_YGAP / 2;
                 Point2D newActivationBarLocation = new Point2D.Double(x, y);
                 startingNode.addChild(newActivationBar, newActivationBarLocation);
-                edge.setEnd(newActivationBar);
+                edge.setEndNode(newActivationBar);
                 return true;
             }
         }
@@ -684,7 +684,7 @@ public class ActivationBarNode extends RectangularNode
             ActivationBarNode newActivationBar = new ActivationBarNode();
             edge.getStartLocation();
             startingNode.addChild(newActivationBar, edge.getStartLocation());
-            edge.setEnd(newActivationBar);
+            edge.setEndNode(newActivationBar);
             return true;
         }
         return false;

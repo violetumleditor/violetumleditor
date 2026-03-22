@@ -43,28 +43,28 @@ public interface IEdge extends Serializable, Cloneable, IIdentifiable, ISelectab
      * 
      * @param startingNode
      */
-    void setStart(INode startingNode);
+    void setStartNode(INode startingNode);
 
     /**
      * Gets the starting node_old.
      * 
      * @return the starting node_old
      */
-    INode getStart();
+    INode getStartNode();
 
     /**
      * Sets the ending node_old
      * 
      * @param endingNode
      */
-    void setEnd(INode endingNode);
+    void setEndNode(INode endingNode);
 
     /**
      * Gets the ending node_old.
      * 
      * @return the ending node_old
      */
-    INode getEnd();
+    INode getEndNode();
 
     /**
      * Sets the point from where this edge begins (relative to the starting node_old)

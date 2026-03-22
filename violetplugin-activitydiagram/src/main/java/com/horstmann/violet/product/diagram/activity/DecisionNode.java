@@ -83,7 +83,7 @@ public class DecisionNode extends RectangularNode
     @Override
     public boolean addConnection(IEdge e)
     {
-        return e.getEnd() != null && this != e.getEnd();
+        return e.getEndNode() != null && this != e.getEndNode();
     }
 
     @Override

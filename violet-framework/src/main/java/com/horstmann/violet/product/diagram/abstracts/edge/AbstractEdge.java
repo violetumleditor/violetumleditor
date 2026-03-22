@@ -44,25 +44,25 @@ public abstract class AbstractEdge implements IEdge
     }
 
     @Override
-    public void setStart(INode startingNode)
+    public void setStartNode(INode startingNode)
     {
         this.startNode = startingNode;
     }
 
     @Override
-    public INode getStart()
+    public INode getStartNode()
     {
         return startNode;
     }
 
     @Override
-    public void setEnd(INode endingNode)
+    public void setEndNode(INode endingNode)
     {
         this.endNode = endingNode;
     }
 
     @Override
-    public INode getEnd()
+    public INode getEndNode()
     {
         return endNode;
     }

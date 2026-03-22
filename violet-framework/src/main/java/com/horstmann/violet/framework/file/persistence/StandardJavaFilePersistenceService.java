@@ -240,9 +240,9 @@ public class StandardJavaFilePersistenceService implements IFilePersistenceServi
                     out.writeStatement(new Statement(oldInstance, "connect", new Object[]
                     {
                             e,
-                            e.getStart(),
+                            e.getStartNode(),
                             e.getStartLocation(),
-                            e.getEnd(),
+                            e.getEndNode(),
                             e.getEndLocation()
                     }));
                 }

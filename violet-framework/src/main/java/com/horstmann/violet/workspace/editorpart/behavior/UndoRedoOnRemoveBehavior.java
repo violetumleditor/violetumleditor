@@ -89,8 +89,8 @@ public class UndoRedoOnRemoveBehavior extends AbstractEditorPartBehavior
                 public void undo() throws CannotUndoException
                 {
                     IGraph graph = editorPart.getGraph();
-                    graph.connect(aSelectedEdge, aSelectedEdge.getStart(), aSelectedEdge.getStartLocation(),
-                            aSelectedEdge.getEnd(), aSelectedEdge.getEndLocation());
+                    graph.connect(aSelectedEdge, aSelectedEdge.getStartNode(), aSelectedEdge.getStartLocation(),
+                            aSelectedEdge.getEndNode(), aSelectedEdge.getEndLocation());
                     super.undo();
                 }
 

@@ -88,7 +88,7 @@ public class ObjectReferenceEdge extends ShapeEdge
     @Override
     public Direction getDirection(INode node) {
         // Case 1 : start node
-        if (node.equals(getStart())) {
+        if (node.equals(getStartNode())) {
             return Direction.WEST;
         }
         // Case 2 : end node
@@ -105,9 +105,9 @@ public class ObjectReferenceEdge extends ShapeEdge
      */
     private boolean isSShaped()
     {
-        Rectangle2D b = getEnd().getBounds();
-        Point2D startLocationOnGraph = getStart().getLocationOnGraph();
-        Point2D startRelativeConnectionPoint = getStart().getConnectionPoint(this);
+        Rectangle2D b = getEndNode().getBounds();
+        Point2D startLocationOnGraph = getStartNode().getLocationOnGraph();
+        Point2D startRelativeConnectionPoint = getStartNode().getConnectionPoint(this);
         return b.getX() >= startLocationOnGraph.getX() + startRelativeConnectionPoint.getX() + 2 * ENDSIZE;
     }
 

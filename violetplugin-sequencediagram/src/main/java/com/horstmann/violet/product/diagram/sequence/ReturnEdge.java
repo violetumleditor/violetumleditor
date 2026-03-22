@@ -65,8 +65,8 @@ public class ReturnEdge extends SegmentedLineEdge
     @Override
     public ArrayList<Point2D> getPoints()
     {
-        INode endingNode = getEnd();
-        INode startingNode = getStart();
+        INode endingNode = getEndNode();
+        INode startingNode = getStartNode();
         return getPointsForNodesOnDifferentLifeLines(startingNode, endingNode);
     }
 

@@ -66,7 +66,7 @@ public class NoteNode extends RectangularNode
     @Override
     public boolean addConnection(IEdge e)
     {
-        if (e.getStart() == e.getEnd())
+        if (e.getStartNode() == e.getEndNode())
         {
             return false;
         }

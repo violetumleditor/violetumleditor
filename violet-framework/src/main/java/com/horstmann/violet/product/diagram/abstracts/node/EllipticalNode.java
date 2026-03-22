@@ -63,7 +63,7 @@ public abstract class EllipticalNode extends RectangularNode
             if (e instanceof SegmentedLineEdge)
             {
                 SegmentedLineEdge sle = (SegmentedLineEdge) e;
-                ArrowHead ah = this.equals(e.getStart()) ? sle.getStartArrowHead() : sle.getEndArrowHead();
+                ArrowHead ah = this.equals(e.getStartNode()) ? sle.getStartArrowHead() : sle.getEndArrowHead();
                 hasArrowAtThisEnd = (ah != null && ah != ArrowHead.NONE);
             }
             double edgeOffset = hasArrowAtThisEnd ? edgeBorderWidth : edgeBorderWidth / 2.0;

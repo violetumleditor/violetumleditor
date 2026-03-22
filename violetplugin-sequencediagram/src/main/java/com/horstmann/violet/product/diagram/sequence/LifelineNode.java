@@ -120,10 +120,10 @@ public class LifelineNode extends RectangularNode
         {
             if (edge instanceof CallEdge)
             {
-                INode endingNode = edge.getEnd();
+                INode endingNode = edge.getEndNode();
                 if (endingNode == this)
                 {
-                    INode startingNode = edge.getStart();
+                    INode startingNode = edge.getStartNode();
                     Point2D locationOnGraph = startingNode.getLocationOnGraph();
                     Point2D realLocation = super.getLocation();
                     Point2D fixedLocation = new Point2D.Double(realLocation.getX(), locationOnGraph.getY()

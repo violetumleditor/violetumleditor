@@ -538,11 +538,11 @@ public abstract class SegmentedLineEdge extends ShapeEdge implements IColorable
         Point2D endingPoint = connectionPoints.getP2();
         
         // Path for self loop
-        if (getStart().equals(getEnd())) {
+        if (getStartNode().equals(getEndNode())) {
         	int gapX = 20;
         	int gapY = 20;
-        	Point2D p1 = new Point2D.Double(getStart().getBounds().getMaxX(), startingPoint.getY());
-        	Point2D p5 = new Point2D.Double(endingPoint.getX(), getEnd().getBounds().getMaxY());
+        	Point2D p1 = new Point2D.Double(getStartNode().getBounds().getMaxX(), startingPoint.getY());
+        	Point2D p5 = new Point2D.Double(endingPoint.getX(), getEndNode().getBounds().getMaxY());
         	Point2D p2 = new Point2D.Double(p1.getX() + gapX, p1.getY());
         	Point2D p4 = new Point2D.Double(p5.getX(), p5.getY() + gapY);
         	Point2D p3 = new Point2D.Double(p2.getX(), p4.getY());
@@ -571,8 +571,8 @@ public abstract class SegmentedLineEdge extends ShapeEdge implements IColorable
         }
 
         // User choice based path
-        Direction startingCardinalDirection = getDirection(getStart()).getNearestCardinalDirection();
-        Direction endingCardinalDirection = getDirection(getEnd()).getNearestCardinalDirection();
+        Direction startingCardinalDirection = getDirection(getStartNode()).getNearestCardinalDirection();
+        Direction endingCardinalDirection = getDirection(getEndNode()).getNearestCardinalDirection();
         if ((Direction.NORTH.equals(startingCardinalDirection) || Direction.SOUTH.equals(startingCardinalDirection))
                 && (Direction.NORTH.equals(endingCardinalDirection) || Direction.SOUTH.equals(endingCardinalDirection)))
         {
@@ -602,7 +602,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge implements IColorable
         Direction straightDirection = super.getDirection(node);
         double x = straightDirection.getX();
         double y = straightDirection.getY();
-        if (!getStart().equals(getEnd()) && node.equals(getStart()))
+        if (!getStartNode().equals(getEndNode()) && node.equals(getStartNode()))
         {
             if (BentStyle.HV.equals(getBentStyle()) || BentStyle.HVH.equals(getBentStyle()))
             {
@@ -613,7 +613,7 @@ public abstract class SegmentedLineEdge extends ShapeEdge implements IColorable
                 return (y >= 0) ? Direction.SOUTH : Direction.NORTH;
             }
         }
-        if (!getStart().equals(getEnd()) && node.equals(getEnd()))
+        if (!getStartNode().equals(getEndNode()) && node.equals(getEndNode()))
         {
             if (BentStyle.HV.equals(getBentStyle()) || BentStyle.VHV.equals(getBentStyle()))
             {

@@ -73,9 +73,9 @@ public class GraphTool
                 p.translate(OFFSET, OFFSET);
                 PointNode q = new PointNode();
                 q.translate(ICON_SIZE - OFFSET + 7, ICON_SIZE - OFFSET + 3);
-                e.setStart(p);
+                e.setStartNode(p);
                 e.setStartLocation(new Point2D.Double(0, 0));
-                e.setEnd(q);
+                e.setEndNode(q);
                 e.setEndLocation(new Point2D.Double(0, 0));
   
                 Rectangle2D bounds = new Rectangle2D.Double();

@@ -44,10 +44,10 @@ public class ActivityTransitionEdge extends SegmentedLineEdge
     @Override
     public Direction getDirection(INode node)
     {
-        if (SynchronizationBarNode.class.isInstance(getStart()) || SynchronizationBarNode.class.isInstance(getEnd())) {
-        	if (node.equals(getStart())) {
+        if (SynchronizationBarNode.class.isInstance(getStartNode()) || SynchronizationBarNode.class.isInstance(getEndNode())) {
+        	if (node.equals(getStartNode())) {
         		Point2D p1 = node.getLocationOnGraph();
-        		Point2D p2 = getEnd().getLocationOnGraph();
+        		Point2D p2 = getEndNode().getLocationOnGraph();
         		if (p1.getY() < p2.getY()) {
         			return Direction.NORTH;
         		}
@@ -55,9 +55,9 @@ public class ActivityTransitionEdge extends SegmentedLineEdge
         			return Direction.SOUTH;
         		}
         	}
-        	if (node.equals(getEnd())) {
+        	if (node.equals(getEndNode())) {
         		Point2D p1 = node.getLocationOnGraph();
-        		Point2D p2 = getStart().getLocationOnGraph();
+        		Point2D p2 = getStartNode().getLocationOnGraph();
         		if (p1.getY() < p2.getY()) {
         			return Direction.NORTH;
         		}

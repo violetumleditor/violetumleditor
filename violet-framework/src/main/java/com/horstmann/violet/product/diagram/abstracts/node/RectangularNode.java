@@ -55,9 +55,9 @@ public abstract class RectangularNode extends AbstractNode
     @Override
     public boolean addConnection(IEdge e) {
     	// Self call (loop)
-    	INode endingNode = e.getEnd();
+    	INode endingNode = e.getEndNode();
     	if (endingNode == null) {
-    		e.setEnd(e.getStart());
+    		e.setEndNode(e.getStartNode());
     		e.setEndLocation(e.getStartLocation());
     	}
     	// Back to default behavior
@@ -84,7 +84,7 @@ public abstract class RectangularNode extends AbstractNode
             if (cardinalDirectionToSearch.equals(nearestCardinalDirection)) {
                 result.add(anEdge);
             }
-            if (anEdge.getStart().equals(anEdge.getEnd()) && anEdge.getStart().equals(this)) {
+            if (anEdge.getStartNode().equals(anEdge.getEndNode()) && anEdge.getStartNode().equals(this)) {
             	// self loop
             	result.add(anEdge);
             }
@@ -158,7 +158,7 @@ public abstract class RectangularNode extends AbstractNode
         if (e instanceof SegmentedLineEdge)
         {
             SegmentedLineEdge sle = (SegmentedLineEdge) e;
-            ArrowHead ah = this.equals(e.getStart()) ? sle.getStartArrowHead() : sle.getEndArrowHead();
+            ArrowHead ah = this.equals(e.getStartNode()) ? sle.getStartArrowHead() : sle.getEndArrowHead();
             hasArrowAtThisEnd = (ah != null && ah != ArrowHead.NONE);
         }
         double edgeOffset = hasArrowAtThisEnd ? edgeBorderWidth : edgeBorderWidth / 2.0;

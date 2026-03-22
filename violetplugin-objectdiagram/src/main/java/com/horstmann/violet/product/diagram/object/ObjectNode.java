@@ -139,8 +139,8 @@ public class ObjectNode extends RectangularNode
         {
             return false;
         }
-        INode startingNode = e.getStart();
-        INode endingNode = e.getEnd();
+        INode startingNode = e.getStartNode();
+        INode endingNode = e.getEndNode();
         if (startingNode.getClass().isAssignableFrom(FieldNode.class))
         {
             startingNode = startingNode.getParent();
@@ -149,8 +149,8 @@ public class ObjectNode extends RectangularNode
         {
             endingNode = endingNode.getParent();
         }
-        e.setStart(startingNode);
-        e.setEnd(endingNode);
+        e.setStartNode(startingNode);
+        e.setEndNode(endingNode);
         return true;
     }
 

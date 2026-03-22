@@ -41,7 +41,7 @@ public class SynchronizationBarNode extends RectangularNode
     @Override
     public boolean addConnection(IEdge e)
     {
-        return e.getEnd() != null && this != e.getEnd();
+        return e.getEndNode() != null && this != e.getEndNode();
     }
 
     @Override
@@ -53,8 +53,8 @@ public class SynchronizationBarNode extends RectangularNode
             return defaultConnectionPoint;
         }
 
-        INode end = e.getEnd();
-        INode start = e.getStart();
+        INode end = e.getEndNode();
+        INode start = e.getStartNode();
         if (this == start)
         {
             Point2D endConnectionPoint = end.getConnectionPoint(e);
@@ -128,8 +128,8 @@ public class SynchronizationBarNode extends RectangularNode
         // needs to contain all incoming and outgoing edges
         for (IEdge e : getConnectedEdges())
         {
-            if (e.getStart() == this) connectedNodes.add(e.getEnd());
-            if (e.getEnd() == this) connectedNodes.add(e.getStart());
+            if (e.getStartNode() == this) connectedNodes.add(e.getEndNode());
+            if (e.getEndNode() == this) connectedNodes.add(e.getStartNode());
         }
         return connectedNodes;
     }

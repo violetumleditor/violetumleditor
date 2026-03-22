@@ -62,8 +62,8 @@ public abstract class AbstractNode implements INode, IColorable
         IGraph currentGraph = getGraph();
         for (IEdge anEdge : currentGraph.getAllEdges())
         {
-            INode start = anEdge.getStart();
-            INode end = anEdge.getEnd();
+            INode start = anEdge.getStartNode();
+            INode end = anEdge.getEndNode();
             if (this.equals(start) || this.equals(end))
             {
                 connectedEdges.add(anEdge);
@@ -150,7 +150,7 @@ public abstract class AbstractNode implements INode, IColorable
     @Override
     public boolean addConnection(IEdge e)
     {
-        return e.getEnd() != null;
+        return e.getEndNode() != null;
     }
 
     @Override

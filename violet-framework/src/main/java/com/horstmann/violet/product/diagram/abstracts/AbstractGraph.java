@@ -292,8 +292,8 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
         Collection<INode> allNodes = getAllNodes();
         for (IEdge anEdge : this.edges)
         {
-            INode startingNode = anEdge.getStart();
-            INode endingNode = anEdge.getEnd();
+            INode startingNode = anEdge.getStartNode();
+            INode endingNode = anEdge.getEndNode();
             boolean isEdgeStillConnected = (allNodes.contains(startingNode) && allNodes.contains(endingNode));
             if (!isEdgeStillConnected)
             {
@@ -317,9 +317,9 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
         {
             addNode(end, end.getLocation());
         }
-        e.setStart(start);
+        e.setStartNode(start);
         e.setStartLocation(startLocation);
-        e.setEnd(end);
+        e.setEndNode(end);
         e.setEndLocation(endLocation);
         if (start.addConnection(e))
         {
@@ -335,8 +335,8 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
     {
         for (IEdge anEdgeToRemove : edgesToRemove)
         {
-            INode startingNode = anEdgeToRemove.getStart();
-            INode endingNode = anEdgeToRemove.getEnd();
+            INode startingNode = anEdgeToRemove.getStartNode();
+            INode endingNode = anEdgeToRemove.getEndNode();
             startingNode.removeConnection(anEdgeToRemove);
             endingNode.removeConnection(anEdgeToRemove);
             this.edges.remove(anEdgeToRemove);

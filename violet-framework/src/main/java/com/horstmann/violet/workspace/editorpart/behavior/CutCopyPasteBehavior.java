@@ -124,8 +124,8 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
             IEdge clone = aSelectedEdge.clone();
             Point2D startLocation = clone.getStartLocation();
             Point2D endLocation = clone.getEndLocation();
-            Id oldStartId = clone.getStart().getId();
-            Id oldEndId = clone.getEnd().getId();
+            Id oldStartId = clone.getStartNode().getId();
+            Id oldEndId = clone.getEndNode().getId();
             Id newStartId = idMapper.get(oldStartId);
             Id newEndId = idMapper.get(oldEndId);
 			INode startNode = newGraph.findNode(newStartId);
@@ -199,8 +199,8 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
 		{
 			Point2D startLocation = anEdge.getStartLocation();
 			Point2D endLocation = anEdge.getEndLocation();
-			INode startNode = graph.findNode(anEdge.getStart().getId());
-			INode endNode = graph.findNode(anEdge.getEnd().getId());
+			INode startNode = graph.findNode(anEdge.getStartNode().getId());
+			INode endNode = graph.findNode(anEdge.getEndNode().getId());
 			if (startNode != null && endNode != null)
 			{
 				boolean isConnected = graph.connect(anEdge, startNode, startLocation, endNode, endLocation);
@@ -273,7 +273,7 @@ public class CutCopyPasteBehavior extends AbstractEditorPartBehavior
                 {
                     super.redo();
                     IGraph graph = editorPart.getGraph();
-                    graph.connect(anEdge, anEdge.getStart(), anEdge.getStartLocation(), anEdge.getEnd(), anEdge.getEndLocation());
+                    graph.connect(anEdge, anEdge.getStartNode(), anEdge.getStartLocation(), anEdge.getEndNode(), anEdge.getEndLocation());
                 }
             };
             capturedEdit.addEdit(edit);
