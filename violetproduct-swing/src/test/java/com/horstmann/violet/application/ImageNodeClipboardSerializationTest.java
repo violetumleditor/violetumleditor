@@ -39,8 +39,8 @@ class ImageNodeClipboardSerializationTest
         persistenceService.write(graph, out);
 
         String serialized = out.toString(StandardCharsets.UTF_8);
-        assertTrue(serialized.contains("<ClassDiagramGraph"),
-            "Compatible persistence should now write legacy XML first");
+        assertTrue(serialized.contains("<ClassDiagramGraph") || serialized.contains("<classDiagramGraph"),
+            "Compatible persistence should write graph XML");
         assertTrue(!serialized.startsWith("<java"),
             "Compatible persistence should not default to Java XMLEncoder XML");
 

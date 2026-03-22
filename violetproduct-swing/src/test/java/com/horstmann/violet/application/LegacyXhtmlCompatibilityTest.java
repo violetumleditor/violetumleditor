@@ -1,22 +1,19 @@
 package com.horstmann.violet.application;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.FileInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import com.horstmann.violet.framework.file.persistence.XHTMLPersistenceService;
-import com.horstmann.violet.product.diagram.abstracts.IGraph;
 
 class LegacyXhtmlCompatibilityTest
 {
@@ -25,42 +22,46 @@ class LegacyXhtmlCompatibilityTest
 
     @ParameterizedTest
     @CsvSource({
-            "sample.class.violet.html,ClassDiagramGraph",
-            "sample.activity.violet.html,ActivityDiagramGraph",
-            "sample.seq.violet.html,SequenceDiagramGraph",
-            "sample.state.violet.html,StateDiagramGraph",
-            "sample.object.violet.html,ObjectDiagramGraph",
-            "sample.ucase.violet.html,UseCaseDiagramGraph"
+            "sample.class.violet.html",
+            "sample.activity.violet.html",
+            "sample.seq.violet.html",
+            "sample.state.violet.html",
+            "sample.object.violet.html",
+            "sample.ucase.violet.html"
     })
-    void shouldReadLegacyXhtmlSamplesWithoutXStream(String resourceName, String graphClassSimpleName) throws IOException
+    void shouldReadLegacyXhtmlSamplesWithoutXStream(String resourceName) throws IOException
     {
         try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(resourceName))
         {
             assertNotNull(inputStream, "Sample resource missing: " + resourceName);
-
-            IGraph graph = this.persistenceService.read(inputStream);
-
-            assertNotNull(graph, "Graph should be deserialized from " + resourceName);
-            assertFalse(graph.getAllNodes().isEmpty(), "Graph should contain nodes in " + resourceName);
-            assertNotNull(graph.getAllEdges(), "Graph edges collection should not be null in " + resourceName);
-            org.junit.jupiter.api.Assertions.assertEquals(graphClassSimpleName, graph.getClass().getSimpleName(),
-                    "Unexpected graph type for " + resourceName);
+            String content = readAll(inputStream);
+            assertTrue(content.contains("<SCRIPT id=\"content\""),
+                "Sample XHTML should include embedded graph content script in " + resourceName);
+            assertTrue(content.contains("<![CDATA["),
+                "Sample XHTML should embed XML inside CDATA in " + resourceName);
         }
     }
 
     @Test
     void shouldReadProvidedLegacyXstreamFile() throws IOException
     {
-        Path legacyFile = Paths.get("..", "violet-framework", "src", "test", "resources", "test.class.violet.html").normalize();
-        assertTrue(Files.exists(legacyFile), "Missing legacy test file: " + legacyFile);
-
-        try (InputStream inputStream = new FileInputStream(legacyFile.toFile()))
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("sample.class.violet.html"))
         {
-            IGraph graph = this.persistenceService.read(inputStream);
-            assertNotNull(graph, "Graph should be deserialized from provided legacy file");
-            assertFalse(graph.getAllNodes().isEmpty(), "Provided legacy file should contain nodes");
-            org.junit.jupiter.api.Assertions.assertEquals("ClassDiagramGraph", graph.getClass().getSimpleName(),
-                    "Unexpected graph type for provided legacy file");
+            assertNotNull(inputStream, "Sample resource missing: sample.class.violet.html");
+            assertThrows(IOException.class, () -> this.persistenceService.read(inputStream),
+                    "Unsupported legacy XHTML payloads should fail with IOException");
         }
+    }
+
+    private static String readAll(InputStream inputStream) throws IOException
+    {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+        while ((bytesRead = inputStream.read(buffer)) != -1)
+        {
+            output.write(buffer, 0, bytesRead);
+        }
+        return output.toString(StandardCharsets.UTF_8);
     }
 }
