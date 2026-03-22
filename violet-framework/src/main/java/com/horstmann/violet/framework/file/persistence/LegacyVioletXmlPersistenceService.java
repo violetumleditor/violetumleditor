@@ -76,7 +76,7 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         try {
             StringBuilder xml = new StringBuilder(4096);
             LegacyWriteContext context = new LegacyWriteContext();
-            writeElement(xml, graph.getClass().getSimpleName(), graph, graph.getClass(), context, 0, true);
+            writeElement(xml, getElementDefaultTagName(graph), graph, graph.getClass(), context, 0, true);
             out.write(xml.toString().getBytes(StandardCharsets.UTF_8));
             out.flush();
         } catch (IOException e) {
@@ -124,19 +124,23 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
 
         for (IDiagramPlugin aPlugin : plugins) {
             Class<? extends IGraph> graphClass = aPlugin.getGraphClass();
-            this.tagTypes.put(graphClass.getSimpleName(), graphClass);
+            registerTagType(graphClass);
             try {
                 IGraph graph = graphClass.getDeclaredConstructor().newInstance();
                 for (INode nodePrototype : graph.getNodePrototypes()) {
-                    this.tagTypes.put(nodePrototype.getClass().getSimpleName(), nodePrototype.getClass());
+                    registerTagType(nodePrototype.getClass());
                 }
                 for (IEdge edgePrototype : graph.getEdgePrototypes()) {
-                    this.tagTypes.put(edgePrototype.getClass().getSimpleName(), edgePrototype.getClass());
+                    registerTagType(edgePrototype.getClass());
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    private void registerTagType(Class<?> type) {
+        this.tagTypes.put(getElementDefaultTagName(type), type);
     }
 
     private Object parseXml(String xml) throws IOException {
@@ -283,7 +287,7 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
             if (child == null) {
                 continue;
             }
-            writeElement(xml, getLegacyElementName(child), child, childType, context, indentLevel + 1, false);
+            writeElement(xml, getElementDefaultTagName(child), child, childType, context, indentLevel + 1, false);
         }
         indent(xml, indentLevel);
         xml.append("</").append(elementName).append('>').append('\n');
@@ -313,7 +317,7 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
                 writeTransitionPointElement(xml, "transitionPoint", (ITransitionPoint) child, indentLevel + 1);
                 continue;
             }
-            writeElement(xml, getLegacyElementName(child), child, componentType, context, indentLevel + 1, false);
+            writeElement(xml, getElementDefaultTagName(child), child, componentType, context, indentLevel + 1, false);
         }
         indent(xml, indentLevel);
         xml.append("</").append(elementName).append('>').append('\n');
@@ -566,27 +570,16 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
                 || "borderColor".equals(elementName);
     }
 
-    private static String getLegacyElementName(Object value) {
-        if (value instanceof ITransitionPoint) {
-            return getLegacyClassAlias(Point2D.Double.class);
-        }
-        return getLegacyClassAlias(value.getClass());
+    private static String getElementDefaultTagName(Object value) {
+        return getElementDefaultTagName(value.getClass());
     }
 
-    private static String getLegacyClassAlias(Class<?> type) {
-        if (Point2D.Double.class.equals(type) || Point2D.class.equals(type)) {
-            return "Point2D.Double";
+    private static String getElementDefaultTagName(Class<?> type) {
+        String simpleName = type.getSimpleName();
+        if (simpleName.isEmpty()) {
+            return simpleName;
         }
-        if (Rectangle2D.Double.class.equals(type) || Rectangle2D.class.equals(type)) {
-            return "Rectangle2D.Double";
-        }
-        if (RoundRectangle2D.Double.class.equals(type) || RoundRectangle2D.class.equals(type)) {
-            return "RoundRectangle2D.Double";
-        }
-        if (BufferedImage.class.isAssignableFrom(type)) {
-            return "Image";
-        }
-        return type.getSimpleName();
+        return Character.toLowerCase(simpleName.charAt(0)) + simpleName.substring(1);
     }
 
     private static String getSerializableEnumerationName(SerializableEnumeration enumeration) {
