@@ -531,6 +531,10 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
             {
                 continue;
             }
+            if ("parent".equals(field.getName()))
+            {
+                continue;
+            }
             if ("children".equals(field.getName())
                     && fieldValue instanceof Collection<?>
                     && ((Collection<?>) fieldValue).isEmpty())
@@ -813,6 +817,16 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
             if (fieldValue != null || !field.getType().isPrimitive())
             {
                 field.set(instance, fieldValue);
+                if ("children".equals(field.getName()) && fieldValue instanceof Collection<?> && instance instanceof INode)
+                {
+                    for (Object childNode : (Collection<?>) fieldValue)
+                    {
+                        if (childNode instanceof INode)
+                        {
+                            ((INode) childNode).setParent((INode) instance);
+                        }
+                    }
+                }
             }
         }
 

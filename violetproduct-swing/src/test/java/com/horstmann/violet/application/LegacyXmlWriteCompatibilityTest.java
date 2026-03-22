@@ -23,6 +23,7 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.classes.ClassDiagramGraph;
 import com.horstmann.violet.product.diagram.classes.edges.AssociationEdge;
 import com.horstmann.violet.product.diagram.classes.nodes.ClassNode;
+import com.horstmann.violet.product.diagram.classes.nodes.PackageNode;
 import com.horstmann.violet.product.diagram.common.ImageNode;
 
 class LegacyXmlWriteCompatibilityTest
@@ -35,12 +36,16 @@ class LegacyXmlWriteCompatibilityTest
 
         ClassNode sourceNode = new ClassNode();
         ClassNode targetNode = new ClassNode();
+        PackageNode packageNode = new PackageNode();
+        ClassNode nestedClassNode = new ClassNode();
         ImageNode imageNode = new ImageNode(createImage());
         Rectangle2D preferredSize = new Rectangle2D.Double(0d, 0d, 288.9729729729727d, 577.9459459459454d);
         sourceNode.setPreferredSize(preferredSize);
 
         graph.addNode(sourceNode, sourceNode.getLocationOnGraph());
         graph.addNode(targetNode, new java.awt.geom.Point2D.Double(220, 120));
+        graph.addNode(packageNode, new java.awt.geom.Point2D.Double(340, 20));
+        packageNode.addChild(nestedClassNode, new java.awt.geom.Point2D.Double(30, 40));
         graph.addNode(imageNode, new java.awt.geom.Point2D.Double(40, 200));
 
         AssociationEdge edge = new AssociationEdge();
@@ -60,8 +65,10 @@ class LegacyXmlWriteCompatibilityTest
         assertTrue(xml.contains("reference=\""), "Legacy writer should reuse ids for shared node references");
         assertTrue(xml.contains("<transitionPoints"), "Legacy writer should emit transition point container");
         assertTrue(xml.contains("<Point2D.Double"), "Legacy writer should encode transition points as Point2D entries");
-        assertFalse(xml.contains("<children"),
+        assertFalse(xml.matches("(?s).*<children\\s+id=\"\\d+\"\\s*/>.*"),
                 "Empty children collections should not be serialized");
+        assertFalse(xml.contains("<parent reference="),
+                "Nested nodes should not serialize redundant parent references");
         assertFalse(xml.contains("<backgroundColor reference="),
                 "backgroundColor should be serialized inline, not by reference");
         assertFalse(xml.contains("<textColor reference="),
@@ -98,8 +105,17 @@ class LegacyXmlWriteCompatibilityTest
 
         IGraph reloaded = persistenceService.read(new ByteArrayInputStream(out.toByteArray()));
         assertNotNull(reloaded, "Reloaded graph should not be null");
-        assertEquals(3, reloaded.getAllNodes().size(), "Reloaded graph should contain all serialized nodes");
+        assertEquals(5, reloaded.getAllNodes().size(), "Reloaded graph should contain all serialized nodes");
         assertEquals(1, reloaded.getAllEdges().size(), "Reloaded graph should contain serialized edge");
+
+        ClassNode reloadedNestedClass = (ClassNode) reloaded.getAllNodes().stream()
+                .filter(ClassNode.class::isInstance)
+                .map(ClassNode.class::cast)
+                .filter(node -> node.getParent() != null)
+                .findFirst()
+                .orElseThrow();
+        assertTrue(reloadedNestedClass.getParent() instanceof PackageNode,
+                "Reloaded nested node should still point to its package parent");
 
         IEdge reloadedEdge = reloaded.getAllEdges().iterator().next();
         assertEquals(1, reloadedEdge.getTransitionPoints().length,
