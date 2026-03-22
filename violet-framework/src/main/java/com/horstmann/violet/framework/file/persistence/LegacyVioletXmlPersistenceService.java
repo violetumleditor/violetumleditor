@@ -505,7 +505,7 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         }
 
         indent(xml, indentLevel);
-        xml.append("<ressources>").append('\n');
+        xml.append("<resources>").append('\n');
         for (Map.Entry<String, BufferedImage> entry : context.imageResources.entrySet())
         {
             indent(xml, indentLevel + 1);
@@ -514,7 +514,7 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
             xml.append("</image>").append('\n');
         }
         indent(xml, indentLevel);
-        xml.append("</ressources>").append('\n');
+        xml.append("</resources>").append('\n');
     }
 
     private void writeObjectElement(StringBuilder xml, String elementName, Object value, Class<?> expectedClass,
@@ -605,7 +605,7 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     {
         for (Element child : getChildElements(root))
         {
-            if (!"ressources".equals(child.getTagName()))
+            if (!"resources".equals(child.getTagName()))
             {
                 continue;
             }
