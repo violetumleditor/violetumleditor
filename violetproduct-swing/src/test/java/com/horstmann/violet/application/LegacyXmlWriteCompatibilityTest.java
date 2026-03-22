@@ -78,9 +78,12 @@ class LegacyXmlWriteCompatibilityTest
         assertTrue(xml.matches("(?s).*<backgroundColor red=\"\\d+\" green=\"\\d+\" blue=\"\\d+\" alpha=\"\\d+\"/>.*"),
                 "backgroundColor should use attribute-based compact XML representation without id");
         assertTrue(xml.contains("<ressources>"), "Legacy writer should extract images into a root ressources element");
-        assertTrue(xml.contains("<image reference=\"img-"), "Legacy writer should store image binaries in ressources");
-        assertTrue(xml.contains("<image reference=\"img-"), "Legacy writer should reference extracted images from nodes");
-        assertFalse(xml.contains("<image id=\""), "Legacy writer should not serialize images inline with id attributes");
+        assertTrue(xml.contains("<image id=\"img-"), "Legacy writer should store image binaries in ressources");
+        assertTrue(xml.contains("<image id=\"img-"), "Legacy writer should reference extracted images from nodes");
+        assertTrue(xml.matches("(?s).*<image id=\"img-[^\"]+\"\s*/>.*"),
+                "Legacy writer should reference extracted images from nodes with self-closing id entries");
+        assertTrue(xml.matches("(?s).*<ressources>.*<image id=\"img-[^\"]+\">.*</image>.*</ressources>.*"),
+                "Legacy writer should store image payload in ressources using id entries");
         assertFalse(xml.contains(" class=\""), "Legacy writer should not emit class attributes");
         assertFalse(xml.matches("(?s).*<PackageNode id=\"[^\"]+\">.*"), "Legacy writer should not emit redundant node id attributes on objects");
         assertTrue(xml.contains("<location x=\""),

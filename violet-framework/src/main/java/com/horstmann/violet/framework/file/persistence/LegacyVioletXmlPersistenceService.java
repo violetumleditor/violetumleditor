@@ -475,7 +475,7 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
 
         indent(xml, indentLevel);
         xml.append('<').append(elementName)
-            .append(" reference=\"").append(imageResourceId).append("\"/>")
+            .append(" id=\"").append(imageResourceId).append("\"/>")
                 .append('\n');
     }
 
@@ -491,7 +491,7 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         for (Map.Entry<String, BufferedImage> entry : context.imageResources.entrySet())
         {
             indent(xml, indentLevel + 1);
-            xml.append("<image reference=\"").append(entry.getKey()).append("\">");
+            xml.append("<image id=\"").append(entry.getKey()).append("\">");
             xml.append(encodePngImage(entry.getValue()));
             xml.append("</image>").append('\n');
         }
@@ -1250,6 +1250,16 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
 
     private static BufferedImage readImage(Element element, LegacyContext context) throws IOException
     {
+        String imageId = element.getAttribute("id");
+        if (!imageId.isEmpty())
+        {
+            BufferedImage existing = context.imageIdMap.get(imageId);
+            if (existing != null)
+            {
+                return existing;
+            }
+        }
+
         String reference = element.getAttribute("reference");
         if (!reference.isEmpty())
         {
@@ -1280,7 +1290,11 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         byte[] bytes = Base64.getDecoder().decode(base64);
         BufferedImage image = ImageIO.read(new ByteArrayInputStream(bytes));
 
-        String imgId = element.getAttribute("reference");
+        String imgId = element.getAttribute("id");
+        if (imgId.isEmpty())
+        {
+            imgId = element.getAttribute("reference");
+        }
         if (imgId.isEmpty())
         {
             imgId = element.getAttribute("imgId");
