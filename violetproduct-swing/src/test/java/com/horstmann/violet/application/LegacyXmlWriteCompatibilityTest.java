@@ -82,7 +82,7 @@ class LegacyXmlWriteCompatibilityTest
         assertTrue(xml.contains("<image reference=\"img-"), "Legacy writer should reference extracted images from nodes");
         assertFalse(xml.contains("<image id=\""), "Legacy writer should not serialize images inline with id attributes");
         assertFalse(xml.contains(" class=\""), "Legacy writer should not emit class attributes");
-        assertTrue(xml.matches("(?s).*<PackageNode id=\"\\d+\">.*"), "Legacy writer should emit id attributes on objects");
+        assertTrue(xml.matches("(?s).*<PackageNode id=\"[^\"]+\">.*"), "Legacy writer should emit node identity ids on objects");
         assertTrue(xml.contains("<location x=\""),
                 "Legacy writer should emit compact location elements");
         assertFalse(xml.contains("<location class="),

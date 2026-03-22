@@ -44,6 +44,7 @@ import com.horstmann.violet.framework.plugin.IDiagramPlugin;
 import com.horstmann.violet.framework.plugin.PluginRegistry;
 import com.horstmann.violet.framework.util.SerializableEnumeration;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.abstracts.IIdentifiable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.edge.EdgeTransitionPoint;
 import com.horstmann.violet.product.diagram.abstracts.edge.ITransitionPoint;
@@ -234,7 +235,7 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         String id = null;
         if (isReferenceableNode)
         {
-            id = context.nextId();
+            id = getStableNodeReferenceId((INode) value, context);
             context.objectIds.put(value, id);
         }
 
@@ -705,6 +706,20 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
             return raw.substring(lastDot + 1);
         }
         return raw;
+    }
+
+    private static String getStableNodeReferenceId(INode node, LegacyWriteContext context)
+    {
+        if (node instanceof IIdentifiable)
+        {
+            IIdentifiable identifiable = (IIdentifiable) node;
+            if (identifiable.getId() != null && identifiable.getId().getValue() != null
+                    && !identifiable.getId().getValue().isEmpty())
+            {
+                return identifiable.getId().getValue();
+            }
+        }
+        return context.nextId();
     }
 
     private static String encodePngImage(BufferedImage image) throws IOException
