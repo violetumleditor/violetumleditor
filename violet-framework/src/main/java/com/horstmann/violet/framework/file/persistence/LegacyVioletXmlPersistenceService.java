@@ -229,7 +229,7 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         String existingId = isReferenceableNode ? context.objectIds.get(value) : null;
         if (existingId != null)
         {
-            writeReferenceElement(xml, elementName, expectedClass, valueClass, existingId, indentLevel, isRoot);
+            writeReferenceElement(xml, elementName, existingId, indentLevel);
             return;
         }
 
@@ -311,25 +311,11 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         xml.append('>').append(escapeXml(String.valueOf(value))).append("</").append(elementName).append('>').append('\n');
     }
 
-    private void writeReferenceElement(StringBuilder xml, String elementName, Class<?> expectedClass, Class<?> valueClass,
-            String referenceId, int indentLevel, boolean isRoot)
+    private void writeReferenceElement(StringBuilder xml, String elementName, String referenceId, int indentLevel)
     {
-        String outputElementName = elementName;
-        String outputAttributeName = "id";
-        if ("start".equals(elementName))
-        {
-            outputElementName = "startNode";
-            outputAttributeName = "id";
-        }
-        else if ("end".equals(elementName))
-        {
-            outputElementName = "endNode";
-            outputAttributeName = "id";
-        }
-
         indent(xml, indentLevel);
-        xml.append('<').append(outputElementName);
-        xml.append(' ').append(outputAttributeName).append("=\"").append(referenceId).append("\"/>").append('\n');
+        xml.append('<').append(elementName);
+        xml.append(" id=\"").append(referenceId).append("\"/>").append('\n');
     }
 
     private void writeCollectionElement(StringBuilder xml, String elementName, Collection<?> values, Type expectedType,
