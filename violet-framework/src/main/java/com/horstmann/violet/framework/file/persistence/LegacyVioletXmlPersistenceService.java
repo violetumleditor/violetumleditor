@@ -189,6 +189,12 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         Class<?> expectedClass = getRawClass(expectedType);
         Class<?> valueClass = value.getClass();
 
+        if (isCompactLocation(elementName, value))
+        {
+            writeLocationElement(xml, elementName, (Point2D) value, indentLevel);
+            return;
+        }
+
         if (isCompactPreferredSize(elementName, value))
         {
             writePreferredSizeElement(xml, elementName, (Rectangle2D) value, indentLevel);
@@ -370,6 +376,14 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         xml.append(" y=\"").append(formatDouble(point.getY())).append("\"/>").append('\n');
     }
 
+    private void writeLocationElement(StringBuilder xml, String elementName, Point2D point, int indentLevel)
+    {
+        indent(xml, indentLevel);
+        xml.append('<').append(elementName);
+        xml.append(" x=\"").append(formatDouble(point.getX())).append("\"");
+        xml.append(" y=\"").append(formatDouble(point.getY())).append("\"/>").append('\n');
+    }
+
     private void writeRectangleElement(StringBuilder xml, String elementName, Rectangle2D.Double rectangle,
             Class<?> expectedClass, Class<?> valueClass, String id, int indentLevel, boolean isRoot)
     {
@@ -541,6 +555,11 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     private static boolean isCompactPreferredSize(String elementName, Object value)
     {
         return "preferredSize".equals(elementName) && value instanceof Rectangle2D;
+    }
+
+    private static boolean isCompactLocation(String elementName, Object value)
+    {
+        return "location".equals(elementName) && value instanceof Point2D;
     }
 
     private static boolean shouldWriteClassAttribute(Class<?> expectedClass, Class<?> valueClass)

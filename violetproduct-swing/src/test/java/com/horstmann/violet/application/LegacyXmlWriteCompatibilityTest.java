@@ -61,6 +61,12 @@ class LegacyXmlWriteCompatibilityTest
         assertTrue(xml.contains("<transitionPoints"), "Legacy writer should emit transition point container");
         assertTrue(xml.contains("<Point2D.Double"), "Legacy writer should encode transition points as Point2D entries");
         assertTrue(xml.contains("<image class=\"Image\""), "Legacy writer should encode embedded images in legacy form");
+        assertTrue(xml.contains("<location x=\""),
+                "Legacy writer should emit compact location elements");
+        assertFalse(xml.contains("<location class="),
+                "Compact location should not declare a class attribute");
+        assertFalse(xml.contains("<location id="),
+                "Compact location should not declare an id attribute");
         assertTrue(xml.contains("<preferredSize width=\"288.9729729729727\""),
                 "Legacy writer should emit compact preferredSize width");
         assertTrue(xml.contains("height=\"577.9459459459454\"/>"),
