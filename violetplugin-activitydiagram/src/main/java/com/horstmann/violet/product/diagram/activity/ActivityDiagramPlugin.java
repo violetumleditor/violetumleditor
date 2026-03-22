@@ -50,11 +50,6 @@ public class ActivityDiagramPlugin implements IDiagramPlugin {
     }
 
     @Override
-    public String getSampleFilePath() {
-	return this.rs.getString("sample.file.path");
-    }
-
-    @Override
     public Class<? extends IGraph> getGraphClass() {
 	return ActivityDiagramGraph.class;
     }

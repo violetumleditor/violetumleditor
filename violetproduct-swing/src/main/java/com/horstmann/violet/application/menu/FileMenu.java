@@ -21,18 +21,13 @@
 
 package com.horstmann.violet.application.menu;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.util.Comparator;
@@ -532,11 +527,6 @@ public class FileMenu extends JMenu
                 String name = aDiagramPlugin.getName();
                 name = name.replaceFirst("[0-9]*\\.", "");
                 JMenuItem item = new JMenuItem(name);
-                ImageIcon sampleDiagramImage = getSampleDiagramImage(aDiagramPlugin);
-                if (sampleDiagramImage != null)
-                {
-                    item.setRolloverIcon(sampleDiagramImage);
-                }
                 item.addActionListener(new ActionListener()
                 {
                     public void actionPerformed(ActionEvent event)
@@ -615,44 +605,6 @@ public class FileMenu extends JMenu
                     }
                 }
             });
-        }
-    }
-
-    /**
-     * @param diagramPlugin
-     * @return an image exported from the sample diagram file attached to each plugin or null if no one exists
-     * @throws IOException
-     */
-    private ImageIcon getSampleDiagramImage(IDiagramPlugin diagramPlugin)
-    {
-        try
-        {
-            String sampleFilePath = diagramPlugin.getSampleFilePath();
-            InputStream resourceAsStream = getClass().getResourceAsStream("/" + sampleFilePath);
-            if (resourceAsStream == null)
-            {
-                return null;
-            }
-            IGraph graph = this.filePersistenceService.read(resourceAsStream);
-            BufferedImage image = FileExportService.getImage(graph);
-
-            JLabel label = new JLabel();
-            label.setHorizontalAlignment(JLabel.CENTER);
-            label.setVerticalAlignment(JLabel.CENTER);
-            label.setIcon(new ImageIcon(image));
-            label.setSize(new Dimension(600, 550));
-            label.setBackground(Color.WHITE);
-            label.setOpaque(true);
-            Dimension size = label.getSize();
-            BufferedImage image2 = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB);
-            Graphics2D g2 = image2.createGraphics();
-            label.paint(g2);
-            return new ImageIcon(image2);
-        }
-        catch (Exception e)
-        {
-            // Failed to load sample. It doesn"t matter.
-            return null;
         }
     }
 

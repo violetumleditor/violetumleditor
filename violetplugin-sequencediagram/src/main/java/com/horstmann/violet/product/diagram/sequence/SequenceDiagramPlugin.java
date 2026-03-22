@@ -61,12 +61,6 @@ public class SequenceDiagramPlugin implements IDiagramPlugin, Violet016FileFilte
     }
 
     @Override
-    public String getSampleFilePath()
-    {
-        return this.rs.getString("sample.file.path");
-    }
-
-    @Override
     public Class<? extends IGraph> getGraphClass()
     {
         return SequenceDiagramGraph.class;

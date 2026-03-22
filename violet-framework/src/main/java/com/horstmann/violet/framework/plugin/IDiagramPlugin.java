@@ -32,11 +32,6 @@ public interface IDiagramPlugin extends AbstractPlugin
     public abstract String getFileExtensionName();
     
     /**
-     * @return path of a diagram file used to introduce this kind of diagram
-     */
-    public abstract String getSampleFilePath();
-
-    /**
      * @return corresponding graph class
      */
     public abstract Class<? extends IGraph> getGraphClass();

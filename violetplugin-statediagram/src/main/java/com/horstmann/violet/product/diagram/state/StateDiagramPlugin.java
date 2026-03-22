@@ -61,12 +61,6 @@ public class StateDiagramPlugin implements IDiagramPlugin, Violet016FileFilterEx
     }
 
     @Override
-    public String getSampleFilePath()
-    {
-        return this.rs.getString("sample.file.path");
-    }
-
-    @Override
     public Class<? extends IGraph> getGraphClass()
     {
         return StateDiagramGraph.class;
