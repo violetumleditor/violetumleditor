@@ -75,14 +75,14 @@ class LegacyXmlWriteCompatibilityTest
                 "textColor should be serialized inline, not by reference");
         assertFalse(xml.contains("<borderColor reference="),
                 "borderColor should be serialized inline, not by reference");
-        assertTrue(xml.matches("(?s).*<backgroundColor red=\"\\d+\" green=\"\\d+\" blue=\"\\d+\" alpha=\"\\d+\"/>.*"),
-                "backgroundColor should use attribute-based compact XML representation without id");
+        assertTrue(xml.matches("(?s).*<backgroundColor id=\"\\d+\" red=\"\\d+\" green=\"\\d+\" blue=\"\\d+\" alpha=\"\\d+\"/>.*"),
+                "backgroundColor should use attribute-based compact XML representation with id");
         assertTrue(xml.contains("<ressources>"), "Legacy writer should extract images into a root ressources element");
         assertTrue(xml.contains("<image reference=\"img-"), "Legacy writer should store image binaries in ressources");
         assertTrue(xml.contains("<image reference=\"img-"), "Legacy writer should reference extracted images from nodes");
         assertFalse(xml.contains("<image id=\""), "Legacy writer should not serialize images inline with id attributes");
         assertFalse(xml.contains(" class=\""), "Legacy writer should not emit class attributes");
-        assertFalse(xml.matches("(?s).*<PackageNode id=\"\\d+\">.*"), "Legacy writer should not emit id attributes on objects");
+        assertTrue(xml.matches("(?s).*<PackageNode id=\"\\d+\">.*"), "Legacy writer should emit id attributes on objects");
         assertTrue(xml.contains("<location x=\""),
                 "Legacy writer should emit compact location elements");
         assertFalse(xml.contains("<location class="),
@@ -97,8 +97,8 @@ class LegacyXmlWriteCompatibilityTest
                 "Legacy writer should not emit default preferredSize values");
         assertFalse(xml.contains("<cropInsets"),
                 "Legacy writer should not emit default cropInsets values");
-        assertTrue(xml.matches("(?s).*<cropInsets top=\"[\\d.]+\" left=\"[\\d.]+\" bottom=\"[\\d.]+\" right=\"[\\d.]+\"/>.*") || !xml.contains("cropInsets"),
-                "Legacy writer should use compact attribute format for cropInsets without id, or omit if default");
+        assertTrue(xml.matches("(?s).*<cropInsets id=\"\\d+\" top=\"[\\d.]+\" left=\"[\\d.]+\" bottom=\"[\\d.]+\" right=\"[\\d.]+\"/>.*") || !xml.contains("cropInsets"),
+                "Legacy writer should use compact attribute format for cropInsets with id, or omit if default");
         assertFalse(xml.contains("<preferredSize class="),
                 "Compact preferredSize should not declare a class attribute");
         assertFalse(xml.contains("<preferredSize id="),
