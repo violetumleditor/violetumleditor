@@ -59,12 +59,12 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     @InjectedBean
     private PluginRegistry pluginRegistry;
 
-    private final Map<String, Class<?>> classAliases = new HashMap<String, Class<?>>();
+    private final Map<String, Class<?>> tagTypes = new HashMap<String, Class<?>>();
 
     public LegacyVioletXmlPersistenceService()
     {
         BeanInjector.getInjector().inject(this);
-        initializeAliases();
+        initializeTagTypes();
     }
 
     @Override
@@ -117,7 +117,7 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         return graph;
     }
 
-    private void initializeAliases()
+    private void initializeTagTypes()
     {
         List<IDiagramPlugin> plugins = new ArrayList<IDiagramPlugin>();
         if (this.pluginRegistry != null)
@@ -140,17 +140,17 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         for (IDiagramPlugin aPlugin : plugins)
         {
             Class<? extends IGraph> graphClass = aPlugin.getGraphClass();
-            this.classAliases.put(graphClass.getSimpleName(), graphClass);
+            this.tagTypes.put(graphClass.getSimpleName(), graphClass);
             try
             {
                 IGraph graph = graphClass.getDeclaredConstructor().newInstance();
                 for (INode nodePrototype : graph.getNodePrototypes())
                 {
-                    this.classAliases.put(nodePrototype.getClass().getSimpleName(), nodePrototype.getClass());
+                    this.tagTypes.put(nodePrototype.getClass().getSimpleName(), nodePrototype.getClass());
                 }
                 for (IEdge edgePrototype : graph.getEdgePrototypes())
                 {
-                    this.classAliases.put(edgePrototype.getClass().getSimpleName(), edgePrototype.getClass());
+                    this.tagTypes.put(edgePrototype.getClass().getSimpleName(), edgePrototype.getClass());
                 }
             }
             catch (Exception e)
@@ -316,7 +316,7 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
             String referenceId, int indentLevel, boolean isRoot)
     {
         String outputElementName = elementName;
-        String outputAttributeName = "reference";
+        String outputAttributeName = "id";
         if ("start".equals(elementName))
         {
             outputElementName = "startNode";
@@ -775,15 +775,15 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
 
     private Object readElement(Element element, Type expectedType, LegacyContext context) throws Exception
     {
-        String reference = getReferenceAttribute(element);
-        if (reference != null && !reference.isEmpty())
+        String referenceId = getReferenceAttribute(element);
+        if (referenceId != null && !referenceId.isEmpty())
         {
-            Object referencedObject = context.idMap.get(reference);
+            Object referencedObject = context.idMap.get(referenceId);
             if (referencedObject != null)
             {
                 return referencedObject;
             }
-            return context.imageIdMap.get(reference);
+            return context.imageIdMap.get(referenceId);
         }
 
         Class<?> expectedClass = getRawClass(expectedType);
@@ -911,7 +911,7 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         {
             Node attribute = element.getAttributes().item(i);
             String name = attribute.getNodeName();
-            if ("id".equals(name) || "reference".equals(name) || "class".equals(name)) continue;
+            if ("id".equals(name)) continue;
             String value = attribute.getNodeValue();
 
             Field field = findField(instance.getClass(), name);
@@ -987,15 +987,8 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
 
     private Class<?> resolveValueClass(Element element, Class<?> expectedClass)
     {
-        String classAttribute = element.getAttribute("class");
-        if (classAttribute != null && !classAttribute.isEmpty())
-        {
-            Class<?> fromAttribute = resolveClassAlias(classAttribute);
-            if (fromAttribute != null) return fromAttribute;
-        }
-
         String tagName = element.getTagName();
-        Class<?> fromTagName = resolveClassAlias(tagName);
+        Class<?> fromTagName = resolveTagClass(tagName);
         if (fromTagName != null) return fromTagName;
 
         if (expectedClass != null)
@@ -1028,27 +1021,16 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         return String.class;
     }
 
-    private Class<?> resolveClassAlias(String classAlias)
+    private Class<?> resolveTagClass(String tagName)
     {
-        if ("Point".equals(classAlias)) return Point2D.Double.class;
-        if ("Point2D.Double".equals(classAlias)) return Point2D.Double.class;
-        if ("Rectangle".equals(classAlias)) return Rectangle2D.Double.class;
-        if ("Rectangle2D.Double".equals(classAlias)) return Rectangle2D.Double.class;
-        if ("RoundRectangle".equals(classAlias)) return RoundRectangle2D.Double.class;
-        if ("RoundRectangle2D.Double".equals(classAlias)) return RoundRectangle2D.Double.class;
-        if ("Image".equals(classAlias)) return BufferedImage.class;
+        if ("Point2D.Double".equals(tagName)) return Point2D.Double.class;
+        if ("Rectangle2D.Double".equals(tagName)) return Rectangle2D.Double.class;
+        if ("RoundRectangle2D.Double".equals(tagName)) return RoundRectangle2D.Double.class;
+        if ("Image".equals(tagName)) return BufferedImage.class;
 
-        Class<?> resolved = this.classAliases.get(classAlias);
+        Class<?> resolved = this.tagTypes.get(tagName);
         if (resolved != null) return resolved;
-
-        try
-        {
-            return Class.forName(classAlias);
-        }
-        catch (Exception e)
-        {
-            return null;
-        }
+        return null;
     }
 
     private static List<Element> getChildElements(Element element)
@@ -1085,24 +1067,11 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
 
     private static String normalizeFieldName(String xmlTagName)
     {
-        if ("startNode".equals(xmlTagName))
-        {
-            return "start";
-        }
-        if ("endNode".equals(xmlTagName))
-        {
-            return "end";
-        }
         return xmlTagName;
     }
 
     private static String getReferenceAttribute(Element element)
     {
-        String reference = element.getAttribute("reference");
-        if (reference != null && !reference.isEmpty())
-        {
-            return reference;
-        }
         String id = element.getAttribute("id");
         if (id != null && !id.isEmpty() && getChildElements(element).isEmpty())
         {
@@ -1190,16 +1159,6 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         int blue = parseIntAttribute(element, "blue", 0);
         int alpha = parseIntAttribute(element, "alpha", 255);
 
-        for (Element child : getChildElements(element))
-        {
-            String text = child.getTextContent();
-            if (text == null || text.isEmpty()) continue;
-            if ("red".equals(child.getTagName())) red = Integer.parseInt(text);
-            else if ("green".equals(child.getTagName())) green = Integer.parseInt(text);
-            else if ("blue".equals(child.getTagName())) blue = Integer.parseInt(text);
-            else if ("alpha".equals(child.getTagName())) alpha = Integer.parseInt(text);
-        }
-
         return new Color(red, green, blue, alpha);
     }
 
@@ -1209,20 +1168,6 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         double left = parseDoubleAttribute(element, "left");
         double bottom = parseDoubleAttribute(element, "bottom");
         double right = parseDoubleAttribute(element, "right");
-
-        // Fallback to child elements for backward compatibility with old format
-        if (top == 0d && left == 0d && bottom == 0d && right == 0d)
-        {
-            for (Element child : getChildElements(element))
-            {
-                String text = child.getTextContent();
-                if (text == null || text.isEmpty()) continue;
-                if ("top".equals(child.getTagName())) top = Double.parseDouble(text);
-                else if ("left".equals(child.getTagName())) left = Double.parseDouble(text);
-                else if ("bottom".equals(child.getTagName())) bottom = Double.parseDouble(text);
-                else if ("right".equals(child.getTagName())) right = Double.parseDouble(text);
-            }
-        }
 
         return new CropInsets(top, left, bottom, right);
     }
@@ -1241,12 +1186,11 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     {
         String x = element.getAttribute("x");
         String y = element.getAttribute("y");
-        if (!x.isEmpty() && !y.isEmpty())
+        if (x.isEmpty() || y.isEmpty())
         {
-            return new Point2D.Double(Double.parseDouble(x), Double.parseDouble(y));
+            throw new IllegalArgumentException("Missing x/y attributes for point");
         }
-        double[] values = parseCsvDoubles(element.getTextContent(), 2);
-        return new Point2D.Double(values[0], values[1]);
+        return new Point2D.Double(Double.parseDouble(x), Double.parseDouble(y));
     }
 
     private static Rectangle2D.Double readRectangle2D(Element element)
@@ -1255,16 +1199,15 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         String y = element.getAttribute("y");
         String width = element.getAttribute("width");
         String height = element.getAttribute("height");
-        if (!width.isEmpty() && !height.isEmpty())
+        if (width.isEmpty() || height.isEmpty())
         {
-            return new Rectangle2D.Double(
-                    x.isEmpty() ? 0d : Double.parseDouble(x),
-                    y.isEmpty() ? 0d : Double.parseDouble(y),
-                    Double.parseDouble(width),
-                    Double.parseDouble(height));
+            throw new IllegalArgumentException("Missing width/height attributes for rectangle");
         }
-        double[] values = parseCsvDoubles(element.getTextContent(), 4);
-        return new Rectangle2D.Double(values[0], values[1], values[2], values[3]);
+        return new Rectangle2D.Double(
+                x.isEmpty() ? 0d : Double.parseDouble(x),
+                y.isEmpty() ? 0d : Double.parseDouble(y),
+                Double.parseDouble(width),
+                Double.parseDouble(height));
     }
 
     private static RoundRectangle2D.Double readRoundRectangle2D(Element element)
@@ -1275,18 +1218,17 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         String height = element.getAttribute("height");
         String arcWidth = element.getAttribute("arcwidth");
         String arcHeight = element.getAttribute("archeight");
-        if (!x.isEmpty() && !y.isEmpty() && !width.isEmpty() && !height.isEmpty() && !arcWidth.isEmpty() && !arcHeight.isEmpty())
+        if (x.isEmpty() || y.isEmpty() || width.isEmpty() || height.isEmpty() || arcWidth.isEmpty() || arcHeight.isEmpty())
         {
-            return new RoundRectangle2D.Double(
-                    Double.parseDouble(x),
-                    Double.parseDouble(y),
-                    Double.parseDouble(width),
-                    Double.parseDouble(height),
-                    Double.parseDouble(arcWidth),
-                    Double.parseDouble(arcHeight));
+            throw new IllegalArgumentException("Missing attributes for round rectangle");
         }
-        double[] values = parseCsvDoubles(element.getTextContent(), 6);
-        return new RoundRectangle2D.Double(values[0], values[1], values[2], values[3], values[4], values[5]);
+        return new RoundRectangle2D.Double(
+                Double.parseDouble(x),
+                Double.parseDouble(y),
+                Double.parseDouble(width),
+                Double.parseDouble(height),
+                Double.parseDouble(arcWidth),
+                Double.parseDouble(arcHeight));
     }
 
     private static BufferedImage readImage(Element element, LegacyContext context) throws IOException
@@ -1295,26 +1237,6 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         if (!imageId.isEmpty())
         {
             BufferedImage existing = context.imageIdMap.get(imageId);
-            if (existing != null)
-            {
-                return existing;
-            }
-        }
-
-        String reference = element.getAttribute("reference");
-        if (!reference.isEmpty())
-        {
-            BufferedImage existing = context.imageIdMap.get(reference);
-            if (existing != null)
-            {
-                return existing;
-            }
-        }
-
-        String imgRef = element.getAttribute("imgRef");
-        if (!imgRef.isEmpty())
-        {
-            BufferedImage existing = context.imageIdMap.get(imgRef);
             if (existing != null)
             {
                 return existing;
@@ -1332,14 +1254,6 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         BufferedImage image = ImageIO.read(new ByteArrayInputStream(bytes));
 
         String imgId = element.getAttribute("id");
-        if (imgId.isEmpty())
-        {
-            imgId = element.getAttribute("reference");
-        }
-        if (imgId.isEmpty())
-        {
-            imgId = element.getAttribute("imgId");
-        }
         if (!imgId.isEmpty() && image != null)
         {
             context.imageIdMap.put(imgId, image);
@@ -1351,46 +1265,11 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     {
         String xAttribute = element.getAttribute("x");
         String yAttribute = element.getAttribute("y");
-        if (!xAttribute.isEmpty() && !yAttribute.isEmpty())
+        if (xAttribute.isEmpty() || yAttribute.isEmpty())
         {
-            return new EdgeTransitionPoint(Double.parseDouble(xAttribute), Double.parseDouble(yAttribute));
+            throw new IllegalArgumentException("Missing x/y attributes for transition point");
         }
-
-        Double x = null;
-        Double y = null;
-        for (Element child : getChildElements(element))
-        {
-            if ("x".equals(child.getTagName()))
-            {
-                x = Double.parseDouble(child.getTextContent().trim());
-            }
-            else if ("y".equals(child.getTagName()))
-            {
-                y = Double.parseDouble(child.getTextContent().trim());
-            }
-        }
-
-        if (x != null && y != null)
-        {
-            return new EdgeTransitionPoint(x.doubleValue(), y.doubleValue());
-        }
-
-        return new EdgeTransitionPoint(0d, 0d);
-    }
-
-    private static double[] parseCsvDoubles(String csv, int expectedLength)
-    {
-        String[] parts = csv == null ? new String[0] : csv.trim().split(",");
-        if (parts.length < expectedLength)
-        {
-            throw new IllegalArgumentException("Invalid numeric CSV format: " + csv);
-        }
-        double[] values = new double[expectedLength];
-        for (int i = 0; i < expectedLength; i++)
-        {
-            values[i] = Double.parseDouble(parts[i].trim());
-        }
-        return values;
+        return new EdgeTransitionPoint(Double.parseDouble(xAttribute), Double.parseDouble(yAttribute));
     }
 
     private static String readAll(InputStream in) throws IOException

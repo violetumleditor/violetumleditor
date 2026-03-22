@@ -46,25 +46,25 @@ public abstract class AbstractEdge implements IEdge
     @Override
     public void setStart(INode startingNode)
     {
-        this.start = startingNode;
+        this.startNode = startingNode;
     }
 
     @Override
     public INode getStart()
     {
-        return start;
+        return startNode;
     }
 
     @Override
     public void setEnd(INode endingNode)
     {
-        this.end = endingNode;
+        this.endNode = endingNode;
     }
 
     @Override
     public INode getEnd()
     {
-        return end;
+        return endNode;
     }
 
     @Override
@@ -82,12 +82,12 @@ public abstract class AbstractEdge implements IEdge
     @Override
     public final Point2D getStartLocationOnGraph()
     {
-        if(null == start || null == startLocation)
+        if(null == startNode || null == startLocation)
         {
             return null;
         }
 
-        Point2D nodeLocationOnGraph = start.getLocationOnGraph();
+        Point2D nodeLocationOnGraph = startNode.getLocationOnGraph();
         return new Point2D.Double(
                 nodeLocationOnGraph.getX() + startLocation.getX(),
                 nodeLocationOnGraph.getY() + startLocation.getY()
@@ -109,12 +109,12 @@ public abstract class AbstractEdge implements IEdge
     @Override
     public final Point2D getEndLocationOnGraph()
     {
-        if(null == end || null == endLocation)
+        if(null == endNode || null == endLocation)
         {
             return null;
         }
 
-        Point2D nodeLocationOnGraph = end.getLocationOnGraph();
+        Point2D nodeLocationOnGraph = endNode.getLocationOnGraph();
         return new Point2D.Double(
                 nodeLocationOnGraph.getX() + endLocation.getX(),
                 nodeLocationOnGraph.getY() + endLocation.getY()
@@ -190,13 +190,13 @@ public abstract class AbstractEdge implements IEdge
     
     @Override
     public Direction getDirection(INode node) {
-        Rectangle2D startBounds = start.getBounds();
-        Rectangle2D endBounds = end.getBounds();
-        Point2D startLocationOnGraph = start.getLocationOnGraph();
-        Point2D endLocationOnGraph = end.getLocationOnGraph();
+        Rectangle2D startBounds = startNode.getBounds();
+        Rectangle2D endBounds = endNode.getBounds();
+        Point2D startLocationOnGraph = startNode.getLocationOnGraph();
+        Point2D endLocationOnGraph = endNode.getLocationOnGraph();
         Point2D startCenter = new Point2D.Double(startLocationOnGraph.getX() + startBounds.getWidth() / 2, startLocationOnGraph.getY() + startBounds.getHeight() / 2);
         Point2D endCenter = new Point2D.Double(endLocationOnGraph.getX() + endBounds.getWidth() / 2, endLocationOnGraph.getY() + endBounds.getHeight() / 2);
-        if (node.equals(start)) {
+        if (node.equals(startNode)) {
             if (isTransitionPointsSupported() && this.transitionPoints != null && this.transitionPoints.length > 0) {
                 Point2D firstTransitionPoint = this.transitionPoints[0].toPoint2D();
                 Direction fromStart = new Direction(firstTransitionPoint, startCenter);
@@ -205,7 +205,7 @@ public abstract class AbstractEdge implements IEdge
             Direction fromStart = new Direction(endCenter, startCenter);
             return fromStart;
         }
-        if (node.equals(end)) {
+        if (node.equals(endNode)) {
             if (isTransitionPointsSupported() && this.transitionPoints != null && this.transitionPoints.length > 0) {
                 Point2D lastTransitionPoint = this.transitionPoints[this.transitionPoints.length - 1].toPoint2D();
                 Direction toEnd = new Direction(lastTransitionPoint, endCenter);
@@ -220,14 +220,14 @@ public abstract class AbstractEdge implements IEdge
     @Override
     public Line2D getConnectionPoints()
     {
-    	Point2D startLocationOnGraph = start.getLocationOnGraph();
-        Point2D endLocationOnGraph = end.getLocationOnGraph();
+    	Point2D startLocationOnGraph = startNode.getLocationOnGraph();
+        Point2D endLocationOnGraph = endNode.getLocationOnGraph();
         
-        Point2D startLocation = start.getLocation();
-        Point2D endLocation = end.getLocation();
+        Point2D startLocation = startNode.getLocation();
+        Point2D endLocation = endNode.getLocation();
         
-        Point2D startingEdgeConnectionPoint = start.getConnectionPoint(this);
-        Point2D endingEdgeConnectionPoint = end.getConnectionPoint(this);
+        Point2D startingEdgeConnectionPoint = startNode.getConnectionPoint(this);
+        Point2D endingEdgeConnectionPoint = endNode.getConnectionPoint(this);
         
         Point2D p1 = new Point2D.Double(
         		startLocationOnGraph.getX() - startLocation.getX() + startingEdgeConnectionPoint.getX(),
@@ -340,10 +340,10 @@ public abstract class AbstractEdge implements IEdge
     
 
     /** The node where the edge starts */
-    private INode start;
+    private INode startNode;
 
     /** The node where the edge ends */
-    private INode end;
+    private INode endNode;
 
     /** The point inside the starting node where this edge begins */
     private Point2D startLocation;
