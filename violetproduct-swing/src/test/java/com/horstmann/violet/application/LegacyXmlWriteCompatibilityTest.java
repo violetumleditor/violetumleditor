@@ -62,7 +62,8 @@ class LegacyXmlWriteCompatibilityTest
         String xml = out.toString(StandardCharsets.UTF_8);
         assertFalse(xml.startsWith("<java"), "Legacy writer should not emit Java XMLEncoder format");
         assertTrue(xml.contains("<ClassDiagramGraph"), "Legacy writer should emit graph root element");
-        assertTrue(xml.contains("reference=\""), "Legacy writer should reuse ids for shared node references");
+        assertTrue(xml.contains("<startNode id=\""), "Legacy writer should link edge start by node identity id");
+        assertTrue(xml.contains("<endNode id=\""), "Legacy writer should link edge end by node identity id");
         assertTrue(xml.contains("<transitionPoints"), "Legacy writer should emit transition point container");
         assertTrue(xml.contains("<Point2D.Double"), "Legacy writer should encode transition points as Point2D entries");
         assertFalse(xml.matches("(?s).*<children\\s+id=\"\\d+\"\\s*/>.*"),
@@ -110,6 +111,14 @@ class LegacyXmlWriteCompatibilityTest
                 "Compact preferredSize should not serialize x attributes");
         assertFalse(xml.contains("<preferredSize y="),
                 "Compact preferredSize should not serialize y attributes");
+        assertTrue(xml.matches("(?s).*<startNode id=\"[^\"]+\"\s*/>.*"),
+                "Edge start should be serialized as startNode with id attribute");
+        assertTrue(xml.matches("(?s).*<endNode id=\"[^\"]+\"\s*/>.*"),
+                "Edge end should be serialized as endNode with id attribute");
+        assertFalse(xml.contains("<start reference="),
+                "Legacy writer should not emit old start/reference edge format");
+        assertFalse(xml.contains("<end reference="),
+                "Legacy writer should not emit old end/reference edge format");
         assertTrue(xml.indexOf("<ressources>") > xml.indexOf("</edges>"),
                 "Ressources should be emitted under the root diagram element after edges");
 

@@ -315,9 +315,22 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
     private void writeReferenceElement(StringBuilder xml, String elementName, Class<?> expectedClass, Class<?> valueClass,
             String referenceId, int indentLevel, boolean isRoot)
     {
+        String outputElementName = elementName;
+        String outputAttributeName = "reference";
+        if ("start".equals(elementName))
+        {
+            outputElementName = "startNode";
+            outputAttributeName = "id";
+        }
+        else if ("end".equals(elementName))
+        {
+            outputElementName = "endNode";
+            outputAttributeName = "id";
+        }
+
         indent(xml, indentLevel);
-        xml.append('<').append(elementName);
-        xml.append(" reference=\"").append(referenceId).append("\"/>").append('\n');
+        xml.append('<').append(outputElementName);
+        xml.append(' ').append(outputAttributeName).append("=\"").append(referenceId).append("\"/>").append('\n');
     }
 
     private void writeCollectionElement(StringBuilder xml, String elementName, Collection<?> values, Type expectedType,
@@ -762,7 +775,7 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
 
     private Object readElement(Element element, Type expectedType, LegacyContext context) throws Exception
     {
-        String reference = element.getAttribute("reference");
+        String reference = getReferenceAttribute(element);
         if (reference != null && !reference.isEmpty())
         {
             Object referencedObject = context.idMap.get(reference);
@@ -867,7 +880,7 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
 
         for (Element child : getChildElements(element))
         {
-            Field field = findField(valueClass, child.getTagName());
+            Field field = findField(valueClass, normalizeFieldName(child.getTagName()));
             if (field == null) continue;
             field.setAccessible(true);
             Type fieldType = field.getGenericType();
@@ -1066,6 +1079,34 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
             {
                 current = current.getSuperclass();
             }
+        }
+        return null;
+    }
+
+    private static String normalizeFieldName(String xmlTagName)
+    {
+        if ("startNode".equals(xmlTagName))
+        {
+            return "start";
+        }
+        if ("endNode".equals(xmlTagName))
+        {
+            return "end";
+        }
+        return xmlTagName;
+    }
+
+    private static String getReferenceAttribute(Element element)
+    {
+        String reference = element.getAttribute("reference");
+        if (reference != null && !reference.isEmpty())
+        {
+            return reference;
+        }
+        String id = element.getAttribute("id");
+        if (id != null && !id.isEmpty() && getChildElements(element).isEmpty())
+        {
+            return id;
         }
         return null;
     }
