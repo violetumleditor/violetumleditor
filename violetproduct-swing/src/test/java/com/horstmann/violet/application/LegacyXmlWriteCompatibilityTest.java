@@ -65,7 +65,7 @@ class LegacyXmlWriteCompatibilityTest
         assertTrue(xml.contains("<startNode id=\""), "Legacy writer should link edge start by node identity id");
         assertTrue(xml.contains("<endNode id=\""), "Legacy writer should link edge end by node identity id");
         assertTrue(xml.contains("<transitionPoints"), "Legacy writer should emit transition point container");
-        assertTrue(xml.contains("<Point2D.Double"), "Legacy writer should encode transition points as Point2D entries");
+        assertTrue(xml.contains("<transitionPoint "), "Legacy writer should encode transition points as transitionPoint entries");
         assertFalse(xml.matches("(?s).*<children\\s+id=\"\\d+\"\\s*/>.*"),
                 "Empty children collections should not be serialized");
         assertFalse(xml.contains("<parent reference="),

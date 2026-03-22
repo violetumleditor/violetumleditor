@@ -286,8 +286,7 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
 
         if (value instanceof ITransitionPoint)
         {
-            Point2D point = ((ITransitionPoint) value).toPoint2D();
-            writePointElement(xml, elementName, point, expectedClass, Point2D.Double.class, id, indentLevel, isRoot);
+            writeTransitionPointElement(xml, elementName, (ITransitionPoint) value, indentLevel);
             return;
         }
 
@@ -383,9 +382,7 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
             }
             if (componentType != null && ITransitionPoint.class.isAssignableFrom(componentType) && child instanceof ITransitionPoint)
             {
-                Point2D transitionPoint = ((ITransitionPoint) child).toPoint2D();
-                writeElement(xml, getLegacyClassAlias(Point2D.Double.class), transitionPoint, Point2D.Double.class, context,
-                        indentLevel + 1, false);
+                writeTransitionPointElement(xml, "transitionPoint", (ITransitionPoint) child, indentLevel + 1);
                 continue;
             }
             writeElement(xml, getLegacyElementName(child), child, componentType, context, indentLevel + 1, false);
@@ -463,6 +460,14 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
             .append(" bottom=\"").append(formatDouble(crop.getBottom())).append("\"")
             .append(" right=\"").append(formatDouble(crop.getRight())).append("\"/>")
             .append('\n');
+    }
+
+    private void writeTransitionPointElement(StringBuilder xml, String elementName, ITransitionPoint tp, int indentLevel)
+    {
+        indent(xml, indentLevel);
+        xml.append('<').append(elementName)
+            .append(" x=\"").append(formatDouble(tp.getX())).append("\"")
+            .append(" y=\"").append(formatDouble(tp.getY())).append("\"/>").append('\n');
     }
 
     private void writeImageElement(StringBuilder xml, String elementName, BufferedImage image, Class<?> expectedClass,
@@ -816,10 +821,6 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
             for (int i = 0; i < children.size(); i++)
             {
                 Object childValue = readElement(children.get(i), componentType, context);
-                if (ITransitionPoint.class.isAssignableFrom(componentType) && childValue instanceof Point2D)
-                {
-                    childValue = EdgeTransitionPoint.fromPoint2D((Point2D) childValue);
-                }
                 java.lang.reflect.Array.set(array, i, childValue);
             }
             return array;
@@ -880,7 +881,7 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
 
         for (Element child : getChildElements(element))
         {
-            Field field = findField(valueClass, normalizeFieldName(child.getTagName()));
+            Field field = findField(valueClass, child.getTagName());
             if (field == null) continue;
             field.setAccessible(true);
             Type fieldType = field.getGenericType();
@@ -1027,6 +1028,7 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         if ("Rectangle2D.Double".equals(tagName)) return Rectangle2D.Double.class;
         if ("RoundRectangle2D.Double".equals(tagName)) return RoundRectangle2D.Double.class;
         if ("Image".equals(tagName)) return BufferedImage.class;
+        if ("transitionPoint".equals(tagName)) return EdgeTransitionPoint.class;
 
         Class<?> resolved = this.tagTypes.get(tagName);
         if (resolved != null) return resolved;
@@ -1065,10 +1067,6 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
         return null;
     }
 
-    private static String normalizeFieldName(String xmlTagName)
-    {
-        return xmlTagName;
-    }
 
     private static String getReferenceAttribute(Element element)
     {
