@@ -39,7 +39,6 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -51,7 +50,6 @@ import com.horstmann.violet.framework.file.GraphFile;
 import com.horstmann.violet.framework.file.IFile;
 import com.horstmann.violet.framework.file.IGraphFile;
 import com.horstmann.violet.framework.file.chooser.IFileChooserService;
-import com.horstmann.violet.framework.file.export.FileExportService;
 import com.horstmann.violet.framework.file.naming.ExtensionFilter;
 import com.horstmann.violet.framework.file.naming.FileNamingService;
 import com.horstmann.violet.framework.file.persistence.IFilePersistenceService;

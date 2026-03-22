@@ -395,14 +395,6 @@ public class LegacyVioletXmlPersistenceService implements IFilePersistenceServic
                 .append(" y=\"").append(formatDouble(tp.getY())).append("\"/>").append('\n');
     }
 
-    private void writeImageElement(StringBuilder xml, String elementName, BufferedImage image, Class<?> expectedClass,
-            Class<?> valueClass, String id, int indentLevel, boolean isRoot) throws IOException {
-        indent(xml, indentLevel);
-        xml.append('<').append(elementName);
-        xml.append(">");
-        xml.append(encodePngImage(image));
-        xml.append("</").append(elementName).append('>').append('\n');
-    }
 
     private void writeImageReferenceElement(StringBuilder xml, String elementName, BufferedImage image,
             LegacyWriteContext context, int indentLevel) throws IOException {
