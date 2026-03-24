@@ -14,8 +14,8 @@ import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
 
-import com.horstmann.violet.framework.file.persistence.CompatibleFilePersistenceService;
 import com.horstmann.violet.framework.file.persistence.IFilePersistenceService;
+import com.horstmann.violet.framework.file.persistence.XMLPersistenceService;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.classes.ClassDiagramGraph;
 import com.horstmann.violet.product.diagram.common.ImageNode;
@@ -34,7 +34,7 @@ class ImageNodeClipboardSerializationTest
         ImageNode imageNode = new ImageNode(image);
         graph.addNode(imageNode, imageNode.getLocationOnGraph());
 
-        IFilePersistenceService persistenceService = new CompatibleFilePersistenceService();
+        IFilePersistenceService persistenceService = new XMLPersistenceService();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         persistenceService.write(graph, out);
 

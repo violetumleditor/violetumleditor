@@ -15,7 +15,8 @@ import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
 
-import com.horstmann.violet.framework.file.persistence.LegacyVioletXmlPersistenceService;
+import com.horstmann.violet.framework.file.persistence.IFilePersistenceService;
+import com.horstmann.violet.framework.file.persistence.XMLPersistenceService;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.EdgeTransitionPoint;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
@@ -54,7 +55,7 @@ class LegacyXmlWriteCompatibilityTest
                 new EdgeTransitionPoint(120, 70)
         });
 
-        LegacyVioletXmlPersistenceService persistenceService = new LegacyVioletXmlPersistenceService();
+        IFilePersistenceService persistenceService = new XMLPersistenceService();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         persistenceService.write(graph, out);
 

@@ -9,8 +9,8 @@ import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 
-import com.horstmann.violet.framework.file.persistence.CompatibleFilePersistenceService;
 import com.horstmann.violet.framework.file.persistence.IFilePersistenceService;
+import com.horstmann.violet.framework.file.persistence.XMLPersistenceService;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.IGridSticker;
 import com.horstmann.violet.product.diagram.classes.ClassDiagramGraph;
@@ -37,7 +37,7 @@ class GridStickerSerializationTest
             }
         });
 
-        IFilePersistenceService persistenceService = new CompatibleFilePersistenceService();
+        IFilePersistenceService persistenceService = new XMLPersistenceService();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         persistenceService.write(graph, out);
 

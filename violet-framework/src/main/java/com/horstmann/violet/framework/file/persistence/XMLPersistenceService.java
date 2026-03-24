@@ -55,14 +55,14 @@ import com.horstmann.violet.product.diagram.abstracts.node.CropInsets;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 
 @ManagedBean(registeredManually = true)
-public class LegacyVioletXmlPersistenceService implements IFilePersistenceService {
+public class XMLPersistenceService implements IFilePersistenceService {
 
     @InjectedBean
     private PluginRegistry pluginRegistry;
 
     private final Map<String, Class<?>> tagTypes = new HashMap<String, Class<?>>();
 
-    public LegacyVioletXmlPersistenceService() {
+    public XMLPersistenceService() {
         BeanInjector.getInjector().inject(this);
         initializeTagTypes();
     }

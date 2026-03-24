@@ -41,7 +41,7 @@ public class XHTMLPersistenceService implements IFilePersistenceService
 
     private static final String TEMPLATE_XMLCONTENT_KEY = "${content}";
 
-    private IFilePersistenceService graphPersistenceService = new CompatibleFilePersistenceService();
+    private IFilePersistenceService graphPersistenceService = new XMLPersistenceService();
 
     @InjectedBean
     private VersionChecker versionChecker;
