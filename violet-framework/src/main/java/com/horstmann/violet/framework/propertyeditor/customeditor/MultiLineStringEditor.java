@@ -48,53 +48,52 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
-import javax.swing.text.StyledEditorKit;
 
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
-import com.horstmann.violet.framework.util.SmoothImageIcon;
 import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
 
 /**
  * A property editor for the MultiLineString type.
  */
 @ResourceBundleBean
-public class MultiLineStringEditor extends PropertyEditorSupport
-{
-    public MultiLineStringEditor()
-    {
+public class MultiLineStringEditor extends PropertyEditorSupport {
+    public MultiLineStringEditor() {
         ResourceBundleInjector.getInjector().inject(this);
     }
 
-    public boolean supportsCustomEditor()
-    {
+    public boolean supportsCustomEditor() {
         return true;
     }
 
-    public Component getCustomEditor()
-    {
+    public Component getCustomEditor() {
         this.source = (MultiLineString) getValue();
         final JPanel panel = new JPanel(new BorderLayout());
-        
+
         this.textPane = new JTextPane();
-        
+
         // Map MultiLineString size constants to pixel values
-        // Apply a 1.25x zoom factor in the editor so it matches the visual scale in the diagram nodes
+        // Apply a 1.25x zoom factor in the editor so it matches the visual scale in the
+        // diagram nodes
         double zoom = 1.25;
         int pixelSize = MultiLineString.FontSize.NORMAL; // Default
-        if (source.getSize() == MultiLineString.FontSize.LARGE) pixelSize = MultiLineString.FontSize.LARGE;
-        if (source.getSize() == MultiLineString.FontSize.SMALL) pixelSize = MultiLineString.FontSize.SMALL;
+        if (source.getSize() == MultiLineString.FontSize.LARGE)
+            pixelSize = MultiLineString.FontSize.LARGE;
+        if (source.getSize() == MultiLineString.FontSize.SMALL)
+            pixelSize = MultiLineString.FontSize.SMALL;
         int zoomedPixelSize = (int) (pixelSize * zoom);
 
-        // Set the font before setting the content type to influence the default attributes
+        // Set the font before setting the content type to influence the default
+        // attributes
         Font defaultFont = new Font(Font.SANS_SERIF, Font.PLAIN, zoomedPixelSize);
         textPane.setFont(defaultFont);
         textPane.setContentType("text/html");
 
-        // Force a default font and size using px (not pt, which gets scaled by Swing's HTML engine)
+        // Force a default font and size using px (not pt, which gets scaled by Swing's
+        // HTML engine)
         String bodyRule = "body { font-family: " + defaultFont.getFamily() + "; " +
                 "font-size: " + zoomedPixelSize + "px; }";
-        ((javax.swing.text.html.HTMLDocument)textPane.getDocument()).getStyleSheet().addRule(bodyRule);
+        ((javax.swing.text.html.HTMLDocument) textPane.getDocument()).getStyleSheet().addRule(bodyRule);
 
         textPane.setText(source.getText());
 
@@ -102,15 +101,13 @@ public class MultiLineStringEditor extends PropertyEditorSupport
         textPane.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, shiftTab);
 
         JPanel toolbar = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        
+
         this.boldBtn = new JToggleButton(boldIcon);
         boldBtn.setFocusable(false);
         boldBtn.setSelected(false);
-        boldBtn.addActionListener(new ActionListener()
-        {
+        boldBtn.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e)
-            {
+            public void actionPerformed(ActionEvent e) {
                 javax.swing.text.MutableAttributeSet attrs = textPane.getInputAttributes();
                 boolean isNowBold = !StyleConstants.isBold(attrs);
                 SimpleAttributeSet sas = new SimpleAttributeSet();
@@ -123,11 +120,9 @@ public class MultiLineStringEditor extends PropertyEditorSupport
 
         this.italicBtn = new JToggleButton(italicIcon);
         italicBtn.setFocusable(false);
-        italicBtn.addActionListener(new ActionListener()
-        {
+        italicBtn.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e)
-            {
+            public void actionPerformed(ActionEvent e) {
                 javax.swing.text.MutableAttributeSet attrs = textPane.getInputAttributes();
                 boolean isNowItalic = !StyleConstants.isItalic(attrs);
                 SimpleAttributeSet sas = new SimpleAttributeSet();
@@ -141,14 +136,11 @@ public class MultiLineStringEditor extends PropertyEditorSupport
         this.underlineBtn = new JToggleButton(underlineIcon);
         underlineBtn.setFocusable(false);
         underlineBtn.setSelected(source.isUnderlined());
-        underlineBtn.addActionListener(new ActionListener()
-        {
+        underlineBtn.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e)
-            {
+            public void actionPerformed(ActionEvent e) {
                 javax.swing.text.MutableAttributeSet attrs = textPane.getInputAttributes();
                 boolean isNowUnderline = !StyleConstants.isUnderline(attrs);
-                currentUnderline = isNowUnderline;
                 SimpleAttributeSet sas = new SimpleAttributeSet();
                 StyleConstants.setUnderline(sas, isNowUnderline);
                 setCharacterAttributes(sas);
@@ -160,11 +152,9 @@ public class MultiLineStringEditor extends PropertyEditorSupport
         this.leftAlignBtn = new JToggleButton(alignLeftIcon);
         leftAlignBtn.setFocusable(false);
         leftAlignBtn.setSelected(source.getJustification() == MultiLineString.Justification.LEFT);
-        leftAlignBtn.addActionListener(new ActionListener()
-        {
+        leftAlignBtn.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e)
-            {
+            public void actionPerformed(ActionEvent e) {
                 applyAlignment(StyleConstants.ALIGN_LEFT);
                 textPane.requestFocusInWindow();
             }
@@ -174,11 +164,9 @@ public class MultiLineStringEditor extends PropertyEditorSupport
         this.centerAlignBtn = new JToggleButton(alignCenterIcon);
         centerAlignBtn.setFocusable(false);
         centerAlignBtn.setSelected(source.getJustification() == MultiLineString.Justification.CENTER);
-        centerAlignBtn.addActionListener(new ActionListener()
-        {
+        centerAlignBtn.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e)
-            {
+            public void actionPerformed(ActionEvent e) {
                 applyAlignment(StyleConstants.ALIGN_CENTER);
                 textPane.requestFocusInWindow();
             }
@@ -188,38 +176,39 @@ public class MultiLineStringEditor extends PropertyEditorSupport
         this.rightAlignBtn = new JToggleButton(alignRightIcon);
         rightAlignBtn.setFocusable(false);
         rightAlignBtn.setSelected(source.getJustification() == MultiLineString.Justification.RIGHT);
-        rightAlignBtn.addActionListener(new ActionListener()
-        {
+        rightAlignBtn.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e)
-            {
+            public void actionPerformed(ActionEvent e) {
                 applyAlignment(StyleConstants.ALIGN_RIGHT);
                 textPane.requestFocusInWindow();
             }
         });
         toolbar.add(rightAlignBtn);
 
-        String[] sizes = {"10", "12", "14", "16", "18", "20", "24", "32"};
+        String[] sizes = { "10", "12", "14", "16", "18", "20", "24", "32" };
         this.sizeBox = new JComboBox<String>(sizes);
         sizeBox.setFocusable(false);
 
         // Map MultiLineString size constants to pixel values
         int initialSize = MultiLineString.FontSize.NORMAL; // Default
-        if (source.getSize() == MultiLineString.FontSize.LARGE) initialSize = MultiLineString.FontSize.LARGE;
-        if (source.getSize() == MultiLineString.FontSize.SMALL) initialSize = MultiLineString.FontSize.SMALL;
-        
-        // Track the intended font size ourselves (HTML document attributes are CSS-scaled)
+        if (source.getSize() == MultiLineString.FontSize.LARGE)
+            initialSize = MultiLineString.FontSize.LARGE;
+        if (source.getSize() == MultiLineString.FontSize.SMALL)
+            initialSize = MultiLineString.FontSize.SMALL;
+
+        // Track the intended font size ourselves (HTML document attributes are
+        // CSS-scaled)
         this.currentFontSize = initialSize;
-        
-        // Determine initial underline from source
-        this.currentUnderline = source.isUnderlined();
-        
+
+
         // Determine initial alignment from source
         int initialAlignment = StyleConstants.ALIGN_CENTER;
-        if (source.getJustification() == MultiLineString.Justification.LEFT) initialAlignment = StyleConstants.ALIGN_LEFT;
-        if (source.getJustification() == MultiLineString.Justification.RIGHT) initialAlignment = StyleConstants.ALIGN_RIGHT;
+        if (source.getJustification() == MultiLineString.Justification.LEFT)
+            initialAlignment = StyleConstants.ALIGN_LEFT;
+        if (source.getJustification() == MultiLineString.Justification.RIGHT)
+            initialAlignment = StyleConstants.ALIGN_RIGHT;
         this.currentAlignment = initialAlignment;
-        
+
         // Ensure the JComboBox reflects the size
         sizeBox.setSelectedItem(String.valueOf(initialSize));
         // Set the input attributes so newly typed text uses the correct font size
@@ -227,7 +216,7 @@ public class MultiLineStringEditor extends PropertyEditorSupport
         StyleConstants.setFontSize(inputAttrs, initialSize);
         // Seed underline state so newly typed text inherits the source default
         StyleConstants.setUnderline(inputAttrs, source.isUnderlined());
-        
+
         // Apply initial alignment directly to the document's paragraph attributes
         SimpleAttributeSet alignAttr = new SimpleAttributeSet();
         StyleConstants.setAlignment(alignAttr, initialAlignment);
@@ -249,26 +238,24 @@ public class MultiLineStringEditor extends PropertyEditorSupport
         });
         toolbar.add(sizeBox);
 
-        textPane.addCaretListener(new CaretListener()
-        {
+        textPane.addCaretListener(new CaretListener() {
             @Override
-            public void caretUpdate(CaretEvent e)
-            {
+            public void caretUpdate(CaretEvent e) {
                 if (!isUpdating) {
                     updateToolbarState();
                 }
             }
         });
 
-        textPane.getDocument().addDocumentListener(new DocumentListener()
-        {
+        textPane.getDocument().addDocumentListener(new DocumentListener() {
             private void update() {
                 isUpdating = true;
                 try {
                     source.setText(textPane.getText());
                     firePropertyChange();
-                    
-                    // Run UI updates on the next event loop to avoid "Attempt to mutate in notification"
+
+                    // Run UI updates on the next event loop to avoid "Attempt to mutate in
+                    // notification"
                     SwingUtilities.invokeLater(new Runnable() {
                         @Override
                         public void run() {
@@ -279,26 +266,34 @@ public class MultiLineStringEditor extends PropertyEditorSupport
                     isUpdating = false;
                 }
             }
-            public void insertUpdate(DocumentEvent e) { update(); }
-            public void removeUpdate(DocumentEvent e) { update(); }
-            public void changedUpdate(DocumentEvent e) { update(); }
+
+            public void insertUpdate(DocumentEvent e) {
+                update();
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                update();
+            }
+
+            public void changedUpdate(DocumentEvent e) {
+                update();
+            }
         });
 
         panel.add(toolbar, BorderLayout.NORTH);
         JScrollPane scrollPane = new JScrollPane(textPane);
-        
+
         // Ensure the editor has a 5-line height based on the default font size (12pt)
         Font fontForHeight = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
         int fontHeight = textPane.getFontMetrics(fontForHeight).getHeight();
         scrollPane.setPreferredSize(new java.awt.Dimension(300, 5 * fontHeight + 30)); // +30 for breathing room
-        
+
         panel.add(scrollPane, BorderLayout.CENTER);
-        
+
         return panel;
     }
 
-    private void setCharacterAttributes(AttributeSet attrs)
-    {
+    private void setCharacterAttributes(AttributeSet attrs) {
         int start = textPane.getSelectionStart();
         int end = textPane.getSelectionEnd();
         if (start != end) {
@@ -310,45 +305,47 @@ public class MultiLineStringEditor extends PropertyEditorSupport
         inputAttrs.addAttributes(attrs);
     }
 
-    private void applyAlignment(int alignment)
-    {
+    private void applyAlignment(int alignment) {
         currentAlignment = alignment;
         SimpleAttributeSet sas = new SimpleAttributeSet();
         StyleConstants.setAlignment(sas, alignment);
         StyledDocument doc = textPane.getStyledDocument();
         doc.setParagraphAttributes(0, doc.getLength() + 1, sas, false);
         // Propagate alignment change back to source model
-        if (alignment == StyleConstants.ALIGN_LEFT) source.setJustification(MultiLineString.Justification.LEFT);
-        if (alignment == StyleConstants.ALIGN_CENTER) source.setJustification(MultiLineString.Justification.CENTER);
-        if (alignment == StyleConstants.ALIGN_RIGHT) source.setJustification(MultiLineString.Justification.RIGHT);
+        if (alignment == StyleConstants.ALIGN_LEFT)
+            source.setJustification(MultiLineString.Justification.LEFT);
+        if (alignment == StyleConstants.ALIGN_CENTER)
+            source.setJustification(MultiLineString.Justification.CENTER);
+        if (alignment == StyleConstants.ALIGN_RIGHT)
+            source.setJustification(MultiLineString.Justification.RIGHT);
         // Re-save HTML so it includes the updated alignment for next editor open
         source.setText(textPane.getText());
         firePropertyChange();
     }
 
-    private void updateToolbarState()
-    {
+    private void updateToolbarState() {
         isUpdatingToolbar = true;
         try {
             int pos = textPane.getCaretPosition();
             StyledDocument doc = textPane.getStyledDocument();
-            
+
             // Use character attributes at caret position (or selection start)
             AttributeSet attr = textPane.getInputAttributes();
             if (pos > 0 && (textPane.getSelectedText() == null)) {
                 attr = doc.getCharacterElement(pos - 1).getAttributes();
             }
-            
+
             boldBtn.setSelected(StyleConstants.isBold(attr));
             italicBtn.setSelected(StyleConstants.isItalic(attr));
             underlineBtn.setSelected(StyleConstants.isUnderline(attr));
-            
+
             // Use tracked alignment and font size instead of reading from HTML document
-            // (HTML paragraph/character attributes may have defaults that differ from source)
+            // (HTML paragraph/character attributes may have defaults that differ from
+            // source)
             leftAlignBtn.setSelected(currentAlignment == StyleConstants.ALIGN_LEFT);
             centerAlignBtn.setSelected(currentAlignment == StyleConstants.ALIGN_CENTER);
             rightAlignBtn.setSelected(currentAlignment == StyleConstants.ALIGN_RIGHT);
-            
+
             sizeBox.setSelectedItem(String.valueOf(currentFontSize));
         } finally {
             isUpdatingToolbar = false;
@@ -384,14 +381,12 @@ public class MultiLineStringEditor extends PropertyEditorSupport
     private JComboBox<String> sizeBox;
     private int currentFontSize = MultiLineString.FontSize.NORMAL;
     private int currentAlignment = StyleConstants.ALIGN_CENTER;
-    private boolean currentUnderline = false;
     private boolean isUpdating = false;
     private boolean isUpdatingToolbar = false;
 
     private static Set<KeyStroke> tab = new HashSet<KeyStroke>(1);
     private static Set<KeyStroke> shiftTab = new HashSet<KeyStroke>(1);
-    static
-    {
+    static {
         tab.add(KeyStroke.getKeyStroke("TAB"));
         shiftTab.add(KeyStroke.getKeyStroke("shift TAB"));
     }

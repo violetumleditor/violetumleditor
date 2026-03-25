@@ -6,7 +6,6 @@ import com.horstmann.violet.product.diagram.abstracts.ISelectable;
 import com.horstmann.violet.product.diagram.abstracts.edge.AbstractEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.workspace.IWorkspace;
-import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.sidebar.thicknesstools.IThicknessChangeListener;
 import com.horstmann.violet.workspace.sidebar.thicknesstools.IThicknessChoiceBar;
 
@@ -15,7 +14,6 @@ public class ChangeThicknessBehavior extends AbstractEditorPartBehavior
 
     public ChangeThicknessBehavior(final IWorkspace workspace, final IThicknessChoiceBar thicknessChoiceBar)
     {
-        this.behaviorManager = workspace.getEditorPart().getBehaviorManager();
         thicknessChoiceBar.addThicknessChangeListener(new IThicknessChangeListener()
         {
             @Override
@@ -38,5 +36,4 @@ public class ChangeThicknessBehavior extends AbstractEditorPartBehavior
         });
     }
 
-    private IEditorPartBehaviorManager behaviorManager;
 }

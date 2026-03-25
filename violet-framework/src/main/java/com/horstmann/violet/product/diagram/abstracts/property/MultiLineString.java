@@ -22,7 +22,6 @@
 package com.horstmann.violet.product.diagram.abstracts.property;
 
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -30,7 +29,6 @@ import java.io.Serializable;
 
 import javax.swing.JLabel;
 
-import com.horstmann.violet.framework.swingextension.MultiLineLabel;
 
 /**
  * A string that can extend over multiple lines.

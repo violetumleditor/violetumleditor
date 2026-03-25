@@ -34,7 +34,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import com.horstmann.violet.product.diagram.abstracts.edge.AbstractEdge;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.AbstractNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
