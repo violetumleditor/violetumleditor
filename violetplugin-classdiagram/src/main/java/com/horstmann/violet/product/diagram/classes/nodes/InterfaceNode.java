@@ -22,60 +22,23 @@ public class InterfaceNode extends RectangularNode
     {
         name = new MultiLineString();
         name.setSize(MultiLineString.FontSize.LARGE);
-        name.setText("\u00ABinterface\u00BB");
+        name.setText("«interface»");
         methods = new MultiLineString();
         methods.setJustification(MultiLineString.Justification.LEFT);
-    }
-
-    private Rectangle2D getTopRectangleBounds()
-    {
-        Rectangle2D globalBounds = new Rectangle2D.Double(0, 0, 0, 0);
-        Rectangle2D nameBounds = name.getBounds();
-        globalBounds.add(nameBounds);
-        boolean isMethodsEmpty = (methods.getText().length() == 0);
-        double defaultHeight = DEFAULT_HEIGHT;
-        if (!isMethodsEmpty)
-        {
-            defaultHeight = DEFAULT_COMPARTMENT_HEIGHT;
-        }
-        globalBounds.add(new Rectangle2D.Double(0, 0, DEFAULT_WIDTH, defaultHeight));
-        Point2D currentLocation = getLocation();
-        double x = currentLocation.getX();
-        double y = currentLocation.getY();
-        double w = globalBounds.getWidth();
-        double h = globalBounds.getHeight();
-        globalBounds.setFrame(x, y, w, h);
-        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(globalBounds);
-        return snappedBounds;
-    }
-
-    private Rectangle2D getBottomRectangleBounds()
-    {
-        Rectangle2D globalBounds = new Rectangle2D.Double(0, 0, 0, 0);
-        Rectangle2D methodsBounds = methods.getBounds();
-        globalBounds.add(methodsBounds);
-        if (methodsBounds.getHeight() > 0)
-        {
-            globalBounds.add(new Rectangle2D.Double(0, 0, DEFAULT_WIDTH, DEFAULT_COMPARTMENT_HEIGHT));
-        }
-        Rectangle2D topBounds = getTopRectangleBounds();
-        double x = topBounds.getX();
-        double y = topBounds.getMaxY();
-        double w = globalBounds.getWidth();
-        double h = globalBounds.getHeight();
-        globalBounds.setFrame(x, y, w, h);
-        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(globalBounds);
-        return snappedBounds;
     }
 
     @Override
     public Rectangle2D getBounds()
     {
-        Rectangle2D top = getTopRectangleBounds();
-        Rectangle2D bot = getBottomRectangleBounds();
-        top.add(bot);
-        Rectangle2D snappedBounds = getGraph().getGridSticker().snap(top);
-        return snappedBounds;
+        boolean hasMethods = methods.getText().length() > 0;
+        double maxW = Math.max(DEFAULT_WIDTH,
+                     Math.max(name.getBounds().getWidth(), methods.getBounds().getWidth()));
+        double nameH = Math.max(name.getBounds().getHeight(),
+                       hasMethods ? DEFAULT_COMPARTMENT_HEIGHT : DEFAULT_HEIGHT);
+        double methH = hasMethods ? Math.max(methods.getBounds().getHeight(), DEFAULT_COMPARTMENT_HEIGHT) : 0;
+        Point2D loc = getLocation();
+        Rectangle2D result = new Rectangle2D.Double(loc.getX(), loc.getY(), maxW, nameH + methH);
+        return getGraph().getGridSticker().snap(result);
     }
 
     @Override
@@ -91,20 +54,24 @@ public class InterfaceNode extends RectangularNode
         g2.translate(g2Location.getX(), g2Location.getY());
         // Perform drawing
         super.draw(g2);
+        boolean hasMethods = methods.getText().length() > 0;
         Rectangle2D currentBounds = getBounds();
-        Rectangle2D topBounds = getTopRectangleBounds();
-        Rectangle2D bottomBounds = getBottomRectangleBounds();
-        if (topBounds.getWidth() < currentBounds.getWidth())
-        {
-        	// We need to re-center the topBounds - only do so if really required to avoid race conditions
-        	topBounds.setRect(topBounds.getX(), topBounds.getY(), currentBounds.getWidth(), topBounds.getHeight());
-        }
+        double x = currentBounds.getX();
+        double y = currentBounds.getY();
+        double w = currentBounds.getWidth();
+        double nameH = Math.max(name.getBounds().getHeight(),
+                       hasMethods ? DEFAULT_COMPARTMENT_HEIGHT : DEFAULT_HEIGHT);
+        double methH = hasMethods ? Math.max(methods.getBounds().getHeight(), DEFAULT_COMPARTMENT_HEIGHT) : 0;
+        Rectangle2D topBounds    = new Rectangle2D.Double(x, y,         w, nameH);
+        Rectangle2D bottomBounds = new Rectangle2D.Double(x, y + nameH, w, methH);
         g2.setColor(getBackgroundColor());
         g2.fill(currentBounds);
         g2.setColor(getBorderColor());
         g2.draw(currentBounds);
-        g2.setColor(getBorderColor());
-        g2.drawLine((int) topBounds.getX(), (int) topBounds.getMaxY(), (int) currentBounds.getMaxX(), (int) topBounds.getMaxY());
+        if (hasMethods)
+        {
+            g2.drawLine((int) x, (int) topBounds.getMaxY(), (int) currentBounds.getMaxX(), (int) topBounds.getMaxY());
+        }
         g2.setColor(getTextColor());
         name.draw(g2, topBounds);
         methods.draw(g2, bottomBounds);
