@@ -54,7 +54,12 @@ public class MultiLineString implements Serializable, Cloneable {
 	 *            the text of the multiline string
 	 */
 	public void setText(String newValue) {
-		text = newValue;
+		String value = newValue == null ? "" : newValue;
+		if (startsWithHtml(value)) {
+			text = value;
+		} else {
+			text = buildHtmlFromRawText(value);
+		}
 		setLabelText();
 		isBoundsDirty = true;
 	}
@@ -139,11 +144,13 @@ public class MultiLineString implements Serializable, Cloneable {
 		String alignStr = "center";
 		if (defaultJustification == Justification.LEFT) alignStr = "left";
 		else if (defaultJustification == Justification.RIGHT) alignStr = "right";
-		String pAttrs = "align=\"" + alignStr + "\" style=\"margin-top:0;margin-bottom:0;\"";
+		String textDecoration = defaultUnderlined ? "underline" : "none";
+		String pAttrs = "align=\"" + alignStr + "\" style=\"margin-top:0;margin-bottom:0;text-align:"
+				+ alignStr + ";text-decoration:" + textDecoration + ";font-size:" + defaultSize + "pt;\"";
 
 		String html = text;
-		if (!html.toLowerCase().startsWith("<html>")) {
-			html = "<html><p " + pAttrs + ">" + html + "</p></html>";
+		if (!startsWithHtml(html)) {
+			html = buildHtmlFromRawText(html);
 		} else {
 			// JTextPane serializes each line as a separate <p>. Collapse adjacent </p><p>
 			// boundaries into <br> so there is only one paragraph block — this eliminates
@@ -171,6 +178,22 @@ public class MultiLineString implements Serializable, Cloneable {
 					return sb.toString();
 				});
 		getLabel().setText(html);
+	}
+
+	private boolean startsWithHtml(String value) {
+		return value != null && value.toLowerCase().startsWith("<html>");
+	}
+
+	private String buildHtmlFromRawText(String raw) {
+		String alignStr = "center";
+		if (defaultJustification == Justification.LEFT) alignStr = "left";
+		else if (defaultJustification == Justification.RIGHT) alignStr = "right";
+		String textDecoration = defaultUnderlined ? "underline" : "none";
+		String pAttrs = "align=\"" + alignStr + "\" style=\"margin-top:0;margin-bottom:0;text-align:"
+				+ alignStr + ";text-decoration:" + textDecoration + ";font-size:" + defaultSize + "pt;\"";
+		String escaped = raw.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+				.replace("\r\n", "<br>").replace("\n", "<br>").replace("\r", "<br>");
+		return "<html><p " + pAttrs + ">" + escaped + "</p></html>";
 	}
 
 	/**
