@@ -145,19 +145,25 @@ public class MultiLineString implements Serializable, Cloneable {
 		if (defaultJustification == Justification.LEFT) alignStr = "left";
 		else if (defaultJustification == Justification.RIGHT) alignStr = "right";
 		String textDecoration = defaultUnderlined ? "underline" : "none";
-		String pAttrs = "align=\"" + alignStr + "\" style=\"margin-top:0;margin-bottom:0;text-align:"
-				+ alignStr + ";text-decoration:" + textDecoration + ";font-size:" + defaultSize + "pt;\"";
+		String blockStyle = "margin:0;padding:0;text-align:" + alignStr + ";text-decoration:"
+				+ textDecoration + ";font-size:" + defaultSize + "pt;";
 
 		String html = text;
 		if (!startsWithHtml(html)) {
 			html = buildHtmlFromRawText(html);
 		} else {
-			// JTextPane serializes each line as a separate <p>. Collapse adjacent </p><p>
-			// boundaries into <br> so there is only one paragraph block — this eliminates
-			// Swing's default paragraph top/bottom margins that produce blank-line gaps.
-			html = html.replaceAll("(?i)</p>\\s*<p[^>]*>", "<br>");
-			// Stamp alignment and zero margins on the single remaining <p>
-			html = html.replaceAll("(?i)<p(\\s[^>]*)?>", "<p " + pAttrs + ">");
+			// Normalize editor HTML to one zero-margin block to avoid default body/p spacing.
+			String content = html;
+			content = content.replaceAll("(?is)<head>.*?</head>", "");
+			content = content.replaceAll("(?i)^\\s*<html>\\s*", "");
+			content = content.replaceAll("(?i)\\s*</html>\\s*$", "");
+			content = content.replaceAll("(?i)^\\s*<body[^>]*>\\s*", "");
+			content = content.replaceAll("(?i)\\s*</body>\\s*$", "");
+			content = content.replaceAll("(?i)</p>\\s*<p[^>]*>", "<br>");
+			content = content.replaceAll("(?i)</div>\\s*<div[^>]*>", "<br>");
+			content = content.replaceAll("(?i)</?p(\\s[^>]*)?>", "");
+			content = content.replaceAll("(?i)</?div(\\s[^>]*)?>", "");
+			html = "<html><div style=\"" + blockStyle + "\">" + content + "</div></html>";
 		}
 		// Preserve leading/trailing spaces (HTML collapses whitespace at text-node boundaries)
 		html = java.util.regex.Pattern.compile(">([ ]+)")
@@ -189,11 +195,11 @@ public class MultiLineString implements Serializable, Cloneable {
 		if (defaultJustification == Justification.LEFT) alignStr = "left";
 		else if (defaultJustification == Justification.RIGHT) alignStr = "right";
 		String textDecoration = defaultUnderlined ? "underline" : "none";
-		String pAttrs = "align=\"" + alignStr + "\" style=\"margin-top:0;margin-bottom:0;text-align:"
-				+ alignStr + ";text-decoration:" + textDecoration + ";font-size:" + defaultSize + "pt;\"";
+		String blockStyle = "margin:0;padding:0;text-align:" + alignStr + ";text-decoration:"
+				+ textDecoration + ";font-size:" + defaultSize + "pt;";
 		String escaped = raw.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 				.replace("\r\n", "<br>").replace("\n", "<br>").replace("\r", "<br>");
-		return "<html><p " + pAttrs + ">" + escaped + "</p></html>";
+		return "<html><div style=\"" + blockStyle + "\">" + escaped + "</div></html>";
 	}
 
 	/**
