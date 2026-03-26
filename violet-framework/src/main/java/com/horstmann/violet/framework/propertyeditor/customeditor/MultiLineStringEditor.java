@@ -144,6 +144,8 @@ public class MultiLineStringEditor extends PropertyEditorSupport {
                 SimpleAttributeSet sas = new SimpleAttributeSet();
                 StyleConstants.setUnderline(sas, isNowUnderline);
                 setCharacterAttributes(sas);
+                source.setUnderlined(isNowUnderline);
+                firePropertyChange();
                 textPane.requestFocusInWindow();
             }
         });

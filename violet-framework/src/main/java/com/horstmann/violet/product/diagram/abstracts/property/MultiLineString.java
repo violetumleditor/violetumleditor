@@ -22,10 +22,14 @@
 package com.horstmann.violet.product.diagram.abstracts.property;
 
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.font.TextAttribute;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JLabel;
 import javax.swing.plaf.basic.BasicHTML;
@@ -144,9 +148,7 @@ public class MultiLineString implements Serializable, Cloneable {
 		String alignStr = "center";
 		if (defaultJustification == Justification.LEFT) alignStr = "left";
 		else if (defaultJustification == Justification.RIGHT) alignStr = "right";
-		String textDecoration = defaultUnderlined ? "underline" : "none";
-		String blockStyle = "margin:0;padding:0;text-align:" + alignStr + ";text-decoration:"
-				+ textDecoration + ";font-size:" + defaultSize + "pt;";
+		String blockStyle = "margin:0;padding:0;text-align:" + alignStr + ";font-size:" + defaultSize + "pt;";
 
 		String html = text;
 		if (!startsWithHtml(html)) {
@@ -163,6 +165,8 @@ public class MultiLineString implements Serializable, Cloneable {
 			content = content.replaceAll("(?i)</div>\\s*<div[^>]*>", "<br>");
 			content = content.replaceAll("(?i)</?p(\\s[^>]*)?>", "");
 			content = content.replaceAll("(?i)</?div(\\s[^>]*)?>", "");
+			// Remove any persisted underline style from editor HTML; model flag controls underline.
+			content = content.replaceAll("(?i)text-decoration\\s*:\\s*[^;\"']+;?", "");
 			html = "<html><div style=\"" + blockStyle + "\">" + content + "</div></html>";
 		}
 		// Preserve leading/trailing spaces (HTML collapses whitespace at text-node boundaries)
@@ -183,7 +187,15 @@ public class MultiLineString implements Serializable, Cloneable {
 					for (int i = 1; i < n; i++) sb.append("&nbsp;");
 					return sb.toString();
 				});
-		getLabel().setText(html);
+		JLabel currentLabel = getLabel();
+		Font currentFont = currentLabel.getFont().deriveFont((float) defaultSize);
+		if (defaultUnderlined) {
+			Map<TextAttribute, Object> attributes = new HashMap<TextAttribute, Object>(currentFont.getAttributes());
+			attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+			currentFont = currentFont.deriveFont(attributes);
+		}
+		currentLabel.setFont(currentFont);
+		currentLabel.setText(html);
 	}
 
 	private boolean startsWithHtml(String value) {
@@ -194,9 +206,7 @@ public class MultiLineString implements Serializable, Cloneable {
 		String alignStr = "center";
 		if (defaultJustification == Justification.LEFT) alignStr = "left";
 		else if (defaultJustification == Justification.RIGHT) alignStr = "right";
-		String textDecoration = defaultUnderlined ? "underline" : "none";
-		String blockStyle = "margin:0;padding:0;text-align:" + alignStr + ";text-decoration:"
-				+ textDecoration + ";font-size:" + defaultSize + "pt;";
+		String blockStyle = "margin:0;padding:0;text-align:" + alignStr + ";font-size:" + defaultSize + "pt;";
 		String escaped = raw.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 				.replace("\r\n", "<br>").replace("\n", "<br>").replace("\r", "<br>");
 		return "<html><div style=\"" + blockStyle + "\">" + escaped + "</div></html>";
