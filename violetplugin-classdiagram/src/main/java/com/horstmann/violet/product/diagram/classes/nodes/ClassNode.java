@@ -77,10 +77,6 @@ public class ClassNode extends RectangularNode
             g2.drawLine((int) x, (int) topBounds.getMaxY(), (int) currentBounds.getMaxX(), (int) topBounds.getMaxY());
             g2.drawLine((int) x, (int) midBounds.getMaxY(), (int) currentBounds.getMaxX(), (int) midBounds.getMaxY());
         }
-        g2.setColor(Color.RED);
-        g2.draw(topBounds);
-        g2.draw(midBounds);
-        g2.draw(bottomBounds);
         g2.setColor(getTextColor());
         name.draw(g2, topBounds);
         attributes.draw(g2, midBounds);
