@@ -28,6 +28,8 @@ import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
 import javax.swing.JLabel;
+import javax.swing.plaf.basic.BasicHTML;
+import javax.swing.text.View;
 
 
 /**
@@ -211,6 +213,10 @@ public class MultiLineString implements Serializable, Cloneable {
 	 */
 	public void draw(Graphics2D g2, Rectangle2D r) {
 		getLabel().setBounds(0, 0, (int) r.getWidth(), (int) r.getHeight());
+		Object viewObj = getLabel().getClientProperty(BasicHTML.propertyKey);
+		if (viewObj instanceof View) {
+			((View) viewObj).setSize((int) r.getWidth(), (int) r.getHeight());
+		}
 		g2.translate(r.getX(), r.getY());
 		getLabel().paint(g2);
 		g2.translate(-r.getX(), -r.getY());
