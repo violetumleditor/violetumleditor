@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 
 import com.horstmann.violet.application.gui.MainFrame;
 import com.horstmann.violet.framework.dialog.DialogFactory;
@@ -31,6 +32,20 @@ public class ApplicationStopper
      */
     public void exitProgram(MainFrame mainFrame)
     {
+        // Ask password in a dialog box if in kiosk mode 
+        if (this.launchingPreferences.isKioskMode())
+        {
+            JPasswordField passwordField = new JPasswordField();
+            JOptionPane optionPane = new JOptionPane(new Object[]{this.kioskPasswordRequiredMessage, passwordField}, JOptionPane.CLOSED_OPTION, JOptionPane.OK_CANCEL_OPTION);
+            this.dialogFactory.showDialog(optionPane, this.dialogExitTitle, true);
+            String password = new String(passwordField.getPassword());
+            if (!this.launchingPreferences.getAdminPassword().equals(password))
+            {
+                this.dialogFactory.showDialog(new JOptionPane(this.kioskPasswordWrongMessage, JOptionPane.ERROR_MESSAGE), this.dialogExitTitle, true);
+                return;
+            }
+        }
+        
         boolean ok = isItReadyToExit(mainFrame);
         if (ok)
         {
@@ -117,10 +132,19 @@ public class ApplicationStopper
     @ResourceBundleBean(key = "dialog.exit.title")
     private String dialogExitTitle;
 
+    @ResourceBundleBean(key = "dialog.kiosk.password.required")
+    private String kioskPasswordRequiredMessage;
+
+    @ResourceBundleBean(key = "dialog.kiosk.password.wrong")
+    private String kioskPasswordWrongMessage;
+
     @InjectedBean
     private DialogFactory dialogFactory;
 
     @InjectedBean
     private UserPreferencesService userPreferencesService;
+
+    @InjectedBean
+    private LaunchingPreferences launchingPreferences;
 
 }

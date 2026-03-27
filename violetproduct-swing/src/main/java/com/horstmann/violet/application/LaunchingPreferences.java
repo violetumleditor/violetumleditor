@@ -43,6 +43,11 @@ public class LaunchingPreferences {
                 this.isKioskMode = true;
                 optionArgList.add(arg);
             }
+            if (arg.startsWith("-adminPassword="))
+            {
+                this.adminPassword = arg.substring("-adminPassword=".length());
+                optionArgList.add(arg);
+            }
         }
         List<String> fileArgList = new ArrayList<String>(argsList);
         fileArgList.removeAll(optionArgList);
@@ -75,9 +80,15 @@ public class LaunchingPreferences {
         return filesToOpen;
     }
 
+    public String getAdminPassword()
+    {
+        return adminPassword;
+    }
+
 
     private boolean isResetUserPreferences;
     private boolean isKioskMode;
+    private String adminPassword = "admin";
     private boolean isEnglishLanguageForced;
     private boolean isHelpRequested;
     private List<String> filesToOpen = new ArrayList<>();
