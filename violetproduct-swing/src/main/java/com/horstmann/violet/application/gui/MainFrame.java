@@ -32,7 +32,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Box;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -120,7 +122,27 @@ public class MainFrame extends JFrame
         menuBar.add(menuFactory.getViewMenu(this));
         menuBar.add(menuFactory.getDocumentMenu(this));
         menuBar.add(menuFactory.getHelpMenu(this));
+        if (this.launchingPreferences.isKioskMode() || isUndecorated())
+        {
+            this.frameTitleInMenuBarLabel = new JLabel(getTitle());
+            this.frameTitleInMenuBarLabel.setHorizontalAlignment(JLabel.CENTER);
+            this.frameTitleInMenuBarLabel.setFont(this.themeManager.getTheme().getMenubarFont());
+            this.frameTitleInMenuBarLabel.setBorder(new EmptyBorder(0, 8, 0, 8));
+            menuBar.add(Box.createHorizontalGlue());
+            menuBar.add(this.frameTitleInMenuBarLabel);
+            menuBar.add(Box.createHorizontalGlue());
+        }
         setJMenuBar(menuBar);
+    }
+
+    @Override
+    public void setTitle(String title)
+    {
+        super.setTitle(title);
+        if (this.frameTitleInMenuBarLabel != null)
+        {
+            this.frameTitleInMenuBarLabel.setText(title);
+        }
     }
     
 
@@ -344,6 +366,11 @@ public class MainFrame extends JFrame
      * All disgram workspaces
      */
     private List<IWorkspace> workspaceList = new ArrayList<IWorkspace>();
+
+    /**
+     * Displays frame title when native decoration is hidden.
+     */
+    private JLabel frameTitleInMenuBarLabel;
 
     // workaround for bug #4646747 in J2SE SDK 1.4.0
     private static java.util.HashMap<Class<?>, BeanInfo> beanInfos;
