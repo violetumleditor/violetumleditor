@@ -24,11 +24,13 @@ import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
 import javax.swing.JFrame;
 
+import com.horstmann.violet.application.LaunchingPreferences;
 import com.horstmann.violet.application.gui.MainFrame;
 import com.horstmann.violet.application.gui.SplashScreen;
 import com.horstmann.violet.framework.dialog.DialogFactory;
@@ -65,6 +67,8 @@ import com.horstmann.violet.workspace.Workspace;
 public class UMLEditorApplication
 {
 
+    
+
     /**
      * Standalone application entry point
      * 
@@ -72,30 +76,8 @@ public class UMLEditorApplication
      */
     public static void main(String[] args)
     {
-        for (int i = 0; i < args.length; i++)
-        {
-            String arg = args[i];
-            if ("-reset".equals(arg))
-            {
-                initBeanFactory();
-                UserPreferencesService service = BeanFactory.getFactory().getBean(UserPreferencesService.class);
-                service.reset();
-                System.out.println("User preferences reset done.");
-            }
-            if ("-english".equals(arg))
-            {
-                Locale.setDefault(Locale.ENGLISH);
-                System.out.println("Language forced to english.");
-            }
-            if ("-help".equals(arg) || "-?".equals(arg))
-            {
-                System.out.println("Violet UML Editor command line help. Options are :");
-                System.out.println("-reset to reset user preferences,");
-                System.out.println("-english to force language to english.");
-                return;
-            }
-        }
-        new UMLEditorApplication(args);
+        initBeanFactory(args);
+        new UMLEditorApplication();
     }
 
     /**
@@ -103,14 +85,33 @@ public class UMLEditorApplication
      * 
      * @param filesToOpen
      */
-    private UMLEditorApplication(String[] filesToOpen)
+    private UMLEditorApplication()
     {
-        initBeanFactory();
         BeanInjector.getInjector().inject(this);
-        createDefaultWorkspace(filesToOpen);
+        LaunchingPreferences launchingPreferences = BeanFactory.getFactory().getBean(LaunchingPreferences.class);
+        if (launchingPreferences.isResetUserPreferences())
+        {
+            UserPreferencesService service = BeanFactory.getFactory().getBean(UserPreferencesService.class);
+            service.reset();
+            System.out.println("User preferences reset done.");
+        }
+        if (launchingPreferences.isEnglishLanguageForced())
+        {
+            Locale.setDefault(Locale.ENGLISH);
+            System.out.println("Language forced to english.");
+        }
+        if (launchingPreferences.isHelpRequested())
+        {
+                System.out.println("Violet UML Editor command line help. Options are :");
+                System.out.println("-reset to reset user preferences,");
+                System.out.println("-english to force language to english.");
+                System.out.println("-kioskMode to start violet in kiosk mode (no menu, no toolbar, no status bar).");
+                System.exit(0);
+        }
+        createDefaultWorkspace();
     }
     
-    private static void initBeanFactory() {
+    private static void initBeanFactory(String[] args) {
         IUserPreferencesDao userPreferencesDao = new DefaultUserPreferencesDao();
         BeanFactory.getFactory().register(IUserPreferencesDao.class, userPreferencesDao);
 
@@ -139,6 +140,9 @@ public class UMLEditorApplication
         
         IFileChooserService fileChooserService = new JFileChooserService();
         BeanFactory.getFactory().register(IFileChooserService.class, fileChooserService);
+
+        LaunchingPreferences launchingPreferences = new LaunchingPreferences(args);
+        BeanFactory.getFactory().register(LaunchingPreferences.class, launchingPreferences);
     }
 
 
@@ -150,19 +154,21 @@ public class UMLEditorApplication
      * + command line args<br>
      * + last workspace restore<br>
      */
-    private void createDefaultWorkspace(String[] filesToOpen)
+    private void createDefaultWorkspace()
     {
         installPlugins();
         SplashScreen splashScreen = new SplashScreen();
-        splashScreen.setVisible(true);
+        splashScreen.setVisible(!this.launchingPreferences.isKioskMode());
         this.versionChecker.checkJavaVersion();
         MainFrame mainFrame = new MainFrame();
         mainFrame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
         mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        mainFrame.setUndecorated(this.launchingPreferences.isKioskMode());
         SplashScreen.displayOverEditor(mainFrame, 1000);
         List<IFile> fullList = new ArrayList<IFile>();
         List<IFile> lastSessionFiles = this.userPreferencesService.getOpenedFilesDuringLastSession();
         fullList.addAll(lastSessionFiles);
+        List<String> filesToOpen = this.launchingPreferences.getFilesToOpen();
         for (String aFileToOpen : filesToOpen)
         {
             try
@@ -218,6 +224,9 @@ public class UMLEditorApplication
 
     @InjectedBean
     private UserPreferencesService userPreferencesService;
+
+    @InjectedBean
+    private LaunchingPreferences launchingPreferences;
 
 
 }
