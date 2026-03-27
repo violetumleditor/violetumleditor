@@ -74,6 +74,13 @@ public class SplashScreen extends JWindow
 
     public static void displayOverEditor(MainFrame editorFrame, int waitTime)
     {
+        // If waitTime is 0 or negative, do not display the splash screen
+        if (waitTime <= 0)
+        {
+            return;
+        }
+      
+        
         final SplashScreen splashScreen = new SplashScreen(editorFrame);
 
         splashScreen.addMouseListener(new MouseAdapter()

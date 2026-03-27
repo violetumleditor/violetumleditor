@@ -44,6 +44,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import com.horstmann.violet.application.ApplicationStopper;
+import com.horstmann.violet.application.LaunchingPreferences;
 import com.horstmann.violet.application.gui.MainFrame;
 import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.file.GraphFile;
@@ -119,8 +120,7 @@ public class FileMenu extends JMenu
         initFileSaveAsItem();
         initFileExportMenu();
         initFilePrintItem();
-        initFileExitItem();
-
+        
         this.add(this.fileNewMenu);
         this.add(this.fileOpenItem);
         this.add(this.fileCloseItem);
@@ -129,8 +129,11 @@ public class FileMenu extends JMenu
         this.add(this.fileSaveAsItem);
         this.add(this.fileExportMenu);
         this.add(this.filePrintItem);
-        this.add(this.fileExitItem);
-
+        
+        if (!this.launchingPreferences.isKioskMode()) {
+            initFileExitItem();
+            this.add(this.fileExitItem);
+        }
     }
 
     /**
@@ -647,6 +650,13 @@ public class FileMenu extends JMenu
      */
     @InjectedBean
     private IFilePersistenceService filePersistenceService;
+
+
+    /**
+     * Launching preferences
+     */
+    @InjectedBean
+    private LaunchingPreferences launchingPreferences;
 
     /**
      * Application main frame

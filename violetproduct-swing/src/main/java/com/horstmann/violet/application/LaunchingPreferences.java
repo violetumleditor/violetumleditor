@@ -6,6 +6,12 @@ import java.util.List;
 
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.ManagedBean;
 
+/**
+ * Bean containing the preferences used at application launch, such as the list of files to open, or whether to start in kiosk mode.
+ * These preferences are set by parsing the command line arguments passed to the application.
+ * The parsing is done in the constructor of this bean, and the resulting preferences are stored in the fields of this bean.
+ * This bean is then injected into the UMLEditorApplication bean, and can be used to access the launch preferences throughout the application.
+ */
 @ManagedBean
 public class LaunchingPreferences {
 

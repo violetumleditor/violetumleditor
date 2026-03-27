@@ -37,6 +37,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.horstmann.violet.application.LaunchingPreferences;
 import com.horstmann.violet.application.help.AboutDialog;
 import com.horstmann.violet.application.menu.MenuFactory;
 import com.horstmann.violet.framework.dialog.DialogFactory;
@@ -319,6 +320,13 @@ public class MainFrame extends JFrame
      */
     @InjectedBean
     private DialogFactory dialogFactory;
+
+
+    /**
+     * Launching preferences
+     */
+    @InjectedBean
+    private LaunchingPreferences launchingPreferences;
 
     /**
      * Needed to open files

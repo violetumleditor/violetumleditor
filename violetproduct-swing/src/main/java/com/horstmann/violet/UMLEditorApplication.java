@@ -157,14 +157,12 @@ public class UMLEditorApplication
     private void createDefaultWorkspace()
     {
         installPlugins();
-        SplashScreen splashScreen = new SplashScreen();
-        splashScreen.setVisible(!this.launchingPreferences.isKioskMode());
         this.versionChecker.checkJavaVersion();
         MainFrame mainFrame = new MainFrame();
         mainFrame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
         mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         mainFrame.setUndecorated(this.launchingPreferences.isKioskMode());
-        SplashScreen.displayOverEditor(mainFrame, 1000);
+        SplashScreen.displayOverEditor(mainFrame, this.launchingPreferences.isKioskMode() ? 0 : 1000);
         List<IFile> fullList = new ArrayList<IFile>();
         List<IFile> lastSessionFiles = this.userPreferencesService.getOpenedFilesDuringLastSession();
         fullList.addAll(lastSessionFiles);
@@ -202,8 +200,6 @@ public class UMLEditorApplication
         IFile activeFile = this.userPreferencesService.getActiveDiagramFile();
         mainFrame.setActiveWorkspace(activeFile);
         mainFrame.setVisible(true);
-        splashScreen.setVisible(false);
-        splashScreen.dispose();
     }
 
     /**
