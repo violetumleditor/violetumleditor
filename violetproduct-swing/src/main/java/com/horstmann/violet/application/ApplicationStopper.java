@@ -77,6 +77,30 @@ public class ApplicationStopper
         }
         int unsavedCount = dirtyWorkspaceList.size();
         IWorkspace activeWorkspace = mainFrame.getActiveWorkspace();
+        if (this.launchingPreferences.isAutoSave())
+        {
+            for (IWorkspace aDirtyWorkspace : dirtyWorkspaceList)
+            {
+                IGraphFile graphFile = aDirtyWorkspace.getGraphFile();
+                if (graphFile.getFilename() == null || graphFile.getDirectory() == null)
+                {
+                    continue;
+                }
+                try
+                {
+                    graphFile.save();
+                }
+                catch (RuntimeException e)
+                {
+                    // Keep exit flow popup-free when auto-save is enabled.
+                }
+            }
+            if (activeWorkspace != null)
+            {
+                this.userPreferencesService.setActiveDiagramFile(activeWorkspace.getGraphFile());
+            }
+            return true;
+        }
         if (unsavedCount > 0)
         {
             // ask user if it is ok to close
