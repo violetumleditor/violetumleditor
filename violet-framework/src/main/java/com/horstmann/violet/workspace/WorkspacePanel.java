@@ -13,7 +13,6 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
-import com.horstmann.violet.framework.swingextension.TinyScrollBarUI;
 import com.horstmann.violet.framework.theme.ThemeManager;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.sidebar.ISideBar;
