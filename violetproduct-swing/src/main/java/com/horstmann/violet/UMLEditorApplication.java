@@ -29,7 +29,6 @@ import java.util.Locale;
 
 import javax.swing.JFrame;
 
-import com.horstmann.violet.application.LaunchingPreferences;
 import com.horstmann.violet.application.gui.MainFrame;
 import com.horstmann.violet.application.gui.SplashScreen;
 import com.horstmann.violet.framework.dialog.DialogFactory;
@@ -54,6 +53,7 @@ import com.horstmann.violet.framework.theme.FlatLightTheme;
 import com.horstmann.violet.framework.theme.ITheme;
 import com.horstmann.violet.framework.theme.ThemeManager;
 import com.horstmann.violet.framework.userpreferences.DefaultUserPreferencesDao;
+import com.horstmann.violet.framework.userpreferences.LaunchingPreferences;
 import com.horstmann.violet.framework.userpreferences.IUserPreferencesDao;
 import com.horstmann.violet.framework.userpreferences.UserPreferencesService;
 import com.horstmann.violet.framework.util.VersionChecker;
@@ -105,6 +105,7 @@ public class UMLEditorApplication
                 System.out.println("-reset to reset user preferences,");
                 System.out.println("-english to force language to english.");
                 System.out.println("-kioskMode to start violet in kiosk mode (no menu, no toolbar, no status bar).");
+                System.out.println("-autoSave to save modified diagrams after 10 seconds of inactivity.");
                 System.exit(0);
         }
         createDefaultWorkspace();

@@ -1,4 +1,4 @@
-package com.horstmann.violet.application;
+package com.horstmann.violet.framework.userpreferences;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,15 +7,11 @@ import java.util.List;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.ManagedBean;
 
 /**
- * Bean containing the preferences used at application launch, such as the list of files to open, or whether to start in kiosk mode.
- * These preferences are set by parsing the command line arguments passed to the application.
- * The parsing is done in the constructor of this bean, and the resulting preferences are stored in the fields of this bean.
- * This bean is then injected into the UMLEditorApplication bean, and can be used to access the launch preferences throughout the application.
+ * Bean containing preferences parsed from command line arguments.
  */
 @ManagedBean
-public class LaunchingPreferences {
-
-
+public class LaunchingPreferences
+{
 
     public LaunchingPreferences(String[] args)
     {
@@ -43,6 +39,11 @@ public class LaunchingPreferences {
                 this.isKioskMode = true;
                 optionArgList.add(arg);
             }
+            if ("-autoSave".equals(arg))
+            {
+                this.isAutoSave = true;
+                optionArgList.add(arg);
+            }
             if (arg.startsWith("-adminPassword="))
             {
                 this.adminPassword = arg.substring("-adminPassword=".length());
@@ -53,7 +54,6 @@ public class LaunchingPreferences {
         fileArgList.removeAll(optionArgList);
         this.filesToOpen = fileArgList;
     }
-
 
     public boolean isResetUserPreferences()
     {
@@ -85,12 +85,22 @@ public class LaunchingPreferences {
         return adminPassword;
     }
 
+    public boolean isAutoSave()
+    {
+        return isAutoSave;
+    }
+
+    public boolean isAutosave()
+    {
+        return isAutoSave();
+    }
 
     private boolean isResetUserPreferences;
     private boolean isKioskMode;
     private String adminPassword = "admin";
     private boolean isEnglishLanguageForced;
     private boolean isHelpRequested;
+    private boolean isAutoSave;
     private List<String> filesToOpen = new ArrayList<>();
 
 }
