@@ -14,7 +14,8 @@
 <body>
   <script type="module">
     await cheerpjInit({
-        version: 17 
+        version: 17,
+        clipboardMode: "permission"
     });
     cheerpjCreateDisplay(-1, -1, document.body);
     await cheerpjRunJar("/app/violetumleditor/violetumleditor-latest.jar", "-kioskMode");
