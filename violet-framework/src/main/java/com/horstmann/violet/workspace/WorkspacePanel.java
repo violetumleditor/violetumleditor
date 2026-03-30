@@ -100,10 +100,9 @@ public class WorkspacePanel extends JPanel
             ISideBar sideBar = this.workspace.getSideBar();
             this.scrollableSideBar = new JScrollPane(sideBar.getAWTComponent());
             this.scrollableSideBar.setAlignmentY(Component.TOP_ALIGNMENT);
-            this.scrollableSideBar.getHorizontalScrollBar().setUI(new TinyScrollBarUI());
-            this.scrollableSideBar.getVerticalScrollBar().setUI(new TinyScrollBarUI());
-//            this.scrollableSideBar.setBorder(new MatteBorder(0, 1, 0, 0, ThemeManager.getInstance().getTheme()
-//                    .getSidebarBorderColor()));
+            //this.scrollableSideBar.getHorizontalScrollBar().setUI(new TinyScrollBarUI());
+            //this.scrollableSideBar.getVerticalScrollBar().setUI(new TinyScrollBarUI());
+            //this.scrollableSideBar.setBorder(new MatteBorder(0, 1, 0, 0, ThemeManager.getInstance().getTheme().getSidebarBorderColor()));
             this.scrollableSideBar.setBorder(new EmptyBorder(0, 0, 0, 0));
             this.scrollableSideBar.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
             this.scrollableSideBar.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);

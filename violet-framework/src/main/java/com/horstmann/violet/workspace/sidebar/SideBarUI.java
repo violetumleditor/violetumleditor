@@ -41,10 +41,9 @@ public class SideBarUI extends PanelUI
         this.taskPane.setBorder(new EmptyBorder(0, 0, 0, 0));
         addElementToTaskPane(this.sideBar.getEditorToolsBar().getAWTComponent(), standardButtonsTitle, 0);
         addElementToTaskPane(this.sideBar.getGraphToolsBar().getAWTComponent(), diagramToolsTitle, 1);
-        addElementToTaskPane(this.sideBar.getOptionalToolsBar().getAWTComponent(), extendedFunctionsTitle, 2);
-        addElementToTaskPane(this.sideBar.getColorChoiceBar().getAWTComponent(), colorToolsTitle, 3);
-        addElementToTaskPane(this.sideBar.getThicknessChoiceBar().getAWTComponent(), thicknessToolsTitle, 4);
-        int i = 5;
+        addElementToTaskPane(this.sideBar.getColorChoiceBar().getAWTComponent(), colorToolsTitle, 2);
+        addElementToTaskPane(this.sideBar.getThicknessChoiceBar().getAWTComponent(), thicknessToolsTitle, 3);
+        int i = 4;
         for (ISideBarElement anExternalElement : this.sideBar.getExternalContributionElements().keySet()) {
             String externalElementTitle = this.sideBar.getExternalContributionElements().get(anExternalElement);
             addElementToTaskPane(anExternalElement.getAWTComponent(), externalElementTitle, i++);
