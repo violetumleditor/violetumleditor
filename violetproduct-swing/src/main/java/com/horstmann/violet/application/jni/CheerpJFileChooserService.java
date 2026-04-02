@@ -15,7 +15,7 @@ import com.horstmann.violet.framework.injection.bean.ManiocFramework.ManagedBean
  * It supports file writing by delegating save operations to browser download APIs
  * through JavaScript native methods.
  */
-@ManagedBean
+@ManagedBean(registeredManually=true)
 public class CheerpJFileChooserService implements IFileChooserService {
 
     private static final String DEFAULT_BASENAME = "diagram";
