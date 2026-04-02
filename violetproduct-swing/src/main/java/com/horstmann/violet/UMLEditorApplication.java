@@ -31,6 +31,8 @@ import javax.swing.JFrame;
 
 import com.horstmann.violet.application.gui.MainFrame;
 import com.horstmann.violet.application.gui.SplashScreen;
+import com.horstmann.violet.application.jni.CheerpJFileChooserService;
+import com.horstmann.violet.application.jni.CheerpJInterfaceService;
 import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.dialog.DialogFactoryMode;
 import com.horstmann.violet.framework.file.GraphFile;
@@ -66,7 +68,6 @@ import com.horstmann.violet.workspace.Workspace;
 public class UMLEditorApplication
 {
 
-    
 
     /**
      * Standalone application entry point
@@ -138,7 +139,12 @@ public class UMLEditorApplication
         IFilePersistenceService filePersistenceService = new XHTMLPersistenceService();
         BeanFactory.getFactory().register(IFilePersistenceService.class, filePersistenceService);
         
-        IFileChooserService fileChooserService = new JFileChooserService();
+        IFileChooserService fileChooserService;
+        if (CheerpJInterfaceService.isJavaScriptBridgeAvailable()) {
+            fileChooserService = new CheerpJFileChooserService();
+        } else {
+            fileChooserService = new JFileChooserService();
+        }
         BeanFactory.getFactory().register(IFileChooserService.class, fileChooserService);
 
         LaunchingPreferences launchingPreferences = new LaunchingPreferences(args);
@@ -158,10 +164,9 @@ public class UMLEditorApplication
     {
         installPlugins();
         this.versionChecker.checkJavaVersion();
-        MainFrame mainFrame = new MainFrame();
-        mainFrame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
-        mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        mainFrame.setUndecorated(this.launchingPreferences.isKioskMode());
+        this.mainFrame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+        this.mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        this.mainFrame.setUndecorated(this.launchingPreferences.isKioskMode());
         SplashScreen.displayOverEditor(mainFrame, this.launchingPreferences.isKioskMode() ? 0 : 1000);
         List<IFile> fullList = new ArrayList<IFile>();
         List<IFile> lastSessionFiles = this.userPreferencesService.getOpenedFilesDuringLastSession();
@@ -198,8 +203,8 @@ public class UMLEditorApplication
             }
         }
         IFile activeFile = this.userPreferencesService.getActiveDiagramFile();
-        mainFrame.setActiveWorkspace(activeFile);
-        mainFrame.setVisible(true);
+        this.mainFrame.setActiveWorkspace(activeFile);
+        this.mainFrame.setVisible(true);
     }
 
     /**
@@ -209,6 +214,11 @@ public class UMLEditorApplication
     {
 
         this.pluginLoader.installPlugins();
+    }
+
+    public void onApplicationExit()
+    {
+        System.out.println("Application exit requested");
     }
 
 
@@ -223,6 +233,13 @@ public class UMLEditorApplication
 
     @InjectedBean
     private LaunchingPreferences launchingPreferences;
+
+    @InjectedBean
+    private MainFrame mainFrame;
+
+    @InjectedBean
+    private CheerpJInterfaceService cheerpJInterfaceService;
+
 
 
 }
