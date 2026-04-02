@@ -13,9 +13,37 @@
 </head>
 <body>
   <script type="module">
+    async function Java_com_horstmann_violet_application_jni_CheerpJInterfaceService_nativeSetApplication(lib, app) {
+      window.violetApp = app;
+      // Keep callback thread alive as described in CheerpJ interoperability docs.
+      return new Promise(() => {});
+    }
+  
+    async function Java_com_horstmann_violet_application_jni_CheerpJInterfaceService_nativeMethodCallback(lib) {
+      return 1;
+    }
+  
+    async function Java_com_horstmann_violet_application_jni_CheerpJInterfaceService_nativeDownloadFile(lib, filename, mimeType, content) {
+      const bytes = content instanceof Uint8Array ? content : new Uint8Array(content);
+      const blob = new Blob([bytes], { type: mimeType || "application/octet-stream" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename || "diagram.violet.html";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    }
+    
     await cheerpjInit({
         version: 17,
-        clipboardMode: "permission"
+        clipboardMode: "permission",
+        natives: {
+            Java_com_horstmann_violet_application_jni_CheerpJInterfaceService_nativeSetApplication,
+            Java_com_horstmann_violet_application_jni_CheerpJInterfaceService_nativeMethodCallback,
+            Java_com_horstmann_violet_application_jni_CheerpJInterfaceService_nativeDownloadFile,
+        }
     });
     cheerpjCreateDisplay(-1, -1, document.body);
     await cheerpjRunJar("/app/violetumleditor/violetumleditor-latest.jar", "-kioskMode", "-autoSave");
