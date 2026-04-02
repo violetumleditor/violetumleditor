@@ -46,8 +46,9 @@ import com.horstmann.violet.framework.file.GraphFile;
 import com.horstmann.violet.framework.file.IFile;
 import com.horstmann.violet.framework.file.IGraphFile;
 import com.horstmann.violet.framework.file.chooser.IFileChooserService;
-import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
+import com.horstmann.violet.framework.injection.bean.ManiocFramework.ManagedBean;
+import com.horstmann.violet.framework.injection.bean.ManiocFramework.PostConstruct;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 import com.horstmann.violet.framework.theme.ThemeManager;
@@ -68,15 +69,17 @@ import com.horstmann.violet.workspace.WorkspacePanel;
  * @author Alexandre de Pellegrin
  */
 @ResourceBundleBean(resourceReference = AboutDialog.class)
+@ManagedBean
 public class MainFrame extends JFrame
 {
+    
     /**
      * Constructs a blank frame with a desktop pane but no graph windows.
      * 
      */
-    public MainFrame()
+    @PostConstruct
+    public void initialize()
     {
-        BeanInjector.getInjector().inject(this);
         ResourceBundleInjector.getInjector().inject(this);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         this.dialogFactory.setDialogOwner(this);
@@ -85,6 +88,7 @@ public class MainFrame extends JFrame
         createMenuBar();
         getContentPane().add(this.getMainPanel());
     }
+
 
     /**
      * Sets initial size on startup
