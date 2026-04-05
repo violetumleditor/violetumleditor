@@ -28,7 +28,7 @@ import com.horstmann.violet.framework.injection.bean.ManiocFramework.ManagedBean
 /**
  * The default preferences service that uses the java.util.prefs API.
  */
-@ManagedBean(registeredManually=true)
+@ManagedBean
 public class DefaultUserPreferencesDao implements IUserPreferencesDao
 {
 

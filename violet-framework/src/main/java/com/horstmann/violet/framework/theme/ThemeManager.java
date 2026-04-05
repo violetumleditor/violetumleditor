@@ -24,9 +24,9 @@ package com.horstmann.violet.framework.theme;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.ManagedBean;
+import com.horstmann.violet.framework.injection.bean.ManiocFramework.PostConstruct;
 import com.horstmann.violet.framework.userpreferences.UserPreferencesService;
 
 /**
@@ -35,7 +35,7 @@ import com.horstmann.violet.framework.userpreferences.UserPreferencesService;
  * @author Alexandre de Pellegrin
  * 
  */
-@ManagedBean(registeredManually=true)
+@ManagedBean
 public class ThemeManager
 {
 
@@ -44,9 +44,27 @@ public class ThemeManager
      */
     public ThemeManager()
     {
-        BeanInjector.getInjector().inject(this);
         ThemeManager.setInstance(this);
     }
+    
+    
+    @PostConstruct
+    public void initialize() {
+        ITheme theme1 = new ClassicMetalTheme();
+        ITheme theme2 = new BlueAmbianceTheme();
+        ITheme theme3 = new DarkAmbianceTheme();
+        ITheme theme4 = new DarkBlueTheme();
+        ITheme theme5 = new FlatLightTheme();
+        List<ITheme> themeList = new ArrayList<ITheme>();
+        themeList.add(theme1);
+        themeList.add(theme2);
+        themeList.add(theme3);
+        themeList.add(theme4);
+        themeList.add(theme5);
+        this.installedThemes = themeList;
+        applyPreferedTheme();
+    }   
+
 
     /**
      * Sets unique instance
@@ -140,17 +158,7 @@ public class ThemeManager
         return installedThemes;
     }
 
-    /**
-     * @param installedThemes
-     */
-    public void setInstalledThemes(List<ITheme> installedThemes)
-    {
-        this.installedThemes = installedThemes;
-    }
 
-    public void setUserPreferencesService(UserPreferencesService service) {
-        this.userPreferencesServices = service;
-    }
     
     /**
      * Single instance

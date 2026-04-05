@@ -25,7 +25,7 @@ import com.horstmann.violet.framework.injection.bean.ManiocFramework.ManagedBean
 import com.horstmann.violet.framework.util.VersionChecker;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 
-@ManagedBean(registeredManually=true)
+@ManagedBean
 public class XHTMLPersistenceService implements IFilePersistenceService
 {
 

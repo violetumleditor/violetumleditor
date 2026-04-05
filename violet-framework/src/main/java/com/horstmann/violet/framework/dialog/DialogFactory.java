@@ -54,18 +54,41 @@ import com.horstmann.violet.framework.theme.ThemeManager;
  * @author Alexandre de Pellegrin
  * 
  */
-@ManagedBean(registeredManually=true)
+@ManagedBean
 public class DialogFactory
 {
 
     /**
      * Default constructor.
      */
-    public DialogFactory(DialogFactoryMode factoryMode)
+    public DialogFactory()
     {
-        this.factoryMode = factoryMode;
         ResourceBundleInjector.getInjector().inject(this);
     }
+
+
+    /**
+     * Sets the factory mode. If the mode is set to INTERNAL, the factory creates and shows dialogs.
+     * If the mode is set to DELEGATED, the factory calls a listener that must create and show dialogs.
+     * 
+     * Default mode is INTERNAL, but it can be changed by an external program such as an Eclipse plugin. So, the dialog factory is
+     * really flexible and can be used in different contexts.
+     * @param factoryMode
+     */
+    public void setFactoryMode(DialogFactoryMode factoryMode)
+    {
+        this.factoryMode = factoryMode;
+    }
+
+
+    /**
+     * @return current factory mode
+     */
+    public DialogFactoryMode getFactoryMode()
+    {
+        return factoryMode;
+    }
+
 
     public static DialogFactory getInstance() {
         throw new RuntimeException("Java method no longer reachable. Code needs to be refactored.")
@@ -302,7 +325,7 @@ public class DialogFactory
     /**
      * Working mode
      */
-    private DialogFactoryMode factoryMode;
+    private DialogFactoryMode factoryMode = DialogFactoryMode.INTERNAL;
 
     /**
      * The frame that owns all dialogs

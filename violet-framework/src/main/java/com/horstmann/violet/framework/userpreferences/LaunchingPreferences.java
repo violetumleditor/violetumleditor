@@ -49,6 +49,11 @@ public class LaunchingPreferences
                 this.adminPassword = arg.substring("-adminPassword=".length());
                 optionArgList.add(arg);
             }
+            if ("-cheeprjMode".equals(arg))
+            {
+                this.isCheeprjMode = true;
+                optionArgList.add(arg);
+            }
         }
         List<String> fileArgList = new ArrayList<String>(argsList);
         fileArgList.removeAll(optionArgList);
@@ -90,9 +95,9 @@ public class LaunchingPreferences
         return isAutoSave;
     }
 
-    public boolean isAutosave()
+    public boolean isCheeprjMode()
     {
-        return isAutoSave();
+        return isCheeprjMode;
     }
 
     private boolean isResetUserPreferences;
@@ -101,6 +106,7 @@ public class LaunchingPreferences
     private boolean isEnglishLanguageForced;
     private boolean isHelpRequested;
     private boolean isAutoSave;
+    private boolean isCheeprjMode;
     private List<String> filesToOpen = new ArrayList<>();
 
 }
