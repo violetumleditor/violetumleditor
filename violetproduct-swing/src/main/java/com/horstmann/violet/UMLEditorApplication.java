@@ -23,6 +23,8 @@ package com.horstmann.violet;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -31,8 +33,6 @@ import javax.swing.JFrame;
 
 import com.horstmann.violet.application.gui.MainFrame;
 import com.horstmann.violet.application.gui.SplashScreen;
-import com.horstmann.violet.application.jni.CheerpJFileChooserService;
-import com.horstmann.violet.application.jni.CheerpJInterfaceService;
 import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.dialog.DialogFactoryMode;
 import com.horstmann.violet.framework.file.GraphFile;
@@ -77,7 +77,8 @@ public class UMLEditorApplication
     public static void main(String[] args)
     {
         initBeanFactory(args);
-        new UMLEditorApplication();
+        UMLEditorApplication application = new UMLEditorApplication();
+        application.initializeBrowserBridge();
     }
 
     /**
@@ -140,15 +141,63 @@ public class UMLEditorApplication
         BeanFactory.getFactory().register(IFilePersistenceService.class, filePersistenceService);
         
         IFileChooserService fileChooserService;
-        if (CheerpJInterfaceService.isJavaScriptBridgeAvailable()) {
-            fileChooserService = new CheerpJFileChooserService();
-        } else {
+        if (isBrowserBridgeAvailable()) {
+            fileChooserService = createBrowserFileChooserService();
+        }
+        else {
             fileChooserService = new JFileChooserService();
         }
         BeanFactory.getFactory().register(IFileChooserService.class, fileChooserService);
 
         LaunchingPreferences launchingPreferences = new LaunchingPreferences(args);
         BeanFactory.getFactory().register(LaunchingPreferences.class, launchingPreferences);
+    }
+
+    private static boolean isBrowserBridgeAvailable()
+    {
+        try
+        {
+            Class<?> interfaceServiceClass = Class.forName("com.horstmann.violet.application.jni.CheerpJInterfaceService");
+            Method isBridgeAvailable = interfaceServiceClass.getMethod("isJavaScriptBridgeAvailable");
+            return Boolean.TRUE.equals(isBridgeAvailable.invoke(null));
+        }
+        catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e)
+        {
+            return false;
+        }
+    }
+
+    private static IFileChooserService createBrowserFileChooserService()
+    {
+        try
+        {
+            Class<?> chooserServiceClass = Class.forName("com.horstmann.violet.application.jni.CheerpJFileChooserService");
+            return (IFileChooserService) chooserServiceClass.getConstructor().newInstance();
+        }
+        catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException
+                | InvocationTargetException e)
+        {
+            return new JFileChooserService();
+        }
+    }
+
+    private void initializeBrowserBridge()
+    {
+        try
+        {
+            Class<?> interfaceServiceClass = Class.forName("com.horstmann.violet.application.jni.CheerpJInterfaceService");
+            Object interfaceService = interfaceServiceClass.getConstructor().newInstance();
+            Method initializeMethod = interfaceServiceClass.getMethod("initialize");
+            initializeMethod.invoke(interfaceService);
+        }
+        catch (ClassNotFoundException e)
+        {
+            // Browser bridge is optional for the desktop build.
+        }
+        catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e)
+        {
+            System.err.println("Unable to initialize browser bridge: " + e.getMessage());
+        }
     }
 
 
@@ -236,9 +285,6 @@ public class UMLEditorApplication
 
     @InjectedBean
     private MainFrame mainFrame;
-
-    @InjectedBean
-    private CheerpJInterfaceService cheerpJInterfaceService;
 
 
 

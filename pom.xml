@@ -17,14 +17,12 @@
 		<module>violetplugin-statediagram</module>
 		<module>violetplugin-usecasediagram</module>
 		<module>violetproduct-swing</module>
-		<!--module>violetproduct-jnlp</module -->
 		<module>violetproduct-exe</module>
-		<!--module>violetproduct-rpm</module-->
 		<module>violetproduct-deb</module>
-		<module>violetproduct-web</module>
+		<module>violetproduct-cheeprj</module>
 	</modules>
 	<properties>
-		<applicationVersion>2.3.1-SNAPSHOT</applicationVersion>
+		<applicationVersion>2.3.2-SNAPSHOT</applicationVersion>
 		<java.version>17</java.version>
 		<maven.compiler.release>17</maven.compiler.release>
 	</properties>
