@@ -1,4 +1,4 @@
-package com.horstmann.violet.application.cheeprj;
+package com.horstmann.violet.application.cheerpj;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
