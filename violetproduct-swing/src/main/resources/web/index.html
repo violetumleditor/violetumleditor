@@ -38,17 +38,17 @@
       fileInput.value = '';
     });
 
-    async function Java_com_horstmann_violet_application_jni_CheerpJInterfaceService_nativeSetApplication(lib, app) {
+    async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeSetApplication(lib, app) {
       window.violetApp = app;
       // Keep callback thread alive as described in CheerpJ interoperability docs.
       return new Promise(() => {});
     }
   
-    async function Java_com_horstmann_violet_application_jni_CheerpJInterfaceService_nativeMethodCallback(lib) {
+    async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeMethodCallback(lib) {
       return 1;
     }
   
-    async function Java_com_horstmann_violet_application_jni_CheerpJInterfaceService_nativeDownloadFile(lib, filename, mimeType, content) {
+    async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeDownloadFile(lib, filename, mimeType, content) {
       const bytes = content instanceof Uint8Array ? content : new Uint8Array(content);
       const blob = new Blob([bytes], { type: mimeType || "application/octet-stream" });
       const url = URL.createObjectURL(blob);
@@ -65,7 +65,7 @@
      * Native method: Show file open dialog
      * Returns true if file was selected, false if cancelled
      */
-    async function Java_com_horstmann_violet_application_jni_CheerpJInterfaceService_nativeShowOpenDialog(lib, acceptedExtensions) {
+    async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeShowOpenDialog(lib, acceptedExtensions) {
       return new Promise((resolve) => {
         window.cheerpjFileState.selectedFile = null;
         window.cheerpjFileState.selectedFileData = null;
@@ -94,7 +94,7 @@
      * Native method: Get selected file data
      * Returns byte array of the selected file
      */
-    async function Java_com_horstmann_violet_application_jni_CheerpJInterfaceService_nativeGetFileData(lib) {
+    async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeGetFileData(lib) {
       return window.cheerpjFileState.selectedFileData || new Uint8Array(0);
     }
 
@@ -102,7 +102,7 @@
      * Native method: Get selected file name
      * Returns string filename of the selected file
      */
-    async function Java_com_horstmann_violet_application_jni_CheerpJInterfaceService_nativeGetFileName(lib) {
+    async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeGetFileName(lib) {
       return window.cheerpjFileState.selectedFile 
         ? window.cheerpjFileState.selectedFile.name 
         : '';
@@ -112,7 +112,7 @@
      * Native method: Show save dialog
      * Prompts user for filename and triggers download immediately
      */
-    async function Java_com_horstmann_violet_application_jni_CheerpJInterfaceService_nativeShowSaveDialog(lib, defaultFilename, content, mimeType) {
+    async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeShowSaveDialog(lib, defaultFilename, content, mimeType) {
       // Browser automatically triggers download, user may be prompted by browser
       // depending on settings for filename and location
       const bytes = content instanceof Uint8Array ? content : new Uint8Array(content);
@@ -132,13 +132,13 @@
         version: 17,
         clipboardMode: "permission",
         natives: {
-            Java_com_horstmann_violet_application_jni_CheerpJInterfaceService_nativeSetApplication,
-            Java_com_horstmann_violet_application_jni_CheerpJInterfaceService_nativeMethodCallback,
-            Java_com_horstmann_violet_application_jni_CheerpJInterfaceService_nativeDownloadFile,
-            Java_com_horstmann_violet_application_jni_CheerpJInterfaceService_nativeShowOpenDialog,
-            Java_com_horstmann_violet_application_jni_CheerpJInterfaceService_nativeGetFileData,
-            Java_com_horstmann_violet_application_jni_CheerpJInterfaceService_nativeGetFileName,
-            Java_com_horstmann_violet_application_jni_CheerpJInterfaceService_nativeShowSaveDialog,
+            Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeSetApplication,
+            Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeMethodCallback,
+            Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeDownloadFile,
+            Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeShowOpenDialog,
+            Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeGetFileData,
+            Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeGetFileName,
+            Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeShowSaveDialog,
         }
     });
     cheerpjCreateDisplay(-1, -1, document.body);

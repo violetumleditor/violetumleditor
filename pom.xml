@@ -19,7 +19,6 @@
 		<module>violetproduct-swing</module>
 		<module>violetproduct-exe</module>
 		<module>violetproduct-deb</module>
-		<module>violetproduct-cheeprj</module>
 	</modules>
 	<properties>
 		<applicationVersion>2.3.2-SNAPSHOT</applicationVersion>

@@ -31,6 +31,14 @@ public class CheerpJInterfaceService {
 
     public static native void nativeDownloadFile(String filename, String mimeType, byte[] content);
 
+    public static native boolean nativeShowOpenDialog(String acceptedExtensions);
+
+    public static native byte[] nativeGetFileData();
+
+    public static native String nativeGetFileName();
+
+    public static native boolean nativeShowSaveDialog(String defaultFilename, byte[] content, String mimeType);
+
     public static boolean isJavaScriptBridgeAvailable() {
         try {
             nativeMethodCallback();
@@ -45,6 +53,38 @@ public class CheerpJInterfaceService {
             nativeDownloadFile(filename, mimeType, content);
         } catch (Throwable t) {
             throw new IOException("Browser download bridge is not available", t);
+        }
+    }
+
+    public static boolean showOpenDialog(String acceptedExtensions) throws IOException {
+        try {
+            return nativeShowOpenDialog(acceptedExtensions);
+        } catch (Throwable t) {
+            throw new IOException("File open dialog is not available", t);
+        }
+    }
+
+    public static byte[] getFileData() throws IOException {
+        try {
+            return nativeGetFileData();
+        } catch (Throwable t) {
+            throw new IOException("Cannot retrieve file data", t);
+        }
+    }
+
+    public static String getFileName() throws IOException {
+        try {
+            return nativeGetFileName();
+        } catch (Throwable t) {
+            throw new IOException("Cannot retrieve file name", t);
+        }
+    }
+
+    public static boolean showSaveDialog(String defaultFilename, byte[] content, String mimeType) throws IOException {
+        try {
+            return nativeShowSaveDialog(defaultFilename, content, mimeType);
+        } catch (Throwable t) {
+            throw new IOException("File save dialog is not available", t);
         }
     }
 }
