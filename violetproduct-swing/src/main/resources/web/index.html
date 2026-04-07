@@ -45,6 +45,7 @@
     }
   
     async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeMethodCallback(lib) {
+      console.debug("[CheerpJ] nativeMethodCallback reached");
       return 1;
     }
   
@@ -142,7 +143,7 @@
         }
     });
     cheerpjCreateDisplay(-1, -1, document.body);
-    await cheerpjRunJar("/app/violetumleditor/violetumleditor-latest.jar", "-kioskMode", "-autoSave");
+    await cheerpjRunJar("/app/violetumleditor/violetumleditor-latest.jar", "-kioskMode", "-autoSave", "-cheeprjMode");
   </script>
 </body>  
 </html>
