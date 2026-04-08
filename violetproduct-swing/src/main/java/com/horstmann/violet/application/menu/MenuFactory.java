@@ -21,6 +21,8 @@
 
 package com.horstmann.violet.application.menu;
 
+import javax.swing.JMenu;
+
 import com.horstmann.violet.application.cheerpj.CheerpJFileMenu;
 import com.horstmann.violet.application.gui.MainFrame;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
@@ -56,7 +58,7 @@ public class MenuFactory
      * @param editorFrame
      * @return file menu
      */
-    public FileMenu getFileMenu(MainFrame editorFrame)
+    public JMenu getFileMenu(MainFrame editorFrame)
     {
         if (this.fileMenu == null)
         {
@@ -110,7 +112,7 @@ public class MenuFactory
     private LaunchingPreferences launchingPreferences;
 
     private EditMenu editMenu;
-    private FileMenu fileMenu;
+    private JMenu fileMenu;
     private HelpMenu helpMenu;
     private ViewMenu viewMenu;
     private DocumentMenu documentMenu;

@@ -22,7 +22,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import com.horstmann.violet.application.gui.MainFrame;
-import com.horstmann.violet.application.menu.FileMenu;
 import com.horstmann.violet.application.menu.MenuFactory;
 import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.file.IGraphFile;
@@ -43,7 +42,7 @@ import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
 
 @ResourceBundleBean(resourceReference = MenuFactory.class)
-public class CheerpJFileMenu extends FileMenu {
+public class CheerpJFileMenu extends JMenu {
 
     private static final String LOCAL_STORAGE_DIRECTORY = "browser-localstorage";
 
@@ -118,41 +117,38 @@ public class CheerpJFileMenu extends FileMenu {
     @InjectedBean
     private IFileChooserService fileChooserService;
 
+    @ResourceBundleBean(key = "file")
     public CheerpJFileMenu(MainFrame mainFrame) {
-        super(mainFrame);
         ResourceBundleInjector.getInjector().inject(this);
         BeanInjector.getInjector().inject(this);
         this.mainFrame = mainFrame;
-        rebuildMenuForCheerpJ();
+        createMenu();
     }
 
-    private void rebuildMenuForCheerpJ() {
-        this.removeAll();
+    private void createMenu() {
         initFileNewMenu();
         initOpenItem();
-        initImportItem();
         initCloseItem();
         initSaveItem();
         initSaveAsItem();
+        initImportItem();
         initExportMenu();
         initPrintItem();
 
         this.add(this.fileNewMenu);
         this.add(this.fileOpenItem);
-        this.add(this.fileImportItem);
         this.add(this.fileCloseItem);
         this.add(this.fileSaveItem);
         this.add(this.fileSaveAsItem);
+        this.add(this.fileImportItem);
         this.add(this.fileExportMenu);
         this.add(this.filePrintItem);
     }
 
-    @Override
     public JMenu getFileNewMenu() {
         return this.fileNewMenu;
     }
 
-    @Override
     public void initFileNewMenu() {
         this.fileNewMenu.removeAll();
         List<IDiagramPlugin> diagramPlugins = this.pluginRegistry.getDiagramPlugins();
