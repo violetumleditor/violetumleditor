@@ -22,6 +22,27 @@
       selectedFileData: null,
     };
 
+    const LOCAL_STORAGE_PREFIX = "violet.diagram.";
+
+    function bytesToBase64(bytes) {
+      let binary = "";
+      const chunkSize = 0x8000;
+      for (let i = 0; i < bytes.length; i += chunkSize) {
+        const chunk = bytes.subarray(i, i + chunkSize);
+        binary += String.fromCharCode.apply(null, chunk);
+      }
+      return btoa(binary);
+    }
+
+    function base64ToBytes(base64) {
+      const binary = atob(base64);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) {
+        bytes[i] = binary.charCodeAt(i);
+      }
+      return bytes;
+    }
+
     // Create hidden file input that will be reused
     const fileInput = document.getElementById('fileInputDialog');
     fileInput.addEventListener('change', (event) => {
@@ -128,6 +149,63 @@
       URL.revokeObjectURL(url);
       return true;
     }
+
+    async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeSaveLocalStorageDiagram(lib, filename, content) {
+      const safeFilename = (filename && String(filename).trim().length > 0) ? String(filename) : "diagram.violet.html";
+      const bytes = content instanceof Uint8Array ? content : new Uint8Array(content);
+      const encoded = bytesToBase64(bytes);
+      localStorage.setItem(LOCAL_STORAGE_PREFIX + safeFilename, encoded);
+      return 1;
+    }
+
+    async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeLoadLocalStorageDiagram(lib, filename) {
+      const safeFilename = filename ? String(filename) : "";
+      const encoded = localStorage.getItem(LOCAL_STORAGE_PREFIX + safeFilename);
+      if (!encoded) {
+        return new Uint8Array(0);
+      }
+      return base64ToBytes(encoded);
+    }
+
+    async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeListLocalStorageDiagrams(lib) {
+      const names = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith(LOCAL_STORAGE_PREFIX)) {
+          names.push(key.substring(LOCAL_STORAGE_PREFIX.length));
+        }
+      }
+      names.sort((a, b) => a.localeCompare(b));
+      return names;
+    }
+
+    async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeOpenBlobInNewTab(lib, filename, mimeType, content) {
+      const bytes = content instanceof Uint8Array ? content : new Uint8Array(content);
+      const blob = new Blob([bytes], { type: mimeType || "application/octet-stream" });
+      const url = URL.createObjectURL(blob);
+      window.open(url, "_blank", "noopener,noreferrer");
+      setTimeout(() => URL.revokeObjectURL(url), 30000);
+      return 1;
+    }
+
+    async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeOpenPdfPrintTab(lib, content) {
+      const bytes = content instanceof Uint8Array ? content : new Uint8Array(content);
+      const blob = new Blob([bytes], { type: "application/pdf" });
+      const url = URL.createObjectURL(blob);
+      const tab = window.open(url, "_blank");
+      if (tab) {
+        tab.addEventListener("load", () => {
+          try {
+            tab.focus();
+            tab.print();
+          } catch (error) {
+            // Ignore cross-origin print failures.
+          }
+        });
+      }
+      setTimeout(() => URL.revokeObjectURL(url), 30000);
+      return 1;
+    }
     
     await cheerpjInit({
         version: 17,
@@ -140,6 +218,11 @@
             Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeGetFileData,
             Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeGetFileName,
             Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeShowSaveDialog,
+            Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeSaveLocalStorageDiagram,
+            Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeLoadLocalStorageDiagram,
+            Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeListLocalStorageDiagrams,
+            Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeOpenBlobInNewTab,
+            Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeOpenPdfPrintTab,
         }
     });
     cheerpjCreateDisplay(-1, -1, document.body);

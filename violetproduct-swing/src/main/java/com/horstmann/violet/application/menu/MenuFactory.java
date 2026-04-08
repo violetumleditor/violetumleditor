@@ -21,7 +21,10 @@
 
 package com.horstmann.violet.application.menu;
 
+import com.horstmann.violet.application.cheerpj.CheerpJFileMenu;
 import com.horstmann.violet.application.gui.MainFrame;
+import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanFactory;
+import com.horstmann.violet.framework.userpreferences.LaunchingPreferences;
 
 /**
  * Menu factory
@@ -55,7 +58,8 @@ public class MenuFactory
     {
         if (this.fileMenu == null)
         {
-            this.fileMenu = new FileMenu(editorFrame);
+            boolean isCheerpJMode = BeanFactory.getFactory().getBean(LaunchingPreferences.class).isCheeprjMode();
+            this.fileMenu = isCheerpJMode ? new CheerpJFileMenu(editorFrame) : new FileMenu(editorFrame);
         }
         return this.fileMenu;
     }
