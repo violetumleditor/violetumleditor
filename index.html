@@ -94,20 +94,41 @@
 
         // Set accepted file types if provided
         if (acceptedExtensions && acceptedExtensions.length > 0) {
-          fileInput.accept = acceptedExtensions;
+          fileInput.accept = String(acceptedExtensions);
         } else {
           fileInput.accept = '.violet.html';
         }
 
         // Trigger click and wait for selection
-        const handleChange = () => {
+        let done = false;
+        const finish = (value) => {
+          if (done) {
+            return;
+          }
+          done = true;
           fileInput.removeEventListener('change', handleChange);
+          window.removeEventListener('focus', handleFocusBack);
+          resolve(value);
+        };
+
+        const handleChange = () => {
           // Give time for file to be loaded
           setTimeout(() => {
-            resolve(window.cheerpjFileState.selectedFile !== null);
+            finish(window.cheerpjFileState.selectedFile !== null ? 1 : 0);
           }, 100);
         };
+
+        const handleFocusBack = () => {
+          // If user canceled the picker, no change event is fired.
+          setTimeout(() => {
+            if (window.cheerpjFileState.selectedFile === null) {
+              finish(0);
+            }
+          }, 150);
+        };
+
         fileInput.addEventListener('change', handleChange);
+        window.addEventListener('focus', handleFocusBack, { once: true });
         fileInput.click();
       });
     }
@@ -117,7 +138,8 @@
      * Returns byte array of the selected file
      */
     async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeGetFileData(lib) {
-      return window.cheerpjFileState.selectedFileData || new Uint8Array(0);
+      const bytes = window.cheerpjFileState.selectedFileData || new Uint8Array(0);
+      return Array.from(bytes);
     }
 
     /**
@@ -162,9 +184,9 @@
       const safeFilename = filename ? String(filename) : "";
       const encoded = localStorage.getItem(LOCAL_STORAGE_PREFIX + safeFilename);
       if (!encoded) {
-        return new Uint8Array(0);
+        return [];
       }
-      return base64ToBytes(encoded);
+      return Array.from(base64ToBytes(encoded));
     }
 
     async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeListLocalStorageDiagrams(lib) {
