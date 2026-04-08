@@ -447,7 +447,8 @@ public class CheerpJFileMenu extends JMenu {
         if (trimmed.isEmpty()) {
             return null;
         }
-        if (!trimmed.toLowerCase().endsWith(".violet.html")) {
+            // Also accept any .html ending (e.g. browser-renamed "diagram.class.violet (5).html")
+            if (!trimmed.toLowerCase().endsWith(".html")) {
             return trimmed + ".violet.html";
         }
         return trimmed;
