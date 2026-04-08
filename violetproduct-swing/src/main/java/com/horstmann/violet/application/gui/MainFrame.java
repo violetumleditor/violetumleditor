@@ -119,12 +119,11 @@ public class MainFrame extends JFrame
     {
         JMenuBar menuBar = new JMenuBar();
         menuBar.setFont(this.themeManager.getTheme().getMenubarFont());
-        MenuFactory menuFactory = getMenuFactory();
-        menuBar.add(menuFactory.getFileMenu(this));
-        menuBar.add(menuFactory.getEditMenu(this));
-        menuBar.add(menuFactory.getViewMenu(this));
-        menuBar.add(menuFactory.getDocumentMenu(this));
-        menuBar.add(menuFactory.getHelpMenu(this));
+        menuBar.add(this.menuFactory.getFileMenu(this));
+        menuBar.add(this.menuFactory.getEditMenu(this));
+        menuBar.add(this.menuFactory.getViewMenu(this));
+        menuBar.add(this.menuFactory.getDocumentMenu(this));
+        menuBar.add(this.menuFactory.getHelpMenu(this));
         if (this.launchingPreferences.isKioskMode() || isUndecorated())
         {
             this.frameTitleInMenuBarLabel = new JLabel(getTitle());
@@ -305,17 +304,6 @@ public class MainFrame extends JFrame
         return this.mainPanel;
     }
     
-    /**
-     * @return the menu factory instance
-     */
-    public MenuFactory getMenuFactory()
-    {
-        if (this.menuFactory == null)
-        {
-            menuFactory = new MenuFactory();
-        }
-        return this.menuFactory;
-    }
     
     
     /**
@@ -326,6 +314,7 @@ public class MainFrame extends JFrame
     /**
      * Menu factory instance
      */
+    @InjectedBean
     private MenuFactory menuFactory;
 
     /**
@@ -346,6 +335,9 @@ public class MainFrame extends JFrame
      */
     @InjectedBean
     private LaunchingPreferences launchingPreferences;
+
+
+
 
     /**
      * Needed to open files

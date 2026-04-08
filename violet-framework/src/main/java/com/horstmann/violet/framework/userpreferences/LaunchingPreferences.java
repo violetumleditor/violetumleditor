@@ -49,9 +49,9 @@ public class LaunchingPreferences
                 this.adminPassword = arg.substring("-adminPassword=".length());
                 optionArgList.add(arg);
             }
-            if ("-cheeprjMode".equals(arg))
+            if ("-cheerpjMode".equals(arg))
             {
-                this.isCheeprjMode = true;
+                this.isCheerpjMode = true;
                 optionArgList.add(arg);
             }
         }
@@ -95,9 +95,9 @@ public class LaunchingPreferences
         return isAutoSave;
     }
 
-    public boolean isCheeprjMode()
+    public boolean isCheerpjMode()
     {
-        return isCheeprjMode;
+        return isCheerpjMode;
     }
 
     private boolean isResetUserPreferences;
@@ -106,7 +106,7 @@ public class LaunchingPreferences
     private boolean isEnglishLanguageForced;
     private boolean isHelpRequested;
     private boolean isAutoSave;
-    private boolean isCheeprjMode;
+    private boolean isCheerpjMode;
     private List<String> filesToOpen = new ArrayList<>();
 
 }

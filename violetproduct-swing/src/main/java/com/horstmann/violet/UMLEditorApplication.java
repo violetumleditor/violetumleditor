@@ -81,7 +81,7 @@ public class UMLEditorApplication
         BeanFactory.getFactory().register(LaunchingPreferences.class, new LaunchingPreferences(args));
         BeanFactory.getFactory().register(IFilePersistenceService.class, new XHTMLPersistenceService());  
         BeanFactory.getFactory().register(IUserPreferencesDao.class, new DefaultUserPreferencesDao());
-        BeanFactory.getFactory().register(IFileChooserService.class, BeanFactory.getFactory().getBean(LaunchingPreferences.class).isCheeprjMode()
+        BeanFactory.getFactory().register(IFileChooserService.class, BeanFactory.getFactory().getBean(LaunchingPreferences.class).isCheerpjMode()
                 ? new CheerpJFileChooserService()
                 : new JFileChooserService());
         BeanFactory.getFactory().register(CheerpJInterfaceService.class, new CheerpJInterfaceService());
