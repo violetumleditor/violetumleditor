@@ -70,6 +70,7 @@ public class CheerpJDownloadFileWriter implements IFileWriter {
     private static final class BrowserDownloadOutputStream extends ByteArrayOutputStream {
 
         private final String filename;
+        private boolean closed = false;
 
         private BrowserDownloadOutputStream(String filename) {
             this.filename = filename;
@@ -77,6 +78,10 @@ public class CheerpJDownloadFileWriter implements IFileWriter {
 
         @Override
         public void close() throws IOException {
+            if (this.closed) {
+                return;
+            }
+            this.closed = true;
             super.close();
             byte[] content = toByteArray();
             String mimeType = guessMimeType(filename, content);
