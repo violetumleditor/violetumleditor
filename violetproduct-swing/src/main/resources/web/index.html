@@ -92,12 +92,7 @@
         window.cheerpjFileState.selectedFile = null;
         window.cheerpjFileState.selectedFileData = null;
 
-        // Set accepted file types if provided
-        if (acceptedExtensions && acceptedExtensions.length > 0) {
-          fileInput.accept = String(acceptedExtensions);
-        } else {
-          fileInput.accept = '.violet.html';
-        }
+        fileInput.accept = '.html';
 
         // Trigger click and wait for selection
         let done = false;
