@@ -36,12 +36,12 @@ public class HelpManager
      */
     public void openUserGuide()
     {
-        // In CheerpJ (browser) mode, use the JS bridge to open the URL
+        // Try using the JS bridge first; call openUrl directly and fall back
+        // to the desktop launcher if it fails. This attempts the native bridge
+        // even if availability check earlier returned false due to timing.
         try {
-            if (CheerpJInterfaceService.isJavaScriptBridgeAvailable()) {
-                CheerpJInterfaceService.openUrl(this.userGuideURL);
-                return;
-            }
+            CheerpJInterfaceService.openUrl(this.userGuideURL);
+            return;
         } catch (Exception ex) {
             // fall back to desktop behavior
         }
@@ -58,12 +58,12 @@ public class HelpManager
      */
     public void openHomepage()
     {
-        // In CheerpJ (browser) mode, use the JS bridge to open the URL
+        // Try using the JS bridge first; call openUrl directly and fall back
+        // to the desktop launcher if it fails. This attempts the native bridge
+        // even if availability check earlier returned false due to timing.
         try {
-            if (CheerpJInterfaceService.isJavaScriptBridgeAvailable()) {
-                CheerpJInterfaceService.openUrl(this.homePageURL);
-                return;
-            }
+            CheerpJInterfaceService.openUrl(this.homePageURL);
+            return;
         } catch (Exception ex) {
             // fall back to desktop behavior
         }

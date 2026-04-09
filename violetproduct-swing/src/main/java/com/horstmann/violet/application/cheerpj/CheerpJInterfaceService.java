@@ -141,9 +141,13 @@ public class CheerpJInterfaceService {
     public static native void nativeOpenUrl(String url);
 
     public static void openUrl(String url) throws IOException {
+        System.out.println("CheerpJInterfaceService.openUrl() -> " + url);
         try {
             nativeOpenUrl(url);
+            System.out.println("CheerpJInterfaceService.openUrl(): nativeOpenUrl invoked successfully");
         } catch (Throwable t) {
+            System.out.println("CheerpJInterfaceService.openUrl(): nativeOpenUrl threw: " + t);
+            t.printStackTrace(System.out);
             throw new IOException("Open URL bridge is not available", t);
         }
     }
