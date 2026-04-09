@@ -250,8 +250,7 @@ public class GraphToolsBarPanel extends JPanel
             previousSelectedButton.repaint();
         }
         selectedButton.repaint();
-        this.buttonsPanel.repaint();
-        this.buttonsPanel.paintImmediately(0, 0, this.buttonsPanel.getWidth(), this.buttonsPanel.getHeight());
+        revalidate();
         repaint();
     }
 
