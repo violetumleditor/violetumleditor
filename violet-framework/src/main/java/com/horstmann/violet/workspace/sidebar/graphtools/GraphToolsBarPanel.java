@@ -33,7 +33,8 @@ public class GraphToolsBarPanel extends JPanel
         this.edgeButtons = getToggleButtons(this.graphToolsPanel.getEdgeTools());
 
         this.buttonsPanel = new JPanel(new java.awt.GridLayout(0, 1));
-        this.buttonsPanel.setOpaque(false);
+        this.buttonsPanel.setOpaque(true);
+        this.buttonsPanel.setBackground(ThemeManager.getInstance().getTheme().getSidebarElementBackgroundColor());
         this.buttonsPanel.addMouseWheelListener(getScrollWheelListener());
 
         this.topIndicatorPanel = new NavigationIndicatorPanel(true);
@@ -243,6 +244,7 @@ public class GraphToolsBarPanel extends JPanel
                 this.graphToolsPanel.setSelectedTool(this.graphToolsPanel.getEdgeTools().get(pos));
             }
         }
+        this.buttonsPanel.repaint();
         repaint();
     }
 
