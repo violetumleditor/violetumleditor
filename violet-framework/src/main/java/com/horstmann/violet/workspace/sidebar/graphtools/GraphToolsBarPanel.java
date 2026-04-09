@@ -249,15 +249,8 @@ public class GraphToolsBarPanel extends JPanel
             previousSelectedButton.repaint();
         }
         selectedButton.repaint();
-        
-        // Force complete container refresh for CheerpJ compatibility
-        // This mimics what happens when mouse moves over the border
-        this.buttonsPanel.invalidate();
-        this.buttonsPanel.validate();
-        invalidate();
-        validate();
+        revalidate();
         repaint();
-        paintImmediately(getBounds());
     }
 
     private void notifyMouseEvent(GraphToolsBarButton selectedButton, MouseEvent event)
