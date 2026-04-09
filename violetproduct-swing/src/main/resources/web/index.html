@@ -226,48 +226,16 @@
     
     async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeOpenUrl(lib, url) {
       try {
-        if (typeof url !== 'string' || url.length === 0) return 0;
-        // Try direct window.open first (best when allowed by browser)
-        try {
-          const newWin = window.open(url, '_blank', 'noopener,noreferrer');
-          if (newWin) {
-            try { newWin.focus(); } catch (e) {}
-            return 1;
-          }
-        } catch (e) {
-          // fall through to anchor-click fallback
-        }
-
-        // Fallback: create an anchor and trigger a click event. This sometimes
-        // bypasses popup blockers when the call is triggered from a user
-        // gesture originating in the page.
-        try {
-          const a = document.createElement('a');
-          a.href = url;
-          a.target = '_blank';
-          a.rel = 'noopener noreferrer';
-          a.style.display = 'none';
-          document.body.appendChild(a);
-          a.click();
-          a.remove();
-          return 1;
-        } catch (e) {
-          // ignore and fallback to clipboard/copy behavior below
-        }
-
-        // As a last resort, copy the url to clipboard and instruct the user.
-        try {
-          if (navigator.clipboard && navigator.clipboard.writeText) {
-            await navigator.clipboard.writeText(url);
-          }
-        } catch (e) {
-          // ignore clipboard failures
-        }
-        return 0;
+        if (!url) return 0;
+        const tab = window.open(url, "_blank");
+        if (!tab) return 0;
+        tab.focus();
+        return 1;
       } catch (e) {
         return 0;
       }
     }
+    
     await cheerpjInit({
         version: 17,
         clipboardMode: "permission",
