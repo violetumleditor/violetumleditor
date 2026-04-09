@@ -76,7 +76,6 @@ public class SideBarUI extends PanelUI
         group.add(c, BorderLayout.CENTER);
         group.setExpanded(true);
         group.setCollapsable(false);
-        group.setDoubleBuffered(true);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
         gbc.fill = GridBagConstraints.BOTH;
