@@ -224,6 +224,17 @@
       return 1;
     }
     
+    async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeOpenUrl(lib, url) {
+      try {
+        if (typeof url === 'string' && url.length > 0) {
+          window.open(url, '_blank', 'noopener,noreferrer');
+          return 1;
+        }
+      } catch (e) {
+        // ignore
+      }
+      return 0;
+    }
     await cheerpjInit({
         version: 17,
         clipboardMode: "permission",
@@ -238,6 +249,7 @@
             Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeSaveLocalStorageDiagram,
             Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeLoadLocalStorageDiagram,
             Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeListLocalStorageDiagrams,
+            Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeOpenUrl,
             Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeOpenBlobInNewTab,
             Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeOpenPdfPrintTab,
         }
