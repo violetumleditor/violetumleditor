@@ -67,8 +67,6 @@ public class UMLEditorApplication
      */
     public static void main(String[] args)
     {
-        // commented for now as it causes some issues with CheerpJ and is not really useful for now. We will see later if we need to reintroduce it
-        // System.setProperty("apple.laf.useScreenMenuBar", "true");
         new UMLEditorApplication(args);
     }
 
