@@ -45,6 +45,11 @@ public interface IWorkspaceListener
     public void graphCouldBeSaved();
 
     /**
+     * Graph Panel contains a graph that has been saved
+     */
+    public void graphSaved();
+
+    /**
      * Indicates that graph title has been updated
      * @param newTitle
      */

@@ -116,6 +116,7 @@ public class Workspace implements IWorkspace
             {
                 setTitle(getGraphName());
             	updateTitle(false);
+                fireGraphSaved();
             }
         });
         getAWTComponent().prepareLayout();
@@ -315,6 +316,19 @@ public class Workspace implements IWorkspace
         {
             IWorkspaceListener l = tl.get(i);
             l.graphCouldBeSaved();
+        }
+    }
+
+
+    private void fireGraphSaved()
+    {
+        List<IWorkspaceListener> tl = cloneListeners();
+        int size = tl.size();
+        if (size == 0) return;
+        for (int i = 0; i < size; ++i)
+        {
+            IWorkspaceListener l = tl.get(i);
+            l.graphSaved();
         }
     }
 

@@ -168,7 +168,12 @@ public class MainFrame extends JFrame
 
             public void graphCouldBeSaved()
             {
-                // nothing to do here
+                // change title color to red when graph could be saved
+            }
+
+            @Override
+            public void graphSaved() {
+                // change title color to black when graph is saved
             }
 
             public void mustOpenfile(IFile file)
