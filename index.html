@@ -255,63 +255,6 @@
           // ignore and fallback to clipboard/copy behavior below
         }
 
-        // If both window.open and anchor click failed (likely due to popup
-        // blocking because the call wasn't a direct user gesture), show a
-        // lightweight in-app prompt the user can click to open the link.
-        try {
-          // Avoid creating multiple prompts
-          if (!document.getElementById('cheerpj-open-url-prompt')) {
-            const prompt = document.createElement('div');
-            prompt.id = 'cheerpj-open-url-prompt';
-            prompt.style.position = 'fixed';
-            prompt.style.right = '12px';
-            prompt.style.bottom = '12px';
-            prompt.style.zIndex = 2147483647;
-            prompt.style.background = 'rgba(0,0,0,0.75)';
-            prompt.style.color = '#fff';
-            prompt.style.padding = '10px 12px';
-            prompt.style.borderRadius = '6px';
-            prompt.style.boxShadow = '0 2px 6px rgba(0,0,0,0.5)';
-            prompt.style.fontFamily = 'sans-serif';
-            prompt.style.fontSize = '13px';
-
-            const text = document.createElement('div');
-            text.textContent = 'Open external link?';
-            text.style.marginBottom = '6px';
-            prompt.appendChild(text);
-
-            const openBtn = document.createElement('button');
-            openBtn.textContent = 'Open in new tab';
-            openBtn.style.marginRight = '8px';
-            openBtn.onclick = function () {
-              try {
-                const w = window.open(url, '_blank', 'noopener,noreferrer');
-                if (w) try { w.focus(); } catch (e) {}
-              } catch (e) {}
-              prompt.remove();
-            };
-            prompt.appendChild(openBtn);
-
-            const copyBtn = document.createElement('button');
-            copyBtn.textContent = 'Copy URL';
-            copyBtn.onclick = async function () {
-              try {
-                if (navigator.clipboard && navigator.clipboard.writeText) {
-                  await navigator.clipboard.writeText(url);
-                }
-              } catch (e) {}
-            };
-            prompt.appendChild(copyBtn);
-
-            document.body.appendChild(prompt);
-            // Focus the open button to help keyboard users
-            openBtn.focus();
-          }
-          return 1;
-        } catch (e) {
-          // ignore
-        }
-
         // As a last resort, copy the url to clipboard and instruct the user.
         try {
           if (navigator.clipboard && navigator.clipboard.writeText) {
