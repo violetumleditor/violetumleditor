@@ -255,24 +255,42 @@
         }
     });
     // Prevent browser default for Ctrl/Meta keyboard shortcuts when the app
-    // is active. This stops the browser from handling e.g. Ctrl+S (save page)
-    // while allowing normal typing in inputs, textareas, selects or
-    // contenteditable elements. Use capture phase to intercept early.
-    window.addEventListener('keydown', function (e) {
-      try {
-        if (!e) return;
-        if (!(e.ctrlKey || e.metaKey)) return;
+    // is active. Use non-passive capturing listeners on multiple targets to
+    // maximize the chance of intercepting browser handlers (Ctrl+S, Ctrl+P,...).
+    (function () {
+      function shouldBlockForEvent(e) {
+        if (!e) return false;
+        if (!(e.ctrlKey || e.metaKey)) return false;
         const tgt = e.target || document.activeElement;
         const tag = (tgt && tgt.tagName) ? String(tgt.tagName).toLowerCase() : '';
         const isEditable = (tgt && (tgt.isContentEditable === true)) || tag === 'input' || tag === 'textarea' || tag === 'select';
-        if (isEditable) return; // allow browser handling when typing in form fields
-        e.preventDefault();
-        e.stopPropagation();
-      } catch (err) {
-        // swallow errors to avoid breaking the page
-        console.debug('cheerpj keydown guard error', err);
+        if (isEditable) return false; // allow typing controls to behave normally
+        return true;
       }
-    }, true);
+
+      function guardShortcuts(e) {
+        try {
+          if (!shouldBlockForEvent(e)) return;
+          // Block default browser action and stop other listeners
+          e.preventDefault();
+          if (typeof e.stopImmediatePropagation === 'function') {
+            e.stopImmediatePropagation();
+          } else if (typeof e.stopPropagation === 'function') {
+            e.stopPropagation();
+          }
+          return false;
+        } catch (err) {
+          console.debug('cheerpj key guard error', err);
+        }
+      }
+
+      const opts = { capture: true, passive: false };
+      window.addEventListener('keydown', guardShortcuts, opts);
+      document.addEventListener('keydown', guardShortcuts, opts);
+      try { document.documentElement.addEventListener('keydown', guardShortcuts, opts); } catch (e) {}
+      // Also listen to keypress as some browsers dispatch different events
+      window.addEventListener('keypress', guardShortcuts, opts);
+    })();
     cheerpjCreateDisplay(-1, -1, document.body);
     await cheerpjRunJar("/app/violetumleditor/violetumleditor-latest.jar", "-kioskMode", "-autoSave", "-cheerpjMode");
   </script>
