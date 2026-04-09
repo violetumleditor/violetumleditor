@@ -218,6 +218,7 @@ public class GraphToolsBarPanel extends JPanel
 
     private void setSelectedButton(GraphToolsBarButton selectedButton)
     {
+        GraphToolsBarButton previousSelectedButton = getSelectedButton();
         for (GraphToolsBarButton button : this.nodeButtons)
         {
             if (button != selectedButton)
@@ -244,7 +245,13 @@ public class GraphToolsBarPanel extends JPanel
                 this.graphToolsPanel.setSelectedTool(this.graphToolsPanel.getEdgeTools().get(pos));
             }
         }
+        if (previousSelectedButton != null)
+        {
+            previousSelectedButton.repaint();
+        }
+        selectedButton.repaint();
         this.buttonsPanel.repaint();
+        this.buttonsPanel.paintImmediately(0, 0, this.buttonsPanel.getWidth(), this.buttonsPanel.getHeight());
         repaint();
     }
 

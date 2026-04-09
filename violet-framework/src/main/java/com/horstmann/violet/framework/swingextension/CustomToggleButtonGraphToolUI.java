@@ -61,7 +61,7 @@ public class CustomToggleButtonGraphToolUI extends BasicPanelUI
      */
     protected void installDefaults(JPanel p)
     {
-        p.setOpaque(false);
+        p.setOpaque(true);
 
     }
 
