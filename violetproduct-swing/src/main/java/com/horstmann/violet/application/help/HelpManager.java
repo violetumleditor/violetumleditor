@@ -6,13 +6,15 @@ import java.text.MessageFormat;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
+import com.horstmann.violet.application.cheerpj.CheerpJInterfaceService;
+import com.horstmann.violet.application.menu.MenuFactory;
 import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 import com.horstmann.violet.framework.util.BrowserLauncher;
-import com.horstmann.violet.application.cheerpj.CheerpJInterfaceService;
 import com.horstmann.violet.framework.util.ClipboardPipe;
 
+@ResourceBundleBean(resourceReference = MenuFactory.class)
 public class HelpManager
 {
     private static HelpManager instance;
