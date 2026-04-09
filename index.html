@@ -254,43 +254,6 @@
             Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeOpenPdfPrintTab,
         }
     });
-    // Prevent browser default for Ctrl/Meta keyboard shortcuts when the app
-    // is active. Use non-passive capturing listeners on multiple targets to
-    // maximize the chance of intercepting browser handlers (Ctrl+S, Ctrl+P,...).
-    (function () {
-      function shouldBlockForEvent(e) {
-        if (!e) return false;
-        if (!(e.ctrlKey || e.metaKey)) return false;
-        const tgt = e.target || document.activeElement;
-        const tag = (tgt && tgt.tagName) ? String(tgt.tagName).toLowerCase() : '';
-        const isEditable = (tgt && (tgt.isContentEditable === true)) || tag === 'input' || tag === 'textarea' || tag === 'select';
-        if (isEditable) return false; // allow typing controls to behave normally
-        return true;
-      }
-
-      function guardShortcuts(e) {
-        try {
-          if (!shouldBlockForEvent(e)) return;
-          // Block default browser action and stop other listeners
-          e.preventDefault();
-          if (typeof e.stopImmediatePropagation === 'function') {
-            e.stopImmediatePropagation();
-          } else if (typeof e.stopPropagation === 'function') {
-            e.stopPropagation();
-          }
-          return false;
-        } catch (err) {
-          console.debug('cheerpj key guard error', err);
-        }
-      }
-
-      const opts = { capture: true, passive: false };
-      window.addEventListener('keydown', guardShortcuts, opts);
-      document.addEventListener('keydown', guardShortcuts, opts);
-      try { document.documentElement.addEventListener('keydown', guardShortcuts, opts); } catch (e) {}
-      // Also listen to keypress as some browsers dispatch different events
-      window.addEventListener('keypress', guardShortcuts, opts);
-    })();
     cheerpjCreateDisplay(-1, -1, document.body);
     await cheerpjRunJar("/app/violetumleditor/violetumleditor-latest.jar", "-kioskMode", "-autoSave", "-cheerpjMode");
   </script>
