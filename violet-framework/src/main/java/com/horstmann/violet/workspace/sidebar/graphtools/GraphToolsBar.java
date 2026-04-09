@@ -39,6 +39,8 @@ import com.horstmann.violet.workspace.editorpart.IEditorPart;
 public class GraphToolsBar implements IGraphToolsBar
 {
 
+    public static final int MAX_VISIBLE_ITEMS = 10;
+
 
     
     public void install(IWorkspace workspace)
