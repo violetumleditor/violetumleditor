@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 import com.horstmann.violet.framework.util.BrowserLauncher;
+import com.horstmann.violet.application.cheerpj.CheerpJInterfaceService;
 import com.horstmann.violet.framework.util.ClipboardPipe;
 
 public class HelpManager
@@ -35,6 +36,15 @@ public class HelpManager
      */
     public void openUserGuide()
     {
+        // In CheerpJ (browser) mode, use the JS bridge to open the URL
+        try {
+            if (CheerpJInterfaceService.isJavaScriptBridgeAvailable()) {
+                CheerpJInterfaceService.openUrl(this.userGuideURL);
+                return;
+            }
+        } catch (Exception ex) {
+            // fall back to desktop behavior
+        }
         boolean isOK = BrowserLauncher.openURL(this.userGuideURL);
         if (!isOK)
         {
@@ -48,6 +58,15 @@ public class HelpManager
      */
     public void openHomepage()
     {
+        // In CheerpJ (browser) mode, use the JS bridge to open the URL
+        try {
+            if (CheerpJInterfaceService.isJavaScriptBridgeAvailable()) {
+                CheerpJInterfaceService.openUrl(this.homePageURL);
+                return;
+            }
+        } catch (Exception ex) {
+            // fall back to desktop behavior
+        }
         boolean isOK = BrowserLauncher.openURL(this.homePageURL);
         if (!isOK)
         {

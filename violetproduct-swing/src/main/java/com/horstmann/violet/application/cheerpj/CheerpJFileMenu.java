@@ -363,7 +363,29 @@ public class CheerpJFileMenu extends JMenu {
                     return;
                 }
                 try {
-                    String filename = resolveStorageFilename(workspace.getGraphFile());
+                    IGraphFile graphFile = workspace.getGraphFile();
+                    if (graphFile == null) {
+                        return;
+                    }
+                    // If workspace has unsaved changes, save first
+                    if (graphFile.isSaveRequired()) {
+                        if (!saveCurrentWorkspace(false)) {
+                            return;
+                        }
+                    }
+                    // If file is not stored in browser local storage, prompt Save As so it can be exported
+                    String filename = resolveStorageFilename(graphFile);
+                    if (filename == null) {
+                        if (!saveCurrentWorkspace(true)) {
+                            return;
+                        }
+                        // Try to get a usable filename: prefer storage filename, otherwise workspace title
+                        filename = resolveStorageFilename(workspace.getGraphFile());
+                        if (filename == null) {
+                            filename = workspace.getTitle();
+                        }
+                    }
+
                     IFileWriter writer = new CheerpJDownloadFileWriter(filename);
                     OutputStream out = writer.getOutputStream();
                     filePersistenceService.write(workspace.getGraphFile().getGraph(), out);
@@ -447,10 +469,7 @@ public class CheerpJFileMenu extends JMenu {
         if (trimmed.isEmpty()) {
             return null;
         }
-            // Also accept any .html ending (e.g. browser-renamed "diagram.class.violet (5).html")
-            if (!trimmed.toLowerCase().endsWith(".html")) {
-            return trimmed + ".violet.html";
-        }
+        // Accept the filename as provided (keep any extension the user supplied)
         return trimmed;
     }
 

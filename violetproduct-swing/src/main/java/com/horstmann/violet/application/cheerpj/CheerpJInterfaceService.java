@@ -137,4 +137,14 @@ public class CheerpJInterfaceService {
             throw new IOException("PDF print bridge is not available", t);
         }
     }
+
+    public static native void nativeOpenUrl(String url);
+
+    public static void openUrl(String url) throws IOException {
+        try {
+            nativeOpenUrl(url);
+        } catch (Throwable t) {
+            throw new IOException("Open URL bridge is not available", t);
+        }
+    }
 }
