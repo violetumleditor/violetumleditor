@@ -1,7 +1,6 @@
 package com.horstmann.violet.workspace.sidebar.graphtools;
 
 import java.awt.BorderLayout;
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -250,8 +249,15 @@ public class GraphToolsBarPanel extends JPanel
             previousSelectedButton.repaint();
         }
         selectedButton.repaint();
-        revalidate();
+        
+        // Force complete container refresh for CheerpJ compatibility
+        // This mimics what happens when mouse moves over the border
+        this.buttonsPanel.invalidate();
+        this.buttonsPanel.validate();
+        invalidate();
+        validate();
         repaint();
+        paintImmediately(getBounds());
     }
 
     private void notifyMouseEvent(GraphToolsBarButton selectedButton, MouseEvent event)
