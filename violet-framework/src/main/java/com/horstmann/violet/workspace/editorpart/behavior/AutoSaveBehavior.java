@@ -32,7 +32,7 @@ public class AutoSaveBehavior extends AbstractEditorPartBehavior
 
     private void touch()
     {
-        if (this.launchingPreferences == null || !this.launchingPreferences.isAutoSave())
+        if (this.launchingPreferences == null || !this.launchingPreferences.isAutoSave() || this.launchingPreferences.isCheerpjMode())
         {
             return;
         }
@@ -45,7 +45,7 @@ public class AutoSaveBehavior extends AbstractEditorPartBehavior
 
     private void saveIfNeeded()
     {
-        if (this.launchingPreferences == null || !this.launchingPreferences.isAutoSave())
+        if (this.launchingPreferences == null || !this.launchingPreferences.isAutoSave() || this.launchingPreferences.isCheerpjMode())
         {
             return;
         }

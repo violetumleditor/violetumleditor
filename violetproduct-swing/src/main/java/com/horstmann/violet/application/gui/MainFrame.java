@@ -22,6 +22,7 @@
 package com.horstmann.violet.application.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Image;
@@ -144,6 +145,8 @@ public class MainFrame extends JFrame
         if (this.frameTitleInMenuBarLabel != null)
         {
             this.frameTitleInMenuBarLabel.setText(title);
+            boolean isUnsaved = getActiveWorkspace() != null && getActiveWorkspace().getGraphFile() != null && getActiveWorkspace().getGraphFile().isSaveRequired();
+            frameTitleInMenuBarLabel.setForeground(isUnsaved ? Color.RED : Color.BLACK);
         }
     }
     
