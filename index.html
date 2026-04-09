@@ -254,6 +254,25 @@
             Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeOpenPdfPrintTab,
         }
     });
+    // Prevent browser default for Ctrl/Meta keyboard shortcuts when the app
+    // is active. This stops the browser from handling e.g. Ctrl+S (save page)
+    // while allowing normal typing in inputs, textareas, selects or
+    // contenteditable elements. Use capture phase to intercept early.
+    window.addEventListener('keydown', function (e) {
+      try {
+        if (!e) return;
+        if (!(e.ctrlKey || e.metaKey)) return;
+        const tgt = e.target || document.activeElement;
+        const tag = (tgt && tgt.tagName) ? String(tgt.tagName).toLowerCase() : '';
+        const isEditable = (tgt && (tgt.isContentEditable === true)) || tag === 'input' || tag === 'textarea' || tag === 'select';
+        if (isEditable) return; // allow browser handling when typing in form fields
+        e.preventDefault();
+        e.stopPropagation();
+      } catch (err) {
+        // swallow errors to avoid breaking the page
+        console.debug('cheerpj keydown guard error', err);
+      }
+    }, true);
     cheerpjCreateDisplay(-1, -1, document.body);
     await cheerpjRunJar("/app/violetumleditor/violetumleditor-latest.jar", "-kioskMode", "-autoSave", "-cheerpjMode");
   </script>
