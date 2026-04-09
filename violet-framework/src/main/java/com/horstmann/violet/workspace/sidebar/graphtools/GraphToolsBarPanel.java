@@ -247,16 +247,9 @@ public class GraphToolsBarPanel extends JPanel
         }
         if (previousSelectedButton != null)
         {
-            previousSelectedButton.revalidate();
             previousSelectedButton.repaint();
-            previousSelectedButton.paintImmediately(0, 0, previousSelectedButton.getWidth(), previousSelectedButton.getHeight());
         }
-        selectedButton.revalidate();
         selectedButton.repaint();
-        selectedButton.paintImmediately(0, 0, selectedButton.getWidth(), selectedButton.getHeight());
-        this.buttonsPanel.revalidate();
-        this.buttonsPanel.repaint();
-        this.buttonsPanel.paintImmediately(0, 0, this.buttonsPanel.getWidth(), this.buttonsPanel.getHeight());
         revalidate();
         repaint();
     }
