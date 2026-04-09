@@ -145,11 +145,18 @@ public class MainFrame extends JFrame
         if (this.frameTitleInMenuBarLabel != null)
         {
             this.frameTitleInMenuBarLabel.setText(title);
-            boolean isUnsaved = getActiveWorkspace() != null && getActiveWorkspace().getGraphFile() != null && getActiveWorkspace().getGraphFile().isSaveRequired();
-            frameTitleInMenuBarLabel.setForeground(isUnsaved ? Color.RED : Color.BLACK);
         }
     }
     
+    /**
+     * Highlights the title in red if the current diagram contains unsaved changes, or in black if not.
+     * @param isUnsaved
+     */
+    public void changeTitleColor(boolean isUnsaved) {
+        if (this.frameTitleInMenuBarLabel != null) {
+            frameTitleInMenuBarLabel.setForeground(isUnsaved ? Color.RED : Color.BLACK);
+        }
+    }
 
 
     /**
@@ -168,12 +175,12 @@ public class MainFrame extends JFrame
 
             public void graphCouldBeSaved()
             {
-                // change title color to red when graph could be saved
+                changeTitleColor(true);
             }
 
             @Override
             public void graphSaved() {
-                // change title color to black when graph is saved
+                changeTitleColor(false);
             }
 
             public void mustOpenfile(IFile file)
