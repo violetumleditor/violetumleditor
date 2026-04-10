@@ -61,14 +61,17 @@
     }
 
     function stageIncomingPayload(payload) {
+      console.log("[VioletTransfer] stageIncomingPayload called", payload ? { filename: payload.filename, xmlLength: typeof payload.xmlContent === "string" ? payload.xmlContent.length : "N/A" } : "null");
       if (!payload || typeof payload.xmlContent !== "string") {
+        console.warn("[VioletTransfer] Invalid payload — missing or non-string xmlContent");
         return false;
       }
 
       const filename = sanitizeFilename(payload.filename);
       const bytes = new TextEncoder().encode(payload.xmlContent);
+      console.log(`[VioletTransfer] Encoded ${bytes.length} bytes for file "${filename}"`);
       if (bytes.length > MAX_INCOMING_IMPORT_BYTES) {
-        console.warn(`Incoming diagram transfer rejected: payload too large (${bytes.length} bytes).`);
+        console.warn(`[VioletTransfer] Rejected: payload too large (${bytes.length} bytes).`);
         window.alert("This diagram is too large to import automatically in the online editor.");
         return false;
       }
@@ -77,21 +80,30 @@
       window.cheerpjFileState.pendingImportData = bytes;
 
       // Save immediately so the diagram also appears under File -> Open.
-      localStorage.setItem(LOCAL_STORAGE_PREFIX + filename, bytesToBase64(bytes));
+      try {
+        localStorage.setItem(LOCAL_STORAGE_PREFIX + filename, bytesToBase64(bytes));
+        console.log(`[VioletTransfer] Staged to localStorage key "${LOCAL_STORAGE_PREFIX + filename}" (${bytes.length} bytes)`);
+      } catch (e) {
+        console.error("[VioletTransfer] localStorage.setItem failed:", e);
+      }
       return true;
     }
 
     window.addEventListener("message", (event) => {
+      console.log(`[VioletTransfer] message event from origin "${event.origin}", type:`, event.data && event.data.type);
       // Accept same-origin messages and file:// (origin "null") exports.
       if (event.origin !== TRUSTED_TRANSFER_ORIGIN && event.origin !== "null") {
+        console.log(`[VioletTransfer] Ignored message from untrusted origin "${event.origin}"`);
         return;
       }
       const message = event.data;
       if (!message || message.type !== INCOMING_TRANSFER_PREFIX) {
         return;
       }
+      console.log("[VioletTransfer] Accepted violet-import-v1 message, staging payload...");
       const accepted = stageIncomingPayload(message.payload);
       if (accepted && event.source && typeof event.source.postMessage === "function") {
+        console.log("[VioletTransfer] Sending ACK to sender");
         event.source.postMessage({ type: "violet-import-ack" }, "*");
       }
     });
@@ -101,7 +113,7 @@
         if (!window.name || !window.name.startsWith(INCOMING_TRANSFER_PREFIX)) {
           return;
         }
-
+        console.log("[VioletTransfer] Detected window.name transfer (legacy fallback)");
         const encodedPayload = window.name.substring(INCOMING_TRANSFER_PREFIX.length);
         const payloadText = decodeBase64Utf8(encodedPayload);
         const payload = JSON.parse(payloadText);
@@ -110,11 +122,42 @@
         // Avoid re-importing if the page is reloaded.
         window.name = "";
       } catch (error) {
-        console.warn("Unable to parse incoming diagram transfer", error);
+        console.warn("[VioletTransfer] Unable to parse window.name transfer", error);
       }
     }
 
     initializeIncomingDiagramTransfer();
+
+    /**
+     * If this page was opened by another window (e.g. from an exported .violet.html),
+     * wait up to 2 seconds for the postMessage transfer to arrive before launching Java.
+     */
+    async function waitForPendingImportIfNeeded() {
+      if (window.cheerpjFileState.pendingImportData) {
+        console.log("[VioletTransfer] Pending import already staged — launching app immediately");
+        return;
+      }
+      if (!window.opener) {
+        console.log("[VioletTransfer] No opener — launching app immediately");
+        return;
+      }
+      console.log("[VioletTransfer] Opener detected — waiting up to 2s for incoming diagram transfer...");
+      await new Promise((resolve) => {
+        let waited = 0;
+        const interval = setInterval(() => {
+          waited += 50;
+          if (window.cheerpjFileState.pendingImportData) {
+            console.log(`[VioletTransfer] Pending import staged after ${waited}ms — launching app`);
+            clearInterval(interval);
+            resolve();
+          } else if (waited >= 2000) {
+            console.log("[VioletTransfer] No transfer received after 2s — launching app without import");
+            clearInterval(interval);
+            resolve();
+          }
+        }, 50);
+      });
+    }
 
     // Create hidden file input that will be reused
     const fileInput = document.getElementById('fileInputDialog');
@@ -221,15 +264,20 @@
     }
 
     async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeHasPendingImport(lib) {
-      return !!window.cheerpjFileState.pendingImportData;
+      const result = !!window.cheerpjFileState.pendingImportData;
+      console.log("[VioletTransfer] nativeHasPendingImport →", result);
+      return result;
     }
 
     async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeGetPendingImportName(lib) {
-      return window.cheerpjFileState.pendingImportFilename || "";
+      const name = window.cheerpjFileState.pendingImportFilename || "";
+      console.log("[VioletTransfer] nativeGetPendingImportName →", name);
+      return name;
     }
 
     async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeConsumePendingImportData(lib) {
       const bytes = window.cheerpjFileState.pendingImportData || new Uint8Array(0);
+      console.log(`[VioletTransfer] nativeConsumePendingImportData → ${bytes.length} bytes`);
       window.cheerpjFileState.pendingImportData = null;
       return Array.from(bytes);
     }
@@ -345,6 +393,7 @@
             Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeOpenPdfPrintTab,
         }
     });
+    await waitForPendingImportIfNeeded();
     cheerpjCreateDisplay(-1, -1, document.body);
     await cheerpjRunJar("/app/product/violetumleditor-latest.jar", "-kioskMode", "-autoSave", "-cheerpjMode");
   </script>
