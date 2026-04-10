@@ -22,6 +22,7 @@ package com.horstmann.violet;
 
 import java.awt.Toolkit;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ import com.horstmann.violet.framework.file.LocalFile;
 import com.horstmann.violet.framework.file.chooser.IFileChooserService;
 import com.horstmann.violet.framework.file.chooser.JFileChooserService;
 import com.horstmann.violet.framework.file.persistence.IFilePersistenceService;
+import com.horstmann.violet.framework.file.persistence.XMLPersistenceService;
 import com.horstmann.violet.framework.file.persistence.XHTMLPersistenceService;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanFactory;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
@@ -197,12 +199,10 @@ public class UMLEditorApplication
             {
                 filename = "diagram.violet.html";
             }
-            IGraph graph;
-            try (ByteArrayInputStream in = new ByteArrayInputStream(content))
-            {
-                graph = this.filePersistenceService.read(in);
-            }
-            CheerpJInterfaceService.saveLocalStorageDiagram(filename, content);
+            IGraph graph = readIncomingGraph(content);
+            ByteArrayOutputStream normalizedContent = new ByteArrayOutputStream();
+            this.filePersistenceService.write(graph, normalizedContent);
+            CheerpJInterfaceService.saveLocalStorageDiagram(filename, normalizedContent.toByteArray());
             CheerpJStorageGraphFile graphFile = new CheerpJStorageGraphFile(graph, filename);
             IWorkspace workspace = new Workspace(graphFile);
             this.mainFrame.addWorkspace(workspace);
@@ -212,6 +212,21 @@ public class UMLEditorApplication
         {
             System.err.println("Unable to import incoming online diagram transfer: " + e.getMessage());
             return false;
+        }
+    }
+
+    private IGraph readIncomingGraph(byte[] content) throws IOException
+    {
+        try (ByteArrayInputStream in = new ByteArrayInputStream(content))
+        {
+            return this.filePersistenceService.read(in);
+        }
+        catch (Exception ignored)
+        {
+            try (ByteArrayInputStream in = new ByteArrayInputStream(content))
+            {
+                return new XMLPersistenceService().read(in);
+            }
         }
     }
 
