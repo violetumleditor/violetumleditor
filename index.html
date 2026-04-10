@@ -24,20 +24,9 @@
       pendingImportData: null,
     };
 
-    const LOCAL_STORAGE_PREFIX = "/files/";
     const INCOMING_TRANSFER_PREFIX = "violet-import-v1:";
     const MAX_INCOMING_IMPORT_BYTES = 16 * 1024 * 1024;
     const TRUSTED_TRANSFER_ORIGIN = "https://violetumleditor.github.io";
-
-    function bytesToBase64(bytes) {
-      let binary = "";
-      const chunkSize = 0x8000;
-      for (let i = 0; i < bytes.length; i += chunkSize) {
-        const chunk = bytes.subarray(i, i + chunkSize);
-        binary += String.fromCharCode.apply(null, chunk);
-      }
-      return btoa(binary);
-    }
 
     function base64ToBytes(base64) {
       const binary = atob(base64);
@@ -79,14 +68,23 @@
       window.cheerpjFileState.pendingImportFilename = filename;
       window.cheerpjFileState.pendingImportData = bytes;
 
-      // Save immediately so the diagram also appears under File -> Open.
-      try {
-        localStorage.setItem(LOCAL_STORAGE_PREFIX + filename, bytesToBase64(bytes));
-        console.log(`[VioletTransfer] Staged to localStorage key "${LOCAL_STORAGE_PREFIX + filename}" (${bytes.length} bytes)`);
-      } catch (e) {
-        console.error("[VioletTransfer] localStorage.setItem failed:", e);
-      }
       return true;
+    }
+
+    async function writePendingImportToFilesMount() {
+      const filename = window.cheerpjFileState.pendingImportFilename;
+      const bytes = window.cheerpjFileState.pendingImportData;
+      if (!filename || !bytes) {
+        return null;
+      }
+      try {
+        await cheerpOSAddStringFile(`/files/${filename}`, bytes);
+        console.log(`[VioletTransfer] Wrote ${bytes.length} bytes to /files/${filename}`);
+        return filename;
+      } catch (e) {
+        console.error(`[VioletTransfer] Unable to write /files/${filename}:`, e);
+        return null;
+      }
     }
 
     window.addEventListener("message", (event) => {
@@ -135,7 +133,7 @@
     async function waitForPendingImportIfNeeded() {
       if (window.cheerpjFileState.pendingImportData) {
         console.log("[VioletTransfer] Pending import already staged — launching app immediately");
-        return window.cheerpjFileState.pendingImportFilename || null;
+        return await writePendingImportToFilesMount();
       }
       if (!window.opener) {
         console.log("[VioletTransfer] No opener — launching app immediately");
@@ -149,7 +147,7 @@
           if (window.cheerpjFileState.pendingImportData) {
             console.log(`[VioletTransfer] Pending import staged after ${waited}ms — launching app`);
             clearInterval(interval);
-            resolve(window.cheerpjFileState.pendingImportFilename || null);
+            writePendingImportToFilesMount().then(resolve);
           } else if (waited >= 2000) {
             console.log("[VioletTransfer] No transfer received after 2s — launching app without import");
             clearInterval(interval);
@@ -302,35 +300,6 @@
       return true;
     }
 
-    async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeSaveLocalStorageDiagram(lib, filename, content) {
-      const safeFilename = (filename && String(filename).trim().length > 0) ? String(filename) : "diagram.violet.html";
-      const bytes = content instanceof Uint8Array ? content : new Uint8Array(content);
-      const encoded = bytesToBase64(bytes);
-      localStorage.setItem(LOCAL_STORAGE_PREFIX + safeFilename, encoded);
-      return 1;
-    }
-
-    async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeLoadLocalStorageDiagram(lib, filename) {
-      const safeFilename = filename ? String(filename) : "";
-      const encoded = localStorage.getItem(LOCAL_STORAGE_PREFIX + safeFilename);
-      if (!encoded) {
-        return [];
-      }
-      return Array.from(base64ToBytes(encoded));
-    }
-
-    async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeListLocalStorageDiagrams(lib) {
-      const names = [];
-      for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key && key.startsWith(LOCAL_STORAGE_PREFIX)) {
-          names.push(key.substring(LOCAL_STORAGE_PREFIX.length));
-        }
-      }
-      names.sort((a, b) => a.localeCompare(b));
-      return names;
-    }
-
     async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeOpenBlobInNewTab(lib, filename, mimeType, content) {
       const bytes = content instanceof Uint8Array ? content : new Uint8Array(content);
       const blob = new Blob([bytes], { type: mimeType || "application/octet-stream" });
@@ -385,9 +354,6 @@
             Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeGetPendingImportName,
             Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeConsumePendingImportData,
             Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeShowSaveDialog,
-            Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeSaveLocalStorageDiagram,
-            Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeLoadLocalStorageDiagram,
-            Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeListLocalStorageDiagrams,
             Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeOpenUrl,
             Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeOpenBlobInNewTab,
             Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeOpenPdfPrintTab,
