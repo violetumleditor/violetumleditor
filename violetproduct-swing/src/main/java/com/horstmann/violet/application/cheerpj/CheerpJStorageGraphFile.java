@@ -162,9 +162,7 @@ public class CheerpJStorageGraphFile implements IGraphFile {
         if (trimmed.isEmpty()) {
             return null;
         }
-        if (!trimmed.toLowerCase().endsWith(".violet.html")) {
-            return trimmed + ".violet.html";
-        }
+        // Keep the original filename as provided, without forcing .violet.html suffix
         return trimmed;
     }
 }

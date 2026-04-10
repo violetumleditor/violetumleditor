@@ -170,6 +170,7 @@
 	function getSuggestedFilename() {
 		try {
 			var path = window.location.pathname || "";
+			path = decodeURIComponent(path);
 			var parts = path.split("/");
 			var last = parts.length > 0 ? parts[parts.length - 1] : "";
 			if (last && last.indexOf(".html") > -1) {
