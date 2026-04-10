@@ -51,6 +51,8 @@ public class CheerpJInterfaceService {
 
     public static native String[] nativeListLocalStorageDiagrams();
 
+    public static native int nativeDeleteLocalStorageDiagram(String filename);
+
     public static native void nativeOpenBlobInNewTab(String filename, String mimeType, byte[] content);
 
     public static native void nativeOpenPdfPrintTab(byte[] content);
@@ -149,6 +151,15 @@ public class CheerpJInterfaceService {
             return nativeListLocalStorageDiagrams();
         } catch (Throwable t) {
             throw new IOException("Local storage listing is not available", t);
+        }
+    }
+
+    public static boolean deleteLocalStorageDiagram(String filename) throws IOException {
+        try {
+            int result = nativeDeleteLocalStorageDiagram(filename);
+            return result == 1;
+        } catch (Throwable t) {
+            throw new IOException("Local storage delete is not available", t);
         }
     }
 

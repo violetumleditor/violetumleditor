@@ -481,8 +481,12 @@ public class CheerpJFileMenu extends JMenu {
                 return;
             }
             Arrays.sort(filenames);
-            String selected = (String) JOptionPane.showInputDialog(this.mainFrame, "Open diagram from LocalStorage", "Open",
-                    JOptionPane.PLAIN_MESSAGE, null, filenames, filenames[0]);
+            
+            // Show custom dialog with delete functionality
+            LocalStorageFileChooserDialog dialog = new LocalStorageFileChooserDialog(this.mainFrame, filenames);
+            dialog.setVisible(true);
+            String selected = dialog.getSelectedFile();
+            
             if (selected == null) {
                 return;
             }
