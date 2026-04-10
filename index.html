@@ -58,7 +58,7 @@
       }
 
       const filename = sanitizeFilename(payload.filename);
-      const bytes = new TextEncoder().encode(payload.xmlContent);
+      const bytes = payload.xmlContent;
       console.log(`[VioletTransfer] Encoded ${bytes.length} bytes for file "${filename}"`);
       if (bytes.length > MAX_INCOMING_IMPORT_BYTES) {
         console.warn(`[VioletTransfer] Rejected: payload too large (${bytes.length} bytes).`);
