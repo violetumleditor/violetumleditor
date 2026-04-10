@@ -5,9 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -44,7 +47,7 @@ import com.horstmann.violet.workspace.Workspace;
 @ResourceBundleBean(resourceReference = MenuFactory.class)
 public class CheerpJFileMenu extends JMenu {
 
-    private static final String LOCAL_STORAGE_DIRECTORY = "browser-localstorage";
+    private static final String FILES_DIRECTORY = "/files";
 
     private final MainFrame mainFrame;
 
@@ -209,7 +212,7 @@ public class CheerpJFileMenu extends JMenu {
         this.fileOpenItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                openFromBrowserLocalStorage();
+                openFromFilesMount();
             }
         });
     }
@@ -425,7 +428,7 @@ public class CheerpJFileMenu extends JMenu {
         String filename = resolveStorageFilename(graphFile);
         if (saveAs || filename == null) {
             String proposal = filename == null ? "diagram.violet.html" : filename;
-            String input = JOptionPane.showInputDialog(this.mainFrame, "LocalStorage file name", proposal);
+            String input = JOptionPane.showInputDialog(this.mainFrame, "File name", proposal);
             if (input == null) {
                 return false;
             }
@@ -441,7 +444,7 @@ public class CheerpJFileMenu extends JMenu {
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                 this.filePersistenceService.write(graphFile.getGraph(), out);
                 out.close();
-                CheerpJInterfaceService.saveLocalStorageDiagram(filename, out.toByteArray());
+                saveDiagramToFilesMount(filename, out.toByteArray());
             }
             workspace.setTitle(filename);
             return true;
@@ -455,7 +458,7 @@ public class CheerpJFileMenu extends JMenu {
         if (graphFile == null) {
             return null;
         }
-        if (!LOCAL_STORAGE_DIRECTORY.equals(graphFile.getDirectory())) {
+        if (!FILES_DIRECTORY.equals(graphFile.getDirectory())) {
             return null;
         }
         return normalizeDiagramFilename(graphFile.getFilename());
@@ -473,20 +476,20 @@ public class CheerpJFileMenu extends JMenu {
         return trimmed;
     }
 
-    private void openFromBrowserLocalStorage() {
+    private void openFromFilesMount() {
         try {
-            String[] filenames = CheerpJInterfaceService.listLocalStorageDiagrams();
+            String[] filenames = listFilesMountDiagrams();
             if (filenames == null || filenames.length == 0) {
-                this.dialogFactory.showErrorDialog(this.dialogOpenFileErrorMessage + " : no diagram in browser storage");
+                this.dialogFactory.showErrorDialog(this.dialogOpenFileErrorMessage + " : no diagram in /files");
                 return;
             }
             Arrays.sort(filenames);
-            String selected = (String) JOptionPane.showInputDialog(this.mainFrame, "Open diagram from LocalStorage", "Open",
+            String selected = (String) JOptionPane.showInputDialog(this.mainFrame, "Open diagram from /files", "Open",
                     JOptionPane.PLAIN_MESSAGE, null, filenames, filenames[0]);
             if (selected == null) {
                 return;
             }
-            byte[] content = CheerpJInterfaceService.loadLocalStorageDiagram(selected);
+            byte[] content = Files.readAllBytes(Path.of(FILES_DIRECTORY, selected));
             if (content == null || content.length == 0) {
                 this.dialogFactory.showErrorDialog(this.dialogOpenFileErrorMessage + " : empty diagram");
                 return;
@@ -514,7 +517,7 @@ public class CheerpJFileMenu extends JMenu {
             if (filename == null) {
                 filename = "diagram.violet.html";
             }
-            CheerpJInterfaceService.saveLocalStorageDiagram(filename, content);
+            saveDiagramToFilesMount(filename, content);
             IGraph graph = readGraph(content);
             CheerpJStorageGraphFile graphFile = new CheerpJStorageGraphFile(graph, filename);
             IWorkspace workspace = new Workspace(graphFile);
@@ -522,6 +525,30 @@ public class CheerpJFileMenu extends JMenu {
         } catch (Exception e) {
             showError(e);
         }
+    }
+
+    private void saveDiagramToFilesMount(String filename, byte[] content) throws IOException {
+        Path path = Path.of(FILES_DIRECTORY, filename);
+        if (path.getParent() != null) {
+            Files.createDirectories(path.getParent());
+        }
+        Files.write(path, content);
+    }
+
+    private String[] listFilesMountDiagrams() {
+        File directory = new File(FILES_DIRECTORY);
+        if (!directory.exists() || !directory.isDirectory()) {
+            return new String[0];
+        }
+        File[] files = directory.listFiles(File::isFile);
+        if (files == null || files.length == 0) {
+            return new String[0];
+        }
+        String[] names = new String[files.length];
+        for (int i = 0; i < files.length; i++) {
+            names[i] = files[i].getName();
+        }
+        return names;
     }
 
     private IGraph readGraph(byte[] content) throws IOException {

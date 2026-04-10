@@ -45,12 +45,6 @@ public class CheerpJInterfaceService {
 
     public static native boolean nativeShowSaveDialog(String defaultFilename, byte[] content, String mimeType);
 
-    public static native void nativeSaveLocalStorageDiagram(String filename, byte[] content);
-
-    public static native byte[] nativeLoadLocalStorageDiagram(String filename);
-
-    public static native String[] nativeListLocalStorageDiagrams();
-
     public static native void nativeOpenBlobInNewTab(String filename, String mimeType, byte[] content);
 
     public static native void nativeOpenPdfPrintTab(byte[] content);
@@ -125,30 +119,6 @@ public class CheerpJInterfaceService {
             return nativeShowSaveDialog(defaultFilename, content, mimeType);
         } catch (Throwable t) {
             throw new IOException("File save dialog is not available", t);
-        }
-    }
-
-    public static void saveLocalStorageDiagram(String filename, byte[] content) throws IOException {
-        try {
-            nativeSaveLocalStorageDiagram(filename, content);
-        } catch (Throwable t) {
-            throw new IOException("Local storage save is not available", t);
-        }
-    }
-
-    public static byte[] loadLocalStorageDiagram(String filename) throws IOException {
-        try {
-            return nativeLoadLocalStorageDiagram(filename);
-        } catch (Throwable t) {
-            throw new IOException("Local storage load is not available", t);
-        }
-    }
-
-    public static String[] listLocalStorageDiagrams() throws IOException {
-        try {
-            return nativeListLocalStorageDiagrams();
-        } catch (Throwable t) {
-            throw new IOException("Local storage listing is not available", t);
         }
     }
 

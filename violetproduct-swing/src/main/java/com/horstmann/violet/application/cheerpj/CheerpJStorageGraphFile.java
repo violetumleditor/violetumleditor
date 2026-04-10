@@ -1,6 +1,9 @@
 package com.horstmann.violet.application.cheerpj;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +21,7 @@ import com.horstmann.violet.product.diagram.abstracts.IGraph;
 
 public class CheerpJStorageGraphFile implements IGraphFile {
 
-    private static final String STORAGE_DIRECTORY = "browser-localstorage";
+    private static final String STORAGE_DIRECTORY = "/files";
     private static final String DEFAULT_FILENAME = "diagram.violet.html";
 
     private final IGraph graph;
@@ -77,10 +80,17 @@ public class CheerpJStorageGraphFile implements IGraphFile {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             this.filePersistenceService.write(this.graph, out);
             out.close();
-            CheerpJInterfaceService.saveLocalStorageDiagram(this.storageFilename, out.toByteArray());
+            File targetFile = new File(STORAGE_DIRECTORY, this.storageFilename);
+            File parent = targetFile.getParentFile();
+            if (parent != null && !parent.exists()) {
+                parent.mkdirs();
+            }
+            try (FileOutputStream fileOut = new FileOutputStream(targetFile)) {
+                fileOut.write(out.toByteArray());
+            }
             this.saveRequired = false;
             fireGraphSaved();
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
