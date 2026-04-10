@@ -189,12 +189,12 @@ public class UMLEditorApplication
             {
                 return false;
             }
+            String filename = CheerpJInterfaceService.getPendingImportName();
             byte[] content = CheerpJInterfaceService.consumePendingImportData();
             if (content == null || content.length == 0)
             {
                 return false;
             }
-            String filename = CheerpJInterfaceService.getPendingImportName();
             if (filename == null || filename.trim().isEmpty())
             {
                 filename = "diagram.violet.html";

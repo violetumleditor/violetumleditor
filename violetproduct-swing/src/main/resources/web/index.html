@@ -200,7 +200,7 @@
     }
 
     async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeHasPendingImport(lib) {
-      return window.cheerpjFileState.pendingImportData ? 1 : 0;
+      return !!window.cheerpjFileState.pendingImportData;
     }
 
     async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeGetPendingImportName(lib) {
@@ -209,7 +209,6 @@
 
     async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeConsumePendingImportData(lib) {
       const bytes = window.cheerpjFileState.pendingImportData || new Uint8Array(0);
-      window.cheerpjFileState.pendingImportFilename = null;
       window.cheerpjFileState.pendingImportData = null;
       return Array.from(bytes);
     }

@@ -180,13 +180,14 @@
 			xmlContent: xmlContent
 		};
 
-		var editorWindow = window.open(ONLINE_EDITOR_URL, "_blank");
+		var editorWindow = window.open("about:blank", "_blank");
 		if (!editorWindow) {
 			window.alert("Popup blocked. Please allow popups and try again.");
 			return false;
 		}
 
 		editorWindow.name = ONLINE_TRANSFER_PREFIX + encodeBase64Utf8(JSON.stringify(payload));
+		editorWindow.location.href = ONLINE_EDITOR_URL;
 		editorWindow.focus();
 		return false;
 	}
