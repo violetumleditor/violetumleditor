@@ -135,25 +135,25 @@
     async function waitForPendingImportIfNeeded() {
       if (window.cheerpjFileState.pendingImportData) {
         console.log("[VioletTransfer] Pending import already staged — launching app immediately");
-        return;
+        return window.cheerpjFileState.pendingImportFilename || null;
       }
       if (!window.opener) {
         console.log("[VioletTransfer] No opener — launching app immediately");
-        return;
+        return null;
       }
       console.log("[VioletTransfer] Opener detected — waiting up to 2s for incoming diagram transfer...");
-      await new Promise((resolve) => {
+      return await new Promise((resolve) => {
         let waited = 0;
         const interval = setInterval(() => {
           waited += 50;
           if (window.cheerpjFileState.pendingImportData) {
             console.log(`[VioletTransfer] Pending import staged after ${waited}ms — launching app`);
             clearInterval(interval);
-            resolve();
+            resolve(window.cheerpjFileState.pendingImportFilename || null);
           } else if (waited >= 2000) {
             console.log("[VioletTransfer] No transfer received after 2s — launching app without import");
             clearInterval(interval);
-            resolve();
+            resolve(null);
           }
         }, 50);
       });
@@ -393,9 +393,13 @@
             Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeOpenPdfPrintTab,
         }
     });
-    await waitForPendingImportIfNeeded();
+    const incomingFilename = await waitForPendingImportIfNeeded();
     cheerpjCreateDisplay(-1, -1, document.body);
-    await cheerpjRunJar("/app/product/violetumleditor-latest.jar", "-kioskMode", "-autoSave", "-cheerpjMode");
+    const runArgs = ["-kioskMode", "-autoSave", "-cheerpjMode"];
+    if (incomingFilename && String(incomingFilename).trim().length > 0) {
+      runArgs.push("-file=" + String(incomingFilename).trim());
+    }
+    await cheerpjRunJar("/app/product/violetumleditor-latest.jar", ...runArgs);
   </script>
 </body>  
 </html>
