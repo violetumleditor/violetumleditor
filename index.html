@@ -51,38 +51,38 @@
     }
 
     function stageIncomingPayload(payload) {
-      console.log("[VioletTransfer] stageIncomingPayload called", payload ? { filename: payload.filename, xmlLength: typeof payload.xmlContent === "string" ? payload.xmlContent.length : "N/A" } : "null");
-      if (!payload || typeof payload.xmlContent !== "string") {
-        console.warn("[VioletTransfer] Invalid payload — missing or non-string xmlContent");
+      console.log("[VioletTransfer] stageIncomingPayload called", payload ? { filename: payload.filename, htmlLength: typeof payload.htmlContent === "string" ? payload.htmlContent.length : "N/A" } : "null");
+      const content = payload && typeof payload.htmlContent === "string" ? payload.htmlContent
+        : payload && typeof payload.xmlContent === "string" ? payload.xmlContent
+        : null;
+      if (!content) {
+        console.warn("[VioletTransfer] Invalid payload — missing htmlContent and xmlContent");
         return false;
       }
 
       const filename = sanitizeFilename(payload.filename);
-      const bytes = payload.xmlContent;
-      console.log(`[VioletTransfer] Encoded ${bytes.length} bytes for file "${filename}"`);
-      console.log(payload.xmlContent);
-      if (bytes.length > MAX_INCOMING_IMPORT_BYTES) {
-        console.warn(`[VioletTransfer] Rejected: payload too large (${bytes.length} bytes).`);
+      if (content.length > MAX_INCOMING_IMPORT_BYTES) {
+        console.warn(`[VioletTransfer] Rejected: payload too large (${content.length} chars).`);
         window.alert("This diagram is too large to import automatically in the online editor.");
         return false;
       }
 
       window.cheerpjFileState.pendingImportFilename = filename;
-      window.cheerpjFileState.pendingImportData = bytes;
+      window.cheerpjFileState.pendingImportData = content;
+      console.log(`[VioletTransfer] Staged ${content.length} chars for file "${filename}"`);
 
       return true;
     }
 
     async function writePendingImportToFilesMount() {
       const filename = window.cheerpjFileState.pendingImportFilename;
-      const bytes = window.cheerpjFileState.pendingImportData;
-      if (!filename || !bytes) {
+      const content = window.cheerpjFileState.pendingImportData;
+      if (!filename || typeof content !== "string") {
         return null;
       }
       try {
         const tempName = `incoming-${Date.now()}-${filename}`;
-        const textContent = new TextDecoder().decode(bytes);
-        await cheerpOSAddStringFile(`/str/${tempName}`, textContent);
+        await cheerpOSAddStringFile(`/str/${tempName}`, content);
         if (!cheerpjLibrary) {
           cheerpjLibrary = await cheerpjRunLibrary("");
         }
@@ -92,7 +92,7 @@
         const sourcePath = await Paths.get(`/str/${tempName}`);
         const targetPath = await Paths.get(`/files/${filename}`);
         await Files.copy(sourcePath, targetPath, [StandardCopyOption.REPLACE_EXISTING]);
-        console.log(`[VioletTransfer] Wrote ${bytes.length} bytes to /files/${filename}`);
+        console.log(`[VioletTransfer] Wrote ${content.length} chars to /files/${filename}`);
         return filename;
       } catch (e) {
         console.error(`[VioletTransfer] Unable to write /files/${filename}:`, e);
