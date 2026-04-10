@@ -27,6 +27,7 @@
     const INCOMING_TRANSFER_PREFIX = "violet-import-v1:";
     const MAX_INCOMING_IMPORT_BYTES = 16 * 1024 * 1024;
     const TRUSTED_TRANSFER_ORIGIN = "https://violetumleditor.github.io";
+    let cheerpjLibrary = null;
 
     function base64ToBytes(base64) {
       const binary = atob(base64);
@@ -78,7 +79,18 @@
         return null;
       }
       try {
-        await cheerpOSAddStringFile(`/files/${filename}`, bytes);
+        if (!cheerpjLibrary) {
+          cheerpjLibrary = await cheerpjRunLibrary("");
+        }
+        const Paths = await cheerpjLibrary.java.nio.file.Paths;
+        const Files = await cheerpjLibrary.java.nio.file.Files;
+        const StandardOpenOption = await cheerpjLibrary.java.nio.file.StandardOpenOption;
+        const path = await Paths.get(`/files/${filename}`);
+        await Files.write(path, bytes, [
+          StandardOpenOption.CREATE,
+          StandardOpenOption.TRUNCATE_EXISTING,
+          StandardOpenOption.WRITE,
+        ]);
         console.log(`[VioletTransfer] Wrote ${bytes.length} bytes to /files/${filename}`);
         return filename;
       } catch (e) {
