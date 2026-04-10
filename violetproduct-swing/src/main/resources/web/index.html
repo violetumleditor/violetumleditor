@@ -370,17 +370,6 @@
         return 0;
       }
     }
-
-    async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeDeleteLocalStorageDiagram(lib, filename) {
-      const key = LOCAL_STORAGE_PREFIX + sanitizeFilename(filename);
-      try {
-        localStorage.removeItem(key);
-        return 1;
-      } catch (e) {
-        console.error("[VioletTransfer] Failed to delete localStorage entry: ", e);
-        return 0;
-      }
-    }
     
     await cheerpjInit({
         version: 17,
