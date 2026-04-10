@@ -152,9 +152,9 @@ public class CheerpJInterfaceService {
         }
     }
 
-    public static boolean deleteLocalStorageDiagram(String filename) throws IOException {
+    public static void openBlobInNewTab(String filename, String mimeType, byte[] content) throws IOException {
         try {
-            int reOpenBlobInNewTab(filename, mimeType, content);
+            nativeOpenBlobInNewTab(filename, mimeType, content);
         } catch (Throwable t) {
             throw new IOException("Open in new tab bridge is not available", t);
         }
