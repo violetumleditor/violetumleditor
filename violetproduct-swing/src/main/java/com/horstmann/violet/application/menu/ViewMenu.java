@@ -23,26 +23,17 @@ package com.horstmann.violet.application.menu;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
 import com.horstmann.violet.application.gui.MainFrame;
-import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
-import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
-import com.horstmann.violet.framework.theme.ITheme;
-import com.horstmann.violet.framework.theme.ThemeInfo;
-import com.horstmann.violet.framework.theme.ThemeManager;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 
@@ -94,24 +85,6 @@ public class ViewMenu extends JMenu
         });
         this.add(zoomIn);
 
-        growDrawingArea.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent event)
-            {
-                performGrowDrawingArea();
-            }
-        });
-        this.add(growDrawingArea);
-
-        clipDrawingArea.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent event)
-            {
-                performClipDrawingArea();
-            }
-        });
-        this.add(clipDrawingArea);
-
         smallerGrid.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent event)
@@ -157,31 +130,6 @@ public class ViewMenu extends JMenu
             }
         });
 
-        ButtonGroup lookAndFeelButtonGroup = new ButtonGroup();
-        String preferedLafName = this.themeManager.getPreferedLookAndFeel();
-        List<ITheme> themes = this.themeManager.getInstalledThemes();
-        for (ITheme aTheme : themes)
-        {
-            ThemeInfo themeInfo = aTheme.getThemeInfo();
-        	String themeName = themeInfo.getName();
-            final String themeClassName = themeInfo.getThemeClass().getName();
-            JMenuItem lafMenu = new JCheckBoxMenuItem(themeName);
-            lafMenu.addActionListener(new ActionListener()
-            {
-                public void actionPerformed(ActionEvent e)
-                {
-                    performChangeLookAndFeel(themeClassName);
-                }
-            });
-            changeLookAndFeelMenu.add(lafMenu);
-            lookAndFeelButtonGroup.add(lafMenu);
-            if (themeClassName.equals(preferedLafName))
-            {
-                lafMenu.setSelected(true);
-            }
-        }
-        this.add(changeLookAndFeelMenu);
-
     }
 
     /**
@@ -202,26 +150,6 @@ public class ViewMenu extends JMenu
         if (mainFrame.getWorkspaceList().size() == 0) return;
         IWorkspace workspace = mainFrame.getActiveWorkspace();
         workspace.getEditorPart().changeZoom(1);
-    }
-
-    /**
-     * Performs gros drawing area action
-     */
-    private void performGrowDrawingArea()
-    {
-        if (mainFrame.getWorkspaceList().size() == 0) return;
-        IWorkspace workspace = mainFrame.getActiveWorkspace();
-        workspace.getEditorPart().growDrawingArea();
-    }
-
-    /**
-     * Performs clip drawing area action
-     */
-    private void performClipDrawingArea()
-    {
-        if (mainFrame.getWorkspaceList().size() == 0) return;
-        IWorkspace workspace = mainFrame.getActiveWorkspace();
-        workspace.getEditorPart().clipDrawingArea();
     }
 
     /**
@@ -271,20 +199,6 @@ public class ViewMenu extends JMenu
     }
 
     /**
-     * Performs look and feel change
-     * 
-     * @param className look and feel or pgs theme class name
-     */
-    private void performChangeLookAndFeel(String className)
-    {
-    	this.themeManager.setPreferedLookAndFeel(className);
-        JOptionPane optionPane = new JOptionPane();
-        optionPane.setMessage(changeLAFDialogMessage);
-        optionPane.setIcon(changeLAFDialogIcon);
-        this.dialogFactory.showDialog(optionPane, changeLAFDialogTitle, true);
-    }
-
-    /**
      * Current editor frame
      */
     private MainFrame mainFrame;
@@ -295,12 +209,6 @@ public class ViewMenu extends JMenu
     @ResourceBundleBean(key = "view.zoom_in")
     private JMenuItem zoomIn;
 
-    @ResourceBundleBean(key = "view.grow_drawing_area")
-    private JMenuItem growDrawingArea;
-
-    @ResourceBundleBean(key = "view.clip_drawing_area")
-    private JMenuItem clipDrawingArea;
-
     @ResourceBundleBean(key = "view.smaller_grid")
     private JMenuItem smallerGrid;
 
@@ -309,23 +217,5 @@ public class ViewMenu extends JMenu
 
     @ResourceBundleBean(key = "view.hide_grid")
     private JCheckBoxMenuItem hideGridItem;
-
-    @ResourceBundleBean(key = "view.change_laf")
-    private JMenu changeLookAndFeelMenu;
-
-    @ResourceBundleBean(key = "dialog.change_laf.title")
-    private String changeLAFDialogTitle;
-
-    @ResourceBundleBean(key = "dialog.change_laf.ok")
-    private String changeLAFDialogMessage;
-
-    @ResourceBundleBean(key = "dialog.change_laf.icon")
-    private ImageIcon changeLAFDialogIcon;
-    
-    @InjectedBean
-    private DialogFactory dialogFactory;
-    
-    @InjectedBean
-    private ThemeManager themeManager;
 
 }
