@@ -60,6 +60,7 @@
       const filename = sanitizeFilename(payload.filename);
       const bytes = payload.xmlContent;
       console.log(`[VioletTransfer] Encoded ${bytes.length} bytes for file "${filename}"`);
+      console.log(payload.xmlContent);
       if (bytes.length > MAX_INCOMING_IMPORT_BYTES) {
         console.warn(`[VioletTransfer] Rejected: payload too large (${bytes.length} bytes).`);
         window.alert("This diagram is too large to import automatically in the online editor.");
