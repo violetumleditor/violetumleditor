@@ -397,7 +397,7 @@
     cheerpjCreateDisplay(-1, -1, document.body);
     const runArgs = ["-kioskMode", "-autoSave", "-cheerpjMode"];
     if (incomingFilename && String(incomingFilename).trim().length > 0) {
-      runArgs.push("-file=" + String(incomingFilename).trim());
+      runArgs.push("-file=/files/" + String(incomingFilename).trim());
     }
     await cheerpjRunJar("/app/product/violetumleditor-latest.jar", ...runArgs);
   </script>
