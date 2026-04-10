@@ -21,8 +21,6 @@
 package com.horstmann.violet;
 
 import java.awt.Toolkit;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,7 +41,6 @@ import com.horstmann.violet.framework.file.LocalFile;
 import com.horstmann.violet.framework.file.chooser.IFileChooserService;
 import com.horstmann.violet.framework.file.chooser.JFileChooserService;
 import com.horstmann.violet.framework.file.persistence.IFilePersistenceService;
-import com.horstmann.violet.framework.file.persistence.XMLPersistenceService;
 import com.horstmann.violet.framework.file.persistence.XHTMLPersistenceService;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanFactory;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
@@ -78,7 +75,7 @@ public class UMLEditorApplication
     /**
      * Default constructor
      * 
-     * @param filesToOpen
+        * @param args
      */
     private UMLEditorApplication(String[] args)
     {
@@ -137,13 +134,14 @@ public class UMLEditorApplication
         List<IFile> fullList = new ArrayList<IFile>();
         List<IFile> lastSessionFiles = this.userPreferencesService.getOpenedFilesDuringLastSession();
         fullList.addAll(lastSessionFiles);
-        List<String> filesToOpen = this.launchingPreferences.getFilesToOpen();
-        for (String aFileToOpen : filesToOpen)
+        String fileToOpen = this.launchingPreferences.getFileToOpen();
+        if (fileToOpen != null && !fileToOpen.trim().isEmpty())
         {
             try
             {
-                LocalFile localFile = new LocalFile(new File(aFileToOpen));
-                fullList.add(localFile);
+                IFile requestedFile = new LocalFile(new File(fileToOpen));
+                fullList.add(requestedFile);
+                this.userPreferencesService.setActiveDiagramFile(requestedFile);
             }
             catch (IOException e)
             {
@@ -153,7 +151,7 @@ public class UMLEditorApplication
             }
         }
         // Open files
-        for (IFile aFile : lastSessionFiles)
+        for (IFile aFile : fullList)
         {
             try
             {
@@ -168,67 +166,12 @@ public class UMLEditorApplication
                 System.err.println("Removed from user preferences!");
             }
         }
-        boolean importedFromTransfer = importPendingCheerpJDiagram();
         IFile activeFile = this.userPreferencesService.getActiveDiagramFile();
-        if (!importedFromTransfer)
-        {
-            this.mainFrame.setActiveWorkspace(activeFile);
-        }
+        this.mainFrame.setActiveWorkspace(activeFile);
         this.mainFrame.setVisible(true);
     }
 
-    private boolean importPendingCheerpJDiagram()
-    {
-        if (!this.launchingPreferences.isCheerpjMode())
-        {
-            return false;
-        }
-        try
-        {
-            if (!CheerpJInterfaceService.hasPendingImport())
-            {
-                return false;
-            }
-            String filename = CheerpJInterfaceService.getPendingImportName();
-            byte[] content = CheerpJInterfaceService.consumePendingImportData();
-            if (content == null || content.length == 0)
-            {
-                return false;
-            }
-            if (filename == null || filename.trim().isEmpty())
-            {
-                filename = "diagram.violet.html";
-            }
-            IGraph graph = readIncomingGraph(content);
-            ByteArrayOutputStream normalizedContent = new ByteArrayOutputStream();
-            this.filePersistenceService.write(graph, normalizedContent);
-            CheerpJInterfaceService.saveLocalStorageDiagram(filename, normalizedContent.toByteArray());
-            CheerpJStorageGraphFile graphFile = new CheerpJStorageGraphFile(graph, filename);
-            IWorkspace workspace = new Workspace(graphFile);
-            this.mainFrame.addWorkspace(workspace);
-            return true;
-        }
-        catch (Exception e)
-        {
-            System.err.println("Unable to import incoming online diagram transfer: " + e.getMessage());
-            return false;
-        }
-    }
-
-    private IGraph readIncomingGraph(byte[] content) throws IOException
-    {
-        try (ByteArrayInputStream in = new ByteArrayInputStream(content))
-        {
-            return this.filePersistenceService.read(in);
-        }
-        catch (Exception ignored)
-        {
-            try (ByteArrayInputStream in = new ByteArrayInputStream(content))
-            {
-                return new XMLPersistenceService().read(in);
-            }
-        }
-    }
+    
 
     /**
      * Install plugins

@@ -54,10 +54,13 @@ public class LaunchingPreferences
                 this.isCheerpjMode = true;
                 optionArgList.add(arg);
             }
+            if (arg.startsWith("-file="))
+            {
+                this.fileToOpen = arg.substring("-file=".length());
+                optionArgList.add(arg);
+            }
         }
-        List<String> fileArgList = new ArrayList<String>(argsList);
-        fileArgList.removeAll(optionArgList);
-        this.filesToOpen = fileArgList;
+        
     }
 
     public boolean isResetUserPreferences()
@@ -80,9 +83,9 @@ public class LaunchingPreferences
         return isHelpRequested;
     }
 
-    public List<String> getFilesToOpen()
+    public String getFileToOpen()
     {
-        return filesToOpen;
+        return fileToOpen;
     }
 
     public String getAdminPassword()
@@ -107,6 +110,6 @@ public class LaunchingPreferences
     private boolean isHelpRequested;
     private boolean isAutoSave;
     private boolean isCheerpjMode;
-    private List<String> filesToOpen = new ArrayList<>();
+    private String fileToOpen;
 
 }
