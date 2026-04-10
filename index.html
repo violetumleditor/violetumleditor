@@ -80,7 +80,8 @@
       }
       try {
         const tempName = `incoming-${Date.now()}-${filename}`;
-        await cheerpOSAddStringFile(`/str/${tempName}`, bytes);
+        const textContent = new TextDecoder().decode(bytes);
+        await cheerpOSAddStringFile(`/str/${tempName}`, textContent);
         if (!cheerpjLibrary) {
           cheerpjLibrary = await cheerpjRunLibrary("");
         }
