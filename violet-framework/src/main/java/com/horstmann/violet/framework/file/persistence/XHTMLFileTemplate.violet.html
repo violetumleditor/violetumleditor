@@ -140,6 +140,7 @@
 </STYLE>
 <SCRIPT type="text/javascript">
 	var ONLINE_EDITOR_URL = "https://violetumleditor.github.io/product";
+	var ONLINE_EDITOR_ORIGIN = "https://violetumleditor.github.io";
 	var ONLINE_TRANSFER_PREFIX = "violet-import-v1:";
 
 	function switchVisibility() {
@@ -179,15 +180,49 @@
 			sourceVersion: "${version}",
 			xmlContent: xmlContent
 		};
+		var message = {
+			type: ONLINE_TRANSFER_PREFIX,
+			payload: payload
+		};
 
-		var editorWindow = window.open("about:blank", "_blank");
+		var editorWindow = window.open(ONLINE_EDITOR_URL, "_blank");
 		if (!editorWindow) {
 			window.alert("Popup blocked. Please allow popups and try again.");
 			return false;
 		}
 
+		var acknowledged = false;
+		var onAck = function(event) {
+			if (!event || event.source !== editorWindow || !event.data || event.data.type !== "violet-import-ack") {
+				return;
+			}
+			acknowledged = true;
+			window.removeEventListener("message", onAck);
+		};
+		window.addEventListener("message", onAck);
+
+		var attempts = 0;
+		var maxAttempts = 40;
+		var timer = window.setInterval(function() {
+			if (acknowledged || editorWindow.closed) {
+				window.clearInterval(timer);
+				window.removeEventListener("message", onAck);
+				return;
+			}
+			attempts += 1;
+			try {
+				editorWindow.postMessage(message, ONLINE_EDITOR_ORIGIN);
+			} catch (e) {
+				// Ignore and retry.
+			}
+			if (attempts >= maxAttempts) {
+				window.clearInterval(timer);
+				window.removeEventListener("message", onAck);
+			}
+		}, 250);
+
+		// Keep legacy fallback for environments where message events are filtered.
 		editorWindow.name = ONLINE_TRANSFER_PREFIX + encodeBase64Utf8(JSON.stringify(payload));
-		editorWindow.location.href = ONLINE_EDITOR_URL;
 		editorWindow.focus();
 		return false;
 	}
