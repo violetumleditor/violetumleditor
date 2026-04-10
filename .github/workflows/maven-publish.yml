@@ -40,7 +40,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ github.token }}
 
-    - name: Prepare latest Swing jar for GitHub Pages
+    - name: Prepare latest Swing jar and index.html for GitHub Pages
       run: |
         set -euo pipefail
         mkdir -p gh-pages-download
@@ -55,7 +55,14 @@ jobs:
         VERSION=${VERSION%.jar}
         printf '%s\n' "$VERSION" > gh-pages-download/violetumleditor-latest-version.txt
 
-    - name: Publish latest Swing jar to GitHub Pages
+        WEB_INDEX="violetproduct-swing/src/main/resources/web/index.html"
+        if [ ! -f "$WEB_INDEX" ]; then
+          echo "Missing web index file: $WEB_INDEX"
+          exit 1
+        fi
+        cp "$WEB_INDEX" gh-pages-download/index.html
+
+    - name: Publish latest Swing jar and index.html to GitHub Pages
       uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ github.token }}
