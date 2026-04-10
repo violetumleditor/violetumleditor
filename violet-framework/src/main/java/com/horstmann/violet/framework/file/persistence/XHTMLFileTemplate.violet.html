@@ -201,10 +201,12 @@
 		if (xmlContent.startsWith("<![CDATA[") && xmlContent.endsWith("]]>")) {
 			xmlContent = xmlContent.slice(9, -3).trim();
 		}
+		var htmlContent = document.documentElement.outerHTML;
 		var payload = {
 			filename: getSuggestedFilename(),
 			sourceVersion: "${version}",
-			xmlContent: xmlContent
+			xmlContent: xmlContent,
+			htmlContent: htmlContent
 		};
 		var message = {
 			type: ONLINE_TRANSFER_PREFIX,
