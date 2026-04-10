@@ -174,7 +174,13 @@
 	}
 
 	function openInOnlineEditor() {
-		var xmlContent = document.getElementById("content").textContent || "";
+		// In HTML5, <script> CDATA sections expose the literal <![CDATA[ ... ]]> markers
+		// in textContent — strip them so the receiver gets clean XML.
+		var rawContent = document.getElementById("content").textContent || "";
+		var xmlContent = rawContent.trim();
+		if (xmlContent.startsWith("<![CDATA[") && xmlContent.endsWith("]]>")) {
+			xmlContent = xmlContent.slice(9, -3).trim();
+		}
 		var payload = {
 			filename: getSuggestedFilename(),
 			sourceVersion: "${version}",
