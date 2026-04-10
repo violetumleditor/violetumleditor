@@ -20,9 +20,12 @@
     window.cheerpjFileState = {
       selectedFile: null,
       selectedFileData: null,
+      pendingImportFilename: null,
+      pendingImportData: null,
     };
 
     const LOCAL_STORAGE_PREFIX = "violet.diagram.";
+    const INCOMING_TRANSFER_PREFIX = "violet-import-v1:";
 
     function bytesToBase64(bytes) {
       let binary = "";
@@ -42,6 +45,60 @@
       }
       return bytes;
     }
+
+    function decodeBase64Utf8(base64) {
+      const bytes = base64ToBytes(base64);
+      return new TextDecoder().decode(bytes);
+    }
+
+    function sanitizeFilename(filename) {
+      const proposed = filename && String(filename).trim().length > 0
+        ? String(filename).trim()
+        : "diagram.violet.html";
+      return proposed.replace(/[\\/:*?"<>|]/g, "-");
+    }
+
+    function wrapXmlAsVioletXhtml(xmlContent, sourceVersion) {
+      const safeXml = String(xmlContent || "").replaceAll("]]>", "]]]]><![CDATA[>");
+      const safeVersion = sourceVersion && String(sourceVersion).trim().length > 0
+        ? String(sourceVersion).trim()
+        : "unknown";
+      return `<HTML>\n<HEAD>\n<META name=\"description\" content=\"Violet UML Editor cross format document\" />\n<META name=\"keywords\" content=\"Violet, UML\" />\n<META charset=\"UTF-8\" />\n</HEAD>\n<BODY>\nGenerated with Violet UML Editor ${safeVersion}.\n<SCRIPT id=\"content\" type=\"text/xml\"><![CDATA[${safeXml}]]></SCRIPT>\n</BODY>\n</HTML>`;
+    }
+
+    function initializeIncomingDiagramTransfer() {
+      try {
+        if (!window.name || !window.name.startsWith(INCOMING_TRANSFER_PREFIX)) {
+          return;
+        }
+
+        const encodedPayload = window.name.substring(INCOMING_TRANSFER_PREFIX.length);
+        const payloadText = decodeBase64Utf8(encodedPayload);
+        const payload = JSON.parse(payloadText);
+
+        if (!payload || typeof payload.xmlContent !== "string") {
+          return;
+        }
+
+        const filename = sanitizeFilename(payload.filename);
+        const wrappedXhtml = wrapXmlAsVioletXhtml(payload.xmlContent, payload.sourceVersion);
+        const bytes = new TextEncoder().encode(wrappedXhtml);
+
+        window.cheerpjFileState.pendingImportFilename = filename;
+        window.cheerpjFileState.pendingImportData = bytes;
+
+        // Also keep it available through the standard open-file bridge path.
+        window.cheerpjFileState.selectedFile = { name: filename };
+        window.cheerpjFileState.selectedFileData = bytes;
+
+        // Avoid re-importing if the page is reloaded.
+        window.name = "";
+      } catch (error) {
+        console.warn("Unable to parse incoming diagram transfer", error);
+      }
+    }
+
+    initializeIncomingDiagramTransfer();
 
     // Create hidden file input that will be reused
     const fileInput = document.getElementById('fileInputDialog');
@@ -147,6 +204,21 @@
         : '';
     }
 
+    async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeHasPendingImport(lib) {
+      return window.cheerpjFileState.pendingImportData ? 1 : 0;
+    }
+
+    async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeGetPendingImportName(lib) {
+      return window.cheerpjFileState.pendingImportFilename || "";
+    }
+
+    async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeConsumePendingImportData(lib) {
+      const bytes = window.cheerpjFileState.pendingImportData || new Uint8Array(0);
+      window.cheerpjFileState.pendingImportFilename = null;
+      window.cheerpjFileState.pendingImportData = null;
+      return Array.from(bytes);
+    }
+
     /**
      * Native method: Show save dialog
      * Prompts user for filename and triggers download immediately
@@ -246,6 +318,9 @@
             Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeShowOpenDialog,
             Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeGetFileData,
             Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeGetFileName,
+            Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeHasPendingImport,
+            Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeGetPendingImportName,
+            Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeConsumePendingImportData,
             Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeShowSaveDialog,
             Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeSaveLocalStorageDiagram,
             Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeLoadLocalStorageDiagram,
