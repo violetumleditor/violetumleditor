@@ -21,6 +21,7 @@
 package com.horstmann.violet;
 
 import java.awt.Toolkit;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ import javax.swing.JFrame;
 
 import com.horstmann.violet.application.cheerpj.CheerpJFileChooserService;
 import com.horstmann.violet.application.cheerpj.CheerpJInterfaceService;
+import com.horstmann.violet.application.cheerpj.CheerpJStorageGraphFile;
 import com.horstmann.violet.application.gui.MainFrame;
 import com.horstmann.violet.application.gui.SplashScreen;
 import com.horstmann.violet.framework.file.GraphFile;
@@ -50,6 +52,7 @@ import com.horstmann.violet.framework.userpreferences.IUserPreferencesDao;
 import com.horstmann.violet.framework.userpreferences.LaunchingPreferences;
 import com.horstmann.violet.framework.userpreferences.UserPreferencesService;
 import com.horstmann.violet.framework.util.VersionChecker;
+import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
 
@@ -163,9 +166,53 @@ public class UMLEditorApplication
                 System.err.println("Removed from user preferences!");
             }
         }
+        boolean importedFromTransfer = importPendingCheerpJDiagram();
         IFile activeFile = this.userPreferencesService.getActiveDiagramFile();
-        this.mainFrame.setActiveWorkspace(activeFile);
+        if (!importedFromTransfer)
+        {
+            this.mainFrame.setActiveWorkspace(activeFile);
+        }
         this.mainFrame.setVisible(true);
+    }
+
+    private boolean importPendingCheerpJDiagram()
+    {
+        if (!this.launchingPreferences.isCheerpjMode())
+        {
+            return false;
+        }
+        try
+        {
+            if (!CheerpJInterfaceService.hasPendingImport())
+            {
+                return false;
+            }
+            byte[] content = CheerpJInterfaceService.consumePendingImportData();
+            if (content == null || content.length == 0)
+            {
+                return false;
+            }
+            String filename = CheerpJInterfaceService.getPendingImportName();
+            if (filename == null || filename.trim().isEmpty())
+            {
+                filename = "diagram.violet.html";
+            }
+            IGraph graph;
+            try (ByteArrayInputStream in = new ByteArrayInputStream(content))
+            {
+                graph = this.filePersistenceService.read(in);
+            }
+            CheerpJInterfaceService.saveLocalStorageDiagram(filename, content);
+            CheerpJStorageGraphFile graphFile = new CheerpJStorageGraphFile(graph, filename);
+            IWorkspace workspace = new Workspace(graphFile);
+            this.mainFrame.addWorkspace(workspace);
+            return true;
+        }
+        catch (Exception e)
+        {
+            System.err.println("Unable to import incoming online diagram transfer: " + e.getMessage());
+            return false;
+        }
     }
 
     /**
@@ -201,6 +248,9 @@ public class UMLEditorApplication
 
     @InjectedBean
     private MainFrame mainFrame;
+
+    @InjectedBean
+    private IFilePersistenceService filePersistenceService;
 
 
 

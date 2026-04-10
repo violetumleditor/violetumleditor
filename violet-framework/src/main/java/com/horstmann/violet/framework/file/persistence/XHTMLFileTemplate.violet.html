@@ -1,24 +1,214 @@
 <HTML>
 <HEAD>
-<META name="description"
-	content="Violet UML Editor cross format document" />
+<META name="description" content="Violet UML Editor cross format document" />
 <META name="keywords" content="Violet, UML" />
 <META charset="UTF-8" />
+<META name="viewport" content="width=device-width, initial-scale=1" />
+<TITLE>Violet UML Diagram</TITLE>
+<STYLE type="text/css">
+	:root {
+		--bg: #f4f6fa;
+		--surface: #ffffff;
+		--text: #1f2937;
+		--muted: #6b7280;
+		--primary: #0f4c81;
+		--primary-hover: #0b3b65;
+		--border: #dbe1ea;
+	}
+
+	html, body {
+		margin: 0;
+		padding: 0;
+		background: radial-gradient(circle at top right, #ffffff, var(--bg));
+		font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+		color: var(--text);
+	}
+
+	body {
+		padding: 24px;
+	}
+
+	.wrapper {
+		max-width: 1100px;
+		margin: 0 auto;
+		background: var(--surface);
+		border: 1px solid var(--border);
+		border-radius: 14px;
+		box-shadow: 0 10px 30px rgba(17, 24, 39, 0.08);
+		overflow: hidden;
+	}
+
+	.header {
+		padding: 20px 24px;
+		background: linear-gradient(120deg, #f8fbff 0%, #eef4fb 100%);
+		border-bottom: 1px solid var(--border);
+	}
+
+	.title {
+		margin: 0;
+		font-size: 22px;
+		font-weight: 650;
+	}
+
+	.subtitle {
+		margin: 8px 0 0;
+		color: var(--muted);
+		font-size: 14px;
+	}
+
+	.toolbar {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px;
+		padding: 16px 24px;
+		border-bottom: 1px solid var(--border);
+	}
+
+	.action {
+		display: inline-block;
+		text-decoration: none;
+		font-size: 14px;
+		padding: 10px 14px;
+		border: 1px solid var(--border);
+		border-radius: 8px;
+		color: var(--text);
+		background: #fff;
+		cursor: pointer;
+	}
+
+	.action:hover {
+		background: #f8fafc;
+	}
+
+	.action.primary {
+		background: var(--primary);
+		border-color: var(--primary);
+		color: #fff;
+	}
+
+	.action.primary:hover {
+		background: var(--primary-hover);
+		border-color: var(--primary-hover);
+	}
+
+	.preview {
+		padding: 24px;
+		text-align: center;
+	}
+
+	.preview IMG {
+		max-width: 100%;
+		height: auto;
+		border: 1px solid var(--border);
+		border-radius: 10px;
+	}
+
+	.source-panel {
+		padding: 0 24px 24px;
+	}
+
+	.source {
+		display: none;
+		padding: 14px;
+		border: 1px solid var(--border);
+		border-radius: 10px;
+		background: #f8fafd;
+		font-family: Consolas, "Courier New", monospace;
+		font-size: 12px;
+		white-space: pre-wrap;
+		max-height: 320px;
+		overflow: auto;
+	}
+
+	@media (max-width: 700px) {
+		body {
+			padding: 12px;
+		}
+
+		.header,
+		.toolbar,
+		.preview,
+		.source-panel {
+			padding-left: 14px;
+			padding-right: 14px;
+		}
+
+		.title {
+			font-size: 19px;
+		}
+	}
+</STYLE>
 <SCRIPT type="text/javascript">
+	var ONLINE_EDITOR_URL = "https://violetumleditor.github.io/product";
+	var ONLINE_TRANSFER_PREFIX = "violet-import-v1:";
+
 	function switchVisibility() {
 		var obj = document.getElementById("content");
-		obj.style.display = (obj.style.display == "block") ? "none" : "block";
+		obj.style.display = (obj.style.display === "block") ? "none" : "block";
+	}
+
+	function getSuggestedFilename() {
+		try {
+			var path = window.location.pathname || "";
+			var parts = path.split("/");
+			var last = parts.length > 0 ? parts[parts.length - 1] : "";
+			if (last && last.indexOf(".violet.html") > -1) {
+				return last;
+			}
+		} catch (e) {
+			// Ignore and use fallback.
+		}
+		return "diagram.violet.html";
+	}
+
+	function encodeBase64Utf8(text) {
+		var bytes = new TextEncoder().encode(text);
+		var binary = "";
+		var chunkSize = 0x8000;
+		for (var i = 0; i < bytes.length; i += chunkSize) {
+			var chunk = bytes.subarray(i, i + chunkSize);
+			binary += String.fromCharCode.apply(null, chunk);
+		}
+		return btoa(binary);
+	}
+
+	function openInOnlineEditor() {
+		var xmlContent = document.getElementById("content").textContent || "";
+		var payload = {
+			filename: getSuggestedFilename(),
+			sourceVersion: "${version}",
+			xmlContent: xmlContent
+		};
+
+		var editorWindow = window.open(ONLINE_EDITOR_URL, "_blank");
+		if (!editorWindow) {
+			window.alert("Popup blocked. Please allow popups and try again.");
+			return false;
+		}
+
+		editorWindow.name = ONLINE_TRANSFER_PREFIX + encodeBase64Utf8(JSON.stringify(payload));
+		editorWindow.focus();
+		return false;
 	}
 </SCRIPT>
 </HEAD>
 <BODY>
-	This file was generated with Violet UML Editor ${version}.
-	&nbsp;&nbsp;(&nbsp;<A href=# onclick="switchVisibility()">View Source</A>&nbsp;/&nbsp;<A href="http://sourceforge.net/projects/violet/files/violetumleditor/" target="_blank">Download Violet</A>&nbsp;)
-	<BR />
-	<BR />
-	<SCRIPT id="content" type="text/xml"><![CDATA[${content}]]></SCRIPT>
-	<BR />
-	<BR />
-	<IMG alt="embedded diagram image" src="${image}" />
+	<DIV class="wrapper">
+		<DIV class="header">
+			<H1 class="title">Violet UML Diagram</H1>
+			<P class="subtitle">Generated with Violet UML Editor version ${version}</P>
+		</DIV>
+		<DIV class="toolbar">
+			<A class="action primary" href="#" onclick="return openInOnlineEditor();">Open In Online Editor</A>
+			<A class="action" href="#" onclick="switchVisibility(); return false;">Toggle Embedded Source</A>
+			<A class="action" href="https://sourceforge.net/projects/violet/files/violetumleditor/" target="_blank" rel="noopener noreferrer">Download Desktop Version</A>
+		</DIV>
+		<DIV class="preview">
+			<IMG id="diagramPreview" alt="Embedded diagram image" src="${image}" />
+		</DIV>
+		<DIV class="source-panel">
+			<SCRIPT id="content" class="source" type="text/xml"><![CDATA[${content}]]></SCRIPT>
+		</DIV>
+	</DIV>
 </BODY>
 </HTML>

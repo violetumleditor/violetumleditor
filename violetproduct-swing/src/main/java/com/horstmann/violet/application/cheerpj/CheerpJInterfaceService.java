@@ -37,6 +37,12 @@ public class CheerpJInterfaceService {
 
     public static native String nativeGetFileName();
 
+    public static native boolean nativeHasPendingImport();
+
+    public static native String nativeGetPendingImportName();
+
+    public static native byte[] nativeConsumePendingImportData();
+
     public static native boolean nativeShowSaveDialog(String defaultFilename, byte[] content, String mimeType);
 
     public static native void nativeSaveLocalStorageDiagram(String filename, byte[] content);
@@ -87,6 +93,30 @@ public class CheerpJInterfaceService {
             return nativeGetFileName();
         } catch (Throwable t) {
             throw new IOException("Cannot retrieve file name", t);
+        }
+    }
+
+    public static boolean hasPendingImport() throws IOException {
+        try {
+            return nativeHasPendingImport();
+        } catch (Throwable t) {
+            throw new IOException("Cannot determine whether an import is pending", t);
+        }
+    }
+
+    public static String getPendingImportName() throws IOException {
+        try {
+            return nativeGetPendingImportName();
+        } catch (Throwable t) {
+            throw new IOException("Cannot retrieve pending import file name", t);
+        }
+    }
+
+    public static byte[] consumePendingImportData() throws IOException {
+        try {
+            return nativeConsumePendingImportData();
+        } catch (Throwable t) {
+            throw new IOException("Cannot retrieve pending import content", t);
         }
     }
 
