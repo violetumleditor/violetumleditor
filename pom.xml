@@ -69,7 +69,7 @@
 		<repository>
 		<id>github</id>
 		<name>GitHub Packages</name>
-		<url>https://maven.pkg.github.com/violetumleditor/violetumleditor</url>
+		<url>https://maven.pkg.github.com/violetumleditor/product</url>
 		</repository>
 	</distributionManagement>
 
