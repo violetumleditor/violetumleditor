@@ -27,6 +27,7 @@
     const LOCAL_STORAGE_PREFIX = "violet.diagram.";
     const INCOMING_TRANSFER_PREFIX = "violet-import-v1:";
     const MAX_INCOMING_IMPORT_BYTES = 16 * 1024 * 1024;
+    const TRUSTED_TRANSFER_ORIGIN = "https://violetumleditor.github.io";
 
     function bytesToBase64(bytes) {
       let binary = "";
@@ -59,6 +60,42 @@
       return proposed.replace(/[\\/:*?"<>|]/g, "-");
     }
 
+    function stageIncomingPayload(payload) {
+      if (!payload || typeof payload.xmlContent !== "string") {
+        return false;
+      }
+
+      const filename = sanitizeFilename(payload.filename);
+      const bytes = new TextEncoder().encode(payload.xmlContent);
+      if (bytes.length > MAX_INCOMING_IMPORT_BYTES) {
+        console.warn(`Incoming diagram transfer rejected: payload too large (${bytes.length} bytes).`);
+        window.alert("This diagram is too large to import automatically in the online editor.");
+        return false;
+      }
+
+      window.cheerpjFileState.pendingImportFilename = filename;
+      window.cheerpjFileState.pendingImportData = bytes;
+
+      // Save immediately so the diagram also appears under File -> Open.
+      localStorage.setItem(LOCAL_STORAGE_PREFIX + filename, bytesToBase64(bytes));
+      return true;
+    }
+
+    window.addEventListener("message", (event) => {
+      // Accept same-origin messages and file:// (origin "null") exports.
+      if (event.origin !== TRUSTED_TRANSFER_ORIGIN && event.origin !== "null") {
+        return;
+      }
+      const message = event.data;
+      if (!message || message.type !== INCOMING_TRANSFER_PREFIX) {
+        return;
+      }
+      const accepted = stageIncomingPayload(message.payload);
+      if (accepted && event.source && typeof event.source.postMessage === "function") {
+        event.source.postMessage({ type: "violet-import-ack" }, "*");
+      }
+    });
+
     function initializeIncomingDiagramTransfer() {
       try {
         if (!window.name || !window.name.startsWith(INCOMING_TRANSFER_PREFIX)) {
@@ -68,23 +105,7 @@
         const encodedPayload = window.name.substring(INCOMING_TRANSFER_PREFIX.length);
         const payloadText = decodeBase64Utf8(encodedPayload);
         const payload = JSON.parse(payloadText);
-
-        if (!payload || typeof payload.xmlContent !== "string") {
-          window.name = "";
-          return;
-        }
-
-        const filename = sanitizeFilename(payload.filename);
-        const bytes = new TextEncoder().encode(payload.xmlContent);
-        if (bytes.length > MAX_INCOMING_IMPORT_BYTES) {
-          console.warn(`Incoming diagram transfer rejected: payload too large (${bytes.length} bytes).`);
-          window.alert("This diagram is too large to import automatically in the online editor.");
-          window.name = "";
-          return;
-        }
-
-        window.cheerpjFileState.pendingImportFilename = filename;
-        window.cheerpjFileState.pendingImportData = bytes;
+        stageIncomingPayload(payload);
 
         // Avoid re-importing if the page is reloaded.
         window.name = "";
