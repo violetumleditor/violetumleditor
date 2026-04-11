@@ -5,14 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.MessageFormat;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.SortedMap;
@@ -27,6 +25,7 @@ import javax.swing.JOptionPane;
 import com.horstmann.violet.application.gui.MainFrame;
 import com.horstmann.violet.application.menu.MenuFactory;
 import com.horstmann.violet.framework.dialog.DialogFactory;
+import com.horstmann.violet.framework.file.IFile;
 import com.horstmann.violet.framework.file.IGraphFile;
 import com.horstmann.violet.framework.file.chooser.IFileChooserService;
 import com.horstmann.violet.framework.file.naming.ExtensionFilter;
@@ -130,7 +129,7 @@ public class CheerpJFileMenu extends JMenu {
 
     private void createMenu() {
         initFileNewMenu();
-        initOpenItem();
+        initFileOpenItem();
         initCloseItem();
         initSaveItem();
         initSaveAsItem();
@@ -207,7 +206,7 @@ public class CheerpJFileMenu extends JMenu {
         }
     }
 
-    private void initOpenItem() {
+    private void initFileOpenItem() {
         clearActionListeners(this.fileOpenItem);
         this.fileOpenItem.addActionListener(new ActionListener() {
             @Override
@@ -477,29 +476,31 @@ public class CheerpJFileMenu extends JMenu {
     }
 
     private void openFromFilesMount() {
+        IFile selectedFile = null;
         try {
-            String[] filenames = listFilesMountDiagrams();
-            if (filenames == null || filenames.length == 0) {
-                this.dialogFactory.showErrorDialog(this.dialogOpenFileErrorMessage + " : no diagram in /files");
+            ExtensionFilter[] filters = this.fileNamingService.getFileFilters();
+            IFileReader fileOpener = this.fileChooserService.chooseAndGetFileReader(filters);
+            if (fileOpener == null) {
                 return;
             }
-            Arrays.sort(filenames);
-            String selected = (String) JOptionPane.showInputDialog(this.mainFrame, "Open diagram from /files", "Open",
-                    JOptionPane.PLAIN_MESSAGE, null, filenames, filenames[0]);
-            if (selected == null) {
-                return;
-            }
-            byte[] content = Files.readAllBytes(Path.of(FILES_DIRECTORY, selected));
+            selectedFile = fileOpener.getFileDefinition();
+            InputStream in = fileOpener.getInputStream();
+            byte[] content = in.readAllBytes();
+            in.close();
             if (content == null || content.length == 0) {
                 this.dialogFactory.showErrorDialog(this.dialogOpenFileErrorMessage + " : empty diagram");
                 return;
             }
+            String filename = normalizeDiagramFilename(selectedFile.getFilename());
+            if (filename == null) {
+                filename = "diagram.violet.html";
+            }
             IGraph graph = readGraph(content);
-            CheerpJStorageGraphFile graphFile = new CheerpJStorageGraphFile(graph, selected);
+            CheerpJStorageGraphFile graphFile = new CheerpJStorageGraphFile(graph, filename);
             IWorkspace workspace = new Workspace(graphFile);
             this.mainFrame.addWorkspace(workspace);
         } catch (Exception e) {
-            showError(e);
+            this.dialogFactory.showErrorDialog(this.dialogOpenFileErrorMessage + " : " + e.getMessage());
         }
     }
 
@@ -533,22 +534,6 @@ public class CheerpJFileMenu extends JMenu {
             Files.createDirectories(path.getParent());
         }
         Files.write(path, content);
-    }
-
-    private String[] listFilesMountDiagrams() {
-        File directory = new File(FILES_DIRECTORY);
-        if (!directory.exists() || !directory.isDirectory()) {
-            return new String[0];
-        }
-        File[] files = directory.listFiles(File::isFile);
-        if (files == null || files.length == 0) {
-            return new String[0];
-        }
-        String[] names = new String[files.length];
-        for (int i = 0; i < files.length; i++) {
-            names[i] = files[i].getName();
-        }
-        return names;
     }
 
     private IGraph readGraph(byte[] content) throws IOException {
