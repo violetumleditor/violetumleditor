@@ -51,7 +51,6 @@ import com.horstmann.violet.framework.userpreferences.IUserPreferencesDao;
 import com.horstmann.violet.framework.userpreferences.LaunchingPreferences;
 import com.horstmann.violet.framework.userpreferences.UserPreferencesService;
 import com.horstmann.violet.framework.util.VersionChecker;
-import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
 
@@ -82,9 +81,12 @@ public class UMLEditorApplication
         BeanFactory.getFactory().register(LaunchingPreferences.class, new LaunchingPreferences(args));
         BeanFactory.getFactory().register(IFilePersistenceService.class, new XHTMLPersistenceService());  
         BeanFactory.getFactory().register(IUserPreferencesDao.class, new DefaultUserPreferencesDao());
-        BeanFactory.getFactory().register(IFileChooserService.class, BeanFactory.getFactory().getBean(LaunchingPreferences.class).isCheerpjMode()
+/*         BeanFactory.getFactory().register(IFileChooserService.class, BeanFactory.getFactory().getBean(LaunchingPreferences.class).isCheerpjMode()
                 ? new CheerpJFileChooserService()
-                : new JFileChooserService());
+                : new JFileChooserService()); */
+        BeanFactory.getFactory().register(IFileChooserService.class, BeanFactory.getFactory().getBean(LaunchingPreferences.class).isCheerpjMode()
+                ? new JFileChooserService()
+                : new JFileChooserService());                
         BeanFactory.getFactory().register(CheerpJInterfaceService.class, new CheerpJInterfaceService());
         BeanInjector.getInjector().inject(this);
         
