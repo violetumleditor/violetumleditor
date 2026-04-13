@@ -51,7 +51,7 @@ public class HelpManager
         boolean isOK = BrowserLauncher.openURL(this.userGuideURL);
         if (!isOK)
         {
-            openBrowser(this.userGuideURL);
+            showErrorMessage(this.userGuideURL);
         }
 
     }
@@ -73,7 +73,7 @@ public class HelpManager
         boolean isOK = BrowserLauncher.openURL(this.homePageURL);
         if (!isOK)
         {
-            openBrowser(this.homePageURL);
+            showErrorMessage(this.homePageURL);
         }
 
     }
@@ -83,7 +83,7 @@ public class HelpManager
      * 
      * @param url
      */
-    private void openBrowser(String url)
+    private void showErrorMessage(String url)
     {
         String message = MessageFormat.format(this.errorMessageTemplate, new Object[]
         {
