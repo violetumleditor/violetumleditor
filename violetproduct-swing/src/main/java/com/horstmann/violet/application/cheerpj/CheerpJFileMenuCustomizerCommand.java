@@ -69,6 +69,13 @@ public class CheerpJFileMenuCustomizerCommand {
         }
         this.fileMenu.getFilePrintItem().addActionListener(e -> runPrintWorkspace());
 
+        // Override the "Open" action to read in-memory bytes from the browser file picker
+        // instead of going through the /files/ VFS path (which can corrupt large files)
+        for (ActionListener listener : this.fileMenu.getFileOpenItem().getActionListeners()) {
+            this.fileMenu.getFileOpenItem().removeActionListener(listener);
+        }
+        this.fileMenu.getFileOpenItem().addActionListener(e -> runOpenFromLocalDrive());
+
         // Hide the "Exit" menu item
         this.fileMenu.getFileExitItem().setVisible(false);
 
@@ -83,7 +90,34 @@ public class CheerpJFileMenuCustomizerCommand {
 		return this.fileMenu;
     }
 
-    private boolean runImportFromLocalDrive() {
+	private boolean runOpenFromLocalDrive() {
+		try {
+			ExtensionFilter[] filters = fileNamingService.getFileFilters();
+			IFileReader fileReader = fileChooserService.chooseAndGetFileReader(filters);
+			if (fileReader == null) {
+				return false;
+			}
+			InputStream in = fileReader.getInputStream();
+			byte[] content = in.readAllBytes();
+			in.close();
+			String filename = normalizeDiagramFilename(fileReader.getFileDefinition().getFilename());
+			if (filename == null) {
+				filename = "diagram.violet.html";
+			}
+			saveDiagramToFilesMount(filename, content);
+			IGraph graph = readGraph(content, filePersistenceService);
+			CheerpJStorageGraphFile graphFile = new CheerpJStorageGraphFile(graph, filename);
+			IWorkspace workspace = new Workspace(graphFile);
+			workspace.setTitle(filename);
+			this.fileMenu.getMainFrame().addWorkspace(workspace);
+			return true;
+		} catch (Exception e) {
+			dialogFactory.showErrorDialog(dialogOpenFileErrorMessage + " : " + e.getMessage());
+			return false;
+		}
+	}
+
+	private boolean runImportFromLocalDrive() {
 		try {
 			ExtensionFilter[] filters = fileNamingService.getFileFilters();
 			IFileReader fileReader = fileChooserService.chooseAndGetFileReader(filters);

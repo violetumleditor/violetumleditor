@@ -126,6 +126,10 @@ public class FileMenu extends JMenu
         return this.filePrintItem;
     }
 
+    public JMenuItem getFileOpenItem() {
+        return this.fileOpenItem;
+    }
+
     public JMenuItem getFileExitItem() {
         return this.fileExitItem;
     }
