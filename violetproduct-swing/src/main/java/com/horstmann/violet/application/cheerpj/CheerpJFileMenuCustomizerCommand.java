@@ -11,7 +11,6 @@ import java.nio.file.Path;
 
 import javax.swing.JMenuItem;
 
-import com.horstmann.violet.application.gui.MainFrame;
 import com.horstmann.violet.application.menu.FileMenu;
 import com.horstmann.violet.application.menu.MenuFactory;
 import com.horstmann.violet.framework.dialog.DialogFactory;
