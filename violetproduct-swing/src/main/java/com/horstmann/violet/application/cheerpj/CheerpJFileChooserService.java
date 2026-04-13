@@ -1,16 +1,16 @@
 package com.horstmann.violet.application.cheerpj;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 import com.horstmann.violet.framework.file.IFile;
 import com.horstmann.violet.framework.file.chooser.IFileChooserService;
 import com.horstmann.violet.framework.file.naming.ExtensionFilter;
 import com.horstmann.violet.framework.file.persistence.IFileReader;
 import com.horstmann.violet.framework.file.persistence.IFileWriter;
-import com.horstmann.violet.framework.injection.bean.ManiocFramework.ManagedBean;
 
 
-@ManagedBean
 public class CheerpJFileChooserService implements IFileChooserService {
 
     private static final String DEFAULT_BASENAME = "diagram";
@@ -47,8 +47,16 @@ public class CheerpJFileChooserService implements IFileChooserService {
 
     @Override
     public IFileReader getFileReader(IFile file) throws IOException {
-        // This method is called when opening a specific file (not through dialog)
-        throw new IOException("Direct file reading is not supported in browser mode");
+        if (file == null) {
+            throw new IOException("No file specified");
+        }
+        String directory = file.getDirectory();
+        String filename = file.getFilename();
+        File physicalFile = (directory != null && !directory.trim().isEmpty())
+                ? new File(directory, filename)
+                : new File(filename);
+        byte[] bytes = Files.readAllBytes(physicalFile.toPath());
+        return new CheerpJFileReader(filename, bytes);
     }
 
     @Override
