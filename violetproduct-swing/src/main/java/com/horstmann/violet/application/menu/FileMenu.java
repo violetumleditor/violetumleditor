@@ -91,6 +91,11 @@ public class FileMenu extends JMenu
         addWindowsClosingListener();
     }
 
+
+    public MainFrame getMainFrame() {
+        return mainFrame;
+    }
+
     /**
      * @return 'new file' menu
      */
@@ -105,6 +110,24 @@ public class FileMenu extends JMenu
     public JMenu getFileRecentMenu()
     {
         return this.fileRecentMenu;
+    }
+
+    public JMenuItem getFileSaveItem()
+    {
+        return this.fileSaveItem;
+    }
+
+    public JMenu getFileExportMenu()
+    {
+        return this.fileExportMenu;
+    }
+
+    public JMenuItem getFilePrintItem() {
+        return this.filePrintItem;
+    }
+
+    public JMenuItem getFileExitItem() {
+        return this.fileExitItem;
     }
 
     /**

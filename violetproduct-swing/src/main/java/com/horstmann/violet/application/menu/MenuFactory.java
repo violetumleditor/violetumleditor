@@ -21,9 +21,7 @@
 
 package com.horstmann.violet.application.menu;
 
-import javax.swing.JMenu;
-
-import com.horstmann.violet.application.cheerpj.CheerpJFileMenu;
+import com.horstmann.violet.application.cheerpj.CheerpJFileMenuCustomizerCommand;
 import com.horstmann.violet.application.gui.MainFrame;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.ManagedBean;
@@ -58,12 +56,16 @@ public class MenuFactory
      * @param editorFrame
      * @return file menu
      */
-    public JMenu getFileMenu(MainFrame editorFrame)
+    public FileMenu getFileMenu(MainFrame editorFrame)
     {
         if (this.fileMenu == null)
         {
             boolean isCheerpJMode = this.launchingPreferences.isCheerpjMode();
-            this.fileMenu = isCheerpJMode ? new CheerpJFileMenu(editorFrame) : new FileMenu(editorFrame);
+            this.fileMenu = new FileMenu(editorFrame);
+            if (isCheerpJMode)  {
+                CheerpJFileMenuCustomizerCommand command = new CheerpJFileMenuCustomizerCommand(this.fileMenu);
+                this.fileMenu = command.execute();
+            }
         }
         return this.fileMenu;
     }
@@ -112,7 +114,7 @@ public class MenuFactory
     private LaunchingPreferences launchingPreferences;
 
     private EditMenu editMenu;
-    private JMenu fileMenu;
+    private FileMenu fileMenu;
     private HelpMenu helpMenu;
     private ViewMenu viewMenu;
     private DocumentMenu documentMenu;
