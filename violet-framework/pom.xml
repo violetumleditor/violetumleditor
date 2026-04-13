@@ -85,5 +85,13 @@
 				</includes>
 			</resource>
 		</resources>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<excludes>
+					<exclude>target/**</exclude>
+				</excludes>
+			</testResource>
+		</testResources>
 	</build>
 </project>
