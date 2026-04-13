@@ -30,7 +30,7 @@ public class CheerpJFileReader implements IFileReader {
         return new IFile() {
             @Override
             public String getDirectory() {
-                return "browser";
+                return "/files";
             }
 
             @Override
