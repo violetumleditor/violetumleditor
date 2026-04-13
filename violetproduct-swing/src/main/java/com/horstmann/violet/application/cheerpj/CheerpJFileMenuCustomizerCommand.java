@@ -21,6 +21,7 @@ import com.horstmann.violet.framework.file.naming.FileNamingService;
 import com.horstmann.violet.framework.file.persistence.IFilePersistenceService;
 import com.horstmann.violet.framework.file.persistence.IFileReader;
 import com.horstmann.violet.framework.file.persistence.IFileWriter;
+import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
@@ -59,6 +60,7 @@ public class CheerpJFileMenuCustomizerCommand {
 
     public CheerpJFileMenuCustomizerCommand(FileMenu fileMenu) {
         ResourceBundleInjector.getInjector().inject(this);
+        BeanInjector.getInjector().inject(this);
         this.fileMenu = fileMenu;
     }
 
