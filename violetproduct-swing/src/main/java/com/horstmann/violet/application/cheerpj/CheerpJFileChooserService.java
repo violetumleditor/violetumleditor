@@ -9,8 +9,10 @@ import com.horstmann.violet.framework.file.chooser.IFileChooserService;
 import com.horstmann.violet.framework.file.naming.ExtensionFilter;
 import com.horstmann.violet.framework.file.persistence.IFileReader;
 import com.horstmann.violet.framework.file.persistence.IFileWriter;
+import com.horstmann.violet.framework.injection.bean.ManiocFramework.ManagedBean;
 
 
+@ManagedBean
 public class CheerpJFileChooserService implements IFileChooserService {
 
     private static final String DEFAULT_BASENAME = "diagram";
