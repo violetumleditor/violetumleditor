@@ -90,8 +90,8 @@
         const StandardCopyOption = await cheerpjLibrary.java.nio.file.StandardCopyOption;
         const sourcePath = await Paths.get(`/str/${tempName}`);
         const targetPath = await Paths.get(`/files/${filename}`);
-        await Files.move(sourcePath, targetPath, [StandardCopyOption.REPLACE_EXISTING]);
-        console.log(`[VioletTransfer] Moved ${content.length} chars to /files/${filename}`);
+        await Files.copy(sourcePath, targetPath, [StandardCopyOption.REPLACE_EXISTING]);
+        console.log(`[VioletTransfer] Wrote ${content.length} chars to /files/${filename}`);
         return filename;
       } catch (e) {
         console.error(`[VioletTransfer] Unable to write /files/${filename}:`, e);
@@ -191,7 +191,7 @@
               const StandardCopyOption = await cheerpjLibrary.java.nio.file.StandardCopyOption;
               const sourcePath = await Paths.get(`/str/${tempName}`);
               const targetPath = await Paths.get(`/files/${file.name}`);
-              await Files.move(sourcePath, targetPath, [StandardCopyOption.REPLACE_EXISTING]);
+              await Files.copy(sourcePath, targetPath, [StandardCopyOption.REPLACE_EXISTING]);
               console.log(`[VioletOpen] Staged ${file.name} to /files/`);
             } catch (err) {
               console.error('[VioletOpen] Failed to stage file to /files/', file.name, err);
