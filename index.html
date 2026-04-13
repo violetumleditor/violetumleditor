@@ -20,6 +20,7 @@
     window.cheerpjFileState = {
       selectedFile: null,
       selectedFileData: null,
+      fileLoadedPromise: null,
       pendingImportFilename: null,
       pendingImportData: null,
     };
@@ -89,8 +90,8 @@
         const StandardCopyOption = await cheerpjLibrary.java.nio.file.StandardCopyOption;
         const sourcePath = await Paths.get(`/str/${tempName}`);
         const targetPath = await Paths.get(`/files/${filename}`);
-        await Files.copy(sourcePath, targetPath, [StandardCopyOption.REPLACE_EXISTING]);
-        console.log(`[VioletTransfer] Wrote ${content.length} chars to /files/${filename}`);
+        await Files.move(sourcePath, targetPath, [StandardCopyOption.REPLACE_EXISTING]);
+        console.log(`[VioletTransfer] Moved ${content.length} chars to /files/${filename}`);
         return filename;
       } catch (e) {
         console.error(`[VioletTransfer] Unable to write /files/${filename}:`, e);
@@ -172,13 +173,36 @@
     const fileInput = document.getElementById('fileInputDialog');
     fileInput.addEventListener('change', (event) => {
       const file = event.target.files[0];
+      window.cheerpjFileState.fileLoadedPromise = null;
       if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          window.cheerpjFileState.selectedFile = file;
-          window.cheerpjFileState.selectedFileData = new Uint8Array(e.target.result);
-        };
-        reader.readAsArrayBuffer(file);
+        window.cheerpjFileState.fileLoadedPromise = new Promise((resolveLoad) => {
+          const reader = new FileReader();
+          reader.onload = async (e) => {
+            const arrayBuffer = e.target.result;
+            const content = new TextDecoder('utf-8').decode(arrayBuffer);
+            try {
+              const tempName = `open-${Date.now()}-${file.name}`;
+              await cheerpOSAddStringFile(`/str/${tempName}`, content);
+              if (!cheerpjLibrary) {
+                cheerpjLibrary = await cheerpjRunLibrary("");
+              }
+              const Paths = await cheerpjLibrary.java.nio.file.Paths;
+              const Files = await cheerpjLibrary.java.nio.file.Files;
+              const StandardCopyOption = await cheerpjLibrary.java.nio.file.StandardCopyOption;
+              const sourcePath = await Paths.get(`/str/${tempName}`);
+              const targetPath = await Paths.get(`/files/${file.name}`);
+              await Files.move(sourcePath, targetPath, [StandardCopyOption.REPLACE_EXISTING]);
+              console.log(`[VioletOpen] Staged ${file.name} to /files/`);
+            } catch (err) {
+              console.error('[VioletOpen] Failed to stage file to /files/', file.name, err);
+            }
+            window.cheerpjFileState.selectedFile = file;
+            window.cheerpjFileState.selectedFileData = new Uint8Array(arrayBuffer);
+            resolveLoad(true);
+          };
+          reader.onerror = () => resolveLoad(false);
+          reader.readAsArrayBuffer(file);
+        });
       }
       // Reset the input so the same file can be selected again
       fileInput.value = '';
@@ -213,36 +237,31 @@
      * Returns true if file was selected, false if cancelled
      */
     async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeShowOpenDialog(lib, acceptedExtensions) {
-      return new Promise((resolve) => {
-        window.cheerpjFileState.selectedFile = null;
-        window.cheerpjFileState.selectedFileData = null;
+      window.cheerpjFileState.selectedFile = null;
+      window.cheerpjFileState.selectedFileData = null;
+      window.cheerpjFileState.fileLoadedPromise = null;
 
-        fileInput.accept = '.html';
+      fileInput.accept = '.html';
 
-        // Trigger click and wait for selection
+      // Step 1: wait for user to pick a file (or cancel)
+      const fileWasSelected = await new Promise((resolve) => {
         let done = false;
         const finish = (value) => {
-          if (done) {
-            return;
-          }
+          if (done) return;
           done = true;
           fileInput.removeEventListener('change', handleChange);
           window.removeEventListener('focus', handleFocusBack);
           resolve(value);
         };
 
-        const handleChange = () => {
-          // Give time for file to be loaded
-          setTimeout(() => {
-            finish(window.cheerpjFileState.selectedFile !== null ? 1 : 0);
-          }, 100);
-        };
+        // The global change handler sets fileLoadedPromise before this fires
+        const handleChange = () => finish(true);
 
         const handleFocusBack = () => {
           // If user canceled the picker, no change event is fired.
           setTimeout(() => {
-            if (window.cheerpjFileState.selectedFile === null) {
-              finish(0);
+            if (!window.cheerpjFileState.fileLoadedPromise) {
+              finish(false);
             }
           }, 150);
         };
@@ -251,6 +270,17 @@
         window.addEventListener('focus', handleFocusBack, { once: true });
         fileInput.click();
       });
+
+      if (!fileWasSelected) {
+        return 0;
+      }
+
+      // Step 2: wait for file to be fully read and staged in /str/
+      if (window.cheerpjFileState.fileLoadedPromise) {
+        await window.cheerpjFileState.fileLoadedPromise;
+      }
+
+      return window.cheerpjFileState.selectedFile !== null ? 1 : 0;
     }
 
     /**
