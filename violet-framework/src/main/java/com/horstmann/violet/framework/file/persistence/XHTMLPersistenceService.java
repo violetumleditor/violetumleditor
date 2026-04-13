@@ -5,12 +5,12 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.StringWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 import javax.swing.text.MutableAttributeSet;
@@ -79,19 +79,26 @@ public class XHTMLPersistenceService implements IFilePersistenceService
     @Override
     public IGraph read(InputStream in) throws IOException
     {
-        InputStreamReader reader = new InputStreamReader(in, StandardCharsets.UTF_8);
-    	XHTMLPersistenceServiceParserGetter kit = new XHTMLPersistenceServiceParserGetter();
-        HTMLEditorKit.Parser parser = kit.getParser();
-        StringWriter writer = new StringWriter();
-        HTMLEditorKit.ParserCallback callback = new XHTMLPersistenceServiceParserCallback(writer);
-        parser.parse(reader, callback, true);
-        String xmlContent = writer.toString();
+        String htmlContent = getInputStreamContent(in);
+        String xmlContent = extractXmlContent(htmlContent);
         InputStream xmlContentStream = new ByteArrayInputStream(xmlContent.getBytes(StandardCharsets.UTF_8));
         IGraph graph = this.graphPersistenceService.read(xmlContentStream);
         xmlContentStream.close();
-        reader.close();
-        writer.close();
         return graph;
+    }
+
+    private static final Pattern CONTENT_CDATA_PATTERN = Pattern.compile(
+            "<script[^>]+id=[\"']content[\"'][^>]*>\\s*<!\\[CDATA\\[(.*?)]]>\\s*</script>",
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    private String extractXmlContent(String html) throws IOException
+    {
+        Matcher matcher = CONTENT_CDATA_PATTERN.matcher(html);
+        if (!matcher.find())
+        {
+            throw new IOException("Invalid XHTML file format: missing CDATA section in <SCRIPT id=\"content\">");
+        }
+        return matcher.group(1).trim();
     }
 
     private String getInputStreamContent(InputStream in) throws IOException
