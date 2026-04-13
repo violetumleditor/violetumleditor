@@ -52,11 +52,9 @@
 
     function stageIncomingPayload(payload) {
       console.log("[VioletTransfer] stageIncomingPayload called", payload ? { filename: payload.filename, htmlLength: typeof payload.htmlContent === "string" ? payload.htmlContent.length : "N/A" } : "null");
-      const content = payload && typeof payload.htmlContent === "string" ? payload.htmlContent
-        : payload && typeof payload.xmlContent === "string" ? payload.xmlContent
-        : null;
+      const content = payload && typeof payload.htmlContent === "string" ? payload.htmlContent : null;
       if (!content) {
-        console.warn("[VioletTransfer] Invalid payload — missing htmlContent and xmlContent");
+        console.warn("[VioletTransfer] Invalid payload — missing htmlContent (full XHTML file is required)");
         return false;
       }
 
@@ -287,7 +285,8 @@
     }
 
     async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeConsumePendingImportData(lib) {
-      const bytes = window.cheerpjFileState.pendingImportData || new Uint8Array(0);
+      const content = window.cheerpjFileState.pendingImportData || "";
+      const bytes = new TextEncoder().encode(content);
       console.log(`[VioletTransfer] nativeConsumePendingImportData → ${bytes.length} bytes`);
       window.cheerpjFileState.pendingImportData = null;
       return Array.from(bytes);
