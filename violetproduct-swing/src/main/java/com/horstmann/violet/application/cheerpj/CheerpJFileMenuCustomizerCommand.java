@@ -212,9 +212,8 @@ public class CheerpJFileMenuCustomizerCommand {
 
 	private void saveDiagramToFilesMount(String filename, byte[] content) throws IOException {
 		Path path = Path.of(FILES_DIRECTORY, filename);
-		if (path.getParent() != null) {
-			Files.createDirectories(path.getParent());
-		}
+		// Do not call Files.createDirectories on /files — it is a CheerpJ VFS mount root
+		// and calling createDirectories on it returns EPERM. The mount always exists.
 		Files.write(path, content);
 	}
 
