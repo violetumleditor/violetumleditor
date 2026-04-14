@@ -19,7 +19,6 @@
     // Global state for file operations
     window.cheerpjFileState = {
       selectedFile: null,
-      selectedFileData: null,
       fileLoadedPromise: null,
       pendingImportFilename: null,
       pendingImportData: null,
@@ -178,8 +177,7 @@
         window.cheerpjFileState.fileLoadedPromise = new Promise((resolveLoad) => {
           const reader = new FileReader();
           reader.onload = async (e) => {
-            const arrayBuffer = e.target.result;
-            const content = new TextDecoder('utf-8').decode(arrayBuffer);
+            const content = e.target.result;
             try {
               const tempName = `open-${Date.now()}-${file.name}`;
               await cheerpOSAddStringFile(`/str/${tempName}`, content);
@@ -197,11 +195,10 @@
               console.error('[VioletOpen] Failed to stage file to /files/', file.name, err);
             }
             window.cheerpjFileState.selectedFile = file;
-            window.cheerpjFileState.selectedFileData = new Uint8Array(arrayBuffer);
             resolveLoad(true);
           };
           reader.onerror = () => resolveLoad(false);
-          reader.readAsArrayBuffer(file);
+          reader.readAsText(file, 'utf-8');
         });
       }
       // Reset the input so the same file can be selected again
@@ -238,7 +235,6 @@
      */
     async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeShowOpenDialog(lib, acceptedExtensions) {
       window.cheerpjFileState.selectedFile = null;
-      window.cheerpjFileState.selectedFileData = null;
       window.cheerpjFileState.fileLoadedPromise = null;
 
       fileInput.accept = '.html';
@@ -281,15 +277,6 @@
       }
 
       return window.cheerpjFileState.selectedFile !== null ? 1 : 0;
-    }
-
-    /**
-     * Native method: Get selected file data
-     * Returns byte array of the selected file
-     */
-    async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeGetFileData(lib) {
-      const bytes = window.cheerpjFileState.selectedFileData || new Uint8Array(0);
-      return Array.from(bytes);
     }
 
     /**
@@ -390,7 +377,6 @@
             Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeMethodCallback,
             Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeDownloadFile,
             Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeShowOpenDialog,
-            Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeGetFileData,
             Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeGetFileName,
             Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeHasPendingImport,
             Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeGetPendingImportName,

@@ -1,6 +1,7 @@
 package com.horstmann.violet.application.cheerpj;
 
-import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -8,21 +9,22 @@ import com.horstmann.violet.framework.file.IFile;
 import com.horstmann.violet.framework.file.persistence.IFileReader;
 
 /**
- * File reader for files uploaded through browser file dialog in CheerpJ mode.
+ * File reader that reads diagram files from the CheerpJ /files/ virtual filesystem.
+ * Files are placed there by JavaScript (index.html) before Java reads them.
  */
 public class CheerpJFileReader implements IFileReader {
 
-    private final String filename;
-    private final byte[] fileData;
+    private static final String FILES_DIRECTORY = "/files";
 
-    public CheerpJFileReader(String filename, byte[] fileData) {
+    private final String filename;
+
+    public CheerpJFileReader(String filename) {
         this.filename = filename;
-        this.fileData = fileData;
     }
 
     @Override
     public InputStream getInputStream() throws IOException {
-        return new ByteArrayInputStream(fileData);
+        return new FileInputStream(new File(FILES_DIRECTORY, filename));
     }
 
     @Override
@@ -30,7 +32,7 @@ public class CheerpJFileReader implements IFileReader {
         return new IFile() {
             @Override
             public String getDirectory() {
-                return "/files";
+                return FILES_DIRECTORY;
             }
 
             @Override

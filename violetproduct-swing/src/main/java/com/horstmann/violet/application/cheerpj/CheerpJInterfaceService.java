@@ -33,8 +33,6 @@ public class CheerpJInterfaceService {
 
     public static native boolean nativeShowOpenDialog(String acceptedExtensions);
 
-    public static native byte[] nativeGetFileData();
-
     public static native String nativeGetFileName();
 
     public static native boolean nativeHasPendingImport();
@@ -71,14 +69,6 @@ public class CheerpJInterfaceService {
             return nativeShowOpenDialog(acceptedExtensions);
         } catch (Throwable t) {
             throw new IOException("File open dialog is not available", t);
-        }
-    }
-
-    public static byte[] getFileData() throws IOException {
-        try {
-            return nativeGetFileData();
-        } catch (Throwable t) {
-            throw new IOException("Cannot retrieve file data", t);
         }
     }
 

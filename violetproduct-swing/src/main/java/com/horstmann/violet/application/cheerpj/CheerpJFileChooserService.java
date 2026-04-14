@@ -1,8 +1,6 @@
 package com.horstmann.violet.application.cheerpj;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 
 import com.horstmann.violet.framework.file.IFile;
 import com.horstmann.violet.framework.file.chooser.IFileChooserService;
@@ -24,27 +22,16 @@ public class CheerpJFileChooserService implements IFileChooserService {
 
     @Override
     public IFileReader chooseAndGetFileReader(ExtensionFilter... extensions) throws IOException {
-        // Show open file dialog
         String acceptedExtensions = buildAcceptedExtensions(extensions);
-        
-        try {
-            boolean fileSelected = CheerpJInterfaceService.showOpenDialog(acceptedExtensions);
-            if (!fileSelected) {
-                throw new IOException("File selection cancelled by user");
-            }
-            
-            // Get the selected file data from JavaScript
-            byte[] fileData = CheerpJInterfaceService.getFileData();
-            String filename = CheerpJInterfaceService.getFileName();
-            
-            if (fileData == null || fileData.length == 0) {
-                throw new IOException("No file data received");
-            }
-            
-            return new CheerpJFileReader(filename, fileData);
-        } catch (IOException e) {
-            throw e;
+        boolean fileSelected = CheerpJInterfaceService.showOpenDialog(acceptedExtensions);
+        if (!fileSelected) {
+            throw new IOException("File selection cancelled by user");
         }
+        String filename = CheerpJInterfaceService.getFileName();
+        if (filename == null || filename.trim().isEmpty()) {
+            throw new IOException("No filename received after file selection");
+        }
+        return new CheerpJFileReader(filename);
     }
 
     @Override
@@ -52,13 +39,7 @@ public class CheerpJFileChooserService implements IFileChooserService {
         if (file == null) {
             throw new IOException("No file specified");
         }
-        String directory = file.getDirectory();
-        String filename = file.getFilename();
-        File physicalFile = (directory != null && !directory.trim().isEmpty())
-                ? new File(directory, filename)
-                : new File(filename);
-        byte[] bytes = Files.readAllBytes(physicalFile.toPath());
-        return new CheerpJFileReader(filename, bytes);
+        return new CheerpJFileReader(file.getFilename());
     }
 
     @Override
