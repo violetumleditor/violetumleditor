@@ -72,6 +72,28 @@
       return true;
     }
 
+    /**
+     * Write a UTF-8 string directly to /files/<filename> using Files.write(Path, byte[]).
+     * IMPORTANT: Do NOT use Files.copy() from /str/ — CheerpJ is missing __syscall_sendfile64,
+     * causing Files.copy to silently transfer 0 bytes.
+     */
+    async function writeStringToFilesMount(filename, content, logTag) {
+      if (!cheerpjLibrary) {
+        console.log(`[${logTag}] Initialising cheerpjLibrary ...`);
+        cheerpjLibrary = await cheerpjRunLibrary("");
+        console.log(`[${logTag}] cheerpjLibrary ready`);
+      }
+      const Paths = await cheerpjLibrary.java.nio.file.Paths;
+      const Files = await cheerpjLibrary.java.nio.file.Files;
+      const encodedBytes = new TextEncoder().encode(content);
+      // CheerpJ maps Java byte[] to Int8Array; TextEncoder returns Uint8Array (same buffer).
+      const javaBytes = new Int8Array(encodedBytes.buffer, encodedBytes.byteOffset, encodedBytes.byteLength);
+      const targetPath = await Paths.get(`/files/${filename}`);
+      console.log(`[${logTag}] Files.write → /files/${filename} (${javaBytes.length} bytes) ...`);
+      await Files.write(targetPath, javaBytes);
+      console.log(`[${logTag}] ✓ /files/${filename} written (${javaBytes.length} bytes)`);
+    }
+
     async function writePendingImportToFilesMount() {
       const filename = window.cheerpjFileState.pendingImportFilename;
       const content = window.cheerpjFileState.pendingImportData;
@@ -79,18 +101,7 @@
         return null;
       }
       try {
-        const tempName = `incoming-${Date.now()}-${filename}`;
-        await cheerpOSAddStringFile(`/str/${tempName}`, content);
-        if (!cheerpjLibrary) {
-          cheerpjLibrary = await cheerpjRunLibrary("");
-        }
-        const Paths = await cheerpjLibrary.java.nio.file.Paths;
-        const Files = await cheerpjLibrary.java.nio.file.Files;
-        const StandardCopyOption = await cheerpjLibrary.java.nio.file.StandardCopyOption;
-        const sourcePath = await Paths.get(`/str/${tempName}`);
-        const targetPath = await Paths.get(`/files/${filename}`);
-        await Files.copy(sourcePath, targetPath, [StandardCopyOption.REPLACE_EXISTING]);
-        console.log(`[VioletTransfer] Wrote ${content.length} chars to /files/${filename}`);
+        await writeStringToFilesMount(filename, content, "VioletTransfer");
         return filename;
       } catch (e) {
         console.error(`[VioletTransfer] Unable to write /files/${filename}:`, e);
@@ -182,25 +193,9 @@
             const content = e.target.result;
             console.log(`[VioletOpen] FileReader.onload — read ${content.length} chars from "${file.name}"`);
             try {
-              const tempName = `open-${Date.now()}-${file.name}`;
-              console.log(`[VioletOpen] Writing to /str/${tempName} ...`);
-              await cheerpOSAddStringFile(`/str/${tempName}`, content);
-              console.log(`[VioletOpen] /str/${tempName} written OK`);
-              if (!cheerpjLibrary) {
-                console.log('[VioletOpen] Initialising cheerpjLibrary ...');
-                cheerpjLibrary = await cheerpjRunLibrary("");
-                console.log('[VioletOpen] cheerpjLibrary ready');
-              }
-              const Paths = await cheerpjLibrary.java.nio.file.Paths;
-              const Files = await cheerpjLibrary.java.nio.file.Files;
-              const StandardCopyOption = await cheerpjLibrary.java.nio.file.StandardCopyOption;
-              const sourcePath = await Paths.get(`/str/${tempName}`);
-              const targetPath = await Paths.get(`/files/${file.name}`);
-              console.log(`[VioletOpen] Copying /str/${tempName} → /files/${file.name} ...`);
-              await Files.copy(sourcePath, targetPath, [StandardCopyOption.REPLACE_EXISTING]);
-              console.log(`[VioletOpen] ✓ /files/${file.name} ready for Java`);
+              await writeStringToFilesMount(file.name, content, "VioletOpen");
             } catch (err) {
-              console.error(`[VioletOpen] ✗ Failed to stage "${file.name}" to /files/`, err);
+              console.error(`[VioletOpen] ✗ Failed to write "${file.name}" to /files/`, err);
             }
             window.cheerpjFileState.selectedFile = file;
             console.log(`[VioletOpen] resolveLoad(true) — file staging complete for "${file.name}"`);
