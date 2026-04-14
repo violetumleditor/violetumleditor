@@ -9,22 +9,23 @@ import com.horstmann.violet.framework.file.IFile;
 import com.horstmann.violet.framework.file.persistence.IFileReader;
 
 /**
- * File reader that reads diagram files from the CheerpJ /files/ virtual filesystem.
- * Files are placed there by JavaScript (index.html) before Java reads them.
+ * File reader that reads diagram files from CheerpJ's virtual filesystem.
+ * For freshly-opened files (JS→Java transfer) use directory "/str".
+ * For re-reading previously saved files use directory "/files".
  */
 public class CheerpJFileReader implements IFileReader {
 
-    private static final String FILES_DIRECTORY = "/files";
-
+    private final String directory;
     private final String filename;
 
-    public CheerpJFileReader(String filename) {
+    public CheerpJFileReader(String directory, String filename) {
+        this.directory = directory;
         this.filename = filename;
     }
 
     @Override
     public InputStream getInputStream() throws IOException {
-        return new FileInputStream(new File(FILES_DIRECTORY, filename));
+        return new FileInputStream(new File(directory, filename));
     }
 
     @Override
@@ -32,7 +33,7 @@ public class CheerpJFileReader implements IFileReader {
         return new IFile() {
             @Override
             public String getDirectory() {
-                return FILES_DIRECTORY;
+                return directory;
             }
 
             @Override

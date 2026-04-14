@@ -31,7 +31,8 @@ public class CheerpJFileChooserService implements IFileChooserService {
         if (filename == null || filename.trim().isEmpty()) {
             throw new IOException("No filename received after file selection");
         }
-        return new CheerpJFileReader(filename);
+        // JS staged the file to /str/ via cheerpOSAddStringFile — Java reads from there.
+        return new CheerpJFileReader("/str", filename);
     }
 
     @Override
@@ -39,7 +40,11 @@ public class CheerpJFileChooserService implements IFileChooserService {
         if (file == null) {
             throw new IOException("No file specified");
         }
-        return new CheerpJFileReader(file.getFilename());
+        String dir = file.getDirectory();
+        if (dir == null || dir.trim().isEmpty()) {
+            dir = "/files";
+        }
+        return new CheerpJFileReader(dir, file.getFilename());
     }
 
     @Override
