@@ -27,7 +27,6 @@
     const INCOMING_TRANSFER_PREFIX = "violet-import-v1:";
     const MAX_INCOMING_IMPORT_BYTES = 16 * 1024 * 1024;
     const TRUSTED_TRANSFER_ORIGIN = "https://violetumleditor.github.io";
-    let cheerpjLibrary = null;
 
     function base64ToBytes(base64) {
       const binary = atob(base64);
@@ -73,25 +72,14 @@
     }
 
     /**
-     * Write a UTF-8 string directly to /files/<filename> using Files.write(Path, byte[]).
-     * IMPORTANT: Do NOT use Files.copy() from /str/ — CheerpJ is missing __syscall_sendfile64,
-     * causing Files.copy to silently transfer 0 bytes.
+     * Stage a UTF-8 string into /str/<filename> so Java can read it via FileInputStream.
+     * Per CheerpJ docs: /str/ is exactly for JS→Java file transfers.
+     * No cheerpjRunLibrary or Java NIO needed — cheerpOSAddStringFile is a direct VFS API.
      */
-    async function writeStringToFilesMount(filename, content, logTag) {
-      if (!cheerpjLibrary) {
-        console.log(`[${logTag}] Initialising cheerpjLibrary ...`);
-        cheerpjLibrary = await cheerpjRunLibrary("");
-        console.log(`[${logTag}] cheerpjLibrary ready`);
-      }
-      const Paths = await cheerpjLibrary.java.nio.file.Paths;
-      const Files = await cheerpjLibrary.java.nio.file.Files;
-      const encodedBytes = new TextEncoder().encode(content);
-      // CheerpJ maps Java byte[] to Int8Array; TextEncoder returns Uint8Array (same buffer).
-      const javaBytes = new Int8Array(encodedBytes.buffer, encodedBytes.byteOffset, encodedBytes.byteLength);
-      const targetPath = await Paths.get(`/files/${filename}`);
-      console.log(`[${logTag}] Files.write → /files/${filename} (${javaBytes.length} bytes) ...`);
-      await Files.write(targetPath, javaBytes);
-      console.log(`[${logTag}] ✓ /files/${filename} written (${javaBytes.length} bytes)`);
+    async function stageFileToStr(filename, content, logTag) {
+      console.log(`[${logTag}] cheerpOSAddStringFile → /str/${filename} (${content.length} chars) ...`);
+      await cheerpOSAddStringFile(`/str/${filename}`, content);
+      console.log(`[${logTag}] ✓ /str/${filename} ready for Java`);
     }
 
     async function writePendingImportToFilesMount() {
@@ -101,10 +89,10 @@
         return null;
       }
       try {
-        await writeStringToFilesMount(filename, content, "VioletTransfer");
+        await stageFileToStr(filename, content, "VioletTransfer");
         return filename;
       } catch (e) {
-        console.error(`[VioletTransfer] Unable to write /files/${filename}:`, e);
+        console.error(`[VioletTransfer] Unable to stage /str/${filename}:`, e);
         return null;
       }
     }
@@ -193,9 +181,9 @@
             const content = e.target.result;
             console.log(`[VioletOpen] FileReader.onload — read ${content.length} chars from "${file.name}"`);
             try {
-              await writeStringToFilesMount(file.name, content, "VioletOpen");
+              await stageFileToStr(file.name, content, "VioletOpen");
             } catch (err) {
-              console.error(`[VioletOpen] ✗ Failed to write "${file.name}" to /files/`, err);
+              console.error(`[VioletOpen] ✗ Failed to stage "${file.name}" to /str/`, err);
             }
             window.cheerpjFileState.selectedFile = file;
             console.log(`[VioletOpen] resolveLoad(true) — file staging complete for "${file.name}"`);
@@ -409,7 +397,7 @@
     cheerpjCreateDisplay(-1, -1, document.body);
     const runArgs = ["-kioskMode", "-autoSave", "-cheerpjMode"];
     if (incomingFilename && String(incomingFilename).trim().length > 0) {
-      runArgs.push("-file=/files/" + String(incomingFilename).trim());
+      runArgs.push("-file=/str/" + String(incomingFilename).trim());
     }
     await cheerpjRunJar("/app/product/violetumleditor-latest.jar", ...runArgs);
   </script>
