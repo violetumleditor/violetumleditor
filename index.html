@@ -171,35 +171,50 @@
     // Create hidden file input that will be reused
     const fileInput = document.getElementById('fileInputDialog');
     fileInput.addEventListener('change', (event) => {
+      console.log('[VioletOpen] fileInput change event fired, files:', event.target.files.length);
       const file = event.target.files[0];
       window.cheerpjFileState.fileLoadedPromise = null;
       if (file) {
+        console.log(`[VioletOpen] Selected file: "${file.name}", size: ${file.size} bytes, type: "${file.type}"`);
         window.cheerpjFileState.fileLoadedPromise = new Promise((resolveLoad) => {
           const reader = new FileReader();
           reader.onload = async (e) => {
             const content = e.target.result;
+            console.log(`[VioletOpen] FileReader.onload — read ${content.length} chars from "${file.name}"`);
             try {
               const tempName = `open-${Date.now()}-${file.name}`;
+              console.log(`[VioletOpen] Writing to /str/${tempName} ...`);
               await cheerpOSAddStringFile(`/str/${tempName}`, content);
+              console.log(`[VioletOpen] /str/${tempName} written OK`);
               if (!cheerpjLibrary) {
+                console.log('[VioletOpen] Initialising cheerpjLibrary ...');
                 cheerpjLibrary = await cheerpjRunLibrary("");
+                console.log('[VioletOpen] cheerpjLibrary ready');
               }
               const Paths = await cheerpjLibrary.java.nio.file.Paths;
               const Files = await cheerpjLibrary.java.nio.file.Files;
               const StandardCopyOption = await cheerpjLibrary.java.nio.file.StandardCopyOption;
               const sourcePath = await Paths.get(`/str/${tempName}`);
               const targetPath = await Paths.get(`/files/${file.name}`);
+              console.log(`[VioletOpen] Copying /str/${tempName} → /files/${file.name} ...`);
               await Files.copy(sourcePath, targetPath, [StandardCopyOption.REPLACE_EXISTING]);
-              console.log(`[VioletOpen] Staged ${file.name} to /files/`);
+              console.log(`[VioletOpen] ✓ /files/${file.name} ready for Java`);
             } catch (err) {
-              console.error('[VioletOpen] Failed to stage file to /files/', file.name, err);
+              console.error(`[VioletOpen] ✗ Failed to stage "${file.name}" to /files/`, err);
             }
             window.cheerpjFileState.selectedFile = file;
+            console.log(`[VioletOpen] resolveLoad(true) — file staging complete for "${file.name}"`);
             resolveLoad(true);
           };
-          reader.onerror = () => resolveLoad(false);
+          reader.onerror = (e) => {
+            console.error(`[VioletOpen] FileReader error reading "${file.name}"`, e);
+            resolveLoad(false);
+          };
+          console.log(`[VioletOpen] Starting readAsText for "${file.name}" ...`);
           reader.readAsText(file, 'utf-8');
         });
+      } else {
+        console.warn('[VioletOpen] change event fired but no file in event.target.files');
       }
       // Reset the input so the same file can be selected again
       fileInput.value = '';
@@ -234,12 +249,14 @@
      * Returns true if file was selected, false if cancelled
      */
     async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeShowOpenDialog(lib, acceptedExtensions) {
+      console.log('[VioletOpen] nativeShowOpenDialog called, acceptedExtensions:', acceptedExtensions);
       window.cheerpjFileState.selectedFile = null;
       window.cheerpjFileState.fileLoadedPromise = null;
 
       fileInput.accept = '.html';
 
       // Step 1: wait for user to pick a file (or cancel)
+      console.log('[VioletOpen] Opening file picker ...');
       const fileWasSelected = await new Promise((resolve) => {
         let done = false;
         const finish = (value) => {
@@ -247,6 +264,7 @@
           done = true;
           fileInput.removeEventListener('change', handleChange);
           window.removeEventListener('focus', handleFocusBack);
+          console.log(`[VioletOpen] File picker closed — fileWasSelected: ${value}`);
           resolve(value);
         };
 
@@ -257,6 +275,7 @@
           // If user canceled the picker, no change event is fired.
           setTimeout(() => {
             if (!window.cheerpjFileState.fileLoadedPromise) {
+              console.log('[VioletOpen] Focus returned without file change — user cancelled');
               finish(false);
             }
           }, 150);
@@ -268,15 +287,19 @@
       });
 
       if (!fileWasSelected) {
+        console.log('[VioletOpen] nativeShowOpenDialog → 0 (cancelled)');
         return 0;
       }
 
-      // Step 2: wait for file to be fully read and staged in /str/
+      // Step 2: wait for file to be fully read and staged in /files/
+      console.log('[VioletOpen] Waiting for file to be staged in /files/ ...');
       if (window.cheerpjFileState.fileLoadedPromise) {
         await window.cheerpjFileState.fileLoadedPromise;
       }
 
-      return window.cheerpjFileState.selectedFile !== null ? 1 : 0;
+      const result = window.cheerpjFileState.selectedFile !== null ? 1 : 0;
+      console.log(`[VioletOpen] nativeShowOpenDialog → ${result}, selectedFile: "${window.cheerpjFileState.selectedFile?.name}"`);
+      return result;
     }
 
     /**
@@ -284,9 +307,9 @@
      * Returns string filename of the selected file
      */
     async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeGetFileName(lib) {
-      return window.cheerpjFileState.selectedFile 
-        ? window.cheerpjFileState.selectedFile.name 
-        : '';
+      const name = window.cheerpjFileState.selectedFile ? window.cheerpjFileState.selectedFile.name : '';
+      console.log(`[VioletOpen] nativeGetFileName → "${name}"`);
+      return name;
     }
 
     async function Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeHasPendingImport(lib) {
