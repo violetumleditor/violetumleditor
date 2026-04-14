@@ -274,8 +274,8 @@
         return 0;
       }
 
-      // Step 2: wait for file to be fully read and staged in /files/
-      console.log('[VioletOpen] Waiting for file to be staged in /files/ ...');
+      // Step 2: wait for file to be fully read and staged in /str/
+      console.log('[VioletOpen] Waiting for file to be staged in /str/ ...');
       if (window.cheerpjFileState.fileLoadedPromise) {
         await window.cheerpjFileState.fileLoadedPromise;
       }
@@ -378,6 +378,9 @@
     await cheerpjInit({
         version: 17,
         clipboardMode: "permission",
+        mountPoints: [
+            { type: "idbfs", path: "/files" }
+        ],
         natives: {
             Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeSetApplication,
             Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_nativeMethodCallback,
