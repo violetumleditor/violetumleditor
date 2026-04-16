@@ -31,7 +31,6 @@ import javax.swing.JFrame;
 
 import com.horstmann.violet.application.cheerpj.CheerpJFileChooserService;
 import com.horstmann.violet.application.cheerpj.CheerpJInterfaceService;
-import com.horstmann.violet.application.cheerpj.CheerpJStorageGraphFile;
 import com.horstmann.violet.application.gui.MainFrame;
 import com.horstmann.violet.application.gui.SplashScreen;
 import com.horstmann.violet.framework.file.GraphFile;

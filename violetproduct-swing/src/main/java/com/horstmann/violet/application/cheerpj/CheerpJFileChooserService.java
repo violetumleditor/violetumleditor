@@ -2,6 +2,8 @@ package com.horstmann.violet.application.cheerpj;
 
 import java.io.IOException;
 
+import javax.swing.JOptionPane;
+
 import com.horstmann.violet.framework.file.IFile;
 import com.horstmann.violet.framework.file.chooser.IFileChooserService;
 import com.horstmann.violet.framework.file.naming.ExtensionFilter;
@@ -50,6 +52,19 @@ public class CheerpJFileChooserService implements IFileChooserService {
     @Override
     public IFileWriter chooseAndGetFileWriter(ExtensionFilter... extensions) throws IOException {
         String extension = resolveDefaultExtension(extensions);
+        if (extension.toLowerCase().endsWith(".violet.html")) {
+            String defaultName = DEFAULT_BASENAME + extension;
+            String input = (String) JOptionPane.showInputDialog(null, "File name:", "Save As",
+                    JOptionPane.PLAIN_MESSAGE, null, null, defaultName);
+            if (input == null || input.trim().isEmpty()) {
+                return null;
+            }
+            String filename = input.trim();
+            if (!filename.toLowerCase().endsWith(extension.toLowerCase())) {
+                filename = filename + extension;
+            }
+            return new CheerpJStorageFileWriter(filename);
+        }
         return new CheerpJDownloadFileWriter(DEFAULT_BASENAME + extension);
     }
 
@@ -59,7 +74,7 @@ public class CheerpJFileChooserService implements IFileChooserService {
         if (filename == null || filename.trim().isEmpty()) {
             filename = DEFAULT_BASENAME + ".violet.html";
         }
-        return new CheerpJDownloadFileWriter(filename);
+        return new CheerpJStorageFileWriter(filename.trim());
     }
 
     /**

@@ -3,13 +3,9 @@ package com.horstmann.violet.application.cheerpj;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.Comparator;
 import java.util.List;
@@ -25,7 +21,7 @@ import javax.swing.JOptionPane;
 import com.horstmann.violet.application.gui.MainFrame;
 import com.horstmann.violet.application.menu.MenuFactory;
 import com.horstmann.violet.framework.dialog.DialogFactory;
-import com.horstmann.violet.framework.file.IFile;
+import com.horstmann.violet.framework.file.GraphFile;
 import com.horstmann.violet.framework.file.IGraphFile;
 import com.horstmann.violet.framework.file.chooser.IFileChooserService;
 import com.horstmann.violet.framework.file.naming.ExtensionFilter;
@@ -39,7 +35,6 @@ import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 import com.horstmann.violet.framework.plugin.IDiagramPlugin;
 import com.horstmann.violet.framework.plugin.PluginRegistry;
-import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
 
@@ -195,8 +190,7 @@ public class CheerpJFileMenu extends JMenu {
 
     private void createNewWorkspace(IDiagramPlugin diagramPlugin) {
         try {
-            IGraph graph = diagramPlugin.getGraphClass().getDeclaredConstructor().newInstance();
-            CheerpJStorageGraphFile graphFile = new CheerpJStorageGraphFile(graph, null);
+            GraphFile graphFile = new GraphFile(diagramPlugin.getGraphClass());
             IWorkspace workspace = new Workspace(graphFile);
             String name = diagramPlugin.getName().replaceFirst("[0-9]*\\.", "");
             workspace.setTitle(this.unsavedPrefix + " " + name.toLowerCase());
@@ -424,29 +418,13 @@ public class CheerpJFileMenu extends JMenu {
             return false;
         }
         IGraphFile graphFile = workspace.getGraphFile();
-        String filename = resolveStorageFilename(graphFile);
-        if (saveAs || filename == null) {
-            String proposal = filename == null ? "diagram.violet.html" : filename;
-            String input = JOptionPane.showInputDialog(this.mainFrame, "File name", proposal);
-            if (input == null) {
-                return false;
-            }
-            filename = normalizeDiagramFilename(input);
-        }
-
         try {
-            if (graphFile instanceof CheerpJStorageGraphFile) {
-                CheerpJStorageGraphFile cheerpJGraphFile = (CheerpJStorageGraphFile) graphFile;
-                cheerpJGraphFile.setStorageFilename(filename);
-                cheerpJGraphFile.save();
+            if (saveAs) {
+                graphFile.saveToNewLocation();
             } else {
-                ByteArrayOutputStream out = new ByteArrayOutputStream();
-                this.filePersistenceService.write(graphFile.getGraph(), out);
-                out.close();
-                saveDiagramToFilesMount(filename, out.toByteArray());
+                graphFile.save();
             }
-            workspace.setTitle(filename);
-            return true;
+            return !graphFile.isSaveRequired();
         } catch (Exception e) {
             showError(e);
             return false;
@@ -476,28 +454,10 @@ public class CheerpJFileMenu extends JMenu {
     }
 
     private void openFromFilesMount() {
-        IFile selectedFile = null;
         try {
             ExtensionFilter[] filters = this.fileNamingService.getFileFilters();
             IFileReader fileOpener = this.fileChooserService.chooseAndGetFileReader(filters);
-            if (fileOpener == null) {
-                return;
-            }
-            selectedFile = fileOpener.getFileDefinition();
-            InputStream in = fileOpener.getInputStream();
-            byte[] content = in.readAllBytes();
-            in.close();
-            if (content == null || content.length == 0) {
-                this.dialogFactory.showErrorDialog(this.dialogOpenFileErrorMessage + " : empty diagram");
-                return;
-            }
-            String filename = normalizeDiagramFilename(selectedFile.getFilename());
-            if (filename == null) {
-                filename = "diagram.violet.html";
-            }
-            IGraph graph = readGraph(content);
-            CheerpJStorageGraphFile graphFile = new CheerpJStorageGraphFile(graph, filename);
-            IWorkspace workspace = new Workspace(graphFile);
+            IWorkspace workspace = new Workspace(new GraphFile(fileOpener.getFileDefinition()));
             this.mainFrame.addWorkspace(workspace);
         } catch (Exception e) {
             this.dialogFactory.showErrorDialog(this.dialogOpenFileErrorMessage + " : " + e.getMessage());
@@ -508,37 +468,11 @@ public class CheerpJFileMenu extends JMenu {
         try {
             ExtensionFilter[] filters = this.fileNamingService.getFileFilters();
             IFileReader fileReader = this.fileChooserService.chooseAndGetFileReader(filters);
-            if (fileReader == null) {
-                return;
-            }
-            InputStream in = fileReader.getInputStream();
-            byte[] content = in.readAllBytes();
-            in.close();
-            String filename = normalizeDiagramFilename(fileReader.getFileDefinition().getFilename());
-            if (filename == null) {
-                filename = "diagram.violet.html";
-            }
-            saveDiagramToFilesMount(filename, content);
-            IGraph graph = readGraph(content);
-            CheerpJStorageGraphFile graphFile = new CheerpJStorageGraphFile(graph, filename);
-            IWorkspace workspace = new Workspace(graphFile);
+            IWorkspace workspace = new Workspace(new GraphFile(fileReader.getFileDefinition()));
             this.mainFrame.addWorkspace(workspace);
         } catch (Exception e) {
             showError(e);
         }
-    }
-
-    private void saveDiagramToFilesMount(String filename, byte[] content) throws IOException {
-        Path path = Path.of(FILES_DIRECTORY, filename);
-        if (path.getParent() != null) {
-            Files.createDirectories(path.getParent());
-        }
-        Files.write(path, content);
-    }
-
-    private IGraph readGraph(byte[] content) throws IOException {
-        ByteArrayInputStream in = new ByteArrayInputStream(content);
-        return this.filePersistenceService.read(in);
     }
 
     private void clearActionListeners(JMenuItem item) {

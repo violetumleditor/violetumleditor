@@ -1,19 +1,15 @@
 package com.horstmann.violet.application.cheerpj;
 
 import java.awt.event.ActionListener;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 import javax.swing.JMenuItem;
 
 import com.horstmann.violet.application.menu.FileMenu;
 import com.horstmann.violet.application.menu.MenuFactory;
 import com.horstmann.violet.framework.dialog.DialogFactory;
+import com.horstmann.violet.framework.file.GraphFile;
 import com.horstmann.violet.framework.file.IGraphFile;
 import com.horstmann.violet.framework.file.chooser.IFileChooserService;
 import com.horstmann.violet.framework.file.naming.ExtensionFilter;
@@ -25,10 +21,8 @@ import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjecto
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
-import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
-
 
 @ResourceBundleBean(resourceReference = MenuFactory.class)
 public class CheerpJFileMenuCustomizerCommand {
@@ -96,21 +90,8 @@ public class CheerpJFileMenuCustomizerCommand {
 		try {
 			ExtensionFilter[] filters = fileNamingService.getFileFilters();
 			IFileReader fileReader = fileChooserService.chooseAndGetFileReader(filters);
-			if (fileReader == null) {
-				return false;
-			}
-			InputStream in = fileReader.getInputStream();
-			byte[] content = in.readAllBytes();
-			in.close();
-			String filename = normalizeDiagramFilename(fileReader.getFileDefinition().getFilename());
-			if (filename == null) {
-				filename = "diagram.violet.html";
-			}
-			saveDiagramToFilesMount(filename, content);
-			IGraph graph = readGraph(content, filePersistenceService);
-			CheerpJStorageGraphFile graphFile = new CheerpJStorageGraphFile(graph, filename);
+			GraphFile graphFile = new GraphFile(fileReader.getFileDefinition());
 			IWorkspace workspace = new Workspace(graphFile);
-			workspace.setTitle(filename);
 			this.fileMenu.getMainFrame().addWorkspace(workspace);
 			return true;
 		} catch (Exception e) {
@@ -123,19 +104,7 @@ public class CheerpJFileMenuCustomizerCommand {
 		try {
 			ExtensionFilter[] filters = fileNamingService.getFileFilters();
 			IFileReader fileReader = fileChooserService.chooseAndGetFileReader(filters);
-			if (fileReader == null) {
-				return false;
-			}
-			InputStream in = fileReader.getInputStream();
-			byte[] content = in.readAllBytes();
-			in.close();
-			String filename = normalizeDiagramFilename(fileReader.getFileDefinition().getFilename());
-			if (filename == null) {
-				filename = "diagram.violet.html";
-			}
-			saveDiagramToFilesMount(filename, content);
-			IGraph graph = readGraph(content, filePersistenceService);
-			CheerpJStorageGraphFile graphFile = new CheerpJStorageGraphFile(graph, filename);
+			GraphFile graphFile = new GraphFile(fileReader.getFileDefinition());
 			IWorkspace workspace = new Workspace(graphFile);
 			this.fileMenu.getMainFrame().addWorkspace(workspace);
 			return true;
@@ -144,9 +113,6 @@ public class CheerpJFileMenuCustomizerCommand {
 			return false;
 		}
 	}
-
-	
-	
 
 	private boolean runExportToDiagram() {
 		IWorkspace workspace = this.fileMenu.getMainFrame().getActiveWorkspace();
@@ -208,18 +174,6 @@ public class CheerpJFileMenuCustomizerCommand {
 			return null;
 		}
 		return trimmed;
-	}
-
-	private void saveDiagramToFilesMount(String filename, byte[] content) throws IOException {
-		Path path = Path.of(FILES_DIRECTORY, filename);
-		// Do not call Files.createDirectories on /files — it is a CheerpJ VFS mount root
-		// and calling createDirectories on it returns EPERM. The mount always exists.
-		Files.write(path, content);
-	}
-
-	private IGraph readGraph(byte[] content, IFilePersistenceService filePersistenceService) throws IOException {
-		ByteArrayInputStream in = new ByteArrayInputStream(content);
-		return filePersistenceService.read(in);
 	}
 
 }
