@@ -25,7 +25,6 @@ import com.horstmann.violet.framework.file.IGraphFile;
 import com.horstmann.violet.framework.file.chooser.IFileChooserService;
 import com.horstmann.violet.framework.file.naming.ExtensionFilter;
 import com.horstmann.violet.framework.file.naming.FileNamingService;
-import com.horstmann.violet.framework.file.persistence.IFilePersistenceService;
 import com.horstmann.violet.framework.file.persistence.IFileReader;
 import com.horstmann.violet.framework.file.persistence.IFileWriter;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
@@ -40,15 +39,7 @@ import com.horstmann.violet.workspace.Workspace;
 @ResourceBundleBean(resourceReference = MenuFactory.class)
 public class CheerpJFileMenu extends JMenu {
 
-    private static final String FILES_DIRECTORY = "/files";
-
     private final MainFrame mainFrame;
-
-    @ResourceBundleBean(key = "file.import")
-    private JMenuItem fileImportItem;
-
-    @ResourceBundleBean(key = "file.export_to_diagram")
-    private JMenuItem fileExportToDiagramItem;
 
     @ResourceBundleBean(key = "file.new")
     private JMenu fileNewMenu;
@@ -105,9 +96,6 @@ public class CheerpJFileMenu extends JMenu {
     private FileNamingService fileNamingService;
 
     @InjectedBean
-    private IFilePersistenceService filePersistenceService;
-
-    @InjectedBean
     private DialogFactory dialogFactory;
 
     @InjectedBean
@@ -127,7 +115,6 @@ public class CheerpJFileMenu extends JMenu {
         initCloseItem();
         initSaveItem();
         initSaveAsItem();
-        initImportItem();
         initExportMenu();
         initPrintItem();
 
@@ -136,7 +123,6 @@ public class CheerpJFileMenu extends JMenu {
         this.add(this.fileCloseItem);
         this.add(this.fileSaveItem);
         this.add(this.fileSaveAsItem);
-        this.add(this.fileImportItem);
         this.add(this.fileExportMenu);
         this.add(this.filePrintItem);
     }
@@ -209,16 +195,6 @@ public class CheerpJFileMenu extends JMenu {
         });
     }
 
-    private void initImportItem() {
-        clearActionListeners(this.fileImportItem);
-        this.fileImportItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                importFromLocalDrive();
-            }
-        });
-    }
-
     private void initSaveItem() {
         clearActionListeners(this.fileSaveItem);
         this.fileSaveItem.addActionListener(new ActionListener() {
@@ -275,12 +251,10 @@ public class CheerpJFileMenu extends JMenu {
         initExportToImageItem();
         initExportToClipboardItem();
         initExportToPdfItem();
-        initExportToDiagramItem();
 
         this.fileExportMenu.add(this.fileExportToImageItem);
         this.fileExportMenu.add(this.fileExportToClipboardItem);
         this.fileExportMenu.add(this.fileExportToPdfItem);
-        this.fileExportMenu.add(this.fileExportToDiagramItem);
     }
 
     private void initExportToImageItem() {
@@ -348,50 +322,6 @@ public class CheerpJFileMenu extends JMenu {
         });
     }
 
-    private void initExportToDiagramItem() {
-        clearActionListeners(this.fileExportToDiagramItem);
-        this.fileExportToDiagramItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                IWorkspace workspace = mainFrame.getActiveWorkspace();
-                if (workspace == null) {
-                    return;
-                }
-                try {
-                    IGraphFile graphFile = workspace.getGraphFile();
-                    if (graphFile == null) {
-                        return;
-                    }
-                    // If workspace has unsaved changes, save first
-                    if (graphFile.isSaveRequired()) {
-                        if (!saveCurrentWorkspace(false)) {
-                            return;
-                        }
-                    }
-                    // If file is not stored in browser local storage, prompt Save As so it can be exported
-                    String filename = resolveStorageFilename(graphFile);
-                    if (filename == null) {
-                        if (!saveCurrentWorkspace(true)) {
-                            return;
-                        }
-                        // Try to get a usable filename: prefer storage filename, otherwise workspace title
-                        filename = resolveStorageFilename(workspace.getGraphFile());
-                        if (filename == null) {
-                            filename = workspace.getTitle();
-                        }
-                    }
-
-                    IFileWriter writer = new CheerpJDownloadFileWriter(filename);
-                    OutputStream out = writer.getOutputStream();
-                    filePersistenceService.write(workspace.getGraphFile().getGraph(), out);
-                    out.close();
-                } catch (Exception ex) {
-                    showError(ex);
-                }
-            }
-        });
-    }
-
     private void closeCurrentWorkspace() {
         IWorkspace workspace = this.mainFrame.getActiveWorkspace();
         if (workspace == null) {
@@ -430,28 +360,6 @@ public class CheerpJFileMenu extends JMenu {
         }
     }
 
-    private String resolveStorageFilename(IGraphFile graphFile) {
-        if (graphFile == null) {
-            return null;
-        }
-        if (!FILES_DIRECTORY.equals(graphFile.getDirectory())) {
-            return null;
-        }
-        return normalizeDiagramFilename(graphFile.getFilename());
-    }
-
-    private String normalizeDiagramFilename(String filename) {
-        if (filename == null) {
-            return null;
-        }
-        String trimmed = filename.trim();
-        if (trimmed.isEmpty()) {
-            return null;
-        }
-        // Accept the filename as provided (keep any extension the user supplied)
-        return trimmed;
-    }
-
     private void openFromFilesMount() {
         try {
             ExtensionFilter[] filters = this.fileNamingService.getFileFilters();
@@ -460,17 +368,6 @@ public class CheerpJFileMenu extends JMenu {
             this.mainFrame.addWorkspace(workspace);
         } catch (Exception e) {
             this.dialogFactory.showErrorDialog(this.dialogOpenFileErrorMessage + " : " + e.getMessage());
-        }
-    }
-
-    private void importFromLocalDrive() {
-        try {
-            ExtensionFilter[] filters = this.fileNamingService.getFileFilters();
-            IFileReader fileReader = this.fileChooserService.chooseAndGetFileReader(filters);
-            IWorkspace workspace = new Workspace(new GraphFile(fileReader.getFileDefinition()));
-            this.mainFrame.addWorkspace(workspace);
-        } catch (Exception e) {
-            showError(e);
         }
     }
 
