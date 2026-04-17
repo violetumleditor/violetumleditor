@@ -8,6 +8,10 @@ import java.beans.PropertyChangeEvent;
 import javax.swing.Timer;
 
 import com.horstmann.violet.framework.file.IGraphFile;
+import com.horstmann.violet.framework.file.IGraphFileListener;
+import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
+import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
+import com.horstmann.violet.framework.userpreferences.UserPreferencesService;
 import com.horstmann.violet.product.diagram.abstracts.IColorable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
@@ -20,10 +24,26 @@ public class AutoSaveBehavior extends AbstractEditorPartBehavior
 
     public AutoSaveBehavior(IGraphFile graphFile)
     {
+        BeanInjector.getInjector().inject(this);
         this.graphFile = graphFile;
         this.idleTimer = new Timer(AUTO_SAVE_IDLE_MILLIS, event -> saveIfNeeded());
         this.idleTimer.setRepeats(false);
         Runtime.getRuntime().addShutdownHook(new Thread(this::saveIfNeeded));
+        this.graphFile.addListener(new IGraphFileListener()
+        {
+            @Override
+            public void onFileModified() {}
+
+            @Override
+            public void onFileSaved()
+            {
+                // Keep the opened-files and recent-files preferences in sync after every
+                // save (auto-save to temp location or explicit save to a real location).
+                // This ensures the app can restore the correct file list on restart.
+                userPreferencesService.addOpenedFile(graphFile);
+                userPreferencesService.addRecentFile(graphFile);
+            }
+        });
     }
 
     private void touch()
@@ -158,5 +178,8 @@ public class AutoSaveBehavior extends AbstractEditorPartBehavior
     private final IGraphFile graphFile;
 
     private final Timer idleTimer;
+
+    @InjectedBean
+    private UserPreferencesService userPreferencesService;
 
 }
