@@ -131,13 +131,17 @@ public class GraphFile implements IGraphFile
     @Override
     public void save(boolean allowNewLocation)
     {
-        if (!this.isSaveRequired)
-        {
-            return;
-        }
+        // ORDER MATTERS: the temporary-filename redirect must come BEFORE the isSaveRequired guard.
+        // Auto-save (allowNewLocation=false) writes the temp file and clears isSaveRequired.
+        // If the isSaveRequired guard were first, a subsequent user-initiated save (allowNewLocation=true)
+        // would return immediately without ever prompting for a real filename.
         if (isTemporaryFilename() && allowNewLocation)
         {
             saveToNewLocation();
+            return;
+        }
+        if (!this.isSaveRequired)
+        {
             return;
         }
         try

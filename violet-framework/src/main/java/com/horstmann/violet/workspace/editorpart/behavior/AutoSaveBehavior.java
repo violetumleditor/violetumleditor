@@ -28,6 +28,9 @@ public class AutoSaveBehavior extends AbstractEditorPartBehavior
 
     private void touch()
     {
+        // Only keep the idle timer alive while the diagram is dirty.
+        // Non-modifying interactions (mouse moves, etc.) will still postpone
+        // the save, but only when there is actually something to save.
         if (!this.graphFile.isSaveRequired())
         {
             return;
@@ -115,49 +118,41 @@ public class AutoSaveBehavior extends AbstractEditorPartBehavior
     @Override
     public void onMousePressed(MouseEvent event)
     {
-        touch();
     }
 
     @Override
     public void onMouseReleased(MouseEvent event)
     {
-        touch();
     }
 
     @Override
     public void onMouseClicked(MouseEvent event)
     {
-        touch();
     }
 
     @Override
     public void onMouseMoved(MouseEvent event)
     {
-        touch();
     }
 
     @Override
     public void onMouseWheelMoved(MouseWheelEvent event)
     {
-        touch();
     }
 
     @Override
     public void onToolSelected(GraphTool selectedTool)
     {
-        touch();
     }
 
     @Override
     public void onNodeSelected(INode node)
     {
-        touch();
     }
 
     @Override
     public void onEdgeSelected(IEdge edge)
     {
-        touch();
     }
 
     private final IGraphFile graphFile;
