@@ -40,13 +40,17 @@ public class GraphFile implements IGraphFile
         BeanInjector.getInjector().inject(this);
         try
         {
-			this.graph = graphClass.getDeclaredConstructor().newInstance();
+            this.graph = graphClass.getDeclaredConstructor().newInstance();
         }
         catch (InstantiationException | IllegalAccessException | NoSuchMethodException | java.lang.reflect.InvocationTargetException e)
         {
             DialogFactory.getInstance().showErrorDialog(e.getMessage());
             throw new RuntimeException(e);
         }
+        String extension = this.fileNamingService.getExtensionFilter(this.graph).getExtension();
+        this.currentFilename = TempFilenameGenerator.generate() + extension;
+        this.currentDirectory = this.fileChooserService.getTempDirectory();
+        this.hasTemporaryFilename = true;
     }
 
     /**
@@ -108,33 +112,40 @@ public class GraphFile implements IGraphFile
         return this.isSaveRequired;
     }
 
-    /**
-     * Indicates if this file is new
-     *
-     * @return b
-     */
-    private boolean isNewFile()
+    @Override
+    public boolean isTemporaryFilename()
     {
-        if (this.currentFilename == null && this.currentDirectory == null)
-        {
-            return true;
-        }
-        return false;
+        return this.hasTemporaryFilename;
     }
 
     @Override
-    public void save()
+    public void delete()
     {
-        if (this.isNewFile())
+        if (this.currentDirectory == null || this.currentFilename == null)
+        {
+            return;
+        }
+        this.fileChooserService.getFileDeleter(this).delete();
+    }
+
+    @Override
+    public void save(boolean allowNewLocation)
+    {
+        if (!this.isSaveRequired)
+        {
+            return;
+        }
+        if (isTemporaryFilename() && allowNewLocation)
         {
             saveToNewLocation();
             return;
         }
         try
         {
-            IFileWriter fileSaver = getFileSaver(false);
+            IFileWriter fileSaver = this.fileChooserService.getFileWriter(this);
             OutputStream outputStream = fileSaver.getOutputStream();
             this.filePersistenceService.write(this.graph, outputStream);
+            outputStream.close();
             this.isSaveRequired = false;
             fireGraphSaved();
             this.currentFilename = fileSaver.getFileDefinition().getFilename();
@@ -145,24 +156,41 @@ public class GraphFile implements IGraphFile
             throw new RuntimeException(e);
         }
     }
-    
+
     @Override
     public void saveToNewLocation()
     {
+        // Remember the old temp location so we can clean it up after a successful save.
+        final String oldFilename  = this.hasTemporaryFilename ? this.currentFilename  : null;
+        final String oldDirectory = this.hasTemporaryFilename ? this.currentDirectory : null;
+
         try
         {
             IFileWriter fileSaver = getFileSaver(true);
             if (fileSaver == null)
             {
-                // This appends when the action is cancelled
+                // User cancelled the dialog — keep whatever state we have.
                 return;
             }
             OutputStream outputStream = fileSaver.getOutputStream();
             this.filePersistenceService.write(this.graph, outputStream);
+            outputStream.close();
             this.isSaveRequired = false;
             this.currentFilename = fileSaver.getFileDefinition().getFilename();
             this.currentDirectory = fileSaver.getFileDefinition().getDirectory();
+            this.hasTemporaryFilename = false;
             fireGraphSaved();
+
+            // Delete the old temp file now that the real file is saved.
+            if (oldFilename != null && oldDirectory != null)
+            {
+                final String fd = oldDirectory;
+                final String fn = oldFilename;
+                this.fileChooserService.getFileDeleter(new IFile() {
+                    @Override public String getDirectory() { return fd; }
+                    @Override public String getFilename()  { return fn; }
+                }).delete();
+            }
         }
         catch (IOException e1)
         {
@@ -320,6 +348,9 @@ public class GraphFile implements IGraphFile
     private String currentDirectory;
 
     private boolean isSaveRequired = false;
+
+    /** True when the filename was auto-generated and the user has not yet chosen a real name. */
+    private boolean hasTemporaryFilename = false;
 
     @ResourceBundleBean(key = "dialog.export_to_clipboard.icon")
     private ImageIcon clipBoardDialogIcon;

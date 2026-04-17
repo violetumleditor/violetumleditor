@@ -371,7 +371,7 @@ public class FileMenu extends JMenu
                 if (workspace != null)
                 {
                     IGraphFile graphFile = workspace.getGraphFile();
-                    graphFile.save();
+                    graphFile.save(true);
                     userPreferencesService.addRecentFile(graphFile);
                 }
             }
@@ -447,7 +447,7 @@ public class FileMenu extends JMenu
                             }
                             if (filename != null)
                             {
-                                graphFile.save();
+                                graphFile.save(true);
                             }
                             if (!graphFile.isSaveRequired())
                             {

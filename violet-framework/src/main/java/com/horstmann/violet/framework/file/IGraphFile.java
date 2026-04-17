@@ -26,12 +26,38 @@ public interface IGraphFile extends IFile
     
     
     /**
-     * Saves the graph
+     * @return true if this file is using a temporary generated filename and has not yet been
+     *         explicitly named by the user. Auto-save writes to the temp location; the first
+     *         user-initiated save will ask for a real name.
      */
-    public abstract void save();
+    public abstract boolean isTemporaryFilename();
 
     /**
-     * Saves the graph to a new URI (thiw will open a file chooser)
+     * Deletes the file described by this descriptor from the underlying storage.
+     * Uses an {@link com.horstmann.violet.framework.file.persistence.IFileDeleter} obtained
+     * from the file chooser service. Best-effort — does not throw.
+     */
+    public abstract void delete();
+
+    /**
+     * Saves the graph.
+     * <p>
+     * When {@code allowNewLocation} is {@code true} (user-initiated save): if the file still
+     * has a temporary name the user is prompted for a real location via {@code saveToNewLocation()};
+     * otherwise the file is written in-place, listeners are notified, and any I/O error is
+     * re-thrown as a {@link RuntimeException}.
+     * <p>
+     * When {@code allowNewLocation} is {@code false} (auto-save): the method is a no-op if
+     * nothing has changed ({@code isSaveRequired() == false}); it writes silently to the current
+     * location (temp or real) and swallows any I/O error so as never to interrupt the user.
+     *
+     * @param allowNewLocation {@code true} to let the user choose a new location when the file
+     *                         is still temporary; {@code false} for a silent background save.
+     */
+    public abstract void save(boolean allowNewLocation);
+
+    /**
+     * Saves the graph to a new URI (this will open a file chooser)
      */
     public abstract void saveToNewLocation();
     

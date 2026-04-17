@@ -75,7 +75,7 @@ public class VioletUMLEditor extends EditorPart
     public void doSave(IProgressMonitor monitor)
     {
 		this.fileChooserService.changeProgressMonitor(monitor);
-		this.getUMLDiagramPanel().getGraphFile().save();
+		this.getUMLDiagramPanel().getGraphFile().save(true);
 		firePropertyChange(EditorPart.PROP_DIRTY);
     }
 

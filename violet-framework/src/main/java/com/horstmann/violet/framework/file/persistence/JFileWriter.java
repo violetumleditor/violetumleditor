@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import com.horstmann.violet.framework.file.IFile;
-import com.horstmann.violet.framework.file.LocalFile;
 /**
  * Standard Java FileSaver implementation
  * 
@@ -31,9 +30,15 @@ public class JFileWriter implements IFileWriter
     }
 
     @Override
-    public IFile getFileDefinition() throws IOException
+    public IFile getFileDefinition()
     {
-        return new LocalFile(this.f);
+        return new IFile()
+        {
+            @Override
+            public String getDirectory() { return f.getParent(); }
+            @Override
+            public String getFilename()  { return f.getName(); }
+        };
     }
     
 

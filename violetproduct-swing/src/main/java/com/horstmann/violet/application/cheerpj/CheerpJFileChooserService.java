@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import com.horstmann.violet.framework.file.IFile;
 import com.horstmann.violet.framework.file.chooser.IFileChooserService;
 import com.horstmann.violet.framework.file.naming.ExtensionFilter;
+import com.horstmann.violet.framework.file.persistence.IFileDeleter;
 import com.horstmann.violet.framework.file.persistence.IFileReader;
 import com.horstmann.violet.framework.file.persistence.IFileWriter;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.ManagedBean;
@@ -75,6 +76,20 @@ public class CheerpJFileChooserService implements IFileChooserService {
             filename = DEFAULT_BASENAME + ".violet.html";
         }
         return new CheerpJStorageFileWriter(filename.trim());
+    }
+
+    @Override
+    public IFileDeleter getFileDeleter(IFile file) {
+        String filename = file == null ? null : file.getFilename();
+        if (filename == null || filename.trim().isEmpty()) {
+            return () -> {};
+        }
+        return new CheerpJStorageFileDeleter(filename.trim());
+    }
+
+    @Override
+    public String getTempDirectory() {
+        return "/files";
     }
 
     /**

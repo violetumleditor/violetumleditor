@@ -351,7 +351,7 @@ public class CheerpJFileMenu extends JMenu {
             if (saveAs) {
                 graphFile.saveToNewLocation();
             } else {
-                graphFile.save();
+                graphFile.save(true);
             }
             return !graphFile.isSaveRequired();
         } catch (Exception e) {

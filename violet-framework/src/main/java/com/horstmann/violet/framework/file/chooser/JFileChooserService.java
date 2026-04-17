@@ -36,8 +36,10 @@ import com.horstmann.violet.framework.file.IFile;
 import com.horstmann.violet.framework.file.LocalFile;
 import com.horstmann.violet.framework.file.naming.ExtensionFilter;
 import com.horstmann.violet.framework.file.naming.FileNamingService;
+import com.horstmann.violet.framework.file.persistence.IFileDeleter;
 import com.horstmann.violet.framework.file.persistence.IFileReader;
 import com.horstmann.violet.framework.file.persistence.IFileWriter;
+import com.horstmann.violet.framework.file.persistence.JFileDeleter;
 import com.horstmann.violet.framework.file.persistence.JFileReader;
 import com.horstmann.violet.framework.file.persistence.JFileWriter;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
@@ -142,16 +144,31 @@ public class JFileChooserService implements IFileChooserService
     @Override
     public IFileWriter getFileWriter(IFile file) throws FileNotFoundException
     {
+        String dir  = file.getDirectory();
+        String name = file.getFilename();
+        File physicalFile = new File(dir, name);
         try
         {
-            LocalFile localFile = new LocalFile(file);
-            IFileWriter fsh = new JFileWriter(localFile.toFile());
-            return fsh;
+            return new JFileWriter(physicalFile);
         }
-        catch (IOException e)
+        catch (FileNotFoundException e)
         {
-            throw new FileNotFoundException(e.getLocalizedMessage());
+            throw e;
         }
+    }
+
+    @Override
+    public IFileDeleter getFileDeleter(IFile file)
+    {
+        String dir  = file.getDirectory();
+        String name = file.getFilename();
+        return new JFileDeleter(new File(dir, name));
+    }
+
+    @Override
+    public String getTempDirectory()
+    {
+        return System.getProperty("java.io.tmpdir");
     }
 
     @Override

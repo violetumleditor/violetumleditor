@@ -39,11 +39,6 @@ public class LaunchingPreferences
                 this.isKioskMode = true;
                 optionArgList.add(arg);
             }
-            if ("-autoSave".equals(arg))
-            {
-                this.isAutoSave = true;
-                optionArgList.add(arg);
-            }
             if (arg.startsWith("-adminPassword="))
             {
                 this.adminPassword = arg.substring("-adminPassword=".length());
@@ -93,11 +88,6 @@ public class LaunchingPreferences
         return adminPassword;
     }
 
-    public boolean isAutoSave()
-    {
-        return isAutoSave;
-    }
-
     public boolean isCheerpjMode()
     {
         return isCheerpjMode;
@@ -108,7 +98,6 @@ public class LaunchingPreferences
     private String adminPassword = "admin";
     private boolean isEnglishLanguageForced;
     private boolean isHelpRequested;
-    private boolean isAutoSave;
     private boolean isCheerpjMode;
     private String fileToOpen;
 

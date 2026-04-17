@@ -25,6 +25,7 @@ import java.io.IOException;
 
 import com.horstmann.violet.framework.file.IFile;
 import com.horstmann.violet.framework.file.naming.ExtensionFilter;
+import com.horstmann.violet.framework.file.persistence.IFileDeleter;
 import com.horstmann.violet.framework.file.persistence.IFileReader;
 import com.horstmann.violet.framework.file.persistence.IFileWriter;
 
@@ -80,5 +81,23 @@ public interface IFileChooserService
      * @throws IOException
      */
     public IFileWriter getFileWriter(IFile file) throws IOException;
+
+    /**
+     * Returns a deleter for the given file, using the appropriate storage mechanism
+     * for the current environment (standard filesystem, CheerpJ virtual FS, etc.).
+     * Analogous to {@link #getFileWriter(IFile)} for write operations.
+     *
+     * @param file the file to delete
+     * @return an {@link IFileDeleter} bound to that file
+     */
+    public IFileDeleter getFileDeleter(IFile file);
+
+    /**
+     * Returns the directory used for temporary auto-saves in this environment.
+     * For Swing: the OS temporary directory. For CheerpJ: the browser storage mount (/files).
+     *
+     * @return absolute path of the temp directory
+     */
+    public String getTempDirectory();
 
 }

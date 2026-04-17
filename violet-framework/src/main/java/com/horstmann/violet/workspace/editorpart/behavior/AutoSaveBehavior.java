@@ -8,9 +8,6 @@ import java.beans.PropertyChangeEvent;
 import javax.swing.Timer;
 
 import com.horstmann.violet.framework.file.IGraphFile;
-import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
-import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
-import com.horstmann.violet.framework.userpreferences.LaunchingPreferences;
 import com.horstmann.violet.product.diagram.abstracts.IColorable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
@@ -19,12 +16,11 @@ import com.horstmann.violet.workspace.sidebar.graphtools.GraphTool;
 public class AutoSaveBehavior extends AbstractEditorPartBehavior
 {
 
-    private static final int AUTO_SAVE_IDLE_MILLIS = 10_000;
+    private static final int AUTO_SAVE_IDLE_MILLIS = 2_000;
 
     public AutoSaveBehavior(IGraphFile graphFile)
     {
         this.graphFile = graphFile;
-        BeanInjector.getInjector().inject(this);
         this.idleTimer = new Timer(AUTO_SAVE_IDLE_MILLIS, event -> saveIfNeeded());
         this.idleTimer.setRepeats(false);
         Runtime.getRuntime().addShutdownHook(new Thread(this::saveIfNeeded));
@@ -32,10 +28,6 @@ public class AutoSaveBehavior extends AbstractEditorPartBehavior
 
     private void touch()
     {
-        if (this.launchingPreferences == null || !this.launchingPreferences.isAutoSave() || this.launchingPreferences.isCheerpjMode())
-        {
-            return;
-        }
         if (!this.graphFile.isSaveRequired())
         {
             return;
@@ -45,26 +37,7 @@ public class AutoSaveBehavior extends AbstractEditorPartBehavior
 
     private void saveIfNeeded()
     {
-        if (this.launchingPreferences == null || !this.launchingPreferences.isAutoSave() || this.launchingPreferences.isCheerpjMode())
-        {
-            return;
-        }
-        if (!this.graphFile.isSaveRequired())
-        {
-            return;
-        }
-        if (this.graphFile.getFilename() == null || this.graphFile.getDirectory() == null)
-        {
-            return;
-        }
-        try
-        {
-            this.graphFile.save();
-        }
-        catch (RuntimeException e)
-        {
-            // Keep manual save/exit flow available if auto-save fails.
-        }
+        this.graphFile.save(false);
     }
 
     @Override
@@ -190,8 +163,5 @@ public class AutoSaveBehavior extends AbstractEditorPartBehavior
     private final IGraphFile graphFile;
 
     private final Timer idleTimer;
-
-    @InjectedBean
-    private LaunchingPreferences launchingPreferences;
 
 }

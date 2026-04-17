@@ -70,37 +70,30 @@ public class ApplicationStopper
         for (IWorkspace workspace: workspaceList)
         {
             IGraphFile graphFile = workspace.getGraphFile();
-        	if (graphFile.isSaveRequired())
+            if (graphFile.isSaveRequired())
             {
                 dirtyWorkspaceList.add(workspace);
             }
         }
-        int unsavedCount = dirtyWorkspaceList.size();
         IWorkspace activeWorkspace = mainFrame.getActiveWorkspace();
-        if (this.launchingPreferences.isAutoSave())
+
+        // Auto-save temp-named diagrams silently (they live in the temp dir).
+        // Real-named dirty files are counted to prompt the user.
+        List<IWorkspace> realDirtyList = new ArrayList<IWorkspace>();
+        for (IWorkspace aDirtyWorkspace : dirtyWorkspaceList)
         {
-            for (IWorkspace aDirtyWorkspace : dirtyWorkspaceList)
+            IGraphFile graphFile = aDirtyWorkspace.getGraphFile();
+            if (graphFile.isTemporaryFilename())
             {
-                IGraphFile graphFile = aDirtyWorkspace.getGraphFile();
-                if (graphFile.getFilename() == null || graphFile.getDirectory() == null)
-                {
-                    continue;
-                }
-                try
-                {
-                    graphFile.save();
-                }
-                catch (RuntimeException e)
-                {
-                    // Keep exit flow popup-free when auto-save is enabled.
-                }
+                graphFile.save(false);
             }
-            if (activeWorkspace != null)
+            else
             {
-                this.userPreferencesService.setActiveDiagramFile(activeWorkspace.getGraphFile());
+                realDirtyList.add(aDirtyWorkspace);
             }
-            return true;
         }
+
+        int unsavedCount = realDirtyList.size();
         if (unsavedCount > 0)
         {
             // ask user if it is ok to close
@@ -124,28 +117,17 @@ public class ApplicationStopper
             }
             if (result == JOptionPane.YES_OPTION)
             {
-                for (IWorkspace aDirtyWorkspace : dirtyWorkspaceList)
+                for (IWorkspace aDirtyWorkspace : realDirtyList)
                 {
-                    aDirtyWorkspace.getGraphFile().save();
+                    aDirtyWorkspace.getGraphFile().save(true);
                 }
-                this.userPreferencesService.setActiveDiagramFile(activeWorkspace.getGraphFile());
-                return true;
-            }
-            if (result == JOptionPane.NO_OPTION)
-            {
-                this.userPreferencesService.setActiveDiagramFile(activeWorkspace.getGraphFile());
-                return true;
             }
         }
-        if (unsavedCount == 0)
+        if (activeWorkspace != null)
         {
-            if (activeWorkspace != null)
-            {
-                this.userPreferencesService.setActiveDiagramFile(activeWorkspace.getGraphFile());
-            }
-            return true;
+            this.userPreferencesService.setActiveDiagramFile(activeWorkspace.getGraphFile());
         }
-        return false;
+        return true;
     }
 
     @ResourceBundleBean(key = "dialog.exit.icon")
