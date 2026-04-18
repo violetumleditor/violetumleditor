@@ -37,6 +37,7 @@ public class PreferredFile implements IFile
     {
         this.filename = aFile.getFilename();
         this.directory = aFile.getDirectory();
+        this.isTemporaryFilename = aFile.isTemporaryFilename();
     }
 
     /**
@@ -48,12 +49,14 @@ public class PreferredFile implements IFile
     public PreferredFile(String userPreferenceString) throws IOException
     {
         String[] strings = userPreferenceString.split(PreferencesConstant.PATH_SEPARATOR.toString());
-        if (strings.length != 2)
+        if (strings.length < 2)
         {
             throw new IOException("Unable to parse file path from user preferences");
         }
         this.directory = strings[0];
         this.filename = strings[1];
+        // 3rd token added in a later version — default to false for older entries
+        this.isTemporaryFilename = strings.length >= 3 && Boolean.parseBoolean(strings[2]);
     }
 
     /*
@@ -76,10 +79,16 @@ public class PreferredFile implements IFile
         return directory;
     }
 
+    public boolean isTemporaryFilename()
+    {
+        return this.isTemporaryFilename;
+    }
+
     @Override
     public String toString()
     {
-        return this.directory + PreferencesConstant.PATH_SEPARATOR.toString() + this.filename;
+        return this.directory + PreferencesConstant.PATH_SEPARATOR.toString() + this.filename
+                + PreferencesConstant.PATH_SEPARATOR.toString() + this.isTemporaryFilename;
     }
 
     @Override
@@ -115,5 +124,10 @@ public class PreferredFile implements IFile
      * Its location
      */
     private String directory;
+
+    /**
+     * Whether the filename was auto-generated (not yet explicitly named by the user)
+     */
+    private boolean isTemporaryFilename;
 
 }

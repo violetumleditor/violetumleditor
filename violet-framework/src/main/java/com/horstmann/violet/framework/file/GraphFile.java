@@ -73,6 +73,7 @@ public class GraphFile implements IGraphFile
 			this.graph = this.filePersistenceService.read(in);
 			this.currentFilename = fileOpener.getFileDefinition().getFilename();
             this.currentDirectory = fileOpener.getFileDefinition().getDirectory();
+            this.hasTemporaryFilename = file.isTemporaryFilename();
         }
         else
         {

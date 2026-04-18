@@ -26,13 +26,6 @@ public interface IGraphFile extends IFile
     
     
     /**
-     * @return true if this file is using a temporary generated filename and has not yet been
-     *         explicitly named by the user. Auto-save writes to the temp location; the first
-     *         user-initiated save will ask for a real name.
-     */
-    public abstract boolean isTemporaryFilename();
-
-    /**
      * Deletes the file described by this descriptor from the underlying storage.
      * Uses an {@link com.horstmann.violet.framework.file.persistence.IFileDeleter} obtained
      * from the file chooser service. Best-effort — does not throw.
