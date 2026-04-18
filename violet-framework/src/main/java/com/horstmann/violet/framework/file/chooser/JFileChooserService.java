@@ -64,6 +64,19 @@ public class JFileChooserService implements IFileChooserService
     }
 
     /**
+     * Returns true if both paths resolve to the same directory on the filesystem.
+     * Uses canonical paths to handle symlinks, trailing separators, and case differences.
+     */
+    private boolean isSameDirectory(String a, String b)
+    {
+        try {
+            return new File(a).getCanonicalFile().equals(new File(b).getCanonicalFile());
+        } catch (IOException e) {
+            return new File(a).getAbsoluteFile().equals(new File(b).getAbsoluteFile());
+        }
+    }
+
+    /**
      * @return the last opened file directory or the current directory if no one is found
      */
     private File getLastOpenedDir()
@@ -73,6 +86,9 @@ public class JFileChooserService implements IFileChooserService
         	try {
 				LocalFile localFile = new LocalFile(aFile);
 				File lastDir = new File(localFile.getDirectory());
+                if (isSameDirectory(localFile.getDirectory(), getTempDirectory())) {
+                    return new File(System.getProperty("user.home"));
+                }
 				return lastDir;
 			} catch (IOException e) {
 				// File deleted ? Ok, let's take the next one.
