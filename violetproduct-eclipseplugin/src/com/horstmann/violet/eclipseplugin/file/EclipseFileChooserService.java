@@ -72,6 +72,12 @@ public class EclipseFileChooserService implements IFileChooserService
     @Override
     public IFileWriter chooseAndGetFileWriter(ExtensionFilter... arg0) throws IOException
     {
+        return chooseAndGetFileWriter(null, arg0);
+    }
+
+    @Override
+    public IFileWriter chooseAndGetFileWriter(String suggestedFilename, ExtensionFilter... arg0) throws IOException
+    {
         return this.getFileSaver();
     }
 

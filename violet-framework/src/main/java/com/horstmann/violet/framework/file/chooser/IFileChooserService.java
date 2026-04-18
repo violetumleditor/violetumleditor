@@ -72,6 +72,16 @@ public interface IFileChooserService
      * @throws IOException
      */
     public IFileWriter chooseAndGetFileWriter(ExtensionFilter... extensions) throws IOException;
+
+    /**
+     * Choose a file and return a file handler to save content, with an optional pre-filled filename.
+     *
+     * @param suggestedFilename filename to pre-populate in the dialog, or {@code null} for none
+     * @param extensions acceptable extension filters
+     * @return the Save object for the selected file, or {@code null} if the user cancelled
+     * @throws IOException
+     */
+    public IFileWriter chooseAndGetFileWriter(String suggestedFilename, ExtensionFilter... extensions) throws IOException;
     
     /**
      * Returns a file handler to save the given file

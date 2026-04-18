@@ -221,11 +221,8 @@ public class GraphFile implements IGraphFile
             if (isAskedForNewLocation)
             {
                 ExtensionFilter extensionFilter = this.fileNamingService.getExtensionFilter(this.graph);
-                ExtensionFilter[] array =
-                {
-                    extensionFilter
-                };
-                return this.fileChooserService.chooseAndGetFileWriter(array);
+                String hint = this.hasTemporaryFilename ? this.currentFilename : null;
+                return this.fileChooserService.chooseAndGetFileWriter(hint, extensionFilter);
             }
             return this.fileChooserService.getFileWriter(this);
         }

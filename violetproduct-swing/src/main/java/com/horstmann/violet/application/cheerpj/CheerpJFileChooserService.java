@@ -52,9 +52,14 @@ public class CheerpJFileChooserService implements IFileChooserService {
 
     @Override
     public IFileWriter chooseAndGetFileWriter(ExtensionFilter... extensions) throws IOException {
+        return chooseAndGetFileWriter(null, extensions);
+    }
+
+    @Override
+    public IFileWriter chooseAndGetFileWriter(String suggestedFilename, ExtensionFilter... extensions) throws IOException {
         String extension = resolveDefaultExtension(extensions);
         if (extension.toLowerCase().endsWith(".violet.html")) {
-            String defaultName = DEFAULT_BASENAME + extension;
+            String defaultName = (suggestedFilename != null) ? suggestedFilename : DEFAULT_BASENAME + extension;
             String input = (String) JOptionPane.showInputDialog(null, "File name:", "Save As",
                     JOptionPane.PLAIN_MESSAGE, null, null, defaultName);
             if (input == null || input.trim().isEmpty()) {

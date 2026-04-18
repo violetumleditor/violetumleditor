@@ -190,9 +190,19 @@ public class JFileChooserService implements IFileChooserService
     @Override
     public IFileWriter chooseAndGetFileWriter(ExtensionFilter... filters) throws FileNotFoundException, UnsupportedEncodingException
     {
+        return chooseAndGetFileWriter(null, filters);
+    }
+
+    @Override
+    public IFileWriter chooseAndGetFileWriter(String suggestedFilename, ExtensionFilter... filters) throws FileNotFoundException, UnsupportedEncodingException
+    {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(this.currentDirectory);
         fileChooser.setAcceptAllFileFilterUsed(false);
+        if (suggestedFilename != null)
+        {
+            fileChooser.setSelectedFile(new File(this.currentDirectory, suggestedFilename));
+        }
         for (int i = 0; i < filters.length; i++)
         {
             ExtensionFilter aFilter = filters[i];
