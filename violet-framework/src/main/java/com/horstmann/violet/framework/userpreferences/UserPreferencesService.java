@@ -116,7 +116,10 @@ public class UserPreferencesService
             try
             {
                 PreferredFile aFile = new PreferredFile(anEntry);
-                result.add(aFile);
+                if (!result.contains(aFile))
+                {
+                    result.add(aFile);
+                }
             }
             catch (IOException a)
             {
@@ -136,11 +139,16 @@ public class UserPreferencesService
     {
         PreferredFile newPreferredFile = new PreferredFile(aFile);
         List<PreferredFile> openedFileList = new ArrayList<PreferredFile>();
+        openedFileList.add(newPreferredFile);
         for (IFile file : getOpenedFilesDuringLastSession())
         {
-            openedFileList.add(new PreferredFile(file));
+            PreferredFile aPreferredFile = new PreferredFile(file);
+            if (aPreferredFile.equals(newPreferredFile))
+            {
+                continue;
+            }
+            openedFileList.add(aPreferredFile);
         }
-        openedFileList.add(newPreferredFile);
         updateOpenedFileList(openedFileList);
     }
 
