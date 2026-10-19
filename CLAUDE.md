@@ -64,12 +64,13 @@ Package `framework.file`:
 - `file.persistence`: `IFilePersistenceService` registered as **`XHTMLPersistenceService`** — writes `*.violet.html` (XML embedded in an HTML template `XHTMLFileTemplate.violet.html`), reads it back via the HTML parser and delegates to `XMLPersistenceService`. Also `JSONPersistenceService`, `StandardJavaFilePersistenceService`, `Violet016BackportFormatService` (old class-name mapping, plus per-plugin `Violet016FileFilterExtensionPoint`).
 - **Backward compatibility of files is a hard requirement** — run the `Legacy*CompatibilityTest`s after any persistence change.
 - `AutoSaveBehavior`: always on (despite the `-autoSave` help text); saves after 2 s idle when dirty, and on shutdown; on save, syncs opened/recent files in `UserPreferencesService`.
+- File menu "Recent files" is rebuilt from preferences by a `MenuListener` each time the File menu opens (a `FocusListener` never fires on a `JMenu`).
 - File extensions: `.class.violet.html`, `.seq.violet.html`, `.activity.violet.html`, `.state.violet.html`, `.object.violet.html`, `.ucase.violet.html`.
 
 ## CheerpJ (browser) mode
 
 - Package `violetproduct-swing/.../application/cheerpj/`:
-  `CheerpJInterfaceService` (Java `native` methods implemented in JS), `CheerpJFileChooserService`, `CheerpJFileReader`, `CheerpJStorageFileWriter`/`Deleter` (persist in CheerpJ's IndexedDB-backed FS), `CheerpJDownloadFileWriter` (browser download), `CheerpJFileMenuCustomizerCommand` (adjusts File menu in browser mode).
+  `CheerpJInterfaceService` (Java `native` methods implemented in JS), `CheerpJFileChooserService`, `CheerpJFileReader`, `CheerpJStorageFileWriter`/`Deleter` (persist in CheerpJ's IndexedDB-backed FS), `CheerpJDownloadFileWriter` (browser download), `CheerpJFileMenuCustomizerCommand` (adjusts File menu in browser mode: Print → PDF tab, Exit hidden, adds "Import from > Diagram file" (local picker, copied into `/files`) and "Export to > Diagram file" (download); replaces **Open** with a Swing list of the diagrams in `/files` — newest first, trash icon / Delete key per line with confirm, refuses to delete a diagram open in a workspace since auto-save would recreate it).
 - JS side: `src/main/resources/web/index.html`. Each native is a function named
   `Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_<method>` and **must also be listed in `cheerpjInit({natives:{...}})`**. Adding a native = Java `native` decl + static wrapper in `CheerpJInterfaceService` + JS function + `natives` entry.
 - Launch args used by the page: `-kioskMode -autoSave -cheerpjMode [-file=/str/<name>]`. Imported files are staged in `/str` (JS-writable, Java-readable); CheerpJ runs Java 17.

@@ -33,6 +33,18 @@ Notes :
 + Browsers block network requests from pages opened with file://. This is why the classes are embedded in bundle.js and loaded through a script tag instead of being downloaded by CheerpJ.
  
 
+How files are handled in the web browser version
+================================================
+
+In the browser, diagrams are not saved on your computer but in the browser's own storage (CheerpJ's /files directory, kept in IndexedDB). They survive a page reload, but they are tied to this browser and this site.
+
++ New diagrams are auto-saved to the browser storage under a temporary name, 2 seconds after the last change. They then show up in File > Recent files.
++ File > Open lists the diagrams kept in the browser storage, most recently modified first. Double-click a line (or select it and click OK) to open it.
++ In the same dialog, click the trash icon at the end of a line (or press the Delete key) to delete a diagram from the browser storage, after confirmation. A diagram that is currently open cannot be deleted : close it first.
++ File > Import from > Diagram file loads a diagram from your computer and copies it into the browser storage.
++ File > Export to > Diagram file downloads the current diagram to your computer.
+ 
+
 How to contribute
 =================
 
