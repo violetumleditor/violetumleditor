@@ -24,8 +24,6 @@ package com.horstmann.violet.application.menu;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
@@ -42,6 +40,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 
 import com.horstmann.violet.application.ApplicationStopper;
 import com.horstmann.violet.application.gui.MainFrame;
@@ -583,16 +583,23 @@ public class FileMenu extends JMenu
     {
         // Set entries on startup
         refreshFileRecentMenu();
-        // Refresh recent files list each time the global file menu gets the focus
-        this.addFocusListener(new FocusListener()
+        // Refresh recent files list each time the file menu is opened (a JMenu never gets the
+        // keyboard focus, so a FocusListener would never fire). The list changes behind the
+        // menu's back, e.g. when auto-save first writes a new diagram under its temp name.
+        this.addMenuListener(new MenuListener()
         {
 
-            public void focusGained(FocusEvent e)
+            public void menuSelected(MenuEvent e)
             {
                 refreshFileRecentMenu();
             }
 
-            public void focusLost(FocusEvent e)
+            public void menuDeselected(MenuEvent e)
+            {
+                // Nothing to do
+            }
+
+            public void menuCanceled(MenuEvent e)
             {
                 // Nothing to do
             }
