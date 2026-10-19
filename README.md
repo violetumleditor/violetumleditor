@@ -1,5 +1,5 @@
-What is Violet?
-===============
+What is Violet ?
+================
 
 Violet (Violet UML Editor) is a free, open-source, lightweight application for drawing UML diagrams. It is written in Java (Swing) and is designed to be simple and fast: you pick a diagram element from the palette, drop it on the canvas, and link it to others.
 
@@ -12,17 +12,11 @@ Violet supports six kinds of UML diagrams:
 + Object diagrams
 + Use case diagrams
 
-Diagrams are saved as readable `*.violet.html` files. Violet runs as a desktop application (packaged as a Windows executable and a Debian package, among others), and the same code also runs in a web browser (see "How to test Violet in a web browser" below).
+Diagrams are saved as readable `*.violet.html` files. Violet runs as a desktop application (download here : https://sourceforge.net/projects/violet/) or directly in a web browser (go to https://violetumleditor.github.io).
 
 Demo:
 
 ![Violet demo](docs/images/violet-demo.gif)
-
-
-How to get the software
-=======================
-
-Here, you will only find source code. If you just want to get and use the software, go to sourceforge, download it and enjoy easy diagram's drawing! https://sourceforge.net/projects/violet/
 
 
 How to compile Violet's source code
@@ -39,7 +33,7 @@ As Violet project is composed of several sub-projects (plugins, products, etc...
  
 
 How to test Violet in a web browser (CheerpJ mode) without packaging
-===================================================================
+====================================================================
 
 The online version of Violet runs the Swing application in the browser thanks to CheerpJ (see violetproduct-swing/src/main/resources/web/index.html, which runs the packaged jar). While developing, you can run your local, unpackaged code the same way, directly from your file system, without any web server :
 
