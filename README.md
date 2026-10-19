@@ -1,3 +1,3 @@
-Latest build swing jar is publised to github pages.
+Latest build publised to github pages.
 
-Public url is : https://violetumleditor.github.io/violetumleditor/violetumleditor-latest.jar
+Public url is : https://violetumleditor.github.io/product
