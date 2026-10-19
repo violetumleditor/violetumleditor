@@ -1,3 +1,24 @@
+What is Violet?
+===============
+
+Violet (Violet UML Editor) is a free, open-source, lightweight application for drawing UML diagrams. It is written in Java (Swing) and is designed to be simple and fast: you pick a diagram element from the palette, drop it on the canvas, and link it to others.
+
+Violet supports six kinds of UML diagrams:
+
++ Class diagrams
++ Sequence diagrams
++ Activity diagrams
++ State diagrams
++ Object diagrams
++ Use case diagrams
+
+Diagrams are saved as readable `*.violet.html` files. Violet runs as a desktop application (packaged as a Windows executable and a Debian package, among others), and the same code also runs in a web browser (see "How to test Violet in a web browser" below).
+
+Demo:
+
+![Violet demo](docs/images/violet-demo.gif)
+
+
 How to get the software
 =======================
 
