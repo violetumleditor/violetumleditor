@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 
+import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 import com.horstmann.violet.application.menu.FileMenu;
@@ -32,7 +33,10 @@ public class CheerpJFileMenuCustomizerCommand {
     private FileMenu fileMenu;
 
     @ResourceBundleBean(key = "file.import")
-    private JMenuItem fileImportItem;
+    private JMenu fileImportMenu;
+
+    @ResourceBundleBean(key = "file.import_from_diagram")
+    private JMenuItem fileImportFromDiagramItem;
 
     @ResourceBundleBean(key = "file.export_to_diagram")
     private JMenuItem fileExportToDiagramItem;
@@ -75,9 +79,10 @@ public class CheerpJFileMenuCustomizerCommand {
         // Hide the "Exit" menu item
         this.fileMenu.getFileExitItem().setVisible(false);
 
-        // Add "Import" menu item
-        this.fileMenu.add(this.fileImportItem, 1);
-        this.fileImportItem.addActionListener(e -> runImportFromLocalDrive());
+        // Add "Import from" submenu with "Diagram file" item
+        this.fileImportMenu.add(this.fileImportFromDiagramItem);
+        this.fileImportFromDiagramItem.addActionListener(e -> runImportFromLocalDrive());
+        this.fileMenu.add(this.fileImportMenu, 1);
 
         // Add "Export to Diagram" menu item
         this.fileMenu.getFileExportMenu().add(this.fileExportToDiagramItem);
