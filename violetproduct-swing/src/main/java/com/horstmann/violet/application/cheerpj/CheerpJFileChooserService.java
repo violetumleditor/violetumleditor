@@ -1,6 +1,11 @@
 package com.horstmann.violet.application.cheerpj;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import javax.swing.JOptionPane;
 
@@ -18,6 +23,10 @@ public class CheerpJFileChooserService implements IFileChooserService {
 
     private static final String DEFAULT_BASENAME = "diagram";
 
+    private static final String STAGING_DIRECTORY = "/str";
+
+    private static final String STORAGE_DIRECTORY = "/files";
+
     @Override
     public boolean isWebStart() {
         return false;
@@ -34,8 +43,16 @@ public class CheerpJFileChooserService implements IFileChooserService {
         if (filename == null || filename.trim().isEmpty()) {
             throw new IOException("No filename received after file selection");
         }
-        // JS staged the file to /str/ via cheerpOSAddStringFile — Java reads from there.
-        return new CheerpJFileReader("/str", filename);
+        // JS staged the file to /str/ via cheerpOSAddStringFile. /str/ is in-memory only, so copy it
+        // to the persistent /files/ storage: recent/opened file entries then survive a page reload.
+        copyToStorage(new File(STAGING_DIRECTORY, filename), new File(STORAGE_DIRECTORY, filename));
+        return new CheerpJFileReader(STORAGE_DIRECTORY, filename);
+    }
+
+    private void copyToStorage(File source, File target) throws IOException {
+        try (InputStream in = new FileInputStream(source); OutputStream out = new FileOutputStream(target)) {
+            in.transferTo(out);
+        }
     }
 
     @Override

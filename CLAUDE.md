@@ -74,6 +74,7 @@ Package `framework.file`:
   `Java_com_horstmann_violet_application_cheerpj_CheerpJInterfaceService_<method>` and **must also be listed in `cheerpjInit({natives:{...}})`**. Adding a native = Java `native` decl + static wrapper in `CheerpJInterfaceService` + JS function + `natives` entry.
 - Launch args used by the page: `-kioskMode -autoSave -cheerpjMode [-file=/str/<name>]`. Imported files are staged in `/str` (JS-writable, Java-readable); CheerpJ runs Java 17.
 - Don't create directories at the VFS mount roots.
+- Local test without packaging or web server: `mvn compile -Pcheerpj-test` (root dir) writes `violetproduct-swing/target/cheerpj-test/bundle.js` (all classes + jars, base64; generator `violetproduct-swing/src/test/cheerpj/BuildCheerpJTestBundle.java`), then open `web/test.html` via `file://`. `test.html` = copy of `index.html` with a different launch block — keep the JS bridge in sync. See README.
 - `violetproduct-swing/CHEERPJ-INTEROP.md` is stale (uses old `...application.jni...` package name).
 
 ## CLI options (`framework.userpreferences.LaunchingPreferences`)

@@ -25,6 +25,7 @@ import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBea
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 import com.horstmann.violet.framework.printer.PrintEngine;
+import com.horstmann.violet.framework.userpreferences.UserPreferencesService;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 
 public class GraphFile implements IGraphFile
@@ -152,9 +153,10 @@ public class GraphFile implements IGraphFile
             this.filePersistenceService.write(this.graph, outputStream);
             outputStream.close();
             this.isSaveRequired = false;
-            fireGraphSaved();
             this.currentFilename = fileSaver.getFileDefinition().getFilename();
             this.currentDirectory = fileSaver.getFileDefinition().getDirectory();
+            // Notify only once the location is up to date, so listeners record where the file really is
+            fireGraphSaved();
         }
         catch (Exception e)
         {
@@ -186,15 +188,21 @@ public class GraphFile implements IGraphFile
             this.hasTemporaryFilename = false;
             fireGraphSaved();
 
-            // Delete the old temp file now that the real file is saved.
-            if (oldFilename != null && oldDirectory != null)
+            // Delete the old temp file now that the real file is saved, and forget it in user preferences.
+            // Skipped when the user kept the temp name at the same location: it IS the real file now.
+            boolean isSameLocation = oldFilename != null && oldFilename.equals(this.currentFilename)
+                    && oldDirectory != null && oldDirectory.equals(this.currentDirectory);
+            if (oldFilename != null && oldDirectory != null && !isSameLocation)
             {
                 final String fd = oldDirectory;
                 final String fn = oldFilename;
-                this.fileChooserService.getFileDeleter(new IFile() {
+                IFile oldTempFile = new IFile() {
                     @Override public String getDirectory() { return fd; }
                     @Override public String getFilename()  { return fn; }
-                }).delete();
+                };
+                this.fileChooserService.getFileDeleter(oldTempFile).delete();
+                this.userPreferencesService.removeRecentFile(oldTempFile);
+                this.userPreferencesService.removeOpenedFile(oldTempFile);
             }
         }
         catch (IOException e1)
@@ -386,6 +394,9 @@ public class GraphFile implements IGraphFile
 
     @InjectedBean
     private DialogFactory dialogFactory;
+
+    @InjectedBean
+    private UserPreferencesService userPreferencesService;
 
     private List<IGraphFileListener> listeners = new ArrayList<IGraphFileListener>();
 

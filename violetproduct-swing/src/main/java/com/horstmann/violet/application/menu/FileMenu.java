@@ -631,6 +631,7 @@ public class FileMenu extends JMenu
                     {
                         dialogFactory.showErrorDialog(dialogOpenFileErrorMessage + " : " + e.getMessage());
                         userPreferencesService.removeOpenedFile(aFile);
+                        userPreferencesService.removeRecentFile(aFile);
                     }
                 }
             });

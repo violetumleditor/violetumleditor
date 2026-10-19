@@ -1,6 +1,7 @@
 package com.horstmann.violet.framework.userpreferences;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import com.horstmann.violet.framework.file.IFile;
 
@@ -97,9 +98,14 @@ public class PreferredFile implements IFile
         final int prime = 31;
         int result = 1;
         result = prime * result + ((filename == null) ? 0 : filename.hashCode());
+        result = prime * result + ((directory == null) ? 0 : directory.hashCode());
         return result;
     }
 
+    /**
+     * Two entries are the same file only if both filename and directory match
+     * (same-named files in different directories are distinct entries).
+     */
     @Override
     public boolean equals(Object obj)
     {
@@ -107,12 +113,7 @@ public class PreferredFile implements IFile
         if (obj == null) return false;
         if (getClass() != obj.getClass()) return false;
         PreferredFile other = (PreferredFile) obj;
-        if (filename == null)
-        {
-            if (other.filename != null) return false;
-        }
-        else if (!filename.equals(other.filename)) return false;
-        return true;
+        return Objects.equals(filename, other.filename) && Objects.equals(directory, other.directory);
     }
 
     /**

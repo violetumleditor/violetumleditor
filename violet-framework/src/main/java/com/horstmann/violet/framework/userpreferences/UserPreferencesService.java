@@ -86,6 +86,23 @@ public class UserPreferencesService
     }
 
     /**
+     * Removes file from recently opened files list
+     *
+     * @param aFile file
+     */
+    public void removeRecentFile(IFile aFile)
+    {
+        PreferredFile newPreferredFile = new PreferredFile(aFile);
+        List<PreferredFile> recentFileList = new ArrayList<PreferredFile>();
+        for (IFile file : getRecentFiles())
+        {
+            recentFileList.add(new PreferredFile(file));
+        }
+        recentFileList.remove(newPreferredFile);
+        updateRecentFileList(recentFileList);
+    }
+
+    /**
      * Update user preferences
      * 
      * @param recentFiles - set of recentFiles to be saved

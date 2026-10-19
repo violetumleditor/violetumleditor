@@ -176,4 +176,40 @@
 			</plugin>			
 		</plugins>
 	</build>
+	<profiles>
+		<!-- LOCAL CHEERPJ TEST (start) : "mvn compile -Pcheerpj-test" from the root directory, then open
+		     src/main/resources/web/test.html from the file system (file://), no web server needed -->
+		<profile>
+			<id>cheerpj-test</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>3.1.0</version>
+						<executions>
+							<execution>
+								<id>cheerpj-test-bundle</id>
+								<phase>compile</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<target>
+										<property name="cheerpj.test.classpath" refid="maven.runtime.classpath" />
+										<exec executable="${java.home}/bin/java" failonerror="true">
+											<arg value="${project.basedir}/src/test/cheerpj/BuildCheerpJTestBundle.java" />
+											<arg value="${project.build.directory}/cheerpj-test/bundle.js" />
+											<arg value="${cheerpj.test.classpath}" />
+										</exec>
+									</target>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<!-- LOCAL CHEERPJ TEST (end) -->
+	</profiles>
 </project>

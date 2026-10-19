@@ -22,6 +22,7 @@ import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjecto
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
+import com.horstmann.violet.framework.userpreferences.UserPreferencesService;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
 
@@ -55,6 +56,9 @@ public class CheerpJFileMenuCustomizerCommand {
 
     @InjectedBean
     private IFileChooserService fileChooserService;
+
+    @InjectedBean
+    private UserPreferencesService userPreferencesService;
 
     public CheerpJFileMenuCustomizerCommand(FileMenu fileMenu) {
         ResourceBundleInjector.getInjector().inject(this);
@@ -98,6 +102,8 @@ public class CheerpJFileMenuCustomizerCommand {
 			GraphFile graphFile = new GraphFile(fileReader.getFileDefinition());
 			IWorkspace workspace = new Workspace(graphFile);
 			this.fileMenu.getMainFrame().addWorkspace(workspace);
+			this.userPreferencesService.addOpenedFile(graphFile);
+			this.userPreferencesService.addRecentFile(graphFile);
 			return true;
 		} catch (Exception e) {
 			dialogFactory.showErrorDialog(dialogOpenFileErrorMessage + " : " + e.getMessage());
@@ -112,6 +118,8 @@ public class CheerpJFileMenuCustomizerCommand {
 			GraphFile graphFile = new GraphFile(fileReader.getFileDefinition());
 			IWorkspace workspace = new Workspace(graphFile);
 			this.fileMenu.getMainFrame().addWorkspace(workspace);
+			this.userPreferencesService.addOpenedFile(graphFile);
+			this.userPreferencesService.addRecentFile(graphFile);
 			return true;
 		} catch (Exception e) {
 			dialogFactory.showErrorDialog(dialogOpenFileErrorMessage + " : " + e.getMessage());
